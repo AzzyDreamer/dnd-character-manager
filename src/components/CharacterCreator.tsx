@@ -243,7 +243,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Step Indicator ───
   const renderStepIndicator = () => (
-    <div className="flex items-center justify-center gap-0 mb-8">
+    <div className="flex items-center justify-center gap-0 mb-4">
       {STEPS.map((s, i) => {
         const Icon = s.icon;
         const isActive = i === step;
@@ -283,10 +283,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Step 0: Race ───
   const renderRaceStep = () => (
-    <div className="flex flex-col lg:flex-row gap-6">
-      <div className="flex-1">
+    <div className="flex flex-col lg:flex-row gap-6 h-full">
+      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
         <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите расу</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
           {RACE_REGISTRY.map(race => (
             <button
               key={race.id}
@@ -301,7 +301,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
               }`}
             >
-              <EntityImage folder="races" id={race.id} name={race.name} className="w-full h-24 rounded-t-md" />
+              <EntityImage folder="races" id={race.id} name={race.name} className="w-full h-32 rounded-t-md" />
               <div className="p-2">
                 <div className={`font-semibold text-sm ${selectedRace?.id === race.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
                   {race.name}
@@ -315,7 +315,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {selectedRace?.subraces && selectedRace.subraces.length > 0 && (
           <div className="mt-6">
             <h4 className="text-lg font-medieval text-dnd-secondary mb-3">Подраса</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
               {selectedRace.subraces.map(sub => (
                 <button
                   key={sub.id}
@@ -326,7 +326,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                       : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
                   }`}
                 >
-                  <EntityImage folder="subraces" id={sub.id} name={sub.name} className="w-full h-20 rounded-t-md" />
+                  <EntityImage folder="subraces" id={sub.id} name={sub.name} className="w-full h-28 rounded-t-md" />
                   <div className="p-2">
                     <div className={`font-semibold text-sm ${selectedSubrace?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
                       {sub.name}
@@ -340,31 +340,33 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       </div>
 
       {selectedRace && (
-        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 overflow-hidden">
+        <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto">
           <EntityImage
             folder={selectedSubrace ? 'subraces' : 'races'}
             id={selectedSubrace ? selectedSubrace.id : selectedRace.id}
             name={selectedSubrace ? selectedSubrace.name : selectedRace.name}
-            className="w-full h-40"
+            className="w-full h-52"
           />
-          <div className="p-5">
-            <h3 className="text-xl font-medieval text-dnd-secondary mb-1">{selectedRace.name}</h3>
-            {selectedSubrace && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubrace.name}</div>}
-            <p className="text-sm text-gray-300 mb-4">{selectedRace.description}</p>
-            {selectedSubrace && <p className="text-sm text-gray-400 mb-4">{selectedSubrace.description}</p>}
+          <div className="p-5 space-y-3">
+            <div>
+              <h3 className="text-xl font-medieval text-dnd-secondary">{selectedRace.name}</h3>
+              {selectedSubrace && <div className="text-sm text-dnd-secondary/80 mt-0.5">{selectedSubrace.name}</div>}
+            </div>
+            <p className="text-sm text-gray-300 leading-relaxed">{selectedRace.description}</p>
+            {selectedSubrace && <p className="text-sm text-gray-400 leading-relaxed">{selectedSubrace.description}</p>}
 
-            <div className="space-y-3 text-sm">
-              <div>
-                <span className="text-gray-400">Скорость:</span>
-                <span className="text-white ml-2">{selectedRace.speed} фт.</span>
+            <div className="space-y-2 text-sm">
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Скорость:</span>
+                <span className="text-white">{selectedRace.speed} фт.</span>
               </div>
-              <div>
-                <span className="text-gray-400">Размер:</span>
-                <span className="text-white ml-2">{selectedRace.size}</span>
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Размер:</span>
+                <span className="text-white">{selectedRace.size}</span>
               </div>
-              <div>
-                <span className="text-gray-400">Языки:</span>
-                <span className="text-white ml-2">{selectedRace.languages.join(', ')}</span>
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Языки:</span>
+                <span className="text-white">{selectedRace.languages.join(', ')}</span>
               </div>
               <div>
                 <span className="text-gray-400">Бонусы:</span>
@@ -380,16 +382,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </div>
               <div>
                 <span className="text-gray-400">Особенности:</span>
-                <div className="mt-1 space-y-1">
+                <div className="mt-2 space-y-2">
                   {selectedRace.traits.map(t => (
-                    <div key={t.name} className="text-xs">
-                      <span className="text-dnd-secondary">{t.name}:</span>
+                    <div key={t.name} className="text-xs leading-relaxed">
+                      <span className="text-dnd-secondary font-medium">{t.name}:</span>
                       <span className="text-gray-300 ml-1">{t.description}</span>
                     </div>
                   ))}
                   {selectedSubrace?.traits.map(t => (
-                    <div key={t.name} className="text-xs">
-                      <span className="text-dnd-secondary">{t.name}:</span>
+                    <div key={t.name} className="text-xs leading-relaxed">
+                      <span className="text-dnd-secondary font-medium">{t.name}:</span>
                       <span className="text-gray-300 ml-1">{t.description}</span>
                     </div>
                   ))}
@@ -404,10 +406,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Step 1: Class ───
   const renderClassStep = () => (
-    <div className="flex flex-col lg:flex-row gap-6">
-      <div className="flex-1">
+    <div className="flex flex-col lg:flex-row gap-6 h-full">
+      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
         <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите класс</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
           {CLASS_REGISTRY.map(cls => (
             <button
               key={cls.id}
@@ -421,7 +423,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
               }`}
             >
-              <EntityImage folder="classes" id={cls.id} name={cls.name} className="w-full h-24 rounded-t-md" />
+              <EntityImage folder="classes" id={cls.id} name={cls.name} className="w-full h-32 rounded-t-md" />
               <div className="p-2">
                 <div className={`font-semibold text-sm ${selectedClass?.id === cls.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
                   {cls.name}
@@ -450,7 +452,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                       : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
                   }`}
                 >
-                  <EntityImage folder="subclasses" id={sub.id} name={sub.name} className="w-16 h-16 shrink-0" />
+                  <EntityImage folder="subclasses" id={sub.id} name={sub.name} className="w-20 h-20 shrink-0" />
                   <div className="p-2 min-w-0">
                     <div className={`font-semibold text-sm ${selectedSubclass?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
                       {sub.name}
@@ -465,22 +467,24 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       </div>
 
       {selectedClass && (
-        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 overflow-hidden">
+        <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto">
           <EntityImage
             folder={selectedSubclass ? 'subclasses' : 'classes'}
             id={selectedSubclass ? selectedSubclass.id : selectedClass.id}
             name={selectedSubclass ? selectedSubclass.name : selectedClass.name}
-            className="w-full h-40"
+            className="w-full h-52"
           />
-          <div className="p-5">
-            <h3 className="text-xl font-medieval text-dnd-secondary mb-1">{selectedClass.name}</h3>
-            {selectedSubclass && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubclass.name}</div>}
-            <p className="text-sm text-gray-300 mb-4">{selectedClass.description}</p>
+          <div className="p-5 space-y-3">
+            <div>
+              <h3 className="text-xl font-medieval text-dnd-secondary">{selectedClass.name}</h3>
+              {selectedSubclass && <div className="text-sm text-dnd-secondary/80 mt-0.5">{selectedSubclass.name}</div>}
+            </div>
+            <p className="text-sm text-gray-300 leading-relaxed">{selectedClass.description}</p>
 
-            <div className="space-y-3 text-sm">
-              <div>
-                <span className="text-gray-400">Кость хитов:</span>
-                <span className="text-white ml-2 font-bold">{selectedClass.hitDie}</span>
+            <div className="space-y-2 text-sm">
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Кость хитов:</span>
+                <span className="text-white font-bold">{selectedClass.hitDie}</span>
               </div>
               <div>
                 <span className="text-gray-400">Основная характеристика:</span>
@@ -503,29 +507,29 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 </div>
               </div>
               {selectedClass.spellcaster && (
-                <div>
-                  <span className="text-gray-400">Заклинатель:</span>
-                  <span className="text-purple-300 ml-2">
+                <div className="flex gap-2">
+                  <span className="text-gray-400 shrink-0">Заклинатель:</span>
+                  <span className="text-purple-300">
                     {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
                   </span>
                 </div>
               )}
-              <div>
-                <span className="text-gray-400">Доспехи:</span>
-                <span className="text-gray-200 ml-2 text-xs">
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Доспехи:</span>
+                <span className="text-gray-200 text-xs">
                   {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
                 </span>
               </div>
-              <div>
-                <span className="text-gray-400">Оружие:</span>
-                <span className="text-gray-200 ml-2 text-xs">
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Оружие:</span>
+                <span className="text-gray-200 text-xs">
                   {selectedClass.proficiencies.weapons.join(', ')}
                 </span>
               </div>
               {selectedClass.proficiencies.tools.length > 0 && (
-                <div>
-                  <span className="text-gray-400">Инструменты:</span>
-                  <span className="text-gray-200 ml-2 text-xs">
+                <div className="flex gap-2">
+                  <span className="text-gray-400 shrink-0">Инструменты:</span>
+                  <span className="text-gray-200 text-xs">
                     {selectedClass.proficiencies.tools.join(', ')}
                   </span>
                 </div>
@@ -915,9 +919,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="flex flex-col h-full">
       {/* Header with back to list */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <button
           onClick={onCancel}
           className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
@@ -931,13 +935,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
       {renderStepIndicator()}
 
-      {/* Step content */}
-      <div className="min-h-[400px]">
+      {/* Step content — fills remaining height */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
         {renderStep()}
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-700">
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-700 shrink-0">
         <button
           onClick={step === 0 ? onCancel : prevStep}
           className="flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 transition-colors"
