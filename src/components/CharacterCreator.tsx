@@ -40,6 +40,34 @@ const DEFAULT_SCORES: AbilityScores = {
   intelligence: 8, wisdom: 8, charisma: 8,
 };
 
+// ─── Image helper with fallback ───
+const EntityImage: React.FC<{
+  folder: string;
+  id: string;
+  name: string;
+  className?: string;
+}> = ({ folder, id, name, className = '' }) => {
+  const [failed, setFailed] = useState(false);
+  const src = `/images/${folder}/${id}.webp`;
+
+  if (failed) {
+    return (
+      <div className={`flex items-center justify-center bg-gray-700/60 text-dnd-secondary font-medieval text-lg ${className}`}>
+        {name.charAt(0)}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={name}
+      onError={() => setFailed(true)}
+      className={`object-cover ${className}`}
+    />
+  );
+};
+
 export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCancel }) => {
   const [step, setStep] = useState(0);
 
@@ -267,16 +295,19 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 setSelectedSubrace(null);
                 setCustomBonuses({});
               }}
-              className={`p-3 rounded-lg border-2 text-left transition-all hover:scale-[1.02] ${
+              className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
                 selectedRace?.id === race.id
                   ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
                   : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
               }`}
             >
-              <div className={`font-semibold text-sm ${selectedRace?.id === race.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                {race.name}
+              <EntityImage folder="races" id={race.id} name={race.name} className="w-full h-24 rounded-t-md" />
+              <div className="p-2">
+                <div className={`font-semibold text-sm ${selectedRace?.id === race.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                  {race.name}
+                </div>
+                <div className="text-xs text-gray-400 mt-0.5">{race.source}</div>
               </div>
-              <div className="text-xs text-gray-400 mt-1">{race.source}</div>
             </button>
           ))}
         </div>
@@ -289,14 +320,17 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <button
                   key={sub.id}
                   onClick={() => { setSelectedSubrace(sub); setCustomBonuses({}); }}
-                  className={`p-3 rounded-lg border-2 text-left transition-all ${
+                  className={`rounded-lg border-2 text-left transition-all overflow-hidden ${
                     selectedSubrace?.id === sub.id
                       ? 'border-dnd-secondary bg-dnd-secondary/10'
                       : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
                   }`}
                 >
-                  <div className={`font-semibold text-sm ${selectedSubrace?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                    {sub.name}
+                  <EntityImage folder="subraces" id={sub.id} name={sub.name} className="w-full h-20 rounded-t-md" />
+                  <div className="p-2">
+                    <div className={`font-semibold text-sm ${selectedSubrace?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                      {sub.name}
+                    </div>
                   </div>
                 </button>
               ))}
@@ -306,52 +340,60 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       </div>
 
       {selectedRace && (
-        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 p-5">
-          <h3 className="text-xl font-medieval text-dnd-secondary mb-2">{selectedRace.name}</h3>
-          {selectedSubrace && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubrace.name}</div>}
-          <p className="text-sm text-gray-300 mb-4">{selectedRace.description}</p>
-          {selectedSubrace && <p className="text-sm text-gray-400 mb-4">{selectedSubrace.description}</p>}
+        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 overflow-hidden">
+          <EntityImage
+            folder={selectedSubrace ? 'subraces' : 'races'}
+            id={selectedSubrace ? selectedSubrace.id : selectedRace.id}
+            name={selectedSubrace ? selectedSubrace.name : selectedRace.name}
+            className="w-full h-40"
+          />
+          <div className="p-5">
+            <h3 className="text-xl font-medieval text-dnd-secondary mb-1">{selectedRace.name}</h3>
+            {selectedSubrace && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubrace.name}</div>}
+            <p className="text-sm text-gray-300 mb-4">{selectedRace.description}</p>
+            {selectedSubrace && <p className="text-sm text-gray-400 mb-4">{selectedSubrace.description}</p>}
 
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="text-gray-400">Скорость:</span>
-              <span className="text-white ml-2">{selectedRace.speed} фт.</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Размер:</span>
-              <span className="text-white ml-2">{selectedRace.size}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Языки:</span>
-              <span className="text-white ml-2">{selectedRace.languages.join(', ')}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Бонусы:</span>
-              <div className="mt-1 flex flex-wrap gap-1">
-                {Object.entries(getRacialBonuses(selectedRace, selectedSubrace || undefined)).map(([key, val]) => (
-                  val ? (
-                    <span key={key} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
-                      {ABILITY_NAMES[key as keyof AbilityScores]} +{val}
-                    </span>
-                  ) : null
-                ))}
+            <div className="space-y-3 text-sm">
+              <div>
+                <span className="text-gray-400">Скорость:</span>
+                <span className="text-white ml-2">{selectedRace.speed} фт.</span>
               </div>
-            </div>
-            <div>
-              <span className="text-gray-400">Особенности:</span>
-              <div className="mt-1 space-y-1">
-                {selectedRace.traits.map(t => (
-                  <div key={t.name} className="text-xs">
-                    <span className="text-dnd-secondary">{t.name}:</span>
-                    <span className="text-gray-300 ml-1">{t.description}</span>
-                  </div>
-                ))}
-                {selectedSubrace?.traits.map(t => (
-                  <div key={t.name} className="text-xs">
-                    <span className="text-dnd-secondary">{t.name}:</span>
-                    <span className="text-gray-300 ml-1">{t.description}</span>
-                  </div>
-                ))}
+              <div>
+                <span className="text-gray-400">Размер:</span>
+                <span className="text-white ml-2">{selectedRace.size}</span>
+              </div>
+              <div>
+                <span className="text-gray-400">Языки:</span>
+                <span className="text-white ml-2">{selectedRace.languages.join(', ')}</span>
+              </div>
+              <div>
+                <span className="text-gray-400">Бонусы:</span>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {Object.entries(getRacialBonuses(selectedRace, selectedSubrace || undefined)).map(([key, val]) => (
+                    val ? (
+                      <span key={key} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
+                        {ABILITY_NAMES[key as keyof AbilityScores]} +{val}
+                      </span>
+                    ) : null
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className="text-gray-400">Особенности:</span>
+                <div className="mt-1 space-y-1">
+                  {selectedRace.traits.map(t => (
+                    <div key={t.name} className="text-xs">
+                      <span className="text-dnd-secondary">{t.name}:</span>
+                      <span className="text-gray-300 ml-1">{t.description}</span>
+                    </div>
+                  ))}
+                  {selectedSubrace?.traits.map(t => (
+                    <div key={t.name} className="text-xs">
+                      <span className="text-dnd-secondary">{t.name}:</span>
+                      <span className="text-gray-300 ml-1">{t.description}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -373,17 +415,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 setSelectedClass(cls);
                 setSelectedSubclass(null);
               }}
-              className={`p-3 rounded-lg border-2 text-left transition-all hover:scale-[1.02] ${
+              className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
                 selectedClass?.id === cls.id
                   ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
                   : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
               }`}
             >
-              <div className={`font-semibold text-sm ${selectedClass?.id === cls.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                {cls.name}
-              </div>
-              <div className="text-xs text-gray-400 mt-1">
-                {cls.hitDie} • {cls.source}
+              <EntityImage folder="classes" id={cls.id} name={cls.name} className="w-full h-24 rounded-t-md" />
+              <div className="p-2">
+                <div className={`font-semibold text-sm ${selectedClass?.id === cls.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                  {cls.name}
+                </div>
+                <div className="text-xs text-gray-400 mt-0.5">
+                  {cls.hitDie} • {cls.source}
+                </div>
               </div>
             </button>
           ))}
@@ -392,23 +437,26 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {selectedClass && selectedClass.subclasses.length > 0 && (
           <div className="mt-6">
             <h4 className="text-lg font-medieval text-dnd-secondary mb-3">
-              Подкласс <span className="text-sm font-normal text-gray-400">(выбирается на {selectedClass.subclasses[0].level} уровне)</span>
+              Подкласс <span className="text-sm font-normal text-gray-400">(выбирается на 3 уровне)</span>
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {selectedClass.subclasses.map(sub => (
                 <button
                   key={sub.id}
                   onClick={() => setSelectedSubclass(sub)}
-                  className={`p-3 rounded-lg border-2 text-left transition-all ${
+                  className={`rounded-lg border-2 text-left transition-all overflow-hidden flex ${
                     selectedSubclass?.id === sub.id
                       ? 'border-dnd-secondary bg-dnd-secondary/10'
                       : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
                   }`}
                 >
-                  <div className={`font-semibold text-sm ${selectedSubclass?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                    {sub.name}
+                  <EntityImage folder="subclasses" id={sub.id} name={sub.name} className="w-16 h-16 shrink-0" />
+                  <div className="p-2 min-w-0">
+                    <div className={`font-semibold text-sm ${selectedSubclass?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                      {sub.name}
+                    </div>
+                    <div className="text-xs text-gray-400 mt-0.5 line-clamp-2">{sub.description}</div>
                   </div>
-                  <div className="text-xs text-gray-400 mt-1">{sub.description}</div>
                 </button>
               ))}
             </div>
@@ -417,64 +465,72 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       </div>
 
       {selectedClass && (
-        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 p-5">
-          <h3 className="text-xl font-medieval text-dnd-secondary mb-1">{selectedClass.name}</h3>
-          {selectedSubclass && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubclass.name}</div>}
-          <p className="text-sm text-gray-300 mb-4">{selectedClass.description}</p>
+        <div className="w-full lg:w-80 bg-gray-800/80 rounded-lg border border-gray-600 overflow-hidden">
+          <EntityImage
+            folder={selectedSubclass ? 'subclasses' : 'classes'}
+            id={selectedSubclass ? selectedSubclass.id : selectedClass.id}
+            name={selectedSubclass ? selectedSubclass.name : selectedClass.name}
+            className="w-full h-40"
+          />
+          <div className="p-5">
+            <h3 className="text-xl font-medieval text-dnd-secondary mb-1">{selectedClass.name}</h3>
+            {selectedSubclass && <div className="text-sm text-dnd-secondary/80 mb-2">{selectedSubclass.name}</div>}
+            <p className="text-sm text-gray-300 mb-4">{selectedClass.description}</p>
 
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="text-gray-400">Кость хитов:</span>
-              <span className="text-white ml-2 font-bold">{selectedClass.hitDie}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Основная характеристика:</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {selectedClass.primaryAbility.map(a => (
-                  <span key={a} className="px-2 py-0.5 bg-dnd-primary/30 text-red-300 rounded text-xs">
-                    {ABILITY_NAMES[a]}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <span className="text-gray-400">Спасброски:</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {selectedClass.savingThrows.map(a => (
-                  <span key={a} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">
-                    {ABILITY_NAMES[a]}
-                  </span>
-                ))}
-              </div>
-            </div>
-            {selectedClass.spellcaster && (
+            <div className="space-y-3 text-sm">
               <div>
-                <span className="text-gray-400">Заклинатель:</span>
-                <span className="text-purple-300 ml-2">
-                  {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
-                </span>
+                <span className="text-gray-400">Кость хитов:</span>
+                <span className="text-white ml-2 font-bold">{selectedClass.hitDie}</span>
               </div>
-            )}
-            <div>
-              <span className="text-gray-400">Доспехи:</span>
-              <span className="text-gray-200 ml-2 text-xs">
-                {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
-              </span>
-            </div>
-            <div>
-              <span className="text-gray-400">Оружие:</span>
-              <span className="text-gray-200 ml-2 text-xs">
-                {selectedClass.proficiencies.weapons.join(', ')}
-              </span>
-            </div>
-            {selectedClass.proficiencies.tools.length > 0 && (
               <div>
-                <span className="text-gray-400">Инструменты:</span>
+                <span className="text-gray-400">Основная характеристика:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {selectedClass.primaryAbility.map(a => (
+                    <span key={a} className="px-2 py-0.5 bg-dnd-primary/30 text-red-300 rounded text-xs">
+                      {ABILITY_NAMES[a]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className="text-gray-400">Спасброски:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {selectedClass.savingThrows.map(a => (
+                    <span key={a} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">
+                      {ABILITY_NAMES[a]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {selectedClass.spellcaster && (
+                <div>
+                  <span className="text-gray-400">Заклинатель:</span>
+                  <span className="text-purple-300 ml-2">
+                    {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
+                  </span>
+                </div>
+              )}
+              <div>
+                <span className="text-gray-400">Доспехи:</span>
                 <span className="text-gray-200 ml-2 text-xs">
-                  {selectedClass.proficiencies.tools.join(', ')}
+                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
                 </span>
               </div>
-            )}
+              <div>
+                <span className="text-gray-400">Оружие:</span>
+                <span className="text-gray-200 ml-2 text-xs">
+                  {selectedClass.proficiencies.weapons.join(', ')}
+                </span>
+              </div>
+              {selectedClass.proficiencies.tools.length > 0 && (
+                <div>
+                  <span className="text-gray-400">Инструменты:</span>
+                  <span className="text-gray-200 ml-2 text-xs">
+                    {selectedClass.proficiencies.tools.join(', ')}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
