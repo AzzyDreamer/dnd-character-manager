@@ -1,7 +1,8 @@
-import React from 'react';
-import type { Character } from '../types';
-import { getAbilityModifier, formatModifier, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
-import { Heart, Shield, Zap, Coins, Backpack } from 'lucide-react';
+import React, { useState } from 'react';
+import type { Character, AbilityScores } from '../types';
+import { getAbilityModifier, formatModifier, getProficiencyBonus, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
+import { CLASS_REGISTRY, getClassById } from '../data/classes';
+import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X } from 'lucide-react';
 
 interface CharacterSheetProps {
   character: Character;
@@ -9,6 +10,10 @@ interface CharacterSheetProps {
 }
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
+  const [showSubclassModal, setShowSubclassModal] = useState(false);
+
+  const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
+
   const updateHP = (current: number) => {
     onUpdate({
       ...character,
@@ -23,15 +28,90 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     });
   };
 
+  const handleLevelUp = () => {
+    if (character.level >= 20) return;
+
+    const newLevel = character.level + 1;
+
+    // If reaching level 3 and no subclass — need to pick one first
+    if (newLevel === 3 && !character.subclass && classDef && classDef.subclasses.length > 0) {
+      setShowSubclassModal(true);
+      return;
+    }
+
+    applyLevelUp(newLevel);
+  };
+
+  const applyLevelUp = (newLevel: number, subclass?: string) => {
+    const hitDieValue = parseInt(character.hitDice.type.replace('d', ''));
+    const conMod = getAbilityModifier(character.abilityScores.constitution);
+    const hpGain = Math.max(1, Math.ceil(hitDieValue / 2) + 1 + conMod);
+
+    const newProfBonus = getProficiencyBonus(newLevel);
+
+    const updated: Character = {
+      ...character,
+      level: newLevel,
+      hitPoints: {
+        ...character.hitPoints,
+        max: character.hitPoints.max + hpGain,
+        current: character.hitPoints.current + hpGain,
+      },
+      hitDice: {
+        ...character.hitDice,
+        total: newLevel,
+      },
+      proficiencyBonus: newProfBonus,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (subclass) {
+      updated.subclass = subclass;
+    }
+
+    // Update spellcasting stats if applicable
+    if (updated.spellcasting) {
+      const abilityMod = getAbilityModifier(updated.abilityScores[updated.spellcasting.ability]);
+      updated.spellcasting = {
+        ...updated.spellcasting,
+        spellSaveDC: 8 + newProfBonus + abilityMod,
+        spellAttackBonus: newProfBonus + abilityMod,
+      };
+    }
+
+    onUpdate(updated);
+    setShowSubclassModal(false);
+  };
+
+  const handleSubclassSelect = (subclassName: string) => {
+    applyLevelUp(character.level + 1, subclassName);
+  };
+
+  const canLevelUp = character.level < 20;
+  const needsSubclass = character.level === 2 && !character.subclass && classDef && classDef.subclasses.length > 0;
+
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Заголовок персонажа */}
       <div className="bg-dnd-parchment p-6 rounded-lg shadow-lg border-4 border-dnd-secondary">
-        <h1 className="text-4xl font-medieval text-dnd-primary mb-2">{character.name}</h1>
-        <p className="text-lg">
-          {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} уровня
-        </p>
-        {character.background && <p className="text-gray-600">Предыстория: {character.background}</p>}
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-medieval text-dnd-primary mb-2">{character.name}</h1>
+            <p className="text-lg">
+              {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} уровня
+            </p>
+            {character.background && <p className="text-gray-600">Предыстория: {character.background}</p>}
+          </div>
+          {canLevelUp && (
+            <button
+              onClick={handleLevelUp}
+              className="flex items-center gap-2 px-5 py-3 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold shadow-lg transition-colors"
+            >
+              <ArrowUp size={18} />
+              {needsSubclass ? 'Уровень 3 (выбрать подкласс)' : `Уровень ${character.level + 1}`}
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-6">
@@ -41,7 +121,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           <div className="bg-white p-4 rounded-lg shadow border-2 border-dnd-primary">
             <h2 className="text-xl font-semibold mb-4 text-dnd-primary">Характеристики</h2>
             <div className="space-y-3">
-              {(Object.entries(character.abilityScores) as [keyof typeof character.abilityScores, number][]).map(([ability, score]) => {
+              {(Object.entries(character.abilityScores) as [keyof AbilityScores, number][]).map(([ability, score]) => {
                 const modifier = getAbilityModifier(score);
                 return (
                   <div key={ability} className="flex items-center justify-between p-2 bg-dnd-parchment rounded">
@@ -80,7 +160,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <Heart className="text-red-600" size={24} />
               <h2 className="text-xl font-semibold text-dnd-primary">Хиты</h2>
             </div>
-            
+
             <div className="space-y-3">
               <div>
                 <label className="block text-sm mb-1">Текущие HP</label>
@@ -124,7 +204,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Боевые характеристики */}
           <div className="bg-white p-4 rounded-lg shadow border-2 border-dnd-primary">
             <h2 className="text-xl font-semibold mb-4 text-dnd-primary">Боевые характеристики</h2>
-            
+
             <div className="grid grid-cols-2 gap-3">
               <div className="text-center p-3 bg-dnd-parchment rounded">
                 <Shield className="mx-auto mb-2 text-dnd-primary" size={24} />
@@ -235,10 +315,31 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                   <div className="text-gray-600">{character.proficiencies.weapons.join(', ')}</div>
                 </div>
               )}
+              {character.proficiencies.tools.length > 0 && (
+                <div>
+                  <div className="font-semibold text-gray-700">Инструменты:</div>
+                  <div className="text-gray-600">{character.proficiencies.tools.join(', ')}</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Особенности */}
+      {character.features.length > 0 && (
+        <div className="bg-white p-6 rounded-lg shadow border-2 border-dnd-primary">
+          <h2 className="text-2xl font-semibold mb-4 text-dnd-primary">Особенности и черты</h2>
+          <div className="space-y-3">
+            {character.features.map((feat) => (
+              <div key={feat.id} className="p-3 bg-dnd-parchment rounded">
+                <div className="font-semibold">{feat.name}</div>
+                <div className="text-sm text-gray-600">{feat.description}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Заклинания */}
       {character.spellcasting && (
@@ -274,6 +375,39 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Subclass Selection Modal */}
+      {showSubclassModal && classDef && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-900 rounded-xl border-2 border-dnd-secondary max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-medieval text-dnd-secondary">Выбор подкласса — Уровень 3</h2>
+              <button
+                onClick={() => setShowSubclassModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <p className="text-gray-300 mb-6">
+              Ваш {character.class} достиг 3 уровня! Выберите подкласс:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {classDef.subclasses.map(sub => (
+                <button
+                  key={sub.id}
+                  onClick={() => handleSubclassSelect(sub.name)}
+                  className="rounded-lg border-2 border-gray-600 bg-gray-800 hover:border-dnd-secondary hover:bg-dnd-secondary/10 text-left p-4 transition-all"
+                >
+                  <div className="font-semibold text-white text-lg mb-1">{sub.name}</div>
+                  <div className="text-sm text-gray-400">{sub.description}</div>
+                  <div className="text-xs text-gray-500 mt-2">{sub.source}</div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
