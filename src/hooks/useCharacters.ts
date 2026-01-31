@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Character } from '../types';
+import type { Character } from '../types';
 import {
   getCharacters,
   getActiveCharacterId,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Character } from '../types';
+import type { Character } from '../types';
 import { getAbilityModifier, formatModifier, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
 import { Heart, Shield, Zap, Coins, Backpack } from 'lucide-react';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Character, AbilityScores } from '../types';
+import type { Character, AbilityScores } from '../types';
 import { generateAbilityScores, STANDARD_ARRAY, calculateMaxHP, getProficiencyBonus } from '../utils/dnd';
 import { Dices, Wand2 } from 'lucide-react';
 

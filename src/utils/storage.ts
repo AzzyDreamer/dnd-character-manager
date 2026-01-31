@@ -1,4 +1,4 @@
-import { Character, CharacterStorage } from '../types';
+import type { Character, CharacterStorage } from '../types';
 
 const STORAGE_KEY = 'dnd-characters';
 

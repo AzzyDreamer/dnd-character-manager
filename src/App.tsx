@@ -16,7 +16,6 @@ function App() {
     updateCharacter,
     removeCharacter,
     setActiveCharacter,
-    refreshCharacters
   } = useCharacters();
 
   const [showCreator, setShowCreator] = useState(false);

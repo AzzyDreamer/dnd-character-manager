@@ -1,4 +1,4 @@
-import { AbilityScores } from '../types';
+import type { AbilityScores } from '../types';
 
 // Вычислить модификатор характеристики
 export const getAbilityModifier = (score: number): number => {
@@ -147,7 +147,7 @@ export const calculateMaxHP = (
   level: number,
   constitution: number,
   hitDie: string,
-  classHP?: number
+  _classHP?: number
 ): number => {
   const conMod = getAbilityModifier(constitution);
   const hitDieValue = parseInt(hitDie.replace('d', ''));
