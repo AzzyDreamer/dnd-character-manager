@@ -112,54 +112,56 @@ function AppContent() {
       </header>
 
       {/* Основной контент */}
-      <main className="flex-1 min-h-0 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 overflow-y-auto">
-        {showCreator ? (
-          <CharacterCreator
-            onSave={(character) => {
-              addCharacter(character);
-              setShowCreator(false);
-            }}
-            onCancel={() => setShowCreator(false)}
-          />
-        ) : (
-          <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
-            {/* Боковая панель со списком персонажей */}
-            <div className="lg:col-span-1">
-              <CharacterList
-                characters={characters}
-                activeCharacterId={activeCharacterId}
-                onSelectCharacter={setActiveCharacter}
-                onDeleteCharacter={removeCharacter}
-                onImportCharacter={handleImportCharacter}
-              />
-            </div>
-
-            {/* Основная область - лист персонажа */}
-            <div className="lg:col-span-3">
-              {activeCharacter ? (
-                <CharacterSheet
-                  character={activeCharacter}
-                  onUpdate={updateCharacter}
+      <main className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 h-full">
+          {showCreator ? (
+            <CharacterCreator
+              onSave={(character) => {
+                addCharacter(character);
+                setShowCreator(false);
+              }}
+              onCancel={() => setShowCreator(false)}
+            />
+          ) : (
+            <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
+              {/* Боковая панель со списком персонажей */}
+              <div className="lg:col-span-1">
+                <CharacterList
+                  characters={characters}
+                  activeCharacterId={activeCharacterId}
+                  onSelectCharacter={setActiveCharacter}
+                  onDeleteCharacter={removeCharacter}
+                  onImportCharacter={handleImportCharacter}
                 />
-              ) : (
-                <div className="bg-dnd-parchment p-8 sm:p-12 rounded-lg shadow-lg border-4 border-dnd-secondary text-center max-w-2xl mx-auto">
-                  <h2 className="text-2xl font-medieval text-dnd-primary mb-4">
-                    Добро пожаловать в D&D Character Manager!
-                  </h2>
-                  <p className="text-gray-700 mb-6">
-                    Создайте своего первого персонажа или выберите существующего из списка.
-                  </p>
-                  <button
-                    onClick={() => setShowCreator(true)}
-                    className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
-                  >
-                    Создать первого персонажа
-                  </button>
-                </div>
-              )}
+              </div>
+
+              {/* Основная область - лист персонажа */}
+              <div className="lg:col-span-3">
+                {activeCharacter ? (
+                  <CharacterSheet
+                    character={activeCharacter}
+                    onUpdate={updateCharacter}
+                  />
+                ) : (
+                  <div className="bg-dnd-parchment p-8 sm:p-12 rounded-lg shadow-lg border-4 border-dnd-secondary text-center max-w-2xl mx-auto">
+                    <h2 className="text-2xl font-medieval text-dnd-primary mb-4">
+                      Добро пожаловать в D&D Character Manager!
+                    </h2>
+                    <p className="text-gray-700 mb-6">
+                      Создайте своего первого персонажа или выберите существующего из списка.
+                    </p>
+                    <button
+                      onClick={() => setShowCreator(true)}
+                      className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
+                    >
+                      Создать первого персонажа
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </main>
 
       {/* Подвал */}

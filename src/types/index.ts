@@ -187,6 +187,7 @@ export interface Character {
   name: string;
   race: string;
   class: string;
+  classId: string;
   subclass?: string;
   level: number;
   background: string;
