@@ -142,12 +142,38 @@ export const generateAbilityScores = (): AbilityScores => {
 // Стандартный массив для характеристик
 export const STANDARD_ARRAY = [15, 14, 13, 12, 10, 8];
 
+// Point Buy система
+export const POINT_BUY_COSTS: Record<number, number> = {
+  8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9,
+};
+export const POINT_BUY_TOTAL = 27;
+export const POINT_BUY_MIN = 8;
+export const POINT_BUY_MAX = 15;
+
+export const getPointBuyRemaining = (scores: AbilityScores): number => {
+  const spent = Object.values(scores).reduce((sum, score) => {
+    const clamped = Math.max(POINT_BUY_MIN, Math.min(POINT_BUY_MAX, score));
+    return sum + (POINT_BUY_COSTS[clamped] || 0);
+  }, 0);
+  return POINT_BUY_TOTAL - spent;
+};
+
+export const canIncreasePointBuy = (scores: AbilityScores, ability: keyof AbilityScores): boolean => {
+  const current = scores[ability];
+  if (current >= POINT_BUY_MAX) return false;
+  const nextCost = POINT_BUY_COSTS[current + 1] - POINT_BUY_COSTS[current];
+  return getPointBuyRemaining(scores) >= nextCost;
+};
+
+export const canDecreasePointBuy = (scores: AbilityScores, ability: keyof AbilityScores): boolean => {
+  return scores[ability] > POINT_BUY_MIN;
+};
+
 // Вычисление максимального HP
 export const calculateMaxHP = (
   level: number,
   constitution: number,
   hitDie: string,
-  _classHP?: number
 ): number => {
   const conMod = getAbilityModifier(constitution);
   const hitDieValue = parseInt(hitDie.replace('d', ''));

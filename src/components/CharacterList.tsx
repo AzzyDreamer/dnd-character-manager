@@ -70,7 +70,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                 <div className="flex-1">
                   <div className="font-semibold text-lg">{character.name}</div>
                   <div className="text-sm text-gray-600">
-                    {character.race} {character.class} {character.level} ур.
+                    {character.race} {character.class}{character.subclass ? ` (${character.subclass})` : ''} {character.level} ур.
                   </div>
                 </div>
                 
