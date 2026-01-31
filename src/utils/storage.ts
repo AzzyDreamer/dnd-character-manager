@@ -118,7 +118,7 @@ export const importCharacter = (file: File): Promise<Character> => {
         character.createdAt = new Date().toISOString();
         character.updatedAt = new Date().toISOString();
         resolve(character);
-      } catch (error) {
+      } catch {
         reject(new Error('Неверный формат файла персонажа'));
       }
     };

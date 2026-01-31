@@ -29,7 +29,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       <div className="bg-dnd-parchment p-6 rounded-lg shadow-lg border-4 border-dnd-secondary">
         <h1 className="text-4xl font-medieval text-dnd-primary mb-2">{character.name}</h1>
         <p className="text-lg">
-          {character.race} {character.class} {character.level} уровня
+          {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} уровня
         </p>
         {character.background && <p className="text-gray-600">Предыстория: {character.background}</p>}
       </div>

@@ -5,7 +5,7 @@ import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
 import { CharacterList } from './components/CharacterList';
 import { importCharacter } from './utils/storage';
-import { PlusCircle, BookOpen } from 'lucide-react';
+import { PlusCircle, BookOpen, ArrowLeft } from 'lucide-react';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -78,10 +78,21 @@ function AppContent() {
       {/* Заголовок */}
       <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center relative">
+            {/* Back button - shows when viewing a character or in creator */}
+            {(showCreator || activeCharacter) && !showCreator && (
+              <button
+                onClick={() => setActiveCharacter('')}
+                className="absolute left-0 flex items-center gap-2 text-white/70 hover:text-white transition-colors sm:flex hidden"
+              >
+                <ArrowLeft size={18} />
+                <span className="text-sm">Список</span>
+              </button>
+            )}
+
             <div className="flex items-center gap-3">
               <BookOpen className="text-dnd-secondary" size={36} />
-              <h1 className="text-3xl font-medieval text-white">
+              <h1 className="text-2xl sm:text-3xl font-medieval text-white">
                 D&D 5e Character Manager
               </h1>
             </div>
@@ -89,10 +100,11 @@ function AppContent() {
             {!showCreator && (
               <button
                 onClick={() => setShowCreator(true)}
-                className="px-6 py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg"
+                className="absolute right-0 px-4 py-2 sm:px-6 sm:py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg text-sm sm:text-base"
               >
-                <PlusCircle size={20} />
-                Создать персонажа
+                <PlusCircle size={18} />
+                <span className="hidden sm:inline">Создать персонажа</span>
+                <span className="sm:hidden">Создать</span>
               </button>
             )}
           </div>
@@ -100,7 +112,7 @@ function AppContent() {
       </header>
 
       {/* Основной контент */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {showCreator ? (
           <CharacterCreator
             onSave={(character) => {
@@ -110,9 +122,9 @@ function AppContent() {
             onCancel={() => setShowCreator(false)}
           />
         ) : (
-          <div className="grid grid-cols-4 gap-6">
+          <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
             {/* Боковая панель со списком персонажей */}
-            <div className="col-span-1">
+            <div className="lg:col-span-1">
               <CharacterList
                 characters={characters}
                 activeCharacterId={activeCharacterId}
@@ -123,19 +135,19 @@ function AppContent() {
             </div>
 
             {/* Основная область - лист персонажа */}
-            <div className="col-span-3">
+            <div className="lg:col-span-3">
               {activeCharacter ? (
                 <CharacterSheet
                   character={activeCharacter}
                   onUpdate={updateCharacter}
                 />
               ) : (
-                <div className="bg-dnd-parchment p-12 rounded-lg shadow-lg border-4 border-dnd-secondary text-center">
+                <div className="bg-dnd-parchment p-8 sm:p-12 rounded-lg shadow-lg border-4 border-dnd-secondary text-center max-w-2xl mx-auto">
                   <h2 className="text-2xl font-medieval text-dnd-primary mb-4">
                     Добро пожаловать в D&D Character Manager!
                   </h2>
                   <p className="text-gray-700 mb-6">
-                    Создайте своего первого персонажа или выберите существующего из списка слева.
+                    Создайте своего первого персонажа или выберите существующего из списка.
                   </p>
                   <button
                     onClick={() => setShowCreator(true)}
@@ -151,12 +163,12 @@ function AppContent() {
       </main>
 
       {/* Подвал */}
-      <footer className="py-6 bg-dnd-primary border-t-4 border-dnd-secondary">
+      <footer className="py-4 bg-dnd-primary border-t-4 border-dnd-secondary">
         <div className="max-w-7xl mx-auto px-6 text-center text-white">
           <p className="text-sm">
             D&D 5e Character Manager | Работает локально в вашем браузере
           </p>
-          <p className="text-xs mt-2 text-gray-300">
+          <p className="text-xs mt-1 text-gray-300">
             Все данные сохраняются в localStorage вашего браузера
           </p>
         </div>
