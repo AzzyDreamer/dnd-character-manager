@@ -1,0 +1,278 @@
+{
+	"name": "Acid Splash",
+	"source": "XPHB",
+	"page": 239,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 0,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You create an acidic bubble at a point within range, where it explodes in a 5-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere}. Each creature in that {@variantrule Sphere [Area of Effect]|XPHB|Sphere} must succeed on a Dexterity saving throw or take {@damage 1d6} Acid damage."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Cantrip Upgrade",
+			"entries": [
+				"The damage increases by {@damage 1d6} when you reach levels 5 ({@damage 2d6}), 11 ({@damage 3d6}), and 17 ({@damage 4d6})."
+			]
+		}
+	],
+	"scalingLevelDice": {
+		"label": "Acid damage",
+		"scaling": {
+			"1": "1d6",
+			"5": "2d6",
+			"11": "3d6",
+			"17": "4d6"
+		}
+	},
+	"damageInflict": [
+		"acid"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SCL"
+	],
+	"areaTags": [
+		"MT"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "XPHB",
+					"subSubclass": "Tropical Land"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf (High)",
+			"source": "PHB",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Genasi (Water)",
+			"source": "MPMM",
+			"baseName": "Genasi",
+			"baseSource": "MPMM"
+		},
+		{
+			"name": "Kobold",
+			"source": "MPMM"
+		},
+		{
+			"name": "Half-Elf (Variant; Moon Elf or Sun Elf Descent)",
+			"source": "SCAG",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Merfolk (Ixalan; Blue)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Ula Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Simic Scientist",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Artificer Initiate",
+			"source": "TCE"
+		},
+		{
+			"name": "Cold Caster",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Initiate of High Sorcery",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		}
+	]
+}
