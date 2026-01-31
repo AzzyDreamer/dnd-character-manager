@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-dnd-primary: #8B0000;
+  --color-dnd-secondary: #DAA520;
+  --color-dnd-dark: #1a1a1a;
+  --color-dnd-parchment: #f4e8d0;
+  --font-medieval: 'Cinzel', serif;
+}
 
 * {
   margin: 0;

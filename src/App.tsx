@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, Component } from 'react';
+import type { ReactNode, ErrorInfo } from 'react';
 import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
@@ -6,7 +7,43 @@ import { CharacterList } from './components/CharacterList';
 import { importCharacter } from './utils/storage';
 import { PlusCircle, BookOpen } from 'lucide-react';
 
-function App() {
+class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('[DND] React Error Boundary caught:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
+          <h1 style={{ color: 'red', fontSize: '24px' }}>Ошибка рендеринга приложения</h1>
+          <pre style={{ marginTop: '16px', padding: '16px', background: '#f5f5f5', borderRadius: '8px', whiteSpace: 'pre-wrap' }}>
+            {this.state.error?.message}
+            {'\n\n'}
+            {this.state.error?.stack}
+          </pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function AppContent() {
+  console.log('[DND] AppContent rendering');
+
   const {
     characters,
     activeCharacter,
@@ -16,8 +53,9 @@ function App() {
     updateCharacter,
     removeCharacter,
     setActiveCharacter,
-    refreshCharacters
   } = useCharacters();
+
+  console.log('[DND] useCharacters returned, loading:', loading, 'characters:', characters.length);
 
   const [showCreator, setShowCreator] = useState(false);
 
@@ -33,21 +71,26 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800 flex items-center justify-center">
-        <div className="text-white text-2xl font-medieval">Загрузка...</div>
+      <div
+        className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800 flex items-center justify-center"
+        style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a1a' }}
+      >
+        <div className="text-white text-2xl font-medieval" style={{ color: 'white', fontSize: '1.5rem' }}>
+          Загрузка...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800" style={{ minHeight: '100vh' }}>
       {/* Заголовок */}
-      <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary">
+      <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary" style={{ background: '#8B0000', padding: '1rem' }}>
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div className="flex items-center gap-3" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <BookOpen className="text-dnd-secondary" size={36} />
-              <h1 className="text-3xl font-medieval text-white">
+              <h1 className="text-3xl font-medieval text-white" style={{ color: 'white', fontSize: '1.875rem' }}>
                 D&D 5e Character Manager
               </h1>
             </div>
@@ -128,6 +171,15 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  console.log('[DND] App component rendering');
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
 

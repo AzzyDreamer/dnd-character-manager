@@ -1,5 +1,5 @@
 import React from 'react';
-import { Character } from '../types';
+import type { Character } from '../types';
 import { Users, Trash2, FileDown, FileUp } from 'lucide-react';
 import { exportCharacter } from '../utils/storage';
 
