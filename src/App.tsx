@@ -21,7 +21,7 @@ class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('[DND] React Error Boundary caught:', error, errorInfo);
+    console.error('React Error Boundary caught:', error, errorInfo);
   }
 
   render() {
@@ -42,8 +42,6 @@ class ErrorBoundary extends Component<
 }
 
 function AppContent() {
-  console.log('[DND] AppContent rendering');
-
   const {
     characters,
     activeCharacter,
@@ -54,8 +52,6 @@ function AppContent() {
     removeCharacter,
     setActiveCharacter,
   } = useCharacters();
-
-  console.log('[DND] useCharacters returned, loading:', loading, 'characters:', characters.length);
 
   const [showCreator, setShowCreator] = useState(false);
 
@@ -71,34 +67,29 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div
-        className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800 flex items-center justify-center"
-        style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a1a' }}
-      >
-        <div className="text-white text-2xl font-medieval" style={{ color: 'white', fontSize: '1.5rem' }}>
-          Загрузка...
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800 flex items-center justify-center">
+        <div className="text-white text-2xl font-medieval">Загрузка...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800" style={{ minHeight: '100vh' }}>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800">
       {/* Заголовок */}
-      <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary" style={{ background: '#8B0000', padding: '1rem' }}>
+      <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div className="flex items-center gap-3" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
               <BookOpen className="text-dnd-secondary" size={36} />
-              <h1 className="text-3xl font-medieval text-white" style={{ color: 'white', fontSize: '1.875rem' }}>
+              <h1 className="text-3xl font-medieval text-white">
                 D&D 5e Character Manager
               </h1>
             </div>
-            
+
             {!showCreator && (
               <button
                 onClick={() => setShowCreator(true)}
-                className="px-6 py-3 bg-dnd-secondary text-white rounded-lg hover:bg-opacity-80 flex items-center gap-2 font-semibold shadow-lg"
+                className="px-6 py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg"
               >
                 <PlusCircle size={20} />
                 Создать персонажа
@@ -109,7 +100,7 @@ function AppContent() {
       </header>
 
       {/* Основной контент */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
         {showCreator ? (
           <CharacterCreator
             onSave={(character) => {
@@ -148,7 +139,7 @@ function AppContent() {
                   </p>
                   <button
                     onClick={() => setShowCreator(true)}
-                    className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-opacity-80 font-semibold text-lg shadow-lg"
+                    className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
                   >
                     Создать первого персонажа
                   </button>
@@ -160,7 +151,7 @@ function AppContent() {
       </main>
 
       {/* Подвал */}
-      <footer className="mt-12 py-6 bg-dnd-primary border-t-4 border-dnd-secondary">
+      <footer className="py-6 bg-dnd-primary border-t-4 border-dnd-secondary">
         <div className="max-w-7xl mx-auto px-6 text-center text-white">
           <p className="text-sm">
             D&D 5e Character Manager | Работает локально в вашем браузере
@@ -175,7 +166,6 @@ function AppContent() {
 }
 
 function App() {
-  console.log('[DND] App component rendering');
   return (
     <ErrorBoundary>
       <AppContent />
