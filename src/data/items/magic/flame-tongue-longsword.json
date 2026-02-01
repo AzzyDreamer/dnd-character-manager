@@ -1,0 +1,25 @@
+{
+	"name": "Flame Tongue Longsword",
+	"source": "XDMG",
+	"page": 263,
+	"edition": "one",
+	"type": "M|XPHB",
+	"rarity": "rare",
+	"reqAttune": true,
+	"weight": 3,
+	"value": 500000,
+	"weaponCategory": "martial",
+	"property": [
+		"V|XPHB"
+	],
+	"dmg1": "1d8",
+	"dmg2": "1d10",
+	"dmgType": "S",
+	"bonusWeapon": "+1",
+	"sword": true,
+	"weapon": true,
+	"entries": [
+		"You gain a +1 bonus to attack and damage rolls made with this weapon.",
+		"Flames. As a Bonus Action, you can cause flames to engulf the blade or extinguish them. While the blade is ablaze, it deals an extra 2d6 Fire damage on a hit and sheds Bright Light in a 40-foot radius and Dim Light for an additional 40 feet."
+	]
+}

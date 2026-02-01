@@ -1,0 +1,14 @@
+{
+	"name": "Studded Leather Armor",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "LA|XPHB",
+	"rarity": "none",
+	"weight": 13,
+	"value": 4500,
+	"ac": 12,
+	"entries": []
+}

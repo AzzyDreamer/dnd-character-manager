@@ -1,0 +1,15 @@
+{
+	"name": "Rations (1 day)",
+	"source": "XPHB",
+	"page": 226,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 2,
+	"value": 50,
+	"entries": [
+		"Rations consist of travel-ready food, enough for one creature for one day."
+	]
+}

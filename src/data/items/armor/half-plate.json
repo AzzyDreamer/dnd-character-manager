@@ -1,0 +1,15 @@
+{
+	"name": "Half Plate Armor",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "MA|XPHB",
+	"rarity": "none",
+	"weight": 40,
+	"value": 75000,
+	"ac": 15,
+	"stealth": true,
+	"entries": []
+}

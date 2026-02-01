@@ -1,0 +1,15 @@
+{
+	"name": "Arrows (20)",
+	"source": "XPHB",
+	"page": 212,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 1,
+	"value": 100,
+	"entries": [
+		"Arrows are used with a weapon that has the Ammunition property. Each time you attack with such a weapon, you expend one piece of Ammunition."
+	]
+}

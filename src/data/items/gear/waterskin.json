@@ -1,0 +1,15 @@
+{
+	"name": "Waterskin",
+	"source": "XPHB",
+	"page": 226,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 5,
+	"value": 20,
+	"entries": [
+		"A Waterskin holds 4 pints of liquid."
+	]
+}

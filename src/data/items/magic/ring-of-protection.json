@@ -1,0 +1,13 @@
+{
+	"name": "Ring of Protection",
+	"source": "XDMG",
+	"page": 293,
+	"edition": "one",
+	"type": "RG|XDMG",
+	"rarity": "rare",
+	"reqAttune": true,
+	"weight": 0,
+	"entries": [
+		"You gain a +1 bonus to Armor Class and saving throws while wearing this ring."
+	]
+}

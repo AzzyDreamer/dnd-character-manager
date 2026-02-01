@@ -1,0 +1,15 @@
+{
+	"name": "Backpack",
+	"source": "XPHB",
+	"page": 222,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 5,
+	"value": 200,
+	"entries": [
+		"A Backpack holds up to 30 pounds within 1 cubic foot."
+	]
+}

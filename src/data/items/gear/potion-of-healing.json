@@ -1,0 +1,15 @@
+{
+	"name": "Potion of Healing",
+	"source": "XPHB",
+	"page": 233,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "P|XPHB",
+	"rarity": "common",
+	"weight": 0.5,
+	"value": 5000,
+	"entries": [
+		"You regain 2d4 + 2 Hit Points when you drink this potion."
+	]
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Breastplate",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "MA|XPHB",
+	"rarity": "none",
+	"weight": 20,
+	"value": 40000,
+	"ac": 14,
+	"entries": []
+}
