@@ -1,0 +1,25 @@
+{
+	"name": "Shortbow",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 2,
+	"value": 2500,
+	"weaponCategory": "simple",
+	"property": [
+		"AM|XPHB",
+		"2H|XPHB"
+	],
+	"range": "80/320",
+	"mastery": [
+		"Vex|XPHB"
+	],
+	"dmg1": "1d6",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

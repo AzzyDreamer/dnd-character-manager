@@ -1,0 +1,15 @@
+{
+	"name": "Scale Mail",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "MA|XPHB",
+	"rarity": "none",
+	"weight": 45,
+	"value": 5000,
+	"ac": 14,
+	"stealth": true,
+	"entries": []
+}

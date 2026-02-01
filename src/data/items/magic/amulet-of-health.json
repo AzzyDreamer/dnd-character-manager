@@ -1,0 +1,14 @@
+{
+	"name": "Amulet of Health",
+	"source": "XDMG",
+	"page": 228,
+	"edition": "one",
+	"type": "W|XDMG",
+	"rarity": "rare",
+	"reqAttune": true,
+	"weight": 1,
+	"equipSlot": "amulet",
+	"entries": [
+		"Your Constitution is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher."
+	]
+}

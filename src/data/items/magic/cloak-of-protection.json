@@ -1,0 +1,14 @@
+{
+	"name": "Cloak of Protection",
+	"source": "XDMG",
+	"page": 243,
+	"edition": "one",
+	"type": "W|XDMG",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"weight": 2,
+	"equipSlot": "cloak",
+	"entries": [
+		"You gain a +1 bonus to Armor Class and saving throws while you wear this cloak."
+	]
+}

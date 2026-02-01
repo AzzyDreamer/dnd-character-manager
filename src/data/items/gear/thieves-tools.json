@@ -1,0 +1,15 @@
+{
+	"name": "Thieves' Tools",
+	"source": "XPHB",
+	"page": 226,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "AT|XPHB",
+	"rarity": "none",
+	"weight": 1,
+	"value": 2500,
+	"entries": [
+		"This kit contains lockpicks, a small mirror on a metal handle, narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your Proficiency Bonus to any ability check you make to disarm traps or open locks."
+	]
+}

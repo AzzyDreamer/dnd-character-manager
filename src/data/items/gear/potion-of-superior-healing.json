@@ -1,0 +1,15 @@
+{
+	"name": "Potion of Superior Healing",
+	"source": "XPHB",
+	"page": 233,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "P|XPHB",
+	"rarity": "rare",
+	"weight": 0.5,
+	"value": 50000,
+	"entries": [
+		"You regain 8d4 + 8 Hit Points when you drink this potion."
+	]
+}

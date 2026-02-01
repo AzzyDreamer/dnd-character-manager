@@ -8,12 +8,13 @@ import {
   EQUIPMENT_SLOT_NAMES,
   EQUIPMENT_SLOT_ICONS,
   CATEGORY_NAMES,
+  canEquipInOffhand,
   type ItemTemplate,
 } from '../data/items';
 import { Backpack, Plus, X, Search, Package, Sword, Shield, FlaskConical } from 'lucide-react';
 
 // ============================
-// Константы сетки
+// Константы сетки (все предметы 1x1)
 // ============================
 const GRID_COLS = 10;
 const GRID_ROWS = 8;
@@ -28,26 +29,8 @@ interface InventoryGridProps {
 }
 
 // ============================
-// Утилиты для работы с сеткой
+// Утилиты для работы с сеткой (1x1)
 // ============================
-
-function canPlaceItem(
-  grid: (string | null)[][],
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  ignoreItemId?: string,
-): boolean {
-  if (x < 0 || y < 0 || x + w > GRID_COLS || y + h > GRID_ROWS) return false;
-  for (let dy = 0; dy < h; dy++) {
-    for (let dx = 0; dx < w; dx++) {
-      const cellId = grid[y + dy]?.[x + dx];
-      if (cellId !== null && cellId !== ignoreItemId) return false;
-    }
-  }
-  return true;
-}
 
 function buildGrid(items: InventoryItem[]): (string | null)[][] {
   const grid: (string | null)[][] = Array.from({ length: GRID_ROWS }, () =>
@@ -56,32 +39,37 @@ function buildGrid(items: InventoryItem[]): (string | null)[][] {
   for (const item of items) {
     if (item.gridX == null || item.gridY == null) continue;
     if (item.equipped) continue;
-    for (let dy = 0; dy < item.gridHeight; dy++) {
-      for (let dx = 0; dx < item.gridWidth; dx++) {
-        const gy = item.gridY + dy;
-        const gx = item.gridX + dx;
-        if (gy < GRID_ROWS && gx < GRID_COLS) {
-          grid[gy][gx] = item.id;
-        }
-      }
+    if (item.gridY < GRID_ROWS && item.gridX < GRID_COLS) {
+      grid[item.gridY][item.gridX] = item.id;
     }
   }
   return grid;
 }
 
-function findFreePosition(
-  grid: (string | null)[][],
-  w: number,
-  h: number,
-): { x: number; y: number } | null {
-  for (let y = 0; y <= GRID_ROWS - h; y++) {
-    for (let x = 0; x <= GRID_COLS - w; x++) {
-      if (canPlaceItem(grid, x, y, w, h)) {
+function findFreePosition(grid: (string | null)[][]): { x: number; y: number } | null {
+  for (let y = 0; y < GRID_ROWS; y++) {
+    for (let x = 0; x < GRID_COLS; x++) {
+      if (grid[y][x] === null) {
         return { x, y };
       }
     }
   }
   return null;
+}
+
+// Проверяет, подходит ли предмет к слоту offhand
+function canItemFitOffhand(item: InventoryItem): boolean {
+  // Щиты
+  if (item.category === 'shield') return true;
+  // Оружие без Two-Handed
+  if (item.category === 'weapon' && item.equipSlot === 'mainhand') {
+    // Проверяем через шаблон
+    const template = ITEM_TEMPLATES.find(t => t.name === item.name);
+    if (template) return canEquipInOffhand(template);
+    // Если шаблон не найден, разрешаем одноручное
+    return true;
+  }
+  return false;
 }
 
 // ============================
@@ -127,7 +115,7 @@ const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }
 };
 
 // ============================
-// Компонент: Ячейка предмета в сетке
+// Компонент: Ячейка предмета в сетке (1x1)
 // ============================
 const GridItem: React.FC<{
   item: InventoryItem;
@@ -160,30 +148,23 @@ const GridItem: React.FC<{
       style={{
         left: (item.gridX ?? 0) * CELL_SIZE,
         top: (item.gridY ?? 0) * CELL_SIZE,
-        width: item.gridWidth * CELL_SIZE - 2,
-        height: item.gridHeight * CELL_SIZE - 2,
+        width: CELL_SIZE - 2,
+        height: CELL_SIZE - 2,
         border: `2px solid ${rarityColor}`,
         background: rarityBg,
         zIndex: 10,
       }}
     >
-      <div className="flex flex-col items-center justify-center gap-0.5">
-        <span className="text-2xl leading-none" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}>
-          {item.icon ? (
-            <img src={item.icon} alt={item.name} className="w-8 h-8 object-contain" />
-          ) : (
-            item.iconPlaceholder
-          )}
-        </span>
-        {(item.gridWidth > 1 || item.gridHeight > 1) && (
-          <span className="text-[9px] text-gray-300 truncate max-w-full px-1 leading-tight">
-            {item.name}
-          </span>
+      <span className="text-2xl leading-none" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}>
+        {item.icon ? (
+          <img src={item.icon} alt={item.name} className="w-8 h-8 object-contain" />
+        ) : (
+          item.iconPlaceholder
         )}
-      </div>
+      </span>
       {item.quantity > 1 && (
         <span
-          className="absolute bottom-0.5 right-1 text-[10px] font-bold text-white"
+          className="absolute bottom-0 right-0.5 text-[10px] font-bold text-white"
           style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
         >
           {item.quantity}
@@ -199,13 +180,12 @@ const GridItem: React.FC<{
 const EquipSlot: React.FC<{
   slot: EquipmentSlot;
   item?: InventoryItem;
-  onEquip: (slot: EquipmentSlot) => void;
   onUnequip: (slot: EquipmentSlot) => void;
   onDragOver: (e: React.DragEvent) => void;
   onDrop: (slot: EquipmentSlot) => void;
   showTooltip: (item: InventoryItem, rect: DOMRect) => void;
   hideTooltip: () => void;
-}> = ({ slot, item, onEquip, onUnequip, onDragOver, onDrop, showTooltip, hideTooltip }) => {
+}> = ({ slot, item, onUnequip, onDragOver, onDrop, showTooltip, hideTooltip }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rarityColor = item ? RARITY_COLORS[item.rarity] : '#4b5563';
   const rarityBg = item ? RARITY_BG_COLORS[item.rarity] : 'rgba(75, 85, 99, 0.1)';
@@ -213,7 +193,7 @@ const EquipSlot: React.FC<{
   return (
     <div
       ref={ref}
-      className="relative rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:brightness-125 group"
+      className="relative rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:brightness-125"
       style={{
         width: CELL_SIZE + 8,
         height: CELL_SIZE + 8,
@@ -228,7 +208,7 @@ const EquipSlot: React.FC<{
         e.preventDefault();
         onDrop(slot);
       }}
-      onClick={() => (item ? onUnequip(slot) : onEquip(slot))}
+      onClick={() => item && onUnequip(slot)}
       onMouseEnter={() => {
         if (item && ref.current) showTooltip(item, ref.current.getBoundingClientRect());
       }}
@@ -266,14 +246,16 @@ const ItemContextMenu: React.FC<{
   y: number;
   onClose: () => void;
   onEquip: () => void;
+  onEquipOffhand: () => void;
   onUnequip: () => void;
   onRemove: () => void;
-}> = ({ item, x, y, onClose, onEquip, onUnequip, onRemove }) => {
+  showOffhand: boolean;
+}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onRemove, showOffhand }) => {
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
-        className="fixed z-50 rounded-lg shadow-2xl border border-gray-700 py-1 min-w-[160px]"
+        className="fixed z-50 rounded-lg shadow-2xl border border-gray-700 py-1 min-w-[180px]"
         style={{
           left: x,
           top: y,
@@ -291,6 +273,14 @@ const ItemContextMenu: React.FC<{
             className="w-full text-left px-3 py-1.5 text-sm text-gray-300 hover:bg-white/10 transition-colors"
           >
             Экипировать
+          </button>
+        )}
+        {showOffhand && !item.equipped && (
+          <button
+            onClick={onEquipOffhand}
+            className="w-full text-left px-3 py-1.5 text-sm text-gray-300 hover:bg-white/10 transition-colors"
+          >
+            Во вторую руку
           </button>
         )}
         {item.equipped && (
@@ -330,10 +320,19 @@ const AddItemModal: React.FC<{
     const matchesSearch =
       search === '' ||
       item.name.toLowerCase().includes(search.toLowerCase()) ||
-      item.type.toLowerCase().includes(search.toLowerCase());
+      item.type.toLowerCase().includes(search.toLowerCase()) ||
+      item.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  // Форматирование стоимости
+  const formatValue = (value?: number) => {
+    if (!value) return null;
+    if (value >= 100) return `${Math.floor(value / 100)} зм`;
+    if (value >= 10) return `${Math.floor(value / 10)} см`;
+    return `${value} мм`;
+  };
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -422,10 +421,11 @@ const AddItemModal: React.FC<{
                           {template.name}
                         </div>
                         <div className="text-xs text-gray-500">{template.type}</div>
-                        <div className="text-xs text-gray-600 mt-0.5 truncate">{template.description}</div>
+                        <div className="text-xs text-gray-600 mt-0.5 line-clamp-2">{template.description}</div>
                         <div className="text-[10px] text-gray-600 mt-1">
-                          {template.gridWidth}×{template.gridHeight} | {RARITY_NAMES[template.rarity]}
+                          {RARITY_NAMES[template.rarity]}
                           {template.weight ? ` | ${template.weight} фнт.` : ''}
+                          {template.value ? ` | ${formatValue(template.value)}` : ''}
                         </div>
                       </div>
                     </div>
@@ -515,7 +515,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   const handleAddItem = useCallback(
     (template: ItemTemplate, quantity: number) => {
       const currentGrid = buildGrid(inventory);
-      const pos = findFreePosition(currentGrid, template.gridWidth, template.gridHeight);
+      const pos = findFreePosition(currentGrid);
       if (!pos) {
         alert('Нет свободного места в рюкзаке!');
         return;
@@ -530,8 +530,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         weight: template.weight,
         description: template.description,
         equipped: false,
-        gridWidth: template.gridWidth,
-        gridHeight: template.gridHeight,
+        gridWidth: 1,
+        gridHeight: 1,
         gridX: pos.x,
         gridY: pos.y,
         equipSlot: template.equipSlot,
@@ -549,7 +549,6 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       const item = inventory.find((i) => i.id === itemId);
       const newEquipment = { ...equipment };
 
-      // Снять предмет из слота экипировки если он экипирован
       if (item?.equipped) {
         for (const [slot, id] of Object.entries(newEquipment)) {
           if (id === itemId) {
@@ -562,6 +561,55 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         inventory.filter((i) => i.id !== itemId),
         newEquipment,
       );
+      setContextMenu(null);
+    },
+    [inventory, equipment, updateInventory],
+  );
+
+  // Экипировать предмет в конкретный слот
+  const equipToSlot = useCallback(
+    (itemId: string, targetSlot: EquipmentSlot) => {
+      const item = inventory.find((i) => i.id === itemId);
+      if (!item) return;
+
+      const newEquipment = { ...equipment };
+      const currentEquippedId = newEquipment[targetSlot];
+
+      let newInventory = [...inventory];
+
+      // Снимаем текущий предмет из слота
+      if (currentEquippedId && currentEquippedId !== itemId) {
+        const tempInv = newInventory.map(i =>
+          i.id === currentEquippedId ? { ...i, equipped: false } : i
+        );
+        const currentGrid = buildGrid(tempInv);
+        const currentItem = newInventory.find(i => i.id === currentEquippedId);
+        if (currentItem) {
+          const pos = findFreePosition(currentGrid);
+          newInventory = newInventory.map((i) =>
+            i.id === currentEquippedId
+              ? { ...i, equipped: false, gridX: pos?.x ?? 0, gridY: pos?.y ?? 0 }
+              : i,
+          );
+        }
+      }
+
+      // Если предмет уже был экипирован в другом слоте — снимаем
+      if (item.equipped) {
+        for (const [s, id] of Object.entries(newEquipment)) {
+          if (id === itemId) {
+            delete newEquipment[s as keyof Equipment];
+          }
+        }
+      }
+
+      // Экипируем
+      newEquipment[targetSlot] = itemId;
+      newInventory = newInventory.map((i) =>
+        i.id === itemId ? { ...i, equipped: true, gridX: undefined, gridY: undefined } : i,
+      );
+
+      updateInventory(newInventory, newEquipment);
       setContextMenu(null);
     },
     [inventory, equipment, updateInventory],
@@ -583,36 +631,16 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         }
       }
 
-      const newEquipment = { ...equipment };
-      const currentEquippedId = newEquipment[targetSlot];
-
-      // Снимаем текущий предмет из слота (возвращаем в рюкзак)
-      let newInventory = [...inventory];
-      if (currentEquippedId && currentEquippedId !== itemId) {
-        const currentGrid = buildGrid(newInventory.map(i =>
-          i.id === currentEquippedId ? { ...i, equipped: false } : i
-        ));
-        const currentItem = newInventory.find(i => i.id === currentEquippedId);
-        if (currentItem) {
-          const pos = findFreePosition(currentGrid, currentItem.gridWidth, currentItem.gridHeight);
-          newInventory = newInventory.map((i) =>
-            i.id === currentEquippedId
-              ? { ...i, equipped: false, gridX: pos?.x ?? 0, gridY: pos?.y ?? 0 }
-              : i,
-          );
-        }
-      }
-
-      // Экипируем новый предмет
-      newEquipment[targetSlot] = itemId;
-      newInventory = newInventory.map((i) =>
-        i.id === itemId ? { ...i, equipped: true, gridX: undefined, gridY: undefined } : i,
-      );
-
-      updateInventory(newInventory, newEquipment);
-      setContextMenu(null);
+      equipToSlot(itemId, targetSlot);
     },
-    [inventory, equipment, updateInventory],
+    [inventory, equipment, equipToSlot],
+  );
+
+  const handleEquipOffhand = useCallback(
+    (itemId: string) => {
+      equipToSlot(itemId, 'offhand');
+    },
+    [equipToSlot],
   );
 
   const handleUnequipItem = useCallback(
@@ -624,7 +652,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       if (!item) return;
 
       const currentGrid = buildGrid(inventory);
-      const pos = findFreePosition(currentGrid, item.gridWidth, item.gridHeight);
+      const pos = findFreePosition(currentGrid);
       if (!pos) {
         alert('Нет свободного места в рюкзаке!');
         return;
@@ -650,18 +678,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       if (!dragItem || !gridRef.current) return;
 
       const rect = gridRef.current.getBoundingClientRect();
-      const rawX = e.clientX - rect.left;
-      const rawY = e.clientY - rect.top;
-      const cellX = Math.floor(rawX / CELL_SIZE);
-      const cellY = Math.floor(rawY / CELL_SIZE);
-
-      // Центрируем предмет
-      const placeX = Math.max(0, Math.min(cellX - Math.floor(dragItem.gridWidth / 2), GRID_COLS - dragItem.gridWidth));
-      const placeY = Math.max(0, Math.min(cellY - Math.floor(dragItem.gridHeight / 2), GRID_ROWS - dragItem.gridHeight));
+      const cellX = Math.min(GRID_COLS - 1, Math.max(0, Math.floor((e.clientX - rect.left) / CELL_SIZE)));
+      const cellY = Math.min(GRID_ROWS - 1, Math.max(0, Math.floor((e.clientY - rect.top) / CELL_SIZE)));
 
       const currentGrid = buildGrid(inventory);
 
-      if (!canPlaceItem(currentGrid, placeX, placeY, dragItem.gridWidth, dragItem.gridHeight, dragItem.id)) {
+      // Проверяем что ячейка свободна (или занята этим же предметом)
+      const occupant = currentGrid[cellY][cellX];
+      if (occupant !== null && occupant !== dragItem.id) {
         setDragItem(null);
         return;
       }
@@ -678,7 +702,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
       const newInventory = inventory.map((i) =>
         i.id === dragItem.id
-          ? { ...i, gridX: placeX, gridY: placeY, equipped: false }
+          ? { ...i, gridX: cellX, gridY: cellY, equipped: false }
           : i,
       );
 
@@ -693,58 +717,13 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
     (slot: EquipmentSlot) => {
       if (!dragItem) return;
 
-      // Проверяем что предмет подходит к слоту
-      if (!dragItem.equipSlot) return;
+      // Проверяем совместимость предмета со слотом
+      if (!canDragToSlot(dragItem, slot)) return;
 
-      const slotCategory = slot.replace(/[12]$/, ''); // ring1 -> ring
-      const itemSlotCategory = dragItem.equipSlot.replace(/[12]$/, '');
-      if (slotCategory !== itemSlotCategory && !(dragItem.category === 'shield' && slot === 'offhand')) return;
-
-      const newEquipment = { ...equipment };
-      const currentEquippedId = newEquipment[slot];
-
-      let newInventory = [...inventory];
-
-      // Снимаем текущий предмет из слота
-      if (currentEquippedId && currentEquippedId !== dragItem.id) {
-        const currentGrid = buildGrid(newInventory.map(i =>
-          i.id === currentEquippedId ? { ...i, equipped: false } : i
-        ));
-        const currentItem = newInventory.find(i => i.id === currentEquippedId);
-        if (currentItem) {
-          const pos = findFreePosition(currentGrid, currentItem.gridWidth, currentItem.gridHeight);
-          if (!pos) {
-            alert('Нет свободного места в рюкзаке!');
-            setDragItem(null);
-            return;
-          }
-          newInventory = newInventory.map((i) =>
-            i.id === currentEquippedId
-              ? { ...i, equipped: false, gridX: pos.x, gridY: pos.y }
-              : i,
-          );
-        }
-      }
-
-      // Если предмет перетаскивается из другого слота
-      if (dragItem.equipped) {
-        for (const [s, id] of Object.entries(newEquipment)) {
-          if (id === dragItem.id) {
-            delete newEquipment[s as keyof Equipment];
-          }
-        }
-      }
-
-      // Экипируем предмет
-      newEquipment[slot] = dragItem.id;
-      newInventory = newInventory.map((i) =>
-        i.id === dragItem.id ? { ...i, equipped: true, gridX: undefined, gridY: undefined } : i,
-      );
-
-      updateInventory(newInventory, newEquipment);
+      equipToSlot(dragItem.id, slot);
       setDragItem(null);
     },
-    [dragItem, inventory, equipment, updateInventory],
+    [dragItem, equipToSlot],
   );
 
   const showTooltipFn = useCallback((item: InventoryItem, rect: DOMRect) => {
@@ -802,7 +781,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* === Левая часть: Экипировка (как в BG3) === */}
+        {/* === Левая часть: Экипировка === */}
         <div
           className="rounded-xl border-2 border-gray-700 p-5 flex-shrink-0"
           style={{ background: '#0f0f23' }}
@@ -821,8 +800,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                 <EquipSlot
                   slot={slot}
                   item={getEquippedItem(slot)}
-                  onEquip={() => {}}
-                  onUnequip={() => handleUnequipItem(slot)}
+                  onUnequip={handleUnequipItem}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={() => handleEquipSlotDrop(slot)}
                   showTooltip={showTooltipFn}
@@ -854,7 +832,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             <Package className="text-gray-400" size={18} />
             <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Рюкзак</h3>
             <span className="text-xs text-gray-600 ml-auto">
-              {backpackItems.length} предметов | {GRID_COLS}×{GRID_ROWS} ячеек
+              {backpackItems.length} / {GRID_COLS * GRID_ROWS} ячеек
             </span>
           </div>
 
@@ -875,7 +853,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                 Array.from({ length: GRID_COLS }).map((_, x) => (
                   <div
                     key={`${x}-${y}`}
-                    className="absolute rounded-sm transition-colors"
+                    className="absolute rounded-sm"
                     style={{
                       left: x * CELL_SIZE,
                       top: y * CELL_SIZE,
@@ -897,8 +875,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                   key={item.id}
                   item={item}
                   onDragStart={setDragItem}
-                  onRightClick={(item, e) => {
-                    setContextMenu({ item, x: e.clientX, y: e.clientY });
+                  onRightClick={(itm, e) => {
+                    setContextMenu({ item: itm, x: e.clientX, y: e.clientY });
                     hideTooltipFn();
                   }}
                   showTooltip={showTooltipFn}
@@ -987,12 +965,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           y={contextMenu.y}
           onClose={() => setContextMenu(null)}
           onEquip={() => handleEquipItem(contextMenu.item.id)}
+          onEquipOffhand={() => handleEquipOffhand(contextMenu.item.id)}
           onUnequip={() => {
             const slot = Object.entries(equipment).find(([, id]) => id === contextMenu.item.id)?.[0] as EquipmentSlot | undefined;
             if (slot) handleUnequipItem(slot);
             setContextMenu(null);
           }}
           onRemove={() => handleRemoveItem(contextMenu.item.id)}
+          showOffhand={canItemFitOffhand(contextMenu.item)}
         />
       )}
 
@@ -1009,3 +989,30 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
     </div>
   );
 };
+
+// === Утилита: проверка совместимости drag-and-drop со слотом ===
+
+function canDragToSlot(item: InventoryItem, slot: EquipmentSlot): boolean {
+  // Offhand: щиты + одноручное оружие
+  if (slot === 'offhand') {
+    return canItemFitOffhand(item);
+  }
+
+  // Mainhand: любое оружие
+  if (slot === 'mainhand') {
+    return item.category === 'weapon' || item.equipSlot === 'mainhand';
+  }
+
+  // Кольца: ring1 или ring2
+  if (slot === 'ring1' || slot === 'ring2') {
+    return item.category === 'ring' || item.equipSlot === 'ring1' || item.equipSlot === 'ring2';
+  }
+
+  // Прямое совпадение слота
+  if (item.equipSlot === slot) return true;
+
+  // Доспехи
+  if (slot === 'armor' && item.category === 'armor') return true;
+
+  return false;
+}

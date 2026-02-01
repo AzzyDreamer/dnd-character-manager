@@ -1,0 +1,15 @@
+{
+	"name": "Rope, Hempen (50 feet)",
+	"source": "XPHB",
+	"page": 226,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 10,
+	"value": 100,
+	"entries": [
+		"As a Utilize action, you can tie a knot with Rope if you succeed on a DC 10 Dexterity (Sleight of Hand) check."
+	]
+}

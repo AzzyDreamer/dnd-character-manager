@@ -1,0 +1,14 @@
+{
+	"name": "Shield",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"edition": "one",
+	"type": "S|XPHB",
+	"rarity": "none",
+	"weight": 6,
+	"value": 1000,
+	"ac": 2,
+	"entries": []
+}
