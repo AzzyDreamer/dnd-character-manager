@@ -2,13 +2,21 @@ import type { Character, CharacterStorage } from '../types';
 
 const STORAGE_KEY = 'dnd-characters';
 
+// Миграция: добавить поля equipment к старым персонажам
+function migrateCharacter(character: Character): Character {
+  if (!character.equipment) {
+    character.equipment = {};
+  }
+  return character;
+}
+
 // Получить все персонажи из localStorage
 export const getCharacters = (): Character[] => {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return [];
     const storage: CharacterStorage = JSON.parse(data);
-    return storage.characters || [];
+    return (storage.characters || []).map(migrateCharacter);
   } catch (error) {
     console.error('Ошибка при загрузке персонажей:', error);
     return [];
@@ -112,7 +120,7 @@ export const importCharacter = (file: File): Promise<Character> => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const character = JSON.parse(e.target?.result as string) as Character;
+        const character = migrateCharacter(JSON.parse(e.target?.result as string) as Character);
         // Генерируем новый ID для импортированного персонажа
         character.id = crypto.randomUUID();
         character.createdAt = new Date().toISOString();
