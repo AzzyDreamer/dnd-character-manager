@@ -16,7 +16,7 @@ import {
   canDecreasePointBuy,
 } from '../utils/dnd';
 import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
-import { RACE_REGISTRY, getRacialBonuses, getTotalRacialBonus, type RaceDefinition, type SubraceDefinition } from '../data/races';
+import { RACE_REGISTRY, type RaceDefinition, type SubraceDefinition } from '../data/races';
 import { BACKGROUND_REGISTRY, type BackgroundDefinition } from '../data/backgrounds';
 import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen } from 'lucide-react';
 
@@ -26,7 +26,7 @@ interface CharacterCreatorProps {
 }
 
 type AbilityMethod = 'pointBuy' | 'roll' | 'manual';
-type RacialBonusMode = 'standard' | 'custom';
+type BackgroundBonusMode = 'background' | 'custom';
 
 const STEPS = [
   { key: 'race', label: 'Раса', icon: Sparkles },
@@ -86,24 +86,22 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // Abilities
   const [abilityMethod, setAbilityMethod] = useState<AbilityMethod>('pointBuy');
   const [abilityScores, setAbilityScores] = useState<AbilityScores>({ ...DEFAULT_SCORES });
-  const [racialBonusMode, setRacialBonusMode] = useState<RacialBonusMode>('standard');
+  const [backgroundBonusMode, setBackgroundBonusMode] = useState<BackgroundBonusMode>('background');
+  const [bgBonus2, setBgBonus2] = useState<keyof AbilityScores | null>(null);
+  const [bgBonus1, setBgBonus1] = useState<keyof AbilityScores | null>(null);
   const [customBonuses, setCustomBonuses] = useState<Partial<AbilityScores>>({});
 
   // Details
   const [name, setName] = useState('');
 
-  // Computed racial bonuses
-  const standardBonuses = useMemo(() => {
-    if (!selectedRace) return {};
-    return getRacialBonuses(selectedRace, selectedSubrace || undefined);
-  }, [selectedRace, selectedSubrace]);
-
-  const totalBonusPoints = useMemo(() => {
-    if (!selectedRace) return 0;
-    return getTotalRacialBonus(selectedRace, selectedSubrace || undefined);
-  }, [selectedRace, selectedSubrace]);
-
-  const activeBonuses = racialBonusMode === 'standard' ? standardBonuses : customBonuses;
+  // Computed background bonuses (2024 rules: +2/+1 from background, not race)
+  const activeBonuses = useMemo<Partial<AbilityScores>>(() => {
+    if (backgroundBonusMode === 'custom') return customBonuses;
+    const bonuses: Partial<AbilityScores> = {};
+    if (bgBonus2) bonuses[bgBonus2] = 2;
+    if (bgBonus1) bonuses[bgBonus1] = 1;
+    return bonuses;
+  }, [backgroundBonusMode, bgBonus2, bgBonus1, customBonuses]);
 
   const customBonusSpent = useMemo(() => {
     return Object.values(customBonuses).reduce((sum, v) => sum + (v || 0), 0);
@@ -121,7 +119,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 2: return selectedBackground !== null;
       case 3: {
         if (abilityMethod === 'pointBuy' && getPointBuyRemaining(abilityScores) < 0) return false;
-        if (racialBonusMode === 'custom' && customBonusSpent !== totalBonusPoints) return false;
+        if (backgroundBonusMode === 'background' && (!bgBonus2 || !bgBonus1)) return false;
+        if (backgroundBonusMode === 'custom' && customBonusSpent !== 3) return false;
         return true;
       }
       case 4: return name.trim().length > 0;
@@ -160,7 +159,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       if (next < 0 || next > 2) return prev;
       const newBonuses = { ...prev, [ability]: next };
       const newTotal = Object.values(newBonuses).reduce((sum, v) => sum + (v || 0), 0);
-      if (newTotal > totalBonusPoints) return prev;
+      if (newTotal > 3) return prev;
       return newBonuses;
     });
   };
@@ -303,7 +302,6 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               onClick={() => {
                 setSelectedRace(race);
                 setSelectedSubrace(null);
-                setCustomBonuses({});
               }}
               className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
                 selectedRace?.id === race.id
@@ -329,7 +327,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               {selectedRace.subraces.map(sub => (
                 <button
                   key={sub.id}
-                  onClick={() => { setSelectedSubrace(sub); setCustomBonuses({}); }}
+                  onClick={() => setSelectedSubrace(sub)}
                   className={`rounded-lg border-2 text-left transition-all overflow-hidden ${
                     selectedSubrace?.id === sub.id
                       ? 'border-dnd-secondary bg-dnd-secondary/10'
@@ -377,18 +375,6 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div className="flex gap-2">
                 <span className="text-gray-400 shrink-0">Языки:</span>
                 <span className="text-white">{selectedRace.languages.join(', ')}</span>
-              </div>
-              <div>
-                <span className="text-gray-400">Бонусы:</span>
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {Object.entries(getRacialBonuses(selectedRace, selectedSubrace || undefined)).map(([key, val]) => (
-                    val ? (
-                      <span key={key} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
-                        {ABILITY_NAMES[key as keyof AbilityScores]} +{val}
-                      </span>
-                    ) : null
-                  ))}
-                </div>
               </div>
               <div>
                 <span className="text-gray-400">Особенности:</span>
@@ -639,7 +625,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 )}
 
                 {bonus > 0 && (
-                  <div className="text-xs text-dnd-secondary mt-1">+{bonus} раса</div>
+                  <div className="text-xs text-dnd-secondary mt-1">+{bonus} предыстория</div>
                 )}
 
                 {abilityMethod === 'pointBuy' && (
@@ -652,25 +638,25 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           })}
         </div>
 
-        {/* Racial Bonus Mode */}
-        {selectedRace && (
+        {/* Background Bonus Mode (2024 rules) */}
+        {selectedBackground && (
           <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-lg font-medieval text-dnd-secondary mb-3">Расовые бонусы</h4>
+            <h4 className="text-lg font-medieval text-dnd-secondary mb-3">Бонусы предыстории</h4>
             <div className="flex rounded-lg overflow-hidden border border-gray-600 mb-4 w-fit">
               <button
-                onClick={() => { setRacialBonusMode('standard'); setCustomBonuses({}); }}
+                onClick={() => { setBackgroundBonusMode('background'); setCustomBonuses({}); }}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  racialBonusMode === 'standard'
+                  backgroundBonusMode === 'background'
                     ? 'bg-dnd-secondary text-dnd-dark'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                 }`}
               >
-                Стандартные ({selectedRace.name})
+                По предыстории ({selectedBackground.name})
               </button>
               <button
-                onClick={() => { setRacialBonusMode('custom'); setCustomBonuses({}); }}
+                onClick={() => { setBackgroundBonusMode('custom'); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  racialBonusMode === 'custom'
+                  backgroundBonusMode === 'custom'
                     ? 'bg-dnd-secondary text-dnd-dark'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                 }`}
@@ -679,24 +665,67 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </button>
             </div>
 
-            {racialBonusMode === 'standard' ? (
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(standardBonuses).map(([key, val]) => (
-                  val ? (
-                    <span key={key} className="px-3 py-1 bg-dnd-secondary/20 text-dnd-secondary rounded-lg text-sm">
-                      {ABILITY_NAMES[key as keyof AbilityScores]} +{val}
+            {backgroundBonusMode === 'background' ? (
+              <div className="space-y-3">
+                <p className="text-sm text-gray-400">Выберите +2 к одной и +1 к другой из связанных характеристик:</p>
+                <div className="grid grid-cols-3 gap-3">
+                  {selectedBackground.abilityOptions.map(ability => {
+                    const is2 = bgBonus2 === ability;
+                    const is1 = bgBonus1 === ability;
+                    return (
+                      <div key={ability} className="text-center space-y-2">
+                        <div className="text-sm text-gray-300 font-medium">{ABILITY_NAMES[ability]}</div>
+                        <div className="flex gap-2 justify-center">
+                          <button
+                            onClick={() => {
+                              if (is2) { setBgBonus2(null); }
+                              else { if (bgBonus1 === ability) setBgBonus1(null); setBgBonus2(ability); }
+                            }}
+                            className={`px-3 py-1.5 rounded text-sm font-bold transition-all ${
+                              is2
+                                ? 'bg-dnd-secondary text-dnd-dark ring-2 ring-dnd-secondary/50'
+                                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                          >
+                            +2
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (is1) { setBgBonus1(null); }
+                              else { if (bgBonus2 === ability) setBgBonus2(null); setBgBonus1(ability); }
+                            }}
+                            className={`px-3 py-1.5 rounded text-sm font-bold transition-all ${
+                              is1
+                                ? 'bg-dnd-secondary/70 text-dnd-dark ring-2 ring-dnd-secondary/30'
+                                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                          >
+                            +1
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {bgBonus2 && bgBonus1 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    <span className="px-3 py-1 bg-dnd-secondary/20 text-dnd-secondary rounded-lg text-sm">
+                      {ABILITY_NAMES[bgBonus2]} +2
                     </span>
-                  ) : null
-                ))}
+                    <span className="px-3 py-1 bg-dnd-secondary/20 text-dnd-secondary rounded-lg text-sm">
+                      {ABILITY_NAMES[bgBonus1]} +1
+                    </span>
+                  </div>
+                )}
               </div>
             ) : (
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-sm text-gray-300">
-                    Распределите {totalBonusPoints} очков (макс. +2 на характеристику)
+                    Распределите 3 очка (макс. +2 на характеристику)
                   </span>
-                  <span className={`font-bold ${customBonusSpent === totalBonusPoints ? 'text-green-400' : 'text-dnd-secondary'}`}>
-                    {customBonusSpent} / {totalBonusPoints}
+                  <span className={`font-bold ${customBonusSpent === 3 ? 'text-green-400' : 'text-dnd-secondary'}`}>
+                    {customBonusSpent} / 3
                   </span>
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -716,7 +745,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                         </span>
                         <button
                           onClick={() => handleCustomBonusChange(ability, 1)}
-                          disabled={(customBonuses[ability] || 0) >= 2 || customBonusSpent >= totalBonusPoints}
+                          disabled={(customBonuses[ability] || 0) >= 2 || customBonusSpent >= 3}
                           className="w-6 h-6 rounded bg-gray-700 text-white text-xs hover:bg-gray-600 disabled:opacity-30 flex items-center justify-center"
                         >
                           +
@@ -742,7 +771,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {BACKGROUND_REGISTRY.map(bg => (
             <button
               key={bg.id}
-              onClick={() => setSelectedBackground(bg)}
+              onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
               className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] p-3 ${
                 selectedBackground?.id === bg.id
                   ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
