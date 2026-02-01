@@ -229,6 +229,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       speed: selectedRace.speed,
       proficiencyBonus,
       inventory: [],
+      equipment: {},
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
       features: selectedBackground.feat ? [{ id: 'bg-feat', name: selectedBackground.feat, description: `Черта от предыстории: ${selectedBackground.name}`, source: selectedBackground.source }] : [],
       createdAt: new Date().toISOString(),

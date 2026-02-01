@@ -147,16 +147,77 @@ export interface Skills {
   };
 }
 
-// Предмет инвентаря
+// Категории предметов
+export type ItemCategory =
+  | 'weapon'
+  | 'armor'
+  | 'shield'
+  | 'helmet'
+  | 'boots'
+  | 'gloves'
+  | 'cloak'
+  | 'amulet'
+  | 'ring'
+  | 'potion'
+  | 'scroll'
+  | 'wand'
+  | 'ammunition'
+  | 'tool'
+  | 'treasure'
+  | 'misc';
+
+// Редкость предметов
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'very_rare' | 'legendary' | 'artifact';
+
+// Слоты экипировки (как в BG3)
+export type EquipmentSlot =
+  | 'helmet'
+  | 'armor'
+  | 'gloves'
+  | 'boots'
+  | 'cloak'
+  | 'amulet'
+  | 'ring1'
+  | 'ring2'
+  | 'mainhand'
+  | 'offhand';
+
+// Предмет инвентаря (с поддержкой сетки)
 export interface InventoryItem {
   id: string;
   name: string;
   type: string;
+  category: ItemCategory;
   quantity: number;
   weight?: number;
   description?: string;
   equipped?: boolean;
   attuned?: boolean;
+  // Свойства для сетки инвентаря
+  gridWidth: number;  // Ширина предмета в клетках (1-2)
+  gridHeight: number; // Высота предмета в клетках (1-2)
+  gridX?: number;     // Позиция X в сетке рюкзака
+  gridY?: number;     // Позиция Y в сетке рюкзака
+  // Слот экипировки
+  equipSlot?: EquipmentSlot;
+  // Визуальные свойства
+  rarity: ItemRarity;
+  icon?: string;      // Путь к иконке (загрузится позже)
+  iconPlaceholder: string; // Эмодзи или символ-заглушка для иконки
+}
+
+// Экипировка персонажа (надетые предметы)
+export interface Equipment {
+  helmet?: string;    // id предмета
+  armor?: string;
+  gloves?: string;
+  boots?: string;
+  cloak?: string;
+  amulet?: string;
+  ring1?: string;
+  ring2?: string;
+  mainhand?: string;
+  offhand?: string;
 }
 
 // Заклинание персонажа
@@ -248,8 +309,9 @@ export interface Character {
     spellsKnown?: number;
   };
   
-  // Инвентарь
+  // Инвентарь и экипировка
   inventory: InventoryItem[];
+  equipment: Equipment;
   currency: {
     copper: number;
     silver: number;

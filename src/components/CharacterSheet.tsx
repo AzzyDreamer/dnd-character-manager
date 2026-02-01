@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import type { Character, AbilityScores } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X } from 'lucide-react';
+import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X, ScrollText } from 'lucide-react';
+import { InventoryGrid } from './InventoryGrid';
+
+type SheetTab = 'stats' | 'inventory';
 
 interface CharacterSheetProps {
   character: Character;
@@ -11,6 +14,7 @@ interface CharacterSheetProps {
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
   const [showSubclassModal, setShowSubclassModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<SheetTab>('stats');
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
 
@@ -114,6 +118,39 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         </div>
       </div>
 
+      {/* Панель вкладок */}
+      <div className="flex gap-1 bg-gray-800/50 p-1 rounded-lg">
+        <button
+          onClick={() => setActiveTab('stats')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-semibold text-sm transition-all ${
+            activeTab === 'stats'
+              ? 'bg-dnd-primary text-white shadow-lg'
+              : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+          }`}
+        >
+          <ScrollText size={16} />
+          Характеристики
+        </button>
+        <button
+          onClick={() => setActiveTab('inventory')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-semibold text-sm transition-all ${
+            activeTab === 'inventory'
+              ? 'bg-dnd-primary text-white shadow-lg'
+              : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+          }`}
+        >
+          <Backpack size={16} />
+          Инвентарь
+        </button>
+      </div>
+
+      {/* Содержимое вкладки: Инвентарь */}
+      {activeTab === 'inventory' && (
+        <InventoryGrid character={character} onUpdate={onUpdate} />
+      )}
+
+      {/* Содержимое вкладки: Характеристики */}
+      {activeTab === 'stats' && <>
       <div className="grid grid-cols-3 gap-6">
         {/* Левая колонка - Характеристики */}
         <div className="space-y-4">
@@ -377,6 +414,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           )}
         </div>
       )}
+      </>}
 
       {/* Subclass Selection Modal */}
       {showSubclassModal && classDef && (
