@@ -104,19 +104,18 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"Over the centuries in which humankind proved an unstoppable force in conquering Etharis, humans earned the enmity of most other folk. All who tried to oppose them were met with violence. One group, however, chose not to contest human ascendancy and instead survived by adapting to human hegemony.",
+		"The Era of Expansion did not affect the halflings of Etharis as it did the folk of other heritages. Halflings hold less value for mundane riches like gold or jewels and were therefore happy paying tithes to stronger and better-armed humans who offered them protection. Though brave and spirited, halflings lack the ambition for nation building. Their humble shires easily adapted to becoming breadbaskets for human-made empires and kingdoms. Halflings also fit into human culture perfectly by acquiring useful positions such as merchants, advisors, teachers, or scholars. Even though the halflings did not agree with the violent ways of humans, they kept their silence and ensured their survival.",
+		"Halflings are a resilient but peaceful people. What most of these tiny folk seek in life is a quiet place to settle, far away from conflict and war. They enjoy good music, fine food, and a good laugh when they can, and have a passion for lore, learning, and wild tales. But this does not mean that halflings are unable to fend for themselves in a dangerous world. They're courageous folk when standing against foes they cannot elude or escape, and accounts of halfling adventurers seeking ancient and hidden knowledge are some of the most famous stories among their kind.",
+		"Halflings have long used the lore they gather to build impressive libraries on specific subjects. Within the countless volumes of these libraries lie generations of knowledge pertaining to the interests and passions of these folk, including domestic crafts, nature, and history.",
+		{
+			"type": "entries",
+			"name": "Common Heritages",
+			"entries": [
+				"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+			]
+		}
+	]
 }
-
-[
-	"Over the centuries in which humankind proved an unstoppable force in conquering Etharis, humans earned the enmity of most other folk. All who tried to oppose them were met with violence. One group, however, chose not to contest human ascendancy and instead survived by adapting to human hegemony.",
-	"The Era of Expansion did not affect the halflings of Etharis as it did the folk of other heritages. Halflings hold less value for mundane riches like gold or jewels and were therefore happy paying tithes to stronger and better-armed humans who offered them protection. Though brave and spirited, halflings lack the ambition for nation building. Their humble shires easily adapted to becoming breadbaskets for human-made empires and kingdoms. Halflings also fit into human culture perfectly by acquiring useful positions such as merchants, advisors, teachers, or scholars. Even though the halflings did not agree with the violent ways of humans, they kept their silence and ensured their survival.",
-	"Halflings are a resilient but peaceful people. What most of these tiny folk seek in life is a quiet place to settle, far away from conflict and war. They enjoy good music, fine food, and a good laugh when they can, and have a passion for lore, learning, and wild tales. But this does not mean that halflings are unable to fend for themselves in a dangerous world. They're courageous folk when standing against foes they cannot elude or escape, and accounts of halfling adventurers seeking ancient and hidden knowledge are some of the most famous stories among their kind.",
-	"Halflings have long used the lore they gather to build impressive libraries on specific subjects. Within the countless volumes of these libraries lie generations of knowledge pertaining to the interests and passions of these folk, including domestic crafts, nature, and history.",
-	{
-		"type": "entries",
-		"name": "Common Heritages",
-		"entries": [
-			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
-		]
-	}
-]

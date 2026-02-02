@@ -104,20 +104,19 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"Ancient and dauntless as the mountains they call home, the dwarves first appeared in Etharis long before recorded history. As talented and diligent crafters, the dwarves forged their kingdoms in the valleys and foothills of the two oldest mountains on the continent: the Rock-Teeth and the Grey Spine. Beneath these vast ranges ran rich veins of mithral and gold. The dwarves who mined and crafted these metals quickly became famous across Etharis.",
+		"During the wars of the Era of Expansion, the dwarves barricaded themselves within their greatest capitals: the tiered city of Stehlenwald and the mountain stronghold of Grabenstein. Both fortress cities were once thought impregnable. The dwarves of Grabenstein fought valiantly for their homelands, withstanding multiple sieges until eventually their walls were ruined, their thanedoms uprooted, and their rich mines claimed by human warlords. These conquerors' descendants would later lay the groundwork for the Bürach Empire.",
+		"The dwarven kingdom of Stehlenwald endured. Rather than share the fate of their northern cousins, the Stehlenwald dwarves dug deeper into the heart of the mountain. There, miners laid eyes upon a new metal, impenetrable to the weapons of their enemies: adamantine. With armor and weapons crafted from adamantine, dwarf battalions managed to push the invaders back to their homelands, but at a great cost. The population of Stehlenwald was decimated by war and famine. Isolation within the mountains was the only option for survival for those who remained.",
+		"By the time of the rise of human kingdoms, the proud dwarves of Stehlenwald had recovered from war. They emerged from the mountains at last to discover the political landscape had dramatically changed, leaving them surrounded and vastly outnumbered by the armies of the Bürach Empire. Realizing there was only one way for his people to survive and prosper, the dwarf king struck a deal with the Bürach Empire. The dwarves would surrender their lands and become members of the empire, as long as they could govern themselves independently.",
+		"Great numbers of dwarves still cannot forgive the great loss of life and sovereignty their ancestors once endured. It's a common phrase in Etharis that it's easier to move a mountain than a dwarf. But though deep wounds still exist in the Bürach Empire, dwarves have become among the most prosperous and accepted peoples in all nations of Etharis.",
+		{
+			"type": "entries",
+			"name": "Common Heritages",
+			"entries": [
+				"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+			]
+		}
+	]
 }
-
-[
-	"Ancient and dauntless as the mountains they call home, the dwarves first appeared in Etharis long before recorded history. As talented and diligent crafters, the dwarves forged their kingdoms in the valleys and foothills of the two oldest mountains on the continent: the Rock-Teeth and the Grey Spine. Beneath these vast ranges ran rich veins of mithral and gold. The dwarves who mined and crafted these metals quickly became famous across Etharis.",
-	"During the wars of the Era of Expansion, the dwarves barricaded themselves within their greatest capitals: the tiered city of Stehlenwald and the mountain stronghold of Grabenstein. Both fortress cities were once thought impregnable. The dwarves of Grabenstein fought valiantly for their homelands, withstanding multiple sieges until eventually their walls were ruined, their thanedoms uprooted, and their rich mines claimed by human warlords. These conquerors' descendants would later lay the groundwork for the Bürach Empire.",
-	"The dwarven kingdom of Stehlenwald endured. Rather than share the fate of their northern cousins, the Stehlenwald dwarves dug deeper into the heart of the mountain. There, miners laid eyes upon a new metal, impenetrable to the weapons of their enemies: adamantine. With armor and weapons crafted from adamantine, dwarf battalions managed to push the invaders back to their homelands, but at a great cost. The population of Stehlenwald was decimated by war and famine. Isolation within the mountains was the only option for survival for those who remained.",
-	"By the time of the rise of human kingdoms, the proud dwarves of Stehlenwald had recovered from war. They emerged from the mountains at last to discover the political landscape had dramatically changed, leaving them surrounded and vastly outnumbered by the armies of the Bürach Empire. Realizing there was only one way for his people to survive and prosper, the dwarf king struck a deal with the Bürach Empire. The dwarves would surrender their lands and become members of the empire, as long as they could govern themselves independently.",
-	"Great numbers of dwarves still cannot forgive the great loss of life and sovereignty their ancestors once endured. It's a common phrase in Etharis that it's easier to move a mountain than a dwarf. But though deep wounds still exist in the Bürach Empire, dwarves have become among the most prosperous and accepted peoples in all nations of Etharis.",
-	{
-		"type": "entries",
-		"name": "Common Heritages",
-		"entries": [
-			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
-		]
-	}
-]

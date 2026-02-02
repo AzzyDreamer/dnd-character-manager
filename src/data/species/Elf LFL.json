@@ -282,27 +282,26 @@
 				"You don't need to sleep, and magic can't put you to sleep. You can finish a {@variantrule Long Rest|XPHB} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness."
 			]
 		}
+	],
+	"_fluffText": [
+		"Elves in the realm of Lorwyn-Shadowmoor possess black, pupilless eyes; curved horns; legs that end in cloven hooves; and pointed ears. The elves of Lorwyn exhibit stark differences physically as well as culturally from their Shadowmoor counterparts.",
+		{
+			"type": "entries",
+			"name": "In Lorwyn",
+			"entries": [
+				"The horns of Lorwyn elves are stubby like a goat's or curved like a ram's, but always ridged. Their pointed ears are long and slender.",
+				"In Lorwyn, elves value beauty above all, though what any given elf deems beautiful can seem arbitrary. Some Lorwyn elves assume authority over the land's other peoples, using their fallen empire to support their claims.",
+				"These elves blame the fall of their empire on outside threats, especially the Phyrexian invasion (see {@book \"Lorwyn-Shadowmoor's History\"|LFL|0|Lorwyn-Shadowmoor's History}). Though the invasion was the empire's death knell, its people's self-importance and unwillingness to collaborate with other species had already led to the empire's decline."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "In Shadowmoor",
+			"entries": [
+				"Shadowmoor elves' horns are long, wavy, and covered with a rough, thorny texture. Their pointed ears are usually longer than those of their Lorwyn counterparts.",
+				"Like Lorwyn elves, Shadowmoor elves protect beauty, though a Shadowmoor elf's definition of \"beautiful\" can be abstract. Many of their kind believe beauty is gained or lost in accordance with one's actions; in particular, they consider heroism and self-sacrifice the highest forms of beauty.",
+				"Bloomseekers are Shadowmoor elves who study and explore Lorwyn. Each one carries a {@item Reliquary of Twilight|LFL} (see the introduction). Alongside Safewrights—Shadowmoor elves who venture across their realm in search of beautiful things—Bloomseekers are among the most trusted and revered members of their society."
+			]
+		}
 	]
 }
-
-[
-	"Elves in the realm of Lorwyn-Shadowmoor possess black, pupilless eyes; curved horns; legs that end in cloven hooves; and pointed ears. The elves of Lorwyn exhibit stark differences physically as well as culturally from their Shadowmoor counterparts.",
-	{
-		"type": "entries",
-		"name": "In Lorwyn",
-		"entries": [
-			"The horns of Lorwyn elves are stubby like a goat's or curved like a ram's, but always ridged. Their pointed ears are long and slender.",
-			"In Lorwyn, elves value beauty above all, though what any given elf deems beautiful can seem arbitrary. Some Lorwyn elves assume authority over the land's other peoples, using their fallen empire to support their claims.",
-			"These elves blame the fall of their empire on outside threats, especially the Phyrexian invasion (see {@book \"Lorwyn-Shadowmoor's History\"|LFL|0|Lorwyn-Shadowmoor's History}). Though the invasion was the empire's death knell, its people's self-importance and unwillingness to collaborate with other species had already led to the empire's decline."
-		]
-	},
-	{
-		"type": "entries",
-		"name": "In Shadowmoor",
-		"entries": [
-			"Shadowmoor elves' horns are long, wavy, and covered with a rough, thorny texture. Their pointed ears are usually longer than those of their Lorwyn counterparts.",
-			"Like Lorwyn elves, Shadowmoor elves protect beauty, though a Shadowmoor elf's definition of \"beautiful\" can be abstract. Many of their kind believe beauty is gained or lost in accordance with one's actions; in particular, they consider heroism and self-sacrifice the highest forms of beauty.",
-			"Bloomseekers are Shadowmoor elves who study and explore Lorwyn. Each one carries a {@item Reliquary of Twilight|LFL} (see the introduction). Alongside Safewrights—Shadowmoor elves who venture across their realm in search of beautiful things—Bloomseekers are among the most trusted and revered members of their society."
-		]
-	}
-]

@@ -53,11 +53,10 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"The changelings of Lorwyn are charismatic shapeshifters able to crudely mimic the forms of creatures and plants. Unlike most shapeshifters, however, their innate powers don't allow them to truly disguise themselves; rather, their transformations are purely surface level.",
+		"No matter their form, Lorwyn changelings keep their key traits: blue-green skin, tufts of tentacle-like fur, and bulbous yellow eyes with slitted pupils. The true changeling identity of a bug-eyed tree, teal elk, or furry boulder is always easy to spot. These counterfeits are so plain that many Lorwyn denizens find the effect inexplicably charming.",
+		"Changelings from Lorwyn live in a vast, mystical cave called Velis Vel Grotto (see chapter 2). Once per year, many changelings make a pilgrimage to the grotto to contemplate their past deeds."
+	]
 }
-
-[
-	"The changelings of Lorwyn are charismatic shapeshifters able to crudely mimic the forms of creatures and plants. Unlike most shapeshifters, however, their innate powers don't allow them to truly disguise themselves; rather, their transformations are purely surface level.",
-	"No matter their form, Lorwyn changelings keep their key traits: blue-green skin, tufts of tentacle-like fur, and bulbous yellow eyes with slitted pupils. The true changeling identity of a bug-eyed tree, teal elk, or furry boulder is always easy to spot. These counterfeits are so plain that many Lorwyn denizens find the effect inexplicably charming.",
-	"Changelings from Lorwyn live in a vast, mystical cave called Velis Vel Grotto (see chapter 2). Once per year, many changelings make a pilgrimage to the grotto to contemplate their past deeds."
-]

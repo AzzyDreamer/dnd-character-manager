@@ -77,10 +77,9 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"Rimekin hail from both Lorwyn and Shadowmoor, though the first rimekin arose from flamekin during the Phyrexian invasion (see \"Lorwyn-Shadowmoor's History\" in the introduction). These flamekin approached their problems with cold logic and rejected reactionary responses. As a result, the magical flames that engulfed their bodies took on a frigid air, and they became rimekin.",
+		"Like flamekin, rimekin possess innate magic, but the flames they conjure burn icy blue rather than red hot. Further, these \"flames\" emanate a chilling cold rather than blazing heat. This effect extends, superficially, to the items rimekin touch. Any armor worn or weapons wielded by rimekin become coated in layers of spiky yet harmless hoarfrost."
+	]
 }
-
-[
-	"Rimekin hail from both Lorwyn and Shadowmoor, though the first rimekin arose from flamekin during the Phyrexian invasion (see \"Lorwyn-Shadowmoor's History\" in the introduction). These flamekin approached their problems with cold logic and rejected reactionary responses. As a result, the magical flames that engulfed their bodies took on a frigid air, and they became rimekin.",
-	"Like flamekin, rimekin possess innate magic, but the flames they conjure burn icy blue rather than red hot. Further, these \"flames\" emanate a chilling cold rather than blazing heat. This effect extends, superficially, to the items rimekin touch. Any armor worn or weapons wielded by rimekin become coated in layers of spiky yet harmless hoarfrost."
-]

@@ -18,7 +18,8 @@ import {
 import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import { RACE_REGISTRY, type RaceDefinition, type SubraceDefinition } from '../data/races';
 import { BACKGROUND_REGISTRY, type BackgroundDefinition } from '../data/backgrounds';
-import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen } from 'lucide-react';
+import { getSpellsByClass, SCHOOL_NAMES, type SpellData } from '../data/spells';
+import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search } from 'lucide-react';
 
 interface CharacterCreatorProps {
   onSave: (character: Character) => void;
@@ -33,6 +34,7 @@ const STEPS = [
   { key: 'class', label: 'Класс', icon: Swords },
   { key: 'background', label: 'Предыстория', icon: BookOpen },
   { key: 'abilities', label: 'Характеристики', icon: Dices },
+  { key: 'spells', label: 'Заклинания', icon: Wand2 },
   { key: 'details', label: 'Детали', icon: User },
   { key: 'review', label: 'Обзор', icon: Eye },
 ];
@@ -91,6 +93,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [bgBonus1, setBgBonus1] = useState<keyof AbilityScores | null>(null);
   const [customBonuses, setCustomBonuses] = useState<Partial<AbilityScores>>({});
 
+  // Spells
+  const [selectedSpells, setSelectedSpells] = useState<SpellData[]>([]);
+  const [selectedCantrips, setSelectedCantrips] = useState<SpellData[]>([]);
+  const [spellSearchQuery, setSpellSearchQuery] = useState('');
+
   // Details
   const [name, setName] = useState('');
 
@@ -111,25 +118,66 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return abilityScores[ability] + (activeBonuses[ability] || 0);
   };
 
+  // Доступные заклинания для класса
+  const availableSpells = useMemo(() => {
+    if (!selectedClass?.spellcaster) return { cantrips: [] as SpellData[], leveled: [] as SpellData[] };
+    const className = selectedClass.name;
+    const allClassSpells = getSpellsByClass(className);
+    const cantrips = allClassSpells.filter(s => s.level === 0);
+    const leveled = allClassSpells.filter(s => s.level === 1); // Уровень 1 для 1-го уровня
+    return { cantrips, leveled };
+  }, [selectedClass]);
+
+  const isSpellcaster = selectedClass?.spellcaster ?? false;
+  const maxCantrips = 2;
+  const maxSpells = isSpellcaster ? Math.max(1, 1 + (activeBonuses[selectedClass?.spellcastingAbility as keyof AbilityScores] || 0)) : 0;
+
   // Navigation
+  const totalSteps = isSpellcaster ? 7 : 6; // 7 если заклинатель, 6 если нет
+  const getEffectiveStep = (s: number): string => {
+    if (!isSpellcaster && s >= 4) {
+      // Пропускаем шаг заклинаний
+      return STEPS[s + 1]?.key ?? 'review';
+    }
+    return STEPS[s]?.key ?? 'review';
+  };
+
   const canProceed = (): boolean => {
-    switch (step) {
-      case 0: return selectedRace !== null;
-      case 1: return selectedClass !== null;
-      case 2: return selectedBackground !== null;
-      case 3: {
+    const effectiveKey = getEffectiveStep(step);
+    switch (effectiveKey) {
+      case 'race': return selectedRace !== null;
+      case 'class': return selectedClass !== null;
+      case 'background': return selectedBackground !== null;
+      case 'abilities': {
         if (abilityMethod === 'pointBuy' && getPointBuyRemaining(abilityScores) < 0) return false;
         if (backgroundBonusMode === 'background' && (!bgBonus2 || !bgBonus1)) return false;
         if (backgroundBonusMode === 'custom' && customBonusSpent !== 3) return false;
         return true;
       }
-      case 4: return name.trim().length > 0;
+      case 'spells': return true; // Заклинания опциональны
+      case 'details': return name.trim().length > 0;
       default: return true;
     }
   };
 
-  const nextStep = () => { if (canProceed()) setStep(s => Math.min(s + 1, 5)); };
-  const prevStep = () => setStep(s => Math.max(s - 1, 0));
+  const maxStep = isSpellcaster ? 6 : 5;
+  const nextStep = () => {
+    if (canProceed()) {
+      setStep(s => {
+        let next = s + 1;
+        // Пропускаем шаг заклинаний если не заклинатель
+        if (!isSpellcaster && next === 4) next = 5;
+        return Math.min(next, maxStep);
+      });
+    }
+  };
+  const prevStep = () => {
+    setStep(s => {
+      let prev = s - 1;
+      if (!isSpellcaster && prev === 4) prev = 3;
+      return Math.max(prev, 0);
+    });
+  };
 
   // Ability methods
   const handlePointBuyChange = (ability: keyof AbilityScores, delta: number) => {
@@ -238,13 +286,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
     if (selectedClass.spellcaster && selectedClass.spellcastingAbility) {
       const abilityMod = getAbilityModifier(finalScores[selectedClass.spellcastingAbility]);
+      const allSelectedSpells = [
+        ...selectedCantrips.map(s => ({
+          spellId: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          name: s.name,
+          level: 0,
+          prepared: true,
+          alwaysPrepared: true,
+        })),
+        ...selectedSpells.map(s => ({
+          spellId: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          name: s.name,
+          level: s.level,
+          prepared: true,
+        })),
+      ];
       character.spellcasting = {
         ability: selectedClass.spellcastingAbility,
         spellSaveDC: 8 + proficiencyBonus + abilityMod,
         spellAttackBonus: proficiencyBonus + abilityMod,
-        spells: [],
-        cantripsKnown: 2,
-        spellsKnown: level + abilityMod,
+        spells: allSelectedSpells,
+        cantripsKnown: maxCantrips,
+        spellsKnown: maxSpells,
       };
     }
 
@@ -252,19 +315,22 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   };
 
   // ─── Step Indicator ───
+  const visibleSteps = isSpellcaster ? STEPS : STEPS.filter(s => s.key !== 'spells');
   const renderStepIndicator = () => (
     <div className="flex items-center justify-center gap-0 mb-4">
-      {STEPS.map((s, i) => {
+      {visibleSteps.map((s, vi) => {
         const Icon = s.icon;
-        const isActive = i === step;
-        const isDone = i < step;
+        // Найдём реальный индекс в STEPS
+        const realIndex = STEPS.findIndex(st => st.key === s.key);
+        const isActive = realIndex === step;
+        const isDone = realIndex < step;
         return (
           <React.Fragment key={s.key}>
-            {i > 0 && (
+            {vi > 0 && (
               <div className={`h-0.5 w-8 sm:w-12 ${isDone ? 'bg-dnd-secondary' : 'bg-gray-600'}`} />
             )}
             <button
-              onClick={() => { if (isDone) setStep(i); }}
+              onClick={() => { if (isDone) setStep(realIndex); }}
               className={`flex flex-col items-center gap-1 px-2 py-1 rounded transition-all ${
                 isActive
                   ? 'text-dnd-secondary scale-110'
@@ -993,6 +1059,152 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     );
   };
 
+  // ─── Step 4: Spells (только для заклинателей) ───
+  const renderSpellsStep = () => {
+    if (!selectedClass?.spellcaster) return null;
+
+    const q = spellSearchQuery.toLowerCase().trim();
+    const filteredCantrips = q
+      ? availableSpells.cantrips.filter(s => s.name.toLowerCase().includes(q))
+      : availableSpells.cantrips;
+    const filteredLeveled = q
+      ? availableSpells.leveled.filter(s => s.name.toLowerCase().includes(q))
+      : availableSpells.leveled;
+
+    const toggleCantrip = (spell: SpellData) => {
+      setSelectedCantrips(prev => {
+        const exists = prev.find(s => s.name === spell.name);
+        if (exists) return prev.filter(s => s.name !== spell.name);
+        if (prev.length >= maxCantrips) return prev;
+        return [...prev, spell];
+      });
+    };
+
+    const toggleSpell = (spell: SpellData) => {
+      setSelectedSpells(prev => {
+        const exists = prev.find(s => s.name === spell.name);
+        if (exists) return prev.filter(s => s.name !== spell.name);
+        return [...prev, spell];
+      });
+    };
+
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-medieval text-dnd-secondary">Выберите заклинания</h3>
+          <div className="text-sm text-gray-400">
+            {selectedClass.name} • {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
+          </div>
+        </div>
+
+        {/* Поиск */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+          <input
+            type="text"
+            placeholder="Поиск заклинаний..."
+            value={spellSearchQuery}
+            onChange={e => setSpellSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
+          />
+        </div>
+
+        {/* Заговоры */}
+        <div>
+          <h4 className="text-lg font-medieval text-purple-300 mb-2">
+            Заговоры
+            <span className="text-sm font-normal text-gray-400 ml-2">
+              ({selectedCantrips.length}/{maxCantrips})
+            </span>
+          </h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+            {filteredCantrips.map(spell => {
+              const isSelected = selectedCantrips.some(s => s.name === spell.name);
+              return (
+                <button
+                  key={spell.name}
+                  onClick={() => toggleCantrip(spell)}
+                  disabled={!isSelected && selectedCantrips.length >= maxCantrips}
+                  className={`p-2 rounded-lg border text-left text-xs transition-all ${
+                    isSelected
+                      ? 'border-purple-500 bg-purple-900/30 text-purple-200'
+                      : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-400 disabled:opacity-40'
+                  }`}
+                >
+                  <div className="font-semibold truncate">{spell.name}</div>
+                  <div className="text-gray-500 text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
+                </button>
+              );
+            })}
+            {filteredCantrips.length === 0 && (
+              <div className="col-span-full text-center text-gray-500 py-4 text-sm">
+                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заговоров'}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Заклинания 1 уровня */}
+        <div>
+          <h4 className="text-lg font-medieval text-blue-300 mb-2">
+            Заклинания 1 уровня
+            <span className="text-sm font-normal text-gray-400 ml-2">
+              (выбрано: {selectedSpells.length})
+            </span>
+          </h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
+            {filteredLeveled.map(spell => {
+              const isSelected = selectedSpells.some(s => s.name === spell.name);
+              return (
+                <button
+                  key={spell.name}
+                  onClick={() => toggleSpell(spell)}
+                  className={`p-2 rounded-lg border text-left text-xs transition-all ${
+                    isSelected
+                      ? 'border-blue-500 bg-blue-900/30 text-blue-200'
+                      : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-400'
+                  }`}
+                >
+                  <div className="font-semibold truncate">{spell.name}</div>
+                  <div className="text-gray-500 text-[10px]">
+                    {SCHOOL_NAMES[spell.school] || spell.school}
+                    {spell.concentration && spell.duration?.[0]?.concentration ? ' • Концентрация' : ''}
+                  </div>
+                </button>
+              );
+            })}
+            {filteredLeveled.length === 0 && (
+              <div className="col-span-full text-center text-gray-500 py-4 text-sm">
+                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Выбранные */}
+        {(selectedCantrips.length > 0 || selectedSpells.length > 0) && (
+          <div className="bg-gray-800/60 rounded-lg border border-gray-600 p-4">
+            <h4 className="text-sm text-gray-400 mb-2">Выбранные заклинания:</h4>
+            <div className="flex flex-wrap gap-2">
+              {selectedCantrips.map(s => (
+                <span key={s.name} className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs flex items-center gap-1">
+                  {s.name}
+                  <button onClick={() => toggleCantrip(s)} className="text-purple-400 hover:text-white ml-1">&times;</button>
+                </span>
+              ))}
+              {selectedSpells.map(s => (
+                <span key={s.name} className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs flex items-center gap-1">
+                  {s.name}
+                  <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-white ml-1">&times;</button>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // ─── Main Render ───
   const renderStep = () => {
     switch (step) {
@@ -1000,8 +1212,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 1: return renderClassStep();
       case 2: return renderBackgroundStep();
       case 3: return renderAbilitiesStep();
-      case 4: return renderDetailsStep();
-      case 5: return renderReviewStep();
+      case 4: return renderSpellsStep();
+      case 5: return renderDetailsStep();
+      case 6: return renderReviewStep();
     }
   };
 
@@ -1037,7 +1250,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {step === 0 ? 'Отмена' : 'Назад'}
         </button>
 
-        {step < 5 ? (
+        {step < maxStep ? (
           <button
             onClick={nextStep}
             disabled={!canProceed()}

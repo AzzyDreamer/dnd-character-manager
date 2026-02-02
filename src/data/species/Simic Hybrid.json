@@ -130,34 +130,33 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"The Simic Combine uses magic to fuse different life forms together. In recent years, the Simic Combine has extended this research to humanoid subjects, magically transferring the traits of various animals into humans, elves, and vedalken. The goal of the Guardian Project is to build a Simic army of soldiers perfectly adapted to a variety of combat situations. These hyper-evolved specimens are called Simic hybrids, though they sometimes refer to themselves as guardians.",
+						{
+							"type": "entries",
+							"name": "Extensive Adaptation",
+							"entries": [
+								"A hybrid's biological enhancements can change its appearance drastically, though most hybrids retain their basic physical form. All are augmented with characteristics of animals, mostly aquatic, reptilian, or amphibian creatures. These include crab claws, squid tentacles, wings or fins like those of manta rays, translucent or camouflaged skin, or shark-like maws filled with sharp teeth.",
+								"Hybrids are the product of Simic magic. It's not impossible for a hybrid to leave the Simic Combine and join another guild, but the Simic would consider the individual a deserter. And the new guild might never fully welcome a hybrid who could easily be a Simic spy."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Simic Hybrid Names",
+							"entries": [
+								"A hybrid usually bears the name given by their human, elf, or vedalken parents. Some hybrids assume a new name after their transformation—a name chosen personally or by those who transformed them."
+							]
+						}
+					]
+				}
+			]
+		}
+	]
 }
-
-[
-	{
-		"type": "entries",
-		"entries": [
-			{
-				"type": "entries",
-				"entries": [
-					"The Simic Combine uses magic to fuse different life forms together. In recent years, the Simic Combine has extended this research to humanoid subjects, magically transferring the traits of various animals into humans, elves, and vedalken. The goal of the Guardian Project is to build a Simic army of soldiers perfectly adapted to a variety of combat situations. These hyper-evolved specimens are called Simic hybrids, though they sometimes refer to themselves as guardians.",
-					{
-						"type": "entries",
-						"name": "Extensive Adaptation",
-						"entries": [
-							"A hybrid's biological enhancements can change its appearance drastically, though most hybrids retain their basic physical form. All are augmented with characteristics of animals, mostly aquatic, reptilian, or amphibian creatures. These include crab claws, squid tentacles, wings or fins like those of manta rays, translucent or camouflaged skin, or shark-like maws filled with sharp teeth.",
-							"Hybrids are the product of Simic magic. It's not impossible for a hybrid to leave the Simic Combine and join another guild, but the Simic would consider the individual a deserter. And the new guild might never fully welcome a hybrid who could easily be a Simic spy."
-						]
-					},
-					{
-						"type": "entries",
-						"name": "Simic Hybrid Names",
-						"entries": [
-							"A hybrid usually bears the name given by their human, elf, or vedalken parents. Some hybrids assume a new name after their transformation—a name chosen personally or by those who transformed them."
-						]
-					}
-				]
-			}
-		]
-	}
-]

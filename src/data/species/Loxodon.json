@@ -106,43 +106,42 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"The humanoid elephants called loxodons are often oases of calm in the busy streets of Ravnica. They hum or chant in sonorous tones and move slowly or sit in perfect stillness. If provoked to action, loxodons are true terrors—bellowing with rage, trumpeting and flapping their ears. Their serene wisdom, fierce loyalty, and unwavering conviction are tremendous assets to their guilds.",
+						{
+							"type": "entries",
+							"name": "Lumbering Giants",
+							"entries": [
+								"Loxodons tower above most other humanoids, standing over 7 feet tall. They have the heads—trunks, tusks, ears, and faces—of elephants, and hulking bipedal bodies covered by thick, leathery skin. Each of their hands has four thick digits, and their feet are the flat-bottomed, oval-shaped feet of elephants.",
+								"Like that of an elephant, a loxodon's trunk is a useful appendage. In addition to providing a keen sense of smell, the trunk can be used to lift and carry even heavy objects. The trunk can be used to carry both food and liquid to the mouth and can even act as a snorkel."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Gifted Stoneworkers",
+							"entries": [
+								"Loxodons are tireless, patient artisans with an unrivaled intuition about their craft. Although they make nurturing spiritual leaders, their gift for stonework is so ingrained that they are often at a loss when they try to impart that knowledge to others. Among the Selesnya, it primarily falls to loxodons to build the guild's magnificent, cathedral-like arboretum structures."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Relentlessly Loyal",
+							"entries": [
+								"Loxodons believe in the value of community and life, and thus are most often found in the Selesnya Conclave. Some find fulfillment in the cause of order by joining the Orzhov Syndicate or the Azorius Senate.",
+								"Loxodons believe that the members of a group have a responsibility to look out for each other. Once they have joined a guild or bonded with other individuals in any capacity, loxodons devote themselves to maintaining that bond. They coordinate their efforts and are often willing to sacrifice themselves for the sake of the group. They expect reciprocal loyalty and commitment from the other members of their communities and can be severe in their disappointment when their trust is betrayed.",
+								"The primary difference between loxodons who join different guilds is their sense of the size of the community they belong to. For loxodons in the Selesnya Conclave, their community is the world and all living beings in it—everything valuable, meant to live in harmony, and interdependent. For Azorius loxodons, community primarily means a society of different peoples who need adherence to law and order so they can function together. For those in the Orzhov Syndicate, community means the syndicate alone, with its interests taking priority over those of any other group."
+							]
+						}
+					]
+				}
+			]
+		}
+	]
 }
-
-[
-	{
-		"type": "entries",
-		"entries": [
-			{
-				"type": "entries",
-				"entries": [
-					"The humanoid elephants called loxodons are often oases of calm in the busy streets of Ravnica. They hum or chant in sonorous tones and move slowly or sit in perfect stillness. If provoked to action, loxodons are true terrors—bellowing with rage, trumpeting and flapping their ears. Their serene wisdom, fierce loyalty, and unwavering conviction are tremendous assets to their guilds.",
-					{
-						"type": "entries",
-						"name": "Lumbering Giants",
-						"entries": [
-							"Loxodons tower above most other humanoids, standing over 7 feet tall. They have the heads—trunks, tusks, ears, and faces—of elephants, and hulking bipedal bodies covered by thick, leathery skin. Each of their hands has four thick digits, and their feet are the flat-bottomed, oval-shaped feet of elephants.",
-							"Like that of an elephant, a loxodon's trunk is a useful appendage. In addition to providing a keen sense of smell, the trunk can be used to lift and carry even heavy objects. The trunk can be used to carry both food and liquid to the mouth and can even act as a snorkel."
-						]
-					},
-					{
-						"type": "entries",
-						"name": "Gifted Stoneworkers",
-						"entries": [
-							"Loxodons are tireless, patient artisans with an unrivaled intuition about their craft. Although they make nurturing spiritual leaders, their gift for stonework is so ingrained that they are often at a loss when they try to impart that knowledge to others. Among the Selesnya, it primarily falls to loxodons to build the guild's magnificent, cathedral-like arboretum structures."
-						]
-					},
-					{
-						"type": "entries",
-						"name": "Relentlessly Loyal",
-						"entries": [
-							"Loxodons believe in the value of community and life, and thus are most often found in the Selesnya Conclave. Some find fulfillment in the cause of order by joining the Orzhov Syndicate or the Azorius Senate.",
-							"Loxodons believe that the members of a group have a responsibility to look out for each other. Once they have joined a guild or bonded with other individuals in any capacity, loxodons devote themselves to maintaining that bond. They coordinate their efforts and are often willing to sacrifice themselves for the sake of the group. They expect reciprocal loyalty and commitment from the other members of their communities and can be severe in their disappointment when their trust is betrayed.",
-							"The primary difference between loxodons who join different guilds is their sense of the size of the community they belong to. For loxodons in the Selesnya Conclave, their community is the world and all living beings in it—everything valuable, meant to live in harmony, and interdependent. For Azorius loxodons, community primarily means a society of different peoples who need adherence to law and order so they can function together. For those in the Orzhov Syndicate, community means the syndicate alone, with its interests taking priority over those of any other group."
-						]
-					}
-				]
-			}
-		]
-	}
-]

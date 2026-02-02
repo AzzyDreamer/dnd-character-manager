@@ -44,3 +44,227 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #6B0000;
 }
+
+/* ─── Tag links (5etools @tag references) ─── */
+.tag-link {
+  color: #DAA520;
+  border-bottom: 1px dotted rgba(218, 165, 32, 0.4);
+  transition: all 0.15s;
+  position: relative;
+}
+.tag-link:hover {
+  color: #f0c040;
+  border-bottom-color: #f0c040;
+}
+
+.tag-external-link {
+  color: #60a5fa;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+.tag-external-link:hover {
+  color: #93c5fd;
+}
+
+.tag-broken {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.tag-damage, .tag-dice, .tag-scaledamage, .tag-scaledice {
+  color: #f87171;
+  font-weight: 600;
+}
+
+.tag-dc {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.tag-hit, .tag-chance {
+  color: #34d399;
+  font-weight: 600;
+}
+
+.tag-filter {
+  color: #c4b5fd;
+}
+
+.tag-note {
+  font-style: italic;
+  color: #a1a1aa;
+}
+
+/* ─── Tag tooltip ─── */
+.tag-tooltip {
+  background: #1e1e2e;
+  border: 1px solid #DAA520;
+  border-radius: 8px;
+  padding: 10px 14px;
+  max-width: 380px;
+  min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.tag-tooltip-title {
+  color: #DAA520;
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+  font-family: 'Cinzel', serif;
+}
+
+.tag-tooltip-line {
+  color: #d1d5db;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ─── Entry renderer styles ─── */
+.entry-renderer {
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.entry-text {
+  margin-bottom: 0.5rem;
+}
+
+.entry-section {
+  margin-bottom: 0.75rem;
+}
+
+.entry-section-title {
+  color: #DAA520;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.entry-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.entry-list.list-hang {
+  list-style: none;
+  padding-left: 0;
+}
+
+.entry-list-item {
+  margin-bottom: 0.25rem;
+}
+
+.entry-item {
+  margin-bottom: 0.25rem;
+}
+
+.entry-item-name {
+  color: #DAA520;
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+.entry-item-text {
+  color: #d1d5db;
+}
+
+.entry-table-wrapper {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+}
+
+.entry-table-caption {
+  color: #DAA520;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.entry-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.entry-table th {
+  background: rgba(139, 0, 0, 0.3);
+  color: #DAA520;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 2px solid #DAA520;
+  font-weight: 600;
+}
+
+.entry-table td {
+  padding: 0.35rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+}
+
+.entry-table tr:hover td {
+  background: rgba(218, 165, 32, 0.05);
+}
+
+.entry-inset {
+  background: rgba(139, 0, 0, 0.1);
+  border-left: 3px solid #8B0000;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.entry-inset-readaloud {
+  background: rgba(218, 165, 32, 0.08);
+  border-left-color: #DAA520;
+}
+
+.entry-inset-title {
+  color: #DAA520;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  font-family: 'Cinzel', serif;
+}
+
+.entry-quote {
+  border-left: 3px solid rgba(218, 165, 32, 0.4);
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  font-style: italic;
+  color: #a1a1aa;
+}
+
+.entry-quote-by {
+  margin-top: 0.35rem;
+  font-style: normal;
+  color: #DAA520;
+  font-size: 0.8rem;
+}
+
+.entry-image {
+  margin: 0.75rem 0;
+  text-align: center;
+}
+
+.entry-image-img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.entry-image-caption {
+  color: #DAA520;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.entry-image-credit {
+  color: #6b7280;
+  font-size: 0.7rem;
+  font-style: italic;
+}
