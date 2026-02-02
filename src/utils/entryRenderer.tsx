@@ -1,5 +1,50 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { lookupByTag, getTagDisplayName, type RegistryEntry } from '../data/registry';
+
+// ─── Ленивый импорт registry (чтобы не грузить все JSON при старте) ───
+export interface RegistryEntry {
+  type: string;
+  name: string;
+  source?: string;
+  entries?: any[];
+  data: any;
+}
+
+let _lookupByTag: ((tagType: string, name: string) => RegistryEntry | undefined) | null = null;
+let _getTagDisplayName: ((tagType: string, content: string) => string) | null = null;
+let _registryLoading = false;
+let _registryReady = false;
+
+async function ensureRegistry(): Promise<void> {
+  if (_registryReady) return;
+  if (_registryLoading) return;
+  _registryLoading = true;
+  try {
+    const reg = await import('../data/registry');
+    _lookupByTag = reg.lookupByTag;
+    _getTagDisplayName = reg.getTagDisplayName;
+    _registryReady = true;
+  } catch (e) {
+    console.error('Failed to load registry:', e);
+  }
+  _registryLoading = false;
+}
+
+// Инициализируем загрузку при первом использовании
+function lookupByTag(tagType: string, name: string): RegistryEntry | undefined {
+  if (!_registryReady) {
+    ensureRegistry();
+    return undefined;
+  }
+  return _lookupByTag?.(tagType, name);
+}
+
+function getTagDisplayName(tagType: string, content: string): string {
+  if (_getTagDisplayName) return _getTagDisplayName(tagType, content);
+  // Fallback: просто возвращаем имя
+  const parts = content.split('|');
+  if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
+  return parts[0].trim();
+}
 
 // ─── Список неработающих ссылок (собирается при рендеринге) ───
 const brokenLinks: { tag: string; content: string; context: string }[] = [];

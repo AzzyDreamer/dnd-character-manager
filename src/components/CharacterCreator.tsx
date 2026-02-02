@@ -18,8 +18,22 @@ import {
 import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import { RACE_REGISTRY, type RaceDefinition, type SubraceDefinition } from '../data/races';
 import { BACKGROUND_REGISTRY, type BackgroundDefinition } from '../data/backgrounds';
-import { getSpellsByClass, SCHOOL_NAMES, type SpellData } from '../data/spells';
 import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search } from 'lucide-react';
+
+// Типы заклинаний (без прямого импорта данных — данные загрузятся лениво)
+interface SpellData {
+  name: string;
+  level: number;
+  school: string;
+  duration?: { type: string; concentration?: boolean; duration?: { type: string; amount: number } }[];
+  concentration?: boolean;
+  [key: string]: any;
+}
+
+const SCHOOL_NAMES: Record<string, string> = {
+  A: 'Ограждение', C: 'Вызов', D: 'Прорицание', E: 'Очарование',
+  V: 'Воплощение', I: 'Иллюзия', N: 'Некромантия', T: 'Преобразование',
+};
 
 interface CharacterCreatorProps {
   onSave: (character: Character) => void;
@@ -118,15 +132,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return abilityScores[ability] + (activeBonuses[ability] || 0);
   };
 
-  // Доступные заклинания для класса
-  const availableSpells = useMemo(() => {
-    if (!selectedClass?.spellcaster) return { cantrips: [] as SpellData[], leveled: [] as SpellData[] };
-    const className = selectedClass.name;
-    const allClassSpells = getSpellsByClass(className);
-    const cantrips = allClassSpells.filter(s => s.level === 0);
-    const leveled = allClassSpells.filter(s => s.level === 1); // Уровень 1 для 1-го уровня
-    return { cantrips, leveled };
+  // Доступные заклинания для класса (загружаются лениво)
+  const [spellsLoaded, setSpellsLoaded] = useState(false);
+  const [loadedSpells, setLoadedSpells] = useState<SpellData[]>([]);
+
+  React.useEffect(() => {
+    if (!selectedClass?.spellcaster) return;
+    let cancelled = false;
+    import('../data/spells').then(mod => {
+      if (cancelled) return;
+      const spells = mod.getSpellsByClass(selectedClass.name);
+      setLoadedSpells(spells);
+      setSpellsLoaded(true);
+    });
+    return () => { cancelled = true; };
   }, [selectedClass]);
+
+  const availableSpells = useMemo(() => {
+    if (!selectedClass?.spellcaster || !spellsLoaded) return { cantrips: [] as SpellData[], leveled: [] as SpellData[] };
+    const cantrips = loadedSpells.filter(s => s.level === 0);
+    const leveled = loadedSpells.filter(s => s.level === 1);
+    return { cantrips, leveled };
+  }, [selectedClass, spellsLoaded, loadedSpells]);
 
   const isSpellcaster = selectedClass?.spellcaster ?? false;
   const maxCantrips = 2;

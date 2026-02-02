@@ -1,12 +1,14 @@
-import { useState, Component } from 'react';
+import { useState, Component, Suspense, lazy } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
 import { CharacterList } from './components/CharacterList';
-import { Glossary } from './components/Glossary';
 import { importCharacter } from './utils/storage';
 import { PlusCircle, BookOpen, ArrowLeft, Library } from 'lucide-react';
+
+// Ленивая загрузка Glossary (тянет за собой ~3500 JSON файлов)
+const Glossary = lazy(() => import('./components/Glossary').then(m => ({ default: m.Glossary })));
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -143,7 +145,13 @@ function AppContent() {
               onCancel={() => setCurrentView('main')}
             />
           ) : currentView === 'glossary' ? (
-            <Glossary onBack={() => setCurrentView('main')} />
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-64">
+                <div className="text-white text-xl font-medieval">Загрузка базы знаний...</div>
+              </div>
+            }>
+              <Glossary onBack={() => setCurrentView('main')} />
+            </Suspense>
           ) : (
             <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
               {/* Боковая панель со списком персонажей */}
