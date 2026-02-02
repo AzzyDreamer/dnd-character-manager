@@ -19,7 +19,10 @@ async function ensureRegistry(): Promise<void> {
   if (_registryLoading) return;
   _registryLoading = true;
   try {
+    // Импортируем registry (теперь это лёгкий модуль без top-level импортов)
     const reg = await import('../data/registry');
+    // Инициализируем registry (загружает все модули данных)
+    await reg.initRegistry();
     _lookupByTag = reg.lookupByTag;
     _getTagDisplayName = reg.getTagDisplayName;
     _registryReady = true;

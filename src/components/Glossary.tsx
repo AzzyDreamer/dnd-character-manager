@@ -54,33 +54,38 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   const [data, setData] = useState<LoadedData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // ─── Ленивая загрузка всех модулей данных ───
+  // ─── Ленивая загрузка всех модулей данных (напрямую, без registry) ───
   useEffect(() => {
     let cancelled = false;
 
+    // Загружаем каждый модуль данных отдельно
     Promise.all([
-      import('../data/registry'),
       import('../data/spells'),
       import('../data/feats'),
       import('../data/species'),
+      import('../data/conditionsdiseases'),
+      import('../data/senses'),
+      import('../data/skills'),
       import('../data/variantrule'),
       import('../data/optionalfeatures'),
-      import('../data/skills'),
+      import('../data/backgrounds/jsonBackgrounds'),
+      import('../data/items-base'),
+      import('../data/items'),
       import('../utils/entryRenderer'),
-    ]).then(([registry, spells, feats, species, variantrule, optfeatures, skills, entryRenderer]) => {
+    ]).then(([spells, feats, species, conditions, senses, skills, variantrule, optfeatures, backgrounds, itemsBase, items, entryRenderer]) => {
       if (cancelled) return;
       setData({
-        ALL_SPELLS: registry.ALL_SPELLS,
-        ALL_FEATS: registry.ALL_FEATS,
-        ALL_SPECIES: registry.ALL_SPECIES,
-        ALL_CONDITIONS: registry.ALL_CONDITIONS,
-        ALL_SENSES: registry.ALL_SENSES,
-        ALL_SKILLS: registry.ALL_SKILLS,
-        ALL_VARIANT_RULES: registry.ALL_VARIANT_RULES,
-        ALL_OPTIONAL_FEATURES: registry.ALL_OPTIONAL_FEATURES,
-        ALL_JSON_BACKGROUNDS: registry.ALL_JSON_BACKGROUNDS,
-        ALL_ITEMS_BASE: registry.ALL_ITEMS_BASE,
-        ITEM_TEMPLATES: registry.ITEM_TEMPLATES,
+        ALL_SPELLS: spells.ALL_SPELLS,
+        ALL_FEATS: feats.ALL_FEATS,
+        ALL_SPECIES: species.ALL_SPECIES,
+        ALL_CONDITIONS: conditions.ALL_CONDITIONS,
+        ALL_SENSES: senses.ALL_SENSES,
+        ALL_SKILLS: skills.ALL_SKILLS,
+        ALL_VARIANT_RULES: variantrule.ALL_VARIANT_RULES,
+        ALL_OPTIONAL_FEATURES: optfeatures.ALL_OPTIONAL_FEATURES,
+        ALL_JSON_BACKGROUNDS: backgrounds.ALL_JSON_BACKGROUNDS,
+        ALL_ITEMS_BASE: itemsBase.ALL_ITEMS_BASE,
+        ITEM_TEMPLATES: items.ITEM_TEMPLATES,
         SCHOOL_NAMES: spells.SCHOOL_NAMES,
         FEAT_CATEGORY_NAMES: feats.FEAT_CATEGORY_NAMES,
         SIZE_NAMES: species.SIZE_NAMES,
