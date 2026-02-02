@@ -1,17 +1,7 @@
-// Центральный реестр всех данных — обеспечивает поиск по типу тега и имени
-import { ALL_SPELLS, getSpellByName, type SpellData } from './spells';
-import { ALL_FEATS, getFeatByName, type FeatData } from './feats';
-import { ALL_SPECIES, getSpeciesByName, type SpeciesData } from './species';
-import { ALL_CONDITIONS, getConditionByName, type ConditionDiseaseData } from './conditionsdiseases';
-import { ALL_SENSES, getSenseByName, type SenseData } from './senses';
-import { ALL_SKILLS, getSkillByName, type SkillData } from './skills';
-import { ALL_VARIANT_RULES, getVariantRuleByName, type VariantRuleData } from './variantrule';
-import { ALL_OPTIONAL_FEATURES, getOptionalFeatureByName, type OptionalFeatureData } from './optionalfeatures';
-import { ALL_JSON_BACKGROUNDS, getJsonBackgroundByName, type JsonBackgroundData } from './backgrounds/jsonBackgrounds';
-import { ALL_ITEMS_BASE, getItemBaseByName, type ItemBaseData } from './items-base';
-import { ITEM_TEMPLATES, getItemTemplate, type ItemTemplate } from './items';
+// Центральный реестр всех данных — ленивая загрузка модулей
+// НЕ импортирует данные на верхнем уровне, чтобы не грузить ~3500 JSON в dev mode
 
-// Тип для результата поиска
+// ─── Типы (только описания, без runtime-импортов) ───
 export interface RegistryEntry {
   type: string;
   name: string;
@@ -20,76 +10,129 @@ export interface RegistryEntry {
   data: any;
 }
 
-// Тип тега → функция поиска
+// ─── Кеш загруженных модулей ───
+let _spells: any = null;
+let _feats: any = null;
+let _species: any = null;
+let _conditions: any = null;
+let _senses: any = null;
+let _skills: any = null;
+let _variantrule: any = null;
+let _optfeatures: any = null;
+let _backgrounds: any = null;
+let _itemsBase: any = null;
+let _items: any = null;
+
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+// ─── Инициализация: загружает все модули данных ───
+export async function initRegistry(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    try {
+      // Загружаем модули параллельно
+      const results = await Promise.all([
+        import('./spells'),
+        import('./feats'),
+        import('./species'),
+        import('./conditionsdiseases'),
+        import('./senses'),
+        import('./skills'),
+        import('./variantrule'),
+        import('./optionalfeatures'),
+        import('./backgrounds/jsonBackgrounds'),
+        import('./items-base'),
+        import('./items'),
+      ]);
+
+      [_spells, _feats, _species, _conditions, _senses, _skills,
+       _variantrule, _optfeatures, _backgrounds, _itemsBase, _items] = results;
+
+      _initialized = true;
+    } catch (e) {
+      console.error('Failed to initialize registry:', e);
+      _initializing = null;
+      throw e;
+    }
+  })();
+
+  return _initializing;
+}
+
+export function isInitialized(): boolean {
+  return _initialized;
+}
+
+// ─── Поиск по типу тега ───
 export function lookupByTag(tagType: string, name: string): RegistryEntry | undefined {
-  // Убираем source часть из имени (формат: "Name|Source|DisplayName")
+  if (!_initialized) return undefined;
+
   const parts = name.split('|');
   const entityName = parts[0].trim();
-  // const source = parts[1]?.trim(); // можно использовать для фильтрации
 
   switch (tagType) {
     case 'spell': {
-      const spell = getSpellByName(entityName);
+      const spell = _spells.getSpellByName(entityName);
       if (spell) return { type: 'spell', name: spell.name, source: spell.source, entries: spell.entries, data: spell };
       break;
     }
     case 'feat': {
-      const feat = getFeatByName(entityName);
+      const feat = _feats.getFeatByName(entityName);
       if (feat) return { type: 'feat', name: feat.name, source: feat.source, entries: feat.entries, data: feat };
       break;
     }
     case 'condition': {
-      const cond = getConditionByName(entityName);
+      const cond = _conditions.getConditionByName(entityName);
       if (cond) return { type: 'condition', name: cond.name, source: cond.source, entries: cond.entries, data: cond };
       break;
     }
     case 'disease': {
-      const dis = getConditionByName(entityName);
+      const dis = _conditions.getConditionByName(entityName);
       if (dis) return { type: 'disease', name: dis.name, source: dis.source, entries: dis.entries, data: dis };
       break;
     }
     case 'skill': {
-      const skill = getSkillByName(entityName);
+      const skill = _skills.getSkillByName(entityName);
       if (skill) return { type: 'skill', name: skill.name, source: skill.source, entries: skill.entries, data: skill };
       break;
     }
     case 'sense': {
-      const sense = getSenseByName(entityName);
+      const sense = _senses.getSenseByName(entityName);
       if (sense) return { type: 'sense', name: sense.name, source: sense.source, entries: sense.entries, data: sense };
       break;
     }
     case 'variantrule': {
-      // Поддержка формата "Name [Alias]|Source|Display"
       let ruleName = entityName;
       const bracketIdx = ruleName.indexOf(' [');
       if (bracketIdx > -1) ruleName = ruleName.substring(0, bracketIdx);
-      const rule = getVariantRuleByName(ruleName);
+      const rule = _variantrule.getVariantRuleByName(ruleName);
       if (rule) return { type: 'variantrule', name: rule.name, source: rule.source, entries: rule.entries, data: rule };
       break;
     }
     case 'optfeature': {
-      const opt = getOptionalFeatureByName(entityName);
+      const opt = _optfeatures.getOptionalFeatureByName(entityName);
       if (opt) return { type: 'optfeature', name: opt.name, source: opt.source, entries: opt.entries, data: opt };
       break;
     }
     case 'item': {
-      // Сначала ищем в items (loaded from items/index.ts)
       const itemId = entityName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      const item = getItemTemplate(itemId);
+      const item = _items.getItemTemplate(itemId);
       if (item) return { type: 'item', name: item.name, source: item.raw.source, entries: item.raw.entries, data: item };
-      // Затем в items-base
-      const itemBase = getItemBaseByName(entityName);
+      const itemBase = _itemsBase.getItemBaseByName(entityName);
       if (itemBase) return { type: 'item', name: itemBase.name, source: itemBase.source, entries: itemBase.entries, data: itemBase };
       break;
     }
     case 'background': {
-      const bg = getJsonBackgroundByName(entityName);
+      const bg = _backgrounds.getJsonBackgroundByName(entityName);
       if (bg) return { type: 'background', name: bg.name, source: bg.source, entries: bg.entries, data: bg };
       break;
     }
     case 'race':
     case 'species': {
-      const sp = getSpeciesByName(entityName);
+      const sp = _species.getSpeciesByName(entityName);
       if (sp) return { type: 'species', name: sp.name, source: sp.source, entries: sp.entries, data: sp };
       break;
     }
@@ -99,8 +142,7 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
     case 'creature':
     case 'card':
     case 'itemProperty': {
-      // Пытаемся найти в variant rules (actions часто описаны там)
-      const actionRule = getVariantRuleByName(entityName);
+      const actionRule = _variantrule.getVariantRuleByName(entityName);
       if (actionRule) return { type: tagType, name: actionRule.name, source: actionRule.source, entries: actionRule.entries, data: actionRule };
       break;
     }
@@ -111,58 +153,32 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
   return undefined;
 }
 
-// Получить отображаемое имя тега
+// ─── Получить отображаемое имя тега (работает без инициализации) ───
 export function getTagDisplayName(tagType: string, content: string): string {
   const parts = content.split('|');
-  // Если есть третья часть — это display name
   if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
-  // Иначе берём первую часть (имя)
   let name = parts[0].trim();
-  // Удаляем часть в квадратных скобках: "Name [Alias]" → "Alias" или "Name"
   const bracketMatch = name.match(/^(.+?)\s*\[(.+?)\]$/);
   if (bracketMatch) {
-    return bracketMatch[2]; // Возвращаем alias
+    return bracketMatch[2];
   }
   return name;
 }
 
-// Экспорт всех коллекций
-export {
-  ALL_SPELLS, getSpellByName, type SpellData,
-  ALL_FEATS, getFeatByName, type FeatData,
-  ALL_SPECIES, getSpeciesByName, type SpeciesData,
-  ALL_CONDITIONS, getConditionByName, type ConditionDiseaseData,
-  ALL_SENSES, getSenseByName, type SenseData,
-  ALL_SKILLS, getSkillByName, type SkillData,
-  ALL_VARIANT_RULES, getVariantRuleByName, type VariantRuleData,
-  ALL_OPTIONAL_FEATURES, getOptionalFeatureByName, type OptionalFeatureData,
-  ALL_JSON_BACKGROUNDS, getJsonBackgroundByName, type JsonBackgroundData,
-  ALL_ITEMS_BASE, getItemBaseByName, type ItemBaseData,
-  ITEM_TEMPLATES, getItemTemplate, type ItemTemplate,
-};
-
-// Типы категорий для глоссария
-export type GlossaryCategory =
-  | 'spells'
-  | 'feats'
-  | 'species'
-  | 'backgrounds'
-  | 'conditions'
-  | 'senses'
-  | 'skills'
-  | 'rules'
-  | 'optionalfeatures'
-  | 'items';
-
-export const GLOSSARY_CATEGORIES: { key: GlossaryCategory; label: string; count: () => number }[] = [
-  { key: 'spells', label: 'Заклинания', count: () => ALL_SPELLS.length },
-  { key: 'feats', label: 'Черты', count: () => ALL_FEATS.length },
-  { key: 'species', label: 'Виды', count: () => ALL_SPECIES.length },
-  { key: 'backgrounds', label: 'Предыстории', count: () => ALL_JSON_BACKGROUNDS.length },
-  { key: 'conditions', label: 'Состояния и болезни', count: () => ALL_CONDITIONS.length },
-  { key: 'senses', label: 'Чувства', count: () => ALL_SENSES.length },
-  { key: 'skills', label: 'Навыки', count: () => ALL_SKILLS.length },
-  { key: 'rules', label: 'Правила', count: () => ALL_VARIANT_RULES.length },
-  { key: 'optionalfeatures', label: 'Особые способности', count: () => ALL_OPTIONAL_FEATURES.length },
-  { key: 'items', label: 'Предметы', count: () => ITEM_TEMPLATES.length + ALL_ITEMS_BASE.length },
-];
+// ─── Доступ к данным (после инициализации) ───
+export function getLoadedModules() {
+  if (!_initialized) return null;
+  return {
+    spells: _spells,
+    feats: _feats,
+    species: _species,
+    conditions: _conditions,
+    senses: _senses,
+    skills: _skills,
+    variantrule: _variantrule,
+    optfeatures: _optfeatures,
+    backgrounds: _backgrounds,
+    itemsBase: _itemsBase,
+    items: _items,
+  };
+}
