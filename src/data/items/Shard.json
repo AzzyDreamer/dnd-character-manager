@@ -1,0 +1,11 @@
+{
+	"name": "Shard",
+	"source": "WDH",
+	"page": 169,
+	"type": "$C",
+	"rarity": "none",
+	"value": 10,
+	"entries": [
+		"Silver coin, slightly smaller than the nib (1 shard = 10 {@item nib|wdh|nibs})"
+	]
+}

@@ -1,0 +1,341 @@
+{
+	"name": "Burning Hands",
+	"source": "XPHB",
+	"page": 248,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "cone",
+		"distance": {
+			"type": "feet",
+			"amount": 15
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"A thin sheet of flames shoots forth from you. Each creature in a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} makes a Dexterity saving throw, taking {@damage 3d6} Fire damage on a failed save or half as much damage on a successful one.",
+		"Flammable objects in the {@variantrule Cone [Area of Effect]|XPHB|Cone} that aren't being worn or carried start {@hazard burning|XPHB}."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 3d6|1-9|1d6} for each spell slot level above 1."
+			]
+		}
+	],
+	"damageInflict": [
+		"fire"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"OBJ"
+	],
+	"areaTags": [
+		"N"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Light Domain",
+					"shortName": "Light",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of Wildfire",
+					"shortName": "Wildfire",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "XPHB",
+					"subSubclass": "Arid Land"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Monk",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Way of the Sun Soul",
+					"shortName": "Sun Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Efreeti"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Fiend Patron",
+					"shortName": "Fiend",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Light Domain",
+					"shortName": "Light",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of Wildfire",
+					"shortName": "Wildfire",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Monk",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Way of the Sun Soul",
+					"shortName": "Sun Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Fiend",
+					"shortName": "Fiend",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Efreeti"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Flamekin",
+			"source": "LFL"
+		},
+		{
+			"name": "Genasi (Fire)",
+			"source": "EEPC",
+			"baseName": "Genasi",
+			"baseSource": "EEPC"
+		},
+		{
+			"name": "Genasi (Fire)",
+			"source": "MPMM",
+			"baseName": "Genasi",
+			"baseSource": "MPMM"
+		},
+		{
+			"name": "Tiefling (Mephistopheles)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Variant; Hellfire)",
+			"source": "SCAG",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Sweeping Cinder Strike",
+			"source": "PHB",
+			"featureType": [
+				"ED"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Rakdos Cultist",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Rune Shaper",
+			"source": "BGG"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Boon of the Fire Soul",
+			"source": "DMG"
+		}
+	]
+}

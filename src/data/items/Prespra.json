@@ -1,0 +1,18 @@
+{
+	"name": "Prespra",
+	"source": "FRAiF",
+	"page": 237,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 30000,
+	"poison": true,
+	"entries": [
+		"A creature subjected to Prespra must succeed on a {@dc 11} Constitution saving throw or take 3 ({@dice 1d6}) Poison damage and have the {@condition Poisoned|XPHB} condition. The creature also has the {@condition Blinded|XPHB} condition while {@condition Poisoned|XPHB} in this way. The creature repeats the save at the start of each of its turns, taking 3 ({@dice 1d6}) Poison damage on a failed save. On a successful save, the effect ends for the creature."
+	],
+	"poisonTypes": [
+		"ingested"
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

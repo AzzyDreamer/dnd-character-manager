@@ -1,0 +1,322 @@
+{
+	"name": "Minor Illusion",
+	"source": "XPHB",
+	"page": 298,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 0,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"s": true,
+		"m": "a bit of fleece"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You create a sound or an image of an object within range that lasts for the duration. See the descriptions below for the effects of each. The illusion ends if you cast this spell again.",
+		"If a creature takes a {@action Study|XPHB} action to examine the sound or image, the creature can determine that it is an illusion with a successful Intelligence ({@skill Investigation|XPHB}) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.",
+		{
+			"type": "entries",
+			"name": "Sound",
+			"entries": [
+				"If you create a sound, its volume can range from a whisper to a scream. It can be your voice, someone else's voice, a lion's roar, a beating of drums, or any other sound you choose. The sound continues unabated throughout the duration, or you can make discrete sounds at different times before the spell ends."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Image",
+			"entries": [
+				"If you create an image of an object—such as a chair, muddy footprints, or a small chest—it must be no larger than a 5-foot {@variantrule Cube [Area of Effect]|XPHB|Cube}. The image can't create sound, light, smell, or any other sensory effect. Physical interaction with the image reveals it to be an illusion, since things can pass through it."
+			]
+		}
+	],
+	"abilityCheck": [
+		"intelligence"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Monk",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Warrior of Shadow",
+					"shortName": "Shadow",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Scion of the Three",
+					"shortName": "Scion of the Three",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Illusionist",
+					"shortName": "Illusionist",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Monk",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Way of Shadow",
+					"shortName": "Shadow",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "School of Illusion",
+					"shortName": "Illusion",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf (High)",
+			"source": "PHB",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Gnome (Forest)",
+			"source": "PHB",
+			"baseName": "Gnome",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf (Mark of Shadow)",
+			"source": "ERLW",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Half-Elf (Variant; Moon Elf or Sun Elf Descent)",
+			"source": "SCAG",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Kobold",
+			"source": "MPMM"
+		},
+		{
+			"name": "Merfolk (Ixalan; Blue)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Cosi Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Ula Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Tiefling (Glasya)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Shadow",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Cold Caster",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Initiate of High Sorcery",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Scion of the Outer Planes",
+			"source": "SatO"
+		}
+	]
+}

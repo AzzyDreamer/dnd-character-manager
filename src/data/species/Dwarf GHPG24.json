@@ -1,0 +1,123 @@
+{
+	"name": "Dwarf",
+	"source": "GrimHollowPG24",
+	"page": 14,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"age": {
+		"mature": 50,
+		"max": 350
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (Dwarves stand between 4 and 5 feet tall and average about 150 pounds.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. Your {@variantrule Speed|XPHB} is not reduced by wearing heavy armor. You can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Dwarves physically mature by their late teens, but are considered young until they reach the age of 50. On average, they live about 350 years."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Dwarf Traits",
+			"entries": [
+				"Dwarves are known for their natural resilience and for the degree to which they have adapted to living in the deeps beneath hills and mountains, where few other folks can thrive.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Damage Resistance|GrimHollowPG24} (Poison)",
+								"{@optfeature Toughness|GrimHollowPG24}",
+								"{@optfeature Weapon Aptitude|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Darkvision|GrimHollowPG24}",
+								"{@optfeature Poison Resilience|GrimHollowPG24}",
+								"{@optfeature Steady|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Artisanal Focus|GrimHollowPG24} ({@item Brewer's Supplies|XPHB}, {@item Mason's Tools|XPHB}, or {@item Smith's Tools|XPHB})",
+								"{@optfeature Crafter's Eye|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Ancient and dauntless as the mountains they call home, the dwarves first appeared in Etharis long before recorded history. As talented and diligent crafters, the dwarves forged their kingdoms in the valleys and foothills of the two oldest mountains on the continent: the Rock-Teeth and the Grey Spine. Beneath these vast ranges ran rich veins of mithral and gold. The dwarves who mined and crafted these metals quickly became famous across Etharis.",
+	"During the wars of the Era of Expansion, the dwarves barricaded themselves within their greatest capitals: the tiered city of Stehlenwald and the mountain stronghold of Grabenstein. Both fortress cities were once thought impregnable. The dwarves of Grabenstein fought valiantly for their homelands, withstanding multiple sieges until eventually their walls were ruined, their thanedoms uprooted, and their rich mines claimed by human warlords. These conquerors' descendants would later lay the groundwork for the Bürach Empire.",
+	"The dwarven kingdom of Stehlenwald endured. Rather than share the fate of their northern cousins, the Stehlenwald dwarves dug deeper into the heart of the mountain. There, miners laid eyes upon a new metal, impenetrable to the weapons of their enemies: adamantine. With armor and weapons crafted from adamantine, dwarf battalions managed to push the invaders back to their homelands, but at a great cost. The population of Stehlenwald was decimated by war and famine. Isolation within the mountains was the only option for survival for those who remained.",
+	"By the time of the rise of human kingdoms, the proud dwarves of Stehlenwald had recovered from war. They emerged from the mountains at last to discover the political landscape had dramatically changed, leaving them surrounded and vastly outnumbered by the armies of the Bürach Empire. Realizing there was only one way for his people to survive and prosper, the dwarf king struck a deal with the Bürach Empire. The dwarves would surrender their lands and become members of the empire, as long as they could govern themselves independently.",
+	"Great numbers of dwarves still cannot forgive the great loss of life and sovereignty their ancestors once endured. It's a common phrase in Etharis that it's easier to move a mountain than a dwarf. But though deep wounds still exist in the Bürach Empire, dwarves have become among the most prosperous and accepted peoples in all nations of Etharis.",
+	{
+		"type": "entries",
+		"name": "Common Heritages",
+		"entries": [
+			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+		]
+	}
+]

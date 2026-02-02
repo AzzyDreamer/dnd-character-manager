@@ -1,0 +1,84 @@
+{
+	"name": "Creeping Rot",
+	"source": "CrookedMoon24",
+	"page": 127,
+	"level": 3,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 90
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You send tendrils of black and gray rot toward a target that you can see within range. Three tendrils then leap from that target to as many as three other targets of your choice, each of which must be within 30 feet of the first target. A target can be a creature or a nonmagical plant that isn't a creature, such as a tree or shrub. In either case, each can be targeted by only one of the tendrils.",
+		"A target that is a creature must make a Constitution saving throw. On a failed save, it takes {@damage 3d8} Necrotic damage and has the {@condition Poisoned|XPHB} condition for the duration. On a successful save, it takes half as much damage only. A creature {@condition Poisoned|XPHB} in this way takes {@damage 1d8} Necrotic damage at the start of each of its turns. A {@condition Poisoned|XPHB} creature repeats the save at the end of each of its turns, ending the spell on itself on a success.",
+		"A Plant creature automatically fails the initial save, and a nonmagical plant that isn't a creature simply withers and dies."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"One additional tendril leaps from the first target to another target for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"poisoned"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Creeping-Rot.webp"
+}

@@ -1,0 +1,32 @@
+{
+	"name": "Infernal Plate Armor",
+	"source": "CoA",
+	"page": 268,
+	"baseItem": "plate armor|PHB",
+	"type": "HA",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"curse": true,
+	"weight": 65,
+	"ac": 18,
+	"strength": "15",
+	"bonusAc": "+2",
+	"stealth": true,
+	"entries": [
+		"While wearing this armor, you gain a +2 bonus to AC.",
+		{
+			"type": "entries",
+			"name": "Curse",
+			"entries": [
+				"Once you wear this armor, and are attuned to it, you can't remove it. Only the {@spell Remove Curse} spell allows you to end the attunement and finally doff it. While wearing the armor, you're vulnerable to the following damage types: force, lightning, psychic, radiant, and thunder."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Corrupting",
+			"entries": [
+				"This item corrupts. See the \"{@adventure Infernal Item Corruption|CoA|16|Infernal Item Corruption}\" section."
+			]
+		}
+	]
+}

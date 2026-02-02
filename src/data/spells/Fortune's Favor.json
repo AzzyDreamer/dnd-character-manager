@@ -1,0 +1,112 @@
+{
+	"name": "Fortune's Favor",
+	"source": "EGW",
+	"page": 186,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a white pearl worth at least 100 gp, which the spell consumes",
+			"cost": 10000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You impart latent luck to yourself or one willing creature you can see within range. When the chosen creature makes an attack roll, an ability check, or a saving throw before the spell ends, it can dismiss this spell on itself to roll an additional {@dice d20} and choose which of the {@dice d20}s to use. Alternatively, when an attack roll is made against the chosen creature, it can dismiss this spell on itself to roll a {@dice d20} and choose which of the {@dice d20}s to use, the one it rolled or the one the attacker rolled.",
+		"If the original {@dice d20} roll has advantage or disadvantage, the creature rolls the additional {@dice d20} after advantage or disadvantage has been applied to the original roll."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd."
+			]
+		}
+	],
+	"miscTags": [
+		"SCT",
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		}
+	]
+}

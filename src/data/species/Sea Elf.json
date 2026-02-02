@@ -1,0 +1,175 @@
+{
+	"name": "Sea Elf",
+	"source": "MPMM",
+	"page": 30,
+	"lineage": "VRGR",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"creatureTypeTags": [
+		"elf"
+	],
+	"size": [
+		"M"
+	],
+	"speed": {
+		"walk": 30,
+		"swim": true
+	},
+	"age": {
+		"max": 750
+	},
+	"darkvision": 60,
+	"traitTags": [
+		"Amphibious",
+		"Improved Resting",
+		"Tool Proficiency",
+		"Weapon Proficiency"
+	],
+	"skillProficiencies": [
+		{
+			"perception": true
+		}
+	],
+	"resist": [
+		"cold"
+	],
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Creature Type",
+			"entries": [
+				"You are a Humanoid. You are also considered an elf for any prerequisite or effect that requires you to be an elf."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Speed",
+			"entries": [
+				"Your walking speed is 30 feet, and you have a swimming speed equal to your walking speed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Child of the Sea",
+			"entries": [
+				"You can breathe air and water, and you have resistance to cold damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Darkvision",
+			"entries": [
+				"You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fey Ancestry",
+			"entries": [
+				"You have advantage on saving throws you make to avoid or end the {@condition charmed} condition on yourself."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Friend of the Sea",
+			"entries": [
+				"Aquatic animals have an extraordinary affinity with your people. You can communicate simple ideas to any Beast that has a swimming speed. It can understand your words, though you have no special ability to understand it in return."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Keen Senses",
+			"entries": [
+				"You have proficiency in the {@skill Perception} skill."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Trance",
+			"entries": [
+				"You don't need to sleep, and magic can't put you to sleep. You can finish a long rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.",
+				"Whenever you finish this trance, you can gain two proficiencies that you don't have, each one with a {@book weapon|phb|5|weapons} or a {@book tool|phb|5|tools} of your choice selected from the Player's Handbook. You mystically acquire these proficiencies by drawing them from shared elven memory, and you retain them until you finish your next long rest."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"anyStandard": 1
+		}
+	]
+}
+
+[
+	"Sea elves fell in love with the wild beauty of the ocean in the earliest days of the multiverse. While other elves traveled from realm to realm, sea elves navigated the currents and explored the waters of many worlds. Today these elves can be found wherever oceans exist, as well as in the Elemental Plane of Water.",
+	"Like other elves, sea elves can live to be over 750 years old.",
+	{
+		"type": "entries",
+		"entries": [
+			{
+				"type": "entries",
+				"entries": [
+					{
+						"type": "inset",
+						"page": 30,
+						"name": "Elves of Many Realms",
+						"entries": [
+							"Created by the god {@deity Corellon Larethian|Elven|MTF|Corellon}, the first elves were Fey beings who cavorted on various planes of existence, changing their physical forms at will. Outside the glory of Arvandor, their favorite place was the feywild—a realm of unbridled passion. It was to that place of splendors that elves fled after they were exiled from {@deity Corellon Larethian|Elven|MTF|Corellon's} presence for plotting with their god's rival, {@deity Lolth|Drow|MTF}. And it was there that they transformed from Fey creatures into Humanoids and lost their ability to shape-shift at will. Afterward, they often wept as they realized what they had lost, their sorrow made even deeper by the Feywild's influence. But in the Feywild, they also discovered the potential joys of being people of fixed forms, and they rediscovered hope once they renounced {@deity Lolth|Drow|MTF|Lolth's} treachery.",
+							"Most elves eventually spread from the Feywild to other worlds, as wanderlust and curiosity drove them to the far reaches of the multiverse. In those other worlds, elves developed the physical forms now associated with them. Because of their original mutable nature, each group of elves mystically took on characteristics of the environment with which they bonded, whether forests ({@race Elf (Wood)|PHB|wood elves}), fey crossings in the Material Plane ({@race Elf (High)|PHB|high elves}), the Underdark ({@race Elf (Drow)|PHB|drow}), the Shadowfell ({@race shadar-kai|MPMM}), the Feywild ({@race eladrin|MPMM}), or oceans ({@race sea elf|MPMM|sea elves}).",
+							"In some places, {@deity Corellon Larethian|Elven|MTF|Corellon} has passed from elves' memory, but the god's blood flows within them still, even if they know nothing of its source. That blood is what causes them to evolve after spending centuries connected to a particular environment, so it is only a matter of time before other kinds of elves emerge."
+						]
+					}
+				]
+			}
+		]
+	}
+]

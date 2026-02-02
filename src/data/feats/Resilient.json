@@ -1,0 +1,51 @@
+{
+	"name": "Resilient",
+	"source": "XPHB",
+	"page": 206,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				],
+				"amount": 1,
+				"entry": "Choose one ability in which you lack saving throw proficiency. Increase the chosen ability score by 1, to a maximum of 20."
+			}
+		}
+	],
+	"savingThrowProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Saving Throw Proficiency",
+			"entries": [
+				"You gain saving throw proficiency with the chosen ability."
+			]
+		}
+	]
+}

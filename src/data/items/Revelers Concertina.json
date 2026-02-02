@@ -1,0 +1,26 @@
+{
+	"name": "Reveler's Concertina",
+	"source": "TCE",
+	"page": 134,
+	"type": "INS",
+	"rarity": "rare",
+	"reqAttune": "by a bard",
+	"reqAttuneTags": [
+		{
+			"class": "bard"
+		}
+	],
+	"wondrous": true,
+	"bonusSpellSaveDc": "+2",
+	"entries": [
+		"While holding this concertina, you gain a +2 bonus to the saving throw DC of your bard spells.",
+		"As an action, you can use the concertina to cast {@spell Otto's irresistible dance} from the item. This property of the concertina can't be used again until the next dawn."
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"otto's irresistible dance"
+			]
+		}
+	}
+}

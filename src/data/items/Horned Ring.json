@@ -1,0 +1,11 @@
+{
+	"name": "Horned Ring",
+	"source": "WDMM",
+	"page": 108,
+	"type": "RG|DMG",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"entries": [
+		"Allows an attuned wearer to ignore Undermountain's magical restrictions (see \"Alterations to Magic\")."
+	]
+}

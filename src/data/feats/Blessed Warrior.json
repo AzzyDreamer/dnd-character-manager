@@ -1,0 +1,30 @@
+{
+	"name": "Blessed Warrior",
+	"source": "XPHB",
+	"page": 110,
+	"category": "FS:P",
+	"prerequisite": [
+		{
+			"otherSummary": {
+				"entry": "When Gaining the Level 2 Paladin \"Fighting Style\" Feature",
+				"entrySummary": "Special"
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": "cha",
+			"known": {
+				"_": [
+					{
+						"choose": "level=0|class=cleric",
+						"count": 2
+					}
+				]
+			}
+		}
+	],
+	"entries": [
+		"You learn two {@filter Cleric cantrips|spells|level=0|class=Cleric} of your choice. {@spell Guidance|XPHB} and {@spell Sacred Flame|XPHB} are recommended. The chosen cantrips count as Paladin spells for you, and Charisma is your spellcasting ability for them. Whenever you gain a Paladin level, you can replace one of these cantrips with another Cleric cantrip."
+	]
+}

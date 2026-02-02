@@ -1,0 +1,19 @@
+{
+	"name": "Spell-Refueling Ring",
+	"source": "EFA",
+	"page": 112,
+	"type": "RG|XDMG",
+	"rarity": "uncommon",
+	"reqAttune": "by a spellcaster",
+	"reqAttuneTags": [
+		{
+			"spellcasting": true
+		}
+	],
+	"entries": [
+		"While wearing this ring, you can recover one expended spell slot as a {@variantrule Bonus Action|XPHB}. The recovered slot can be of level 3 or lower. Once used, the ring can't be used again until the next dawn."
+	],
+	"classFeatures": [
+		"replicate magic item|artificer|efa|2|efa"
+	]
+}

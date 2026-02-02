@@ -1,0 +1,11 @@
+{
+	"name": "Curses",
+	"source": "XPHB",
+	"page": 364,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Some game effects curse a creature or an object. The effect that confers a curse defines what the curse does. Curses can be removed by the {@spell Remove Curse|XPHB} and {@spell Greater Restoration|XPHB} spells or other magic that explicitly ends curses."
+	]
+}

@@ -1,0 +1,92 @@
+{
+	"name": "Primordial Power",
+	"source": "GrimHollowPG24",
+	"page": 198,
+	"level": 4,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a handful of clay"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"When you cast this spell, grant a creature in range a portion of the power of the elementals. For the duration, the creature can speak and understand Primordial and gains additional benefits based on the element you choose when you cast the spell:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Air",
+					"entries": [
+						"The target has {@variantrule Resistance|XPHB} to Lightning and Thunder damage. In addition, it has a {@variantrule Fly Speed|XPHB} of 30 feet."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Coldfire",
+					"entries": [
+						"The target has {@variantrule Resistance|XPHB} to Cold damage. In addition, it can use a {@variantrule Bonus Action|XPHB} to expend a {@variantrule Hit Point Dice|XPHB|Hit Point Die}, regaining a number of {@variantrule Hit Points|XPHB} equal to the numbered rolled plus its Constitution modifier. When the target takes Fire damage, it can't use this {@variantrule Bonus Action|XPHB} on its next turn."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Earth",
+					"entries": [
+						"The target has {@variantrule Advantage|XPHB} on saving throws against being moved or knocked {@condition Prone|XPHB}. In addition, it has {@sense Tremorsense|XPHB} with a range of 30 feet."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Fire",
+					"entries": [
+						"The target has {@variantrule Resistance|XPHB} to Fire damage. In addition, when the target takes damage from a creature that is within 5 feet of it, it can take a {@variantrule Reaction|XPHB} to make one melee attack against that creature, using a weapon or an {@variantrule Unarmed Strike|XPHB}."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Water",
+					"entries": [
+						"The target has {@variantrule Resistance|XPHB} to Acid damage. In addition, it can breathe underwater and has a {@variantrule Swim Speed|XPHB} of 60 feet."
+					]
+				}
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"ADV",
+		"HL",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Primordial%20Power.webp"
+}

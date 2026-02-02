@@ -1,0 +1,139 @@
+{
+	"name": "Sword of Kas",
+	"source": "XDMG",
+	"page": 313,
+	"baseItem": "longsword|xphb",
+	"type": "M|XPHB",
+	"rarity": "artifact",
+	"reqAttune": true,
+	"sentient": true,
+	"weight": 3,
+	"weaponCategory": "martial",
+	"property": [
+		"V|XPHB"
+	],
+	"mastery": [
+		"Sap|XPHB"
+	],
+	"dmg1": "1d8",
+	"dmgType": "S",
+	"dmg2": "1d10",
+	"bonusWeapon": "+3",
+	"critThreshold": 19,
+	"entries": [
+		"Kas was a powerful warrior who served {@book Vecna|XDMG|8|Vecna} and whose loyalty was rewarded with this sword. As Kas's power grew, so did his hubris. The sword urged Kas to destroy Vecna and usurp his throne. Legend says Vecna's destruction came at Kas's hand, but Vecna also wrought his rebellious lieutenant's doom, leaving only Kas's sword behind.",
+		{
+			"type": "entries",
+			"name": "Bloodthirst",
+			"entries": [
+				"The sword thirsts for blood. If the sword doesn't taste blood on its blade within 1 minute of being drawn from its scabbard, its wielder makes a {@dc 15} Charisma saving throw. On a successful save, the wielder takes {@damage 3d6} Psychic damage. On a failed save, the wielder is dominated by the sword, as if by the {@spell Dominate Monster|XPHB} spell, and the sword demands blood. The spell effect ends when the sword's demand is met."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Magic Weapon",
+			"entries": [
+				"You gain a +3 bonus to attack rolls and damage rolls made with the sword, which scores a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20} and deals an extra {@damage 2d10} Slashing damage to Undead."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Random Properties",
+			"entries": [
+				"The sword has the following random properties:",
+				{
+					"type": "list",
+					"items": [
+						"1 {@table Artifact Properties; Minor Beneficial Properties|XDMG|minor beneficial} property",
+						"1 {@table Artifact Properties; Major Beneficial Properties|XDMG|major beneficial} property",
+						"1 {@table Artifact Properties; Minor Detrimental Properties|XDMG|minor detrimental} property",
+						"1 {@table Artifact Properties; Major Detrimental Properties|XDMG|major detrimental} property"
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells",
+			"entries": [
+				"While the sword is on your person, you can cast the following spells (save {@dc 18}) from it:",
+				{
+					"type": "list",
+					"items": [
+						"{@spell Call Lightning|XPHB}",
+						"{@spell Divine Word|XPHB}",
+						"{@spell Finger of Death|XPHB}"
+					]
+				},
+				"Once you use the sword to cast a spell, you can't cast that spell again from it until the next dawn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spirit of Kas",
+			"entries": [
+				"While the sword is on your person, you gain the following benefits:",
+				{
+					"type": "list",
+					"style": "list-hang-notitle",
+					"items": [
+						{
+							"type": "item",
+							"name": "Battle Hunger",
+							"entries": [
+								"You add {@dice 1d10} to your {@variantrule Initiative|XPHB} rolls."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Blade of Defense",
+							"entries": [
+								"When you take an action to attack with the sword, you can transfer some or all of its attack bonus to your {@variantrule Armor Class|XPHB} instead. The adjusted bonuses remain in effect until the start of your next turn."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Necrotic Resistance",
+							"entries": [
+								"You have {@variantrule Resistance|XPHB} to Necrotic damage."
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sentience",
+			"entries": [
+				"The Sword of Kas is a sentient Chaotic Evil weapon with an Intelligence of 15, a Wisdom of 13, and a Charisma of 16. It has hearing and {@sense Darkvision|XPHB} out to 120 feet.",
+				"The weapon communicates telepathically with its wielder and speaks Common."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Personality",
+			"entries": [
+				"The sword's purpose is to bring ruin to Vecna. Killing Vecna's worshipers, destroying the lich's works, and foiling his machinations all help to fulfill this goal.",
+				"The Sword of Kas also seeks to destroy anyone corrupted by the {@item Eye and Hand of Vecna|XDMG}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Destroying the Sword",
+			"entries": [
+				"A creature attuned to both the {@item Eye of Vecna|XDMG} and the {@item Hand of Vecna|XDMG} can use the {@spell Wish|XPHB} property of those combined Artifacts to unmake the Sword of Kas, provided the sword is within 30 feet of the spell's caster. Upon casting Wish, the creature makes a {@dc 18} Charisma saving throw. On a failed save, nothing happens, and the {@spell Wish|XPHB} spell is wasted. On a successful save, the Sword of Kas is destroyed."
+			]
+		}
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"call lightning|xphb",
+				"divine word|xphb",
+				"finger of death|xphb"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

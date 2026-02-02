@@ -1,0 +1,45 @@
+{
+	"name": "Greater Mark of Hospitality",
+	"source": "EFA",
+	"page": 44,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of hospitality|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Ever Hospitable benefit of your {@feat Mark of Hospitality|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Hospitality",
+			"entries": [
+				"When you cast {@spell Purify Food and Drink|XPHB}, you can modify the spell so that instead of its normal effect, each creature of your choice within 30 feet of you is refreshed. Each affected creature's {@condition Exhaustion|XPHB} level is reduced by 1, and the creature gains {@variantrule Temporary Hit Points|XPHB} equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Intelligence, Wisdom, or Charisma modifier (choose when you select this feat). Once you modify the spell with this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

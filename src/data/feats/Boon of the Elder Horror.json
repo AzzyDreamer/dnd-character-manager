@@ -1,0 +1,44 @@
+{
+	"name": "Boon of the Elder Horror",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Stabilizing Form",
+			"entries": [
+				"When you roll a 25 or lower on the {@table Unstable Form|GrimHollowPG24|Unstable Form table}, you can choose to roll again. You must use the new result. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Divergent Growth",
+			"entries": [
+				"Choose any {@filter Aberrant Horror Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=ah:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+			]
+		}
+	]
+}

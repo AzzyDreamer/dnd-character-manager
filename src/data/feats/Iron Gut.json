@@ -1,0 +1,51 @@
+{
+	"name": "Iron Gut",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"con": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"con",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You can eat like a hill giant and drink like a fish. Years of punishing your stomach and liver have led to a powerful fortitude. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Inured to Poison",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Poisoned|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Everything Looks Delicious",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on Wisdom ({@skill Survival|XPHB}) checks to forage for food."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick to Recover",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you can expend one of your {@variantrule Hit Point Dice|XPHB}, roll the die and add your Constitution modifier, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll's total. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

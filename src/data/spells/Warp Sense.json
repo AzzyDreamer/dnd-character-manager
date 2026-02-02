@@ -1,0 +1,151 @@
+{
+	"name": "Warp Sense",
+	"source": "SatO",
+	"page": 12,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a razorvine leaf"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"For the duration, you sense the presence of portals, even inactive ones, within 30 feet of yourself.",
+		"If you detect a portal in this way, you can use your action to study it. Make a {@dc 15} ability check using your spellcasting ability. On a successful check, you learn the destination plane of the portal and what portal key it requires, then the spell ends. On a failed check, you learn nothing and can't study that portal again using this spell until you cast it again.",
+		"The spell can penetrate most barriers but is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "SatO"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "SatO"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "SatO"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "SatO"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "SatO"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "SatO"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Diviner",
+					"shortName": "Diviner",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

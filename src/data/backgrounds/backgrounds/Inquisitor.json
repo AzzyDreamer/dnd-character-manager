@@ -1,0 +1,75 @@
+{
+	"name": "Inquisitor",
+	"source": "PSI",
+	"page": 12,
+	"skillProficiencies": [
+		{
+			"investigation": true,
+			"religion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"thieves' tools": true,
+			"anyArtisansTool": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"_": [
+				"holy symbol|phb",
+				"traveler's clothes|phb",
+				{
+					"item": "pouch|phb",
+					"containsValue": 1500
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Investigation}, {@skill Religion}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Thieves' tools|phb}, one type of {@filter artisan's tools|items|source=phb|miscellaneous=mundane|type=artisan's tools}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "A {@item holy symbol|phb}, a set of {@item traveler's clothes|phb}, and a belt {@item pouch|phb} containing 15 gp"
+				}
+			]
+		},
+		{
+			"name": "Feature: Legal Authority",
+			"type": "entries",
+			"entries": [
+				"As an inquisitor of the church, you have the authority to arrest criminals. In the absence of other authorities, you are authorized to pass judgement and even carry out sentencing. If you abuse this power, however, your superiors in the church might strip it from you."
+			],
+			"data": {
+				"isFeature": true
+			}
+		}
+	],
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Historically, inquisitors were cathar detectives who investigated crimes both mundane and supernatural. They were known for traveling to remote parishes plagued by unexplained murders, and for exposing werewolves living among normal humans. During Avacyn's absence, when the archangel was trapped within the demonic prison known as the Helvault, the inquisitors led a series of brutal forays into Kessig and the Gavony Moorland. They executed suspected lycanthropes with little or no proof, and punished accused heretics in unsanctioned trials. With Avacyn's madness, this savage form of inquisition has become the norm, and inquisitors who still pry into dark mysteries have become a minority."
+					]
+				}
+			]
+		}
+	]
+}

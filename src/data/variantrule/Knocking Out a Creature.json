@@ -1,0 +1,12 @@
+{
+	"name": "Knocking Out a Creature",
+	"source": "XPHB",
+	"page": 370,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"When you would reduce a creature to 0 {@variantrule Hit Points|XPHB} with a melee attack, you can instead reduce the creature to 1 Hit Point. The creature then has the {@condition Unconscious|XPHB} condition and starts a {@variantrule Short Rest|XPHB}.",
+		"The creature remains Unconscious until it regains any {@variantrule Hit Points|XPHB} or until someone uses an action to administer first aid to it, which requires a successful {@dc 10} Wisdom ({@skill Medicine|XPHB}) check."
+	]
+}

@@ -1,0 +1,43 @@
+{
+	"name": "Fulminating Treatise",
+	"source": "TCE",
+	"page": 128,
+	"type": "SCF",
+	"rarity": "rare",
+	"reqAttune": "by a wizard",
+	"reqAttuneTags": [
+		{
+			"class": "wizard"
+		}
+	],
+	"wondrous": true,
+	"weight": 3,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d3}",
+	"charges": 3,
+	"focus": [
+		"Wizard"
+	],
+	"entries": [
+		"This thick, scorched spellbook reeks of smoke and ozone, and sparks of energy crackles along the edges of its pages. When found, the book contains the following spells: {@spell contingency}, {@spell fireball}, {@spell gust of wind}, {@spell Leomund's tiny hut}, {@spell magic missile}, {@spell thunderwave}, and {@spell wall of force}. It functions as a spellbook for you.",
+		"While you are holding the book, you can use it as a spellcasting focus for your wizard spells.",
+		"The book has 3 charges, and it regains {@dice 1d3} expended charges daily at dawn. You can use the charges in the following ways while holding it:",
+		{
+			"type": "list",
+			"items": [
+				"If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the evocation school.",
+				"When one creature you can see takes damage from an evocation spell you cast, you can use your reaction and expend 1 charge to deal an extra {@damage 2d6} force damage to the creature and knock the creature {@condition prone} if it is Large or smaller."
+			]
+		}
+	],
+	"attachedSpells": [
+		"contingency",
+		"fireball",
+		"gust of wind",
+		"leomund's tiny hut",
+		"magic missile",
+		"thunderwave",
+		"wall of force"
+	],
+	"hasFluffImages": true
+}

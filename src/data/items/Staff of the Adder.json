@@ -1,0 +1,30 @@
+{
+	"name": "Staff of the Adder",
+	"source": "XDMG",
+	"page": 310,
+	"type": "M|XPHB",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"weight": 4,
+	"weaponCategory": "simple",
+	"property": [
+		"V|XPHB"
+	],
+	"mastery": [
+		"Topple|XPHB"
+	],
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"dmg2": "1d8",
+	"staff": true,
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can turn the head of this staff into that of an animate, venomous snake for 1 minute or revert the staff to its inanimate form.",
+		"When you take the {@action Attack|XPHB} action, you can make one of the attack rolls using the animated snake head, which has a reach of 5 feet. Apply your {@variantrule Proficiency|XPHB|Proficiency Bonus} and Wisdom modifier to the attack roll. On a hit, the target takes {@damage 1d6} Piercing damage and {@damage 3d6} Poison damage.",
+		"The snake head can be attacked while it is animate. It has AC 15, HP 20, and {@variantrule Immunity|XPHB} to Poison and Psychic damage. If the head drops to 0 {@variantrule Hit Points|XPHB}, the staff is destroyed. As long as it's not destroyed, the staff regains all lost {@variantrule Hit Points|XPHB} when it reverts to its inanimate form."
+	],
+	"lootTables": [
+		"Arcana - Uncommon|XDMG",
+		"Relics - Uncommon|XDMG"
+	],
+	"hasFluffImages": true
+}

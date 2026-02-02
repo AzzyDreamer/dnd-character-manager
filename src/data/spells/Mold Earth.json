@@ -1,0 +1,356 @@
+{
+	"name": "Mold Earth",
+	"source": "XGE",
+	"page": 162,
+	"otherSources": [
+		{
+			"source": "EEPC",
+			"page": 21
+		}
+	],
+	"level": 0,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		},
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You choose a portion of dirt or stone that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:",
+		{
+			"type": "list",
+			"items": [
+				"If you target an area of loose earth, you can instantaneously excavate it, move it along the ground, and deposit it up to 5 feet away. This movement doesn't involve enough force to cause damage.",
+				"You cause shapes, colors, or both to appear on the dirt or stone, spelling out words, creating images, or shaping patterns. The changes last for 1 hour.",
+				"If the dirt or stone you target is on the ground, you cause it to become {@quickref difficult terrain||3}. Alternatively, you can cause the ground to become normal terrain if it is already {@quickref difficult terrain||3}. This change lasts for 1 hour."
+			]
+		},
+		"If you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action."
+	],
+	"miscTags": [
+		"DFT",
+		"SGT"
+	],
+	"areaTags": [
+		"C"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of the Moon",
+					"shortName": "Moon",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf",
+			"source": "LFL"
+		},
+		{
+			"name": "Elf (High)",
+			"source": "PHB",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Elf (Kaladesh; Vahadar)",
+			"source": "PSK",
+			"baseName": "Elf (Kaladesh)",
+			"baseSource": "PSK"
+		},
+		{
+			"name": "Half-Elf (Variant; Moon Elf or Sun Elf Descent)",
+			"source": "SCAG",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Kobold",
+			"source": "MPMM"
+		},
+		{
+			"name": "Merfolk (Ixalan; Blue)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Ixalan; Green)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Emeria Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Ula Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Druidic Warrior",
+			"source": "TCE",
+			"featureType": [
+				"FS:R"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Cold Caster",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Druidic Warrior",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Initiate of High Sorcery",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Wood Elf Magic",
+			"source": "XGE"
+		}
+	]
+}

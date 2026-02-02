@@ -1,0 +1,51 @@
+{
+	"name": "Keen Mind",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"int": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"int": 1
+		}
+	],
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"arcana",
+					"history",
+					"investigation",
+					"nature",
+					"religion"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Lore Knowledge",
+			"entries": [
+				"Choose one of the following skills: {@skill Arcana|XPHB}, {@skill History|XPHB}, {@skill Investigation|XPHB}, {@skill Nature|XPHB}, or {@skill Religion|XPHB}. If you lack proficiency in the chosen skill, you gain proficiency in it, and if you already have proficiency in it, you gain {@variantrule Expertise|XPHB} in it."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Study",
+			"entries": [
+				"You can take the {@action Study|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+			]
+		}
+	]
+}

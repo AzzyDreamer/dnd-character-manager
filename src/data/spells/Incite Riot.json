@@ -1,0 +1,66 @@
+{
+	"name": "Incite Riot",
+	"source": "GrimHollowPG24",
+	"page": 194,
+	"level": 5,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a red handkerchief"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"When you cast this spell, you wave the red handkerchief used as the Material component and choose any number of creatures within range that can see you. Each chosen creature makes a Wisdom saving throw. It does so with {@variantrule Advantage|XPHB} if you or your allies are fighting it. On a failed save, the target has the {@condition Charmed|XPHB} condition until the spell ends or until you or your allies damage it. The {@condition Charmed|XPHB} creature is {@variantrule Friendly [Attitude]|XPHB|Friendly} to you and your allies. While {@condition Charmed|XPHB}, it must use its action to make melee attacks against the nearest creature (other than you or your allies) or use its turn to move toward the nearest target.",
+		"At the end of each of its turns, the target repeats the save, ending the spell on itself on a success."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"charmed"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Incite%20Riot.webp"
+}

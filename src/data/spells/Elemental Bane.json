@@ -1,0 +1,154 @@
+{
+	"name": "Elemental Bane",
+	"source": "XGE",
+	"page": 155,
+	"otherSources": [
+		{
+			"source": "EEPC",
+			"page": 17
+		}
+	],
+	"level": 4,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 90
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Choose one creature you can see within range, and choose one of the following damage types: acid, cold, fire, lightning, or thunder. The target must succeed on a Constitution saving throw or be affected by the spell for its duration. The first time each turn the affected target takes damage of the chosen type, the target takes an extra {@damage 2d6} damage of that type. Moreover, the target loses any resistance to that damage type until the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 5th level or higher, you can target one additional creature for each slot level above 4th. The creatures must be within 30 feet of each other when you target them."
+			]
+		}
+	],
+	"damageInflict": [
+		"acid",
+		"cold",
+		"fire",
+		"lightning",
+		"thunder"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SCT",
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Artificer",
+				"source": "TCE",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,66 @@
+{
+	"name": "Somnolence",
+	"source": "GrimHollowPG24",
+	"page": 201,
+	"level": 1,
+	"school": "E",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "sand mixed with the spellcaster's blood"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend one {@variantrule Hit Point Dice|XPHB|Hit Point Die} or the spell automatically fails. Roll the {@variantrule Hit Point Dice|XPHB|Hit Point Die} expended to cast the spell plus {@dice 2d12} and choose a creature within range. If the roll's total is equal to or greater than the chosen creature's current {@variantrule Hit Points|XPHB}, the creature falls into a magical slumber for 1 minute. If the roll's total is equal to or greater than the chosen creature's {@variantrule Hit Points|XPHB|Hit Point} maximum, the magical slumber lasts for 24 hours instead. The spell ends on a target if it takes damage or someone within 5 feet of it takes an action to shake it out of the spell's effect. A creature woken early from this spell gains 1 {@condition Exhaustion|XPHB} level.",
+		"Creatures that don't sleep, such as elves, or that have {@variantrule Immunity|XPHB} to the {@condition Exhaustion|XPHB} condition automatically succeed on saves against this spell.",
+		{
+			"type": "inset",
+			"name": "The Long Sleep",
+			"entries": [
+				"Adherents of the Prismatic Circle perform a variation of the Somnolence spell that takes 10 minutes and requires the sacrifice of a Humanoid. These adherents believe when the ritual is completed, it staves off the waking of Gormadraug for a day and night. Through the repetitive performance of this ritual, the Druids of the Prismatic Circle hope to ensure Gormadraug slumbers forever."
+			]
+		}
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You roll an additional {@dice 1d12} and can expend an additional two {@variantrule Hit Point Dice|XPHB} for every spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Somnolence.webp"
+}

@@ -1,0 +1,63 @@
+{
+	"name": "Vampiric Claws",
+	"source": "GrimHollowPG24",
+	"page": 205,
+	"level": 1,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You sprout wicked claws. When you use your {@variantrule Unarmed Strike|XPHB} to deal damage with the new growth, it deals {@damage 1d6} Slashing damage instead of dealing the normal damage for your {@variantrule Unarmed Strike|XPHB}, and you use your spellcasting ability modifier for the attack and damage rolls rather than using Strength.",
+		"While the spell lasts, each time you deal damage with an {@variantrule Unarmed Strike|XPHB}, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your spellcasting ability modifier. {@variantrule Temporary Hit Points|XPHB} from the spell are lost when the spell ends."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"slashing"
+	],
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Vampiric%20Claws.webp"
+}

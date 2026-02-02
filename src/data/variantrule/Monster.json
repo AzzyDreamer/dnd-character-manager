@@ -1,0 +1,11 @@
+{
+	"name": "Monster",
+	"source": "XPHB",
+	"page": 371,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A monster is a creature controlled by the DM, even if the creature is benevolent."
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"name": "Initiative",
+	"source": "XPHB",
+	"page": 369,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Initiative determines the order of turns during combat. The combat rules in {@book chapter 1|XPHB|1} explain how to roll Initiative.",
+		"Sometimes a DM might have combatants use their Initiative scores instead of rolling Initiative. Your Initiative score equals 10 plus your Dexterity modifier. If you have {@variantrule Advantage|XPHB} on Initiative rolls, increase your Initiative score by 5. If you have {@variantrule Disadvantage|XPHB} on those rolls, decrease that score by 5."
+	]
+}

@@ -1,0 +1,169 @@
+{
+	"name": "Continual Flame",
+	"source": "XPHB",
+	"page": 256,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "ruby dust worth 50+ GP, which the spell consumes",
+			"cost": 5000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"dispel"
+			]
+		}
+	],
+	"entries": [
+		"A flame springs from an object that you touch. The effect casts {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet. It looks like a regular flame, but it creates no heat and consumes no fuel. The flame can be covered or hidden but not smothered or quenched."
+	],
+	"miscTags": [
+		"LGT",
+		"OBJ"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Making)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Making",
+			"source": "EFA"
+		}
+	]
+}

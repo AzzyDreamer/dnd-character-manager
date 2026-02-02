@@ -1,0 +1,26 @@
+{
+	"name": "Revolver",
+	"source": "XDMG",
+	"page": 73,
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 3,
+	"valueRarity": "rare",
+	"weaponCategory": "martial",
+	"age": "modern",
+	"property": [
+		"AF|XDMG",
+		"RLD|XDMG"
+	],
+	"mastery": [
+		"Sap|XPHB"
+	],
+	"range": "40/120",
+	"reload": 6,
+	"dmg1": "2d8",
+	"dmgType": "P",
+	"firearm": true,
+	"weapon": true,
+	"ammoType": "firearm bullet|xphb"
+}

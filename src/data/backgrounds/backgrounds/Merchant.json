@@ -1,0 +1,115 @@
+{
+	"name": "Merchant",
+	"source": "XPHB",
+	"page": 182,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"lucky|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"animal handling": true,
+			"persuasion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"navigator's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "navigator's tools|xphb"
+				},
+				{
+					"item": "pouch|xphb",
+					"quantity": 2
+				},
+				{
+					"item": "traveler's clothes|xphb"
+				},
+				{
+					"value": 2200
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Constitution, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Lucky|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Animal Handling|XPHB}, {@skill Persuasion|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Navigator's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Navigator's Tools|XPHB}, {@item Pouch|XPHB|2 Pouches}, {@item Traveler's Clothes|XPHB}, 22 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You were apprenticed to a trader, caravan master, or shopkeeper, learning the fundamentals of commerce. You traveled broadly, and you earned a living by buying and selling the raw materials artisans need to practice their craft or finished works from such crafters. You might have transported goods from one place to another (by ship, wagon, or caravan) or bought them from traveling traders and sold them in your own shop."
+	]
+}

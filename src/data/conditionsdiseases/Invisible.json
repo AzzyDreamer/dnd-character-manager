@@ -1,0 +1,36 @@
+{
+	"name": "Invisible",
+	"source": "XPHB",
+	"page": 370,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Invisible condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Surprise",
+					"entries": [
+						"If you're Invisible when you roll {@variantrule Initiative|XPHB}, you have {@variantrule Advantage|XPHB} on the roll."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Concealed",
+					"entries": [
+						"You aren't affected by any effect that requires its target to be seen unless the effect's creator can somehow see you. Any equipment you are wearing or carrying is also concealed."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attacks Affected",
+					"entries": [
+						"{@action Attack|XPHB} rolls against you have {@variantrule Disadvantage|XPHB}, and your attack rolls have {@variantrule Advantage|XPHB}. If a creature can somehow see you, you don't gain this benefit against that creature."
+					]
+				}
+			]
+		}
+	]
+}

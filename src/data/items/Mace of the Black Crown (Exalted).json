@@ -1,0 +1,35 @@
+{
+	"name": "Mace of the Black Crown (Exalted)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Mace of the Black Crown (Awakened)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Exalted",
+					"entries": [
+						"When the mace reaches an exalted state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"The weapon's bonus to attack and damage rolls increases to +3, and the extra fire damage dealt by the weapon when it is ignited increases to {@dice 3d6}. Fire damage dealt by the mace ignores resistance to fire damage.",
+								"The weapon's Summon Devil feature can also be used to summon a {@creature barbed devil}.",
+								"You have resistance to fire damage while you hold this weapon."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"bonusWeapon": "+3",
+	"hasFluffImages": true
+}

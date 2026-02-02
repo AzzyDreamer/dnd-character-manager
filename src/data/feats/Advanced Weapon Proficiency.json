@@ -1,0 +1,31 @@
+{
+	"name": "Advanced Weapon Proficiency",
+	"source": "GrimHollowPG24",
+	"page": 118,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			],
+			"other": "Special"
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Weapon Proficiency",
+			"entries": [
+				"You have proficiency with Advanced weapons, and your training allows you to use the mastery properties of those weapons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Special",
+			"entries": [
+				"This feat can be taken as a General feat by a character of level 8 or higher."
+			]
+		}
+	]
+}

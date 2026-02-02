@@ -1,0 +1,42 @@
+{
+	"name": "Bell Branch",
+	"source": "TCE",
+	"page": 122,
+	"type": "SCF",
+	"rarity": "rare",
+	"reqAttune": "by a druid or warlock",
+	"reqAttuneTags": [
+		{
+			"class": "druid"
+		},
+		{
+			"class": "warlock"
+		}
+	],
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d3}",
+	"charges": 3,
+	"focus": [
+		"Druid",
+		"Warlock"
+	],
+	"entries": [
+		"This silver implement is shaped like a tree branch and is strung with small golden bells. The branch is a spellcasting focus for your spells while you hold it.",
+		"The branch has 3 charges, and it regains {@dice 1d3} expended charges daily at dawn. You can use the charges in the following ways while holding it:",
+		{
+			"type": "list",
+			"items": [
+				"As a bonus action, you can expend 1 charge to detect the presence of aberrations, celestials, constructs, elementals, fey, fiends, or undead within 60 feet of you. If such creatures are present and don't have {@quickref Cover||3||total cover} from you, the bells ring softly, their tone indicating the creature types present.",
+				"As an action, you can expend 1 charge to cast {@spell protection from evil and good}."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"protection from evil and good"
+			]
+		}
+	}
+}

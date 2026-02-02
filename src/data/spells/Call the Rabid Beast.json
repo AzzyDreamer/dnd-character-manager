@@ -1,0 +1,84 @@
+{
+	"name": "Call the Rabid Beast",
+	"source": "GrimHollowPG24",
+	"page": 188,
+	"level": 3,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a fang from a rabid animal"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A creature you touch transforms into a rabid monster, filled with primal fury. The target sprouts thick fur and its mouth elongates into a fanged maw. It gains 20 {@variantrule Temporary Hit Points|XPHB}. While transformed, the creature has the following effects:",
+		{
+			"type": "list",
+			"items": [
+				"It has an {@variantrule Armor Class|XPHB} of 17 if its AC is lower than that.",
+				"It has a +5 bonus on damage rolls with Strength based attacks.",
+				"It can make a Bite attack as a {@variantrule Bonus Action|XPHB}. The Bite deals {@damage 1d6} + its Strength modifier Slashing damage.",
+				"It has {@variantrule Immunity|XPHB} to the {@condition Frightened|XPHB} condition.",
+				"It can't cast spells or maintain {@status Concentration|XPHB}.",
+				"At the start of each of its turns, it must succeed on a DC 10 Wisdom saving throw or lose control until the spell ends. A creature that loses control must take an {@action Attack|XPHB} action on each of its turns, using melee attacks against the nearest creature. If none are within reach, the creature must use its movement, and if necessary the {@action Dash|XPHB} action, to move toward the nearest creature."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"THP",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Call%20the%20Rabid%20Beast.webp"
+}

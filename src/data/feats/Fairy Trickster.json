@@ -1,0 +1,39 @@
+{
+	"name": "Fairy Trickster",
+	"source": "FRHoF",
+	"page": 39,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"dex",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Faerie Trod Trotter",
+			"entries": [
+				"When you take the {@action Disengage|XPHB} action on your turn, {@variantrule Difficult Terrain|XPHB} doesn't cost you extra movement for the rest of that turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Flustering Strike",
+			"entries": [
+				"When you hit a creature with an attack roll, you can attempt to fluster the target. The target must succeed on a Wisdom saving throw (DC 8 plus the ability modifier of the score increased by this feat and your {@variantrule Proficiency|XPHB|Proficiency Bonus}) or have {@variantrule Disadvantage|XPHB} on saving throws until the end of your next turn.",
+				"You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

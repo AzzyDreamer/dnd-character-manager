@@ -1,0 +1,19 @@
+{
+	"name": "Sling of Giant Felling",
+	"source": "BMT",
+	"page": 68,
+	"baseItem": "sling|PHB",
+	"type": "R",
+	"rarity": "uncommon",
+	"weaponCategory": "simple",
+	"property": [
+		"A"
+	],
+	"range": "30/120",
+	"dmg1": "1d4",
+	"dmgType": "B",
+	"entries": [
+		"When you hit a Giant creature with a ranged attack roll using this magic sling, the creature must succeed on a {@dc 18} Constitution saving throw or have the prone condition."
+	],
+	"ammoType": "sling bullet|phb"
+}

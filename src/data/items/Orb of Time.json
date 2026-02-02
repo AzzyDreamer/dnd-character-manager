@@ -1,0 +1,17 @@
+{
+	"name": "Orb of Time",
+	"source": "XDMG",
+	"page": 284,
+	"scfType": "arcane",
+	"rarity": "common",
+	"wondrous": true,
+	"weight": 3,
+	"entries": [
+		"This orb can be used as an Arcane Focus.",
+		"While holding the orb, you can take a {@action Magic|XPHB} action to determine whether it is morning, afternoon, evening, or nighttime. This property functions only on the Material Plane."
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

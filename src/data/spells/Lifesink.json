@@ -1,0 +1,64 @@
+{
+	"name": "Lifesink",
+	"source": "GrimHollowPG24",
+	"page": 195,
+	"level": 8,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 15
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"An aura extends from you in a 15-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} for the duration. Any other creature that enters or begins its turn in the area takes {@damage 4d6} Necrotic damage. At the start of your turn, you regain {@dice 4d6} {@variantrule Hit Points|XPHB} plus 1 for each creature in the area."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Lifesink.webp"
+}

@@ -1,0 +1,100 @@
+{
+	"name": "Doomtide",
+	"source": "FRHoF",
+	"page": 144,
+	"level": 4,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "soot and a dried eel"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You create a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} of inky fog within range. The fog is magical {@variantrule Darkness|XPHB} and lasts for the duration or until a strong wind (such as the one created by the {@spell Gust of Wind|XPHB} spell) disperses it, ending the spell.",
+		"Each creature in the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} when it appears makes a Wisdom saving throw. On a failed save, a creature takes {@damage 5d6} Psychic damage and subtracts {@dice 1d6} from its saving throws until the end of its next turn. On a successful save, a creature takes half as much damage only. A creature also makes this save when the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} moves into its space, when it enters the {@variantrule Sphere [Area of Effect]|XPHB|Sphere}, or when it ends its turn inside the {@variantrule Sphere [Area of Effect]|XPHB|Sphere}. A creature makes this save only once per turn.",
+		"The {@variantrule Sphere [Area of Effect]|XPHB|Sphere} moves 10 feet away from you at the start of each of your turns.",
+		{
+			"type": "entries",
+			"name": "Casting as a Circle Spell",
+			"entries": [
+				"Casting this as a Circle spell requires a minimum of five secondary casters. In addition to the spell's usual components, you must provide a special component (a string of three black pearls from Pandemonium), which the spell consumes. The spell's range increases to 1 mile, and its duration increases to until dispelled (no {@status Concentration|XPHB} required). The spell ends early if any caster who participated in this casting contributes to another casting of {@spell Doomtide|FRHoF} as a Circle spell.",
+				"When the spell is cast, each secondary caster must expend a level 3+ spell slot; otherwise, the spell fails."
+			]
+		}
+	],
+	"damageInflict": [
+		"psychic"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	}
+}

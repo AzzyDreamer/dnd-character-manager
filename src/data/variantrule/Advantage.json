@@ -1,0 +1,11 @@
+{
+	"name": "Advantage",
+	"source": "XPHB",
+	"page": 360,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If you have Advantage on a {@variantrule D20 Test|XPHB}, roll two d20s, and use the higher roll. A roll can't be affected by more than one Advantage, and Advantage and {@variantrule Disadvantage|XPHB} on the same roll cancel each other."
+	]
+}

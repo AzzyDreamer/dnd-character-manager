@@ -1,0 +1,94 @@
+{
+	"name": "Passwall",
+	"source": "XPHB",
+	"page": 304,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 5,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of sesame seeds"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"A passage appears at a point that you can see on a wooden, plaster, or stone surface (such as a wall, ceiling, or floor) within range and lasts for the duration. You choose the opening's dimensions: up to 5 feet wide, 8 feet tall, and 20 feet deep. The passage creates no instability in a structure surrounding it.",
+		"When the opening disappears, any creatures or objects still in the passage created by the spell are safely ejected to an unoccupied space nearest to the surface on which you cast the spell."
+	],
+	"miscTags": [
+		"OBJ",
+		"SGT"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Armorer",
+					"shortName": "Armorer",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Armorer",
+					"shortName": "Armorer",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Mountain"
+				}
+			}
+		]
+	},
+	"backgrounds": [
+		{
+			"name": "Quandrix Student",
+			"source": "SCC"
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"name": "Sleight of Hand",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "dex",
+	"entries": [
+		"Pick a pocket, conceal a handheld object, or perform legerdemain."
+	]
+}

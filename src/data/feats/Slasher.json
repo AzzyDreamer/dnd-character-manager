@@ -1,0 +1,38 @@
+{
+	"name": "Slasher",
+	"source": "XPHB",
+	"page": 208,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Hamstring",
+			"entries": [
+				"Once per turn when you hit a creature with an attack that deals Slashing damage, you can reduce the {@variantrule Speed|XPHB} of that creature by 10 feet until the start of your next turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Enhanced Critical",
+			"entries": [
+				"When you score a {@variantrule Critical Hit|XPHB} that deals Slashing damage to a creature, it has {@variantrule Disadvantage|XPHB} on attack rolls until the start of your next turn."
+			]
+		}
+	]
+}

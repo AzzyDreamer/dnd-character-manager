@@ -1,0 +1,11 @@
+{
+	"name": "Hostile [Attitude]",
+	"source": "XPHB",
+	"page": 368,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Hostile creature views you unfavorably. You have {@variantrule Disadvantage|XPHB} on an ability check to influence a Hostile creature."
+	]
+}

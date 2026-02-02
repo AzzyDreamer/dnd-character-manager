@@ -1,0 +1,16 @@
+{
+	"name": "Aspect of the Moon",
+	"source": "XGE",
+	"page": 56,
+	"featureType": [
+		"EI"
+	],
+	"prerequisite": [
+		{
+			"pact": "Tome"
+		}
+	],
+	"entries": [
+		"You no longer need to sleep and can't be forced to sleep by any means. To gain the benefits of a long rest, you can spend all 8 hours doing light activity, such as reading your Book of Shadows and keeping watch."
+	]
+}

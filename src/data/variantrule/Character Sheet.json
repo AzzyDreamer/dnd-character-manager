@@ -1,0 +1,11 @@
+{
+	"name": "Character Sheet",
+	"source": "XPHB",
+	"page": 363,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A character sheet is a paper or digital record that you use to track your character's information."
+	]
+}

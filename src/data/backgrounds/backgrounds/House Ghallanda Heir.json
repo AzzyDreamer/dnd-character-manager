@@ -1,0 +1,114 @@
+{
+	"name": "House Ghallanda Heir",
+	"source": "EFA",
+	"page": 28,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"mark of hospitality|efa": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"insight": true,
+			"persuasion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"cook's utensils": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"cook's utensils|xphb",
+				"fine clothes|xphb",
+				"iron pot|xphb",
+				"lamp|xphb",
+				{
+					"item": "oil|xphb",
+					"quantity": 5
+				},
+				"perfume|xphb",
+				{
+					"value": 2600
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Wisdom, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Mark of Hospitality|EFA}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Insight|XPHB} and {@skill Persuasion|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Cook's Utensils|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Cook's Utensils|XPHB}, {@item Fine Clothes|XPHB}, {@item Iron Pot|XPHB}, {@item Lamp|XPHB}, {@item Oil|XPHB} (5 flasks), {@item Perfume|XPHB}, 26 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Thanks to your connections to House Ghallanda, you grew up accustomed to creature comforts, lively conversation, good drink, and delicious food. You might be a charming and witty scion of the house who loves nothing more than a pleasant evening beside a warm hearth. Or you could be a schemer who exploits bonds of trust and friendship to bend others to your will. You might pursue an adventuring career to master the cuisines of other cultures and ages, expand your network of useful contacts, or earn enough money to open your own inn."
+	]
+}

@@ -1,0 +1,249 @@
+{
+	"name": "Cure Wounds",
+	"source": "XPHB",
+	"page": 259,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"A creature you touch regains a number of {@variantrule Hit Points|XPHB} equal to {@dice 2d8} plus your spellcasting ability modifier."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The healing increases by {@scaledice 2d8|1-9|2d8} for each spell slot level above 1."
+			]
+		}
+	],
+	"miscTags": [
+		"HL"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Life Domain",
+					"shortName": "Life",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of Wildfire",
+					"shortName": "Wildfire",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Moon",
+					"shortName": "Moon",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Spellfire Sorcery",
+					"shortName": "Spellfire",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Celestial Patron",
+					"shortName": "Celestial",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Life Domain",
+					"shortName": "Life",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of Wildfire",
+					"shortName": "Wildfire",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Celestial",
+					"shortName": "Celestial",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Halfling (Mark of Healing)",
+			"source": "ERLW",
+			"baseName": "Halfling",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Witherbloom Student",
+			"source": "SCC"
+		}
+	],
+	"feats": [
+		{
+			"name": "Artificer Initiate",
+			"source": "TCE"
+		},
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Gift of the Metallic Dragon",
+			"source": "FTD"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Mark of Healing",
+			"source": "EFA"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Charm of Cure Wounds",
+			"source": "IDRotF"
+		}
+	]
+}

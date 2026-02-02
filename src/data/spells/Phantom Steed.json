@@ -1,0 +1,180 @@
+{
+	"name": "Phantom Steed",
+	"source": "XPHB",
+	"page": 304,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 3,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"A Large, quasi-real, horselike creature appears on the ground in an unoccupied space of your choice within range. You decide the creature's appearance, and it is equipped with a saddle, bit, and bridle. Any of the equipment created by the spell vanishes in a puff of smoke if it is carried more than 10 feet away from the steed.",
+		"For the duration, you or a creature you choose can ride the steed. The steed uses the {@creature Riding Horse|XMM} stat block, except it has a {@variantrule Speed|XPHB} of 100 feet and can travel 13 miles in an hour. When the spell ends, the steed gradually fades, giving the rider 1 minute to dismount. The spell ends early if the steed takes any damage."
+	],
+	"miscTags": [
+		"SMN"
+	],
+	"hasFluffImages": true,
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Undead",
+					"shortName": "Undead",
+					"source": "VRGR"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Illusionist",
+					"shortName": "Illusionist",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Undead",
+					"shortName": "Undead",
+					"source": "VRGR"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Passage)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Passage",
+			"source": "EFA"
+		}
+	]
+}

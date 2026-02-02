@@ -1,0 +1,163 @@
+{
+	"name": "Dust Devil",
+	"source": "XGE",
+	"page": 154,
+	"otherSources": [
+		{
+			"source": "EEPC",
+			"page": 17
+		}
+	],
+	"level": 2,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of dust"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Choose an unoccupied 5-foot cube of air that you can see within range. An elemental force that resembles a dust devil appears in the cube and lasts for the spell's duration.",
+		"Any creature that ends its turn within 5 feet of the dust devil must make a Strength saving throw. On a failed save, the creature takes {@damage 1d8} bludgeoning damage and is pushed 10 feet away from the dust devil. On a successful save, the creature takes half as much damage and isn't pushed.",
+		"As a bonus action, you can move the dust devil up to 30 feet in any direction. If the dust devil moves over sand, dust, loose dirt, or light gravel, it sucks up the material and forms a 10-foot-radius cloud of debris around itself that lasts until the start of your next turn. The cloud heavily obscures its area."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 3rd level or higher, the damage increases by {@scaledamage 1d8|2-9|1d8} for each slot level above 2nd."
+			]
+		}
+	],
+	"damageInflict": [
+		"bludgeoning"
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"FMV",
+		"SGT",
+		"UBA"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

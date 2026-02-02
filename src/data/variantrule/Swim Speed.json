@@ -1,0 +1,11 @@
+{
+	"name": "Swim Speed",
+	"source": "XPHB",
+	"page": 376,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Swim Speed can be used to swim without expending the extra movement normally associated with swimming."
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Opportunist",
+	"source": "GrimHollowPG24",
+	"page": 119,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Exploit Weakness",
+			"entries": [
+				"Whenever you make an attack as part of a {@variantrule Reaction|XPHB}, you gain a +2 bonus to the attack and damage rolls."
+			]
+		}
+	]
+}

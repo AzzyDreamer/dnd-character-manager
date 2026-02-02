@@ -1,0 +1,162 @@
+{
+	"name": "Melf's Minute Meteors",
+	"source": "XGE",
+	"page": 161,
+	"otherSources": [
+		{
+			"source": "EEPC",
+			"page": 20
+		}
+	],
+	"level": 3,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "niter, sulfur, and pine tar formed into a bead"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You create six tiny meteors in your space. They float in the air and orbit you for the spell's duration. When you cast the spell—and as a bonus action on each of your turns thereafter—you can expend one or two of the meteors, sending them streaking toward a point or points you choose within 120 feet of you. Once a meteor reaches its destination or impacts against a solid surface, the meteor explodes. Each creature within 5 feet of the point where the meteor explodes must make a Dexterity saving throw. A creature takes {@damage 2d6} fire damage on a failed save, or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 4th level or higher, the number of meteors created increases by two for each slot level above 3rd."
+			]
+		}
+	],
+	"damageInflict": [
+		"fire"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"UBA"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

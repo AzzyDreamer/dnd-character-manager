@@ -1,0 +1,42 @@
+{
+	"name": "Tavern Brawler",
+	"source": "XPHB",
+	"page": 202,
+	"category": "O",
+	"weaponProficiencies": [
+		{
+			"improvised": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Enhanced Unarmed Strike",
+			"entries": [
+				"When you hit with your {@variantrule Unarmed Strike|XPHB} and deal damage, you can deal Bludgeoning damage equal to {@damage 1d4} plus your Strength modifier instead of the normal damage of an {@variantrule Unarmed Strike|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Damage Rerolls",
+			"entries": [
+				"Whenever you roll a damage die for your {@variantrule Unarmed Strike|XPHB}, you can reroll the die if it rolls a 1, and you must use the new roll."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improvised Weaponry",
+			"entries": [
+				"You have proficiency with improvised weapons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Push",
+			"entries": [
+				"When you hit a creature with an {@variantrule Unarmed Strike|XPHB} as part of the {@action Attack|XPHB} action on your turn, you can deal damage to the target and also push it 5 feet away from you. You can use this benefit only once per turn."
+			]
+		}
+	]
+}

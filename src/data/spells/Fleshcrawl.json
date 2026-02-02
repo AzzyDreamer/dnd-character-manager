@@ -1,0 +1,72 @@
+{
+	"name": "Fleshcrawl",
+	"source": "GrimHollowPG24",
+	"page": 192,
+	"level": 7,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 100
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You rip the flesh from a creature, fashioning it into a twisted monstrosity of blood and skin that rises up to attack the creature.",
+		"A creature that you can see within range makes a Constitution saving throw. On a failed save, the creature takes {@damage 8d10} Necrotic damage. The creature's flayed skin is animated as a grotesque mockery. It uses the {@creature Fleshling Construct|GrimHollowPG24} stat block. On a successful save, it takes half as much damage only.",
+		"The creature is an ally to you and your allies. In combat, the creature shares your {@variantrule Initiative|XPHB} count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the {@action Dodge|XPHB} action and uses its movement to avoid danger. The fleshling disappears when it drops to 0 {@variantrule Hit Points|XPHB} or when the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"Use the spell slot's level for the spell's level in the stat block."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT",
+		"SMN"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Fleshcrawl.webp"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "Close Combat Artillerist",
+	"source": "GrimHollowPG24",
+	"page": 118,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Firing in Melee",
+			"entries": [
+				"Being within 5 feet of an enemy doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with Ranged weapons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Point Blank",
+			"entries": [
+				"When you hit a creature that is within 5 feet of you with a ranged attack, you gain a +2 bonus to the damage roll."
+			]
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Firearm Bullet",
+	"source": "XPHB",
+	"page": 222,
+	"edition": "one",
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.2,
+	"value": 30,
+	"bulletFirearm": true,
+	"entries": [
+		"Firearm Bullets are destroyed upon use in a modern firearm."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

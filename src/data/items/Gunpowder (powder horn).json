@@ -1,0 +1,15 @@
+{
+	"name": "Gunpowder (powder horn)",
+	"source": "XDMG",
+	"page": 73,
+	"type": "EXP|XDMG",
+	"rarity": "none",
+	"weight": 2,
+	"value": 3500,
+	"entries": [
+		"Setting fire to a powder horn full of Gunpowder causes it to explode. When a powder horn explodes, each creature in a 10-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on the powder horn makes a {@dc 12} Dexterity saving throw, taking 10 ({@damage 3d6}) Fire damage on a failed save or half as much damage on a successful one."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

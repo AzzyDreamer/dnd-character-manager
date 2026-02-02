@@ -1,0 +1,37 @@
+{
+	"name": "Boon of the Ascended Vampire",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Inured to Sunlight",
+			"entries": [
+				"You are no longer affected by sunlight."
+			]
+		}
+	]
+}

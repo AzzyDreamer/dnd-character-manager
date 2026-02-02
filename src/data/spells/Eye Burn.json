@@ -1,0 +1,64 @@
+{
+	"name": "Eye Burn",
+	"source": "CrookedMoon24",
+	"page": 128,
+	"level": 0,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "which you take when a creature you can see within range targets you with an attack"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a smear of camphor"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "round",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You sting the eyes of a creature attacking you. The target must make a Constitution saving throw (a creature with {@sense Blindsight|XPHB} or {@variantrule Immunity|XPHB} to the {@condition Blinded|XPHB} condition succeeds automatically). On a failed save, the target has the {@condition Blinded|XPHB} condition until the end of the turn. On a successful save, it must subtract {@dice 1d4} from the triggering attack roll. The target automatically succeeds on its saves against your subsequent casting of this spell for 24 hours."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"blinded"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Eye-Burn.webp"
+}

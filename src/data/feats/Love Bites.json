@@ -1,0 +1,35 @@
+{
+	"name": "Love Bites",
+	"source": "ABH",
+	"page": 10,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Endearing Pain",
+			"entries": [
+				"Immediately after you damage a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}, you can take a {@variantrule Bonus Action|XPHB} to give the target the {@condition Charmed|XPHB} condition until the start of your next turn or until you or your allies damage it. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

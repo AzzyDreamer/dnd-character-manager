@@ -1,0 +1,39 @@
+{
+	"name": "River of Hungry Flame",
+	"source": "PHB",
+	"page": 81,
+	"featureType": [
+		"ED"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 17,
+				"class": {
+					"name": "Monk"
+				},
+				"subclass": {
+					"name": "Four Elements"
+				}
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"_": {
+					"resource": {
+						"5": [
+							"wall of fire"
+						]
+					}
+				}
+			},
+			"resourceName": "Ki",
+			"ability": "wis"
+		}
+	],
+	"entries": [
+		"You can spend 5 ki points to cast {@spell wall of fire}."
+	]
+}

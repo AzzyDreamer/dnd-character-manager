@@ -1,0 +1,22 @@
+{
+	"name": "Luxonborn (Acolyte)",
+	"source": "EGW",
+	"page": 203,
+	"_copy": {
+		"name": "Acolyte",
+		"source": "PHB"
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Every acolyte is a servant of some god. But you serve the Luxon, a being that you believe transcends godhood and created the cosmos. No mere priest, you are a student of potential, for the Luxon is potentiality incarnate. Your Shelter of the Faithful feature applies to all who venerate the Luxon, and to all who practice the art of dunamancy that the Luxon bestowed upon the world."
+					]
+				}
+			]
+		}
+	]
+}

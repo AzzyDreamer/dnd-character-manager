@@ -1,0 +1,82 @@
+{
+	"name": "Warforged",
+	"source": "EFA",
+	"page": 38,
+	"edition": "one",
+	"creatureTypes": [
+		"construct"
+	],
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 30,
+	"traitTags": [
+		"Improved Resting",
+		"Natural Armor"
+	],
+	"skillProficiencies": [
+		{
+			"any": 1
+		}
+	],
+	"toolProficiencies": [
+		{
+			"any": 1
+		}
+	],
+	"resist": [
+		"poison"
+	],
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (about 6-8 feet tall) or Small (about 3-4 feet tall), chosen when you select this species"
+		]
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Construct Resilience",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Poison damage. You also have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Poisoned|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Integrated Protection",
+			"entries": [
+				"You gain a +1 bonus to your {@variantrule Armor Class|XPHB}. In addition, armor you have donned can't be removed against your will while you're alive."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sentry's Rest",
+			"entries": [
+				"You don't need to sleep, and magic can't put you to sleep. You can finish a {@variantrule Long Rest|XPHB} in 6 hours if you spend those hours in an inactive, motionless state. During this time, you appear inert but remain conscious."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Specialized Design",
+			"entries": [
+				"You gain one skill proficiency and one tool proficiency of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tireless",
+			"entries": [
+				"You don't gain {@condition Exhaustion|XPHB} levels from dehydration, malnutrition, or suffocation."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Warforged are mechanical beings built as weapons to fight in the Last War. An unexpected breakthrough produced sentient beings made from wood and metal that nevertheless can feel pain and emotion.",
+	"Warforged comprise a blend of organic and inorganic materials. Rootlike cords infused with alchemical fluids serve as their muscles, wrapped around a framework of steel, darkwood, or stone. Armored plates form a protective outer shell and reinforce joints. The more a warforged cultivates their individuality, the more likely they are to modify their body, seeking out an artifi cer to customize the look of their face, limbs, and plating."
+]

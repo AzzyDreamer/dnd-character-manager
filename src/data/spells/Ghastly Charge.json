@@ -1,0 +1,81 @@
+{
+	"name": "Ghastly Charge",
+	"source": "CrookedMoon24",
+	"page": 129,
+	"level": 6,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a scrap of a banner"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You call forth the spirits of long-dead knights, which charge forward from you in a 90-foot long, 20-foot wide {@variantrule Line [Area of Effect]|XPHB|Line}, and then vanish. Each creature of your choice in the {@variantrule Line [Area of Effect]|XPHB|Line} must make a Wisdom saving throw. On a failed save, a target takes {@damage 5d12} Necrotic damage, has the {@condition Frightened|XPHB} condition until the start of your next turn, and must immediately use its {@variantrule Reaction|XPHB}, if available, to move as far from you as it can, using the safest route. On a successful save, the creature takes half as much damage only."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d12} for each spell slot level above 6."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"frightened"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Spells/ghastly-charge.webp"
+				},
+				"width": 850,
+				"height": 912,
+				"credit": "Anastassia Grigorieva"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Ghastly-Charge.webp"
+}

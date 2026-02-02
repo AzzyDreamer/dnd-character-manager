@@ -1,0 +1,62 @@
+{
+	"name": "Sacrificial Siphon",
+	"source": "CrookedMoon24",
+	"page": 131,
+	"level": 4,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You touch another creature and lay a curse that drains the target's vitality and transfers it to you. The target must make a Charisma saving throw. On a failed save, the target is cursed for the duration. While cursed, the target must subtract {@dice 1d4} from its attack rolls and ability checks, and when the target takes damage, you can take a {@variantrule Reaction|XPHB} to gain 10 {@variantrule Temporary Hit Points|XPHB}. On a successful save, you gain 5 {@variantrule Temporary Hit Points|XPHB}, and the target must subtract {@dice 1d4} from its ability checks until the start of your next turn."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Sacrificial-Siphon.webp"
+}

@@ -1,0 +1,47 @@
+{
+	"name": "Shadowsteel Adept",
+	"source": "GrimHollowPG24",
+	"page": 117,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"spellcasting2020": true
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You have learned to tap into the dangerous but powerful art of Shadowsteel casting. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Curse Caster",
+			"entries": [
+				"You always have Shadowsteel curses prepared, and you can cast them with any spell slots you have."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shadowsteel's Bite",
+			"entries": [
+				"While holding your {@item Shadowsteel Focus|GrimHollowPG24}, you gain a +1 bonus to spell attack rolls and to the saving throw DCs of your spells."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shadowsteel Weapon",
+			"entries": [
+				"If your {@item Shadowsteel Focus|GrimHollowPG24} is also a weapon, that weapon has a +1 bonus to weapon attack rolls and damage rolls."
+			]
+		}
+	]
+}

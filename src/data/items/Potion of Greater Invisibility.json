@@ -1,0 +1,18 @@
+{
+	"name": "Potion of Greater Invisibility",
+	"source": "XDMG",
+	"page": 288,
+	"type": "P|XPHB",
+	"rarity": "very rare",
+	"weight": 0.5,
+	"entries": [
+		"This potion's container looks empty but feels as though it holds liquid. When you drink the potion, you have the {@condition Invisible|XPHB} condition for 1 hour."
+	],
+	"lootTables": [
+		"Arcana - Very Rare|XDMG"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

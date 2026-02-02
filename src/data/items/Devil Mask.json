@@ -1,0 +1,13 @@
+{
+	"name": "Devil Mask",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 2500,
+	"entries": [
+		"While you are wearing a Devil Mask, other creatures have {@variantrule Disadvantage|XPHB} on Intelligence ({@skill Investigation|XPHB}) and Wisdom ({@skill Insight|XPHB}) checks made to discern your true identity or intentions."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

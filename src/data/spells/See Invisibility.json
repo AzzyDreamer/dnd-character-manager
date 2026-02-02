@@ -1,0 +1,203 @@
+{
+	"name": "See Invisibility",
+	"source": "XPHB",
+	"page": 314,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of talc"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"For the duration, you see creatures and objects that have the {@condition Invisible|XPHB} condition as if they were visible, and you can see into the Ethereal Plane. Creatures and objects there appear ghostly."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Light Domain",
+					"shortName": "Light",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Watchers",
+					"shortName": "Watchers",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Diviner",
+					"shortName": "Diviner",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Watchers",
+					"shortName": "Watchers",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Half-Elf (Variant; Mark of Detection)",
+			"source": "ERLW",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Detection",
+			"source": "EFA"
+		}
+	]
+}

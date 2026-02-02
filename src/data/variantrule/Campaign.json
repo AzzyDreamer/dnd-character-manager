@@ -1,0 +1,11 @@
+{
+	"name": "Campaign",
+	"source": "XPHB",
+	"page": 362,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A campaign is a series of {@variantrule Adventure|XPHB|adventures}."
+	]
+}

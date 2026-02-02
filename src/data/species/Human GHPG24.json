@@ -1,0 +1,115 @@
+{
+	"name": "Human",
+	"source": "GrimHollowPG24",
+	"page": 18,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"age": {
+		"mature": 18,
+		"max": 100
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall.)"
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Humans reach adulthood in their late teens and live less than a century."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Human Traits",
+			"entries": [
+				"Though Humans are no more drawn to violence than any other folk, many possess an innate ambition, a hunger for exploration, and a willingness to stand against danger.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Awesome Critical|GrimHollowPG24}",
+								"{@optfeature First Strike|GrimHollowPG24}",
+								"{@optfeature Weapon Aptitude|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Helping Hand|GrimHollowPG24}",
+								"{@optfeature Intrinsic Orientation|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Artisanal Focus|GrimHollowPG24}",
+								"{@optfeature Keen Survivor|GrimHollowPG24}",
+								"{@optfeature Skill Prowess|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"While ancient heritages such as the elves and the dwarves claim to have raised the first kingdoms in Etharis, humans dominate those lands in the current age. Humans can be found everywhere, from the frozen and inhospitable tundra of the North to the scorched plains of the South. First recorded emerging from temperate forests in the lands that are now the Bürach Empire, humans were not considered a threat by the dominant folk of the continent. Left unchecked, their numbers quickly grew. And in the end, the humans' adaptable nature and adventurous mindset led them to expand beyond their homelands.",
+	"The period written in history as the Era of Expansion is often portrayed as an endless eruption of violence that lasted centuries as humans spread to every corner of Etharis. Rather, the Era of Expansion describes many separate conflicts that occurred in the wake of human migration. Humans didn't send armies initially, but settlers. They cut trees from the Grove Maze to build homes. They journeyed to the reaches of Valika to escape their own kingdoms in the south. When they claimed the lands already populated by other folk, war became inevitable. By the time the great kingdoms of the elves and dwarves recognized the danger of human migration, it was already too late. The bloodshed that followed changed Etharis forever.",
+	"The success of humans is owed to their adaptability. They live shorter lives than many other peoples, causing their cultural customs to fade quicker and preventing them from becoming stifled by their own traditions. Every human culture has been touched by another heritage in the lands they've come to settle. In the duchies of the Charneault Kingdom, humans pay homage to the Spirits of Nature as taught to them by the elves. The modern fortresses and cities in the Bürach Empire incorporate dwarven stonework and architecture. To this day, humans are considered the dominant folk across all Etharis, controlling most of the land and sea. But their realms are far from homogeneous, each with their own history and mix of folk from other heritages.",
+	"Of all human vices, ambition is thought to be the most insidious. Humans still dominate positions of power within their societies. Many have asserted their claim to the High Throne of Altenheim, wishing to control the most powerful empire in the world. Known as the Era of Descent, the years that followed the Era of Expansion have been witness to the decline of each human domain. While many commoners believe it to be the death of the gods that began this downfall, folk of other heritages whisper that it was human hubris. When there were no more realms to conquer, humanity turned their greed, ambition, and violence upon themselves.",
+	{
+		"type": "entries",
+		"name": "Common Heritages",
+		"entries": [
+			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+		]
+	}
+]

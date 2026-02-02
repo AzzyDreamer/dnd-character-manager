@@ -1,0 +1,40 @@
+{
+	"name": "Boon of the Bright Sun",
+	"source": "FRHoF",
+	"page": 43,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"con",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Daylight Presence",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you radiate a 30-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} of {@variantrule Bright Light|XPHB} that is sunlight. If any of the {@variantrule Emanation [Area of Effect]|XPHB|Emanation}'s area overlaps with an area of {@spell Darkness|XPHB} created by a spell, that spell is dispelled. The {@variantrule Emanation [Area of Effect]|XPHB|Emanation} lasts until you dismiss it (no action required), die, or have the {@condition Incapacitated|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fortifying Light",
+			"entries": [
+				"When your Daylight Presence is active, at the start of each of your turns, you and allies you can see in your Daylight Presence gain 10 {@variantrule Temporary Hit Points|XPHB}."
+			]
+		}
+	]
+}

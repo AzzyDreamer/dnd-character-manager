@@ -1,0 +1,48 @@
+{
+	"name": "Staff of Dunamancy",
+	"source": "EGW",
+	"page": 270,
+	"rarity": "very rare",
+	"reqAttune": "by a wizard",
+	"reqAttuneTags": [
+		{
+			"class": "wizard"
+		}
+	],
+	"weight": 4,
+	"weaponCategory": "simple",
+	"property": [
+		"V"
+	],
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"dmg2": "1d8",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6 + 4}",
+	"charges": 10,
+	"staff": true,
+	"entries": [
+		"This staff of polished gray wood bears numerous runes carved along its length. The staff has 10 charges and regains {@dice 1d6 + 4} expended charges daily at dawn. If you expend the last charge, roll a {@dice d20}. On a 1, the staff turns into dust and is destroyed.",
+		"While holding the staff, you can use an action to expend 2 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: {@spell fortune's favor|egw} (2 charges), {@spell pulse wave|egw} (3 charges), or {@spell gravity sinkhole|egw} (4 charges).",
+		{
+			"type": "entries",
+			"name": "New Possibility",
+			"entries": [
+				"If you are holding the staff and fail a saving throw against a spell that targets only you, you can turn your failed save into a successful one. This property can't be used again until the next dawn."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"2": [
+				"fortune's favor|egw"
+			],
+			"3": [
+				"pulse wave|egw"
+			],
+			"4": [
+				"gravity sinkhole|egw"
+			]
+		}
+	}
+}

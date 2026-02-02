@@ -1,0 +1,85 @@
+{
+	"name": "Simbul's Synostodweomer",
+	"source": "FRHoF",
+	"page": 145,
+	"level": 7,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You imbue one creature you touch with magical healing energy for the duration. Whenever the target casts a spell using a spell slot, the target can immediately roll a number of unexpended {@variantrule Hit Point Dice|XPHB} equal to the spell slot's level and regain {@variantrule Hit Points|XPHB} equal to the roll's total plus your spellcasting ability modifier; those dice are then expended."
+	],
+	"miscTags": [
+		"HL"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"name": "Unbreakable Arrow",
+	"source": "XGE",
+	"page": 139,
+	"type": "A",
+	"tier": "minor",
+	"rarity": "common",
+	"entries": [
+		"This arrow can't be broken, except when it is within an {@spell antimagic field}."
+	],
+	"hasFluffImages": true
+}

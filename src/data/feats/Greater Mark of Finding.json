@@ -1,0 +1,46 @@
+{
+	"name": "Greater Mark of Finding",
+	"source": "EFA",
+	"page": 43,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of finding|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Hunter's Intuition benefit of your {@feat Mark of Finding|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Finding",
+			"entries": [
+				"When you use the Finder's Magic benefit of your {@feat Mark of Finding|EFA} to cast {@spell Hunter's Mark|XPHB} without a spell slot, the range of the spell is doubled, and you can modify the spell so that the target can't benefit from the {@condition Invisible|XPHB} condition for the duration."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

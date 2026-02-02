@@ -1,0 +1,11 @@
+{
+	"name": "Difficulty Class",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Difficulty Class (DC) is the target number for an ability check or a {@variantrule Saving Throw|XPHB|saving throw}."
+	]
+}

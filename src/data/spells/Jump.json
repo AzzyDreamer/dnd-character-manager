@@ -1,0 +1,212 @@
+{
+	"name": "Jump",
+	"source": "XPHB",
+	"page": 290,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a grasshopper's hind leg"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You touch a willing creature. Once on each of its turns until the spell ends, that creature can jump up to 30 feet by spending 10 feet of movement."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target one additional creature for each spell slot level above 1."
+			]
+		}
+	],
+	"miscTags": [
+		"SCT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Gith (Githyanki)",
+			"source": "MTF",
+			"baseName": "Gith",
+			"baseSource": "MTF"
+		},
+		{
+			"name": "Githyanki",
+			"source": "MPMM"
+		},
+		{
+			"name": "Human (Mark of Passage)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Otherworldly Leap",
+			"source": "PHB",
+			"featureType": [
+				"EI"
+			]
+		},
+		{
+			"name": "Otherworldly Leap",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Simic Scientist",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Passage",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Artificer Initiate",
+			"source": "TCE"
+		},
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	]
+}

@@ -1,0 +1,123 @@
+{
+	"name": "Farmer",
+	"source": "XPHB",
+	"page": 180,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"wis"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"wis"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"tough|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"animal handling": true,
+			"nature": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"carpenter's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "sickle|xphb"
+				},
+				{
+					"item": "carpenter's tools|xphb"
+				},
+				{
+					"item": "healer's kit|xphb"
+				},
+				{
+					"item": "iron pot|xphb"
+				},
+				{
+					"item": "shovel|xphb"
+				},
+				{
+					"item": "traveler's clothes|xphb"
+				},
+				{
+					"value": 3000
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Constitution, Wisdom"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Tough|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Animal Handling|XPHB}, {@skill Nature|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Carpenter's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Sickle|XPHB}, {@item Carpenter's Tools|XPHB}, {@item Healer's Kit|XPHB}, {@item Iron Pot|XPHB}, {@item Shovel|XPHB}, 30 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You grew up close to the land. Years tending animals and cultivating the earth rewarded you with patience and good health. You have a keen appreciation for nature's bounty alongside a healthy respect for nature's wrath."
+	]
+}

@@ -1,0 +1,27 @@
+{
+	"name": "Bracers of Asmodeus",
+	"source": "CoA",
+	"page": 267,
+	"rarity": "rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"curse": true,
+	"bonusAc": "+2",
+	"entries": [
+		"You have a +2 bonus to AC while wearing these bracers, if you do not wear armor or use a shield at the same time.",
+		{
+			"type": "entries",
+			"name": "Curse",
+			"entries": [
+				"While attuned to the bracers, you become obsessed with plotting, scheming, and manipulation. You always barter for better deals, often using secrets or leveraging other offers in the process. If you ever decline an opportunity to better yourself financially at another's expense, you immediately take {@damage 3d10} necrotic damage. Only the {@spell Remove Curse} spell allows you to end attunement to this item."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Corrupting",
+			"entries": [
+				"This item corrupts. See the \"{@adventure Infernal Item Corruption|CoA|16|Infernal Item Corruption}\" section."
+			]
+		}
+	]
+}

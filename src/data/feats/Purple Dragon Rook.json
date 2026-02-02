@@ -1,0 +1,35 @@
+{
+	"name": "Purple Dragon Rook",
+	"source": "FRHoF",
+	"page": 38,
+	"category": "O",
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"insight",
+					"performance",
+					"persuasion"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Entreat",
+			"entries": [
+				"You gain proficiency in one of the following skills: {@skill Insight|XPHB}, {@skill Performance|XPHB}, or {@skill Persuasion|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Rallying Cry",
+			"entries": [
+				"When you roll {@variantrule Initiative|XPHB} and don't have the {@condition Incapacitated|XPHB} condition, you can choose a number of creatures equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} that you can see within 30 feet of yourself. Those creatures gain {@variantrule Heroic Inspiration|XPHB}.",
+				"Once you use this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

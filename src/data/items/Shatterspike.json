@@ -1,0 +1,21 @@
+{
+	"name": "Shatterspike",
+	"source": "TftYP",
+	"page": 229,
+	"baseItem": "longsword|phb",
+	"type": "M",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"weight": 3,
+	"weaponCategory": "martial",
+	"property": [
+		"V"
+	],
+	"dmg1": "1d8",
+	"dmgType": "S",
+	"dmg2": "1d10",
+	"bonusWeapon": "+1",
+	"entries": [
+		"You have a +1 bonus to attack and damage rolls made with this magic weapon. If it hits an object, the hit is automatically a critical hit, and it can deal bludgeoning or slashing damage to the object (your choice). Further, damage from nonmagical sources can't harm the weapon."
+	]
+}

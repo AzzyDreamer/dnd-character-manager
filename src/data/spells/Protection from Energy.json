@@ -1,0 +1,328 @@
+{
+	"name": "Protection from Energy",
+	"source": "XPHB",
+	"page": 309,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 3,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"For the duration, the willing creature you touch has {@variantrule Resistance|XPHB} to one damage type of your choice: Acid, Cold, Fire, Lightning, or Thunder."
+	],
+	"damageResist": [
+		"acid",
+		"cold",
+		"fire",
+		"lightning",
+		"thunder"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Forge Domain",
+					"shortName": "Forge",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Glory",
+					"shortName": "Glory",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Ancients",
+					"shortName": "Ancients",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Clockwork Sorcery",
+					"shortName": "Clockwork",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Abjurer",
+					"shortName": "Abjurer",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Forge Domain",
+					"shortName": "Forge",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Desert"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Ancients",
+					"shortName": "Ancients",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Glory",
+					"shortName": "Glory",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Clockwork Soul",
+					"shortName": "Clockwork Soul",
+					"source": "TCE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Sentinel)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Sentinel",
+			"source": "EFA"
+		}
+	]
+}

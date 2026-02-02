@@ -1,0 +1,25 @@
+{
+	"name": "Hammer of Runic Focus",
+	"source": "BMT",
+	"page": 67,
+	"baseItem": "warhammer|PHB",
+	"type": "M",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"weight": 2,
+	"weaponCategory": "martial",
+	"property": [
+		"V"
+	],
+	"dmg1": "1d8",
+	"dmgType": "B",
+	"dmg2": "1d10",
+	"bonusWeapon": "+3",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d3}",
+	"charges": 3,
+	"entries": [
+		"This magic hammer has 3 charges. As a bonus action, you can expend 1 charge and slam this hammer on the ground, creating a 15-foot-radius circle of glowing runes centered on the point of impact. While you're inside that area, your hammer glows with matching runes, and you gain a +3 bonus to attack and damage rolls made with this hammer. The rune circle disappears after 1 minute, when you create another rune circle, or when you dismiss the rune circle as a bonus action. This hammer regains {@dice 1d3} expended charges daily at dawn."
+	],
+	"hasFluffImages": true
+}

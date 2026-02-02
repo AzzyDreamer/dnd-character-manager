@@ -1,0 +1,167 @@
+{
+	"name": "Detect Poison and Disease",
+	"source": "XPHB",
+	"page": 262,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "sphere",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a yew leaf"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"For the duration, you sense the location of poisons, poisonous or venomous creatures, and magical contagions within 30 feet of yourself. You sense the kind of poison, creature, or contagion in each case.",
+		"The spell is blocked by 1 foot of stone, dirt, or wood; 1 inch of metal; or a thin sheet of lead."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Half-Elf (Variant; Mark of Detection)",
+			"source": "ERLW",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Book of Ancient Secrets",
+			"source": "PHB",
+			"featureType": [
+				"EI"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Simic Scientist",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Fey Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Fey-Touched",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Ritual Caster",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Ritual Caster",
+			"source": "PHB"
+		},
+		{
+			"name": "Quicksmithing",
+			"source": "PSK"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	]
+}

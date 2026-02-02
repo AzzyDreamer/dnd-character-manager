@@ -1,0 +1,21 @@
+{
+	"name": "Earring of Message",
+	"source": "CRCotN",
+	"page": 212,
+	"rarity": "common",
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4 + 1}",
+	"charges": 5,
+	"entries": [
+		"The blue crystal of this earring is wrapped with delicate copper wire. The earring has 5 charges. While wearing it, you can use an action to expend 1 charge and cast the {@spell message} spell. The earring regains {@dice 1d4 + 1} expended charges daily at dawn."
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"message"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

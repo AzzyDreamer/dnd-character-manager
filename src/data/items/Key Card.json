@@ -1,0 +1,21 @@
+{
+	"name": "Key Card",
+	"source": "BMT",
+	"page": 14,
+	"rarity": "legendary",
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "5",
+	"charges": 5,
+	"entries": [
+		"As an action, you can brandish this card and use it to cast the {@spell Knock} spell, with no sound made by the spell. This property can be used five times, and it regains all expended uses at dawn."
+	],
+	"attachedSpells": {
+		"daily": {
+			"5e": [
+				"knock"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

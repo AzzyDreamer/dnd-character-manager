@@ -1,0 +1,46 @@
+{
+	"name": "Blackpowder Pistol Expert",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"dex",
+					"con",
+					"int"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You have become practiced with the use of Blackpowder Pistols. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Deadeye",
+			"entries": [
+				"Attacking at long range doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with a Blackpowder Pistol."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Load",
+			"entries": [
+				"You ignore {@itemProperty LD|XPHB|Loading} of the Blackpowder Pistol."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Trick Shot",
+			"entries": [
+				"Immediately after a creature within 5 feet of you moves, you can take a {@variantrule Reaction|XPHB} to make a ranged attack with a Blackpowder Pistol against that creature."
+			]
+		}
+	]
+}

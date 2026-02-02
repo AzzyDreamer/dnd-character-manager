@@ -1,0 +1,54 @@
+{
+	"name": "Dragonscarred",
+	"source": "FRHoF",
+	"page": 39,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"cult of the dragon initiate|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"con",
+					"cha"
+				]
+			}
+		}
+	],
+	"resist": [
+		{
+			"choose": {
+				"from": [
+					"acid",
+					"cold",
+					"fire",
+					"lightning",
+					"poison"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Damage Resistance",
+			"entries": [
+				"When you gain this feat, choose Acid, Cold, Fire, Lightning, or Poison. You have {@variantrule Resistance|XPHB} to the chosen damage type."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fearsome Power",
+			"entries": [
+				"When you deal damage to a creature as part of the Attack or Magic action on your turn, you can use the Dragon's Terror benefit of the Cult of the Dragon Initiate feat as a {@variantrule Bonus Action|XPHB} this turn."
+			]
+		}
+	]
+}

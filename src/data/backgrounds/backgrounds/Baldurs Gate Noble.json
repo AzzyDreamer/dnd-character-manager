@@ -1,0 +1,46 @@
+{
+	"name": "Baldur's Gate Noble",
+	"source": "BGDIA",
+	"page": 204,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 135
+		}
+	],
+	"_copy": {
+		"name": "Noble",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "replaceArr",
+				"replace": "Feature: Position of Privilege",
+				"items": {
+					"name": "Baldur's Gate Feature: Patriar",
+					"type": "entries",
+					"entries": [
+						"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+						"As a member of one of the elite families of Baldur's Gate, you may pass through city gates without paying tolls, mingle among the Gate's nobility unquestioned, and impress those on the lookout for wealthy patrons. You are welcome in the Upper City and may stay there after dark without being harassed or evicted. Your word is accepted over others' without question, and any corruption among guards or government officials tends to work in your favor, not against you—at least until you make some effort to expose it."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"The patriars of Baldur's Gate live in the Upper City, where they host grand galas and flaunt cosmopolitan fashions, but are walled off from the poverty and squalor of the less fortunate districts and their neighborhoods. Although they might visit prosperous Bloomridge to try a fashionable restaurant or boutique, or watch a spectacle at the Oasis Theater, the patriars have little reason to venture into the dirtier, more dangerous parts of the city. If they do, it is generally as thrill-seeking tourists or enclosed by a retinue of armed guards, not as friends or neighbors. As a result, many patriars are at once acutely attuned to the nuances of royal courts half a continent away and shockingly ignorant of what life is like for the poor outside their own doorsteps.",
+						"This combination of worldly savvy and local blindness characterizes almost all the nobility of Baldur's Gate. As a result, for those who wish to play patriars, the Patriar feature below replaces the Position and Privilege feature of the noble background. Those who wish to use the background's standard feature might have gained their standing in Baldur's Gate from business rather than inheritance."
+					]
+				}
+			]
+		}
+	]
+}

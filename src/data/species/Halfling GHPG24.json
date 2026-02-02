@@ -1,0 +1,122 @@
+{
+	"name": "Halfling",
+	"source": "GrimHollowPG24",
+	"page": 17,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S"
+	],
+	"speed": 30,
+	"age": {
+		"mature": 20,
+		"max": 200
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small (Halflings average about 3 feet tall and weigh about 40 pounds.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. You can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"A Halfling reaches adulthood at the age of 20 and generally lives into the middle of their second century."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Halfling Traits",
+			"entries": [
+				"Many Halflings possess innate instincts of courage and curiosity, even if only a few get the chance to use them.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Brave|GrimHollowPG24}",
+								"{@optfeature Creature Cover|GrimHollowPG24}",
+								"{@optfeature Lucky|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Helping Hand|GrimHollowPG24}",
+								"{@optfeature Pass Through|GrimHollowPG24}",
+								"{@optfeature Power Nap|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Artisanal Focus|GrimHollowPG24} ({@item Brewer's Supplies|XPHB}, {@item Cook's Utensils|XPHB}, or {@item Potter's Tools|XPHB})",
+								"{@optfeature Embrace the Past|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Over the centuries in which humankind proved an unstoppable force in conquering Etharis, humans earned the enmity of most other folk. All who tried to oppose them were met with violence. One group, however, chose not to contest human ascendancy and instead survived by adapting to human hegemony.",
+	"The Era of Expansion did not affect the halflings of Etharis as it did the folk of other heritages. Halflings hold less value for mundane riches like gold or jewels and were therefore happy paying tithes to stronger and better-armed humans who offered them protection. Though brave and spirited, halflings lack the ambition for nation building. Their humble shires easily adapted to becoming breadbaskets for human-made empires and kingdoms. Halflings also fit into human culture perfectly by acquiring useful positions such as merchants, advisors, teachers, or scholars. Even though the halflings did not agree with the violent ways of humans, they kept their silence and ensured their survival.",
+	"Halflings are a resilient but peaceful people. What most of these tiny folk seek in life is a quiet place to settle, far away from conflict and war. They enjoy good music, fine food, and a good laugh when they can, and have a passion for lore, learning, and wild tales. But this does not mean that halflings are unable to fend for themselves in a dangerous world. They're courageous folk when standing against foes they cannot elude or escape, and accounts of halfling adventurers seeking ancient and hidden knowledge are some of the most famous stories among their kind.",
+	"Halflings have long used the lore they gather to build impressive libraries on specific subjects. Within the countless volumes of these libraries lie generations of knowledge pertaining to the interests and passions of these folk, including domestic crafts, nature, and history.",
+	{
+		"type": "entries",
+		"name": "Common Heritages",
+		"entries": [
+			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+		]
+	}
+]

@@ -1,0 +1,95 @@
+{
+	"name": "Curse of Crushing Sensation",
+	"source": "GrimHollowPG24",
+	"page": 211,
+	"level": 6,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a drop of the target's blood, a shred of silk material, and a horn worth 1,000+ GP, all of which the spell consumes",
+			"cost": 100000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with painful hypersensitivity to physical sensations. The target must make a Constitution saving throw.",
+		{
+			"type": "entries",
+			"name": "Successful Saving Throw",
+			"entries": [
+				"On a successful save, the target takes {@damage 4d6} Thunder damage and is aware it was targeted by a curse. For 1 minute, the target takes {@damage 1d6} Thunder damage at the start of each of its turns."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 8d10} Thunder damage and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target hears a loud noise, it gets a crippling headache, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature avoids {@variantrule Bright Light|XPHB}, loud noises, extreme temperatures, and doesn't like to be touched."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature can't stand the feeling of rough or heavy clothing against its skin. It can't wear armor. It has {@variantrule Vulnerability|XPHB} to Thunder damage from its hypersensitivity. Additionally, it has {@variantrule Disadvantage|XPHB} on attack rolls if it or its target is in an area of {@variantrule Bright Light|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"Even mild sensory input becomes intolerable to the cursed creature. It is driven to find a dark and quiet lair, such as a deep cave or dungeon. The cursed creature can't willingly leave this lair and has {@variantrule Vulnerability|XPHB} to all damage except for Psychic damage while outside its lair."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Sightless Agony."
+			]
+		}
+	],
+	"damageInflict": [
+		"thunder"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Crushing%20Sensation.webp"
+}

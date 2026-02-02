@@ -1,0 +1,137 @@
+{
+	"name": "Investiture of Wind",
+	"source": "XGE",
+	"page": 160,
+	"otherSources": [
+		{
+			"source": "EEPC",
+			"page": 20
+		}
+	],
+	"level": 6,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Until the spell ends, wind whirls around you, and you gain the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"Ranged weapon attacks made against you have disadvantage on the attack roll.",
+				"You gain a flying speed of 60 feet. If you are still flying when the spell ends, you fall, unless you can somehow prevent it.",
+				"You can use your action to create a 15-foot cube of swirling wind centered on a point you can see within 60 feet of you. Each creature in that area must make a Constitution saving throw. A creature takes {@damage 2d10} bludgeoning damage on a failed save, or half as much damage on a successful one. If a Large or smaller creature fails the save, that creature is also pushed up to 10 feet away from the center of the cube."
+			]
+		}
+	],
+	"damageInflict": [
+		"bludgeoning"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"FMV",
+		"SGT"
+	],
+	"areaTags": [
+		"C"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

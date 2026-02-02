@@ -1,0 +1,26 @@
+{
+	"name": "Gunner",
+	"source": "TCE",
+	"page": 80,
+	"ability": [
+		{
+			"dex": 1
+		}
+	],
+	"weaponProficiencies": [
+		{
+			"firearms": true
+		}
+	],
+	"entries": [
+		"You have a quick hand and keen eye when employing firearms, granting you the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"You gain proficiency with firearms (see \"{@variantrule Firearms|DMG}\" in the Dungeon Master's Guide).",
+				"You ignore the {@itemProperty LD|PHB|loading} property of firearms.",
+				"Being within 5 feet of a hostile creature doesn't impose disadvantage on your ranged attack rolls."
+			]
+		}
+	]
+}

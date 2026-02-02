@@ -1,0 +1,23 @@
+{
+	"name": "Myriad Operative (Criminal)",
+	"source": "EGW",
+	"page": 203,
+	"_copy": {
+		"name": "Criminal",
+		"source": "PHB"
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Most criminals in Wildemount are petty thieves and cutpurses who operate out of desperation. You, however, are a criminal of a higher caliber. You are a member of the Myriad, the greatest crime syndicate to ever grace the face of Exandria. You have a network of criminal contacts and allies to help you in your crimes—but you also have rivals and superiors that would gladly throw you to the wolves to save their own skins.",
+						"The Myriad has bases of operation in every major city outside Eastern Wynandir, even if those bases are made up of only two or three members. Wherever you find the Myriad, you can find temporary shelter from the law—for a price."
+					]
+				}
+			]
+		}
+	]
+}

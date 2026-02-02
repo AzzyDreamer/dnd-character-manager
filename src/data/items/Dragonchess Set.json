@@ -1,0 +1,31 @@
+{
+	"name": "Dragonchess Set",
+	"source": "XPHB",
+	"page": 221,
+	"basicRules2024": true,
+	"type": "GS|XPHB",
+	"rarity": "none",
+	"value": 100,
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"name": "Ability:",
+					"type": "item",
+					"entries": [
+						"Wisdom"
+					]
+				},
+				{
+					"name": "Utilize:",
+					"type": "item",
+					"entries": [
+						"Discern whether someone is cheating ({@dc 10}), or win the game ({@dc 20})"
+					]
+				}
+			]
+		}
+	]
+}

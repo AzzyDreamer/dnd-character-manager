@@ -1,0 +1,15 @@
+{
+	"name": "Charlatan's Die",
+	"source": "XDMG",
+	"page": 243,
+	"rarity": "common",
+	"reqAttune": true,
+	"wondrous": true,
+	"entries": [
+		"Whenever you roll this six-sided die, you can control which number it rolls."
+	],
+	"lootTables": [
+		"Implements - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

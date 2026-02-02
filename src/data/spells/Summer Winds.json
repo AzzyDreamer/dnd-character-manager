@@ -1,0 +1,70 @@
+{
+	"name": "Summer Winds",
+	"source": "CrookedMoon24",
+	"page": 133,
+	"level": 2,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You unleash a blast of light and wind in a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone}. Your allies in the {@variantrule Cone [Area of Effect]|XPHB|Cone} regain {@dice 2d6} {@variantrule Hit Points|XPHB}. Undead within the {@variantrule Cone [Area of Effect]|XPHB|Cone} that are {@variantrule Hostile [Attitude]|XPHB|Hostile} to you must make a Constitution saving throw, taking {@damage 2d6} Radiant damage on a failed save, or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage and healing increase by {@dice 2d6} for each spell slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"radiant"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Summer-Winds.webp"
+}

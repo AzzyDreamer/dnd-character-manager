@@ -1,0 +1,128 @@
+{
+	"name": "Destructive Wave",
+	"source": "XPHB",
+	"page": 261,
+	"level": 5,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "sphere",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Destructive energy ripples outward from you in a 30-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. Each creature you choose in the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} makes a Constitution saving throw. On a failed save, a target takes {@damage 5d6} Thunder damage and {@damage 5d6} Radiant or Necrotic damage (your choice) and has the {@condition Prone|XPHB} condition. On a successful save, a target takes half as much damage only."
+	],
+	"damageInflict": [
+		"necrotic",
+		"radiant",
+		"thunder"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"areaTags": [
+		"MT",
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Tempest Domain",
+					"shortName": "Tempest",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Zeal Domain (PSA)",
+					"shortName": "Zeal (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Tempest Domain",
+					"shortName": "Tempest",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Zeal Domain (PSA)",
+					"shortName": "Zeal (PSA)",
+					"source": "PSA"
+				}
+			}
+		]
+	},
+	"backgrounds": [
+		{
+			"name": "Gruul Anarch",
+			"source": "GGR"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Bead of Refreshment",
+	"source": "XDMG",
+	"page": 235,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"This flavorless, gelatinous bead dissolves in liquid, transforming up to a pint of the liquid into fresh, cold drinking water. The bead has no effect on magical liquids or harmful substances such as poison."
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

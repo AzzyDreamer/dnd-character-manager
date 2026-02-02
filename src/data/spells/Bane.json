@@ -1,0 +1,237 @@
+{
+	"name": "Bane",
+	"source": "XPHB",
+	"page": 245,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a drop of blood"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Up to three creatures of your choice that you can see within range must each make a Charisma saving throw. Whenever a target that fails this save makes an attack roll or a saving throw before the spell ends, the target must subtract {@dice 1d4} from the attack roll or save."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target one additional creature for each spell slot level above 1."
+			]
+		}
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"SCT",
+		"SGT"
+	],
+	"areaTags": [
+		"MT"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Ambition Domain (PSA)",
+					"shortName": "Ambition (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Grave Domain",
+					"shortName": "Grave",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Undead",
+					"shortName": "Undead",
+					"source": "VRGR"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Ambition Domain (PSA)",
+					"shortName": "Ambition (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Grave Domain",
+					"shortName": "Grave",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Undead",
+					"shortName": "Undead",
+					"source": "VRGR"
+				}
+			}
+		]
+	},
+	"optionalfeatures": [
+		{
+			"name": "Thief of Five Fates",
+			"source": "PHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Fey Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Fey-Touched",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		},
+		{
+			"name": "Vampire Touched",
+			"source": "ABH"
+		}
+	]
+}

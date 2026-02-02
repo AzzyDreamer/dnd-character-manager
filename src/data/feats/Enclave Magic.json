@@ -1,0 +1,62 @@
+{
+	"name": "Enclave Magic",
+	"source": "FRHoF",
+	"page": 39,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"emerald enclave fledgling|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"beast sense|xphb"
+						]
+					}
+				}
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Friend to Animals",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on ability checks when taking the {@action Influence|XPHB} action with Beasts."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Two Hearts, One Mind",
+			"entries": [
+				"You always have the {@spell Beast Sense|XPHB} spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. When you cast it without a spell slot using this feature, it doesn't require {@status Concentration|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level. The spell's spellcasting ability is the ability increased by this feat."
+			]
+		}
+	]
+}

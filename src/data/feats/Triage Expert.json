@@ -1,0 +1,23 @@
+{
+	"name": "Triage Expert",
+	"source": "GrimHollowPG24",
+	"page": 115,
+	"category": "O",
+	"entries": [
+		"You are trained in dealing with injuries on the battlefield, and with the saving of lives afterward. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Bedside Manner",
+			"entries": [
+				"Whenever you cause a creature to regain {@variantrule Hit Points|XPHB} or the Blood and Bone benefit, you can roll one extra die and discard the lowest die."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Blood and Bone",
+			"entries": [
+				"Taking the {@action Utilize|XPHB} action and expending the use of a {@item Healer's Kit|XPHB} lets you heal a creature within 5 feet of you. The creature can expend and roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die} and regain that number of {@variantrule Hit Points|XPHB}."
+			]
+		}
+	]
+}

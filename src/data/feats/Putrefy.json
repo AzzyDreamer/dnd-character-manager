@@ -1,0 +1,35 @@
+{
+	"name": "Putrefy",
+	"source": "ABH",
+	"page": 10,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Necrosis",
+			"entries": [
+				"When you make a damage roll that deals Necrotic damage, you can cause one creature taking that damage to have the {@condition Poisoned|XPHB} condition until the start of your next turn. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

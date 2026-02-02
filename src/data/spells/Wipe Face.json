@@ -1,0 +1,60 @@
+{
+	"name": "Wipe Face",
+	"source": "GrimHollowPG24",
+	"page": 206,
+	"level": 9,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You curse a creature that you can see within range. The target's face is replaced with completely smooth skin, sealing the creature's eyes, nose, and mouth. The creature has the {@condition Blinded|XPHB} and {@condition Incapacitated|XPHB} conditions and begins suffocating.",
+		"At the end of each of its turns, the target can attempt a Constitution saving throw to end the spell. Dealing at least 15 Slashing damage to the target opens an airway allowing it to breathe, but  the curse seals the opening at the start of your next turn."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"slashing"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Wipe%20Face.webp"
+}

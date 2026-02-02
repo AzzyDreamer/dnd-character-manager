@@ -1,0 +1,17 @@
+{
+	"name": "Peregrine Mask",
+	"source": "GGR",
+	"page": 180,
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"modifySpeed": {
+		"static": {
+			"fly": 60
+		}
+	},
+	"entries": [
+		"While wearing this winged helm, you have a flying speed of 60 feet. In addition, you have advantage on initiative rolls."
+	],
+	"hasFluffImages": true
+}

@@ -1,0 +1,204 @@
+{
+	"name": "Guardian of Faith",
+	"source": "XPHB",
+	"page": 281,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 4,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 8
+			}
+		}
+	],
+	"entries": [
+		"A Large spectral guardian appears and hovers for the duration in an unoccupied space that you can see within range. The guardian occupies that space and is invulnerable, and it appears in a form appropriate for your deity or pantheon.",
+		"Any enemy that moves to a space within 10 feet of the guardian for the first time on a turn or starts its turn there makes a Dexterity saving throw, taking 20 Radiant damage on a failed save or half as much damage on a successful one. The guardian vanishes when it has dealt a total of 60 damage."
+	],
+	"damageInflict": [
+		"radiant"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"hasFluffImages": true,
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Life Domain",
+					"shortName": "Life",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Light Domain",
+					"shortName": "Light",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Solidarity Domain (PSA)",
+					"shortName": "Solidarity (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Devotion",
+					"shortName": "Devotion",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Celestial",
+					"shortName": "Celestial",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Solidarity Domain (PSA)",
+					"shortName": "Solidarity (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Devotion",
+					"shortName": "Devotion",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Celestial Patron",
+					"shortName": "Celestial",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Sentinel)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Sentinel",
+			"source": "EFA"
+		}
+	]
+}

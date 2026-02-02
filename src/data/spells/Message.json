@@ -1,0 +1,354 @@
+{
+	"name": "Message",
+	"source": "XPHB",
+	"page": 298,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 0,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"s": true,
+		"m": "a copper wire"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "round",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You point toward a creature within range and whisper a message. The target (and only the target) hears the message and can reply in a whisper that only you can hear.",
+		"You can cast this spell through solid objects if you are familiar with the target and know it is beyond the barrier. Magical silence; 1 foot of stone, metal, or wood; or a thin sheet of lead blocks the spell."
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of the Moon",
+					"shortName": "Moon",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf",
+			"source": "LFL"
+		},
+		{
+			"name": "Elf (High)",
+			"source": "PHB",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Elf (Kaladesh; Vahadar)",
+			"source": "PSK",
+			"baseName": "Elf (Kaladesh)",
+			"baseSource": "PSK"
+		},
+		{
+			"name": "Gnome (Mark of Scribing)",
+			"source": "ERLW",
+			"baseName": "Gnome",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Half-Elf (Variant; Moon Elf or Sun Elf Descent)",
+			"source": "SCAG",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Kobold",
+			"source": "MPMM"
+		},
+		{
+			"name": "Merfolk (Ixalan; Blue)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Ixalan; Green)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Cosi Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Emeria Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Ula Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Druidic Warrior",
+			"source": "TCE",
+			"featureType": [
+				"FS:R"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Azorius Functionary",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Scribing",
+			"source": "EFA"
+		},
+		{
+			"name": "Aberrant Dragonmark",
+			"source": "ERLW"
+		},
+		{
+			"name": "Artificer Initiate",
+			"source": "TCE"
+		},
+		{
+			"name": "Cold Caster",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Druidic Warrior",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Initiate of High Sorcery",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Wood Elf Magic",
+			"source": "XGE"
+		}
+	]
+}

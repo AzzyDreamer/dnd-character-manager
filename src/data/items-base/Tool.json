@@ -1,0 +1,10 @@
+{
+	"name": "Tool",
+	"abbreviation": "T",
+	"source": "XPHB",
+	"page": 220,
+	"basicRules2024": true,
+	"entries": [
+		"If you have proficiency with a tool, add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to any ability check you make that uses the tool. If you have proficiency in a skill that's used with that check, you have {@variantrule Advantage|XPHB} on the check too."
+	]
+}

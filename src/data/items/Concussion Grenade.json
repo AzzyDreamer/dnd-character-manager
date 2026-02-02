@@ -1,0 +1,13 @@
+{
+	"name": "Concussion Grenade",
+	"source": "QftIS",
+	"page": 192,
+	"type": "EXP|DMG",
+	"rarity": "none",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Grenade|DMG}",
+		"This grenade explodes in a concussive blast that fills a 20-foot-radius sphere. Each creature in that area must make a {@dc 15} Dexterity saving throw, taking ({@damage 6d6}) force damage on a failed save or half as much damage on a successful one."
+	],
+	"hasFluffImages": true
+}

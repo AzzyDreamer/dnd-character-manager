@@ -1,0 +1,22 @@
+{
+	"name": "Helm of Underwater Action",
+	"source": "GoS",
+	"page": 229,
+	"otherSources": [
+		{
+			"source": "IMR",
+			"page": 94
+		}
+	],
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"wondrous": true,
+	"modifySpeed": {
+		"static": {
+			"swim": 30
+		}
+	},
+	"entries": [
+		"While wearing this brass helmet, you can breathe underwater, you gain {@sense darkvision} with a range of 60 feet, and you gain a swimming speed of 30 feet."
+	]
+}

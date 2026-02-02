@@ -1,0 +1,29 @@
+{
+	"name": "Prone",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Prone condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Restricted Movement",
+					"entries": [
+						"Your only movement options are to {@variantrule Crawling|XPHB|crawl} or to spend an amount of movement equal to half your {@variantrule Speed|XPHB} (round down) to right yourself and thereby end the condition. If your {@variantrule Speed|XPHB} is 0, you can't right yourself."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attacks Affected",
+					"entries": [
+						"You have {@variantrule Disadvantage|XPHB} on attack rolls. An attack roll against you has {@variantrule Advantage|XPHB} if the attacker is within 5 feet of you. Otherwise, that attack roll has {@variantrule Disadvantage|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

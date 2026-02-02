@@ -1,0 +1,300 @@
+{
+	"name": "Toll the Dead",
+	"source": "XPHB",
+	"page": 334,
+	"level": 0,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You point at one creature you can see within range, and the single chime of a dolorous bell is audible within 10 feet of the target. The target must succeed on a Wisdom saving throw or take {@damage 1d8} Necrotic damage. If the target is missing any of its {@variantrule Hit Points|XPHB}, it instead takes {@damage 1d12} Necrotic damage."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Cantrip Upgrade",
+			"entries": [
+				"The damage increases by one die when you reach levels 5 ({@damage 2d8} or {@damage 2d12}), 11 ({@damage 3d8} or {@damage 3d12}), and 17 ({@damage 4d8} or {@damage 4d12})."
+			]
+		}
+	],
+	"scalingLevelDice": [
+		{
+			"label": "Necrotic damage",
+			"scaling": {
+				"1": "1d8",
+				"5": "2d8",
+				"11": "3d8",
+				"17": "4d8"
+			}
+		},
+		{
+			"label": "Necrotic damage to wounded creature",
+			"scaling": {
+				"1": "1d12",
+				"5": "2d12",
+				"11": "3d12",
+				"17": "4d12"
+			}
+		}
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"SCL",
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Death Domain",
+					"shortName": "Death",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Death Domain",
+					"shortName": "Death",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf (High)",
+			"source": "PHB",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Half-Elf (Variant; Moon Elf or Sun Elf Descent)",
+			"source": "SCAG",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Merfolk (Ixalan; Blue)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Ula Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Blessed Warrior",
+			"source": "TCE",
+			"featureType": [
+				"FS:P"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Blessed Warrior",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Cold Caster",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Initiate of High Sorcery",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Light Bringer",
+			"source": "ABH"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"name": "Slow",
+	"source": "XPHB",
+	"page": 214,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"If you hit a creature with this weapon and deal damage to it, you can reduce its {@variantrule Speed|XPHB} by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the {@variantrule Speed|XPHB} reduction doesn't exceed 10 feet."
+	]
+}

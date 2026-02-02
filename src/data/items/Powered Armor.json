@@ -1,0 +1,56 @@
+{
+	"name": "Powered Armor",
+	"source": "QftIS",
+	"page": 192,
+	"type": "HA",
+	"rarity": "none",
+	"age": "futuristic",
+	"charges": 24,
+	"entries": [
+		"This suit of technologically advanced plate armor includes an under-suit that can fully seal, a helmet with a full face mask and crystal lenses in the eyeholes, and a set of gauntlets. The armor is powered by an {@item energy cell} stored in a compartment on the thigh plate.",
+		"Placing a full {@item energy cell} in the armor gives the armor 24 charges. A suit of powered armor functions as a suit of normal plate armor, even when it has 0 charges remaining.",
+		{
+			"type": "entries",
+			"name": "Activating the Armor",
+			"entries": [
+				"As an action, you can expend any number of the armor's charges to activate it; the armor remains active for 1 hour per charge expended. You can use a bonus action to deactivate the armor early, but doing so doesn't recover any expended charges.",
+				"While the armor is active, you gain the following benefits:"
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Augmented Physicality",
+			"entries": [
+				"You have advantage on Strength checks, and your carrying capacity is doubled."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Environmental Adaptation",
+			"entries": [
+				"The armor seals airtight and provides its own atmosphere. You can breathe normally in any environment and withstand extreme temperatures, and you're unaffected by harmful gases, as well as contact and inhaled poisons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Force Field",
+			"entries": [
+				"When you would take damage, you can use your reaction to expend 1 of the armor's charges to deploy a defensive force field. Roll {@dice 3d10} and reduce the damage taken by the total rolled."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Propulsion",
+			"entries": [
+				"As a bonus action, you can expend 1 of the armor's charges to gain a flying speed equal to your walking speed for 1 minute. If you're airborne when this duration ends, you fall."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Replacing the Energy Cell",
+			"entries": [
+				"While the armor has charges remaining, its {@item energy cell} can't be removed. Once the armor has 0 charges, you can replace the {@item energy cell} with a new cell by using an action or a bonus action."
+			]
+		}
+	]
+}

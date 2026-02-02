@@ -1,0 +1,353 @@
+{
+	"name": "Boon of Siberys",
+	"source": "EFA",
+	"page": 45,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"campaign": [
+				"Eberron"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"additionalSpells": [
+		{
+			"name": "Mark of Handling",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"animal shapes|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Storm",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"control weather|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Making",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"demiplane|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Hospitality",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"heroes' feast|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Warding",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"maze|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Sentinel",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"mind blank|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Passage",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"plane shift|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Shadow",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"project image|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Healing",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"regenerate|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Scribing",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"symbol|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Finding",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"teleport|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Mark of Detection",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"true seeing|xphb"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "Sorcerer Spell",
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							{
+								"choose": "level=1;2;3;4;5;6;7;8|class=Sorcerer"
+							}
+						]
+					}
+				}
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Aberrant Magic",
+			"entries": [
+				"Choose a level 8 or lower spell from the {@filter Sorcerer spell list|spells|class=Sorcerer|level=0;1;2;3;4;5;6;7;8} or a spell from the Siberys Dragonmark Spells table (the table includes dragonmark suggestions if you'd like to associate a spell with one of the marks). You always have that spell prepared. You can cast it once without a spell slot or spell components, and you regain the ability to cast it in that way when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}. You can also cast this spell using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you gain this feat).",
+				{
+					"type": "table",
+					"caption": "Siberys Dragonmark Seplls",
+					"colStyles": [
+						"col-6",
+						"col-6"
+					],
+					"colLabels": [
+						"Spell",
+						"Suggested Dragonmark"
+					],
+					"rows": [
+						[
+							"{@spell Animal Shapes|XPHB}",
+							"Handling"
+						],
+						[
+							"{@spell Control Weather|XPHB}",
+							"Storm"
+						],
+						[
+							"{@spell Demiplane|XPHB}",
+							"Making"
+						],
+						[
+							"{@spell Heroes' Feast|XPHB}",
+							"Hospitality"
+						],
+						[
+							"{@spell Maze|XPHB}",
+							"Warding"
+						],
+						[
+							"{@spell Mind Blank|XPHB}",
+							"Sentinel"
+						],
+						[
+							"{@spell Plane Shift|XPHB}",
+							"Passage"
+						],
+						[
+							"{@spell Project Image|XPHB}",
+							"Shadow"
+						],
+						[
+							"{@spell Regenerate|XPHB}",
+							"Healing"
+						],
+						[
+							"{@spell Symbol|XPHB}",
+							"Scribing"
+						],
+						[
+							"{@spell Teleport|XPHB}",
+							"Finding"
+						],
+						[
+							"{@spell True Seeing|XPHB}",
+							"Detection"
+						]
+					]
+				}
+			]
+		}
+	],
+	"hasFluffImages": true
+}

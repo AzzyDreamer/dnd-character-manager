@@ -1,0 +1,32 @@
+{
+	"name": "Boon of Desperate Resilience",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"con"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Defense of Body and Mind",
+			"entries": [
+				"While you are {@status Bloodied|XPHB}, you have {@variantrule Resistance|XPHB} to every damage type except Force."
+			]
+		}
+	]
+}

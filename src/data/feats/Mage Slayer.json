@@ -1,0 +1,38 @@
+{
+	"name": "Mage Slayer",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Concentration Breaker",
+			"entries": [
+				"When you damage a creature that is {@status Concentration|XPHB|Concentrating}, it has {@variantrule Disadvantage|XPHB} on the saving throw it makes to maintain {@status Concentration|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Guarded Mind",
+			"entries": [
+				"If you fail an Intelligence, a Wisdom, or a Charisma saving throw, you can cause yourself to succeed instead. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

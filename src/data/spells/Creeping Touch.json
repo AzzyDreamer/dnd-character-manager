@@ -1,0 +1,65 @@
+{
+	"name": "Creeping Touch",
+	"source": "GrimHollowPG24",
+	"page": 189,
+	"level": 1,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You detach your hand at the wrist, transforming it into a {@creature Spider|XMM}. While the spider is within 100 feet of you, you can communicate with it telepathically. Additionally, as a {@action Magic|XPHB} action, you can see through its eyes and hear what it hears until the start of your next turn. During this time, you have no awareness of your own surroundings.",
+		"If the spider is killed or doesn't return to you before the spell ends, your hand is restored, but you take {@damage 1d6} Psychic damage. As a {@variantrule Bonus Action|XPHB}, you can command the spider to return to you. Once it arrives, it reattaches as your hand and the spell ends."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"psychic"
+	],
+	"miscTags": [
+		"SGT",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Creeping%20Touch.webp"
+}

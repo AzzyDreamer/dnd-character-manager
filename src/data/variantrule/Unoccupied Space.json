@@ -1,0 +1,11 @@
+{
+	"name": "Unoccupied Space",
+	"source": "XPHB",
+	"page": 377,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A space is unoccupied if no creatures are in it and it isn't completely filled by objects."
+	]
+}

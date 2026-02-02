@@ -1,0 +1,11 @@
+{
+	"name": "Magical Effect",
+	"source": "XPHB",
+	"page": 371,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An effect is magical if it is created by a spell, a magic item, or a phenomenon that a rule labels as magical."
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"name": "Axe Beak",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "MNT|XPHB",
+	"rarity": "none",
+	"value": 5000,
+	"entries": [
+		"Use the {@creature Axe Beak|XMM} stat block."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

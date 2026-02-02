@@ -1,0 +1,23 @@
+{
+	"name": "Vampire Hunter",
+	"source": "ABH",
+	"page": 8,
+	"category": "O",
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Adroit Escape",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on checks to escape from nonmagical restraints or the {@condition Grappled|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Vitality Ward",
+			"entries": [
+				"When you take Necrotic damage, you can take a {@variantrule Reaction|XPHB} to mitigate the damage. Roll a number of d6s equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and add them together. Reduce the Necrotic damage you take by this total. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

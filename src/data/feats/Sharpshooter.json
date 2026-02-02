@@ -1,0 +1,45 @@
+{
+	"name": "Sharpshooter",
+	"source": "XPHB",
+	"page": 207,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"dex": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Bypass Cover",
+			"entries": [
+				"Your ranged attacks with weapons ignore {@variantrule Cover|XPHB|Half Cover} and {@variantrule Cover|XPHB|Three-Quarters Cover}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Firing in Melee",
+			"entries": [
+				"Being within 5 feet of an enemy doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with Ranged weapons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Long Shots",
+			"entries": [
+				"Attacking at long range doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with Ranged weapons."
+			]
+		}
+	]
+}

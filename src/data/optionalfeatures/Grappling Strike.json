@@ -1,0 +1,15 @@
+{
+	"name": "Grappling Strike",
+	"source": "TCE",
+	"page": 42,
+	"isClassFeatureVariant": true,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"Immediately after you hit a creature with a melee attack on your turn, you can expend one superiority die and then try to grapple the target as a bonus action (see the Player's Handbook for rules on grappling). Add the superiority die to your Strength ({@skill Athletics}) check."
+	]
+}

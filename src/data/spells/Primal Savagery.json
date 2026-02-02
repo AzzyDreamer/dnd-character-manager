@@ -1,0 +1,218 @@
+{
+	"name": "Primal Savagery",
+	"source": "XGE",
+	"page": 163,
+	"level": 0,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You channel primal magic to cause your teeth or fingernails to sharpen, ready to deliver a corrosive attack. Make a melee spell attack against one creature within 5 feet of you. On a hit, the target takes {@damage 1d10} acid damage. After you make the attack, your teeth or fingernails return to normal.",
+		"The spell's damage increases by {@damage 1d10} when you reach 5th level ({@damage 2d10}), 11th level ({@damage 3d10}), and 17th level ({@damage 4d10})."
+	],
+	"scalingLevelDice": {
+		"label": "acid damage",
+		"scaling": {
+			"1": "1d10",
+			"5": "2d10",
+			"11": "3d10",
+			"17": "4d10"
+		}
+	},
+	"damageInflict": [
+		"acid"
+	],
+	"spellAttack": [
+		"M"
+	],
+	"miscTags": [
+		"SCL"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of the Moon",
+					"shortName": "Moon",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Nature Domain",
+					"shortName": "Nature",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Strength Domain (PSA)",
+					"shortName": "Strength (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf",
+			"source": "LFL"
+		},
+		{
+			"name": "Elf (Kaladesh; Vahadar)",
+			"source": "PSK",
+			"baseName": "Elf (Kaladesh)",
+			"baseSource": "PSK"
+		},
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Merfolk (Ixalan; Green)",
+			"source": "PSX",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		},
+		{
+			"name": "Merfolk (Zendikar; Emeria Creed)",
+			"source": "PSZ",
+			"baseName": "Merfolk",
+			"baseSource": "PSZ"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Druidic Warrior",
+			"source": "TCE",
+			"featureType": [
+				"FS:R"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Druidic Warrior",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Spell Sniper",
+			"source": "PHB"
+		},
+		{
+			"name": "Wood Elf Magic",
+			"source": "XGE"
+		}
+	]
+}

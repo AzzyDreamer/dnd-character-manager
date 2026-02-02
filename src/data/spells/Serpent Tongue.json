@@ -1,0 +1,69 @@
+{
+	"name": "Serpent Tongue",
+	"source": "GrimHollowPG24",
+	"page": 201,
+	"level": 3,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You transform your tongue into a poisonous serpent for the duration. As a {@variantrule Bonus Action|XPHB}, you can make a melee spell attack against a creature within 10 feet of you. On a hit, the target takes {@damage 1d12} Piercing damage and has the {@condition Poisoned|XPHB} condition for the duration of the spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d12} for every spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"piercing"
+	],
+	"conditionInflict": [
+		"poisoned"
+	],
+	"spellAttack": [
+		"M"
+	],
+	"miscTags": [
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Serpent%20Tongue.webp"
+}

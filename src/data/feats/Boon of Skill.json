@@ -1,0 +1,71 @@
+{
+	"name": "Boon of Skill",
+	"source": "XPHB",
+	"page": 211,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"skillProficiencies": [
+		{
+			"athletics": true,
+			"acrobatics": true,
+			"sleight of hand": true,
+			"stealth": true,
+			"arcana": true,
+			"history": true,
+			"investigation": true,
+			"nature": true,
+			"religion": true,
+			"animal handling": true,
+			"insight": true,
+			"medicine": true,
+			"perception": true,
+			"survival": true,
+			"deception": true,
+			"intimidation": true,
+			"performance": true,
+			"persuasion": true
+		}
+	],
+	"expertise": [
+		{
+			"anyProficientSkill": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "All-Around Adept",
+			"entries": [
+				"You gain proficiency in all skills."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Expertise",
+			"entries": [
+				"Choose one skill in which you lack {@variantrule Expertise|XPHB}. You gain {@variantrule Expertise|XPHB} in that skill."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

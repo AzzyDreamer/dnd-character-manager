@@ -1,0 +1,23 @@
+{
+	"name": "Player Characters as Vampires",
+	"source": "MM",
+	"page": 295,
+	"additionalSources": [
+		{
+			"source": "VRGR",
+			"page": 236
+		}
+	],
+	"entries": [
+		"The game statistics of a player character transformed into a {@creature vampire spawn} and then a {@creature vampire} don't change, except that the character's Strength, Dexterity, and Constitution scores become 18 if they aren't higher. In addition, the character gains the vampire's damage resistances, {@sense darkvision}, traits, and actions. Attack and damage rolls for the vampire's attacks are based on Strength. The save DC for Charm is 8 + the vampire's proficiency bonus + the vampire's Charisma modifier. The character's alignment becomes lawful evil, and the DM might take control of the character until the vampirism is reversed with a {@spell wish} spell or the character is killed and brought back to life.",
+		{
+			"type": "entries",
+			"name": "Jiangshi",
+			"source": "VRGR",
+			"page": 236,
+			"entries": [
+				"Humanoids killed by a {@creature jiangshi|VRGR} rise as life-hungry corpses and might turn into jiangshi themselves if they feed upon the living."
+			]
+		}
+	]
+}

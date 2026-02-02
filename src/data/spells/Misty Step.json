@@ -1,0 +1,292 @@
+{
+	"name": "Misty Step",
+	"source": "XPHB",
+	"page": 299,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space you can see."
+	],
+	"miscTags": [
+		"SGT",
+		"TP"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "XPHB",
+					"subSubclass": "Temperate Land"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Ancients",
+					"shortName": "Ancients",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Horizon Walker",
+					"shortName": "Horizon Walker",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Fey Wanderer",
+					"shortName": "Fey Wanderer",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Archfey Patron",
+					"shortName": "Archfey",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Coast"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Ancients",
+					"shortName": "Ancients",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Vengeance",
+					"shortName": "Vengeance",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Horizon Walker",
+					"shortName": "Horizon Walker",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Fey Wanderer",
+					"shortName": "Fey Wanderer",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf (Eladrin)",
+			"source": "DMG",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf",
+			"source": "XPHB"
+		},
+		{
+			"name": "Gith (Githyanki)",
+			"source": "MTF",
+			"baseName": "Gith",
+			"baseSource": "MTF"
+		},
+		{
+			"name": "Githyanki",
+			"source": "MPMM"
+		},
+		{
+			"name": "Human (Mark of Passage)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Passage",
+			"source": "EFA"
+		},
+		{
+			"name": "Fey Teleportation",
+			"source": "XGE"
+		},
+		{
+			"name": "Fey Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Fey-Touched",
+			"source": "XPHB"
+		},
+		{
+			"name": "Outlands Envoy",
+			"source": "SatO"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Boon of Dimensional Travel",
+			"source": "DMG"
+		}
+	]
+}

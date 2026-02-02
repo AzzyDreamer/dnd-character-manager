@@ -1,0 +1,10 @@
+{
+	"name": "Insight",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "wis",
+	"entries": [
+		"Discern a person's mood and intentions."
+	]
+}

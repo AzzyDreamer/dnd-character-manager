@@ -1,0 +1,14 @@
+{
+	"name": "Lock of Trickery",
+	"source": "XDMG",
+	"page": 275,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"This lock appears to be an ordinary {@item Lock|XPHB} (of the type described in chapter 6 of the {@book Player's Handbook|XPHB}) and comes with a single key. The tumblers in this lock magically adjust to thwart burglars. Dexterity checks made to pick the lock have {@variantrule Disadvantage|XPHB}."
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

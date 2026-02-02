@@ -1,0 +1,39 @@
+{
+	"name": "Boon of Perfect Flight",
+	"source": "GrimHollowPG24",
+	"page": 121,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Flying",
+			"entries": [
+				"You have a {@variantrule Fly Speed|XPHB} of 40 feet and can hover."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Graceful Fall",
+			"entries": [
+				"If you fall more than 5 feet, your rate of descent slows to 60 feet per round until you land."
+			]
+		}
+	]
+}

@@ -1,0 +1,119 @@
+{
+	"name": "Wulven",
+	"source": "GrimHollowPG24",
+	"page": 29,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 30,
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small or Medium (Wulven are the same general height as others of their original heritage, but are often stockier, more muscular, or lither depending on the nature of the curse.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. If you are Small, you can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Wulven mature at the same rate as others of their original heritage, but the magic that spawns them lessens the debilitating effects of aging, and they remain fit even in their later years."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Wulven Traits",
+			"entries": [
+				"Many Wulven channel the natural instincts—and often the natural fierceness—of the creature their curse links them to.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Hunter's Instinct|GrimHollowPG24}",
+								"{@optfeature Natural Attack|GrimHollowPG24} (Claws)",
+								"{@optfeature Pack Hunter|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Burst of Speed|GrimHollowPG24}",
+								"{@optfeature Climber|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Athlete's Spirit|GrimHollowPG24}",
+								"{@optfeature Inborn Perception|GrimHollowPG24}",
+								"{@optfeature Nature's Voice|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Across wilderness and settled lands, in forest hamlets and farmsteads, the fear of lycanthropy runs deep. But few folk ever come to realize that the hulking stranger they passed on the trade road at dusk, the forest hermit who appeared from nowhere to warn of unseen danger ahead, or the druidic acolyte protecting a sacred spring do not share their fears. For these folk have already been touched by the lycanthropic curse, and have accepted the bestial gifts it bestows.",
+	"Wulven are the natural-born children or descendants of an individual cursed with lycanthropy, not inheriting the curse in full but touched by its feral nature. Those afflicted in this way are commonly associated with werewolves in the minds of commoners, inspiring the name given to them. But wulven are equally likely to be descended from werebears, wererats, wereravens, or even rarer lycanthropes.",
+	"The weaker trace of lycanthropy handed down to a wulven means they do not take animal or hybrid form. They are as calm and personable as any folk, suffering no loss of control or mindless bloodlust under the full moon. However, the feral nature of the beast they carry within them drives most wulven to lives of solitude and the quiet of the wilderness.",
+	"Wulven embody the mysticism of the primal world, rather than its savagery. Where they wander through forest and scrubland, their wild look and solitary nature sees them often mistaken for fey spirits, druids, or actual lycanthropes. Many make lives for themselves as members of druidic enclaves or as protectors of small, isolated communities. Some become emissaries or champions of the fey courts, though the touch of cursed magic in the wulven makes some fey distrust them. But in the end, most wulven live as outlanders, cautious around folk they don't know for fear of their solitary nature and subtly bestial features being misunderstood.",
+	{
+		"type": "entries",
+		"name": "Eldritch Heritages",
+		"entries": [
+			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+		]
+	}
+]

@@ -1,0 +1,10 @@
+{
+	"name": "Acrobatics",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "dex",
+	"entries": [
+		"Stay on your feet in a tricky situation, or perform an acrobatic stunt."
+	]
+}

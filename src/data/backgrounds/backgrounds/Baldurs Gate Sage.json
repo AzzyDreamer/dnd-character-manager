@@ -1,0 +1,45 @@
+{
+	"name": "Baldur's Gate Sage",
+	"source": "BGDIA",
+	"page": 204,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 137
+		}
+	],
+	"_copy": {
+		"name": "Sage",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": 2,
+				"items": {
+					"name": "Baldur's Gate Feature: Rumor Monger",
+					"type": "entries",
+					"entries": [
+						"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+						"Via your personal rumor mill and articles published in Baldur's Mouth, you can surmise a great deal about Baldurians' secrets—who's practicing necromancy, who's involved in spying or smuggling, who would purchase or craft dangerous magical wares without batting an eyelash. Whenever a noteworthy crime or mysterious happening occurs in the city, you immediately have a list of {@dice 1d4} suspects who, if they aren't involved, have a strong chance of knowing who is."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Baldur's Gate has a modest academic community centered around the libraries of the High Hall and the various temples dedicated to gods of learning and innovation. Lecturers, researchers, and historians all participate with passing scholars from Candlekeep in a lively exchange of ideas, debating and collaborating in book-filled halls across the Upper and Lower City. The city is also rife with opportunities for arcane study, although its masters are dispersed across individual wizards' abodes and lack concentrated communities."
+					]
+				}
+			]
+		}
+	]
+}

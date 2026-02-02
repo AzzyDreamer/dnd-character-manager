@@ -1,0 +1,262 @@
+{
+	"name": "Gust of Wind",
+	"source": "XPHB",
+	"page": 282,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a legume seed"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A {@variantrule Line [Area of Effect]|XPHB|Line} of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the duration. Each creature in the {@variantrule Line [Area of Effect]|XPHB|Line} must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the {@variantrule Line [Area of Effect]|XPHB|Line}. A creature that ends its turn in the {@variantrule Line [Area of Effect]|XPHB|Line} must make the same save.",
+		"Any creature in the {@variantrule Line [Area of Effect]|XPHB|Line} must spend 2 feet of movement for every 1 foot it moves when moving closer to you.",
+		"The gust disperses gas or vapor, and it extinguishes candles and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a {@chance 50|||Extinguished!|No effect} chance to extinguish them.",
+		"As a {@variantrule Bonus Action|XPHB} on your later turns, you can change the direction in which the {@variantrule Line [Area of Effect]|XPHB|Line} blasts from you."
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"FMV",
+		"UBA"
+	],
+	"areaTags": [
+		"L"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Tempest Domain",
+					"shortName": "Tempest",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Sea",
+					"shortName": "Sea",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Djinni"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Tempest Domain",
+					"shortName": "Tempest",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Djinni"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Aarakocra",
+			"source": "MPMM"
+		},
+		{
+			"name": "Triton",
+			"source": "MPMM"
+		},
+		{
+			"name": "Half-Elf (Variant; Mark of Storm)",
+			"source": "ERLW",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Triton",
+			"source": "MOT"
+		},
+		{
+			"name": "Triton",
+			"source": "VGM"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Rush of the Gale Spirits",
+			"source": "PHB",
+			"featureType": [
+				"ED"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Storm",
+			"source": "EFA"
+		}
+	]
+}

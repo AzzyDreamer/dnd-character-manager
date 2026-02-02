@@ -1,0 +1,630 @@
+{
+	"name": "Deck of Many More Things",
+	"source": "BMT",
+	"page": 51,
+	"vulnerable": [
+		"fire"
+	],
+	"rarity": "legendary",
+	"wondrous": true,
+	"grantsProficiency": true,
+	"modifySpeed": {
+		"equal": {
+			"climb": "walk"
+		}
+	},
+	"entries": [
+		"Over the centuries since the first Deck of Many Things was created, many have sought and failed to replicate it. But some have created new cards. These forty-four additional cards are known collectively as the Deck of Many More Things. (More information on creating new cards for this deck appears in chapter 2.)",
+		"Like the Deck of Many Things, the Deck of Many More Things manifests differently on various worlds. While it can include fewer or different cards, it frequently appears with a Deck of Many Things as part of a combined deck of sixty-six illuminated cards. The combined deck is usually protected by a box or pouch. The forty-four cards of the Deck of Many More Things bear similar imagery to those in the Deck of Many Things and have potent magical effects, which are detailed later in this description. Notably, cards from the Deck of Many More Things are more likely to be beneficial, though about a third of them are still dangerous.",
+		"Before you draw a card, you must declare how many cards you intend to draw and then draw them randomly. Unless a card allows you to draw additional cards, any cards drawn exceeding this number have no effect.",
+		"As soon as you draw a card, its magic takes effect. You must draw each card you declared no more than 1 hour after the previous draw. Unless a card states otherwise, if you fail to draw the chosen number, the remaining number of cards fly from the deck and take effect simultaneously.",
+		"Unless it is the Fool or the Jester card, a drawn card immediately takes effect, fades from existence, and reappears in the deck, making it possible to draw the same card multiple times.",
+		"The DM can use the physical cards provided in The Deck of Many Things card set to build a combined Deck of Many Things and Deck of Many More Things, including whichever cards they desire. Alternatively, roll on the Deck of Many More Things table below to randomly determine what cards are drawn.",
+		{
+			"type": "table",
+			"caption": "Deck of Many More Things",
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"colLabels": [
+				"d100",
+				"Card"
+			],
+			"rows": [
+				[
+					"01",
+					"{@card Aberration|Deck of Many More Things|BMT}"
+				],
+				[
+					"02",
+					"{@card Balance|Deck of Many More Things|BMT}*"
+				],
+				[
+					"03",
+					"{@card Beast|Deck of Many More Things|BMT}"
+				],
+				[
+					"04",
+					"{@card Book|Deck of Many More Things|BMT}"
+				],
+				[
+					"05",
+					"{@card Bridge|Deck of Many More Things|BMT}"
+				],
+				[
+					"06",
+					"{@card Campfire|Deck of Many More Things|BMT}"
+				],
+				[
+					"07",
+					"{@card Cavern|Deck of Many More Things|BMT}"
+				],
+				[
+					"08",
+					"{@card Celestial|Deck of Many More Things|BMT}"
+				],
+				[
+					"09",
+					"{@card Comet|Deck of Many More Things|BMT}*"
+				],
+				[
+					"10",
+					"{@card Construct|Deck of Many More Things|BMT}"
+				],
+				[
+					"11",
+					"{@card Corpse|Deck of Many More Things|BMT}"
+				],
+				[
+					"12",
+					"{@card Crossroads|Deck of Many More Things|BMT}"
+				],
+				[
+					"13",
+					"{@card Donjon|Deck of Many More Things|BMT}*"
+				],
+				[
+					"14",
+					"{@card Door|Deck of Many More Things|BMT}"
+				],
+				[
+					"15",
+					"{@card Dragon|Deck of Many More Things|BMT}"
+				],
+				[
+					"16",
+					"{@card Elemental|Deck of Many More Things|BMT}"
+				],
+				[
+					"17",
+					"{@card Euryale|Deck of Many More Things|BMT}*"
+				],
+				[
+					"18",
+					"{@card Expert|Deck of Many More Things|BMT}"
+				],
+				[
+					"19",
+					"{@card Fates|Deck of Many More Things|BMT}*"
+				],
+				[
+					"20",
+					"{@card Fey|Deck of Many More Things|BMT}"
+				],
+				[
+					"21",
+					"{@card Fiend|Deck of Many More Things|BMT}"
+				],
+				[
+					"22",
+					"{@card Flames|Deck of Many More Things|BMT}*"
+				],
+				[
+					"23",
+					"{@card Fool|Deck of Many More Things|BMT}*"
+				],
+				[
+					"24",
+					"{@card Gem|Deck of Many More Things|BMT}*"
+				],
+				[
+					"25",
+					"{@card Giant|Deck of Many More Things|BMT}"
+				],
+				[
+					"26",
+					"{@card Humanoid|Deck of Many More Things|BMT}"
+				],
+				[
+					"27",
+					"{@card Jester|Deck of Many More Things|BMT}*"
+				],
+				[
+					"28",
+					"{@card Key|Deck of Many More Things|BMT}*"
+				],
+				[
+					"29",
+					"{@card Knight|Deck of Many More Things|BMT}*"
+				],
+				[
+					"30",
+					"{@card Lance|Deck of Many More Things|BMT}"
+				],
+				[
+					"31",
+					"{@card Mage|Deck of Many More Things|BMT}"
+				],
+				[
+					"32",
+					"{@card Map|Deck of Many More Things|BMT}"
+				],
+				[
+					"33",
+					"{@card Maze|Deck of Many More Things|BMT}"
+				],
+				[
+					"34",
+					"{@card Mine|Deck of Many More Things|BMT}"
+				],
+				[
+					"35",
+					"{@card Monstrosity|Deck of Many More Things|BMT}"
+				],
+				[
+					"36",
+					"{@card Moon|Deck of Many More Things|BMT}*"
+				],
+				[
+					"37",
+					"{@card Ooze|Deck of Many More Things|BMT}"
+				],
+				[
+					"38",
+					"{@card Path|Deck of Many More Things|BMT}"
+				],
+				[
+					"39",
+					"{@card Pit|Deck of Many More Things|BMT}"
+				],
+				[
+					"40",
+					"{@card Plant|Deck of Many More Things|BMT}"
+				],
+				[
+					"41",
+					"{@card Priest|Deck of Many More Things|BMT}"
+				],
+				[
+					"42",
+					"{@card Prisoner|Deck of Many More Things|BMT}"
+				],
+				[
+					"43",
+					"{@card Puzzle|Deck of Many More Things|BMT}*"
+				],
+				[
+					"44",
+					"{@card Ring|Deck of Many More Things|BMT}"
+				],
+				[
+					"45",
+					"{@card Rogue|Deck of Many More Things|BMT}*"
+				],
+				[
+					"46",
+					"{@card Ruin|Deck of Many More Things|BMT}*"
+				],
+				[
+					"47",
+					"{@card Sage|Deck of Many More Things|BMT}*"
+				],
+				[
+					"48",
+					"{@card Shield|Deck of Many More Things|BMT}"
+				],
+				[
+					"49",
+					"{@card Ship|Deck of Many More Things|BMT}"
+				],
+				[
+					"50",
+					"{@card Skull|Deck of Many More Things|BMT}*"
+				],
+				[
+					"51",
+					"{@card Staff|Deck of Many More Things|BMT}"
+				],
+				[
+					"52",
+					"{@card Stairway|Deck of Many More Things|BMT}"
+				],
+				[
+					"53",
+					"{@card Star|Deck of Many More Things|BMT}*"
+				],
+				[
+					"54",
+					"{@card Statue|Deck of Many More Things|BMT}"
+				],
+				[
+					"55",
+					"{@card Sun|Deck of Many More Things|BMT}*"
+				],
+				[
+					"56",
+					"{@card Talons|Deck of Many More Things|BMT}*"
+				],
+				[
+					"57",
+					"{@card Tavern|Deck of Many More Things|BMT}"
+				],
+				[
+					"58",
+					"{@card Temple|Deck of Many More Things|BMT}"
+				],
+				[
+					"59",
+					"{@card Throne|Deck of Many More Things|BMT}*"
+				],
+				[
+					"60",
+					"{@card Tomb|Deck of Many More Things|BMT}"
+				],
+				[
+					"61",
+					"{@card Tower|Deck of Many More Things|BMT}"
+				],
+				[
+					"62",
+					"{@card Tree|Deck of Many More Things|BMT}"
+				],
+				[
+					"63",
+					"{@card Undead|Deck of Many More Things|BMT}"
+				],
+				[
+					"64",
+					"{@card Void|Deck of Many More Things|BMT}*"
+				],
+				[
+					"65",
+					"{@card Warrior|Deck of Many More Things|BMT}"
+				],
+				[
+					"66",
+					"{@card Well|Deck of Many More Things|BMT}"
+				],
+				[
+					"67–00",
+					"Roll again"
+				]
+			],
+			"footnotes": [
+				"* Found in the {@item Deck of Many Things} as depicted in the {@book Dungeon Master's Guide|DMG}"
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Aberration",
+			"entries": [
+				"You gain telepathy within a range of 90 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Beast",
+			"entries": [
+				"You immediately transform into a {@filter random Beast with a CR of 5 or lower|bestiary|source=|Challenge Rating=[&0;&5]|type=beast}. Your game statistics—including your ability scores, hit points, and possible actions—are replaced by the Beast's game statistics, and any nonmagical equipment you're wearing or carrying melds into your new form and can't be used. Any magic items you're carrying drop in an unoccupied space within 5 feet of your new form.",
+				"You remain transformed in this way for {@dice 2d12} days; nothing can alter your form while you're under the effects of this card, but the {@spell Wish} spell can end the transformation early. When you revert to your normal form, you return to the same state you were in when you initially transformed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Book",
+			"entries": [
+				"You gain the ability to speak, read, and write {@dice 1d6 + 2} languages of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Bridge",
+			"entries": [
+				"You gain the ability to cast the {@spell Time Stop} spell {@dice 1d3} times. Use your Intelligence, Wisdom, or Charisma as the spellcasting ability (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Campfire",
+			"entries": [
+				"You immediately gain the benefits of finishing a long rest."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Cavern",
+			"entries": [
+				"You gain a climbing speed equal to your walking speed. You also gain the ability to move up, down, across vertical surfaces, and along ceilings, while leaving your hands free."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Celestial",
+			"entries": [
+				"You sprout a pair of softly luminescent, feathered wings from your back and gain a flying speed of 30 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Construct",
+			"entries": [
+				"A {@creature homunculus} appears in an unoccupied space within 5 feet of you. The appearance of the homunculus is determined by the DM, and the homunculus treats you as its creator."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Corpse",
+			"entries": [
+				"You immediately drop to 0 hit points, have the {@condition unconscious} condition, and must begin making death saving throws. Spells and other magical effects that restore hit points have no effect on you until you are stabilized. If you fail three death saving throws, you die and can be resurrected only by the {@spell Wish} spell."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Crossroads",
+			"entries": [
+				"Roll a {@dice d20}. If the roll is even, you age {@dice 1d10} years. If the roll is odd, you become younger by {@dice 1d10} years, to a minimum of 1 year. This effect can be undone only by the {@spell Wish} spell, divine intervention, or similar magic."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Door",
+			"entries": [
+				"You gain the ability to cast the {@spell Gate} spell {@dice 1d4} times, requiring no material components. Use your Intelligence, Wisdom, or Charisma as the spellcasting ability (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon",
+			"entries": [
+				"A dragon egg appears at your feet and immediately hatches into a dragon wyrmling. The type of dragon is chosen by the DM. The wyrmling views you as its parent and is staunchly loyal to you and your allies."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Elemental",
+			"entries": [
+				"You become immune to one of the following damage types (choose immediately upon drawing this card): acid, cold, fire, lightning, or thunder."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Expert",
+			"entries": [
+				"Your Dexterity score increases by 2, to a maximum of 22."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fey",
+			"entries": [
+				"A fey crossing opens into the Feywild, and you're immediately pulled through it, disappearing in a flash of rainbow-colored light. You draw no more cards.",
+				"The fey crossing appears as a shimmering fractal of light above the deck, and it remains open for 1 minute after the card is drawn. The precise location in the Feywild to which the fey crossing leads is determined by the DM."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fiend",
+			"entries": [
+				"A powerful Fiend appears in a nearby unoccupied space and offers you a deal. The precise nature of this deal is up to the DM, but usually the Fiend offers some material reward in exchange for you and your allies completing a task for the Fiend. The Fiend is indifferent to you and can be bargained with; it keeps its side of any bargain it makes, though it might twist the wording of any agreement to suit its purposes. If attacked, or if negotiations fail and you refuse the Fiend's offer, it returns to its home plane."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Giant",
+			"entries": [
+				"You immediately grow {@dice 2d10} inches in height, and your hit point maximum and current hit points both increase by 20."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Humanoid",
+			"entries": [
+				"You can immediately choose to stop drawing from the deck, regardless of how many cards you initially declared."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Lance",
+			"entries": [
+				"All your ability scores increase by 1, to a maximum of 20."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mage",
+			"entries": [
+				"Your Intelligence score increases by 2, to a maximum of 22."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Map",
+			"entries": [
+				"At any time you choose within 1 year of drawing this card, you can mentally name or describe an object or individual that is familiar to you. You immediately know the location of the object or individual, as well as the distance between you and the object or individual, even if the object or individual is on a different plane of existence. If you named an individual, you know if they are alive and any conditions they have. If you named an object, you know if it is broken or not. If you named a magic item that has charges, you know how many charges it has remaining."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Maze",
+			"entries": [
+				"You gain {@dice 1d3} levels of {@condition exhaustion}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mine",
+			"entries": [
+				"A pile of {@dice 2d6} gems (each worth 5,000 gp) and {@dice 1d10} chunks of precious ore (each worth 2,500 gp) appears at your feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Monstrosity",
+			"entries": [
+				"A {@filter Large or larger Monstrosity with a challenge rating of 10 or less|bestiary|source=|Challenge Rating=[&0;&10]|type=monstrosity|size=l;h;g} (chosen by the DM) appears in an unoccupied space within 15 feet of you. The creature is hostile toward you and attacks immediately. The creature disappears when it is killed or when you are reduced to 0 hit points. If there isn't enough space for a Large or larger creature to appear, this card has no effect."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ooze",
+			"entries": [
+				"A {@creature gelatinous cube} immediately appears in your space and engulfs you. The gelatinous cube is hostile and remains until it is destroyed. If there isn't enough space for the gelatinous cube to appear, this card has no effect."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Path",
+			"entries": [
+				"Your walking speed increases by 10 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Pit",
+			"entries": [
+				"A pit opens beneath you. You plummet {@damage 3d6 × 10} feet, take damage from the fall, and have the {@condition prone} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Plant",
+			"entries": [
+				"You gain the ability to cast {@spell Speak with Plants} without using a spell slot; you must finish a long rest before you can cast it this way again. If you have spell slots of 3rd level or higher, you can cast this spell using them. Use your Intelligence, Wisdom, or Charisma as the spellcasting ability (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Priest",
+			"entries": [
+				"Your Wisdom score increases by 2, to a maximum of 22."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Prisoner",
+			"entries": [
+				"Glowing chains made of magical force appear and wrap around you. You have the {@condition restrained} condition until the chains are destroyed or you are freed. While you have this condition, you can't cast spells, and any magic items you're wearing or carrying have their properties suppressed. You draw no more cards. The chains are immune to damage and can't be dispelled using the {@spell Dispel Magic} spell or similar magic. However, a {@spell Disintegrate} spell destroys the chains instantly, freeing you. Another creature can also free you by succeeding on a {@dc 30} Dexterity check using {@item thieves' tools|PHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ring",
+			"entries": [
+				"A {@filter rare or rarer magic ring|items|source=|type=ring|rarity=rare;very rare;legendary;artifact|category=} appears on your finger. If you have the attunement slots available, you're automatically attuned to the ring when it appears. The DM chooses the ring."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shield",
+			"entries": [
+				"A {@filter rare or rarer suit of magic armor|items|source=|type=light armor;heavy armor;medium armor|rarity=rare;very rare;legendary;artifact|category=} that you are proficient with appears in your hands. The DM chooses the armor. If you lack proficiency with any armor, your base AC instead now equals 12 + your Dexterity modifier while you aren't wearing armor."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ship",
+			"entries": [
+				"You gain proficiency in three skills chosen by the DM."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Staff",
+			"entries": [
+				"A {@filter rare or rarer magic rod, staff, or wand|items|source=|type=rod;wand;staff|rarity=rare;very rare;legendary;artifact|category=} appears in your hands. The DM chooses the item."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stairway",
+			"entries": [
+				"You can choose to either decrease your number of declared draws by two or receive a {@filter rare or rarer wondrous item|items|source=|type=wondrous item|rarity=rare;very rare;legendary;artifact|category=}, which appears in your hands. The DM chooses the item."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Statue",
+			"entries": [
+				"You immediately have the {@condition petrified} condition as your body is transformed into marble. The petrification lasts until you are freed with the {@spell Greater Restoration} spell or similar magic."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tavern",
+			"entries": [
+				"Your Charisma score increases by 2 to a maximum of 22."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Temple",
+			"entries": [
+				"A deity or entity of similar power becomes bound to aid you. At any point in time between drawing the card and when you die, you can use your action to call on this entity for divine intervention, and the entity is bound to answer. The parameters and nature of this intervention are chosen by the DM. If you die without having used this intervention, the deity fulfills its obligation by casting the {@spell Resurrection} spell on you. Once the entity has answered your call for divine intervention or resurrected you, the entity is no longer bound to aid you."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tomb",
+			"entries": [
+				"At any time you choose within 1 year of drawing this card, you can cast the {@spell True Resurrection} spell once without expending a spell slot or requiring material components. Use your Intelligence, Wisdom, or Charisma as the spellcasting ability (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tower",
+			"entries": [
+				"Draw two additional cards beyond your declared number of draws. The magic of these cards doesn't immediately take effect; instead, choose one of the two additional cards to keep, returning the other to the deck. The magic of the card you keep takes effect immediately thereafter."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tree",
+			"entries": [
+				"Your skin immediately becomes rough, like tree bark. Your base AC now equals 15 + your Dexterity modifier while you aren't wearing armor, but you have vulnerability to fire damage. This transformation can be undone only by the {@spell Wish} spell, divine intervention, or similar magic."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Undead",
+			"entries": [
+				"Somewhere on the Material Plane, a {@creature revenant} rises. This revenant blames you for its existence and relentlessly hunts you to exact its revenge. The revenant exists until either 1 year passes, the revenant kills you, or you use a {@spell Wish} spell to banish it permanently to the afterlife."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Warrior",
+			"entries": [
+				"Your Strength score increases by 2 to a maximum of 22."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Well",
+			"entries": [
+				"You learn three cantrips of your choice from any spell list."
+			]
+		}
+	],
+	"attachedSpells": [
+		"gate",
+		"speak with plants",
+		"time stop",
+		"true resurrection"
+	],
+	"seeAlsoDeck": [
+		"Deck of Many More Things|BMT",
+		"Deck of Many More Things|DMTCRG"
+	],
+	"hasFluffImages": true
+}

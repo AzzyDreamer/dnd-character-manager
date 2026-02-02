@@ -1,0 +1,112 @@
+{
+	"name": "Alustriel's Mooncloak",
+	"source": "FRHoF",
+	"page": 142,
+	"level": 5,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 20
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a moonstone worth 50+ GP",
+			"cost": 5000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"For the duration, moonlight fills a 20-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} originating from you with {@variantrule Dim Light|XPHB}. While in that area, you and your allies have {@variantrule Cover|XPHB|Half Cover} and {@variantrule Resistance|XPHB} to Cold, Lightning, and Radiant damage.",
+		"While the spell lasts, you can use one of the following options, ending the spell immediately:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Liberation",
+					"entries": [
+						"When you fail a saving throw to avoid or end the {@condition Frightened|XPHB}, {@condition Grappled|XPHB}, or {@condition Restrained|XPHB} condition, you can take a {@variantrule Reaction|XPHB} to succeed on the save instead."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Respite",
+					"entries": [
+						"As a {@action Magic|XPHB} action, you or an ally within the area regains {@variantrule Hit Points|XPHB} equal to {@dice 4d10} plus your spellcasting ability modifier."
+					]
+				}
+			]
+		}
+	],
+	"damageResist": [
+		"cold",
+		"lightning",
+		"radiant"
+	],
+	"miscTags": [
+		"HL",
+		"LGT"
+	],
+	"areaTags": [
+		"S"
+	],
+	"hasFluffImages": true,
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Abjurer",
+					"shortName": "Abjurer",
+					"source": "XPHB"
+				}
+			}
+		]
+	}
+}

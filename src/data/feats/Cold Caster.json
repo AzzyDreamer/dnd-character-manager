@@ -1,0 +1,71 @@
+{
+	"name": "Cold Caster",
+	"source": "FRHoF",
+	"page": 39,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					"ray of frost|xphb#c"
+				]
+			}
+		},
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					{
+						"choose": "level=0|class=Wizard"
+					}
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Cantrip",
+			"entries": [
+				"You learn the {@spell Ray of Frost|XPHB} cantrip. If you already know it, you learn a different Wizard cantrip of your choice. The spell's spellcasting ability is the ability increased by this feat."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Frostbite",
+			"entries": [
+				"Once per turn when you hit a creature with an attack roll and deal Cold damage, you can temporarily negate the creature's defenses. The creature subtracts {@dice 1d4} from the next saving throw it makes before the end of your next turn."
+			]
+		}
+	]
+}

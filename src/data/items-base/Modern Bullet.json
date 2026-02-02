@@ -1,0 +1,14 @@
+{
+	"name": "Modern Bullet",
+	"source": "DMG",
+	"page": 268,
+	"edition": "classic",
+	"type": "AF|DMG",
+	"rarity": "none",
+	"weight": 0.1,
+	"age": "modern",
+	"bulletFirearm": true,
+	"miscTags": [
+		"CNS"
+	]
+}

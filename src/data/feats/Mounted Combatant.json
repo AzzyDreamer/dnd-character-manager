@@ -1,0 +1,46 @@
+{
+	"name": "Mounted Combatant",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"wis"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Mounted Strike",
+			"entries": [
+				"While {@book mounted|XPHB|1|Mounted Combat}, you have {@variantrule Advantage|XPHB} on attack rolls against any unmounted creature within 5 feet of your mount that is at least one size smaller than the mount."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Leap Aside",
+			"entries": [
+				"If your mount is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, it instead takes no damage if it succeeds on the saving throw and only half damage if it fails. For your mount to gain this benefit, you must be riding it, and neither of you can have the {@condition Incapacitated|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Veer",
+			"entries": [
+				"While {@book mounted|XPHB|1|Mounted Combat}, you can force an attack that hits your mount to hit you instead if you don't have the {@condition Incapacitated|XPHB} condition."
+			]
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"name": "Wreath of the Prism (Awakened)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Wreath of the Prism (Dormant)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Awakened",
+					"entries": [
+						"Once the Wreath of the Prism reaches an awakened state, it gains the following benefits:",
+						{
+							"type": "list",
+							"items": [
+								"You can affect creatures of challenge rating 10 or lower with the wreath.",
+								"The save DC of the wreath's spell increases to 15."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"hasFluffImages": true
+}

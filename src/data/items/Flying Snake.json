@@ -1,0 +1,13 @@
+{
+	"name": "Flying Snake",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "MNT|XPHB",
+	"rarity": "none",
+	"value": 2500,
+	"entries": [
+		"Pet flying snakes use the {@creature Flying Snake|XMM} stat block."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Ear Horn of Hearing",
+	"source": "XDMG",
+	"page": 256,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"While held up to your ear, this horn suppresses the effects of the {@condition Deafened|XPHB} condition on you."
+	],
+	"lootTables": [
+		"Implements - Common|XDMG",
+		"Relics - Common|XDMG"
+	]
+}

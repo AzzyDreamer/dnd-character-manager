@@ -1,0 +1,14 @@
+{
+	"name": "Genie Robe",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 6,
+	"value": 5000,
+	"entries": [
+		"This robe appeals to Elementals associated with a particular Elemental Plane (Air, Earth, Fire, Water). While wearing a Genie Robe, you have {@variantrule Advantage|XPHB} on ability checks made to influence Elementals associated with that plane."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

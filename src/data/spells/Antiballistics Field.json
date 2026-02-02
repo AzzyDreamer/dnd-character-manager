@@ -1,0 +1,54 @@
+{
+	"name": "Antiballistics Field",
+	"source": "ValdaGunslinger",
+	"otherSources": [
+		{
+			"source": "ValdaSpire24"
+		}
+	],
+	"level": 6,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 40
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of wet gunpowder"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A 40-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} extends from you, disrupting projectiles and causing Ranged weapons to malfunction. Within the {@variantrule Emanation [Area of Effect]|XPHB|Emanation}, whenever a Ranged weapon is used for an attack, the weapon immediately malfunctions and the attack is lost. A malfunctioning weapon can't be used to make an attack until a creature takes the {@action Utilize|XPHB} action to fix the weapon malfunction. Ranged attacks using weapons whose projectiles pass through the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} have {@variantrule Disadvantage|XPHB} and deal only half damage on a hit."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	}
+}

@@ -1,0 +1,74 @@
+{
+	"name": "Ascendant Dragon-Touched Focus",
+	"source": "FTD",
+	"_copy": {
+		"name": "Wakened Dragon-Touched Focus",
+		"source": "FTD",
+		"_preserve": {
+			"page": true
+		}
+	},
+	"type": "SCF",
+	"rarity": "legendary",
+	"entries": [
+		"This wondrous item can be a scepter, an orb, an amulet, a crystal, or another finely crafted object. It typically incorporates imagery of dragons' wings, claws, teeth, or scales.",
+		"You have advantage on initiative rolls. While you are holding the focus, it can function as a spellcasting focus for all your spells.",
+		"The focus gains an additional property determined by the family of the dragon in whose hoard it became Stirring:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Chromatic",
+					"entries": [
+						"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@dice d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Gem",
+					"entries": [
+						"Whenever you use a spell slot to cast a spell, you can immediately teleport to an unoccupied space you can see within 15 feet of you."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Metallic",
+					"entries": [
+						"When a creature you can see within 30 feet of you makes a saving throw, you can use your reaction to give that creature advantage on the saving throw."
+					]
+				}
+			]
+		},
+		"While you are holding a Wakened focus, you can use it to cast certain spells. Once the item is used to cast a given spell, it can't be used to cast that spell again until the next dawn. The spells are determined by the family of the dragon in whose hoard it became Wakened.",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Chromatic",
+					"entries": [
+						"{@spell Hold monster}, {@spell Rime's binding ice|FTD}"
+					]
+				},
+				{
+					"type": "item",
+					"name": "Gem",
+					"entries": [
+						"{@spell Rary's telepathic bond}, {@spell Raulothim's psychic lance|FTD}"
+					]
+				},
+				{
+					"type": "item",
+					"name": "Metallic",
+					"entries": [
+						"{@spell Fizban's platinum shield|FTD}, {@spell legend lore}"
+					]
+				}
+			]
+		},
+		"When you cast a spell of 1st level or higher while holding this focus, you can treat the spell as if it were cast using a 9th-level spell slot. Once this property is used, it can't be used again until the next dawn."
+	]
+}

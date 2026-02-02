@@ -1,0 +1,270 @@
+{
+	"name": "Thaumaturgy",
+	"source": "XPHB",
+	"page": 333,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 0,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You manifest a minor wonder within range. You create one of the effects below within range. If you cast this spell multiple times, you can have up to three of its 1-minute effects active at a time.",
+		{
+			"type": "entries",
+			"name": "Altered Eyes",
+			"entries": [
+				"You alter the appearance of your eyes for 1 minute."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Booming Voice",
+			"entries": [
+				"Your voice booms up to three times as loud as normal for 1 minute. For the duration, you have {@variantrule Advantage|XPHB} on Charisma ({@skill Intimidation|XPHB}) checks."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fire Play",
+			"entries": [
+				"You cause flames to flicker, brighten, dim, or change color for 1 minute."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Invisible Hand",
+			"entries": [
+				"You instantaneously cause an unlocked door or window to fly open or slam shut."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Phantom Sound",
+			"entries": [
+				"You create an instantaneous sound that originates from a point of your choice within range, such as a rumble of thunder, the cry of a raven, or ominous whispers."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Tremors",
+			"entries": [
+				"You cause harmless tremors in the ground for 1 minute."
+			]
+		}
+	],
+	"miscTags": [
+		"ADV"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Barbarian",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Path of the Giant",
+					"shortName": "Giant",
+					"source": "BGG"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Drakewarden",
+					"shortName": "Drakewarden",
+					"source": "FTD"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Barbarian",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Path of the Giant",
+					"shortName": "Giant",
+					"source": "BGG"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Drakewarden",
+					"shortName": "Drakewarden",
+					"source": "FTD"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Khoravar",
+			"source": "EFA"
+		},
+		{
+			"name": "Tiefling",
+			"source": "PHB",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Asmodeus)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Baalzebul)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Dispater)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Zariel)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Variant; Hellfire)",
+			"source": "SCAG",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Variant; Infernal Legacy)",
+			"source": "SCAG",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling",
+			"source": "XPHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Blessed Warrior",
+			"source": "TCE",
+			"featureType": [
+				"FS:P"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Blessed Warrior",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Light Bringer",
+			"source": "ABH"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	]
+}

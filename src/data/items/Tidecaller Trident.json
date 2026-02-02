@@ -1,0 +1,37 @@
+{
+	"name": "Tidecaller Trident",
+	"source": "BMT",
+	"page": 69,
+	"baseItem": "trident|PHB",
+	"type": "M",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"weight": 4,
+	"weaponCategory": "martial",
+	"property": [
+		"T",
+		"V"
+	],
+	"range": "20/60",
+	"dmg1": "1d6",
+	"dmgType": "P",
+	"dmg2": "1d8",
+	"bonusWeapon": "+2",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d3}",
+	"charges": 3,
+	"entries": [
+		"You gain a +2 bonus to attack and damage rolls made with this magic trident. You also have advantage on attack rolls made with this weapon while underwater.",
+		"This trident has 3 charges. You can expend 1 charge to cast {@spell Control Water} (save {@dc 15}) from the trident or 3 charges to cast {@spell Tsunami} (save {@dc 15}) from it instead. The trident regains {@dice 1d3} expended charges daily at dawn."
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"control water"
+			],
+			"3": [
+				"tsunami"
+			]
+		}
+	}
+}

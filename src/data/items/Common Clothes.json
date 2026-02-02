@@ -1,0 +1,11 @@
+{
+	"name": "Common Clothes",
+	"source": "PHB",
+	"page": 150,
+	"srd": true,
+	"basicRules": true,
+	"type": "G",
+	"rarity": "none",
+	"weight": 3,
+	"value": 50
+}

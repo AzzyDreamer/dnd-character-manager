@@ -1,0 +1,11 @@
+{
+	"name": "Jumping",
+	"source": "XPHB",
+	"page": 370,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"When you jump, you make either a {@variantrule Long Jump|XPHB} (horizontal) or a {@variantrule High Jump|XPHB} (vertical)."
+	]
+}

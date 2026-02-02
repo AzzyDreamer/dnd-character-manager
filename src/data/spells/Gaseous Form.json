@@ -1,0 +1,257 @@
+{
+	"name": "Gaseous Form",
+	"source": "XPHB",
+	"page": 277,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 3,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a bit of gauze"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A willing creature you touch shape-shifts, along with everything it's wearing and carrying, into a misty cloud for the duration. The spell ends on the target if it drops to 0 {@variantrule Hit Points|XPHB} or if it takes a {@action Magic|XPHB} action to end the spell on itself.",
+		"While in this form, the target's only method of movement is a {@variantrule Fly Speed|XPHB} of 10 feet, and it can hover. The target can enter and occupy the space of another creature. The target has {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage; it has {@variantrule Immunity|XPHB} to the {@condition Prone|XPHB} condition; and it has {@variantrule Advantage|XPHB} on Strength, Dexterity, and Constitution saving throws. The target can pass through narrow openings, but it treats liquids as though they were solid surfaces.",
+		"The target can't talk or manipulate objects, and any objects it was carrying or holding can't be dropped, used, or otherwise interacted with. Finally, the target can't attack or cast spells."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target one additional creature for each spell slot level above 3."
+			]
+		}
+	],
+	"conditionImmune": [
+		"prone"
+	],
+	"miscTags": [
+		"ADV",
+		"SCT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Alchemist",
+					"shortName": "Alchemist",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Alchemist",
+					"shortName": "Alchemist",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of Spores",
+					"shortName": "Spores",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Noble Genies",
+					"shortName": "Noble Genies",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Swarmkeeper",
+					"shortName": "Swarmkeeper",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Underdark"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of Spores",
+					"shortName": "Spores",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Swarmkeeper",
+					"shortName": "Swarmkeeper",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"optionalfeatures": [
+		{
+			"name": "Mist Stance",
+			"source": "PHB",
+			"featureType": [
+				"ED"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Dimir Operative",
+			"source": "GGR"
+		},
+		{
+			"name": "Simic Scientist",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Misty Escape",
+			"source": "ABH"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Simic Charm",
+			"source": "GGR"
+		}
+	]
+}

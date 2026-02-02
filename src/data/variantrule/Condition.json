@@ -1,0 +1,34 @@
+{
+	"name": "Condition",
+	"source": "XPHB",
+	"page": 363,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A condition is a temporary game state. The definition of a condition says how it affects its recipient, and various rules define how to end a condition. This glossary defines these conditions:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"columns": 3,
+			"items": [
+				"{@condition Blinded|XPHB}",
+				"{@condition Charmed|XPHB}",
+				"{@condition Deafened|XPHB}",
+				"{@condition Exhaustion|XPHB}",
+				"{@condition Frightened|XPHB}",
+				"{@condition Grappled|XPHB}",
+				"{@condition Incapacitated|XPHB}",
+				"{@condition Invisible|XPHB}",
+				"{@condition Paralyzed|XPHB}",
+				"{@condition Petrified|XPHB}",
+				"{@condition Poisoned|XPHB}",
+				"{@condition Prone|XPHB}",
+				"{@condition Restrained|XPHB}",
+				"{@condition Stunned|XPHB}",
+				"{@condition Unconscious|XPHB}"
+			]
+		},
+		"A condition doesn't stack with itself; a recipient either has a condition or doesn't. The {@condition Exhaustion|XPHB} condition is an exception to that rule."
+	]
+}

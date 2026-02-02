@@ -1,0 +1,49 @@
+{
+	"name": "Spirit Board",
+	"source": "XDMG",
+	"page": 306,
+	"rarity": "very rare",
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": 3,
+	"charges": 3,
+	"entries": [
+		"This ornate wooden board has the letters of the Common alphabet printed on one side, alongside the words \"Yes\" and \"No\" and symbols representing \"Weal\" and \"Woe.\" The board comes with a heart-shaped, wooden planchette. This planchette must be resting on the lettered side of the board for the board's magic to function.",
+		"This board has 3 charges and regains 1 expended charge daily at dawn. While touching the planchette, you can take 1 minute to cast one of the spells on the table below. The table indicates how many charges you must expend to cast the spell. As you cast the spell, you call on the spirits of the dead to help guide the planchette across the board's surface, answering your questions by pointing to the letters or words on the board.",
+		{
+			"type": "table",
+			"colStyles": [
+				"col-10",
+				"col-2 text-center"
+			],
+			"colLabels": [
+				"Spell",
+				"Charge Cost"
+			],
+			"rows": [
+				[
+					"{@spell Augury|XPHB}",
+					"1"
+				],
+				[
+					"{@spell Commune|XPHB}",
+					"3"
+				]
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"augury|xphb"
+			],
+			"3": [
+				"commune|xphb"
+			]
+		}
+	},
+	"lootTables": [
+		"Relics - Very Rare|XDMG"
+	],
+	"hasFluffImages": true
+}

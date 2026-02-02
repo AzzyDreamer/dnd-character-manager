@@ -1,0 +1,34 @@
+{
+	"name": "Instrument of the Bards, Anstruth Harp",
+	"source": "XDMG",
+	"page": 272,
+	"rarity": "very rare",
+	"reqAttune": "by a bard",
+	"reqAttuneTags": [
+		{
+			"class": "bard"
+		}
+	],
+	"wondrous": true,
+	"entries": [
+		"An Instrument of the Bards is superior to an ordinary instrument in every way. Seven types of these instruments exist, each named after a bard college. A creature that attempts to play the instrument without being attuned to it must succeed on a {@dc 15} Wisdom saving throw or take {@damage 2d4} Psychic damage.",
+		"You can play Anstruth Harp to cast one of the following spells: {@spell Fly|XPHB}, {@spell Invisibility|XPHB}, {@spell Levitate|XPHB}, {@spell Protection from Evil and Good|XPHB}, {@spell Cure Wounds|XPHB} (level 5), {@spell Ice Storm|XPHB}, and {@spell Wall of Thorns|XPHB}. Once the Anstruth Harp has been used to cast a spell, it can't be used to cast that spell again until the next dawn. The spells use your spellcasting ability and spell save DC."
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"cure wounds|xphb",
+				"fly|xphb",
+				"ice storm|xphb",
+				"invisibility|xphb",
+				"levitate|xphb",
+				"protection from evil and good|xphb",
+				"wall of thorns|xphb"
+			]
+		}
+	},
+	"lootTables": [
+		"Implements - Very Rare|XDMG"
+	],
+	"hasFluffImages": true
+}

@@ -1,0 +1,7 @@
+{
+	"name": "Ring of Resistance",
+	"source": "XDMG",
+	"entriesTemplate": [
+		"You have {@variantrule Resistance|XPHB} to {{getFullImmRes item.resist}} damage while wearing this ring. The ring is set with {{item.detail1}}."
+	]
+}

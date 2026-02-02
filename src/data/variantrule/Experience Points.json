@@ -1,0 +1,11 @@
+{
+	"name": "Experience Points",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"As they overcome challenges and complete adventures, characters earn Experience Points (XP) which are awarded by the Dungeon Master. When a character's XP total crosses certain thresholds, the character's level increases. The {@book Dungeon Master's Guide|XDMG} provides guidance on awarding XP."
+	]
+}

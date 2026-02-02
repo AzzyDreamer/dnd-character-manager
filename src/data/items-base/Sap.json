@@ -1,0 +1,10 @@
+{
+	"name": "Sap",
+	"source": "XPHB",
+	"page": 214,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"If you hit a creature with this weapon, that creature has {@variantrule Disadvantage|XPHB} on its next attack roll before the start of your next turn."
+	]
+}

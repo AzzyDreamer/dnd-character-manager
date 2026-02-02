@@ -1,0 +1,19 @@
+{
+	"name": "Jester Card",
+	"source": "BMT",
+	"page": 14,
+	"rarity": "legendary",
+	"wondrous": true,
+	"recharge": "dawn",
+	"entries": [
+		"As an action, you can brandish this card and use it to cast the {@spell Otto's Irresistible Dance} spell (save {@dc 17}), and you have advantage on Constitution saving throws to maintain {@status concentration} on it. Once this property is used, it can't be used again until the next dawn."
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"otto's irresistible dance"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

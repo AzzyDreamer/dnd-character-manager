@@ -1,0 +1,17 @@
+{
+	"name": "Scroll of Protection (Monstrosities)",
+	"source": "XDMG",
+	"page": 302,
+	"type": "SC|XPHB",
+	"detail1": "Monstrosity",
+	"detail2": "Monstrosities",
+	"rarity": "rare",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Scroll of Protection|XDMG}"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

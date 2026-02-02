@@ -1,0 +1,25 @@
+{
+	"name": "Augen Trust (Spy)",
+	"source": "EGW",
+	"page": 203,
+	"_copy": {
+		"name": "Variant Criminal (Spy)",
+		"source": "PHB"
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Little is known about the Augen Trust, even within the court of the Dwendalian Empire. Only one person knows all the members of this elite network of imperial spies: its leader, Oliver Schreiber, a noble gnome with the ear of King Dwendal.",
+						"If you were favored with membership in the Augen Trust, your entire life was laid bare before the secret spymaster at one point, and you were found to be a loyal servant of the empire with a particular set of skills. Betraying the Trust is high treason against the crown, and defectors are hunted down and quickly slain.",
+						"Most defectors from the Augen Trust flee to the Biting North, beyond the reach of the empire. The Clovis Concord would extradite traitors in a heartbeat to maintain diplomatic relations with the empire, and fleeing to Xhorhas is tantamount to suicide in the present political climate.",
+						"If you are a member of the Trust going on adventures, you are either a traitor who has somehow managed to keep your true identity secret from the greatest spies in the empire—or you are still on active duty. In the latter case, you can work with your DM to figure out why you are traveling with outside adventurers."
+					]
+				}
+			]
+		}
+	]
+}

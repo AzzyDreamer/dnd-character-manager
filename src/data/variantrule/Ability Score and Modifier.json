@@ -1,0 +1,11 @@
+{
+	"name": "Ability Score and Modifier",
+	"source": "XPHB",
+	"page": 360,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A creature has six ability scores—Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma—each of which has a corresponding modifier. Add the modifier when you make a {@variantrule D20 Test|XPHB} with the corresponding ability or when a rule asks you to do so."
+	]
+}

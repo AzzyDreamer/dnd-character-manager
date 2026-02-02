@@ -1,0 +1,94 @@
+{
+	"name": "Scarlet Dawn",
+	"source": "CrookedMoon24",
+	"page": 133,
+	"level": 3,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Crimson light shines down in a 20-foot-radius, 60-foot-high {@variantrule Cylinder [Area of Effect]|XPHB|Cylinder} centered on a point within range. Each creature in that area that isn't a Construct or Undead must make a Constitution saving throw, taking {@damage 4d10} Necrotic damage on a failed save or half as much damage on a successful one. Constructs and Undead in the area regain {@dice 4d10} {@variantrule Hit Points|XPHB}.",
+		"If any of this spell's area overlaps with an area of {@variantrule Darkness|XPHB} created by a spell of level 3 or lower, that other spell is dispelled."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d10} and the level of spell that can be dispelled increases by 1 for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Spells/scarlet-dawn.webp"
+				},
+				"width": 1700,
+				"height": 695,
+				"credit": "Holly Lucero"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Scarlet-Dawn.webp"
+}

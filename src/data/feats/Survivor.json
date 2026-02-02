@@ -1,0 +1,30 @@
+{
+	"name": "Survivor",
+	"source": "GrimHollowPG24",
+	"page": 115,
+	"category": "O",
+	"entries": [
+		"Your ability to make the best out of a bad situation has served you well. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Hardy",
+			"entries": [
+				"You need half the amount of food per day based on your size."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Intuitive",
+			"entries": [
+				"When you take the {@action Study|XPHB} action, you have {@variantrule Advantage|XPHB} on Intelligence checks made when taking the {@action Study|XPHB} action."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shake It Off",
+			"entries": [
+				"Whenever you finish a {@variantrule Short Rest|XPHB}, your {@condition Exhaustion|XPHB} level, if any, decreases by 1. Additionally, when you finish a {@variantrule Long Rest|XPHB}, your {@condition Exhaustion|XPHB} level decreases by 2."
+			]
+		}
+	]
+}

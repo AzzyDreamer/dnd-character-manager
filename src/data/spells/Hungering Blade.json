@@ -1,0 +1,55 @@
+{
+	"name": "Hungering Blade",
+	"source": "CrookedMoon24",
+	"page": 129,
+	"level": 1,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You imbue a weapon you are holding, or your {@variantrule Unarmed Strike|XPHB|Unarmed Strikes}, with ravenous negative energy. For the duration, when you hit a creature with an attack using the empowered weapon or {@variantrule Unarmed Strike|XPHB} for the first time on a turn, the target takes Necrotic damage equal to your spellcasting ability modifier, and you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to the Necrotic damage dealt."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Hungering-Blade.webp"
+}

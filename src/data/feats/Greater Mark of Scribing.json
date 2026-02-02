@@ -1,0 +1,45 @@
+{
+	"name": "Greater Mark of Scribing",
+	"source": "EFA",
+	"page": 44,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of scribing|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Gifted Scribe benefit of your {@feat Mark of Scribing|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Inspired Scribing",
+			"entries": [
+				"When you cast {@spell Comprehend Languages|XPHB}, you can modify the spell to encompass up to three willing creatures you can see within 30 feet of yourself. Each chosen creature also gains the benefits of the spell for the duration. In addition, for the duration of the spell, you and the chosen creatures can communicate telepathically with each other while within 1 mile of each other. Once you modify the spell with this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

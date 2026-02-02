@@ -1,0 +1,10 @@
+{
+	"name": "Athletics",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "str",
+	"entries": [
+		"Jump farther than normal, stay afloat in rough water, or break something."
+	]
+}

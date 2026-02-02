@@ -1,0 +1,208 @@
+{
+	"name": "Zone of Truth",
+	"source": "XPHB",
+	"page": 343,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			}
+		}
+	],
+	"entries": [
+		"You create a magical zone that guards against deception in a 15-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on a point within range. Until the spell ends, a creature that enters the spell's area for the first time on a turn or starts its turn there makes a Charisma saving throw. On a failed save, a creature can't speak a deliberate lie while in the radius. You know whether a creature succeeds or fails on this save.",
+		"An affected creature is aware of the spell and can avoid answering questions to which it would normally respond with a lie. Such a creature can be evasive yet must be truthful."
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Order Domain",
+					"shortName": "Order",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Devotion",
+					"shortName": "Devotion",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Monster Slayer",
+					"shortName": "Monster Slayer",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Order Domain",
+					"shortName": "Order",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Devotion",
+					"shortName": "Devotion",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Monster Slayer",
+					"shortName": "Monster Slayer",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Sentinel)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Orzhov Representative",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the Black Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Mark of Sentinel",
+			"source": "EFA"
+		}
+	]
+}

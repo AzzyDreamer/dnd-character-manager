@@ -1,0 +1,11 @@
+{
+	"name": "Dim Light",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An area with Dim Light is {@variantrule Lightly Obscured|XPHB}."
+	]
+}

@@ -1,0 +1,171 @@
+{
+	"name": "Aura of Purity",
+	"source": "XPHB",
+	"page": 244,
+	"level": 4,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"An aura radiates from you in a 30-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} for the duration. While in the aura, you and your allies have {@variantrule Resistance|XPHB} to Poison damage and {@variantrule Advantage|XPHB} on saving throws to avoid or end effects that include the {@condition Blinded|XPHB}, {@condition Charmed|XPHB}, {@condition Deafened|XPHB}, {@condition Frightened|XPHB}, {@condition Paralyzed|XPHB}, {@condition Poisoned|XPHB}, or {@condition Stunned|XPHB} condition."
+	],
+	"damageResist": [
+		"poison"
+	],
+	"miscTags": [
+		"ADV"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Peace Domain",
+					"shortName": "Peace",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Watchers",
+					"shortName": "Watchers",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Peace Domain",
+					"shortName": "Peace",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Watchers",
+					"shortName": "Watchers",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Halfling (Mark of Healing)",
+			"source": "ERLW",
+			"baseName": "Halfling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Halfling (Mark of Hospitality)",
+			"source": "ERLW",
+			"baseName": "Halfling",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Healing",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Hospitality",
+			"source": "EFA"
+		}
+	]
+}

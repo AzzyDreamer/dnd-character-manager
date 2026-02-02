@@ -1,0 +1,61 @@
+{
+	"name": "Thorn Armor",
+	"source": "GrimHollowPG24",
+	"page": 204,
+	"level": 1,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a rose"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			}
+		}
+	],
+	"entries": [
+		"When you cast this spell, a flexible exoskeleton covered in thorns appears around a willing target within range. The target gains {@dice 3d6} {@variantrule Temporary Hit Points|XPHB}. If a creature hits the target with a melee attack roll before the spell ends, that creature takes Piercing damage equal to the number of {@variantrule Temporary Hit Points|XPHB} lost as a result of the attack. This spell ends early if the target has no remaining {@variantrule Temporary Hit Points|XPHB} granted by this spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The target gains an additional {@dice 2d6} {@variantrule Temporary Hit Points|XPHB} for each spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Thorn%20Armor.webp"
+}

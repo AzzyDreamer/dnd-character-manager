@@ -1,0 +1,128 @@
+{
+	"name": "Mark of Scribing",
+	"source": "EFA",
+	"page": 41,
+	"category": "D",
+	"prerequisite": [
+		{
+			"campaign": [
+				"Eberron"
+			],
+			"exclusiveFeatCategory": [
+				"D"
+			]
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					"message|xphb#c"
+				]
+			},
+			"prepared": {
+				"3": {
+					"daily": {
+						"1": [
+							"magic mouth|xphb"
+						]
+					}
+				},
+				"_": {
+					"daily": {
+						"1": [
+							"comprehend languages|xphb"
+						]
+					}
+				}
+			},
+			"expanded": {
+				"s1": [
+					"command|xphb",
+					"illusory script|xphb"
+				],
+				"s2": [
+					"animal messenger|xphb",
+					"silence|xphb"
+				],
+				"s3": [
+					"sending|xphb",
+					"tongues|xphb"
+				],
+				"s4": [
+					"arcane eye|xphb",
+					"confusion|xphb"
+				],
+				"s5": [
+					"dream|xphb"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Gifted Scribe",
+			"entries": [
+				"When you make an Intelligence ({@skill History|XPHB}) check or an ability check using {@item Calligrapher's Supplies|XPHB}, you can roll {@dice 1d4} and add the number rolled to the ability check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Scribe's Insight",
+			"entries": [
+				"You know the {@spell Message|XPHB} cantrip. You also always have the {@spell Comprehend Languages|XPHB} spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast it using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).",
+				"When you reach character level 3, you also always have the {@spell Magic Mouth|XPHB} spell prepared and can cast it the same way."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells of the Mark",
+			"entries": [
+				"If you have the Spellcasting or Pact Magic class feature, the spells on the Mark of Scribing Spells table are added to that feature's spell list.",
+				{
+					"type": "table",
+					"caption": "Mark of Scribing Spells",
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"colLabels": [
+						"Spell Level",
+						"Spells"
+					],
+					"rows": [
+						[
+							"1",
+							"{@spell Command|XPHB}, {@spell Illusory Script|XPHB}"
+						],
+						[
+							"2",
+							"{@spell Animal Messenger|XPHB}, {@spell Silence|XPHB}"
+						],
+						[
+							"3",
+							"{@spell Sending|XPHB}, {@spell Tongues|XPHB}"
+						],
+						[
+							"4",
+							"{@spell Arcane Eye|XPHB}, {@spell Confusion|XPHB}"
+						],
+						[
+							"5",
+							"{@spell Dream|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"name": "Martial Weapon Training",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"weaponProficiencies": [
+		{
+			"martial": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Weapon Proficiency",
+			"entries": [
+				"You gain proficiency with {@filter Martial weapons|items|type=martial weapon}."
+			]
+		}
+	]
+}

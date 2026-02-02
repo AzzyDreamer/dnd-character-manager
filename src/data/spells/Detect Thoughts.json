@@ -1,0 +1,261 @@
+{
+	"name": "Detect Thoughts",
+	"source": "XPHB",
+	"page": 262,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "1 Copper Piece"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You activate one of the effects below. Until the spell ends, you can activate either effect as a {@action Magic|XPHB} action on your later turns.",
+		{
+			"type": "entries",
+			"name": "Sense Thoughts",
+			"entries": [
+				"You sense the presence of thoughts within 30 feet of yourself that belong to creatures that know languages or are telepathic. You don't read the thoughts, but you know that a thinking creature is present.",
+				"The spell is blocked by 1 foot of stone, dirt, or wood; 1 inch of metal; or a thin sheet of lead."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Read Thoughts",
+			"entries": [
+				"Target one creature you can see within 30 feet of yourself or one creature within 30 feet of yourself that you detected with the Sense Thoughts option. You learn what is most on the target's mind right now. If the target doesn't know any languages and isn't telepathic, you learn nothing.",
+				"As a {@action Magic|XPHB} action on your next turn, you can try to probe deeper into the target's mind. If you probe deeper, the target makes a Wisdom saving throw. On a failed save, you discern the target's reasoning, emotions, and something that looms large in its mind (such as a worry, love, or hate). On a successful save, the spell ends. Either way, the target knows that you are probing into its mind, and until you shift your attention away from the target's mind, the target can take an action on its turn to make an Intelligence ({@skill Arcana|XPHB}) check against your spell save DC, ending the spell on a success."
+			]
+		}
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"abilityCheck": [
+		"intelligence"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain",
+					"shortName": "Knowledge",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Aberrant Sorcery",
+					"shortName": "Aberrant",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Great Old One Patron",
+					"shortName": "Great Old One",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Diviner",
+					"shortName": "Diviner",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Aberrant Mind",
+					"shortName": "Aberrant Mind",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Great Old One",
+					"shortName": "Great Old One",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Gith (Githzerai)",
+			"source": "MTF",
+			"baseName": "Gith",
+			"baseSource": "MTF"
+		},
+		{
+			"name": "Tiefling (Dispater)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Githzerai",
+			"source": "MPMM"
+		},
+		{
+			"name": "Half-Elf (Variant; Mark of Detection)",
+			"source": "ERLW",
+			"baseName": "Half-Elf",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Dimir Operative",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Detection",
+			"source": "EFA"
+		},
+		{
+			"name": "Telepathic",
+			"source": "TCE"
+		},
+		{
+			"name": "Telepathic",
+			"source": "XPHB"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Kruphix's Votary",
+			"source": "MOT"
+		}
+	]
+}

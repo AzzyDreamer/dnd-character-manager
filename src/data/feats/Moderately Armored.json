@@ -1,0 +1,41 @@
+{
+	"name": "Moderately Armored",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"proficiency": [
+				{
+					"armor": "light"
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"armorProficiencies": [
+		{
+			"medium": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Armor Training",
+			"entries": [
+				"You gain training with Medium armor."
+			]
+		}
+	]
+}

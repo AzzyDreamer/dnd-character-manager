@@ -1,0 +1,59 @@
+{
+	"name": "Perforating Shot",
+	"source": "ValdaGunslinger",
+	"otherSources": [
+		{
+			"source": "ValdaSpire24"
+		}
+	],
+	"level": 1,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting or missing with a ranged attack using a weapon"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As your attack hits or misses the target, the weapon or ammunition transforms into a 5-foot-wide {@variantrule Line [Area of Effect]|XPHB|Line} of magical energy that extends out to the weapon's normal range. The {@variantrule Line [Area of Effect]|XPHB|Line} includes the attack's original target. Each creature within the {@variantrule Line [Area of Effect]|XPHB|Line} makes a Dexterity saving throw, taking Force damage equal to the weapon's normal damage on a failed save or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The weapon's damage increases by {@dice 1d8} for each slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"dexterity"
+	]
+}

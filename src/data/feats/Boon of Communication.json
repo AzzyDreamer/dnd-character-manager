@@ -1,0 +1,47 @@
+{
+	"name": "Boon of Communication",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Cunning Speaker",
+			"entries": [
+				"You don't have {@variantrule Disadvantage|XPHB} on ability checks to influence {@variantrule Hostile [Attitude]|XPHB|Hostile} creatures."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Gifted Interpreter",
+			"entries": [
+				"You understand the literal meaning of any language you hear or see signed, and you can understand the literal meaning of any written language you see."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mental Communication",
+			"entries": [
+				"You gain telepathy with a range of 120 feet."
+			]
+		}
+	]
+}

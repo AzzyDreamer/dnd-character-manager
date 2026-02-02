@@ -1,0 +1,11 @@
+{
+	"name": "Climb Speed",
+	"source": "XPHB",
+	"page": 363,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Climb Speed can be used in place of {@variantrule Speed|XPHB} to traverse a vertical surface without expending the extra movement normally associated with climbing."
+	]
+}

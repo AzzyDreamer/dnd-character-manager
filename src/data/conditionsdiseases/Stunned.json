@@ -1,0 +1,36 @@
+{
+	"name": "Stunned",
+	"source": "XPHB",
+	"page": 376,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Stunned condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Incapacitated",
+					"entries": [
+						"You have the {@condition Incapacitated|XPHB} condition."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Saving Throws Affected",
+					"entries": [
+						"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attacks Affected",
+					"entries": [
+						"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

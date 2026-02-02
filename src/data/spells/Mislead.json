@@ -1,0 +1,160 @@
+{
+	"name": "Mislead",
+	"source": "XPHB",
+	"page": 299,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 5,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You gain the {@condition Invisible|XPHB} condition at the same time that an illusory double of you appears where you are standing. The double lasts for the duration, but the invisibility ends immediately after you make an attack roll, deal damage, or cast a spell.",
+		"As a {@action Magic|XPHB} action, you can move the illusory double up to twice your {@variantrule Speed|XPHB} and make it gesture, speak, and behave in whatever way you choose. It is intangible and invulnerable.",
+		"You can see through its eyes and hear through its ears as if you were located where it is."
+	],
+	"conditionInflict": [
+		"invisible"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Fey Wanderer",
+					"shortName": "Fey Wanderer",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Fey Wanderer",
+					"shortName": "Fey Wanderer",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Illusionist",
+					"shortName": "Illusionist",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf (Mark of Shadow)",
+			"source": "ERLW",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Shadow",
+			"source": "EFA"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Charm of the Rogue",
+			"source": "BMT"
+		}
+	]
+}

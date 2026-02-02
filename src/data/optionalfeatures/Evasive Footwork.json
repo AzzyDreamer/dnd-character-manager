@@ -1,0 +1,14 @@
+{
+	"name": "Evasive Footwork",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can expend one Superiority Die and take the {@action Disengage|XPHB} action. You also roll the die and add the number rolled to your AC until the start of your next turn."
+	]
+}

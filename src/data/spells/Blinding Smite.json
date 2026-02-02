@@ -1,0 +1,76 @@
+{
+	"name": "Blinding Smite",
+	"source": "XPHB",
+	"page": 247,
+	"level": 3,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"The target hit by the strike takes an extra {@damage 3d8} Radiant damage from the attack, and the target has the {@condition Blinded|XPHB} condition until the spell ends. At the end of each of its turns, the {@condition Blinded|XPHB} target makes a Constitution saving throw, ending the spell on itself on a success."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The extra damage increases by {@scaledamage 3d8|3-9|1d8} for each spell slot level above 3."
+			]
+		}
+	],
+	"damageInflict": [
+		"radiant"
+	],
+	"conditionInflict": [
+		"blinded"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"AAD"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		]
+	},
+	"backgrounds": [
+		{
+			"name": "Boros Legionnaire",
+			"source": "GGR"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Mogis's Votary",
+			"source": "MOT"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Scroll of Protection (Celestials)",
+	"source": "XDMG",
+	"page": 302,
+	"type": "SC|XPHB",
+	"detail1": "Celestial",
+	"detail2": "Celestials",
+	"rarity": "rare",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Scroll of Protection|XDMG}"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

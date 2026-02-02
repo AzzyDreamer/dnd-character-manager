@@ -1,0 +1,43 @@
+{
+	"name": "Incapacitated",
+	"source": "XPHB",
+	"page": 369,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Incapacitated condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Inactive",
+					"entries": [
+						"You can't take any {@variantrule Action|XPHB|action}, {@variantrule Bonus Action|XPHB}, or {@variantrule Reaction|XPHB}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "No Concentration",
+					"entries": [
+						"Your {@status Concentration|XPHB} is broken."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Speechless",
+					"entries": [
+						"You can't speak."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Surprised",
+					"entries": [
+						"If you're Incapacitated when you roll {@variantrule Initiative|XPHB}, you have {@variantrule Disadvantage|XPHB} on the roll."
+					]
+				}
+			]
+		}
+	]
+}

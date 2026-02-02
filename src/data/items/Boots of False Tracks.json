@@ -1,0 +1,13 @@
+{
+	"name": "Boots of False Tracks",
+	"source": "XDMG",
+	"page": 239,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"While wearing these boots, you can have them leave tracks like those of any kind of Humanoid of your size."
+	],
+	"lootTables": [
+		"Implements - Common|XDMG"
+	]
+}

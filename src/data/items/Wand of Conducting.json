@@ -1,0 +1,25 @@
+{
+	"name": "Wand of Conducting",
+	"source": "XDMG",
+	"page": 319,
+	"type": "WD|XDMG",
+	"rarity": "common",
+	"weight": 1,
+	"recharge": "dawn",
+	"rechargeAmount": 3,
+	"charges": 3,
+	"entries": [
+		"This wand has 3 charges. While holding it, you can take a {@action Magic|XPHB} action to expend 1 charge and create orchestral music by waving it around. The music can be heard out to 120 feet and ends when you stop waving the wand.",
+		{
+			"type": "entries",
+			"name": "Regaining Charges",
+			"entries": [
+				"The wand regains all expended charges daily at dawn. If you expend the wand's last charge, roll {@dice 1d20}. On a 1, a sad tuba sound plays as the wand crumbles into dust and is destroyed."
+			]
+		}
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

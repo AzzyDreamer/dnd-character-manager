@@ -1,0 +1,14 @@
+{
+	"name": "Whaleboat",
+	"source": "FRAiF",
+	"page": 166,
+	"type": "SHP|XPHB",
+	"rarity": "none",
+	"value": 50000,
+	"crew": 6,
+	"vehAc": 13,
+	"vehHp": 100,
+	"vehDmgThresh": 10,
+	"vehSpeed": 3,
+	"capPassenger": 1
+}

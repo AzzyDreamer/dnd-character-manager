@@ -1,0 +1,246 @@
+{
+	"name": "Invisibility",
+	"source": "XPHB",
+	"page": 289,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "an eyelash in gum arabic"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A creature you touch has the {@condition Invisible|XPHB} condition until the spell ends. The spell ends early immediately after the target makes an attack roll, deals damage, or casts a spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target one additional creature for each spell slot level above 2."
+			]
+		}
+	],
+	"conditionInflict": [
+		"invisible"
+	],
+	"miscTags": [
+		"SCT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Trickery Domain",
+					"shortName": "Trickery",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Illusionist",
+					"shortName": "Illusionist",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Grassland"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Duergar",
+			"source": "MPMM"
+		},
+		{
+			"name": "Dwarf (Duergar)",
+			"source": "MTF",
+			"baseName": "Dwarf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Tiefling (Glasya)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf (Mark of Shadow)",
+			"source": "ERLW",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Elf (Pallid)",
+			"source": "EGW",
+			"baseName": "Elf",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "One with Shadows",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		},
+		{
+			"name": "Shroud of Shadow",
+			"source": "XGE",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the Red Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Shadow",
+			"source": "EFA"
+		},
+		{
+			"name": "Shadow Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Shadow-Touched",
+			"source": "XPHB"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Charm of Invisibility",
+			"source": "IDRotF"
+		}
+	]
+}

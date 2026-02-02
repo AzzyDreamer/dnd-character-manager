@@ -1,0 +1,83 @@
+{
+	"name": "Melting Curse",
+	"source": "GrimHollowPG24",
+	"page": 196,
+	"level": 6,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 100
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a vial of quicksilver"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You target a creature and a metal object held or worn by that creature you can see within range. The creature makes a Dexterity saving throw. On a failed save, the creature takes {@damage 5d8} Fire damage and the targeted object melts and oozes to the ground, where it returns to its normal shape and temperature. If the object is magical, the creature has {@variantrule Advantage|XPHB} on the saving throw.",
+		"If the creature tries to retrieve or otherwise touch the object for the duration, the object heats and melts, and the creature takes {@damage 5d8} Fire damage. The object returns to normal once the creature is no longer touching it or the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d8} for each spell slot level above 6."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"fire"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"ADV",
+		"OBJ",
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Melting%20Curse.webp"
+}

@@ -1,0 +1,10 @@
+{
+	"name": "Stealth",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "dex",
+	"entries": [
+		"Escape notice by moving quietly and hiding behind things."
+	]
+}

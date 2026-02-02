@@ -1,0 +1,11 @@
+{
+	"name": "Stable",
+	"source": "XPHB",
+	"page": 374,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A creature is Stable if it has 0 {@variantrule Hit Points|XPHB} but isn't required to make {@variantrule Death Saving Throw|XPHB|Death Saving Throws}."
+	]
+}

@@ -1,0 +1,93 @@
+{
+	"name": "Crafter",
+	"source": "XPHB",
+	"page": 200,
+	"category": "O",
+	"toolProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"carpenter's tools",
+					"leatherworker's tools",
+					"mason's tools",
+					"potter's tools",
+					"smith's tools",
+					"tinker's tools",
+					"weaver's tools",
+					"woodcarver's tools"
+				],
+				"count": 3
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Tool Proficiency",
+			"entries": [
+				"You gain proficiency with three different {@item Artisan's Tools|XPHB} of your choice from the Fast Crafting table."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Discount",
+			"entries": [
+				"Whenever you buy a nonmagical item, you receive a 20 percent discount on it."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fast Crafting",
+			"entries": [
+				"When you finish a {@variantrule Long Rest|XPHB}, you can craft one piece of gear from the Fast Crafting table, provided you have the {@item Artisan's Tools|XPHB} associated with that item and have proficiency with those tools. The item lasts until you finish another {@variantrule Long Rest|XPHB}, at which point the item falls apart.",
+				{
+					"type": "table",
+					"caption": "Fast Crafting",
+					"colStyles": [
+						"col-3",
+						"col-9"
+					],
+					"colLabels": [
+						"Artisan's Tools",
+						"Crafted Gear"
+					],
+					"rows": [
+						[
+							"{@item Carpenter's Tools|XPHB}",
+							"{@item Ladder|XPHB}, {@item Torch|XPHB}"
+						],
+						[
+							"{@item Leatherworker's Tools|XPHB}",
+							"{@item Crossbow Bolt Case|XPHB}, {@item Map or Scroll Case|XPHB}, {@item Pouch|XPHB}"
+						],
+						[
+							"{@item Mason's Tools|XPHB}",
+							"{@item Block and Tackle|XPHB}"
+						],
+						[
+							"{@item Potter's Tools|XPHB}",
+							"{@item Jug|XPHB}, {@item Lamp|XPHB}"
+						],
+						[
+							"{@item Smith's Tools|XPHB}",
+							"{@item Ball Bearings|XPHB}, {@item Bucket|XPHB}, {@item Caltrops|XPHB}, {@item Grappling Hook|XPHB}, {@item Iron Pot|XPHB}"
+						],
+						[
+							"{@item Tinker's Tools|XPHB}",
+							"{@item Bell|XPHB}, {@item Shovel|XPHB}, {@item Tinderbox|XPHB}"
+						],
+						[
+							"{@item Weaver's Tools|XPHB}",
+							"{@item Basket|XPHB}, {@item Rope|XPHB}, {@item Net|XPHB}, {@item Tent|XPHB}"
+						],
+						[
+							"{@item Woodcarver's Tools|XPHB}",
+							"{@item Club|XPHB}, {@item Greatclub|XPHB}, {@item Quarterstaff|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,43 @@
+{
+	"name": "Blade of Broken Mirrors (Awakened)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Blade of Broken Mirrors (Dormant)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Awakened",
+					"entries": [
+						"When the dagger reaches an awakened state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"The weapon's bonus to attack and damage rolls increases to +2.",
+								"While holding the weapon, you can use an action to cast one of the following spells from it (save {@dc 15}): {@spell fabricate}, {@spell hallucinatory terrain}, {@spell major image}, or {@spell phantasmal killer}. Once a spell has been cast using the dagger, that spell can't be cast from the dagger again until the next dawn."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"bonusWeapon": "+2",
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"fabricate",
+				"hallucinatory terrain",
+				"major image",
+				"phantasmal killer"
+			]
+		}
+	}
+}

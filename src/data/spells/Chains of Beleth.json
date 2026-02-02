@@ -1,0 +1,84 @@
+{
+	"name": "Chains of Beleth",
+	"source": "GrimHollowPG24",
+	"page": 188,
+	"level": 6,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 100
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a chain link"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Barbed chains ending in meat hooks burst from the ground from a point you can see within range, flailing in a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on that point.",
+		"Each creature in the area makes a Dexterity saving throw. On a failed save, it takes {@damage 8d6} Piercing damage and has the {@condition Restrained|XPHB} condition until the spell ends.",
+		"The first time a creature enters the chain's area on a turn or starts its turn there, it must succeed on a Dexterity saving throw or have the {@condition Restrained|XPHB} condition while in the area or until it breaks free. A creature {@condition Restrained|XPHB} by the chains can take an action to make a Strength ({@skill Athletics|XPHB}) check against your spell save DC. If it succeeds, it is no longer {@condition Restrained|XPHB}.",
+		"When a creature {@condition Restrained|XPHB} by this spell ends its turn, the creature takes {@damage 3d6} Bludgeoning damage."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The initial and subsequent damage increase by {@dice 1d6} for each spell slot level above 6."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"bludgeoning",
+		"piercing"
+	],
+	"conditionInflict": [
+		"restrained"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Chains%20of%20Beleth.webp"
+}

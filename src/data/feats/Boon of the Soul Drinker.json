@@ -1,0 +1,47 @@
+{
+	"name": "Boon of the Soul Drinker",
+	"source": "FRHoF",
+	"page": 43,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"resist": [
+		"cold",
+		"necrotic"
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Grave Resistance",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Cold damage and Necrotic damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Siphon Life",
+			"entries": [
+				"When an enemy within 120 feet of you is reduced to 0 {@variantrule Hit Points|XPHB}, you can take a {@variantrule Reaction|XPHB} to regain 50 {@variantrule Hit Points|XPHB}. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

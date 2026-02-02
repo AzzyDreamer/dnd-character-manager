@@ -1,0 +1,33 @@
+{
+	"name": "Infernal Constitution",
+	"source": "XGE",
+	"page": 75,
+	"prerequisite": [
+		{
+			"race": [
+				{
+					"name": "tiefling"
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"con": 1
+		}
+	],
+	"resist": [
+		"cold",
+		"poison"
+	],
+	"entries": [
+		"Fiendish blood runs strong in you, unlocking a resilience akin to that possessed by some fiends. You gain the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"You have resistance to cold and poison damage.",
+				"You have advantage on saving throws against being {@condition poisoned}."
+			]
+		}
+	]
+}

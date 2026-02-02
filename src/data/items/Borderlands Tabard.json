@@ -1,0 +1,10 @@
+{
+	"name": "Borderlands Tabard",
+	"source": "HotB",
+	"page": 16,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"entries": [
+		"While you're wearing this tabard, NPCs in the Keep on the Borderlands are initially {@variantrule Friendly [Attitude]|XPHB|Friendly} toward you."
+	]
+}

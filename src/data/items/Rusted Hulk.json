@@ -1,0 +1,15 @@
+{
+	"name": "Rusted Hulk",
+	"source": "FRAiF",
+	"page": 166,
+	"type": "SHP|XPHB",
+	"rarity": "none",
+	"value": 5000000,
+	"crew": 60,
+	"vehAc": 18,
+	"vehHp": 500,
+	"vehDmgThresh": 25,
+	"vehSpeed": 2,
+	"capPassenger": 90,
+	"capCargo": 250
+}

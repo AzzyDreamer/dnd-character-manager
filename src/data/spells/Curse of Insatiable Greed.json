@@ -1,0 +1,88 @@
+{
+	"name": "Curse of Insatiable Greed",
+	"source": "GrimHollowPG24",
+	"page": 212,
+	"level": 5,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a coin that the target has previously possessed, the tail of a rat, and a golden crown of thorns worth 800+ GP, all of which the spell consumes",
+			"cost": 80000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with a bitter and self-destructive greed. The target must make a Wisdom saving throw. Successful {@variantrule Saving Throw|XPHB}. On a successful save, the target takes {@damage 4d10} Cold damage and is aware it was targeted by a curse.",
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 6d10} Cold damage, and its {@variantrule Speed|XPHB} is reduced to 0 for 1 minute. At the end of each turns, the target's {@variantrule Speed|XPHB} increases by 5 feet, until it reaches its maximum {@variantrule Speed|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target finishes a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, it notices it has lost a valued item, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature becomes compelled to steal trinkets."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature finds a secret place to start stashing its stolen trinkets, and it becomes anxious about leaving the location for extended periods of time. The creature has {@variantrule Disadvantage|XPHB} on Wisdom ability checks and saving throws."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature is driven to transform its hoard of trinkets into a labyrinth of possessions and treasure. The cursed creature desires to remain in this lair. The creature can't take {@variantrule Reaction|XPHB|Reactions}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Verminous Abomination."
+			]
+		}
+	],
+	"damageInflict": [
+		"cold"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Insatiable%20Greed.webp"
+}

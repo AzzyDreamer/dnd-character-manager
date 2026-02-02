@@ -1,0 +1,45 @@
+{
+	"name": "Greater Mark of Healing",
+	"source": "EFA",
+	"page": 44,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of healing|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Medical Intuition benefit of your {@feat Mark of Healing|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Healing",
+			"entries": [
+				"You can now use the Healing Touch benefit of your {@feat Mark of Healing|EFA} feat to cast {@spell Cure Wounds|XPHB} without using a spell slot a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. Additionally, when you cast {@spell Cure Wounds|XPHB} and roll dice to determine the number of {@variantrule Hit Points|XPHB} restored, you can treat any 1 or 2 on a roll as a 3."
+			]
+		}
+	]
+}

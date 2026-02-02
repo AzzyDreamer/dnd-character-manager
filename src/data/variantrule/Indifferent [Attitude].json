@@ -1,0 +1,11 @@
+{
+	"name": "Indifferent [Attitude]",
+	"source": "XPHB",
+	"page": 369,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An Indifferent creature has no desire to help or hinder you. Indifferent is the default attitude of a {@variantrule Monster|XPHB|monster}."
+	]
+}

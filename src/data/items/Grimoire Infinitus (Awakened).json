@@ -1,0 +1,33 @@
+{
+	"name": "Grimoire Infinitus (Awakened)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Grimoire Infinitus (Dormant)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Awakened",
+					"entries": [
+						"When the Grimoire Infinitus reaches an awakened state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"While you carry the spellbook, you have advantage on saving throws against spells and magical effects.",
+								"When you prepare wizard spells using the grimoire as your spellbook, the number of spells you can prepare increases by 1 again."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"hasFluffImages": true
+}

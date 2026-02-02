@@ -1,0 +1,173 @@
+{
+	"name": "Leomund's Tiny Hut",
+	"source": "XPHB",
+	"page": 291,
+	"srd52": "Tiny Hut",
+	"basicRules2024": true,
+	"level": 3,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 10
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a crystal bead"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 8
+			}
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"A 10-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} springs into existence around you and remains stationary for the duration. The spell fails when you cast it if the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} isn't big enough to fully encapsulate all creatures in its area.",
+		"Creatures and objects within the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} when you cast the spell can move through it freely. All other creatures and objects are barred from passing through it. Spells of level 3 or lower can't be cast through it, and the effects of such spells can't extend into it.",
+		"The atmosphere inside the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} is comfortable and dry, regardless of the weather outside. Until the spell ends, you can command the interior to have {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB} (no action required). The {@variantrule Emanation [Area of Effect]|XPHB|Emanation} is opaque from the outside and of any color you choose, but it's transparent from the inside.",
+		"The spell ends early if you leave the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} or if you cast it again."
+	],
+	"miscTags": [
+		"LGT"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Twilight Domain",
+					"shortName": "Twilight",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Halfling (Mark of Hospitality)",
+			"source": "ERLW",
+			"baseName": "Halfling",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Hospitality",
+			"source": "EFA"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Charm of the Traveler's Haven",
+			"source": "IDRotF"
+		}
+	]
+}

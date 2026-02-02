@@ -1,0 +1,77 @@
+{
+	"name": "Accursed",
+	"source": "GrimHollowPG24",
+	"page": 23,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 30,
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small or Medium (Accursed can range in size from under 3 feet to 6 feet or more, with a wide range of body types to match.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. If you are Small, you can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Accursed that strongly resemble other humanoids might have a longevity only slightly different than those other folk. However, unusual Accursed might age quickly or live effectively ageless lives until cut down by tragedy."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Accursed Traits",
+			"entries": [
+				"The unique nature behind your creation or the evolution of your exceedingly rare kind dictates the traits that define you. If you resemble or once lived as one of the standard heritages of Etharis, you might choose one or more of the traits of that heritage as a starting point. But you are free to choose any traits as you determine, creating a character whose unique nature shapes their experience in the world."
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"The accursed are the rarest and least understood of all the heritages of Etharis—because each accursed is effectively a heritage unto themself. Whether created by unique magic, brought to the world through planar gates or extradimensional portals, or representing one of the last members of a heritage thought to have been lost to history, an accursed is a creature whose traits are all freely chosen with a specific character concept in mind.",
+	"Accursed are so named not because their birth or creation was the result of magical malfeasance, a hag's bargain, a corrupted scroll, or any of the other typical senses of \"curse\" in the game. Rather, accursed reflects the grim sense of how most other folk in the campaign will view such a character, especially those who don't take the time to learn more about the character's life and outlook. This heritage is intended to encourage players to decide who their character is with a maximum amount of creativity. It's a sort of \"catch-all\" for unique characters who don't fit into another heritage, but can still fit into Grim Hollow.",
+	"Accursed typically don't represent a people or a culture and are often entirely unique unto themselves. One player might create an accursed character taking the form of a halfling-sized talking raven who hatched from a petrified basilisk egg during a full moon. In all the world, there is no one else quite like them, and the combination of heritage traits chosen by the player of that accursed character reflects as such. Another player might choose the accursed heritage to reflect the form and capabilities of a lizardfolk—a heritage that doesn't canonically exist in Grim Hollow. Whether that accursed character represents a wanderer who set out from a lost lizardfolk enclave deep in the Black Mire, or a character born to elf parents cursed by an evil mage, their selection of heritage traits defines their unique place in the world.",
+	{
+		"type": "entries",
+		"name": "Eldritch Heritages",
+		"entries": [
+			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+		]
+	}
+]

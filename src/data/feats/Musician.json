@@ -1,0 +1,28 @@
+{
+	"name": "Musician",
+	"source": "XPHB",
+	"page": 201,
+	"category": "O",
+	"toolProficiencies": [
+		{
+			"anyMusicalInstrument": 3
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Instrument Training",
+			"entries": [
+				"You gain proficiency with three Musical Instruments of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Encouraging Song",
+			"entries": [
+				"As you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you can play a song on a {@item Musical Instrument|XPHB} with which you have proficiency and give {@variantrule Heroic Inspiration|XPHB} to allies who hear the song. The number of allies you can affect in this way equals your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+			]
+		}
+	]
+}

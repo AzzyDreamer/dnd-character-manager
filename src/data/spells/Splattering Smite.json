@@ -1,0 +1,51 @@
+{
+	"name": "Splattering Smite",
+	"source": "GrimHollowPG24",
+	"page": 202,
+	"level": 5,
+	"school": "A",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"note": "which you take when you hit a creature with a Melee weapon"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Your strikes drink the splattered blood of your foes. As part of casting this spell, you must expend five {@variantrule Hit Point Dice|XPHB|Hit Dice} or the spell automatically fails. Once on each of your turns when you hit a creature with an attack roll using a Melee weapon or {@variantrule Unarmed Strike|XPHB}, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell and regain a number of {@variantrule Hit Points|XPHB} equal to the numbered rolled."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Splattering%20Smite.webp"
+}

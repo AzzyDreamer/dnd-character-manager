@@ -1,0 +1,26 @@
+{
+	"name": "Matalotok",
+	"source": "BGDIA",
+	"page": 224,
+	"baseItem": "warhammer|phb",
+	"type": "M",
+	"immune": [
+		"cold"
+	],
+	"rarity": "legendary",
+	"reqAttune": true,
+	"weight": 2,
+	"weaponCategory": "martial",
+	"property": [
+		"V"
+	],
+	"range": "20/60",
+	"dmg1": "1d8",
+	"dmgType": "B",
+	"dmg2": "1d10",
+	"entries": [
+		"Matalotok, the Frost Father, is an ancient hammer fashioned by Thrym, the god of frost giants. The favored weapon of the demon lord {@creature Kostchtchie|BGDIA}, Matalotok is frigid to the touch and wreathed in mist.",
+		"You are immune to cold damage while holding Matalotok. Whenever it deals damage to a creature, the hammer radiates a burst of intense cold in a 30-foot-radius sphere. Each creature in that area takes 10 ({@damage 3d6}) cold damage."
+	],
+	"hasFluffImages": true
+}

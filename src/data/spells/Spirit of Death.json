@@ -1,0 +1,141 @@
+{
+	"name": "Spirit of Death",
+	"source": "BMT",
+	"page": 50,
+	"level": 4,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a gilded playing card worth at least 400 gp and depicting an avatar of death",
+			"cost": 40000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You call forth a spirit that embodies death. The spirit manifests in an unoccupied space you can see within range and uses the {@creature reaper spirit|BMT} stat block. The spirit disappears when it is reduced to 0 hit points or when the spell ends.",
+		"The spirit is an ally to you and your companions. In combat, the spirit shares your initiative count and takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue the spirit any commands, it takes the {@action Dodge} action and uses its movement to avoid danger."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 5th level or higher, use the higher level wherever the spell's level appears in the reaper spirit stat block."
+			]
+		}
+	],
+	"miscTags": [
+		"SGT",
+		"SMN"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

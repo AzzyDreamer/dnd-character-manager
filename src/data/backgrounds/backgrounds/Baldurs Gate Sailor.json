@@ -1,0 +1,45 @@
+{
+	"name": "Baldur's Gate Sailor",
+	"source": "BGDIA",
+	"page": 204,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 139
+		}
+	],
+	"_copy": {
+		"name": "Sailor",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": 2,
+				"items": {
+					"name": "Baldur's Gate Feature: Smuggler's Sense",
+					"type": "entries",
+					"entries": [
+						"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+						"You're familiar with the docks of Baldur's Gate, the movement of inspectors and tax collectors, the way cargo and coin flows. As a result, it's easy for you to hustle a load of cargo ashore or see such a cargo onto a cooperative ship without attracting suspicion or taxation. You also know the movements of the Gray Wavers—the Flaming Fist harbor guards—and have a sense of how to operate the city's mechanized cranes."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Baldur's Gate was founded by sailors, and its harbor is still the city's beating heart. Several patriars are descended from captains of yore, the commerce of the Lower City is built on the port, and even the Outer City's rhythms are dominated by the ebb and flow of river trade. Because sailors are as fundamental and ubiquitous to Baldur's Gate as the cobbles on its streets, characters with this background are common."
+					]
+				}
+			]
+		}
+	]
+}

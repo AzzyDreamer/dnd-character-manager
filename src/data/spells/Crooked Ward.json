@@ -1,0 +1,70 @@
+{
+	"name": "Crooked Ward",
+	"source": "CrookedMoon24",
+	"page": 127,
+	"level": 3,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a five-pointed wicker star"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You touch an immobile surface and mark a symbol that causes agony in twisted creatures. An {@condition Invisible|XPHB}, 30-foot radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} springs out from the point you touch. Each Aberration, Fey, Fiend, Monstrosity, or Undead in the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} has {@variantrule Disadvantage|XPHB} on ability checks and attack rolls. When an affected creature enters the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} for the first time on a turn or starts its turn there, it must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition until the start of its next turn."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can maintain {@status Concentration|XPHB} on this spell for longer if you cast it using a spell slot of level 4 (up to 1 hour) or 5 (up to 8 hours). If you use a level 6+ spell slot, the spell doesn't require {@status Concentration|XPHB}, and the duration becomes 24 hours."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Crooked-Ward.webp"
+}

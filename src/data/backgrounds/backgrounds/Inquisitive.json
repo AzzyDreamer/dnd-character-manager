@@ -1,0 +1,113 @@
+{
+	"name": "Inquisitive",
+	"source": "EFA",
+	"page": 33,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"alert|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"insight": true,
+			"investigation": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"thieves' tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"thieves' tools|xphb",
+				"bullseye lantern|xphb",
+				"crowbar|xphb",
+				{
+					"item": "oil|xphb",
+					"quantity": 10
+				},
+				"traveler's clothes|xphb",
+				{
+					"value": 1000
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Constitution, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Alert|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Insight|XPHB} and {@skill Investigation|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Thieves' Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Thieves' Tools|XPHB}, {@item Bullseye Lantern|XPHB}, {@item Crowbar|XPHB}, {@item Oil|XPHB} (10 flasks), {@item Traveler's Clothes|XPHB}, 10 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You have honed your talents of investigation and deduction—fueled by a boundless curiosity—to explore mysteries, find missing people, recover stolen goods, unearth corruption and conspiracies, and solve crimes. As an inquisitive, you might have pursued freelance work, signed on with an inquisitive agency (perhaps one licensed by a dragonmarked house such as Medani or Tharashk), reported for a broadsheet, or worked for a police force."
+	]
+}

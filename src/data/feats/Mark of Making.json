@@ -1,0 +1,121 @@
+{
+	"name": "Mark of Making",
+	"source": "EFA",
+	"page": 40,
+	"category": "D",
+	"prerequisite": [
+		{
+			"campaign": [
+				"Eberron"
+			],
+			"exclusiveFeatCategory": [
+				"D"
+			]
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					"mending|xphb#c"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"magic weapon|xphb"
+						]
+					}
+				}
+			},
+			"expanded": {
+				"s1": [
+					"identify|xphb",
+					"tenser's floating disk|xphb"
+				],
+				"s2": [
+					"continual flame|xphb",
+					"spiritual weapon|xphb"
+				],
+				"s3": [
+					"conjure barrage|xphb",
+					"elemental weapon|xphb"
+				],
+				"s4": [
+					"fabricate|xphb",
+					"stone shape|xphb"
+				],
+				"s5": [
+					"creation|xphb"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Artisan's Intuition",
+			"entries": [
+				"When you make an Intelligence ({@skill Arcana|XPHB}) check or an ability check using {@item Artisan's Tools|XPHB}, you can roll {@dice 1d4} and add the number rolled to the ability check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spellsmith",
+			"entries": [
+				"You know the {@spell Mending|XPHB} cantrip. You also always have the {@spell Magic Weapon|XPHB} spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast it using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells (choose when you select this feat)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells of the Mark",
+			"entries": [
+				"If you have the Spellcasting or Pact Magic class feature, the spells on the Mark of Making Spells table are added to that feature's spell list.",
+				{
+					"type": "table",
+					"caption": "Mark of Making Spells",
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"colLabels": [
+						"Spell Level",
+						"Spells"
+					],
+					"rows": [
+						[
+							"1",
+							"{@spell Identify|XPHB}, {@spell Tenser's Floating Disk|XPHB}"
+						],
+						[
+							"2",
+							"{@spell Continual Flame|XPHB}, {@spell Spiritual Weapon|XPHB}"
+						],
+						[
+							"3",
+							"{@spell Conjure Barrage|XPHB}, {@spell Elemental Weapon|XPHB}"
+						],
+						[
+							"4",
+							"{@spell Fabricate|XPHB}, {@spell Stone Shape|XPHB}"
+						],
+						[
+							"5",
+							"{@spell Creation|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	],
+	"hasFluffImages": true
+}

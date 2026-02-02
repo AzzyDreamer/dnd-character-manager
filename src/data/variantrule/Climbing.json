@@ -1,0 +1,11 @@
+{
+	"name": "Climbing",
+	"source": "XPHB",
+	"page": 363,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"While you're climbing, each foot of movement costs 1 extra foot (2 extra feet in {@variantrule Difficult Terrain|XPHB|difficult terrain}). You ignore this extra cost if you have a {@variantrule Climb Speed|XPHB} and use it to climb. At the DM's option, climbing a slippery surface or one with few handholds might require a successful {@dc 15} Strength ({@skill Athletics|XPHB}) check."
+	]
+}

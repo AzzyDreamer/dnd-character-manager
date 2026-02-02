@@ -1,0 +1,69 @@
+{
+	"name": "Blood Wisp",
+	"source": "GrimHollowPG24",
+	"page": 186,
+	"level": 2,
+	"school": "V",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a ruby worth 10 GP",
+			"cost": 1000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend two {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell and create a red wisp with a number of {@variantrule Hit Points|XPHB} equal to the roll plus your spellcasting ability modifier. The wisp circles your head. It has an AC equal to 10 plus your spellcasting ability modifier, and uses your saving throws.",
+		"Each time you roll damage for a spell while the wisp circles you, you can reroll one of the damage dice. You must use the new roll, and the wisp takes damage equal to the new roll. If the wisp is reduced to 0 {@variantrule Hit Points|XPHB}, the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend one additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} for each spell slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Blood%20Wisp.webp"
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Creature",
+	"source": "XPHB",
+	"page": 364,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Any being in the game, including a {@variantrule Player Character|XPHB|a player's character}, is a creature."
+	]
+}

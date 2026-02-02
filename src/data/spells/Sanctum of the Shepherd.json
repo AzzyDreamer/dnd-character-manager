@@ -1,0 +1,75 @@
+{
+	"name": "Sanctum of the Shepherd",
+	"source": "CrookedMoon24",
+	"page": 132,
+	"level": 4,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 5
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "adamantine or diamond powder worth 200+ GP, which the spell consumes",
+			"cost": 20000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 24
+			}
+		}
+	],
+	"entries": [
+		"You create a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} of faint, shimmering light centered on a point within range. You and  a number of creatures of your choice up to your spellcasting ability modifier (minimum of 1 other creature) can absorb protective magic from the {@variantrule Sphere [Area of Effect]|XPHB|Sphere}. When any of the chosen creatures finish a {@variantrule Long Rest|XPHB} in the area, the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} vanishes, and those creatures gain a +1 bonus to AC for the remainder of the duration. Chosen creatures who don't finish a {@variantrule Long Rest|XPHB} in the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} gain no benefit."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"MAC"
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Spells/sanctum-of-the-shepherd.webp"
+				},
+				"width": 1700,
+				"height": 1804,
+				"credit": "Lucas Torquato"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Sanctum-of-the-Sheperd.webp"
+}

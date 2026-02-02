@@ -1,0 +1,97 @@
+{
+	"name": "Ritual Caster",
+	"source": "XPHB",
+	"page": 206,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"int": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"wis": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"cha": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"prepared": {
+				"1": [
+					{
+						"choose": "level=1|components & miscellaneous=ritual",
+						"count": 2
+					}
+				],
+				"5": [
+					{
+						"choose": "level=1|components & miscellaneous=ritual",
+						"count": 1
+					}
+				],
+				"9": [
+					{
+						"choose": "level=1|components & miscellaneous=ritual",
+						"count": 1
+					}
+				],
+				"13": [
+					{
+						"choose": "level=1|components & miscellaneous=ritual",
+						"count": 1
+					}
+				],
+				"17": [
+					{
+						"choose": "level=1|components & miscellaneous=ritual",
+						"count": 1
+					}
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Ritual Spells",
+			"entries": [
+				"Choose a number of level 1 spells equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} that have the {@filter Ritual tag|spells|level=1|components & miscellaneous=ritual}. You always have those spells prepared, and you can cast them with any spell slots you have. The spells' spellcasting ability is the ability increased by this feat. Whenever your {@variantrule Proficiency|XPHB|Proficiency Bonus} increases thereafter, you can add an additional level 1 spell with the {@variantrule Ritual|XPHB} tag to the spells always prepared with this feature."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Ritual",
+			"entries": [
+				"With this benefit, you can cast a {@variantrule Ritual|XPHB} spell that you have prepared using its regular casting time rather than the extended time for a {@variantrule Ritual|XPHB}. Doing so doesn't require a spell slot. Once you cast the spell in this way, you can't use this benefit again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

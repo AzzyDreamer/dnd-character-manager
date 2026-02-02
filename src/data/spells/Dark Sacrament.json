@@ -1,0 +1,93 @@
+{
+	"name": "Dark Sacrament",
+	"source": "GrimHollowPG24",
+	"page": 190,
+	"level": 4,
+	"school": "V",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a dagger encrusted in jewels worth 100+ GP",
+			"cost": 10000
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend four {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Make a melee spell attack against a creature within 5 feet using the Material component of this spell. On a hit, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell plus {@dice 4d8}. You deal Necrotic damage equal to the roll's total. If this damage causes the creature to be reduced to 0 {@variantrule Hit Points|XPHB}, it immediately dies and you gain one of the following dark blessings of your choice. When you take Radiant damage while you have a dark blessing, you take an extra {@damage 1d4} Radiant damage.",
+		{
+			"type": "entries",
+			"name": "Unassailable",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on all saving throws."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Unbreakable",
+			"entries": [
+				"Your size increases by one category (from Medium to Large, for example), you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your Constitution modifier (minimum 1) at the start of each of your turns, and your weapon attacks deal an extra {@damage 1d4} damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Unerring",
+			"entries": [
+				"Your {@variantrule Proficiency|XPHB|Proficiency Bonus} increases by 2."
+			]
+		},
+		"Your dark blessing ends after 10 minutes or when you are reduced to 0 {@variantrule Hit Points|XPHB}, whichever happens first."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The initial damage increases by {@dice 1d8} for each spell slot level above 4."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"radiant"
+	],
+	"spellAttack": [
+		"M"
+	],
+	"miscTags": [
+		"AAD",
+		"ADV",
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Dark%20Sacrament.webp"
+}

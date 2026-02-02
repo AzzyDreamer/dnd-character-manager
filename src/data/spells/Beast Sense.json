@@ -1,0 +1,116 @@
+{
+	"name": "Beast Sense",
+	"source": "XPHB",
+	"page": 245,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"You touch a willing Beast. For the duration, you can perceive through the Beast's senses as well as your own. When perceiving through the Beast's senses, you benefit from any special senses it has."
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Barbarian",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Path of the Totem Warrior",
+					"shortName": "Totem Warrior",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Barbarian",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Path of the Wild Heart",
+					"shortName": "Wild Heart",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Handling)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Gruul Anarch",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Enclave Magic",
+			"source": "FRHoF"
+		},
+		{
+			"name": "Mark of Handling",
+			"source": "EFA"
+		}
+	]
+}

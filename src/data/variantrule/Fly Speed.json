@@ -1,0 +1,11 @@
+{
+	"name": "Fly Speed",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Fly Speed can be used to travel through the air. While you have a Fly Speed, you can stay aloft until you land, fall, or die."
+	]
+}

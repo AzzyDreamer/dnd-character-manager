@@ -1,0 +1,63 @@
+{
+	"name": "Kalashtar",
+	"source": "EFA",
+	"page": 35,
+	"edition": "one",
+	"creatureTypes": [
+		"aberration"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"traitTags": [
+		"Skill Proficiency"
+	],
+	"resist": [
+		"psychic"
+	],
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (about 6–7 feet tall)"
+		]
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Dual Mind",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on Wisdom and Charisma saving throws."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mental Discipline",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Psychic damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mind Link",
+			"entries": [
+				"You have telepathy with a range in feet equal to 10 times your level. When you're using this trait to speak telepathically to a creature, you can take a {@action Magic|XPHB} action to give that creature the ability to speak telepathically with you for 1 hour or until you take another {@action Magic|XPHB} action to end this effect."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Severed from Dreams",
+			"entries": [
+				"You can't be the target of the {@spell Dream|XPHB} spell. In addition, when you finish a {@variantrule Long Rest|XPHB}, you gain proficiency in one skill of your choice. This proficiency lasts until you finish another {@variantrule Long Rest|XPHB}."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Kalashtar (pronounced kal-ASH-tar) are created from the union of humanity and renegade spirits called quori from the plane of dreams. Kalashtar appear human, but their spiritual connection affects them in a variety of ways. They have symmetrical, slightly angular features, and their eyes often glow when they are concentrating or expressing strong emotions.",
+	"Kalashtar can't communicate directly with their quori spirits. Rather, kalashtar might experience them as a source of instinct and inspiration, drawing on the spirits' memories when the kalashtar sleep. This connection grants kalashtar minor psionic abilities, as well as protection from psionic attacks."
+]

@@ -1,0 +1,74 @@
+{
+	"name": "Conjure Cannonball",
+	"source": "ValdaGunslinger",
+	"otherSources": [
+		{
+			"source": "ValdaSpire24"
+		}
+	],
+	"level": 3,
+	"school": "C",
+	"subschools": [
+		"Firearm"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 600
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a small replica cannon"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You summon a cannonball, mid-flight and at full velocity, which explodes on impact. Make a ranged spell attack roll against a target you can see within range. On a hit, the target takes {@damage 5d10} Bludgeoning damage and an explosion extends from it in a 5-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. Each creature other than the target within the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} makes a Dexterity saving throw, taking half as much damage as the target on a failed save."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d10} for each slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"bludgeoning"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT",
+		"SMN"
+	]
+}

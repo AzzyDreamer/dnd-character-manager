@@ -1,0 +1,76 @@
+{
+	"name": "Ironfang",
+	"source": "PotA",
+	"page": 224,
+	"baseItem": "war pick|phb",
+	"type": "M",
+	"resist": [
+		"acid"
+	],
+	"rarity": "legendary",
+	"reqAttune": true,
+	"weight": 2,
+	"weaponCategory": "martial",
+	"dmg1": "1d8",
+	"dmgType": "P",
+	"grantsLanguage": true,
+	"bonusWeapon": "+2",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d3}",
+	"charges": 3,
+	"entries": [
+		"A {@item war pick|phb} forged from a single piece of iron, Ironfang has a fang-like head inscribed with ancient runes. The pick is heavy in the hand, but when the wielder swings the pick in anger, the weapon seems almost weightless. This weapon is immune to any form of rust, acid, or corrosion—nothing seems to mark it. Ironfang contains a spark of {@creature Ogrémoch|PotA}, the Prince of Evil Earth.",
+		"You gain a +2 bonus to attack and damage rolls made with this magic weapon. When you hit with it, the target takes an extra {@damage 1d8} thunder damage.",
+		{
+			"type": "entries",
+			"name": "Earth Mastery",
+			"entries": [
+				"You gain the following benefits while you hold Ironfang:",
+				{
+					"type": "list",
+					"items": [
+						"You can speak Terran fluently.",
+						"You have resistance to acid damage.",
+						"You have {@sense tremorsense|MM} out to a range of 60 feet.",
+						"You can sense the presence of precious metals and stones within 60 feet of you, but not their exact location.",
+						"You can cast {@spell dominate monster} (save {@dc 17}) on an {@creature earth elemental}. Once you have done so, Ironfang can't be used this way again until the next dawn."
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shatter",
+			"entries": [
+				"Ironfang has 3 charges. You can use your action to expend 1 charge and cast the 2nd-level version of {@spell shatter} ({@dc 17}). Ironfang regains {@dice 1d3} expended charges daily at dawn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "The Rumbling",
+			"entries": [
+				"While inside an earth node, you can perform a ritual called the Rumbling, using Ironfang to create a {@item devastation orb of earth|PotA}. Once you perform the ritual, Ironfang can't be used to perform the ritual again until the next dawn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Flaw",
+			"entries": [
+				"Ironfang heightens its wielder's destructive nature. While attuned to the weapon, you gain the following flaw: \"I like to break things and cause ruin.\""
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"3": [
+				"shatter"
+			]
+		},
+		"daily": {
+			"1e": [
+				"dominate monster"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

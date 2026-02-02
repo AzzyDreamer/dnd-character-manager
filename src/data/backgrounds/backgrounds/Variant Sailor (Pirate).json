@@ -1,0 +1,39 @@
+{
+	"name": "Variant Sailor (Pirate)",
+	"source": "PHB",
+	"page": 139,
+	"_copy": {
+		"name": "Sailor",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "replaceArr",
+				"replace": "Feature: Ship's Passage",
+				"items": {
+					"name": "Feature: Bad Reputation",
+					"type": "entries",
+					"entries": [
+						"No matter where you go, people are afraid of you due to your reputation. When you are in a civilized settlement, you can get away with minor criminal offenses, such as refusing to pay for food at a tavern or breaking down doors at a local shop, since most people will not report your activity to the authorities."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"You spent your youth under the sway of a dread pirate, a ruthless cutthroat who taught you how to survive in a world of sharks and savages. You've indulged in larceny on the high seas and sent more than one deserving soul to a briny grave. Fear and bloodshed are no strangers to you, and you've garnered a somewhat unsavory reputation in many a port town.",
+						"If you decide that your sailing career involved piracy, you can choose the Bad Reputation feature instead of the Ship's Passage feature."
+					]
+				}
+			]
+		}
+	]
+}

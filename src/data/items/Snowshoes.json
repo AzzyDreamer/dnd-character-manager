@@ -1,0 +1,12 @@
+{
+	"name": "Snowshoes",
+	"source": "IDRotF",
+	"page": 20,
+	"type": "G",
+	"rarity": "none",
+	"weight": 4,
+	"value": 200,
+	"entries": [
+		"Snowshoes reduce the likelihood of their wearer getting stuck in the deep snow."
+	]
+}

@@ -1,0 +1,235 @@
+{
+	"name": "Cone of Cold",
+	"source": "XPHB",
+	"page": 253,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 5,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "cone",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a small crystal or glass cone"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You unleash a blast of cold air. Each creature in a 60-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} originating from you makes a Constitution saving throw, taking {@damage 8d8} Cold damage on a failed save or half as much damage on a successful one. A creature killed by this spell becomes a frozen statue until it thaws."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 8d8|5-9|1d8} for each spell slot level above 5."
+			]
+		}
+	],
+	"damageInflict": [
+		"cold"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"areaTags": [
+		"N"
+	],
+	"hasFluffImages": true,
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Artillerist",
+					"shortName": "Artillerist",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Artillerist",
+					"shortName": "Artillerist",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Arctic"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Marid"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "XPHB",
+					"subSubclass": "Polar Land"
+				}
+			},
+			{
+				"class": {
+					"name": "Ranger",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Winter Walker",
+					"shortName": "Winter Walker",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Genie",
+					"shortName": "Genie",
+					"source": "TCE",
+					"subSubclass": "Marid"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"optionalfeatures": [
+		{
+			"name": "Breath of Winter",
+			"source": "PHB",
+			"featureType": [
+				"ED"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Prismari Student",
+			"source": "SCC"
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Blessing of the Frostmaiden",
+			"source": "IDRotF"
+		}
+	]
+}

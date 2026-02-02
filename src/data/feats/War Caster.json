@@ -1,0 +1,47 @@
+{
+	"name": "War Caster",
+	"source": "XPHB",
+	"page": 209,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"spellcasting2020": true
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Concentration",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on Constitution saving throws that you make to maintain {@status Concentration|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Reactive Spell",
+			"entries": [
+				"When a creature provokes an {@action Opportunity Attack|XPHB} from you by leaving your reach, you can take a {@variantrule Reaction|XPHB} to cast a spell at the creature rather than making an {@action Opportunity Attack|XPHB}. The spell must have a casting time of one action and must target only that creature."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Somatic Components",
+			"entries": [
+				"You can perform the Somatic components of spells even when you have weapons or a {@item Shield|XPHB} in one or both hands."
+			]
+		}
+	]
+}

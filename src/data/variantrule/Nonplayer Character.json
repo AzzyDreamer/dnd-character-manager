@@ -1,0 +1,11 @@
+{
+	"name": "Nonplayer Character",
+	"source": "XPHB",
+	"page": 371,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A nonplayer character (NPC) is a {@variantrule Monster|XPHB|monster} that has a personal name and a distinct personality."
+	]
+}

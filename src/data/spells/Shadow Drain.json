@@ -1,0 +1,70 @@
+{
+	"name": "Shadow Drain",
+	"source": "CrookedMoon24",
+	"page": 133,
+	"level": 3,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 15
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You siphon away the vitality and sense of self through the shadows of nearby creatures in a 15-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} originating from you.",
+		"When you cast this spell, you can designate creatures to be unaffected by it. Whenever any other creature enters the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} or starts its turn there, or when the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} enters a creature's space, the creature must make a Charisma saving throw. On a failed save, the creature takes {@damage 2d6} Necrotic damage and has {@variantrule Disadvantage|XPHB} on attack rolls and ability checks until the end of its next turn. On a successful save, the creature takes half as much damage only. A creature makes this save only once per turn."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Shadow-Drain.webp"
+}

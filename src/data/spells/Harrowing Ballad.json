@@ -1,0 +1,74 @@
+{
+	"name": "Harrowing Ballad",
+	"source": "CrookedMoon24",
+	"page": 129,
+	"level": 2,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You inflict a mind-eroding song on a creature that you can see within range. If the creature has an Intelligence of 4 or higher, it must succeed on an Intelligence saving throw or have the {@condition Charmed|XPHB} condition for the duration.",
+		"While {@condition Charmed|XPHB} in this way, the target is struck with a rapidly repeating ballad that only it can hear; it takes {@damage 1d6} Psychic damage at the start of each of its turns, and it has {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks and on Constitution saving throws made to maintain its {@status Concentration|XPHB}. The target repeats the save at the end of each of its turns, ending the spell on a success."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"psychic"
+	],
+	"savingThrow": [
+		"constitution",
+		"intelligence"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Harrowing-Ballad.webp"
+}

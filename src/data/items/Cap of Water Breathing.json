@@ -1,0 +1,20 @@
+{
+	"name": "Cap of Water Breathing",
+	"source": "XDMG",
+	"page": 242,
+	"rarity": "uncommon",
+	"wondrous": true,
+	"entries": [
+		"While wearing this cap underwater, you can take a {@action Magic|XPHB} action to create a bubble of air around your head. This bubble allows you to breathe normally underwater. This bubble stays with you until the cap is removed or you are no longer underwater."
+	],
+	"classFeatures": [
+		"replicate magic item|artificer|efa|2|efa"
+	],
+	"optionalfeatures": [
+		"replicate magic item|tce"
+	],
+	"lootTables": [
+		"Arcana - Uncommon|XDMG",
+		"Implements - Uncommon|XDMG"
+	]
+}

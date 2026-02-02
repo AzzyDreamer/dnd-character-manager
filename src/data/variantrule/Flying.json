@@ -1,0 +1,11 @@
+{
+	"name": "Flying",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A variety of effects allow a creature to fly. While flying, you fall if you have the {@condition Incapacitated|XPHB} or {@condition Prone|XPHB} condition or your {@variantrule Fly Speed|XPHB} is reduced to 0. You can stay aloft in those circumstances if you can hover."
+	]
+}

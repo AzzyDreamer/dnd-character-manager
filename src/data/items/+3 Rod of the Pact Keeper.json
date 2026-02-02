@@ -1,0 +1,23 @@
+{
+	"name": "+3 Rod of the Pact Keeper",
+	"source": "XDMG",
+	"page": 301,
+	"type": "RD|XDMG",
+	"rarity": "very rare",
+	"reqAttune": "by a warlock",
+	"reqAttuneTags": [
+		{
+			"class": "warlock"
+		}
+	],
+	"weight": 2,
+	"bonusSpellAttack": "+3",
+	"bonusSpellSaveDc": "+3",
+	"entries": [
+		"While holding this rod, you gain a +3 bonus to spell attack rolls and to the saving throw DCs of your {@filter Warlock spells|spells|class=Warlock}.",
+		"In addition, you can regain one spell slot as a {@action Magic|XPHB} action while holding the rod. You can't use this property again until you finish a {@variantrule Long Rest|XPHB}."
+	],
+	"lootTables": [
+		"Arcana - Very Rare|XDMG"
+	]
+}

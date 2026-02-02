@@ -1,0 +1,64 @@
+{
+	"name": "Mirror Spell",
+	"source": "GrimHollowPG24",
+	"page": 196,
+	"level": 3,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "which you take when you see a creature within 60 feet of you casting a spell"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You attempt to copy and cast a spell of level 3 or lower that you can see being cast. You can only copy spells cast by creatures, and you can't copy your own spell.",
+		"If the triggering spell is level 2 or lower, you automatically copy and cast the spell. If the spell is level 3 or higher, you must succeed on an ability check using your spellcasting ability (DC 10 plus the triggering spell's level) to copy and cast the spell.",
+		"When casting a copied spell, you don't expend a spell slot and you don't need any components. Treat the spell as if you were its original caster, using your own spellcasting ability modifier and save DC, and casting it at the lowest level it can be cast."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"Treat the level of the spell slot used as the maximum level of spell you can copy and cast."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Mirror%20Spell.webp"
+}

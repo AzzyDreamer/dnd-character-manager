@@ -1,0 +1,126 @@
+{
+	"name": "Shining Smite",
+	"source": "XPHB",
+	"page": 316,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"The target hit by the strike takes an extra {@damage 2d6} Radiant damage from the attack. Until the spell ends, the target sheds {@variantrule Bright Light|XPHB} in a 5-foot radius, attack rolls against it have {@variantrule Advantage|XPHB}, and it can't benefit from the {@condition Invisible|XPHB} condition."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 2d6|2-9|1d6} for each spell slot level above 2."
+			]
+		}
+	],
+	"damageInflict": [
+		"radiant"
+	],
+	"miscTags": [
+		"AAD",
+		"ADV",
+		"LGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Tiefling (Zariel)",
+			"source": "MTF",
+			"baseName": "Tiefling",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the Red Robes",
+			"source": "DSotDQ"
+		}
+	]
+}

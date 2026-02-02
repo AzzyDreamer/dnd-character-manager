@@ -1,0 +1,11 @@
+{
+	"name": "Ally",
+	"source": "XPHB",
+	"page": 361,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A creature is your ally if it is a member of your adventuring party, your friend, on your side in combat, or a creature that the rules or the DM designates as your ally."
+	]
+}

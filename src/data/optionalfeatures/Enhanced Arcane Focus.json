@@ -1,0 +1,25 @@
+{
+	"name": "Enhanced Arcane Focus",
+	"source": "TCE",
+	"page": 21,
+	"otherSources": [
+		{
+			"source": "ERLW",
+			"page": 62
+		}
+	],
+	"featureType": [
+		"AI"
+	],
+	"prerequisite": [
+		{
+			"item": [
+				"A rod, staff, or wand (requires attunement)"
+			]
+		}
+	],
+	"entries": [
+		"While holding this item, a creature gains a +1 bonus to spell attack rolls. In addition, the creature ignores {@quickref Cover||3||half cover} when making a spell attack.",
+		"The bonus increases to +2 when you reach 10th level in this class."
+	]
+}

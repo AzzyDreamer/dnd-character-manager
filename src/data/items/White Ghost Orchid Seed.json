@@ -1,0 +1,13 @@
+{
+	"name": "White Ghost Orchid Seed",
+	"source": "JttRC",
+	"page": 212,
+	"type": "G",
+	"rarity": "none",
+	"entries": [
+		"More rarely, the orchids produce a smaller pod holding a single white seed. Among its various magical properties, if a white seed is ground and scattered over a dead body, the body is affected by the {@spell resurrection} spell. A white ghost orchid seed has no effect if consumed."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

@@ -1,0 +1,117 @@
+{
+	"name": "One of the Taken",
+	"source": "GrimHollowPG24",
+	"page": 111,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"magic initiate; druid|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"arcana": true,
+			"nature": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"woodcarver's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Woodcarver's Tools|XPHB"
+				},
+				{
+					"item": "Herbalism Kit|XPHB"
+				},
+				{
+					"item": "Traveler's Clothes|XPHB"
+				},
+				{
+					"value": 800
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Wisdom, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Magic Initiate|XPHB} (Druid)"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Arcana|XPHB} and {@skill Nature|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Woodcarver's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Woodcarver's Tools|XPHB}, {@item Herbalism Kit|XPHB}, {@item Traveler's Clothes|XPHB}, 8 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"On the fringes of the civilized world, parents warn their children not to wander away from their homes, especially at night. The many creatures that haunt the forests, from the faerie-folk to the minions of the Great Beast, spell doom for the innocent who stray too far into the darkness. You failed to heed your parents' warnings, and you were taken. In fact, those who know of your experience use that word to describe you: Taken.",
+			"You do not remember what happened to you while you were away, but through some mysterious and possibly fortunate circumstances, you wandered back into town after months or years of going missing. Maybe the fairies whisked you off to some magical realm. Maybe evil cultists of an Arch Daemon held you prisoner, planning to sacrifice you to their dark leader when the time was right, and you found a way to escape. Maybe one of the Beast's warped and feral minions took a liking to you and kept you as a pet. Whatever your story, you can't remember your time away. But that doesn't mean you weren't changed by it."
+		]
+	}
+}

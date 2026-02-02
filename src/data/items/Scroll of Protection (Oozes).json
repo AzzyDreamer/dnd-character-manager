@@ -1,0 +1,17 @@
+{
+	"name": "Scroll of Protection (Oozes)",
+	"source": "XDMG",
+	"page": 302,
+	"type": "SC|XPHB",
+	"detail1": "Ooze",
+	"detail2": "Oozes",
+	"rarity": "rare",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Scroll of Protection|XDMG}"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

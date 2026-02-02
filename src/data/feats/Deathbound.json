@@ -1,0 +1,23 @@
+{
+	"name": "Deathbound",
+	"source": "GrimHollowPG24",
+	"page": 115,
+	"category": "O",
+	"entries": [
+		"You have seen death many times, up close and personal, and sometimes at your own hand. These experiences have affected you deeply, teaching you about life and death. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "One Last Breath",
+			"entries": [
+				"If you have two {@variantrule Death Saving Throw|XPHB} failures, you have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws} until you are no longer at 0 {@variantrule Hit Points|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Recuperation",
+			"entries": [
+				"When you spend a {@variantrule Hit Point Dice|XPHB|Hit Point Die} during a {@variantrule Short Rest|XPHB} to recover {@variantrule Hit Points|XPHB}, you can roll the {@variantrule Hit Point Dice|XPHB|Hit Point Die} twice and use the higher roll."
+			]
+		}
+	]
+}

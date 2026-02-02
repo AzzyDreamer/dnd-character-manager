@@ -1,0 +1,11 @@
+{
+	"name": "Death Saving Throw",
+	"source": "XPHB",
+	"page": 365,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A {@variantrule Player Character|XPHB|player character} must make a Death Saving Throw (also called a Death Save) if they start their turn with 0 {@variantrule Hit Points|XPHB}."
+	]
+}

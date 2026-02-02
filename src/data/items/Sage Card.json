@@ -1,0 +1,19 @@
+{
+	"name": "Sage Card",
+	"source": "BMT",
+	"page": 15,
+	"rarity": "legendary",
+	"wondrous": true,
+	"recharge": "dawn",
+	"entries": [
+		"As an action, you can brandish this card and use it to cast the {@spell Contact Other Plane} spell. When you cast the spell in this way, your questions are answered by the mysterious figure depicted on the card. Once this property is used, it can't be used again until the next dawn."
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"contact other plane"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

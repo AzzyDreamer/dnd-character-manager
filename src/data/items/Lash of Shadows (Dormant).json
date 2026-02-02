@@ -1,0 +1,78 @@
+{
+	"name": "Lash of Shadows (Dormant)",
+	"source": "EGW",
+	"page": 276,
+	"baseItem": "whip|PHB",
+	"type": "M",
+	"rarity": "artifact",
+	"reqAttune": true,
+	"sentient": true,
+	"weight": 3,
+	"weaponCategory": "martial",
+	"property": [
+		"F",
+		"R",
+		"Vst|EGW"
+	],
+	"dmg1": "1d4",
+	"dmgType": "S",
+	"grantsLanguage": true,
+	"bonusWeapon": "+1",
+	"entries": [
+		"This snakeskin whip is touched by the power of Zehir and ends in five animated serpent heads.",
+		{
+			"type": "entries",
+			"name": "Sentience",
+			"entries": [
+				"The Lash of Shadows is a sentient chaotic evil weapon with an Intelligence of 18, a Wisdom of 16, and a Charisma of 20. It has hearing and {@sense darkvision} out to a range of 120 feet.",
+				"The weapon communicates telepathically with its wielder and can speak, read, and understand Abyssal, Common, and Draconic."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Personality",
+			"entries": [
+				"A mad {@creature marilith} named Sizlifeth lives within the Lash of Shadows. The weapon has a short temper and experiences only extreme emotions. It is most happy when dealing harm."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dormant",
+			"entries": [
+				"The whip grants the following benefits in its dormant state:",
+				{
+					"type": "list",
+					"items": [
+						"You can speak, read, and write Abyssal and Draconic.",
+						"You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+						"You can attempt to poison any creature that is hit by the whip. The creature must succeed on a {@dc 13} Constitution saving throw or suffer the effect of one of the following poisons of your choice; once a poison other than Serpent Venom has been used, that poison can't be used again until the next dawn:",
+						{
+							"type": "list",
+							"style": "list-hang-notitle",
+							"items": [
+								{
+									"type": "item",
+									"name": "Dead Eyes",
+									"entry": "A creature that fails the saving throw against this poison is {@condition poisoned} for 1 hour. While {@condition poisoned} in this way, the creature is {@condition blinded}."
+								},
+								{
+									"type": "item",
+									"name": "Serpent Venom",
+									"entry": "A creature that fails the saving throw against this poison takes {@damage 3d6} poison damage, or half as much damage on a successful save."
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Betrayer Artifact Properties",
+			"entries": [
+				"The Arms of the Betrayers advance in power in the same manner as the Vestiges of Divergence. In its dormant state, each of these artifacts has one {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} property and one {@table Artifact Properties; Minor Detrimental Properties|dmg|minor detrimental} property. When the artifact attains an awakened state, it gains an additional {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} property and an additional {@table Artifact Properties; Minor Detrimental Properties|dmg|minor detrimental} property. When the item reaches its exalted state, it gains a {@table Artifact Properties; Major Beneficial Properties|dmg|major beneficial} property. See \"Artifact Properties\" in chapter 7 of the Dungeon Master's Guide for more information."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

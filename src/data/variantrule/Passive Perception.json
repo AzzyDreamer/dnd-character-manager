@@ -1,0 +1,12 @@
+{
+	"name": "Passive Perception",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Passive Perception is a score that reflects a creature's general awareness of its surroundings. The DM uses this score when determining whether a creature notices something without consciously making a Wisdom ({@skill Perception|XPHB}) check.",
+		"A creature's Passive Perception equals 10 plus the creature's Wisdom ({@skill Perception|XPHB}) check bonus. If the creature has {@variantrule Advantage|XPHB} on such checks, increase the score by 5. If the creature has {@variantrule Disadvantage|XPHB} on them, decrease the score by 5. For example, a level 1 character with a Wisdom of 15 and proficiency in Perception has a Passive Perception of 14 ({@dice 10 + 2 + 2}). If that character has {@variantrule Advantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks, the score becomes {@dice 10 + 2 + 2 + 5|19}."
+	]
+}

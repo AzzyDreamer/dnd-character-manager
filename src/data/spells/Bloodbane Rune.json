@@ -1,0 +1,57 @@
+{
+	"name": "Bloodbane Rune",
+	"source": "GrimHollowPG24",
+	"page": 186,
+	"level": 1,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend one {@variantrule Hit Point Dice|XPHB|Hit Point Die} or the spell automatically fails. You target a weapon of your choice within range and scrawl onto it a rune written in blood.",
+		"For the duration, while you wield this weapon, it weeps a phantasmal red ichor when within 30 feet of an Undead creature. Additionally, once per turn, when you damage an Undead creature with the weapon, you deal extra Radiant damage. To determine this damage, roll the number of {@variantrule Hit Point Dice|XPHB} you expended to cast the spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You expend an additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} for each spell slot level above 1. In addition, your {@status Concentration|XPHB} can last longer with a spell slot of level 2 (up to 10 minutes) or 3+ (up to 1 hour)."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Bloodbane%20Rune.webp"
+}

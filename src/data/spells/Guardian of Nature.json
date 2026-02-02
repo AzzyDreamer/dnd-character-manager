@@ -1,0 +1,100 @@
+{
+	"name": "Guardian of Nature",
+	"source": "XGE",
+	"page": 157,
+	"level": 4,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"A nature spirit answers your call and transforms you into a powerful guardian. The transformation lasts until the spell ends. You choose one of the following forms to assume: Primal Beast or Great Tree.",
+		{
+			"type": "entries",
+			"name": "Primal Beast",
+			"entries": [
+				"Bestial fur covers your body, your facial features become feral, and you gain the following benefits:"
+			]
+		},
+		{
+			"type": "list",
+			"items": [
+				"Your walking speed increases by 10 feet.",
+				"You gain {@sense darkvision} with a range of 120 feet.",
+				"You make Strength-based attack rolls with advantage.",
+				"Your melee weapon attacks deal an extra {@damage 1d6} force damage on a hit."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Great Tree",
+			"entries": [
+				"Your skin appears barky, leaves sprout from your hair, and you gain the following benefits:"
+			]
+		},
+		{
+			"type": "list",
+			"items": [
+				"You gain 10 temporary hit points.",
+				"You make Constitution saving throws with advantage.",
+				"You make Dexterity- and Wisdom-based attack rolls with advantage.",
+				"While you are on the ground, the ground within 15 feet of you is {@quickref difficult terrain||3} for your enemies."
+			]
+		}
+	],
+	"damageInflict": [
+		"force"
+	],
+	"miscTags": [
+		"AAD",
+		"ADV",
+		"DFT",
+		"THP"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Ranger",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		]
+	}
+}

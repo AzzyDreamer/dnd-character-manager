@@ -1,0 +1,14 @@
+{
+	"name": "Energy Cell",
+	"source": "XDMG",
+	"page": 72,
+	"edition": "one",
+	"type": "AF|XDMG",
+	"rarity": "none",
+	"weight": 0.5,
+	"age": "futuristic",
+	"cellEnergy": true,
+	"miscTags": [
+		"CNS"
+	]
+}

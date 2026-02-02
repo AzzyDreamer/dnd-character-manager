@@ -1,0 +1,20 @@
+{
+	"name": "Crystal Ball",
+	"source": "XDMG",
+	"page": 245,
+	"srd52": true,
+	"basicRules2024": true,
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"weight": 3,
+	"entries": [
+		"The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the {@spell Scrying|XPHB} spell (save {@dc 17}) with it."
+	],
+	"attachedSpells": [
+		"scrying|xphb"
+	],
+	"lootTables": [
+		"Arcana - Very Rare|XDMG"
+	]
+}

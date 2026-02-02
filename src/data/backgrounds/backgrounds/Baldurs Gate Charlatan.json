@@ -1,0 +1,46 @@
+{
+	"name": "Baldur's Gate Charlatan",
+	"source": "BGDIA",
+	"page": 202,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 128
+		}
+	],
+	"_copy": {
+		"name": "Charlatan",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": 2,
+				"items": {
+					"name": "Baldur's Gate Feature: Long-Lost Heir",
+					"type": "entries",
+					"entries": [
+						"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+						"You're well-versed in the mannerisms and idiosyncrasies of Baldurian patriars and other nobles, imitating them smoothly enough to convince even the snootiest family heads of your authenticity. You're skilled at posing as the long-lost heir to some imaginary or extinguished patriar lineage.",
+						"Because of your skill in passing yourself off as a patriar, you have a Watch token that allows you alone into the Upper City of Baldur's Gate. You might be able to bluff others through with you, or even convince members of the Watch that you're a patriar. However, any true test of your authenticity is likely to reveal your deception."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Everybody's always trying to get a leg up on somebody in Baldur's Gate. One group's con artist might be another's revolutionary. Or maybe you're just in it for yourself. In any case, characters with this background have a plan to hit the big time; all they need is audacity and a little time."
+					]
+				}
+			]
+		}
+	]
+}

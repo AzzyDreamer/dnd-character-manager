@@ -1,0 +1,107 @@
+{
+	"name": "House Phiarlan Heir",
+	"source": "EFA",
+	"page": 31,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"mark of shadow|efa": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"deception": true,
+			"stealth": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"disguise kit": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"disguise kit|xphb",
+				"fine clothes|xphb",
+				{
+					"value": 1000
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Wisdom, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Mark of Shadow|EFA}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Deception|XPHB} and {@skill Stealth|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Disguise Kit|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Disguise Kit|XPHB}, {@item Fine Clothes|XPHB}, 10 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Though you have seen wealth, fame, and beauty as a child of House Phiarlan, you consider knowledge (and the power it brings) the greatest treasure of all. You might pursue that power as an artist or performer, always alert for secrets even as you regale the world with story, song, acrobatics, or art. Or you might foster ties to the secretive espionage arm of your house: the Serpentine Table."
+	]
+}

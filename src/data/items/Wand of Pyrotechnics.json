@@ -1,0 +1,25 @@
+{
+	"name": "Wand of Pyrotechnics",
+	"source": "XDMG",
+	"page": 321,
+	"type": "WD|XDMG",
+	"rarity": "common",
+	"weight": 1,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6 + 1}",
+	"charges": 7,
+	"entries": [
+		"This wand has 7 charges. While holding it, you can take a {@action Magic|XPHB} action to expend 1 charge and create a harmless burst of multicolored light at a point you can see up to 120 feet away. The burst of light is accompanied by a crackling noise that can be heard up to 300 feet away. The light is as bright as a torch flame but lasts only a second.",
+		{
+			"type": "entries",
+			"name": "Regaining Charges",
+			"entries": [
+				"The wand regains {@dice 1d6 + 1} expended charges daily at dawn. If you expend the wand's last charge, roll {@dice 1d20}. On a 1, the wand erupts in a harmless pyrotechnic display and is destroyed."
+			]
+		}
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

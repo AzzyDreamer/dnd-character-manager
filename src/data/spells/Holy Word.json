@@ -1,0 +1,69 @@
+{
+	"name": "Holy Word",
+	"source": "GrimHollowPG24",
+	"page": 194,
+	"level": 0,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You whisper a divine word under your breath, careful not to speak loudly, for such celestial power isn't for the unworthy. Make a ranged spell attack against a target within range. On a hit, the target takes {@damage 1d8} Radiant damage. If the target is Fey, Fiend, or Undead, its {@variantrule Speed|XPHB} is reduced by 10 feet and it can't take {@variantrule Reaction|XPHB|Reactions} until the end of its next turn."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Cantrip Upgrade",
+			"entries": [
+				"The damage increases by {@dice 1d8} when you reach levels 5 ({@dice 2d8}), 11 ({@dice 3d8}), and 17 ({@dice 4d8})."
+			]
+		}
+	],
+	"scalingLevelDice": {
+		"label": "Radiant damage",
+		"scaling": {
+			"1": "1d8",
+			"5": "2d8",
+			"11": "3d8",
+			"17": "4d8"
+		}
+	},
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"radiant"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"miscTags": [
+		"SCL"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Holy%20Word.webp"
+}

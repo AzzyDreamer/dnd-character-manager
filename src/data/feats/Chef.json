@@ -1,0 +1,50 @@
+{
+	"name": "Chef",
+	"source": "XPHB",
+	"page": 202,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"con",
+					"wis"
+				]
+			}
+		}
+	],
+	"toolProficiencies": [
+		{
+			"cook's utensils": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Cook's Utensils",
+			"entries": [
+				"You gain proficiency with {@item Cook's Utensils|XPHB} if you don't already have it."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Replenishing Meal",
+			"entries": [
+				"As part of a {@variantrule Short Rest|XPHB}, you can cook special food if you have ingredients and {@item Cook's Utensils|XPHB} on hand. You can prepare enough of this food for a number of creatures equal to 4 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus}. At the end of the {@variantrule Short Rest|XPHB}, any creature who eats the food and spends one or more Hit Dice to regain {@variantrule Hit Points|XPHB} regains an extra {@dice 1d8} {@variantrule Hit Points|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Bolstering Treats",
+			"entries": [
+				"With 1 hour of work or when you finish a {@variantrule Long Rest|XPHB}, you can cook a number of treats equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} if you have ingredients and {@item Cook's Utensils|XPHB} on hand. These special treats last 8 hours after being made. A creature can use a {@variantrule Bonus Action|XPHB} to eat one of those treats to gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+			]
+		}
+	]
+}

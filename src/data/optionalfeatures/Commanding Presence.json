@@ -1,0 +1,14 @@
+{
+	"name": "Commanding Presence",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When you make a Charisma ({@skill Intimidation|XPHB}, {@skill Performance|XPHB}, or {@skill Persuasion|XPHB}) check, you can expend one Superiority Die and add that die to the roll."
+	]
+}

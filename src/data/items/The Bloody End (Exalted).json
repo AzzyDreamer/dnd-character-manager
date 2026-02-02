@@ -1,0 +1,35 @@
+{
+	"name": "The Bloody End (Exalted)",
+	"source": "EGW",
+	"_copy": {
+		"name": "The Bloody End (Awakened)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Exalted",
+					"entries": [
+						"When the morningstar reaches an exalted state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"The weapon's bonus to attack and damage rolls increases to +3.",
+								"Add {@spell dominate monster} to the list of spells that can be cast from the morningstar.",
+								"The saving throw DC for spells cast from the morningstar, as well as for creatures to avoid being {@condition frightened} by it, increases to 17.",
+								"When you use your reaction to deal psychic damage to a creature that hits you with a melee attack, the amount of psychic damage increases to {@damage 2d6}."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"bonusWeapon": "+3"
+}

@@ -1,0 +1,158 @@
+{
+	"name": "Spray of Cards",
+	"source": "BMT",
+	"page": 50,
+	"level": 2,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "cone",
+		"distance": {
+			"type": "feet",
+			"amount": 15
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a deck of cards"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You spray a 15-foot cone of spectral cards. Each creature in that area must make a Dexterity saving throw. On a failed save, a creature takes {@damage 2d10} force damage and has the {@condition blinded} condition until the end of its next turn. On a successful save, a creature takes half as much damage only."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 3rd level or higher, the damage increases by {@scaledamage 2d10|2-9|1d10} for each slot level above 2nd."
+			]
+		}
+	],
+	"damageInflict": [
+		"force"
+	],
+	"conditionInflict": [
+		"blinded"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Bard",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Bard",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "BMT"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

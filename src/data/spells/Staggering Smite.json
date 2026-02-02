@@ -1,0 +1,90 @@
+{
+	"name": "Staggering Smite",
+	"source": "XPHB",
+	"page": 320,
+	"level": 4,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"The target takes an extra {@damage 4d6} Psychic damage from the attack, and the target must succeed on a Wisdom saving throw or have the {@condition Stunned|XPHB} condition until the end of your next turn."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The extra damage increases by {@scaledamage 4d6|4-9|1d6} for each spell slot level above 4."
+			]
+		}
+	],
+	"damageInflict": [
+		"psychic"
+	],
+	"conditionInflict": [
+		"stunned"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"AAD"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"rewards": [
+		{
+			"name": "Charm of Dhakaan",
+			"source": "EFA"
+		}
+	]
+}

@@ -1,0 +1,44 @@
+{
+	"name": "Boon of the High Seraph",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Absolution",
+			"entries": [
+				"You are no longer affected by the {@optfeature Seraph Corruption|GrimHollowPG24|Seraph Corruption Transformation Flaw}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Divergent Growth",
+			"entries": [
+				"Choose any {@filter Seraph Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=ser:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+			]
+		}
+	]
+}

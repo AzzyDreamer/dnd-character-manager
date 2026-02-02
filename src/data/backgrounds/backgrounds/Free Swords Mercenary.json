@@ -1,0 +1,120 @@
+{
+	"name": "Free Swords Mercenary",
+	"source": "GrimHollowPG24",
+	"page": 110,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"free sword mercenary's will|GrimHollowPG24": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"acrobatics": true,
+			"athletics": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyGamingSet": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Dagger|XPHB"
+				},
+				{
+					"item": "Spear|XPHB"
+				},
+				{
+					"item": "Gaming Set|XPHB"
+				},
+				{
+					"item": "Robe|XPHB"
+				},
+				{
+					"value": 1000
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Dexterity, Constitution"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Free Sword Mercenary's Will|GrimHollowPG24}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Acrobatics|XPHB} and {@skill Athletics|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "One type of {@item Gaming Set|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB}, {@item Spear|XPHB}, {@item Gaming Set|XPHB} (same as above), {@item Robe|XPHB}, 10 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"Mud, blood, and coin have been your entire life since joining the Company of Free Swords. You may have been recruited from a fighting pit in Unterland, joined as a fugitive to escape justice, or been found as a babe in the mud and raised as a Free Sword. Your history before joining the Company doesn't matter now. Your comrades are your family. Violence is your trade.",
+			"The infantry ranks of the Free Swords live by the unspoken rule of Etharis—it's a place where only the strong survive. Your ambitions may stretch only as far as your payment for enduring the next battle. Few expect anything more from you. Yet a hidden ideal may truly drive your actions, or you may hope to lead your own company one day."
+		]
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "Mudpox",
+	"source": "FRAiF",
+	"page": 98,
+	"type": "Magical Contagion",
+	"entries": [
+		"Contact with dead oozes from the Underdark mixed with snowmelt and mud has been making people sick. Any Beast or Humanoid that touches mud contaminated by Mudpox must succeed on a {@dc 12} Constitution saving throw or become infected, suffering the following effect:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Disrupted Digestion",
+					"entry": "Daily at dawn, the creature must succeed on a {@dc 12} Constitution saving throw or vomit up the food it ate the previous day, gaining 1 Exhaustion level. If the creature succeeds on this saving throw three consecutive times, the contagion ends."
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Fighting the Contagion",
+					"entries": [
+						"A {@spell Heal|XPHB} or {@spell Lesser Restoration|XPHB} spell ends the contagion immediately."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Spreading the Contagion",
+					"entries": [
+						"Any Humanoid that makes skin contact with a creature infected with Mudpox must succeed on a {@dc 12} Constitution saving throw or also become infected with the contagion. If the creature succeeds on this save, it can't catch the contagion from that particular infected creature for the next 24 hours."
+					]
+				}
+			]
+		}
+	]
+}

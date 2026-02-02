@@ -1,0 +1,11 @@
+{
+	"name": "Swimming",
+	"source": "XPHB",
+	"page": 376,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"While you're swimming, each foot of movement costs 1 extra foot (2 extra feet in {@variantrule Difficult Terrain|XPHB|difficult terrain}). You ignore this extra cost if you have a {@variantrule Swim Speed|XPHB} and use it to swim. At the DM's option, moving any distance in rough water might require a successful {@dc 15} Strength ({@skill Athletics|XPHB}) check."
+	]
+}

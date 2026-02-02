@@ -1,0 +1,51 @@
+{
+	"name": "Sentinel",
+	"source": "XPHB",
+	"page": 207,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Guardian",
+			"entries": [
+				"Immediately after a creature within 5 feet of you takes the {@action Disengage|XPHB} action or hits a target other than you with an attack, you can make an {@action Opportunity Attack|XPHB} against that creature."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Halt",
+			"entries": [
+				"When you hit a creature with an {@action Opportunity Attack|XPHB}, the creature's {@variantrule Speed|XPHB} becomes 0 for the rest of the current turn."
+			]
+		}
+	]
+}

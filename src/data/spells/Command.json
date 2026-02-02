@@ -1,0 +1,380 @@
+{
+	"name": "Command",
+	"source": "XPHB",
+	"page": 251,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 1,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You speak a one-word command to a creature you can see within range. The target must succeed on a Wisdom saving throw or follow the command on its next turn. Choose the command from these options:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Approach",
+					"entries": [
+						"The target moves toward you by the shortest and most direct route, ending its turn if it moves within 5 feet of you."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Drop",
+					"entries": [
+						"The target drops whatever it is holding and then ends its turn."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Flee",
+					"entries": [
+						"The target spends its turn moving away from you by the fastest available means."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Grovel",
+					"entries": [
+						"The target has the {@condition Prone|XPHB} condition and then ends its turn."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Halt",
+					"entries": [
+						"On its turn, the target doesn't move and takes no action or {@variantrule Bonus Action|XPHB}."
+					]
+				}
+			]
+		}
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can affect one additional creature for each spell slot level above 1."
+			]
+		}
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"SCT",
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "College of Glamour",
+					"shortName": "Glamour",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain",
+					"shortName": "Knowledge",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain (PSA)",
+					"shortName": "Knowledge (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Order Domain",
+					"shortName": "Order",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oath of Conquest",
+					"shortName": "Conquest",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Fiend",
+					"shortName": "Fiend",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Glamour",
+					"shortName": "Glamour",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain (PSA)",
+					"shortName": "Knowledge (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Order Domain",
+					"shortName": "Order",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain",
+					"shortName": "Knowledge",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Crown",
+					"shortName": "Crown",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of Conquest",
+					"shortName": "Conquest",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Draconic Sorcery",
+					"shortName": "Draconic",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Fiend Patron",
+					"shortName": "Fiend",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf",
+			"source": "LFL"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Azorius Functionary",
+			"source": "GGR"
+		},
+		{
+			"name": "Orzhov Representative",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Fey Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Fey-Touched",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Mark of Handling",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Scribing",
+			"source": "EFA"
+		},
+		{
+			"name": "Rune Shaper",
+			"source": "BGG"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		},
+		{
+			"name": "Vampire Touched",
+			"source": "ABH"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Azorius Charm",
+			"source": "GGR"
+		},
+		{
+			"name": "Klothys's Devotee",
+			"source": "MOT"
+		}
+	]
+}

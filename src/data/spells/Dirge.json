@@ -1,0 +1,99 @@
+{
+	"name": "Dirge",
+	"source": "FRHoF",
+	"page": 144,
+	"level": 6,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Deathly power fills a 60-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} originating from you for the duration.",
+		"When you cast this spell, you can designate creatures to be unaffected by it. Any other creature can't regain {@variantrule Hit Points|XPHB} while in the {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. Whenever the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} enters a creature's space and whenever a creature enters the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} or ends its turn there, the creature makes a Constitution saving throw. On a failed save, the creature takes {@damage 3d10} Necrotic damage and has the {@condition Prone|XPHB} condition. On a successful save, the creature takes half as much damage and its {@variantrule Speed|XPHB} is halved. A creature makes this save only once per turn.",
+		{
+			"type": "entries",
+			"name": "Casting as a Circle Spell",
+			"entries": [
+				"Casting this as a Circle spell requires a minimum of two secondary casters. If the spell is cast as a Circle spell, its duration becomes {@status Concentration|XPHB}, up to 10 minutes.",
+				"A creature that fails its save against the spell's effect also gains 1 {@condition Exhaustion|XPHB} level. While the creature has {@condition Exhaustion|XPHB} levels, finishing a {@variantrule Long Rest|XPHB} neither restores lost {@variantrule Hit Points|XPHB} nor reduces the creature's {@condition Exhaustion|XPHB} level.",
+				"When the spell is cast, each secondary caster must expend a level 4+ spell slot; otherwise, the spell fails."
+			]
+		}
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	}
+}

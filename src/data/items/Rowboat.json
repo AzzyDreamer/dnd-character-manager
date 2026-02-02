@@ -1,0 +1,18 @@
+{
+	"name": "Rowboat",
+	"source": "XPHB",
+	"page": 230,
+	"srd52": true,
+	"basicRules2024": true,
+	"type": "SHP|XPHB",
+	"rarity": "none",
+	"value": 5000,
+	"crew": 1,
+	"vehAc": 11,
+	"vehHp": 50,
+	"vehSpeed": 1.5,
+	"capPassenger": 3,
+	"seeAlsoVehicle": [
+		"Rowboat"
+	]
+}

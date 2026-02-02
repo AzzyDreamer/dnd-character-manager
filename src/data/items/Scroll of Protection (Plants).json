@@ -1,0 +1,17 @@
+{
+	"name": "Scroll of Protection (Plants)",
+	"source": "XDMG",
+	"page": 302,
+	"type": "SC|XPHB",
+	"detail1": "Plant",
+	"detail2": "Plants",
+	"rarity": "rare",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Scroll of Protection|XDMG}"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

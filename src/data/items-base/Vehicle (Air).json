@@ -1,0 +1,11 @@
+{
+	"name": "Vehicle (Air)",
+	"abbreviation": "AIR",
+	"source": "XPHB",
+	"page": 230,
+	"basicRules2024": true,
+	"_copy": {
+		"abbreviation": "SHP",
+		"source": "XPHB"
+	}
+}

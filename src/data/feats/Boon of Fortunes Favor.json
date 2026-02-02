@@ -1,0 +1,36 @@
+{
+	"name": "Boon of Fortune's Favor",
+	"source": "FRHoF",
+	"page": 43,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Saving Throw Reroll",
+			"entries": [
+				"When you fail a saving throw, you can reroll it and must use the new roll. Once you use this benefit, you can't do so again until the start of your next turn."
+			]
+		}
+	]
+}

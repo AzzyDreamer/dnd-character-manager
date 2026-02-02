@@ -1,0 +1,156 @@
+{
+	"name": "Stat Block",
+	"source": "XPHB",
+	"page": 374,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A stat block contains the game statistics of a {@variantrule Monster|XPHB|monster}. Each stat block includes the following information presented after the {@variantrule Monster|XPHB|monster's} name.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Size",
+					"entries": [
+						"A {@variantrule Monster|XPHB|monster} is Tiny, Small, Med ium, Large, Huge, or Gargantuan."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Creature Type",
+					"entries": [
+						"This entry notes the family of beings a {@variantrule Monster|XPHB|monster} belongs to, along with any descriptive tags."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Alignment",
+					"entries": [
+						"An alignment is suggested for the {@variantrule Monster|XPHB|monster}, with the DM determining its actual alignment."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "AC, Initiative, and HP",
+					"entries": [
+						"These entries give the {@variantrule Monster|XPHB|monster's} {@variantrule Armor Class|XPHB}, {@variantrule Initiative|XPHB}, and {@variantrule Hit Points|XPHB}, which are detailed in {@book chapter 1|XPHB|1}. In parentheses after the {@variantrule Hit Points|XPHB}, the {@variantrule Monster|XPHB|monster's} {@variantrule Hit Point Dice|XPHB} are provided, along with the contribution of its Constitution, if any, to its {@variantrule Hit Points|XPHB}. Following the {@variantrule Initiative|XPHB} modifier is an {@variantrule Initiative|XPHB} score. Some creatures that are created by magic lack Hit Dice and {@variantrule Initiative|XPHB} information."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Speed",
+					"entries": [
+						"Here the {@variantrule Monster|XPHB|monster's} Speed is provided, along with any special speeds."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Ability Scores",
+					"entries": [
+						"A table provides the {@variantrule Monster|XPHB|monster's} ability scores, modifiers, and {@variantrule Saving Throw|XPHB|saving throw} modifiers, all of which are detailed in {@book chapter 1|XPHB|1}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Skills",
+					"entries": [
+						"This entry lists the {@variantrule Monster|XPHB|monster's} skill proficiencies, if any."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Resistances and Vulnerabilities",
+					"entries": [
+						"These entries list the {@variantrule Monster|XPHB|monster's} Resistances and Vulnerabilities, if any."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Immunities",
+					"entries": [
+						"This section lists the {@variantrule Monster|XPHB|monster's} damage and {@variantrule Condition|XPHB|condition} Immunities, if any."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Gear",
+					"entries": [
+						"If the {@variantrule Monster|XPHB|monster} has any equipment that can be given away or retrieved, it's listed in this entry."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Senses",
+					"entries": [
+						"This entry lists the {@variantrule Monster|XPHB|monster's} special senses, such as {@sense Darkvision|XPHB}, and its Passive {@skill Perception|XPHB}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Languages",
+					"entries": [
+						"This entry lists any languages the {@variantrule Monster|XPHB|monster} knows."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "CR",
+					"entries": [
+						"Challenge Rating summarizes the threat a {@variantrule Monster|XPHB|monster} poses and is detailed in the {@book Monster Manual|XMM}. The Experience Points characters receive for defeating a {@variantrule Monster|XPHB|monster} and its {@variantrule Proficiency|XPHB|Proficiency Bonus} follow. Some creatures that are created by magic have no CR."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Traits",
+					"entries": [
+						"The {@variantrule Monster|XPHB|monster's} traits, if any, are features that are active at all times or in certain situations."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Actions",
+					"entries": [
+						"The {@variantrule Monster|XPHB|monster} can take these actions in addition to those detailed in this glossary."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Bonus Actions",
+					"entries": [
+						"If the {@variantrule Monster|XPHB|monster} has {@variantrule Bonus Action|XPHB} options, they are listed in this section."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Reactions",
+					"entries": [
+						"If the {@variantrule Monster|XPHB|monster} can take special {@variantrule Reaction|XPHB|Reactions}, those are listed in this section."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attack Notation",
+					"entries": [
+						"The entry for a {@variantrule Monster|XPHB|monster's} attack starts by identifying whether the attack is a melee or a ranged attack and then provides the attack roll's bonus, its reach or range, and what happens on a hit. An attack is against one target unless its entry says otherwise."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Saving Throw Effect Notation",
+					"entries": [
+						"If an effect forces a {@variantrule Saving Throw|XPHB|saving throw}, the effect's entry starts by identifying the kind of {@variantrule Saving Throw|XPHB|saving throw} required and then provides the save's DC, a description of which creatures must make the save, and what happens on a failed or a successful save."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Damage Notation",
+					"entries": [
+						"A stat block usually provides both a static number and a die expression for each instance of damage. For example, an attack might deal 4 ({@damage 1d4 + 2}) damage on a hit. The DM determines whether you use the static number or the die expression in parentheses; you don't use both."
+					]
+				}
+			]
+		}
+	]
+}

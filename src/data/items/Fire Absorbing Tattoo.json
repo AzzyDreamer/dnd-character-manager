@@ -1,0 +1,17 @@
+{
+	"name": "Fire Absorbing Tattoo",
+	"source": "TCE",
+	"page": 119,
+	"resist": [
+		"fire"
+	],
+	"detail1": "red",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"tattoo": true,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Absorbing Tattoo|TCE}"
+	]
+}

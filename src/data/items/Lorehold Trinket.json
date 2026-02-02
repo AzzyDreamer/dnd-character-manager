@@ -1,0 +1,51 @@
+{
+	"name": "Lorehold Trinket",
+	"source": "SCC",
+	"page": 31,
+	"type": "G",
+	"rarity": "none",
+	"entries": [
+		"When you make your character, you may roll once on the Lorehold Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+		{
+			"caption": "Lorehold Trinkets",
+			"colLabels": [
+				"d6",
+				"Trinket"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"A map made of concentric circles that can be rotated around the page"
+				],
+				[
+					"2",
+					"A puzzle box bedecked with amber"
+				],
+				[
+					"3",
+					"A dented brass compass with a red needle"
+				],
+				[
+					"4",
+					"The head of a broken statue that houses the consciousness of a snarky sage"
+				],
+				[
+					"5",
+					"A sheet of parchment embossed with tactile lettering, glowing red"
+				],
+				[
+					"6",
+					"A broken dagger with a wavy blade and a serpentine hilt"
+				]
+			],
+			"type": "table"
+		}
+	],
+	"miscTags": [
+		"TT"
+	]
+}

@@ -1,0 +1,70 @@
+{
+	"name": "Suffocate",
+	"source": "GrimHollowPG24",
+	"page": 202,
+	"level": 3,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a leather glove"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You create a pair of grasping hands made from {@condition invisible} force. Make a ranged spell attack against a creature you can see within range. On a hit, the creature has the {@condition Restrained|XPHB} condition. While it has this condition, it can't breathe.",
+		"A creature can hold its breath for a number of rounds equal to 1 plus its Constitution modifier (minimum of 30 seconds) before suffocation begins. When a creature runs out of breath, it gains 1 {@condition Exhaustion|XPHB} level at the end of each of its turns. When a creature can breathe again, it removes all levels of {@condition Exhaustion|XPHB} it gained from suffocating.",
+		"A creature {@condition Restrained|XPHB} by the hands can take an action to make a Strength ({@skill Athletics|XPHB}) check against your spell save DC. If it succeeds, it is no longer {@condition Restrained|XPHB}."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"restrained"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Suffocate.webp"
+}

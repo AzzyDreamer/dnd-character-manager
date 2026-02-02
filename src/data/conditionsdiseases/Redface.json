@@ -1,0 +1,8 @@
+{
+	"name": "Redface",
+	"source": "GoS",
+	"page": 168,
+	"entries": [
+		"The effects of redface are identical to those of {@disease sight rot} (see \"{@book Diseases|DMG|8|Diseases}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}), but it's caused by pollutants in the air rather than contaminated drinking water, making it difficult to avoid."
+	]
+}

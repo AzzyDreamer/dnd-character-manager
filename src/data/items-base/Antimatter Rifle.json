@@ -1,0 +1,27 @@
+{
+	"name": "Antimatter Rifle",
+	"source": "XDMG",
+	"page": 73,
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 10,
+	"valueRarity": "very rare",
+	"weaponCategory": "martial",
+	"age": "futuristic",
+	"property": [
+		"AF|XDMG",
+		"RLD|XDMG",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Sap|XPHB"
+	],
+	"range": "120/360",
+	"reload": 2,
+	"dmg1": "6d8",
+	"dmgType": "N",
+	"firearm": true,
+	"weapon": true,
+	"ammoType": "energy cell|xdmg"
+}

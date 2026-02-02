@@ -1,0 +1,46 @@
+{
+	"name": "Greater Mark of Detection",
+	"source": "EFA",
+	"page": 43,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of detection|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Deductive Intuition benefit of your {@feat Mark of Detection|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shared Detection",
+			"entries": [
+				"When you use the Magical Detection benefit of your {@feat Mark of Detection|EFA} feat to cast {@spell See Invisibility|XPHB} without a spell slot, you can choose one creature you can see within 30 feet of yourself. That creature also gains the benefits of the spell for its duration."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

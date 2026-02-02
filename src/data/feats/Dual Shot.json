@@ -1,0 +1,23 @@
+{
+	"name": "Dual Shot",
+	"source": "GrimHollowPG24",
+	"page": 119,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Dual Shot",
+			"entries": [
+				"When you take the {@action Attack|XPHB} action on your turn and attack with a bow or crossbow, you can make one extra attack as part of the same action against a creature that is within 10 feet of the original target that is within the weapon's range. If you do so, both attacks are made with {@variantrule Disadvantage|XPHB}."
+			]
+		}
+	]
+}

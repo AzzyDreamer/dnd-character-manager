@@ -1,0 +1,94 @@
+{
+	"name": "Locate Animals or Plants",
+	"source": "XPHB",
+	"page": 292,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "fur from a bloodhound"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"Describe or name a specific kind of Beast, Plant creature, or nonmagical plant. You learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present."
+	],
+	"affectsCreatureType": [
+		"beast",
+		"plant"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Half-Orc (Variant; Mark of Finding)",
+			"source": "ERLW",
+			"baseName": "Half-Orc",
+			"baseSource": "PHB"
+		},
+		{
+			"name": "Human (Variant; Mark of Finding)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the White Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Mark of Finding",
+			"source": "EFA"
+		}
+	]
+}

@@ -1,0 +1,55 @@
+{
+	"name": "Calling Card",
+	"source": "GrimHollowPG24",
+	"page": 188,
+	"level": 0,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"s": true,
+		"m": "a stamp carved like the mark left by your calling card"
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"dispel"
+			]
+		}
+	],
+	"entries": [
+		"You touch a corpse and leave a magical mark. You can choose to make it a visible mark that appears as a rune or word written on the flesh, or you can choose to make the mark {@condition Invisible|XPHB}. A creature that takes the {@action Study|XPHB} action to specifically examine a corpse automatically detects it, whether visible or {@condition Invisible|XPHB}."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Calling%20Card.webp"
+}

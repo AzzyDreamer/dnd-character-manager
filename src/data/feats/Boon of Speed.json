@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Speed",
+	"source": "XPHB",
+	"page": 211,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Escape Artist",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you can take the {@action Disengage|XPHB} action, which also ends the {@condition Grappled|XPHB} condition on you."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quickness",
+			"entries": [
+				"Your {@variantrule Speed|XPHB} increases by 30 feet."
+			]
+		}
+	]
+}

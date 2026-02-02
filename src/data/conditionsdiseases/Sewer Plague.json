@@ -1,0 +1,43 @@
+{
+	"name": "Sewer Plague",
+	"source": "XDMG",
+	"page": 61,
+	"srd52": true,
+	"type": "Magical Contagion",
+	"entries": [
+		"Fouled potions and alchemical waste can give rise to Sewer Plague, which incubates in sewers and refuse heaps and is sometimes transmitted by creatures that dwell in such areas, including otyughs and rats. Any Humanoid that is wounded by a creature that carries the contagion or that comes into contact with contaminated filth or offal must succeed on a {@dc 11} Constitution saving throw or become infected with Sewer Plague. A creature suffers the following effects {@dice 1d4} days after infection:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Fatigue",
+					"entry": "The creature gains 1 {@condition Exhaustion|XPHB} level."
+				},
+				{
+					"type": "item",
+					"name": "Weakness",
+					"entry": "While the creature has any Exhaustion levels, it regains only half the normal number of Hit Points from spending Hit Point Dice."
+				},
+				{
+					"type": "item",
+					"name": "Restlessness",
+					"entry": "While the creature has any Exhaustion levels, finishing a Long Rest neither restores lost Hit Points nor reduces the creature's Exhaustion level."
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Fighting the Contagion",
+					"entries": [
+						"Daily at dawn, an infected creature makes a {@dc 11} Constitution saving throw. On a failed save, the creature gains 1 {@condition Exhaustion|XPHB} level as its fatigue worsens. On a successful save, the creature's Exhaustion level decreases by 1. If the creature's Exhaustion level is reduced to 0, the contagion ends on the creature."
+					]
+				}
+			]
+		}
+	]
+}

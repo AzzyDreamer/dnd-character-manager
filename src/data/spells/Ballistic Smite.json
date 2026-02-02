@@ -1,0 +1,65 @@
+{
+	"name": "Ballistic Smite",
+	"source": "ValdaGunslinger",
+	"otherSources": [
+		{
+			"source": "ValdaSpire24"
+		}
+	],
+	"level": 1,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Ranged weapon"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Choose Acid, Cold, Fire, Lightning, Poison, or Thunder damage. The target hit by the attack takes an extra {@damage 2d6} damage of the chosen type. The triggering attack can deal the chosen damage type or its normal damage type (your choice)."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		]
+	},
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-015.explosion.webp"
+				},
+				"width": 850,
+				"height": 591
+			}
+		]
+	}
+}

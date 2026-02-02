@@ -1,0 +1,48 @@
+{
+	"name": "Amethyst Lodestone",
+	"source": "FTD",
+	"page": 22,
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"modifySpeed": {
+		"equal": {
+			"fly": "walk"
+		}
+	},
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6}",
+	"charges": 6,
+	"entries": [
+		"This fist-sized chunk of amethyst is infused with an amethyst dragon's ability to bend gravitational forces. While you are carrying the lodestone, you have advantage on Strength saving throws.",
+		"The lodestone has 6 charges for the following properties, which you can use while you are holding the stone. The stone regains {@dice 1d6} expended charges daily at dawn.",
+		{
+			"type": "entries",
+			"name": "Flight",
+			"entries": [
+				"As a bonus action, you can expend 1 charge to gain the power of flight for 10 minutes. For the duration, you gain a flying speed equal to your walking speed, and you can hover."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Gravitational Thrust",
+			"entries": [
+				"As an action, you can expend 1 charge to focus gravity around a creature you can see within 60 feet of you. The target must succeed on a {@dc 18} Strength saving throw or be pushed up to 20 feet in a direction of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Reverse Gravity",
+			"entries": [
+				"As an action, you can expend 3 charges to cast {@spell reverse gravity} from the stone (save {@dc 18})."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"3": [
+				"reverse gravity"
+			]
+		}
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"name": "Potion of Comprehension",
+	"source": "XDMG",
+	"page": 287,
+	"type": "P|XPHB",
+	"rarity": "common",
+	"weight": 0.5,
+	"entries": [
+		"When you drink this potion, you gain the effect of the {@spell Comprehend Languages|XPHB} spell for 1 hour.",
+		"This potion's liquid is a clear concoction with bits of salt and soot swirling in it."
+	],
+	"attachedSpells": [
+		"comprehend languages|xphb"
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

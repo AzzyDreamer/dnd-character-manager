@@ -1,0 +1,64 @@
+{
+	"name": "Buried Alive",
+	"source": "CrookedMoon24",
+	"page": 125,
+	"level": 4,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of grave dirt"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You send your enemies to their graves even if they aren't dead yet. A creature that you can see within range that is standing on the ground must make a Strength saving throw. On a failed save, the ground opens and swallows the target, burying it up to 10 feet deep. While buried, the target has {@variantrule Cover|XPHB|Total Cover}, has the {@condition Restrained|XPHB} and {@condition Blinded|XPHB} conditions, and can't breathe. On a successful save, the target has the {@condition Prone|XPHB} condition, and its {@variantrule Speed|XPHB} is 0 until the end of its next turn. A buried creature can dig out of the grave by using its action to make a DC 15 Strength ({@skill Athletics|XPHB}) check. On a success, it digs 5 feet closer to the surface. If it succeeds by 5 or more, it reaches the surface. When the creature reaches the surface, it exits the ground with the {@condition Prone|XPHB} condition.",
+		"The target automatically succeeds on its saving throw if it's standing on any thickness of stone or metal, or at least 2 inches of wood."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Buried-Alive.webp"
+}

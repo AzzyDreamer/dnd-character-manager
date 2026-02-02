@@ -1,0 +1,225 @@
+{
+	"name": "Greater Restoration",
+	"source": "XPHB",
+	"page": 281,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 5,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "diamond dust worth 100+ GP, which the spell consumes",
+			"cost": 10000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You touch a creature and magically remove one of the following effects from it:",
+		{
+			"type": "list",
+			"items": [
+				"1 {@condition Exhaustion|XPHB} level",
+				"The {@condition Charmed|XPHB} or {@condition Petrified|XPHB} condition",
+				"A curse, including the target's {@variantrule Attunement|XPHB} to a cursed magic item",
+				"Any reduction to one of the target's ability scores",
+				"Any reduction to the target's {@variantrule Hit Points|XPHB|Hit Point} maximum"
+			]
+		}
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Artificer",
+				"source": "EFA"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Peace Domain",
+					"shortName": "Peace",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Clockwork Soul",
+					"shortName": "Clockwork Soul",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Celestial",
+					"shortName": "Celestial",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Peace Domain",
+					"shortName": "Peace",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Life Domain",
+					"shortName": "Life",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Clockwork Sorcery",
+					"shortName": "Clockwork",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Spellfire Sorcery",
+					"shortName": "Spellfire",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Celestial Patron",
+					"shortName": "Celestial",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Halfling (Mark of Healing)",
+			"source": "ERLW",
+			"baseName": "Halfling",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Witherbloom Student",
+			"source": "SCC"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Healing",
+			"source": "EFA"
+		}
+	],
+	"rewards": [
+		{
+			"name": "Charm of Restoration",
+			"source": "DMG"
+		},
+		{
+			"name": "Charm of Restoration",
+			"source": "XDMG"
+		},
+		{
+			"name": "Reliquary Charm",
+			"source": "XDMG"
+		}
+	]
+}

@@ -1,0 +1,58 @@
+{
+	"name": "Athlete",
+	"source": "XPHB",
+	"page": 202,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Climb Speed",
+			"entries": [
+				"You gain a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Hop Up",
+			"entries": [
+				"When you have the {@condition Prone|XPHB} condition, you can right yourself with only 5 feet of movement."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Jumping",
+			"entries": [
+				"You can make a running Long or {@variantrule High Jump|XPHB} after moving only 5 feet."
+			]
+		}
+	]
+}

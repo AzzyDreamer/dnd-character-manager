@@ -1,0 +1,41 @@
+{
+	"name": "Heavily Armored",
+	"source": "XPHB",
+	"page": 204,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"proficiency": [
+				{
+					"armor": "medium"
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"con",
+					"str"
+				]
+			}
+		}
+	],
+	"armorProficiencies": [
+		{
+			"heavy": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Armor Training",
+			"entries": [
+				"You gain training with Heavy armor."
+			]
+		}
+	]
+}

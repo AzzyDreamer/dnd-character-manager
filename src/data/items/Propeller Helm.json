@@ -1,0 +1,17 @@
+{
+	"name": "Propeller Helm",
+	"source": "WDMM",
+	"page": 251,
+	"rarity": "uncommon",
+	"reqAttune": "by a small humanoid",
+	"reqAttuneTags": [
+		{
+			"creatureType": "humanoid",
+			"size": "S"
+		}
+	],
+	"wondrous": true,
+	"entries": [
+		"While worn, the helm allows its wearer to use an action to cast the {@spell levitate} spell, requiring no components. The helm's propeller spins and whirs loudly until the spell ends. Each time the spell ends, there is a {@chance 50} chance that the helm loses its magic and becomes nonmagical."
+	]
+}

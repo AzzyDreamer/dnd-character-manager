@@ -1,0 +1,63 @@
+{
+	"name": "Boil Blood",
+	"source": "GrimHollowPG24",
+	"page": 187,
+	"level": 1,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend one {@variantrule Hit Point Dice|XPHB|Hit Point Die} or the spell automatically fails. A willing target takes Fire damage equal to a roll of the expended {@variantrule Hit Point Dice|XPHB|Hit Point Die}. If the target has the {@condition Poisoned|XPHB} condition, that condition immediately ends."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"poisoned"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Boil%20Blood.webp"
+}

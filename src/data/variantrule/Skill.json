@@ -1,0 +1,11 @@
+{
+	"name": "Skill",
+	"source": "XPHB",
+	"page": 374,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A skill is an {@book area of specialization|XPHB|1|Skill List} associated with an ability check. If you have proficiency in a skill, you can add your {@variantrule Proficiency|XPHB|Proficiency Bonus} when you make an ability check associated with that skill."
+	]
+}

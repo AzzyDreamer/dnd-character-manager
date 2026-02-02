@@ -1,0 +1,114 @@
+{
+	"name": "Ogresh",
+	"source": "GrimHollowPG24",
+	"page": 22,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"age": {
+		"mature": 25,
+		"max": 300
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (Ogresh typically stand 6 to 7 feet tall, and sport a distinctively wide and heavy build. A young Ogresh usually ranges between 200 and 300 pounds, while an older Ogresh can reach upward of 700 to 800 pounds.)"
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Ogresh reach maturity around age 25 but are considered youthful by their kin for decades afterward. They can live as long as 300 years."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Ogresh Traits",
+			"entries": [
+				"A wandering lifestyle, and an innate ability to read other creatures, shapes and defines many Ogresh.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Enemy in Motion|GrimHollowPG24}",
+								"{@optfeature Focused Mind|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Environmental Awareness|GrimHollowPG24}",
+								"{@optfeature Natural Movement|GrimHollowPG24}",
+								"{@optfeature Powerful Build|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Calculating Listener|GrimHollowPG24}",
+								"{@optfeature Commanding Insight|GrimHollowPG24}",
+								"{@optfeature Persuasive Knack|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"The more populous cultures of Etharis all have stories about the ogresh, although few have seen these gentle giants in person. Tales describe them as solitary, wise figures who often serve as founts of information and advice for nearby communities. Adventure tales abound in which a protagonist receives counsel from an ogresh before setting off on their quest, even as others describe royal advisors with a distinctive set of broad features. These tales are not without merit, as ogresh can be worldly from their travels in their younger years. Yet even outside the scope of such stories, those who know the ogresh often view them as something of an exotic oddity.",
+	"In truth, the scarcity of the ogresh is a result of their particular biology. Young ogresh mature slowly, and during an extended youth that might last decades, they are driven by a deep-seated sense of wanderlust. This feeling compels them to travel in search of a suitable area to settle—one holding ample natural resources, a local population of sentient creatures, and a lack of other ogresh nearby. Once they decide upon an area, an ogresh enters the second stage of their life, which is marked by a drastically increased appetite and a mostly sedentary lifestyle. More than a single ogresh could easily deplete the surplus of a small village, so the reason for their wanderlust is a simple case of biological necessity.",
+	"Given their reliance on other folk for survival, it comes as no surprise that many ogresh are masters of social interaction. But some folk maintain that the ogresh ability to glean insight from others has an unnatural quality to it, revealing more to the ogresh than most creatures would willingly share.",
+	{
+		"type": "entries",
+		"name": "Rare Heritages",
+		"entries": [
+			"The eldritch heritages of Grim Hollow cover a range of folk shaped by magical intent, unnatural power, or the touch of ancient curses. Almost universally, folk of these heritages are fated to make their way alone through a troubled and dangerous world."
+		]
+	}
+]

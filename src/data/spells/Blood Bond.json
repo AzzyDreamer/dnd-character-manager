@@ -1,0 +1,62 @@
+{
+	"name": "Blood Bond",
+	"source": "GrimHollowPG24",
+	"page": 186,
+	"level": 3,
+	"school": "E",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a rag soaked in your own blood"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend three {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Roll the expended {@variantrule Hit Point Dice|XPHB}, and the target gains a number of {@variantrule Temporary Hit Points|XPHB} equal to the roll's total.",
+		"For the duration, you know the direction and distance to the target, and you and the target can speak telepathically. Additionally, you can target that creature when you cast a spell with a range of Self or Touch, regardless of the distance between you. These benefits are suppressed while you and the creature are not on the same plane.",
+		"At any point, the targeted creature can choose to end the spell early. If it does, the creature loses all remaining {@variantrule Temporary Hit Points|XPHB} granted by this spell and takes Necrotic damage equal to the {@variantrule Temporary Hit Points|XPHB} lost."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The duration increases with a spell slot level 5 or 6 (8 hours), 7 or 8 (24 hours), and 9 (7 days)."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Blood%20Bond.webp"
+}

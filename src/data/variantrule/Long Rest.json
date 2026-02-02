@@ -1,0 +1,81 @@
+{
+	"name": "Long Rest",
+	"source": "XPHB",
+	"page": 370,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Long Rest is a period of extended downtime—at least 8 hours—available to any creature. During a Long Rest, you sleep for at least 6 hours and perform no more than 2 hours of light activity, such as reading, talking, eating, or standing watch.",
+		"During sleep, you have the {@condition Unconscious|XPHB} condition. After you finish a Long Rest, you must wait at least 16 hours before starting another one.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Benefits of the Rest",
+					"entries": [
+						"To start a Long Rest, you must have at least 1 {@variantrule Hit Points|XPHB|Hit Point}. When you finish the rest, you gain the following benefits:"
+					]
+				},
+				{
+					"type": "list",
+					"style": "list-hang-notitle",
+					"items": [
+						{
+							"type": "item",
+							"name": "Regain All HP",
+							"entries": [
+								"You regain all lost {@variantrule Hit Points|XPHB} and all spent {@variantrule Hit Point Dice|XPHB}. If your Hit Point maximum was reduced, it returns to normal."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Ability Scores Restored",
+							"entries": [
+								"If any of your ability scores were reduced, they return to normal."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Exhaustion Reduced",
+							"entries": [
+								"If you have the {@condition Exhaustion|XPHB} condition, its level decreases by 1."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Special Feature",
+							"entries": [
+								"Some features are recharged by a Long Rest. If you have such a feature, it recharges in the way specified in its description."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"entries": [
+						{
+							"type": "entries",
+							"name": "Interrupting the Rest",
+							"entries": [
+								"A Long Rest is stopped by the following interruptions:"
+							]
+						}
+					]
+				},
+				{
+					"type": "list",
+					"items": [
+						"Rolling {@variantrule Initiative|XPHB}",
+						"Casting a spell other than a cantrip",
+						"Taking any damage.",
+						"1 hour of walking or other physical exertion."
+					]
+				},
+				"If you rested at least 1 hour before the interruption you gain the benefits of a {@variantrule Short Rest|XPHB}.",
+				"You can resume a Long Rest immediately after an interruption. If you do so, the rest requires 1 additional hour per interruption to finish."
+			]
+		}
+	]
+}

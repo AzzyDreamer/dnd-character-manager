@@ -1,0 +1,97 @@
+{
+	"name": "Flamekin",
+	"source": "LFL",
+	"resist": [
+		"fire"
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"burning hands"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"flame blade"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": [
+					"produce flame#c"
+				]
+			}
+		}
+	],
+	"hasFluff": true,
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 30,
+	"age": {
+		"max": 120
+	},
+	"darkvision": 60,
+	"soundClip": {
+		"type": "internal",
+		"path": "races/genasi.mp3"
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Size",
+			"entries": [
+				"You are Medium or Small. You choose the size when you select this race."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Darkvision",
+			"entries": [
+				"You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fire Resistance",
+			"entries": [
+				"You have resistance to fire damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Reach to the Blaze",
+			"entries": [
+				"You know the {@spell produce flame} cantrip. Starting at 3rd level, you can cast the {@spell burning hands} spell with this trait. Starting at 5th level, you can also cast the {@spell flame blade} spell with this trait, without a material component. Once you cast {@spell burning hands} or {@spell flame blade} with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.",
+				"Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
+			]
+		}
+	]
+}
+
+[
+	"Flamekin are people made from two key elements of creation: fire and stone. As a result, many flamekin feel a strong connection to the natural world. Flamekin's bodies radiate harmless magical flames, though they possess innate magic that allows them to create burning flames in a multitude of forms.",
+	"Flamekin view self-discovery and self-expression the noblest of aspirations and believe that self-realization is the most important thing an individual can do with their life. Flamekin call this lifelong pursuit the Path of Flame.",
+	"Flamekin dwell in either Lorwyn or Shadowmoor. Physically and culturally, they are similar in both lands.",
+	{
+		"type": "inset",
+		"name": "Cinders",
+		"entries": [
+			"In Shadowmoor, some flamekin who have stifled their heated emotions are known as Cinders because their magical flames have dampened. Though they still have fiery abilities, these Cinders are visually distinct from other flamekin. While some eventually regain their blazing flames, others turn into {@race rimekin|LFL}, explained later in this chapter."
+		]
+	}
+]

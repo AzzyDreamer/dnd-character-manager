@@ -1,0 +1,14 @@
+{
+	"name": "Ambush",
+	"source": "XPHB",
+	"page": 94,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When you make a Dexterity ({@skill Stealth|XPHB}) check or an {@variantrule Initiative|XPHB} roll, you can expend one Superiority Die and add the die to the roll, unless you have the {@condition Incapacitated|XPHB} condition."
+	]
+}

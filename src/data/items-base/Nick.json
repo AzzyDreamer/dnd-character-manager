@@ -1,0 +1,10 @@
+{
+	"name": "Nick",
+	"source": "XPHB",
+	"page": 214,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"When you make the extra attack of the Light property, you can make it as part of the {@action Attack|XPHB} action instead of as a {@variantrule Bonus Action|XPHB}. You can make this extra attack only once per turn."
+	]
+}

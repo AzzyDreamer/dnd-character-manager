@@ -1,0 +1,39 @@
+{
+	"name": "Spellfire Spark",
+	"source": "FRHoF",
+	"page": 38,
+	"category": "O",
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					"sacred flame|xphb#c"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Magic Absorption",
+			"entries": [
+				"Once per turn, when you take damage from a spell or magical effect, you reduce the total damage taken by {@dice 1d4}. You can't use this benefit if you have the {@condition Incapacitated|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spellfire Flame",
+			"entries": [
+				"You learn the {@spell Sacred Flame|XPHB} cantrip. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat). You can also cast this cantrip as a {@variantrule Bonus Action|XPHB} a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

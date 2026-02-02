@@ -1,0 +1,45 @@
+{
+	"name": "Hunter Sense",
+	"source": "GrimHollowPG24",
+	"page": 194,
+	"level": 0,
+	"school": "D",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You touch a willing creature. For the duration, the target's senses are heightened. Whenever the target makes a Wisdom ({@skill Perception|XPHB}) check, it can treat a {@dice d20} roll of 9 or lower as a 10."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Hunter%20Sense.webp"
+}

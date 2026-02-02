@@ -1,0 +1,97 @@
+{
+	"name": "Time Ravage",
+	"source": "EGW",
+	"page": 189,
+	"level": 9,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 90
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "an hourglass filled with diamond dust worth at least 5,000 gp, which the spell consumes",
+			"cost": 500000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You target a creature you can see within range, putting its physical form through the devastation of rapid aging. The target must make a Constitution saving throw, taking {@damage 10d12} necrotic damage on a failed save, or half as much damage on a successful one. If the save fails, the target also ages to the point where it has only 30 days left before it dies of old age. In this aged state, the target has disadvantage on attack rolls, ability checks, and saving throws, and its walking speed is halved. Only the {@spell wish} spell or the {@spell greater restoration} cast with a 9th-level spell slot can end these effects and restore the target to its previous age."
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			}
+		]
+	}
+}

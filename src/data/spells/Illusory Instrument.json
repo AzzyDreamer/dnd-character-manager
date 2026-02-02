@@ -1,0 +1,61 @@
+{
+	"name": "Illusory Instrument",
+	"source": "GrimHollowPG24",
+	"page": 194,
+	"level": 0,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			}
+		}
+	],
+	"entries": [
+		"You create an illusionary copy of a mundane {@item musical instrument|XPHB}. The copy of the instrument takes on the shape of your fondest memory of the instrument, such as the first {@item flute|XPHB} you owned or the half harp gifted to you by a loved one. This illusion moves as its physical counterpart would, but it is weightless and is tangible only to you. This instrument can be used as a {@variantrule Spellcasting Focus|XPHB}. This illusory instrument dissipates if you move 10 feet away from it orchoose to end the spell (no action required by you).",
+		"As a {@variantrule Bonus Action|XPHB}, you can command your instrument to create one of the following effects:",
+		{
+			"type": "list",
+			"items": [
+				"Mimic basic sounds heard on a daily basis, such as a bird chirping, footsteps, or a slamming door.",
+				"Automatically play a basic beat at the tempo of your choice.",
+				"Record anything played on it, and play it back on a loop.",
+				"Record and playback any noise that it could pick up within 15 feet, such as conversation, a royal decree, or a snoring party member who swears that they don't snore."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Illusory%20Instrument.webp"
+}

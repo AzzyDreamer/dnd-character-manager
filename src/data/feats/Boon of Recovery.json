@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Recovery",
+	"source": "XPHB",
+	"page": 211,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Last Stand",
+			"entries": [
+				"When you would be reduced to 0 {@variantrule Hit Points|XPHB}, you can drop to 1 {@variantrule Hit Points|XPHB|Hit Point} instead and regain a number of {@variantrule Hit Points|XPHB} equal to half your {@variantrule Hit Points|XPHB|Hit Point} maximum. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Recover Vitality",
+			"entries": [
+				"You have a pool of ten d10s. As a {@variantrule Bonus Action|XPHB}, you can expend dice from the pool, roll those dice, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll's total. You regain all the expended dice when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

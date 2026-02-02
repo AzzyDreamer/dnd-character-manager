@@ -1,0 +1,53 @@
+{
+	"name": "Boon of Blazing Dawn",
+	"source": "ABH",
+	"page": 11,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"immune": [
+		"radiant"
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Beloved of the Sun",
+			"entries": [
+				"You have {@variantrule Immunity|XPHB} to Radiant damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Blazing Strike",
+			"entries": [
+				"When you hit a creature with a weapon attack, the damage can be Radiant or the weapon's normal damage type (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Burst of Sunlight",
+			"entries": [
+				"Once per turn when you hit a creature with an attack that deals Radiant damage, you can emit {@variantrule Bright Light|XPHB} in a 30-foot radius from yourself and {@variantrule Dim Light|XPHB} for an additional 30 feet until the start of your next turn. This light is sunlight."
+			]
+		}
+	]
+}

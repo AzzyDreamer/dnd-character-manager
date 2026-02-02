@@ -1,0 +1,116 @@
+{
+	"name": "Carouser",
+	"source": "ABH",
+	"page": 6,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"tireless reveler|abh": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"deception": true,
+			"persuasion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"gaming set": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"dagger|xphb",
+				{
+					"item": "gaming set|xphb",
+					"displayName": "Gaming Set (same as chosen proficiency)"
+				},
+				"fine clothes|xphb",
+				"glass bottle|xphb",
+				"mirror|xphb",
+				"perfume|xphb",
+				"pouch|xphb",
+				"tinderbox|xphb",
+				{
+					"value": 1900
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Tireless Reveler|ABH}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Deception|XPHB} and {@skill Persuasion|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "Choose one kind of {@item Gaming Set|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB}, {@item Gaming Set|XPHB} (same as above), {@item Fine Clothes|XPHB}, {@item Glass Bottle|XPHB}, {@item Mirror|XPHB}, {@item Perfume|XPHB}, {@item Pouch|XPHB}, {@item Tinderbox|XPHB}, 19 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You grew to adulthood in the beating heart of a large city, such as Baldur's Gate. You spent countless evenings in taverns, playhouses, parlors, and gambling dens, savoring all the city had to offer. You're a natural at interacting with people to learn their secrets, whether over a high-stakes game or at a high-class soiree. You might have been thrown out of an establishment or ten, but only by people who don't know how to party."
+	]
+}

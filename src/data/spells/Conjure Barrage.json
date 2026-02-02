@@ -1,0 +1,109 @@
+{
+	"name": "Conjure Barrage",
+	"source": "XPHB",
+	"page": 254,
+	"level": 3,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "cone",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a Melee or Ranged weapon worth at least 1 CP",
+			"cost": 1
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You brandish the weapon used to cast the spell and conjure similar spectral weapons (or ammunition appropriate to the weapon) that launch forward and then disappear. Each creature of your choice that you can see in a 60-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} makes a Dexterity saving throw, taking {@damage 5d8} Force damage on a failed save or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 5d8|3-9|1d8} for each spell slot level above 3."
+			]
+		}
+	],
+	"damageInflict": [
+		"force"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"areaTags": [
+		"N"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "EFA"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Human (Mark of Making)",
+			"source": "ERLW",
+			"baseName": "Human",
+			"baseSource": "PHB"
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Gruul Anarch",
+			"source": "GGR"
+		}
+	],
+	"feats": [
+		{
+			"name": "Mark of Making",
+			"source": "EFA"
+		}
+	]
+}

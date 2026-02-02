@@ -1,0 +1,66 @@
+{
+	"name": "Investment of the Chain Master",
+	"source": "XPHB",
+	"page": 156,
+	"featureType": [
+		"EI"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 5,
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB",
+					"visibleStats": true
+				}
+			},
+			"optionalfeature": [
+				"pact of the chain|xphb"
+			]
+		}
+	],
+	"entries": [
+		"When you cast {@spell Find Familiar|XPHB}, you infuse the summoned familiar with a measure of your eldritch power, granting the creature the following benefits.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Aerial or Aquatic",
+					"entries": [
+						"The familiar gains either a {@variantrule Fly Speed|XPHB} or a {@variantrule Swim Speed|XPHB} (your choice) of 40 feet."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Quick Attack",
+					"entries": [
+						"As a {@variantrule Bonus Action|XPHB}, you can command the familiar to take the {@action Attack|XPHB} action."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Necrotic or Radiant Damage",
+					"entries": [
+						"Whenever the familiar deals Bludgeoning, Piercing, or Slashing damage, you can make it deal Necrotic or Radiant damage instead."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Your Save DC",
+					"entries": [
+						"If the familiar forces a creature to make a saving throw, it uses your spell save DC."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Resistance",
+					"entries": [
+						"When the familiar takes damage, you can take a {@variantrule Reaction|XPHB} to grant it {@variantrule Resistance|XPHB} against that damage."
+					]
+				}
+			]
+		}
+	]
+}

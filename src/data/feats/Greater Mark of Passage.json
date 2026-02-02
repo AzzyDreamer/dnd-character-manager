@@ -1,0 +1,46 @@
+{
+	"name": "Greater Mark of Passage",
+	"source": "EFA",
+	"page": 44,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of passage|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Intuitive Motion benefit of your {@feat Mark of Passage|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Passage",
+			"entries": [
+				"When you use the Magical Passage benefit of your {@feat Mark of Passage|EFA} feat to cast {@spell Misty Step|XPHB} without a spell slot, you can also choose up to two willing creatures you can see within 30 feet of yourself before you teleport. Each target can then take a {@variantrule Reaction|XPHB} to also teleport up to 30 feet to an unoccupied space it can see."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

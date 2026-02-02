@@ -1,0 +1,40 @@
+{
+	"name": "Lightning Caster",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"spellcasting2020": true
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"Your rapid-fire style of casting cantrips allows you to weave magic with uncanny speed. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Dual Target",
+			"entries": [
+				"When you cast a cantrip with a casting time of an action that targets a single creature, you can use a {@variantrule Bonus Action|XPHB} to target a second creature within the cantrip's range."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Immediate Response",
+			"entries": [
+				"When you cast a spell as a {@variantrule Reaction|XPHB}, that spell doesn't expend a spell slot. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

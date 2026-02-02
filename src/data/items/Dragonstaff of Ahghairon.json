@@ -1,0 +1,32 @@
+{
+	"name": "Dragonstaff of Ahghairon",
+	"source": "WDH",
+	"page": 191,
+	"rarity": "legendary",
+	"reqAttune": true,
+	"weight": 4,
+	"weaponCategory": "simple",
+	"property": [
+		"V"
+	],
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"dmg2": "1d8",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d10}",
+	"charges": 10,
+	"staff": true,
+	"entries": [
+		"While holding the dragonstaff of Ahghairon, you have advantage on saving throws against the spells and breath weapons of dragons, as well as the breath weapons of other creatures of the dragon type (such as dragon turtles).",
+		"A creature of the dragon type that you touch with the staff can move through the city of Waterdeep, ignoring Ahghairon's dragonward (see \"Ahghairon's Dragonward,\" in the Introduction). This effect lasts until the creature is touched again by the staff or until a time you proclaim when you confer the benefit.",
+		"The staff has 10 charges. While holding it, you can expend 1 charge as an action to cast the {@spell command} spell. If you target a dragon with this casting, the dragon has disadvantage on its saving throw. The staff regains {@dice 1d10} charges daily at dawn."
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"command"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

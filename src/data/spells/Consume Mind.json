@@ -1,0 +1,55 @@
+{
+	"name": "Consume Mind",
+	"source": "GrimHollowPG24",
+	"page": 189,
+	"level": 4,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a 1-ounce fresh or magically preserved portion of another creature's brain"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You consume the brain of a dead creature, gaining access to its memories. The creature must have a brain and can't be Undead. The spell fails if the creature has been dead (and not preserved) for more than 3 days.",
+		"Until the spell ends, you can attempt to recall a memory, such as family history, recent events, building layouts, passwords, details of the creature's death, and similar information. To recall a memory, you take a {@action Magic|XPHB} action and make an ability check using your spellcasting ability modifier. The DC equals the corpse's Intelligence ability score.",
+		"Once you take a {@action Magic|XPHB} action to recall information, you can't attempt to recall that specific piece of information again."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Consume%20Mind.webp"
+}

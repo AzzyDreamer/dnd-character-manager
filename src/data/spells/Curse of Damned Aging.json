@@ -1,0 +1,99 @@
+{
+	"name": "Curse of Damned Aging",
+	"source": "GrimHollowPG24",
+	"page": 211,
+	"level": 4,
+	"school": "N",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a childhood possession of the target, a pint of blood, and a watch worth 600+ GP, all of which the spell consumes",
+			"cost": 60000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with horrific aging. The target must make a Strength saving throw.",
+		{
+			"type": "entries",
+			"name": "Successful Saving Throw",
+			"entries": [
+				"On a successful save, the target takes {@damage 2d10} Necrotic damage and is aware it was targeted by a curse. For 1 minute, the target has {@variantrule Vulnerability|XPHB} to Bludgeoning, Piercing, or Slashing damage (you choose when you cast the spell)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 6d10} Necrotic damage and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target finishes a {@variantrule Long Rest|XPHB}, it finds multiple wrinkles, grey hairs, or spots it didn't previously have, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature is compelled to rest when the occasion permits it, becoming lethargic and lazy."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature becomes feeble. After finishing a {@variantrule Short Rest|XPHB}, the creature can only use 25 percent of its {@variantrule Hit Point Dice|XPHB}, rounded up, to regain {@variantrule Hit Points|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature starts to age rapidly, becoming decrepit. The cursed creature has {@variantrule Disadvantage|XPHB} on Strength, Dexterity, and Constitution saving throws."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Body Snatcher."
+			]
+		}
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"constitution",
+		"strength"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Damned%20Aging.webp"
+}

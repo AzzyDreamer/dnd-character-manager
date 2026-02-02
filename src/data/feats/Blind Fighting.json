@@ -1,0 +1,21 @@
+{
+	"name": "Blind Fighting",
+	"source": "XPHB",
+	"page": 209,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"senses": [
+		{
+			"blindsight": 10
+		}
+	],
+	"entries": [
+		"You have {@sense Blindsight|XPHB} with a range of 10 feet."
+	]
+}

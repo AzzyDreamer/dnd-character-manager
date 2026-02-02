@@ -1,0 +1,120 @@
+{
+	"name": "Physician",
+	"source": "GrimHollowPG24",
+	"page": 111,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"wis"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"wis"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"triage expert|GrimHollowPG24": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"medicine": true,
+			"nature": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"herbalism kit": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Dagger|XPHB"
+				},
+				{
+					"item": "Healer's Kit|XPHB"
+				},
+				{
+					"item": "Herbalism Kit|XPHB"
+				},
+				{
+					"item": "Robe|XPHB"
+				},
+				{
+					"value": 1000
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Intelligence, Wisdom"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Triage Expert|GrimHollowPG24}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Medicine|XPHB} and {@skill Nature|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Herbalism Kit|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB} (scalpel), {@item Healer's Kit|XPHB}, {@item Herbalism Kit|XPHB}, Bandages, Book of Remedies, Jar of Leeches, {@item Robe|XPHB}, 10 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"Your skills treating the sick and injured have given you a vast knowledge of illnesses and remedies based on the latest science—or the most recent theories from those who like to push the limits of what science might allow.",
+			"You may have come into the field in a variety of ways and with a variety of specialties. You might have learned at an institute with the finest medical minds in all of Etharis. Or you might have learned your skills through trial and error, as the poor residents of the surrounding area come to you based on rumors of your preternatural healing powers that are rather mundane."
+		]
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Healer",
+	"source": "XPHB",
+	"page": 201,
+	"category": "O",
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Battle Medic",
+			"entries": [
+				"If you have a {@item Healer's Kit|XPHB}, you can expend one use of it and tend to a creature within 5 feet of yourself as a {@action Utilize|XPHB} action. That creature can expend one of its {@variantrule Hit Point Dice|XPHB}, and you then roll that die. The creature regains a number of {@variantrule Hit Points|XPHB} equal to the roll plus your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Healing Rerolls",
+			"entries": [
+				"Whenever you roll a die to determine the number of {@variantrule Hit Points|XPHB} you restore with a spell or with this feat's Battle Medic benefit, you can reroll the die if it rolls a 1, and you must use the new roll."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

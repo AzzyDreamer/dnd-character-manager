@@ -1,0 +1,15 @@
+{
+	"name": "Airship",
+	"source": "XPHB",
+	"page": 230,
+	"basicRules2024": true,
+	"type": "AIR|XPHB",
+	"rarity": "none",
+	"value": 4000000,
+	"crew": 10,
+	"vehAc": 13,
+	"vehHp": 300,
+	"vehSpeed": 8,
+	"capPassenger": 20,
+	"capCargo": 1
+}

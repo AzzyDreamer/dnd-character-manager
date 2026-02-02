@@ -1,0 +1,143 @@
+{
+	"name": "Githyanki",
+	"source": "MPMM",
+	"page": 18,
+	"lineage": "VRGR",
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"traitTags": [
+		"Weapon Proficiency"
+	],
+	"skillProficiencies": [
+		{
+			"any": 1
+		}
+	],
+	"toolProficiencies": [
+		{
+			"any": 1
+		}
+	],
+	"resist": [
+		"psychic"
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"jump"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"misty step"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": [
+					"mage hand#c"
+				]
+			}
+		}
+	],
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Astral Knowledge",
+			"entries": [
+				"You can mystically access a reservoir of experiences of entities connected to the Astral Plane. Whenever you finish a long rest, you gain proficiency in one skill of your choice and with one weapon or tool of your choice, selected from the Player's Handbook, as you momentarily project your consciousness into the Astral Plane. These proficiencies last until the end of your next long rest."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Githyanki Psionics",
+			"entries": [
+				"You know the {@spell mage hand} cantrip, and the hand is {@condition invisible} when you cast the cantrip with this trait.",
+				"Starting at 3rd level, you can cast the {@spell jump} spell with this trait. Starting at 5th level, you can also cast {@spell misty step} with it. Once you cast {@spell jump} or {@spell misty step} with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.",
+				"Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race). None of these spells require spell components when you cast them with this trait."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Psychic Resilience",
+			"entries": [
+				"You have resistance to psychic damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"anyStandard": 1
+		}
+	]
+}
+
+[
+	"Once members of a people who escaped servitude to mind flayers, githyanki split from their cousins, githzerai, and fled to the Astral Plane. In that timeless, silvery realm, githyanki honed their psionic powers and built a great city called Tu'narath. They have since spread throughout the multiverse, starting in outposts outside the Astral Plane, called creches, where time passes and their children can reach adulthood.",
+	"A lanky people with skin tones of yellows, greens, and browns, githyanki complement their physical prowess with psionic might, instilled in them by mind flayers and cultivated over eons in the Astral Plane. Now all githyanki can use their psychic bond with that plane to access splinters of knowledge left behind by beings who travel, live, and die among the silver astral clouds.",
+	"Githyanki who reside in the Astral Plane can live indefinitely."
+]

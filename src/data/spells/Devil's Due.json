@@ -1,0 +1,63 @@
+{
+	"name": "Devil's Due",
+	"source": "CrookedMoon24",
+	"page": 128,
+	"level": 1,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "which you take when another creature within range takes damage"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"s": true,
+		"m": "a glob of pitch"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You absorb a measure of a creature's suffering and escaping vital essence. Expend and roll one {@variantrule Hit Point Dice|XPHB|Hit Points Die}. You regain a number of {@variantrule Hit Points|XPHB} equal to the number rolled plus your spellcasting ability modifier.",
+		"If the creature took damage from a {@variantrule Critical Hit|XPHB}, double the number of {@variantrule Hit Points|XPHB} you regain."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend one additional {@variantrule Hit Point Dice|XPHB|Hit Points Die} for each spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Devils-Due.webp"
+}

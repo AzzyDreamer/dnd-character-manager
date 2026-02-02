@@ -1,0 +1,37 @@
+{
+	"name": "Boon of Shadowsteel Mastery",
+	"source": "GrimHollowPG24",
+	"page": 121,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Strange Bedfellows",
+			"entries": [
+				"You are no longer affected by the {@optfeature Friendless|GrimHollowPG24|Friendless Transformation Flaw}."
+			]
+		}
+	]
+}

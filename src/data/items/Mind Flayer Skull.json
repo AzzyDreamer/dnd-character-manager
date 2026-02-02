@@ -1,0 +1,10 @@
+{
+	"name": "Mind Flayer Skull",
+	"source": "WDMM",
+	"page": 197,
+	"type": "OTH",
+	"rarity": "unknown (magic)",
+	"entries": [
+		"While you have the skull in your possession, you are {@condition invisible} to mind flayers, as is anything you are wearing or carrying."
+	]
+}

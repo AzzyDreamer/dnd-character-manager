@@ -1,0 +1,43 @@
+{
+	"name": "Haunted Traps",
+	"source": "VRGR",
+	"page": 196,
+	"type": "section",
+	"entries": [
+		"Like other traps, haunted traps represent threats leveled toward trespassers. They originate in an area spontaneously, often resulting from overwhelming negative emotions, tragedy, or evil. Just as some terrible fates might cause a tormented individual to rise as an undead creature, so might supernatural evil and violent emotions manifest more generally as one or more haunted traps. Such traps provide a way to theme the dangers and monsters of a haunted place to reveal a grim history or frightening tale. When creating haunted traps, consider what events brought them into being and how the trap's effects suggest those origins.",
+		{
+			"type": "entries",
+			"name": "Detecting Haunted Traps",
+			"entries": [
+				"Every haunted trap has an emanation, which might be as subtle as a drop in temperature or as overt as an object moving of its own accord. A haunted trap's emanation occurs before the trap takes effect. A character notices the emanation if their passive Wisdom ({@skill Perception}) score equals or exceeds 10 + the trap's Haunt Bonus. A character who notices the haunted trap has until the start of their next turn to react, which might include fleeing to avoid the trap or attempting to disarm it (see the following section). Class features and spells, such as Divine Sense and {@spell detect evil and good}, that discern desecration also detect haunted traps."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Disarming Haunted Traps",
+			"entries": [
+				"Characters who notice a haunted trap before it activates can attempt to disarm it. Typical methods of disarming traps, such as {@item thieves' tools|PHB} and {@spell dispel magic}, don't affect haunted traps. However, the Channel Divinity class feature and the {@spell remove curse} spell can disarm a haunted trap.",
+				"To use Channel Divinity to disarm a haunted trap, a character uses an action to present their holy symbol and speak a prayer. To use {@spell remove curse} instead, a character must cast the spell and touch an object that is part of the trap. Whichever disarming method is used, the trap itself then makes a saving throw against the character's spell save DC, adding its Haunt Bonus to the save. On a failure, the trap is disarmed for 24 hours. If the trap fails the save by 10 or more, the trap is disarmed permanently.",
+				"Depending on the haunted trap's origins, certain spells might also affect the trap. For example, a haunted trap with a fiendish origin might be permanently disarmed by the spell {@spell dispel evil and good}.",
+				"Some haunted traps might also be disarmed in nonmagical ways related to the history of a haunted area. Such methods might be as simple as wearing the clothes of a haunted house's former owner or singing a lullaby that soothes a restless spirit. Haunted traps disarmed in such ways typically remain disarmed for 24 hours."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sample Haunted Traps",
+			"entries": [
+				"Several haunted traps are presented here in alphabetical order. Customize them to create terrifying traps appropriate for your adventures.",
+				{
+					"type": "list",
+					"columns": 3,
+					"items": [
+						"{@trap Danse Macabre|VRGR}",
+						"{@trap Faceless Malice|VRGR}",
+						"{@trap Icon of the Lower Aerial Kingdoms|VRGR}",
+						"{@trap Morbid Memory|VRGR}"
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,41 @@
+{
+	"name": "Harper Teamwork",
+	"source": "FRHoF",
+	"page": 39,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"harper agent|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"dex",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Withering Wordplay",
+			"entries": [
+				"When you take the {@action Help|XPHB} action to assist an ally's attack roll against an enemy, that enemy also has {@variantrule Disadvantage|XPHB} on the first saving throw it makes before the start of your next turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Inspiring Willpower",
+			"entries": [
+				"If you succeed on a saving throw to end the {@condition Frightened|XPHB} or {@condition Paralyzed|XPHB} condition on yourself, you can choose one ally you can see within 30 feet of yourself that has the same condition. That condition immediately ends for that ally."
+			]
+		}
+	]
+}

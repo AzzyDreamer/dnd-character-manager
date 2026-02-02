@@ -1,0 +1,99 @@
+{
+	"name": "Curse of Lost Sentiment",
+	"source": "GrimHollowPG24",
+	"page": 213,
+	"level": 4,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a lock of hair from someone the target loves, an animal's heart, and an idol worth 600+ GP, all of which the spell consumes",
+			"cost": 60000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with the loss of memories and horrific madness. The target must make an Intelligence saving throw.",
+		{
+			"type": "entries",
+			"name": "Successful Saving Throw",
+			"entries": [
+				"On a successful save, the target takes {@damage 3d10} Force damage, has the {@condition Incapacitated|XPHB} condition until the end of its next turn, and is unaware it was targeted by a curse."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 6d10} Force damage, has the {@condition Stunned|XPHB} condition until the end of its next turn, and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target finishes a {@variantrule Long Rest|XPHB}, it suffers nightmarish visions of being abandoned or left alone, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature begins forgetting events that have occurred within the past few days and the names of acquaintances."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature forgets all but its closest companions, and it has delusions of hidden threats and scheming rivals. Additionally, the cursed creature has {@variantrule Disadvantage|XPHB} on Intelligence ability checks and saving throws."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature forgets its closest companions, its own identity, and its goals. The curse fabricates delusions of a great conspiracy that only the cursed creature can prevent. The cursed creature is compelled to take any action it believes necessary to uncover this conspiracy. The creature can't take {@variantrule Bonus Action|XPHB|Bonus Actions}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Dream Whisperer."
+			]
+		}
+	],
+	"damageInflict": [
+		"force"
+	],
+	"conditionInflict": [
+		"incapacitated",
+		"stunned"
+	],
+	"savingThrow": [
+		"intelligence"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Lost%20Sentiment.webp"
+}

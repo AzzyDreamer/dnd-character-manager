@@ -1,0 +1,58 @@
+{
+	"name": "Speedy",
+	"source": "XPHB",
+	"page": 208,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"con": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"dex",
+					"con"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Speed Increase",
+			"entries": [
+				"Your {@variantrule Speed|XPHB} increases by 10 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dash over Difficult Terrain",
+			"entries": [
+				"When you take the {@action Dash|XPHB} action on your turn, {@variantrule Difficult Terrain|XPHB} doesn't cost you extra movement for the rest of that turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Agile Movement",
+			"entries": [
+				"{@action Opportunity Attack|XPHB|Opportunity Attacks} have {@variantrule Disadvantage|XPHB} against you."
+			]
+		}
+	]
+}

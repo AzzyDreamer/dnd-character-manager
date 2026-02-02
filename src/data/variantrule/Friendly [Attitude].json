@@ -1,0 +1,11 @@
+{
+	"name": "Friendly [Attitude]",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A Friendly creature views you favorably. You have {@variantrule Advantage|XPHB|advantage} on an ability check to influence a Friendly creature."
+	]
+}

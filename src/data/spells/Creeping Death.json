@@ -1,0 +1,59 @@
+{
+	"name": "Creeping Death",
+	"source": "GrimHollowPG24",
+	"page": 189,
+	"level": 8,
+	"school": "N",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend eight {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Roll the expended {@variantrule Hit Point Dice|XPHB}. The target's Creeping Death threshold is equal to the roll's total. For the spell's duration, if the creature's {@variantrule Hit Points|XPHB} are reduced to or lower than its Creeping Death threshold, the creature immediately dies.",
+		"As a {@variantrule Bonus Action|XPHB}, you can force the target to make a Constitution saving throw. On a failed save, roll {@dice 2d6} and add the result to the creature's Creeping Death threshold. On a successful save, add half the result instead. If the creature succeeds on three saving throws, which don't have to be consecutive, this spell ends early."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Creeping%20Death.webp"
+}

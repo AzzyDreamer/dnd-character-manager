@@ -1,0 +1,17 @@
+{
+	"name": "Scroll of Protection (Fey)",
+	"source": "XDMG",
+	"page": 302,
+	"type": "SC|XPHB",
+	"detail1": "Fey",
+	"detail2": "Fey",
+	"rarity": "rare",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Scroll of Protection|XDMG}"
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"hasFluffImages": true
+}

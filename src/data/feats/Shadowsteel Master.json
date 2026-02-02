@@ -1,0 +1,42 @@
+{
+	"name": "Shadowsteel Master",
+	"source": "GrimHollowPG24",
+	"page": 117,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 8,
+			"feat": [
+				"shadowsteel adept|grimhollowpg24"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"Your mastery over Shadowsteel grows stronger. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Necrotic Harmony",
+			"entries": [
+				"While holding your {@item Shadowsteel Focus|GrimHollowPG24}, when you cast a spell that targets one or more creatures and requires an attack roll or saving throw, you can choose one target you hit or who failed the saving throw to also take {@damage 1d4} Necrotic damage for each spell slot level expended to cast the spell."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Necrotic Weapon",
+			"entries": [
+				"If your {@item Shadowsteel Focus|GrimHollowPG24} is also a weapon, that weapon has a +2 bonus to weapon attack rolls and damage rolls. Additionally, once on each of your turns, when you hit a creature with a weapon attack roll using your {@item Shadowsteel Focus|GrimHollowPG24}, you can cause the target to take an extra {@damage 2d8} Necrotic damage."
+			]
+		}
+	]
+}

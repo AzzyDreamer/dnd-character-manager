@@ -1,0 +1,88 @@
+{
+	"name": "Orrery of the Wanderer",
+	"source": "AI",
+	"page": 220,
+	"type": "OTH",
+	"rarity": "artifact",
+	"reqAttune": true,
+	"wondrous": true,
+	"bonusAc": "+1",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4 + 4}",
+	"charges": 7,
+	"entries": [
+		"This delicate and exquisitely crafted clockwork orrery features multiple geared components whose sweeping hands and dials represent the complex interplay of planar and magical realms. Standing two feet high, the orrery housing is a wondrous device imbued with magic of its own, but the power of its six clockwork components makes the artifact even more potent.",
+		"The Orrery of the Wanderer was created by a renowned clockwork mage known only as Lottie. She crafted the relic as a means of tapping into the power of the planes, and to channel the divination and foretelling powers of the stars. But Lottie soon realized that her creation was far more powerful than she had intended. As it tapped into planar magic, the orrery began to manifest the darkness and malevolence inherent to some of the planes. Eventually, it would impress upon its owner a desire to open portals into the most cursed and dangerous worlds, including the Far Realm.",
+		"To prevent the orrery from ever being so used, Lottie scattered the components that powered it, secreting them across the world. But the orrery's instinct for survival is strong, and its components have a way of inexorably coming together over decades or centuries, found by treasure hunters, stolen by monsters, found and stolen again—and moving closer to each other all the time.",
+		"Random Properties. The orrery has the following randomly determined properties:",
+		{
+			"type": "list",
+			"items": [
+				"2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial properties}",
+				"1 {@table Artifact Properties; Major Beneficial Properties|dmg|major beneficial property}",
+				"1 {@table Artifact Properties; Major Detrimental Properties|dmg|major detrimental properties}"
+			]
+		},
+		"The random properties of the orrery might function only when all its components are installed, or might function sporadically if any components are missing.",
+		{
+			"type": "entries",
+			"name": "The Sum of Its Parts",
+			"entries": [
+				"Each of the six components that powers the Orrery of the Wanderer is a powerful magic relic in its own right:",
+				{
+					"type": "list",
+					"style": "list-no-bullets",
+					"items": [
+						"The {@item chronolometer|AI}",
+						"The {@item dimensional loop|AI}",
+						"The {@item far gear|AI}",
+						"The {@item rotor of return|AI}",
+						"The {@item timepiece of travel|AI}",
+						"The {@item wheel of stars|AI}"
+					]
+				},
+				"Creatures can attune to the orrery's components individually. If attuned to an individual component, a creature must hold the component to make use of its features. A creature can also attune to the orrery and all the components installed in it. Attuning to an installed component doesn't count against the number of magic items you can normally attune to.",
+				"While a component is not installed in the orrery, its magic might function sporadically or with unpredictable side effects, as determined by the DM."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Future Echoes",
+			"entries": [
+				"With or without its components, the orrery lets you catch momentary glimpses of the future that warn you of danger. As long as the orrery is within 30 feet of you, you gain a +1 bonus to AC."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Into the Void",
+			"entries": [
+				"With or without its components, the attuned orrery infuses your spirit with the tumultuous energy of the planes. Over time, your alignment changes to chaotic neutral, and you are compelled to engage with and explore the most dangerous planar realms."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Master of Travel",
+			"entries": [
+				"While all six components of the Orrery of the Wanderer are installed, the artifact has 7 charges. While touching the orrery, you can use an action and expend 1 or more charges to cast one of the following spells (save {@dc 17}): {@spell contact other plane} (3 charges), {@spell demiplane} (6 charges), {@spell gate} (7 charges), {@spell plane shift} (5 charges), or {@spell teleportation circle} (3 charges). The orrery regains {@dice 1d4 + 4} expended charges daily at dawn."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"3": [
+				"contact other plane",
+				"teleportation circle"
+			],
+			"5": [
+				"plane shift"
+			],
+			"6": [
+				"demiplane"
+			],
+			"7": [
+				"gate"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

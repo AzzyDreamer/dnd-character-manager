@@ -1,0 +1,17 @@
+{
+	"name": "Radiant Absorbing Tattoo",
+	"source": "TCE",
+	"page": 119,
+	"resist": [
+		"radiant"
+	],
+	"detail1": "gold",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"tattoo": true,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Absorbing Tattoo|TCE}"
+	]
+}

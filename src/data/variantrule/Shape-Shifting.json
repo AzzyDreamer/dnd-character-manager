@@ -1,0 +1,11 @@
+{
+	"name": "Shape-Shifting",
+	"source": "XPHB",
+	"page": 373,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If an effect, such as Wild Shape or the {@spell Polymorph|XPHB} spell, lets you shape-shift, its description specifies what happens to you. Unless that description says otherwise, any ongoing effects on you—{@variantrule Condition|XPHB|conditions}, spells, curses, and the like—carry over from one form to the other. You revert to your true form if you die."
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"name": "Bomber",
+	"source": "ABH",
+	"page": 9,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"dex": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Far Lobber",
+			"entries": [
+				"When you use the {@action Attack|XPHB} action to throw a vial or flask, you can target an object or creature you can see within 40 feet of yourself."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Long Shots",
+			"entries": [
+				"Attacking at long range doesn't impose {@variantrule Disadvantage|XPHB} on your attack rolls with {@itemProperty T|XPHB|Thrown} weapons."
+			]
+		}
+	]
+}

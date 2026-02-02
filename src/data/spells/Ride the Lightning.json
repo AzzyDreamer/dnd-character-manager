@@ -1,0 +1,65 @@
+{
+	"name": "Ride the Lightning",
+	"source": "GrimHollowPG24",
+	"page": 198,
+	"level": 4,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a length of copper wire"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You transform yourself into a bolt of lightning, creating a 5-foot-wide {@variantrule Line [Area of Effect]|XPHB|Line} between your current space and an unoccupied space within 60 feet of you. Each creature in the {@variantrule Line [Area of Effect]|XPHB|Line} makes a Dexterity saving throw, taking {@damage 4d6} Lightning damage on a failed save or half as much damage on a successful one. You then reappear in the chosen space."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot level above 4. In addition, the maximum length of the line increases 10 feet for each spell slot level above 4."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"lightning"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Ride%20the%20Lightning.webp"
+}

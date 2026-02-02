@@ -1,0 +1,10 @@
+{
+	"name": "Nature",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "int",
+	"entries": [
+		"Recall lore about terrain, plants, animals, and weather."
+	]
+}

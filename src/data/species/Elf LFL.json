@@ -1,0 +1,308 @@
+{
+	"name": "Elf",
+	"source": "LFL",
+	"additionalSpells": [
+		{
+			"name": "Lorwyn",
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"command|xphb"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"silence|xphb"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": {
+					"_": [
+						{
+							"choose": "level=0|class=Druid"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Shadowmoor",
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"heroism|xphb"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"gentle repose|xphb"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": [
+					"starry wisp|xphb#c"
+				]
+			}
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"_versions": [
+		{
+			"name": "Elf; Lorwyn Lineage",
+			"source": "LFL",
+			"_mod": {
+				"entries": {
+					"mode": "replaceArr",
+					"replace": "Elven Lineage",
+					"items": {
+						"name": "Elven Lineage (Lorwyn)",
+						"type": "entries",
+						"entries": [
+							"You are part of a lineage that grants you supernatural abilities. You know the {@spell Thorn Whip|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different cantrip from the {@filter Druid spell list|spells|class=druid}.",
+							"When you reach character level 3, you learn the {@spell Command|XPHB} spell. When you reach character level 5, you also learn the {@spell Silence|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.",
+							"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage)."
+						]
+					}
+				}
+			},
+			"additionalSpells": [
+				{
+					"innate": {
+						"3": {
+							"daily": {
+								"1": [
+									"command|xphb"
+								]
+							}
+						},
+						"5": {
+							"daily": {
+								"1": [
+									"silence|xphb"
+								]
+							}
+						}
+					},
+					"ability": {
+						"choose": [
+							"int",
+							"wis",
+							"cha"
+						]
+					},
+					"known": {
+						"1": {
+							"_": [
+								{
+									"choose": "level=0|class=Druid"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Elf; Shadowmoor Lineage",
+			"source": "LFL",
+			"_mod": {
+				"entries": {
+					"mode": "replaceArr",
+					"replace": "Elven Lineage",
+					"items": {
+						"name": "Elven Lineage (Shadowmoor)",
+						"type": "entries",
+						"entries": [
+							"You are part of a lineage that grants you supernatural abilities. The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Starry Wisp|XPHB} cantrip.",
+							"When you reach character level 3, you learn the {@spell Heroism|XPHB} spell. When you reach character level 5, you also learn the {@spell Gentle Repose|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.",
+							"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage)."
+						]
+					}
+				}
+			},
+			"darkvision": 120,
+			"additionalSpells": [
+				{
+					"innate": {
+						"3": {
+							"daily": {
+								"1": [
+									"heroism|xphb"
+								]
+							}
+						},
+						"5": {
+							"daily": {
+								"1": [
+									"gentle repose|xphb"
+								]
+							}
+						}
+					},
+					"ability": {
+						"choose": [
+							"int",
+							"wis",
+							"cha"
+						]
+					},
+					"known": {
+						"1": [
+							"starry wisp|xphb#c"
+						]
+					}
+				}
+			]
+		}
+	],
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"darkvision": 60,
+	"traitTags": [
+		"Improved Resting"
+	],
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"insight",
+					"perception",
+					"survival"
+				]
+			}
+		}
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "races/elf.mp3"
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Medium (about 5-6 feet tall)"
+		]
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Darkvision",
+			"entries": [
+				"You have {@sense Darkvision|XPHB} with a range of 60 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Elven Lineage",
+			"entries": [
+				"You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage.",
+				"When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.",
+				"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).",
+				{
+					"type": "table",
+					"caption": "Elven Lineages",
+					"colLabels": [
+						"Lineage",
+						"Level 1",
+						"Level 3",
+						"Level 5"
+					],
+					"colStyles": [
+						"col-2",
+						"col-6",
+						"col-2",
+						"col-2"
+					],
+					"rows": [
+						[
+							"Lorwyn",
+							"You know the {@spell Thorn Whip|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different cantrip from the {@filter Druid spell list|spells|class=druid}.",
+							"{@spell Command|XPHB}",
+							"{@spell Silence|XPHB}"
+						],
+						[
+							"Shadowmoor",
+							"The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Starry Wisp|XPHB} cantrip.",
+							"{@spell Heroism|XPHB}",
+							"{@spell Gentle Repose|XPHB}"
+						]
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fey Ancestry",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Charmed|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Keen Senses",
+			"entries": [
+				"You have proficiency in the {@skill Insight|XPHB}, {@skill Perception|XPHB}, or {@skill Survival|XPHB} skill."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Trance",
+			"entries": [
+				"You don't need to sleep, and magic can't put you to sleep. You can finish a {@variantrule Long Rest|XPHB} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness."
+			]
+		}
+	]
+}
+
+[
+	"Elves in the realm of Lorwyn-Shadowmoor possess black, pupilless eyes; curved horns; legs that end in cloven hooves; and pointed ears. The elves of Lorwyn exhibit stark differences physically as well as culturally from their Shadowmoor counterparts.",
+	{
+		"type": "entries",
+		"name": "In Lorwyn",
+		"entries": [
+			"The horns of Lorwyn elves are stubby like a goat's or curved like a ram's, but always ridged. Their pointed ears are long and slender.",
+			"In Lorwyn, elves value beauty above all, though what any given elf deems beautiful can seem arbitrary. Some Lorwyn elves assume authority over the land's other peoples, using their fallen empire to support their claims.",
+			"These elves blame the fall of their empire on outside threats, especially the Phyrexian invasion (see {@book \"Lorwyn-Shadowmoor's History\"|LFL|0|Lorwyn-Shadowmoor's History}). Though the invasion was the empire's death knell, its people's self-importance and unwillingness to collaborate with other species had already led to the empire's decline."
+		]
+	},
+	{
+		"type": "entries",
+		"name": "In Shadowmoor",
+		"entries": [
+			"Shadowmoor elves' horns are long, wavy, and covered with a rough, thorny texture. Their pointed ears are usually longer than those of their Lorwyn counterparts.",
+			"Like Lorwyn elves, Shadowmoor elves protect beauty, though a Shadowmoor elf's definition of \"beautiful\" can be abstract. Many of their kind believe beauty is gained or lost in accordance with one's actions; in particular, they consider heroism and self-sacrifice the highest forms of beauty.",
+			"Bloomseekers are Shadowmoor elves who study and explore Lorwyn. Each one carries a {@item Reliquary of Twilight|LFL} (see the introduction). Alongside Safewrights—Shadowmoor elves who venture across their realm in search of beautiful things—Bloomseekers are among the most trusted and revered members of their society."
+		]
+	}
+]

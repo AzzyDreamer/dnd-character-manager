@@ -1,0 +1,10 @@
+{
+	"name": "Investigation",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "int",
+	"entries": [
+		"Find obscure information in books, or deduce how something works."
+	]
+}

@@ -1,0 +1,30 @@
+{
+	"name": "Nature's Mantle",
+	"source": "XDMG",
+	"page": 280,
+	"type": "SCF|XPHB",
+	"rarity": "uncommon",
+	"reqAttune": "by a druid or ranger",
+	"reqAttuneTags": [
+		{
+			"class": "druid"
+		},
+		{
+			"class": "ranger"
+		}
+	],
+	"wondrous": true,
+	"focus": [
+		"Druid",
+		"Ranger"
+	],
+	"entries": [
+		"This cloak shifts color and texture to blend with the terrain surrounding you. While wearing the cloak, you can use it as a {@variantrule Spellcasting Focus|XPHB} for your Druid and Ranger spells.",
+		"While you are in an area that is {@variantrule Lightly Obscured|XPHB}, you can {@action Hide|XPHB} as a {@variantrule Bonus Action|XPHB} even if you are being directly observed."
+	],
+	"lootTables": [
+		"Implements - Uncommon|XDMG",
+		"Relics - Uncommon|XDMG"
+	],
+	"hasFluffImages": true
+}

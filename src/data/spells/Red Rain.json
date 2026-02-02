@@ -1,0 +1,62 @@
+{
+	"name": "Red Rain",
+	"source": "GrimHollowPG24",
+	"page": 198,
+	"level": 8,
+	"school": "C",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 10,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a sponge soaked in blood"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 8
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend eight {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Over the course of {@dice 1d6} times 5 minutes, the sky darkens and thick droplets of blood rain everywhere within 5 miles of you.",
+		"Each Beast and Plant creature in the area must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition until it has spent 1 minute outside the area. Mundane plants exposed to the rain wither and die after 10 minutes.",
+		"For every 10 minutes that a creature of any type is directly exposed to the rain, that creature gains 1 {@condition Exhaustion|XPHB} level and takes {@damage 2d10} Necrotic damage. The creature's {@variantrule Hit Points|XPHB|Hit Point} maximum decreases by an amount equal to the Necrotic damage dealt. This reduction lasts until the creature removes all levels of {@condition Exhaustion|XPHB} gained from this spell. While a creature has any {@condition Exhaustion|XPHB} levels from this spell, it automatically fails saving throws against removing the {@condition Poisoned|XPHB} condition.",
+		"When the spell ends, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell. Beast and Plant creatures won't return and plants won't regrow in the area for a number of days equal to the roll's total."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Red%20Rain.webp"
+}

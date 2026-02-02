@@ -1,0 +1,40 @@
+{
+	"name": "Harper Agent",
+	"source": "FRHoF",
+	"page": 37,
+	"category": "O",
+	"languageProficiencies": [
+		{
+			"thieves' cant": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyMusicalInstrument": 3
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Thieves' Cant",
+			"entries": [
+				"You know Thieves' Cant."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Instrument Training",
+			"entries": [
+				"You gain proficiency with a {@item Musical Instrument|XPHB} of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Distracting Melody",
+			"entries": [
+				"When you take the {@action Help|XPHB} action to assist an ally's attack roll, the enemy you're distracting can be within 30 feet of you, rather than within 5 feet of you, provided the enemy can see or hear you."
+			]
+		}
+	]
+}

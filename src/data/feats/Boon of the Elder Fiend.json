@@ -1,0 +1,43 @@
+{
+	"name": "Boon of the Elder Fiend",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Free Agent",
+			"entries": [
+				"You are no longer affected by the {@optfeature Pull of the Netherworld|GrimHollowPG24|Pull of the Netherworld Transformation Flaw}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Divergent Growth",
+			"entries": [
+				"Choose any {@filter Fiend Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=fi:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+			]
+		}
+	]
+}

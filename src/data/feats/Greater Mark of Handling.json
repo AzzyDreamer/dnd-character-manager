@@ -1,0 +1,52 @@
+{
+	"name": "Greater Mark of Handling",
+	"source": "EFA",
+	"page": 43,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of handling|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Wild Intuition benefit of your {@feat Mark of Handling|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Handling",
+			"entries": [
+				"While you are mounted, immediately after you hit a target within 5 feet of your mount with a melee attack roll, your mount can take a {@variantrule Reaction|XPHB} to move up to its {@variantrule Speed|XPHB} or take the {@action Attack|XPHB} action to make one attack only (your choice)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Subdue Animal",
+			"entries": [
+				"As a {@action Magic|XPHB} action, you exert command over one Beast or Monstrosity you can see within 30 feet of yourself. The target must succeed on a Wisdom saving throw (DC 8 plus your Wisdom modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}) or have the {@condition Frightened|XPHB} condition until the start of your next turn. You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

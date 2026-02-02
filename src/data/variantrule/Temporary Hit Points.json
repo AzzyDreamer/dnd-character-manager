@@ -1,0 +1,11 @@
+{
+	"name": "Temporary Hit Points",
+	"source": "XPHB",
+	"page": 376,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Temporary Hit Points are granted by certain effects and act as a buffer against losing real {@variantrule Hit Points|XPHB}."
+	]
+}

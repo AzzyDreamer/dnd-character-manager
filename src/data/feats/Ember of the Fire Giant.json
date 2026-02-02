@@ -1,0 +1,51 @@
+{
+	"name": "Ember of the Fire Giant",
+	"source": "BGG",
+	"page": 17,
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"strike of the giants|BGG|strike of the giants (fire strike)"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"con",
+					"wis"
+				],
+				"amount": 1
+			}
+		}
+	],
+	"resist": [
+		"fire"
+	],
+	"entries": [
+		"You've manifested the fiery combat emblematic of fire giants, granting you the following benefits:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Born of Flame",
+					"entries": [
+						"You have resistance to fire damage."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Searing Ignition",
+					"entries": [
+						"When you take the {@action Attack} action on your turn, you can replace a single attack with a magical burst of flame. Each creature of your choice in a 15-foot-radius sphere centered on you must make a Dexterity saving throw (DC equals 8 + your proficiency bonus + the modifier of the ability increased by this feat). On a failed save, a creature takes fire damage equal to {@damage 1d8} + your proficiency bonus, and it has the blinded condition until the start of your next turn. On a successful save, the creature takes half as much damage only. You can use your Searing Ignition a number of times equal to your proficiency bonus (but no more than once per turn), and you regain all expended uses when you finish a long rest."
+					]
+				}
+			]
+		}
+	]
+}

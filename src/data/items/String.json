@@ -1,0 +1,12 @@
+{
+	"name": "String",
+	"source": "XPHB",
+	"page": 229,
+	"basicRules2024": true,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 10,
+	"entries": [
+		"String is 10 feet long. You can tie a knot in it as a {@action Utilize|XPHB} action."
+	]
+}

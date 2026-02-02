@@ -1,0 +1,36 @@
+{
+	"name": "Medium Armor Master",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"proficiency": [
+				{
+					"armor": "medium"
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Dexterous Wearer",
+			"entries": [
+				"While you're wearing Medium armor, you can add 3, rather than 2 to your AC if you have a Dexterity score of 16 or higher."
+			]
+		}
+	]
+}

@@ -1,0 +1,28 @@
+{
+	"name": "Spiked Shield",
+	"source": "WttHC",
+	"baseItem": "shield|xphb",
+	"type": "S|XPHB",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"weight": 6,
+	"ac": 2,
+	"entries": [
+		"Crude metal spikes adorn this magic Shield. It has the following properties that you can use while holding it.",
+		{
+			"type": "entries",
+			"name": "Shield Bash",
+			"entries": [
+				"When you take the {@action Attack|XPHB} action, you can make one of the attack rolls using the Shield against a target within 5 feet of yourself. Apply your {@variantrule Proficiency|XPHB|Proficiency Bonus} and Strength modifier to the attack roll. On a hit, the Shield deals Piercing damage equal to {@dice 2d6} plus your Strength modifier."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spike Salvo",
+			"entries": [
+				"As a {@action Magic|XPHB} action, you can cause spikes to erupt from the Shield in a 30-foot {@variantrule Cone [Area of Effect]|XPHB|Cone}. Each creature in the {@variantrule Cone [Area of Effect]|XPHB|Cone} makes a DC 13 Dexterity saving throw, taking {@damage 3d6} Piercing damage on a failed save or half as much damage on a successful one. Once this property is used, it can't be used again until the next dawn."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

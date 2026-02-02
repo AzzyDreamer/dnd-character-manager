@@ -1,0 +1,72 @@
+{
+	"name": "Bloodletter",
+	"source": "GrimHollowPG24",
+	"page": 186,
+	"level": 2,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You touch a nonmagical weapon. Until the spell ends, the first creature hit by the weapon must succeed on a Constitution saving throw or receive a festering wound. A creature with a festering wound takes {@damage 2d6} Necrotic damage at the start of each of its turns for the spell's duration. A creature can only have one festering wound at a time.",
+		"If the creature receives healing, the spell and recurring damage end."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Bloodletter.webp"
+}

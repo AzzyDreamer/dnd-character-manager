@@ -1,0 +1,70 @@
+{
+	"name": "Helm of Perfect Potential",
+	"source": "BGG",
+	"page": 112,
+	"rarity": "artifact",
+	"reqAttune": true,
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6}",
+	"charges": 6,
+	"entries": [
+		"This copper-hued helm contains a shard of the Elemental Chaos embedded in its forehead, surrounded by a motif of a rising sun. Legend says Annam fashioned this helm for his daughter Diancastra to hold the fragment of chaos she used to prove her worth to her father.",
+		{
+			"type": "entries",
+			"name": "Random Properties",
+			"entries": [
+				"The helm has the following random properties, determined by rolling on the appropriate table in the Dungeon Master's Guide:",
+				{
+					"type": "list",
+					"items": [
+						"2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties",
+						"1 {@table Artifact Properties; Major Beneficial Properties|dmg|major beneficial} property",
+						"1 {@table Artifact Properties; Minor Detrimental Properties|dmg|minor detrimental} property"
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Master of Guile",
+			"entries": [
+				"While wearing the helm, you have advantage on Charisma ({@skill Deception}) and Wisdom ({@skill Insight}) checks."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Arrow of Elemental Havoc",
+			"entries": [
+				"As a bonus action while wearing the helm, you can launch a bolt of searing elemental energy toward a creature you can see within 90 feet of yourself. The target must make a {@dc 20} Dexterity saving throw. On a failed save, the creature takes {@damage 4d6} acid, cold, fire, lightning, or thunder damage (your choice). On a successful save, the creature takes half as much damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spellcasting",
+			"entries": [
+				"The helm has 6 charges and regains {@dice 1d6} charges each dawn. As an action while wearing the helm, you can expend 1 or more of its charges to cast one of the following spells (save {@dc 20}): {@spell elemental weapon} (1 charge), {@spell call lightning} (2 charges), {@spell wall of fire} (3 charges), {@spell conjure elemental} (4 charges), {@spell tsunami} (5 charges)."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"elemental weapon"
+			],
+			"2": [
+				"call lightning"
+			],
+			"3": [
+				"wall of fire"
+			],
+			"4": [
+				"conjure elemental"
+			],
+			"5": [
+				"tsunami"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

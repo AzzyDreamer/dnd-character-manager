@@ -1,0 +1,29 @@
+{
+	"name": "Frightened",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Frightened condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Ability Checks and Attacks Affected",
+					"entries": [
+						"You have {@variantrule Disadvantage|XPHB} on ability checks and attack rolls while the source of fear is within line of sight."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Can't Approach",
+					"entries": [
+						"You can't willingly move closer to the source of fear."
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Flurry",
+	"source": "GrimHollowPG24",
+	"page": 119,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Quick Strike",
+			"entries": [
+				"Once on each of your turns when you make an attack roll with a weapon or an {@variantrule Unarmed Strike|XPHB} and have {@variantrule Advantage|XPHB} on the roll, you can forgo {@variantrule Advantage|XPHB} on that attack roll. After resolving that attack, you can then make another attack with the same weapon or {@variantrule Unarmed Strike|XPHB} against a different creature. The new target must be within 5 feet of the first target and within the weapon's reach."
+			]
+		}
+	]
+}

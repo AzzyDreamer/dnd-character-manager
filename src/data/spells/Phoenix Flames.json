@@ -1,0 +1,59 @@
+{
+	"name": "Phoenix Flames",
+	"source": "GrimHollowPG24",
+	"page": 197,
+	"level": 9,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You immolate yourself, consuming your body in a searing cloud of holy flames. You are reduced to 0 {@variantrule Hit Points|XPHB} and die, and burning radiance erupts from you in a 30-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. Each creature in the area must make a Constitution saving throw. On a failed save, the creature takes {@damage 30d6} Radiant damage and gains 1 {@condition Exhaustion|XPHB} level. On a successful save, a creature takes half as much damage only. If this damage reduces a creature to 0 {@variantrule Hit Points|XPHB}, it and everything nonmagical it is wearing and carrying are incinerated. The target can be revived only by a {@spell True Resurrection|XPHB} or a {@spell Wish|XPHB} spell.",
+		"After 10 minutes, you rise from the ashes where you originally cast the spell. You return to life as if you were targeted by a {@spell True Resurrection|XPHB} spell."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"radiant"
+	],
+	"conditionInflict": [
+		"exhaustion"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Phoenix%20Flames.webp"
+}

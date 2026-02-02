@@ -1,0 +1,194 @@
+{
+	"name": "Silence",
+	"source": "XPHB",
+	"page": 316,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 2,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"For the duration, no sound can be created within or pass through a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on a point you choose within range. Any creature or object entirely inside the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} has {@variantrule Immunity|XPHB} to Thunder damage, and creatures have the {@condition Deafened|XPHB} condition while entirely inside it. Casting a spell that includes a Verbal component is impossible there."
+	],
+	"damageImmune": [
+		"thunder"
+	],
+	"conditionInflict": [
+		"deafened"
+	],
+	"miscTags": [
+		"OBJ"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Undying",
+					"shortName": "Undying",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of the Land",
+					"shortName": "Land",
+					"source": "PHB",
+					"subSubclass": "Desert"
+				}
+			},
+			{
+				"class": {
+					"name": "Monk",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Way of Shadow",
+					"shortName": "Shadow",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Undying",
+					"shortName": "Undying",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Fathomless",
+					"shortName": "Fathomless",
+					"source": "TCE"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Elf",
+			"source": "LFL"
+		},
+		{
+			"name": "Gnome (Mark of Scribing)",
+			"source": "ERLW",
+			"baseName": "Gnome",
+			"baseSource": "PHB"
+		}
+	],
+	"feats": [
+		{
+			"name": "Adept of the Red Robes",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Mark of Scribing",
+			"source": "EFA"
+		}
+	]
+}

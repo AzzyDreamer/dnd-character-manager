@@ -1,0 +1,21 @@
+{
+	"name": "Psychic Blade",
+	"source": "XPHB",
+	"page": 136,
+	"type": "M",
+	"rarity": "none",
+	"weaponCategory": "simple",
+	"property": [
+		"F|XPHB",
+		"T|XPHB"
+	],
+	"mastery": [
+		{
+			"uid": "Vex|XPHB",
+			"note": "you can use this property, and it doesn't count against the number of properties you can use with Weapon Mastery"
+		}
+	],
+	"range": "60/120",
+	"dmg1": "1d6",
+	"dmgType": "Y"
+}

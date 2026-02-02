@@ -1,0 +1,35 @@
+{
+	"name": "Delicious Pain",
+	"source": "ABH",
+	"page": 9,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Toughened Flesh",
+			"entries": [
+				"Immediately after you take Bludgeoning, Piercing, or Slashing damage, you can take a {@variantrule Reaction|XPHB} to gain {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage until the start of your next turn. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

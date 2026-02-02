@@ -1,0 +1,323 @@
+{
+	"name": "Confusion",
+	"source": "XPHB",
+	"page": 253,
+	"srd52": true,
+	"basicRules2024": true,
+	"level": 4,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 90
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "three nut shells"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Each creature in a 10-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on a point you choose within range must succeed on a Wisdom saving throw, or that target can't take Bonus Actions or Reactions and must roll {@dice 1d10} at the start of each of its turns to determine its behavior for that turn, consulting the table below.",
+		{
+			"type": "table",
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"colLabels": [
+				"1d10",
+				"Behavior for the Turn"
+			],
+			"rows": [
+				[
+					"1",
+					"The target doesn't take an action, and it uses all its movement to move. Roll {@dice 1d4} for the direction: {@b 1}, north; {@b 2}, east; {@b 3}, south; or {@b 4}, west."
+				],
+				[
+					"2-6",
+					"The target doesn't move or take actions."
+				],
+				[
+					"7-8",
+					"The target doesn't move, and it takes the {@action Attack|XPHB} action to make one melee attack against a random creature within reach. If none are within reach, the target takes no action."
+				],
+				[
+					"9-10",
+					"The target chooses its behavior."
+				]
+			]
+		},
+		"At the end of each of its turns, an affected target repeats the save, ending the spell on itself on a success."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The {@variantrule Sphere [Area of Effect]|XPHB|Sphere}'s radius increases by 5 feet for each spell slot level above 4."
+			]
+		}
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"RO"
+	],
+	"areaTags": [
+		"S"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain",
+					"shortName": "Knowledge",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain (PSA)",
+					"shortName": "Knowledge (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Circle of Spores",
+					"shortName": "Spores",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Oathbreaker",
+					"shortName": "Oathbreaker",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain (PSA)",
+					"shortName": "Knowledge (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Trickery Domain",
+					"shortName": "Trickery",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Knowledge Domain",
+					"shortName": "Knowledge",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Druid",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Circle of Spores",
+					"shortName": "Spores",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oathbreaker",
+					"shortName": "Oathbreaker",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Lunar Sorcery",
+					"shortName": "Lunar",
+					"source": "DSotDQ"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Great Old One Patron",
+					"shortName": "Great Old One",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"races": [
+		{
+			"name": "Gnome (Mark of Scribing)",
+			"source": "ERLW",
+			"baseName": "Gnome",
+			"baseSource": "PHB"
+		}
+	],
+	"optionalfeatures": [
+		{
+			"name": "Dreadful Word",
+			"source": "PHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"backgrounds": [
+		{
+			"name": "Rakdos Cultist",
+			"source": "GGR"
+		},
+		{
+			"name": "Silverquill Student",
+			"source": "SCC"
+		}
+	],
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		},
+		{
+			"name": "Mark of Scribing",
+			"source": "EFA"
+		}
+	]
+}

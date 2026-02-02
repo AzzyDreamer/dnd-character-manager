@@ -1,0 +1,11 @@
+{
+	"name": "Lightly Obscured",
+	"source": "XPHB",
+	"page": 370,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"You have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks to see something in a Lightly Obscured space."
+	]
+}

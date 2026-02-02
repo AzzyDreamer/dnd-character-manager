@@ -1,0 +1,25 @@
+{
+	"name": "Enhanced Defense",
+	"source": "TCE",
+	"page": 21,
+	"otherSources": [
+		{
+			"source": "ERLW",
+			"page": 62
+		}
+	],
+	"featureType": [
+		"AI"
+	],
+	"prerequisite": [
+		{
+			"item": [
+				"A suit of armor or a shield"
+			]
+		}
+	],
+	"entries": [
+		"A creature gains a +1 bonus to Armor Class while wearing (armor) or wielding (shield) the infused item.",
+		"The bonus increases to +2 when you reach 10th level in this class."
+	]
+}

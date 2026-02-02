@@ -1,0 +1,110 @@
+{
+	"name": "Banishing Smite",
+	"source": "XPHB",
+	"page": 245,
+	"level": 5,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"The target hit by the attack roll takes an extra {@damage 5d10} Force damage from the attack. If the attack reduces the target to 50 {@variantrule Hit Points|XPHB} or fewer, the target must succeed on a Charisma saving throw or be transported to a harmless demiplane for the duration. While there, the target has the {@condition Incapacitated|XPHB} condition. When the spell ends, the target reappears in the space it left or in the nearest unoccupied space if that space is occupied."
+	],
+	"damageInflict": [
+		"force"
+	],
+	"conditionInflict": [
+		"incapacitated"
+	],
+	"miscTags": [
+		"AAD"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "TCE"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "TCE"
+				}
+			},
+			{
+				"class": {
+					"name": "Artificer",
+					"source": "EFA"
+				},
+				"subclass": {
+					"name": "Battle Smith",
+					"shortName": "Battle Smith",
+					"source": "EFA"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Noble Genies",
+					"shortName": "Noble Genies",
+					"source": "FRHoF"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			}
+		]
+	}
+}

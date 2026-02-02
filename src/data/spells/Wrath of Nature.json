@@ -1,0 +1,116 @@
+{
+	"name": "Wrath of Nature",
+	"source": "XGE",
+	"page": 171,
+	"level": 5,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You call out to the spirits of nature to rouse them against your enemies. Choose a point you can see within range. The spirits cause trees, rocks, and grasses in a 60-foot cube centered on that point to become animated until the spell ends.",
+		{
+			"type": "entries",
+			"name": "Grasses and Undergrowth",
+			"entries": [
+				"Any area of ground in the cube that is covered by grass or undergrowth is {@quickref difficult terrain||3} for your enemies."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Trees",
+			"entries": [
+				"At the start of each of your turns, each of your enemies within 10 feet of any tree in the cube must succeed on a Dexterity saving throw or take {@damage 4d6} slashing damage from whipping branches."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Roots and Vines",
+			"entries": [
+				"At the end of each of your turns, one creature of your choice that is on the ground in the cube must succeed on a Strength saving throw or become {@condition restrained} until the spell ends. A {@condition restrained} creature can use an action to make a Strength ({@skill Athletics}) check against your spell save DC, ending the effect on itself on a success."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Rocks",
+			"entries": [
+				"As a bonus action on your turn, you can cause a loose rock in the cube to launch at a creature you can see in the cube. Make a ranged spell attack against the target. On a hit, the target takes {@damage 3d8} nonmagical bludgeoning damage, and it must succeed on a Strength saving throw or fall {@condition prone}."
+			]
+		}
+	],
+	"damageInflict": [
+		"bludgeoning",
+		"slashing"
+	],
+	"conditionInflict": [
+		"prone",
+		"restrained"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"savingThrow": [
+		"dexterity",
+		"strength"
+	],
+	"abilityCheck": [
+		"strength"
+	],
+	"miscTags": [
+		"DFT",
+		"SGT",
+		"UBA"
+	],
+	"areaTags": [
+		"C",
+		"ST"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Druid",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Ranger",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		]
+	}
+}

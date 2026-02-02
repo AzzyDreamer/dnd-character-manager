@@ -1,0 +1,67 @@
+{
+	"name": "Light Bringer",
+	"source": "ABH",
+	"page": 10,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"name": "Light",
+			"known": {
+				"_": [
+					"light|xphb#c"
+				]
+			}
+		},
+		{
+			"name": "Cleric Cantrip",
+			"known": {
+				"_": [
+					{
+						"choose": "level=0|class=Cleric",
+						"count": 1
+					}
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Sacred Magic",
+			"entries": [
+				"You learn the {@spell Light|XPHB} spell and can cast it without Material components. If you already know that cantrip, you learn a different Cleric cantrip of your choice. The spell's spellcasting ability is the ability increased by this feat."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Solar Luminance",
+			"entries": [
+				"When you cast {@spell Light|XPHB}, you can have the light from the spell be sunlight. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sun's Healing",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB} while within sunlight, you can expend one of your {@variantrule Hit Point Dice|XPHB}, roll the die, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

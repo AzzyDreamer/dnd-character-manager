@@ -1,0 +1,71 @@
+{
+	"name": "Investiture of Venom",
+	"source": "GrimHollowPG24",
+	"page": 195,
+	"level": 5,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Until the spell ends, your veins bulge and become visibly green beneath your skin, your eyes weep constantly with liquid poison, and you gain the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"You have {@variantrule Immunity|XPHB} to Poison damage and the {@condition Poisoned|XPHB} condition.",
+				"You can determine if creatures you can see within 30 feet of you have {@variantrule Resistance|XPHB} or {@variantrule Immunity|XPHB} to Poison damage or {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition.",
+				"As a {@variantrule Bonus Action|XPHB}, choose a creature you can see within 30 feet of you. That creature makes a Constitution saving throw against your spell save DC. On a failed save, the creature loses {@variantrule Resistance|XPHB} to Poison damage, {@variantrule Immunity|XPHB} to Poison damage, or {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition until the end of your next turn.",
+				"As a {@action Magic|XPHB} action, a {@variantrule Line [Area of Effect]|XPHB|Line} of venom 15 feet long and 5 feet wide blasts from you in a direction you choose. Each creature in the {@variantrule Line [Area of Effect]|XPHB|Line} must make a Constitution saving throw. On a failed save, the creature takes {@damage 4d6} Poison damage and has the {@condition Poisoned|XPHB} condition until the end of your next turn. On a successful save, the creature takes half as much damage only."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"poison"
+	],
+	"conditionInflict": [
+		"poisoned"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Investiture%20of%20Venom.webp"
+}

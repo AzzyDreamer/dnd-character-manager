@@ -1,0 +1,74 @@
+{
+	"name": "Sanguine Poppet",
+	"source": "GrimHollowPG24",
+	"page": 199,
+	"level": 3,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "an object shaped like a creature worth 1+ CP",
+			"cost": 1
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend three {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. You smear the spell's Material component with your blood. The object shudders and becomes a poppet under your control.",
+		"The poppet's AC equals 10 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} and your spellcasting ability modifier, and it has 30 {@variantrule Hit Points|XPHB}. If your poppet is ever reduced to 0 {@variantrule Hit Points|XPHB} or it is more than 1 mile away, the spell ends immediately. As a {@variantrule Bonus Action|XPHB}, you can command your poppet to move 30 feet, and you can see and hear through it until the start of your next turn.",
+		"As a {@action Magic|XPHB} action, you can cause the poppet to detonate in an explosion of blood, ending this spell. Roll the {@variantrule Hit Point Dice|XPHB} expended to cast this spell. Each creature in a 30-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on the poppet makes a Dexterity saving throw, taking Necrotic damage equal to the roll on a failed save or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend an additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} for each spell slot level above 3. Additionally, the duration of this spell increases by 1 hour for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Sanguine%20Poppet.webp"
+}

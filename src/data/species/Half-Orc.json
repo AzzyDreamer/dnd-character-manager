@@ -1,0 +1,202 @@
+{
+	"name": "Half-Orc",
+	"source": "PHB",
+	"page": 40,
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"ability": [
+		{
+			"str": 2,
+			"con": 1
+		}
+	],
+	"heightAndWeight": {
+		"baseHeight": 58,
+		"heightMod": "2d10",
+		"baseWeight": 140,
+		"weightMod": "2d6"
+	},
+	"age": {
+		"mature": 14,
+		"max": 75
+	},
+	"darkvision": 60,
+	"traitTags": [
+		"Uncommon Race"
+	],
+	"skillProficiencies": [
+		{
+			"intimidation": true
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"orc": true
+		}
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "races/half-orc.mp3"
+	},
+	"entries": [
+		{
+			"name": "Age",
+			"type": "entries",
+			"entries": [
+				"Half-orcs mature a little faster than humans, reaching adulthood around age 14. They age noticeably faster and rarely live longer than 75 years."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Size",
+			"entries": [
+				"Half-orcs are somewhat larger and bulkier than humans, and they range from 5 to well over 6 feet tall. Your size is Medium."
+			]
+		},
+		{
+			"name": "Darkvision",
+			"entries": [
+				"Thanks to your orc blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+			],
+			"type": "entries"
+		},
+		{
+			"name": "Menacing",
+			"entries": [
+				"You gain proficiency in the {@skill Intimidation} skill."
+			],
+			"type": "entries"
+		},
+		{
+			"name": "Relentless Endurance",
+			"entries": [
+				"When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest."
+			],
+			"type": "entries"
+		},
+		{
+			"name": "Savage Attacks",
+			"entries": [
+				"When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit."
+			],
+			"type": "entries"
+		},
+		{
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and Orc. Orc is a harsh, grating language with hard consonants. It has no script of its own but is written in the Dwarvish script."
+			],
+			"type": "entries"
+		}
+	],
+	"raceName": "Half-Orc",
+	"raceSource": "PHB",
+	"srd": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	{
+		"type": "section",
+		"entries": [
+			{
+				"type": "entries",
+				"entries": [
+					"Whether united under the leadership of a mighty warlock or having fought to a standstill after years of conflict, orc and human tribes sometimes form alliances, joining forces into a larger horde to the terror of civilized lands nearby. When these alliances are sealed by marriages, half-orcs are born. Some half-orcs rise to become proud chiefs of orc tribes, their human blood giving them an edge over their full-blooded orc rivals. Some venture into the world to prove their worth among humans and other civilized races. Many of these become adventurers, achieving greatness for their mighty deeds and notoriety for their barbaric customs and savage fury.",
+					{
+						"type": "entries",
+						"name": "Scarred and Strong",
+						"entries": [
+							"Half-orcs' grayish pigmentation, sloping foreheads, jutting jaws, prominent teeth, and towering builds make their orcish heritage plain for all to see. Half-orcs stand between 6 and 7 feet tall and usually weigh between 180 and 250 pounds.",
+							"Orcs regard battle scars as tokens of pride and ornamental scars as things of beauty. Other scars, though, mark an Orc, or half-orc as a former slave or a disgraced exile. Any half-orc who has lived among or near orcs has scars, whether they are marks of humiliation or of pride, recounting their past exploits and injuries. Such a half-orc living among humans might display these scars proudly or hide them in shame."
+						]
+					},
+					{
+						"type": "entries",
+						"name": "The Mark of Gruumsh",
+						"entries": [
+							"The one-eyed god Gruumsh created the Orcs, and even those orcs who turn away from his worship can't fully escape his influence. The same is true of half orcs, though their human blood moderates the impact of their orcish heritage. Some half-orcs hear the whispers of Gruumsh in their dreams, calling them to unleash the rage that simmers within them. Others feel Gruumsh's exultation when they join in melee combat-and either exult along with him or shiver with fear and loathing. Half-orcs are not evil by nature, but evil does lurk within them, whether they embrace it or rebel against it.",
+							"Beyond the rage of Gruumsh, half-orcs feel emotion powerfully. Rage doesn't just quicken their pulse, it makes their bodies burn. An insult stings like acid, and sadness saps their strength. But they laugh loudly and heartily, and simple bodily pleasures-feasting, drinking, wrestling, drumming, and wild dancing-fill their hearts with joy. They tend to be short tempered and sometimes sullen, more inclined to action than contemplation and to fighting than arguing. The most accomplished half-orcs are those with enough self control to get by in a civilized land."
+						]
+					},
+					{
+						"type": "entries",
+						"name": "Half-Orc Names",
+						"entries": [
+							"Half-orcs usually have names appropriate to the culture in which they were raised. A half-orc who wants to fit in among humans might trade an orc name for a human name. Some half-orcs with human names decide to adopt a guttural orc name because they think it makes them more intimidating.",
+							{
+								"type": "list",
+								"style": "list-hang-notitle",
+								"items": [
+									{
+										"type": "item",
+										"name": "Male Orc Names:",
+										"entry": "Dench, Feng, Gell, Henk, Holg, Imsh, Keth, Krusk, Mhurren, Ront, Shump, Thokk"
+									},
+									{
+										"type": "item",
+										"name": "Female Orc Names:",
+										"entry": "Baggi, Emen, Engong, Kansif, Myev, Neega, Ovak, Ownka, Shautha, Vola, Volen, Yevelda"
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "inset",
+						"name": "Grudging Acceptance",
+						"entries": [
+							"Each half-orc finds a way to gain acceptance from those who hate orcs. Some are reserved, trying not to draw attention to themselves. A few demonstrate piety and good-heartedness as publicly as they can (whether or not such demonstrations are genuine). And some simply try to be so tough that others just avoid them."
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Uncommon Races",
+		"type": "inset",
+		"entries": [
+			"This race, and those listed below, are uncommon. They don't exist in every world of D&D, and even where they are found, they are less widespread than dwarves, elves, halflings, and humans. In the cosmopolitan cities of the D&D multiverse, most people hardly look twice at members of even the most exotic races. But the small towns and villages that dot the countryside are different. The common folk aren't accustomed to seeing members of these races, and they react accordingly.",
+			{
+				"type": "entries",
+				"name": "Dragonborn",
+				"entries": [
+					"It's easy to assume that a dragonborn is a monster, especially if his or her scales betray a chromatic heritage. Unless the dragonborn starts breathing fire and causing destruction, though, people are likely to respond with caution rather than outright fear."
+				]
+			},
+			{
+				"type": "entries",
+				"name": "Gnome",
+				"entries": [
+					"Gnomes don't look like a threat and can quickly disarm suspicion with good humor. The common folk are often curious about gnomes, likely never having seen one before, but they are rarely hostile or fearful."
+				]
+			},
+			{
+				"type": "entries",
+				"name": "Half-Elf",
+				"entries": [
+					"Although many people have never seen a half-elf, virtually everyone knows they exist. A half-elf stranger's arrival is followed by gossip behind the half-elf's back and stolen glances across the common room, rather than any confrontation or open curiosity."
+				]
+			},
+			{
+				"type": "entries",
+				"name": "Half-Orc",
+				"entries": [
+					"It's usually safe to assume that a half-orc is belligerent and quick to anger, so people watch themselves around an unfamiliar half-orc. Shopkeepers might surreptitiously hide valuable or fragile goods when a half-orc comes in, and people slowly clear out of a tavern, assuming a fight will break out soon."
+				]
+			},
+			{
+				"type": "entries",
+				"name": "Tiefling",
+				"entries": [
+					"Half-orcs are greeted with a practical caution, but tieflings are the subject of supernatural fear. The evil of their heritage is plainly visible in their features, and as far as most people are concerned, a tiefling could very well be a devil straight from the Nine Hells. People might make warding signs as a tiefling approaches, cross the street to avoid passing near, or bar shop doors before a tiefling can enter."
+				]
+			}
+		]
+	}
+]

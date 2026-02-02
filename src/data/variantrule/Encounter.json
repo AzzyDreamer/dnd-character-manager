@@ -1,0 +1,11 @@
+{
+	"name": "Encounter",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An encounter is a scene in an adventure that is part of at least one of the game's three pillars: social interaction, exploration, or combat."
+	]
+}

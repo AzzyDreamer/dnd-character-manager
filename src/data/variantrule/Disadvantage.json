@@ -1,0 +1,11 @@
+{
+	"name": "Disadvantage",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If you have Disadvantage on a {@variantrule D20 Test|XPHB}, roll two d20s and use the lower roll. A roll can't be affected by more than one Disadvantage, and {@variantrule Advantage|XPHB} and Disadvantage on the same roll cancel each other."
+	]
+}

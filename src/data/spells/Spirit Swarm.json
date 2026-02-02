@@ -1,0 +1,62 @@
+{
+	"name": "Spirit Swarm",
+	"source": "GrimHollowPG24",
+	"page": 201,
+	"level": 5,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You invite spirits to take their revenge upon a target. A creature you can see within range must make a Charisma saving throw. The target must have a Charisma of 3 or higher. On a failed save, the target takes {@damage 8d8} Psychic damage and has the {@condition Frightened|XPHB} condition until the spell ends. On a successful save, the creature takes half as much damage only."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"psychic"
+	],
+	"conditionInflict": [
+		"frightened"
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Spirit%20Swarm.webp"
+}

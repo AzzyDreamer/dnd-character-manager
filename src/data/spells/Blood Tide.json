@@ -1,0 +1,71 @@
+{
+	"name": "Blood Tide",
+	"source": "GrimHollowPG24",
+	"page": 186,
+	"level": 6,
+	"school": "C",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a shell"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend six {@variantrule Hit Point Dice|XPHB} or the spell automatically fails.",
+		"A gout of blood forming a 100-foot-long, 10-foot-wide {@variantrule Line [Area of Effect]|XPHB|Line} blasts out from you in a direction you choose. Each creature in the {@variantrule Line [Area of Effect]|XPHB|Line} must make a Dexterity saving throw. On a failed save, the creature is pushed 100 feet away from you in a direction following the {@variantrule Line [Area of Effect]|XPHB|Line}, has the {@condition Prone|XPHB} condition, and takes Bludgeoning damage equal to a roll of the {@variantrule Hit Point Dice|XPHB} expended on the spell plus your spellcasting ability modifier. On a successful save, the creature takes half as much damage only."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend one additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} for each spell slot level above 6."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"FMV"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Blood%20Tide.webp"
+}

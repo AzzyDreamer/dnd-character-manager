@@ -1,0 +1,59 @@
+{
+	"name": "Arboreal Curse",
+	"source": "GrimHollowPG24",
+	"page": 185,
+	"level": 7,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a cup of sap"
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"dispel"
+			]
+		}
+	],
+	"entries": [
+		"You attempt to turn one creature that you can see within range into wood. The creature makes a Constitution saving throw. On a failed save, it has the {@condition Restrained|XPHB} condition as its flesh begins to harden into bark. On a successful save, its {@variantrule Speed|XPHB} is 0 until the start of your next turn.",
+		"A creature {@condition Restrained|XPHB} by this spell makes a Constitution saving throw at the end of each of its turns. If it successfully saves three times, the condition ends. If it fails three times, it is turned into a tree and has the {@condition Petrified|XPHB} condition. The successes and failures needn't be consecutive; keep track of both until the target collects three of a kind.",
+		"If the creature is burned, chopped down, or otherwise destroyed while {@condition Petrified|XPHB}, it is killed.",
+		"A creature remains transformed unless the effect is reversed within 1 year with {@spell Greater Restoration|XPHB}, {@spell Wish|XPHB}, or similar magic. If the creature spends 1 year and 1 day as a tree, the transformation becomes permanent, and nothing can return the creature to its original form."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"petrified",
+		"restrained"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"PRM",
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Arboreal%20Curse.webp"
+}

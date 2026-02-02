@@ -1,0 +1,9 @@
+{
+	"name": "Trade Good",
+	"abbreviation": "TG",
+	"source": "XDMG",
+	"page": 213,
+	"entries": [
+		"Merchants commonly exchange trade goods without using currency."
+	]
+}

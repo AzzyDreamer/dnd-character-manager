@@ -1,0 +1,30 @@
+{
+	"name": "Harper Pin",
+	"source": "FRAiF",
+	"page": 244,
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"wondrous": true,
+	"entries": [
+		"When you attune to this pin, choose a Harper persona (see the {@book Forgotten Realms: Heroes of Faerûn|FRHoF|6|Harper Personas} for examples), including an alignment and a creature type. While wearing this pin, you register as that persona when targeted by magic to determine your creature type, alignment, or location.",
+		"The type of pin determines its rarity and effects.",
+		{
+			"type": "entries",
+			"name": "Silver Harper Pin",
+			"entries": [
+				"When you attune to this pin, you can devise a general line of thought of 25 words or fewer. While you wear this pin, a creature that reads your thoughts detects your preprogrammed line of thought instead. A creature that takes the {@action Study|XPHB} action while reading your thoughts makes a DC 13 Intelligence ({@skill Investigation|XPHB}) check. On a successful check, it becomes aware that the detected thoughts are preprogrammed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Golden Harper Pin",
+			"entries": [
+				"While wearing this pin, you can cast the {@spell Nondetection|XPHB} spell on yourself. The duration of this spell is permanent until you disable the effect (no action required), you remove the pin, or you are no longer attuned to the pin."
+			]
+		}
+	],
+	"attachedSpells": [
+		"nondetection|xphb"
+	],
+	"hasFluffImages": true
+}

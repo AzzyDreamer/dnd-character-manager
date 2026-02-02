@@ -1,0 +1,11 @@
+{
+	"name": "Crawling",
+	"source": "XPHB",
+	"page": 364,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"While you're crawling, each foot of movement costs 1 extra foot (2 extra feet in {@variantrule Difficult Terrain|XPHB|difficult terrain})."
+	]
+}

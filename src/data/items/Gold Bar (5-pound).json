@@ -1,0 +1,14 @@
+{
+	"name": "Gold Bar (5-pound)",
+	"source": "XDMG",
+	"page": 213,
+	"type": "TB|XDMG",
+	"rarity": "none",
+	"weight": 5,
+	"value": 25000,
+	"barDimensions": {
+		"l": 5,
+		"w": 2,
+		"h": 0.75
+	}
+}

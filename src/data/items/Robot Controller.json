@@ -1,0 +1,36 @@
+{
+	"name": "Robot Controller",
+	"source": "QftIS",
+	"page": 193,
+	"type": "G",
+	"rarity": "none",
+	"age": "futuristic",
+	"charges": 3,
+	"entries": [
+		"This small handheld device features a glass pane with a glowing display that responds to your touch.",
+		"The controller is powered by an {@item energy cell} stored in the device. Placing a full {@item energy cell} in the device gives the device 3 charges.",
+		"As an action while holding this device, you can expend 1 of its charges to cause one of the following effects:",
+		{
+			"name": "Control",
+			"type": "entries",
+			"entries": [
+				"One Construct of your choice within 60 feet of you must succeed on a {@dc 15} Wisdom saving throw or have the {@condition charmed} condition for 1 minute. While {@condition charmed} in this way, the Construct obeys your verbal commands, and you and the Construct can communicate remotely with each other through the device. Whenever the {@condition charmed} Construct takes damage, it can repeat the saving throw, ending the effect on itself on a success."
+			]
+		},
+		{
+			"name": "Disrupt",
+			"type": "entries",
+			"entries": [
+				"Constructs of your choice within 30 feet of you must succeed on a {@dc 15} Wisdom saving throw or have the {@condition incapacitated} condition for 1 minute. An {@condition incapacitated} Construct can repeat the saving throw at the end of its turns, ending the effect on itself on a success."
+			]
+		},
+		{
+			"name": "Replacing the Energy Cell",
+			"type": "entries",
+			"entries": [
+				"While the device has charges remaining, its {@item energy cell} can't be removed. Once the device has 0 charges, you can replace the {@item energy cell} with a new cell by using an action or a bonus action."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

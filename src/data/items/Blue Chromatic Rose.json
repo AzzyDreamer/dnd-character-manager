@@ -1,0 +1,15 @@
+{
+	"name": "Blue Chromatic Rose",
+	"source": "WBtW",
+	"page": 208,
+	"resist": [
+		"lightning"
+	],
+	"detail1": "crackles with lightning",
+	"rarity": "rare",
+	"wondrous": true,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Chromatic Rose|WBtW}"
+	]
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Lunging Attack",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can expend one Superiority Die and take the {@action Dash|XPHB} action. If you move at least 5 feet in a straight line immediately before hitting with a melee attack as part of the {@action Attack|XPHB} action on this turn, you can add the Superiority Die to the attack's damage roll."
+	]
+}

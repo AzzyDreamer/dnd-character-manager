@@ -1,0 +1,10 @@
+{
+	"name": "Perception",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "wis",
+	"entries": [
+		"Using a combination of senses, notice something that's easy to miss."
+	]
+}

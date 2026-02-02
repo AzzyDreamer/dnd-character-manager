@@ -1,0 +1,127 @@
+{
+	"name": "Satyr",
+	"source": "MPMM",
+	"page": 29,
+	"lineage": "VRGR",
+	"creatureTypes": [
+		"fey"
+	],
+	"size": [
+		"M"
+	],
+	"speed": 35,
+	"traitTags": [
+		"Magic Resistance",
+		"Natural Weapon"
+	],
+	"skillProficiencies": [
+		{
+			"performance": true,
+			"persuasion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyMusicalInstrument": 1
+		}
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "races/satyr.mp3"
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Creature Type",
+			"entries": [
+				"You are a Fey."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ram",
+			"entries": [
+				"You can use your head and horns to make unarmed strikes. When you hit with them, the strike deals {@damage 1d6} + your Strength modifier bludgeoning damage, instead of the bludgeoning damage normal for an unarmed strike."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Magic Resistance",
+			"entries": [
+				"You have advantage on saving throws against spells."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mirthful Leaps",
+			"entries": [
+				"Whenever you make a long jump or a high jump, you can roll a {@dice d8} and add the number rolled to the number of feet you cover, even when making a standing jump. This extra distance costs movement as usual."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Reveler",
+			"entries": [
+				"As an embodiment of revelry, you have proficiency in the {@skill Performance} and {@skill Persuasion} skills, and you have proficiency with one {@item musical instrument|PHB} of your choice."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"anyStandard": 1
+		}
+	]
+}
+
+[
+	"Originating in the Feywild—a realm of pure emotion-satyrs thrive on the energy of merriment. They resemble elves but have goatlike legs, cloven hooves, and ram or goat horns. The magic of the fey realm has given them an innate ability to perform, to delight, and to resist magical intrusion. While they're usually found in the Feywild, satyrs do wander to other planes of existence, most often to the Material Plane. There they seek to bring a bit of their home plane's splendor to other worlds."
+]

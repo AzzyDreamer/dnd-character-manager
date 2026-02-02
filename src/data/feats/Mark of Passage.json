@@ -1,0 +1,122 @@
+{
+	"name": "Mark of Passage",
+	"source": "EFA",
+	"page": 41,
+	"category": "D",
+	"prerequisite": [
+		{
+			"campaign": [
+				"Eberron"
+			],
+			"exclusiveFeatCategory": [
+				"D"
+			]
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"misty step|xphb"
+						]
+					}
+				}
+			},
+			"expanded": {
+				"s1": [
+					"expeditious retreat|xphb",
+					"jump|xphb"
+				],
+				"s2": [
+					"find steed|xphb",
+					"pass without trace|xphb"
+				],
+				"s3": [
+					"blink|xphb",
+					"phantom steed|xphb"
+				],
+				"s4": [
+					"dimension door|xphb",
+					"freedom of movement|xphb"
+				],
+				"s5": [
+					"teleportation circle|xphb"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Courier's Speed",
+			"entries": [
+				"Your {@variantrule Speed|XPHB} increases by 5 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Intuitive Motion",
+			"entries": [
+				"When you make a Strength ({@skill Athletics|XPHB}) or Dexterity ({@skill Acrobatics|XPHB}) check, you can roll {@dice 1d4} and add the number rolled to the ability check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Magical Passage",
+			"entries": [
+				"You always have the {@spell Misty Step|XPHB} spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast it using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells of the Mark",
+			"entries": [
+				"If you have the Spellcasting or Pact Magic class feature, the spells on the Mark of Passage Spells table are added to that feature's spell list.",
+				{
+					"type": "table",
+					"caption": "Mark of Passage Spells",
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"colLabels": [
+						"Spell Level",
+						"Spells"
+					],
+					"rows": [
+						[
+							"1",
+							"{@spell Expeditious Retreat|XPHB}, {@spell Jump|XPHB}"
+						],
+						[
+							"2",
+							"{@spell Find Steed|XPHB}, {@spell Pass without Trace|XPHB}"
+						],
+						[
+							"3",
+							"{@spell Blink|XPHB}, {@spell Phantom Steed|XPHB}"
+						],
+						[
+							"4",
+							"{@spell Dimension Door|XPHB}, {@spell Freedom of Movement|XPHB}"
+						],
+						[
+							"5",
+							"{@spell Teleportation Circle|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	]
+}

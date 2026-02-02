@@ -1,0 +1,43 @@
+{
+	"name": "Exhaustion",
+	"source": "XPHB",
+	"page": 365,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Exhaustion condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Exhaustion Levels",
+					"entries": [
+						"This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "D20 Tests Affected",
+					"entries": [
+						"When you make a D20 Test the roll is reduced by 2 times your Exhaustion level."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Speed Reduced",
+					"entries": [
+						"Your {@variantrule Speed|XPHB} is reduced by a number of feet equal to 5 times your Exhaustion level."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Removing Exhaustion Levels",
+					"entries": [
+						"Finishing a {@variantrule Long Rest|XPHB} removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends."
+					]
+				}
+			]
+		}
+	]
+}

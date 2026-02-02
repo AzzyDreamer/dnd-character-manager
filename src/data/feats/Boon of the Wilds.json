@@ -1,0 +1,37 @@
+{
+	"name": "Boon of the Wilds",
+	"source": "GrimHollowPG24",
+	"page": 121,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Apex Predator",
+			"entries": [
+				"When you enter your Hybrid Form, you gain 25 {@variantrule Temporary Hit Points|XPHB}. At the end of each of your turns while in Hybrid Form, if you have no {@variantrule Temporary Hit Points|XPHB}, you gain 10 {@variantrule Temporary Hit Points|XPHB}. While you are in your Hybrid Form and have no {@variantrule Temporary Hit Points|XPHB}, you have {@variantrule Advantage|XPHB} on attack rolls."
+			]
+		}
+	]
+}

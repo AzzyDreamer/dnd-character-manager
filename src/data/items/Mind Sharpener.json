@@ -1,0 +1,17 @@
+{
+	"name": "Mind Sharpener",
+	"source": "EFA",
+	"page": 112,
+	"type": "RG|XDMG",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4}",
+	"charges": 4,
+	"entries": [
+		"The item has 4 charges. When you fail a Constitution saving throw to maintain {@status Concentration|XPHB}, you can take a {@variantrule Reaction|XPHB} and expend 1 of the item's charges to succeed instead. The item regains {@dice 1d4} expended charges daily at dawn."
+	],
+	"classFeatures": [
+		"replicate magic item|artificer|efa|2|efa"
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"name": "Crimson Lash",
+	"source": "GrimHollowPG24",
+	"page": 189,
+	"level": 1,
+	"school": "C",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend one {@variantrule Hit Point Dice|XPHB|Hit Point Die} or the spell automatically fails. A writhing lash of coagulated blood springs from your hand with the following properties:",
+		{
+			"type": "list",
+			"items": [
+				"It counts as a Simple weapon with which you are proficient.",
+				"It has the Light, Finesse, and Reach properties.",
+				"You can use your spellcasting ability modifier instead of your Strength or Dexterity modifier for the attack and damage rolls with this weapon.",
+				"Its damage die is the same as the {@variantrule Hit Point Dice|XPHB|Hit Point Die} expended to cast the spell, and the damage dealt is Necrotic.",
+				"Each time a creature takes damage from this weapon, its {@variantrule Hit Points|XPHB|Hit Point} maximum decreases by an amount equal to the damage taken."
+			]
+		}
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"If you cast this spell using a level 3-4 spell slot, you can make two weapon attacks with this weapon when you take the {@action Attack|XPHB} action. If you use a level 5+ spell slot, you can make three weapon attacks with this weapon when you take the {@action Attack|XPHB} action."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Crimson%20Lash.webp"
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Lightly Armored",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"armorProficiencies": [
+		{
+			"light": true,
+			"shield": true
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Armor Training",
+			"entries": [
+				"You gain training with Light armor and Shields."
+			]
+		}
+	]
+}

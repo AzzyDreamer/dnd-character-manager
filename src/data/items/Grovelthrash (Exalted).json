@@ -1,0 +1,44 @@
+{
+	"name": "Grovelthrash (Exalted)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Grovelthrash (Awakened)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Exalted",
+					"entries": [
+						"When the warhammer reaches an exalted state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"The weapon's bonus to attack and damage rolls increases to +3.",
+								"When you have fewer hit points than half your hit point maximum, the warhammer deals an extra {@damage 2d6} bludgeoning damage on a hit. You can burrow through solid rock at half your burrowing speed and leave a 5-foot-diameter tunnel in your wake.",
+								"As an action, you can use the warhammer to cast one of the following spells from it (save {@dc 17}): {@spell earthquake}, {@spell meld into stone}, or {@spell stone shape}. Once a spell has been cast using the warhammer, that spell can't be cast from the warhammer again until the next dawn."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"bonusWeapon": "+3",
+	"attachedSpells": {
+		"daily": {
+			"1": [
+				"earthquake",
+				"meld into stone",
+				"stone shape"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

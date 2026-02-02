@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Bountiful Health",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Augmented Health",
+			"entries": [
+				"When you gain {@variantrule Temporary Hit Points|XPHB}, increase the number of {@variantrule Temporary Hit Points|XPHB} you gain by 5."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Superior Recuperation",
+			"entries": [
+				"When you spend one or more {@variantrule Hit Point Dice|XPHB} to regain {@variantrule Hit Points|XPHB}, you can instead use the highest number possible for each die."
+			]
+		}
+	]
+}

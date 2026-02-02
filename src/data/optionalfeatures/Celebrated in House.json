@@ -1,0 +1,28 @@
+{
+	"name": "Celebrated in House",
+	"source": "EFA",
+	"page": 68,
+	"featureType": [
+		"RP"
+	],
+	"prerequisite": [
+		{
+			"otherSummary": {
+				"entry": "Renown 25+ with a {@book Dragonmarked House|EFA|5|Dragonmarked House Renown}",
+				"entrySummary": "Dragonmarked House Renown 25+"
+			}
+		}
+	],
+	"entries": [
+		"When you request a favor from your house (as decribed under \"{@optfeature Favored in House|EFA}\"), it can take one of the following additional forms:",
+		{
+			"type": "list",
+			"items": [
+				"A dragonmarked member of the house casts for you a level 3 or 4 spell associated with the house's mark at no cost.",
+				"A member of the house casts for you a different spell of level 6 or lower at half the usual cost.",
+				"You gain a bodyguard for the duration of your next mission for the house (maximum of 1 week). The bodyguard—a creature with a {@variantrule Challenge Rating|XPHB} no higher than half your level (round up)—is appropriate to your house."
+			]
+		},
+		"In addition, your house stipend increases to support your Wealthy lifestyle (4 GP per day)."
+	]
+}

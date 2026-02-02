@@ -1,0 +1,11 @@
+{
+	"name": "Attack Roll",
+	"source": "XPHB",
+	"page": 361,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An attack roll is a {@variantrule D20 Test|XPHB} that represents making an attack with a weapon, an {@variantrule Unarmed Strike|XPHB}, or a spell."
+	]
+}

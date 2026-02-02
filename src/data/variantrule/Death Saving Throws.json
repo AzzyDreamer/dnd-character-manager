@@ -1,0 +1,44 @@
+{
+	"type": "entries",
+	"name": "Death Saving Throws",
+	"entries": [
+		"When you start your turn with 0 HP, roll {@dice 1d20}, and you succeed on a 10+.",
+		{
+			"type": "list",
+			"style": "list-hang",
+			"items": [
+				{
+					"type": "item",
+					"name": "Third Success",
+					"entries": [
+						"You become {@variantrule Stable|XPHB}."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Third Failure",
+					"entries": [
+						"You die."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Rolling a 1",
+					"entries": [
+						"Counts as two failures."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Rolling a 20",
+					"entries": [
+						"You regain 1 Hit Point."
+					]
+				}
+			]
+		},
+		"If you take damage at 0 HP, it counts as a failed {@variantrule Death Saving Throw|XPHB|Death Save} or two failures if the damage is from a {@variantrule Critical Hit|XPHB}."
+	],
+	"ruleType": "C",
+	"source": "XScreen"
+}

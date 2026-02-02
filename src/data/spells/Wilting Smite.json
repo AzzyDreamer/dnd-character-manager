@@ -1,0 +1,43 @@
+{
+	"name": "Wilting Smite",
+	"source": "GrimHollowPG24",
+	"page": 206,
+	"level": 2,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend two {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. The creature loses all Resistances to damage until the start of your next turn. The target hit by the strike takes extra Necrotic damage from the attack. To determine this damage, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Wilting%20Smite.webp"
+}

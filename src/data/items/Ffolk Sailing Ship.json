@@ -1,0 +1,15 @@
+{
+	"name": "Ffolk Sailing Ship",
+	"source": "FRAiF",
+	"page": 166,
+	"type": "SHP|XPHB",
+	"rarity": "none",
+	"value": 2000000,
+	"crew": 20,
+	"vehAc": 15,
+	"vehHp": 400,
+	"vehDmgThresh": 20,
+	"vehSpeed": 2,
+	"capPassenger": 20,
+	"capCargo": 100
+}

@@ -1,0 +1,20 @@
+{
+	"name": "Modern Bullets (10)",
+	"source": "DMG",
+	"page": 268,
+	"edition": "classic",
+	"type": "AF|DMG",
+	"rarity": "none",
+	"weight": 1,
+	"age": "modern",
+	"bulletFirearm": true,
+	"packContents": [
+		{
+			"item": "modern bullet",
+			"quantity": 10
+		}
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

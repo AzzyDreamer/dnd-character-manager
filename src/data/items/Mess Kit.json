@@ -1,0 +1,14 @@
+{
+	"name": "Mess Kit",
+	"source": "PHB",
+	"page": 152,
+	"srd": true,
+	"basicRules": true,
+	"type": "G",
+	"rarity": "none",
+	"weight": 1,
+	"value": 20,
+	"entries": [
+		"This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or shallow bowl."
+	]
+}

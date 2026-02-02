@@ -1,0 +1,70 @@
+{
+	"name": "Flash Fever",
+	"source": "GrimHollowPG24",
+	"page": 192,
+	"level": 3,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "flint and steel"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Choose a creature that you can see within range. The creature breaks into a cold sweat and makes a Constitution saving throw. On a failed save, the cold sweat becomes a burning fever and the creature takes {@damage 4d6} Fire damage. On a successful save, the spell ends.",
+		"For the duration, at the start of the target's turn, it takes {@damage 2d6} Fire damage. The target must repeat the saving throw at the end of each of its turns until it gets three successes or failures. If the target succeeds on three of these saves, the spell ends. If the target fails three of the saves, it takes {@damage 8d6} Fire damage and the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The initial damage increases by {@dice 1d6} for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"fire"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Flash%20Fever.webp"
+}

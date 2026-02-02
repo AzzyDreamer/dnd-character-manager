@@ -1,0 +1,59 @@
+{
+	"name": "Crown of Radiance",
+	"source": "GrimHollowPG24",
+	"page": 190,
+	"level": 6,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			}
+		}
+	],
+	"entries": [
+		"A flaming crown of holy light adorns your head until the spell ends. A Fiend, Fey, or Undead that moves within 30 feet of you or begins its turn within 30 feet of you takes {@damage 2d8} Radiant damage.",
+		"The crown sheds {@variantrule Bright Light|XPHB} in a 30-foot radius and {@variantrule Dim Light|XPHB} for an additional 30 feet."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"radiant"
+	],
+	"miscTags": [
+		"LGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Crown%20of%20Radiance.webp"
+}

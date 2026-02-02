@@ -1,0 +1,57 @@
+{
+	"name": "Zephyr Strike",
+	"source": "XGE",
+	"page": 171,
+	"level": 1,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You move like the wind. Until the spell ends, your movement doesn't provoke opportunity attacks.",
+		"Once before the spell ends, you can give yourself advantage on one weapon attack roll on your turn. That attack deals an extra {@damage 1d8} force damage on a hit. Whether you hit or miss, your walking speed increases by 30 feet until the end of that turn."
+	],
+	"damageInflict": [
+		"force"
+	],
+	"miscTags": [
+		"AAD",
+		"ADV"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Ranger",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		]
+	}
+}

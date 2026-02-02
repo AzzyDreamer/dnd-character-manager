@@ -1,0 +1,38 @@
+{
+	"name": "Cult of the Dragon Initiate",
+	"source": "FRHoF",
+	"page": 37,
+	"category": "O",
+	"languageProficiencies": [
+		{
+			"draconic": true
+		},
+		{
+			"any": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Dragon's Tongue",
+			"entries": [
+				"You know Draconic. If you already know Draconic when you select this feat, you instead learn one language of your choice from the language tables in the Player's Handbook or Chapter 2 of this book."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon's Terror",
+			"entries": [
+				"You can take a {@action Magic|XPHB} action to instill terror in a creature you can see within 30 feet of yourself. The target must succeed on a Wisdom saving throw (DC 8 plus your Wisdom modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}) or have the {@condition Frightened|XPHB} condition until the end of your next turn. If the target succeeds on the save or when the effect ends for a target, the target is immune to this effect for 24 hours."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Inspired by Fear",
+			"entries": [
+				"When you cause a creature to have the {@condition Frightened|XPHB} condition and you are the source of its fear, you can gain {@variantrule Heroic Inspiration|XPHB} if you lack it. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

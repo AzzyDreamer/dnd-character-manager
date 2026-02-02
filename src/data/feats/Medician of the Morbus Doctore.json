@@ -1,0 +1,32 @@
+{
+	"name": "Medician of the Morbus Doctore",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"triage expert|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You are a master of the medical sciences because of your association with a medical institute. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Adept Medic",
+			"entries": [
+				"When you use the Blood and Bone benefit of the Triage Expert feat, the creature can spend up to three {@variantrule Hit Point Dice|XPHB} instead of one."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Battle Surgeon",
+			"entries": [
+				"When you use the Blood and Bone benefit of the Triage Expert feat, the creature can spend three {@variantrule Hit Point Dice|XPHB} to end one of the following conditions on itself instead of regaining {@variantrule Hit Points|XPHB}: {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, {@condition Poisoned|XPHB}, or {@condition Stunned|XPHB}.",
+				"Alternatively, you can cure one {@variantrule Grievous Wound|GrimHollowPG24} affecting the creature (see Grim Hollow {@variantrule Campaign|XPHB} Guide)."
+			]
+		}
+	]
+}

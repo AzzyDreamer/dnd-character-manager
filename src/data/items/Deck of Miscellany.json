@@ -1,0 +1,345 @@
+{
+	"name": "Deck of Miscellany",
+	"source": "BMT",
+	"page": 41,
+	"rarity": "uncommon",
+	"wondrous": true,
+	"entries": [
+		"This wooden box contains a set of thirty-two parchment cards.",
+		{
+			"type": "table",
+			"caption": "Deck of Miscellany",
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"colLabels": [
+				"{@dice 1d32|Card}",
+				"Item"
+			],
+			"rows": [
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 1
+						},
+						"entry": " 3 {@color ♦|#ff0000}"
+					},
+					"Wooden {@item abacus|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 2
+						},
+						"entry": " 4 {@color ♦|#ff0000}"
+					},
+					"Four {@item Perfume (vial)|PHB|vials of perfume}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 3
+						},
+						"entry": " 5 {@color ♦|#ff0000}"
+					},
+					"5 days' worth of {@item Rations (1 day)|PHB|rations}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 4
+						},
+						"entry": " 6 {@color ♦|#ff0000}"
+					},
+					"{@item Iron pot|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 5
+						},
+						"entry": " 7 {@color ♦|#ff0000}"
+					},
+					"{@item Disguise kit|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 6
+						},
+						"entry": " 8 {@color ♦|#ff0000}"
+					},
+					"Window (up to 5 feet wide and 5 feet high), which you can place on a vertical surface up to 5 feet thick and which allows you to look through the surface"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 7
+						},
+						"entry": " 9 {@color ♦|#ff0000}"
+					},
+					"{@item Manacles|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 8
+						},
+						"entry": "10 {@color ♦|#ff0000}"
+					},
+					"Ten {@item Parchment (one sheet)|PHB|sheets of parchment}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 9
+						},
+						"entry": " 3 {@color ♥|#ff0000}"
+					},
+					"Three {@item dagger|PHB|daggers}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 10
+						},
+						"entry": " 4 {@color ♥|#ff0000}"
+					},
+					"Four {@item Oil (flask)|PHB|flasks of oil}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 11
+						},
+						"entry": " 5 {@color ♥|#ff0000}"
+					},
+					"Five silk {@item robes|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 12
+						},
+						"entry": " 6 {@color ♥|#ff0000}"
+					},
+					"{@item Forgery kit|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 13
+						},
+						"entry": " 7 {@color ♥|#ff0000}"
+					},
+					"{@item Quarterstaff|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 14
+						},
+						"entry": " 8 {@color ♥|#ff0000}"
+					},
+					"{@item Fishing tackle|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 15
+						},
+						"entry": " 9 {@color ♥|#ff0000}"
+					},
+					"Leather {@item pouch|PHB} containing 18 gp"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 16
+						},
+						"entry": "10 {@color ♥|#ff0000}"
+					},
+					"10 {@item crossbow bolt|PHB|crossbow bolts}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 17
+						},
+						"entry": " 3 ♣"
+					},
+					"Three {@item book|PHB|books}, written in {@language Common}, about random historical events"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 18
+						},
+						"entry": " 4 ♣"
+					},
+					"Canvas {@item Two-Person Tent|PHB|tent}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 19
+						},
+						"entry": " 5 ♣"
+					},
+					"{@item Silk Rope (50 feet)|PHB|50 feet of coiled silk rope}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 20
+						},
+						"entry": " 6 ♣"
+					},
+					"Two {@item crowbar|PHB|crowbars}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 21
+						},
+						"entry": " 7 ♣"
+					},
+					"{@item Healer's kit|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 22
+						},
+						"entry": " 8 ♣"
+					},
+					"Eight gems worth 5 gp each"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 23
+						},
+						"entry": " 9 ♣"
+					},
+					"{@item Lamp|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 24
+						},
+						"entry": "10 ♣"
+					},
+					"{@item Chain (10 feet)|PHB|10 feet of iron chain}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 25
+						},
+						"entry": " 3 ♠"
+					},
+					"Three {@item spear|PHB|spears}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 26
+						},
+						"entry": " 4 ♠"
+					},
+					"{@item Steel mirror|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 27
+						},
+						"entry": " 5 ♠"
+					},
+					"15-foot wooden pole"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 28
+						},
+						"entry": " 6 ♠"
+					},
+					"Burlap {@item sack|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 29
+						},
+						"entry": " 7 ♠"
+					},
+					"Two sets of {@item fine clothes|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 30
+						},
+						"entry": " 8 ♠"
+					},
+					"{@item Shovel|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 31
+						},
+						"entry": " 9 ♠"
+					},
+					"{@item Light hammer|PHB}"
+				],
+				[
+					{
+						"type": "cell",
+						"roll": {
+							"exact": 32
+						},
+						"entry": "10 ♠"
+					},
+					"Ten {@item arrow|PHB|arrows}"
+				]
+			]
+		},
+		"The face of each card bears an illustration of a different item or set of items. As an action, you can draw a card of your choice from the deck and throw it to the ground in an unoccupied space within 5 feet of yourself. When the card hits the ground, the card permanently transforms into the item or set of items depicted on its face. An altered deck of real-world playing cards can simulate the deck, as shown on the Deck of Miscellany table."
+	]
+}

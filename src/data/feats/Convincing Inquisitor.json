@@ -1,0 +1,30 @@
+{
+	"name": "Convincing Inquisitor",
+	"source": "GrimHollowPG24",
+	"page": 114,
+	"category": "O",
+	"entries": [
+		"You know how to spot a liar, and you can get people to see your way, whether through charm, reasonable arguments, or force of will. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Charming Presence",
+			"entries": [
+				"When you take the {@action Influence|XPHB} action, you don't have {@variantrule Disadvantage|XPHB} on checks to influence {@variantrule Hostile [Attitude]|XPHB|Hostile} creatures, and you have {@variantrule Advantage|XPHB} on checks to influence {@variantrule Indifferent [Attitude]|XPHB|Indifferent} creatures."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Multiple Paths",
+			"entries": [
+				"You can use any ability modifier when you take the {@action Influence|XPHB} action to make an {@skill Intimidation|XPHB} or  {@skill Persuasion|XPHB} check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Zealous Insight",
+			"entries": [
+				"When you succeed on a {@action Search|XPHB} action's Wisdom ({@skill Insight|XPHB}) check to detect lies or evasive answers, you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls involving combat against that creature for 1 hour."
+			]
+		}
+	]
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Boon of the Archlich",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Vessel of Vitality",
+			"entries": [
+				"Whenever you finish a {@variantrule Long Rest|XPHB}, if your {@optfeature Soul Vessel|GrimHollowPG24} is not charged, it gains a soul and becomes charged."
+			]
+		}
+	]
+}

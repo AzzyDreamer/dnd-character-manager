@@ -1,0 +1,12 @@
+{
+	"name": "Map",
+	"source": "XPHB",
+	"page": 227,
+	"basicRules2024": true,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 100,
+	"entries": [
+		"If you consult an accurate Map, you gain a +5 bonus to Wisdom ({@skill Survival|XPHB}) checks you make to find your way in the place represented on it."
+	]
+}

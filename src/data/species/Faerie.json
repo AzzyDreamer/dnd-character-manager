@@ -1,0 +1,141 @@
+{
+	"name": "Faerie",
+	"source": "LFL",
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"_versions": [
+		{
+			"name": "Faerie; Lorwyn",
+			"source": "LFL",
+			"_mod": {
+				"entries": [
+					{
+						"mode": "removeArr",
+						"names": "Faerie Lineage"
+					}
+				]
+			}
+		},
+		{
+			"name": "Faerie; Shadowmoor",
+			"source": "LFL",
+			"_mod": {
+				"entries": [
+					{
+						"mode": "prependArr",
+						"items": {
+							"type": "entries",
+							"name": "Darkvision",
+							"entries": [
+								"You have {@sense Darkvision|XPHB} with a range of 120 feet."
+							]
+						}
+					},
+					{
+						"mode": "removeArr",
+						"names": "Faerie Lineage"
+					}
+				]
+			},
+			"darkvision": 120
+		}
+	],
+	"creatureTypes": [
+		"fey"
+	],
+	"size": [
+		"S"
+	],
+	"speed": {
+		"walk": 30,
+		"fly": true
+	},
+	"additionalSpells": [
+		{
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"faerie fire"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"enlarge/reduce"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": [
+					"druidcraft#c"
+				]
+			}
+		}
+	],
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Creature Type",
+			"entries": [
+				"You are a Fey."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fairy Magic",
+			"entries": [
+				"You know the {@spell druidcraft} cantrip. Starting at 3rd level, you can cast the {@spell faerie fire} spell with this trait. Starting at 5th level, you can also cast the {@spell enlarge/reduce} spell with this trait. Once you cast {@spell faerie fire} or {@spell enlarge/reduce} with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.",
+				"Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Flight",
+			"entries": [
+				"Because of your wings, you have a flying speed equal to your walking speed. You can't use this flying speed if you're wearing medium or heavy armor."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Faerie Lineage",
+			"entries": [
+				"As a native of either Lorwyn and Shadowmoor, you may gain additional traits.",
+				{
+					"type": "list",
+					"style": "list-hang-notitle",
+					"items": [
+						{
+							"type": "item",
+							"name": "Lorwyn",
+							"entries": [
+								"You do not gain any additional traits."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Shadowmoor",
+							"entries": [
+								"You have {@sense Darkvision|XPHB} with a range of 120 feet."
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+[
+	"Known for their mischief, faeries resemble insects with humanoid features. Their size and shape may vary, but all have antennae, black eyes, chitinous skin, and insectoid legs and wings. Every faerie is born from a flower and possesses innate magic, which many use to play pranks.",
+	"Some Lorwyn faeries serve Queen Oura, who has proclaimed herself the faeries' ruler. Not all faeries recognize Oura's authority, however. In Shadowmoor, faeries might instead worship Queen Maralen, the elf who overthrew the previous faerie queen and, some say, ushered in the clashing of Lorwyn and Shadowmoor. (See {@book \"Lorwyn-Shadowmoor's History\"|LFL|0|Lorwyn-Shadowmoor's History} in the introduction for more information.)"
+]

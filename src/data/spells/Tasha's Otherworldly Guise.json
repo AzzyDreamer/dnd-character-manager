@@ -1,0 +1,128 @@
+{
+	"name": "Tasha's Otherworldly Guise",
+	"source": "TCE",
+	"page": 116,
+	"level": 6,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "an object engraved with a symbol of the Outer Planes, worth at least 500 gp",
+			"cost": 50000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"Uttering an incantation, you draw on the magic of the Lower Planes or Upper Planes (your choice) to transform yourself. You gain the following benefits until the spell ends:",
+		{
+			"type": "list",
+			"items": [
+				"You are immune to fire and poison damage (Lower Planes) or radiant and necrotic damage (Upper Planes).",
+				"You are immune to the {@condition poisoned} condition (Lower Planes) or the {@condition charmed} condition (Upper Planes).",
+				"Spectral wings appear on your back, giving you a flying speed of 40 feet.",
+				"You have a +2 bonus to AC.",
+				"All your weapon attacks are magical, and when you make a weapon attack, you can use your spellcasting ability modifier, instead of Strength or Dexterity, for the attack and damage rolls.",
+				"You can attack twice, instead of once, when you take the {@action Attack} action on your turn. You ignore this benefit if you already have a feature, like Extra Attack, that lets you attack more than once when you take the Attack action on your turn."
+			]
+		}
+	],
+	"damageImmune": [
+		"fire",
+		"poison",
+		"radiant",
+		"necrotic"
+	],
+	"conditionImmune": [
+		"charmed",
+		"poisoned"
+	],
+	"miscTags": [
+		"MAC"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Sorcerer",
+				"source": "PHB",
+				"definedInSource": "TCE"
+			},
+			{
+				"name": "Warlock",
+				"source": "PHB",
+				"definedInSource": "TCE"
+			},
+			{
+				"name": "Wizard",
+				"source": "PHB",
+				"definedInSource": "TCE"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "TCE"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB",
+				"definedInSource": "TCE"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "TCE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

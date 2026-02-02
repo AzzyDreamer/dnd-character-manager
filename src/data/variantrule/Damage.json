@@ -1,0 +1,11 @@
+{
+	"name": "Damage",
+	"source": "XPHB",
+	"page": 364,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Damage represents harm that causes a creature or an object to lose {@variantrule Hit Points|XPHB}."
+	]
+}

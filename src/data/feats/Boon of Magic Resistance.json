@@ -1,0 +1,32 @@
+{
+	"name": "Boon of Magic Resistance",
+	"source": "GrimHollowPG24",
+	"page": 121,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Heroic Resistance",
+			"entries": [
+				"If you fail a saving throw, you can cause yourself to succeed instead. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

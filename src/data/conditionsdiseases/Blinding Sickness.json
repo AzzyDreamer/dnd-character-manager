@@ -1,0 +1,9 @@
+{
+	"name": "Blinding Sickness",
+	"source": "PHB",
+	"page": 227,
+	"entries": [
+		"Pain grips the creature's mind, and its eyes turn milky white. The creature has disadvantage on Wisdom checks and Wisdom saving throws and is {@condition blinded}.",
+		"{@note This disease can be inflicted with the {@spell contagion} spell.}"
+	]
+}

@@ -1,0 +1,131 @@
+{
+	"name": "Eye of Vecna",
+	"source": "XDMG",
+	"page": 259,
+	"rarity": "artifact",
+	"reqAttune": true,
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4 + 4}",
+	"charges": 8,
+	"entries": [
+		"{@book Vecna|XDMG|8|Vecna} was a mighty wizard who, through magic and conquest, forged a terrible empire. For all his power, however, Vecna feared death and took steps to prevent his demise by becoming a lich.",
+		"A treacherous lieutenant named Kas brought Vecna's rule to an end in a terrible battle. Of Vecna, all that remained were one hand and one eye, grisly Artifacts that still seek to work Vecna's will in the world.",
+		"The Eye of Vecna and the {@item Hand of Vecna|XDMG} are separate Artifacts that might be found together or separately. The eye looks like a bloodshot organ torn free from the socket. The hand is a shriveled left extremity.",
+		{
+			"type": "entries",
+			"name": "Random Properties of the Eye and Hand",
+			"entries": [
+				"The Eye of Vecna has the following random properties:",
+				{
+					"type": "list",
+					"items": [
+						"1 {@table Artifact Properties; Minor Beneficial Properties|XDMG|minor beneficial} property",
+						"1 {@table Artifact Properties; Major Beneficial Properties|XDMG|major beneficial} property",
+						"1 {@table Artifact Properties; Minor Detrimental Properties|XDMG|minor detrimental} property"
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Attuning to the Eye",
+			"entries": [
+				"To attune to the eye, you must press it into your empty socket. The eye grafts itself to your head and remains there until you die. If the eye is ever removed, you die."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Properties of the Eye",
+			"entries": [
+				"While you are attuned to the eye, your alignment is Neutral Evil, and you gain the following benefits:",
+				{
+					"type": "list",
+					"style": "list-hang-notitle",
+					"items": [
+						{
+							"type": "item",
+							"name": "Truesight",
+							"entries": [
+								"You have {@sense Truesight|XPHB} out to 240 feet."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Spellcasting",
+							"entries": [
+								"The eye has 8 charges and regains {@dice 1d4 + 4} expended charges daily at dawn. You can cast a spell on the Eye of Vecna Spells table from the eye (save {@dc 18}). The table indicates how many charges you must expend to cast the spell. Each time you cast a spell from the eye, there is a {@chance 5} chance that Vecna tears your soul from your body, devours it, and then takes control of the body like a puppet. If that happens, you become an NPC under the DM's control.",
+								{
+									"type": "table",
+									"caption": "Eye of Vecna Spells",
+									"colStyles": [
+										"col-10",
+										"col-2 text-center"
+									],
+									"colLabels": [
+										"Spell",
+										"Charge Cost"
+									],
+									"rows": [
+										[
+											"{@spell Clairvoyance|XPHB}",
+											"2"
+										],
+										[
+											"{@spell Crown of Madness|XPHB}",
+											"1"
+										],
+										[
+											"{@spell Disintegrate|XPHB}",
+											"4"
+										],
+										[
+											"{@spell Dominate Monster|XPHB}",
+											"5"
+										],
+										[
+											"{@spell Eyebite|XPHB}",
+											"4"
+										]
+									]
+								}
+							]
+						},
+						{
+							"type": "item",
+							"name": "X-ray Vision",
+							"entries": [
+								"You can take a {@action Magic|XPHB} action to gain X-ray vision with a range of 30 feet for 1 minute. To you, solid objects within that radius appear transparent and don't prevent light from passing through themselves. The vision can penetrate 1 foot of stone, 1 inch of common metal, or up to 3 feet of wood or dirt. Thicker substances block the vision, as does a thin sheet of lead."
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Destroying the Eye and Hand",
+			"entries": [
+				"If the Eye of Vecna and the {@item Hand of Vecna|XDMG} are both attached to the same creature and that creature is slain by the {@item Sword of Kas|XDMG}, both the eye and the hand burst into flame, turn to ash, and are destroyed. Any other attempt to destroy the eye or hand seems to work, but the Artifact reappears in one of Vecna's many hidden vaults, where it waits to be rediscovered."
+			]
+		}
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"crown of madness|xphb"
+			],
+			"2": [
+				"clairvoyance|xphb"
+			],
+			"4": [
+				"disintegrate|xphb",
+				"eyebite|xphb"
+			],
+			"5": [
+				"dominate monster|xphb"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

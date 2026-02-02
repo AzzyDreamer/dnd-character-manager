@@ -1,0 +1,26 @@
+{
+	"name": "Devouring Blade",
+	"source": "XPHB",
+	"page": 155,
+	"featureType": [
+		"EI"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 12,
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB",
+					"visibleStats": true
+				}
+			},
+			"optionalfeature": [
+				"thirsting blade|xphb"
+			]
+		}
+	],
+	"entries": [
+		"The Extra Attack of your {@optfeature Thirsting Blade|XPHB} invocation confers two extra attacks rather than one."
+	]
+}

@@ -1,0 +1,121 @@
+{
+	"name": "Mark of Shadow",
+	"source": "EFA",
+	"page": 42,
+	"category": "D",
+	"prerequisite": [
+		{
+			"campaign": [
+				"Eberron"
+			],
+			"exclusiveFeatCategory": [
+				"D"
+			]
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"_": [
+					"minor illusion|xphb#c"
+				]
+			},
+			"prepared": {
+				"_": {
+					"daily": {
+						"1": [
+							"invisibility|xphb"
+						]
+					}
+				}
+			},
+			"expanded": {
+				"s1": [
+					"disguise self|xphb",
+					"silent image|xphb"
+				],
+				"s2": [
+					"darkness|xphb",
+					"pass without trace|xphb"
+				],
+				"s3": [
+					"clairvoyance|xphb",
+					"major image|xphb"
+				],
+				"s4": [
+					"greater invisibility|xphb",
+					"hallucinatory terrain|xphb"
+				],
+				"s5": [
+					"mislead|xphb"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Cunning Intuition",
+			"entries": [
+				"When you make a Dexterity ({@skill Stealth|XPHB}) or Charisma ({@skill Performance|XPHB}) check, you can roll {@dice 1d4} and add the number rolled to the ability check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Shape Shadows",
+			"entries": [
+				"You know the {@spell Minor Illusion|XPHB} cantrip. You also always have the {@spell Invisibility|XPHB} spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast it using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells (choose when you select this feat)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells of the Mark",
+			"entries": [
+				"If you have the Spellcasting or Pact Magic class feature, the spells on the Mark of Shadow Spells table are added to that feature's spell list.",
+				{
+					"type": "table",
+					"caption": "Mark of Shadow Spells",
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"colLabels": [
+						"Spell Level",
+						"Spells"
+					],
+					"rows": [
+						[
+							"1",
+							"{@spell Disguise Self|XPHB}, {@spell Silent Image|XPHB}"
+						],
+						[
+							"2",
+							"{@spell Darkness|XPHB}, {@spell Pass without Trace|XPHB}"
+						],
+						[
+							"3",
+							"{@spell Clairvoyance|XPHB}, {@spell Major Image|XPHB}"
+						],
+						[
+							"4",
+							"{@spell Greater Invisibility|XPHB}, {@spell Hallucinatory Terrain|XPHB}"
+						],
+						[
+							"5",
+							"{@spell Mislead|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	],
+	"hasFluffImages": true
+}

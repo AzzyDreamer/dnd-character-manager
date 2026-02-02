@@ -1,0 +1,96 @@
+{
+	"name": "Thunderous Smite",
+	"source": "XPHB",
+	"page": 334,
+	"level": 1,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a target with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Your strike rings with thunder that is audible within 300 feet of you, and the target takes an extra {@damage 2d6} Thunder damage from the attack. Additionally, if the target is a creature, it must succeed on a Strength saving throw or be pushed 10 feet away from you and have the {@condition Prone|XPHB} condition."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 2d6|1-9|1d6} for each spell slot level above 1."
+			]
+		}
+	],
+	"damageInflict": [
+		"thunder"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"AAD",
+		"FMV"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Zeal Domain (PSA)",
+					"shortName": "Zeal (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Zeal Domain (PSA)",
+					"shortName": "Zeal (PSA)",
+					"source": "PSA"
+				}
+			},
+			{
+				"class": {
+					"name": "Paladin",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Oath of the Noble Genies",
+					"shortName": "Noble Genies",
+					"source": "FRHoF"
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Blood Hound",
+	"source": "GrimHollowPG24",
+	"page": 114,
+	"category": "O",
+	"entries": [
+		"Your senses are heightened beyond those of most folk. Whether these senses were strengthened through training or the loss of other senses, or they simply matured as you did, you are a master of finding those whom you seek. You  gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Motion Sensor",
+			"entries": [
+				"Whenever a creature that is Small or larger moves within 10 feet of you while you do not have the {@condition Unconscious|XPHB} condition, you immediately become aware of its presence."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "No Hiding",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks that rely on sound or smell."
+			]
+		}
+	]
+}

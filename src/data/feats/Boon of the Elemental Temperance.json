@@ -1,0 +1,37 @@
+{
+	"name": "Boon of the Elemental Temperance",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Controlled Chaos",
+			"entries": [
+				"You are no longer affected by the {@optfeature Primordial Chaos|GrimHollowPG24|Primordial Chaos Transformation Flaw}."
+			]
+		}
+	]
+}

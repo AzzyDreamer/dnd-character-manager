@@ -1,0 +1,82 @@
+{
+	"name": "Captivate Undead",
+	"source": "CrookedMoon24",
+	"page": 126,
+	"level": 1,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a pinch of bone dust"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You usurp the negative energy animating an Undead creature that you can see within range, attempting to take control of it. The target must make a Charisma saving throw. On a failed save, for the duration, the target has the {@condition Charmed|XPHB} condition (ignoring any {@variantrule Immunity|XPHB} to that condition), and it is {@variantrule Friendly [Attitude]|XPHB|Friendly} toward you. On a successful save, the target has {@variantrule Disadvantage|XPHB} on the next attack roll it makes against you before the start of your next turn. If you or any of your allies damage the target or force it to make a saving throw, the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target one additional creature for each spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"charmed"
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"SCT",
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Captivate-Undead.webp"
+}

@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Exquisite Radiance",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Eternal Rest",
+			"entries": [
+				"Creatures you reduce to 0 {@variantrule Hit Points|XPHB} can't become Undead."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Powerful Radiance",
+			"entries": [
+				"When you make a damage roll that deals Radiant damage, you can instead use the highest number possible for each damage die. Once you use this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

@@ -1,0 +1,117 @@
+{
+	"name": "Rashemi Wanderer",
+	"source": "FRHoF",
+	"page": 35,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"tough|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"intimidation": true,
+			"perception": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"cartographer's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				"cartographer's tools|xphb",
+				"backpack|xphb",
+				"bedroll|xphb",
+				"hooded lantern|xphb",
+				{
+					"item": "oil|xphb",
+					"displayName": "Oil (3 flasks)"
+				},
+				"rope|xphb",
+				"tinderbox|xphb",
+				"traveler's clothes|xphb",
+				"waterskin|xphb",
+				{
+					"value": 2300
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Constitution, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Tough|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Intimidation|XPHB} and {@skill Perception|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Cartographer's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Cartographer's Tools|XPHB}, {@item Backpack|XPHB}, {@item Bedroll|XPHB}, {@item Hooded Lantern|XPHB}, {@item Oil|XPHB} (3 flasks), {@item Rope|XPHB}, {@item Tinderbox|XPHB}, {@item Traveler's Clothes|XPHB}, {@item Waterskin|XPHB}, 23 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You spent years wandering the highlands of Rashemen, a dangerous windswept heath that's dotted with ancient obelisks enchanted to imprison Fiends and home to dragons, gnolls, and other deadly creatures. Friendships are hard to find in such an isolated land, and you've learned to keep strangers at a distance."
+	]
+}

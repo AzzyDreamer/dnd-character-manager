@@ -1,0 +1,12 @@
+{
+	"name": "Expertise",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Expertise is a feature that enhances your use of a skill proficiency. When you make an ability check with a skill proficiency in which you have Expertise, your {@variantrule Proficiency|XPHB|Proficiency Bonus} is doubled for that check unless the bonus is doubled by another feature.",
+		"If you gain Expertise, you gain it in one {@variantrule skill|XPHB} in which you have proficiency. You can't have Expertise in the same skill proficiency more than once."
+	]
+}

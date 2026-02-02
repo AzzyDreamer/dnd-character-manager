@@ -1,0 +1,65 @@
+{
+	"name": "Call of the Wild",
+	"source": "CrookedMoon24",
+	"page": 125,
+	"level": 4,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 100
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a bit of animal fur or hide"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You unleash a primal howl that calls lesser creatures to your command. Each Beast in a 100-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} originating from you when you cast the spell must make a Wisdom saving throw. On a failed save, a target has the {@condition Charmed|XPHB} condition, it can understand your commands, and it follows them on its next turn to the best of its ability. On your subsequent turns, you can take a {@action Magic|XPHB} action to issue a new command. On a successful save, a target has the {@condition Charmed|XPHB} condition until the start of your next turn, but you have no additional ability to command it. The howl is audible within 300 feet."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"charmed"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Call-of-the-Wild.webp"
+}

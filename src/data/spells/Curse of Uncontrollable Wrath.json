@@ -1,0 +1,95 @@
+{
+	"name": "Curse of Uncontrollable Wrath",
+	"source": "GrimHollowPG24",
+	"page": 213,
+	"level": 6,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "blood or other fluid of the target, a severed hand, and a serrated knife worth 1,000+ GP, all of which the spell consumes",
+			"cost": 100000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with an uncontrollable temper and a lust for violence. The target must make a Wisdom saving throw.",
+		{
+			"type": "entries",
+			"name": "Successful Saving Throw",
+			"entries": [
+				"On a successful save, the target takes {@damage 4d10} Psychic damage and is aware it was targeted by a curse. Additionally, for 1 minute, the target has {@variantrule Disadvantage|XPHB} on attacks made using {@variantrule Reaction|XPHB|Reactions}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 8d10} Psychic damage and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the cursed creature attacks with a weapon or casts a spell using a {@variantrule Spellcasting Focus|XPHB}, an old wound reopens, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature becomes easily agitated and aggressive."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature becomes obsessed with violence. The thrill of solo battle intoxicates it, and its demeanor toward its allies sours as the curse grows. The cursed creature gains no benefit from its {@variantrule Short Rest|XPHB|Short Rests}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature is driven to insatiable bloodlust, unable to rest while there are enemies to slaughter. The cursed creature gains no benefit from its {@variantrule Long Rest|XPHB|Long Rests}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes an Avatar of Slaughter."
+			]
+		}
+	],
+	"damageInflict": [
+		"psychic"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Uncontrollable%20Wrath.webp"
+}

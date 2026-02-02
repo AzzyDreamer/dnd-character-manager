@@ -1,0 +1,92 @@
+{
+	"name": "Curse of Foul Blight",
+	"source": "GrimHollowPG24",
+	"page": 212,
+	"level": 4,
+	"school": "N",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a shred of the target's hair or flesh, a chunk of rotten meat, and a jewelry box worth 600+ GP, all of which the spell consumes",
+			"cost": 60000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with a putrefying and stinking pox. The target must make a Charisma saving throw. Successful {@variantrule Saving Throw|XPHB}. On a successful save, the target takes {@damage 3d10} Necrotic damage and is aware it was targeted by a curse. Additionally, it can't gain {@variantrule Temporary Hit Points|XPHB} or regain {@variantrule Hit Points|XPHB} for 1 minute.",
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 6d10} Necrotic damage and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target searches for its garments or equipment, it finds an infestation of insects, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature is afflicted with a minor cough. Whenever it speaks more than a few words at a time, it breaks into a fit of coughing. This does not affect spellcasting."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The smell of putrescence lingers in the air around the cursed creature. Food and drink quickly spoil, jewelry tarnishes, and wood rots within 10 feet of the cursed creature. Additionally, the cursed creature has {@variantrule Disadvantage|XPHB} on Charisma ability checks and saving throws, and it can't maintain {@status Concentration|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature's skin becomes riddled with pockmarks, pustules, and lesions. Insects flock to the cursed creature, infesting its clothes. The cursed creature can't regain {@variantrule Hit Points|XPHB} except by spending {@variantrule Hit Point Dice|XPHB} after finishing a {@variantrule Short Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Plague Carrion."
+			]
+		}
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"HL",
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Foul%20Blight.webp"
+}

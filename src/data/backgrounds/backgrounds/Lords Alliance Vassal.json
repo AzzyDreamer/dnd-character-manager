@@ -1,0 +1,121 @@
+{
+	"name": "Lords' Alliance Vassal",
+	"source": "FRHoF",
+	"page": 32,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"lords' alliance agent|frhof": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"insight": true,
+			"persuasion": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"calligrapher's supplies": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "javelin|xphb",
+					"displayName": "Javelins",
+					"quantity": 2
+				},
+				"calligrapher's supplies|xphb",
+				"fine clothes|xphb",
+				"ink|xphb",
+				{
+					"item": "ink pen|xphb",
+					"quantity": 5
+				},
+				{
+					"item": "parchment|xphb",
+					"displayName": "Parchment (9 sheets)"
+				},
+				{
+					"value": 1300
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Lords' Alliance Agent|FRHoF}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Insight|XPHB} and {@skill Persuasion|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Calligrapher's Supplies|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) 2 {@item Javelin|XPHB|Javelins}, {@item Calligrapher's Supplies|XPHB}, {@item Fine Clothes|XPHB}, {@item Ink|XPHB}, 5 {@item Ink Pen|XPHB|Ink Pens}, {@item Parchment|XPHB} (9 sheets), 13 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You've pledged your loyalty to a member-city of the Lords' Alliance. As an Alliance agent, you must uphold the tenets of the Alliance and seek to increase safety and prosperity along the Sword Coast. You're sworn to bring honor and glory to your lord's house, whether that means securing trade roads for a merchant-lord of Waterdeep or vanquishing monsters upriver of Daggerford. You've trained in the arts of swordplay and statecraft and are as deft with a blade as you are with a quill."
+	]
+}

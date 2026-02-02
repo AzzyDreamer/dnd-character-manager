@@ -1,0 +1,11 @@
+{
+	"name": "Immunity",
+	"source": "XPHB",
+	"page": 369,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If you have Immunity to a {@variantrule Damage Types|XPHB|damage type} or a {@variantrule Condition|XPHB|condition}, it doesn't affect you in any way."
+	]
+}

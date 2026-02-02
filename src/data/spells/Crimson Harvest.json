@@ -1,0 +1,84 @@
+{
+	"name": "Crimson Harvest",
+	"source": "CrookedMoon24",
+	"page": 127,
+	"level": 3,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "emanation",
+		"distance": {
+			"type": "feet",
+			"amount": 15
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a vial of blood"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"A wave of blood sweeps out from you in a 15-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation}. Each creature of your choice in the wave must make a Dexterity saving throw, taking {@damage 3d10} Necrotic damage on a failed save, or half as much damage on a successful one.",
+		"If you damage at least one Small or larger creature, one creature of your choice that you can see within the {@variantrule Emanation [Area of Effect]|XPHB|Emanation} regains a number of {@variantrule Hit Points|XPHB} equal to half the damage roll."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d10} for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"HL",
+		"SGT"
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Spells/crimson-harvest.webp"
+				},
+				"width": 1700,
+				"height": 735,
+				"credit": "Lucas Torquato"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Crimson-Harvest.webp"
+}

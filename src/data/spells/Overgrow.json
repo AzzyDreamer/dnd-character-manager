@@ -1,0 +1,72 @@
+{
+	"name": "Overgrow",
+	"source": "GrimHollowPG24",
+	"page": 197,
+	"level": 2,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a single seed"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"When you cast this spell, choose a creature or an object within range that is Huge or smaller and not being worn or carried within range. Vibrant vines quickly grow around the target, pinning it into place and making it easier to traverse.",
+		"If the target is a creature, it must succeed on a Strength saving throw or have the {@condition Restrained|XPHB} condition until the spell ends. The creature can repeat the saving throw at the end of each of its turns, ending the {@condition Restrained|XPHB} condition on a success.",
+		"If the target is an object, it can't be moved from its current location and creatures that climb the object don't spend extra movement. A creature can make a Strength ({@skill Athletics|XPHB}) check against your spell save DC to wrest the object out of the vines so it can be moved. If the object is too heavy for the creature to move, this action fails."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can choose an additional target for each spell slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"OBJ"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Overgrow.webp"
+}

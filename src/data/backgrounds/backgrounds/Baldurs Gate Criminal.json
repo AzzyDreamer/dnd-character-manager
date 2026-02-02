@@ -1,0 +1,100 @@
+{
+	"name": "Baldur's Gate Criminal",
+	"source": "BGDIA",
+	"page": 202,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 129
+		}
+	],
+	"_copy": {
+		"name": "Criminal",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": 2,
+				"items": [
+					{
+						"name": "Baldur's Gate Feature: Criminal Connections",
+						"type": "entries",
+						"entries": [
+							"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+							"In Baldur's Gate, crime is just another business. As a result, you can arrange a meeting with a low-ranking operative of nearly any business, patriar family, crew, government institution, or—certainly—the Guild. This operative will hear you out and, at their discretion, take your information or request up their chain of command. These meetings almost always occur in shady venues."
+						],
+						"data": {
+							"isFeature": true
+						}
+					},
+					{
+						"type": "entries",
+						"name": "Criminal Origins",
+						"entries": [
+							"Criminals are pervasive in Baldur's Gate. If you wish, you may roll on the Criminal Origins table for an event that began your life of crime.",
+							{
+								"type": "table",
+								"caption": "Criminal Origins",
+								"colLabels": [
+									"d8",
+									"Origin"
+								],
+								"colStyles": [
+									"col-2 text-center",
+									"col-10"
+								],
+								"rows": [
+									[
+										"1",
+										"You crippled a Guild kingpin's cousin without realizing the connection. You got the Guild to back off demands for your death by offering to make amends by working for the criminals, but even so the kingpin still plots a personal revenge."
+									],
+									[
+										"2",
+										"The Guild took over your family business, ran it into the ground, and burned the building for insurance money. You were driven into crime yourself, but you'll never work for the Guild. You take special joy in hitting its targets first, tipping off its con victims and otherwise frustrating its schemes."
+									],
+									[
+										"3",
+										"It's always been about money. You're not paid what you're worth, working for someone who has more than they deserve. But the Guild offered you a way to fix that. You keep doing what you've always done—guard work, dock labor, business accounting—but what you learn you pass on to the Guild."
+									],
+									[
+										"4",
+										"The inequality of Baldur's Gate has driven you to take matters into your own hands. You steal from patriars and rich Lower City residents, funneling the money through charitable fronts to help the needy."
+									],
+									[
+										"5",
+										"You got into crime as a bored patriar looking for excitement. Your family has no idea of your activities, and neither does the Guild. If either of them ever finds out, your life as you know it will be over."
+									],
+									[
+										"6",
+										"A close friend or relative joined the Guild and vanished mysteriously. You've worked your way into the lower ranks hoping to find out what happened to them."
+									],
+									[
+										"7",
+										"You've always wanted to be a member of the Guild. As a child, you looked up to the Guild members' swagger, their flashy dress, and their competence, which all marked them as different from the other adults you knew. As soon as you could, you joined the organization."
+									],
+									[
+										"8",
+										"To you, this is just a way to earn a living. You go to work, do what needs to be done, and get paid. Anyone who pursues crime for thrill-seeking, to strike back at unjust authorities, or anything else are amateurs, and they're liable to get you arrested or killed with their idiocy."
+									]
+								]
+							}
+						]
+					}
+				]
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"No career criminal in Baldur's Gate operates without being aware of the Guild. Some studiously keep a low profile, carrying just the occasional smuggled load in with legitimate merchandise, or only breaking knees when it can plausibly be claimed as an act of personal revenge. Others join up with crews for protection, or with the Guild itself. A few former Guild members have been cast out of the organization due to incompetence or after offending a more powerful member, and now shuffle for scraps to survive."
+					]
+				}
+			]
+		}
+	]
+}

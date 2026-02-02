@@ -1,0 +1,14 @@
+{
+	"name": "Dread Helm",
+	"source": "XDMG",
+	"page": 254,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"While you're wearing this fearsome steel helm, your eyes glow red and the rest of your face is hidden in shadow."
+	],
+	"lootTables": [
+		"Armaments - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

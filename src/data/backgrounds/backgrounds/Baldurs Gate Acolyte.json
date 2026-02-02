@@ -1,0 +1,45 @@
+{
+	"name": "Baldur's Gate Acolyte",
+	"source": "BGDIA",
+	"page": 202,
+	"additionalSources": [
+		{
+			"source": "PHB",
+			"page": 127
+		}
+	],
+	"_copy": {
+		"name": "Acolyte",
+		"source": "PHB",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": 2,
+				"items": {
+					"name": "Baldur's Gate Feature: Religious Community",
+					"type": "entries",
+					"entries": [
+						"{@note The effects of a Baldur's Gate feature can be used only while the character is in Baldur's Gate—though, at the DM's discretion, they might have applicable effects in situations similar to those in Baldur's Gate.}",
+						"You're tightly connected with the religious community of Baldur's Gate. You know if a deity has a following in the city and any places that faith openly congregates and the neighborhoods those faithful typically inhabit. While this isn't remarkable for most of the city's larger faiths, keeping track of the hundreds of religions newcomers bring with them is no mean feat."
+					],
+					"data": {
+						"isFeature": true
+					}
+				}
+			}
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"It's said that every faith in the world has a believer in Baldur's Gate. Not only are most established faiths tolerated—even if some of them, including most of the openly evil faiths, are relegated to the Outer City's Twin Songs neighborhood—but new ones arrive constantly, carried by travelers and proselytizers from far-flung lands. A character with this background might aspire to greater things, not for themselves, but for their faith."
+					]
+				}
+			]
+		}
+	]
+}

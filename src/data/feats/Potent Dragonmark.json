@@ -1,0 +1,47 @@
+{
+	"name": "Potent Dragonmark",
+	"source": "EFA",
+	"page": 45,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"featCategory": [
+				"D"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				],
+				"amount": 1,
+				"entry": "Increase the spellcasting ability score used by your Dragonmark feat by 1, to a maximum of 20."
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Dragonmark Preparation",
+			"entries": [
+				"You always have the spells on your Spells of the Mark list (if any) prepared."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragonmark Spellcasting",
+			"entries": [
+				"You have one extra spell slot to cast the spells granted by your Dragonmark feat. The spell slot's level is half your level (round up), to a maximum of level 5. You regain the expended slot when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}. You can use this spell slot to cast only a spell you have prepared because of your Dragonmark feat or the Dragonmark Preparation benefit of this feat."
+			]
+		}
+	]
+}

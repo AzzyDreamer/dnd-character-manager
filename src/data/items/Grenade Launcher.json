@@ -1,0 +1,14 @@
+{
+	"name": "Grenade Launcher",
+	"source": "XDMG",
+	"page": 73,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 7,
+	"valueRarity": "rare",
+	"age": "modern",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Grenade|XDMG}"
+	]
+}

@@ -1,0 +1,18 @@
+{
+	"name": "Chime of Exile",
+	"source": "VEoR",
+	"page": 46,
+	"rarity": "very rare",
+	"wondrous": true,
+	"entries": [
+		"This silver chime is engraved with delicate magic sigils. While holding the chime, you can use an action to cast the {@spell Banishment} spell (spell save {@dc 20}). If the target of the spell has 50 hit points or fewer, it automatically fails its saving throw. Once the chime has been used to cast the spell, it can't be used this way again until the next dawn."
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"banishment"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

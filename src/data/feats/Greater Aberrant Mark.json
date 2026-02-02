@@ -1,0 +1,37 @@
+{
+	"name": "Greater Aberrant Mark",
+	"source": "EFA",
+	"page": 43,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"aberrant dragonmark|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"con": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Fortitude",
+			"entries": [
+				"When you use the Aberrant Fortitude benefit of your Aberrant Dragonmark feat, you can roll {@dice 1d6} instead of {@dice 1d4}. You also now regain your use of Aberrant Fortitude whenever you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mark of Inspiration",
+			"entries": [
+				"When you cast a cantrip, you can roll one or two of your unexpended {@variantrule Hit Point Dice|XPHB}. You gain a number of {@variantrule Temporary Hit Points|XPHB} equal to the number rolled plus your Constitution modifier, and one creature of your choice within 30 feet of you (not including you) takes Force damage equal to the number rolled. Those dice are then expended.",
+				"You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

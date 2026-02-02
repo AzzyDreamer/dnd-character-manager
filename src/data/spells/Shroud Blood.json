@@ -1,0 +1,74 @@
+{
+	"name": "Shroud Blood",
+	"source": "GrimHollowPG24",
+	"page": 201,
+	"level": 1,
+	"school": "I",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend one {@variantrule Hit Point Dice|XPHB|Hit Point Die} or the spell automatically fails.  You can choose yourself or a willing creature within 30 feet of yourself to have {@variantrule Advantage|XPHB} on Dexterity ({@skill Stealth|XPHB}) checks. When the target loses the {@condition Invisible|XPHB} condition, it can take a {@variantrule Reaction|XPHB} to gain the {@condition Invisible|XPHB} condition for a number of rounds equal to the number of {@variantrule Hit Point Dice|XPHB} expended to cast the spell. The target loses the {@condition Invisible|XPHB} condition immediately after it makes an attack roll, deals damage, or casts a spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can target an additional creature for each spell slot level above 1."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"ADV",
+		"SCT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Shroud%20Blood.webp"
+}

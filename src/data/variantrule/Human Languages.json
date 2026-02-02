@@ -1,0 +1,111 @@
+{
+	"name": "Human Languages",
+	"source": "SCAG",
+	"page": 112,
+	"ruleType": "O",
+	"entries": [
+		"Many human ethnicities and nations in Faerûn have their own language in addition to Common Most human languages are written in Thorass the alphabet of Old Common derived from the Chondathan language that traders used as their common tongue A few human languages use other alphabets including Draconic Dethek and Espruar The languages of the ethnicities described in the Players Handbook and this book are as follows:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Arkaiun:",
+					"entry": "Dambrathan (written in Espruar)"
+				},
+				{
+					"type": "item",
+					"name": "Bedine:",
+					"entry": "Midani"
+				},
+				{
+					"type": "item",
+					"name": "Calishite:",
+					"entry": "Alzhedo"
+				},
+				{
+					"type": "item",
+					"name": "Chondathan:",
+					"entry": "Chondathan"
+				},
+				{
+					"type": "item",
+					"name": "Damaran:",
+					"entry": "Damaran (written in Dethek)"
+				},
+				{
+					"type": "item",
+					"name": "Ffolk:",
+					"entry": "Waelan"
+				},
+				{
+					"type": "item",
+					"name": "Gur:",
+					"entry": "Guran (a patois of Roushoum and Rashemi)"
+				},
+				{
+					"type": "item",
+					"name": "Halruaan:",
+					"entry": "Halruaan (written in Draconic)"
+				},
+				{
+					"type": "item",
+					"name": "Illuskan:",
+					"entry": "Illuskan"
+				},
+				{
+					"type": "item",
+					"name": "Imaskari:",
+					"entry": "Roushoum"
+				},
+				{
+					"type": "item",
+					"name": "Mulan:",
+					"entry": "Chessentan, Mulhorandi, Untheric, or Thayan"
+				},
+				{
+					"type": "item",
+					"name": "Nar:",
+					"entry": "Damaran"
+				},
+				{
+					"type": "item",
+					"name": "Rashemi:",
+					"entry": "Rashemi"
+				},
+				{
+					"type": "item",
+					"name": "Shaaran:",
+					"entry": "Shaaran (written in Dethek)"
+				},
+				{
+					"type": "item",
+					"name": "Shou:",
+					"entry": "Shou"
+				},
+				{
+					"type": "item",
+					"name": "Tethyrian:",
+					"entry": "Chondathan"
+				},
+				{
+					"type": "item",
+					"name": "Tuigan:",
+					"entry": "Tuigan"
+				},
+				{
+					"type": "item",
+					"name": "Turami:",
+					"entry": "Turmic"
+				},
+				{
+					"type": "item",
+					"name": "Ulutiun:",
+					"entry": "Uluik"
+				}
+			]
+		},
+		"If your Dungeon Master allows this option then any human from an ethnic group that has its own language is assumed to know that language as well as Common. This ethnic language is treated as a free additional language for such individuals."
+	]
+}

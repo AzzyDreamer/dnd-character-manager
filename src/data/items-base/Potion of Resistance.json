@@ -1,0 +1,7 @@
+{
+	"name": "Potion of Resistance",
+	"source": "XDMG",
+	"entriesTemplate": [
+		"When you drink this potion, you have {@variantrule Resistance|XPHB} to {{getFullImmRes item.resist}} damage for 1 hour."
+	]
+}

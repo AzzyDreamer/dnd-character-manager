@@ -1,0 +1,57 @@
+{
+	"name": "Circle of Scarlet",
+	"source": "GrimHollowPG24",
+	"page": 188,
+	"level": 4,
+	"school": "V",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a piece of parchment with a circle drawn in humanoid blood"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend four {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. A crimson pillar erupts from the ground in a 20-foot-radius, 100-foot-high {@variantrule Cylinder [Area of Effect]|XPHB|Cylinder} centered on a point within range. Each creature within the {@variantrule Cylinder [Area of Effect]|XPHB|Cylinder} makes a Constitution saving throw.",
+		"On a failed save, the creature takes Necrotic damage equal to a roll of the {@variantrule Hit Point Dice|XPHB} expended on the spell plus your spellcasting ability modifier. On a successful save, the creature takes half as much damage.",
+		"For each creature that fails the saving throw against this spell, you gain 10 {@variantrule Temporary Hit Points|XPHB}."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Circle%20of%20Scarlet.webp"
+}

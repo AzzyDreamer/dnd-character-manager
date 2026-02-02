@@ -1,0 +1,121 @@
+{
+	"name": "Dragon Cultist",
+	"source": "FRHoF",
+	"page": 29,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"int"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"int"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"cult of the dragon initiate|frhof": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"deception": true,
+			"stealth": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"calligrapher's supplies": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				"calligrapher's supplies|xphb",
+				"dagger|xphb",
+				"glass bottle|xphb",
+				"lamp|xphb",
+				"manacles|xphb",
+				{
+					"item": "oil|xphb",
+					"displayName": "Oil (5 flasks)"
+				},
+				{
+					"item": "pouch|xphb",
+					"displayName": "Pouches",
+					"quantity": 2
+				},
+				"robe|xphb",
+				"rope|xphb",
+				{
+					"value": 3000
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Constitution, Intelligence"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Cult of the Dragon Initiate|FRHoF}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Deception|XPHB} and {@skill Stealth|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Calligrapher's Supplies|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Calligrapher's Supplies|XPHB}, {@item Dagger|XPHB}, {@item Glass Bottle|XPHB}, {@item Lamp|XPHB}, {@item Manacles|XPHB}, {@item Oil|XPHB} (5 flasks), 2 {@item Pouch|XPHB|Pouches}, {@item Robe|XPHB}, {@item Rope|XPHB}, 30 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You are an initiate of the Cult of the Dragon. You discovered or were brought to a cell cult, where you exemplified the values honored by dragon cultists: duplicity, secrecy, and determination. In exchange for your oath to serve the cult, the cult offered you the company of fellow dragon worshipers, plus access to resources that might help further your studies in the realms of arcana and occultism."
+	]
+}

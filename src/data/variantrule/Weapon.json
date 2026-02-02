@@ -1,0 +1,11 @@
+{
+	"name": "Weapon",
+	"source": "XPHB",
+	"page": 377,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A weapon is an object that is in the {@filter Simple|items|category=basic|type=simple weapon} or {@filter Martial|items|category=basic|type=martial weapon} weapon category."
+	]
+}

@@ -1,0 +1,98 @@
+{
+	"name": "Perfection",
+	"source": "GrimHollowPG24",
+	"page": 197,
+	"level": 9,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You speak a holy word and remake a creature you can see in the image of the Arch Seraphs. The {@condition Poisoned|XPHB} condition on the creature ends, curses on the target are suppressed for the spell's duration, and it is restored to its {@variantrule Hit Points|XPHB|Hit Point} maximum. The creature's ability scores less than 18 become 18. Depending on the word you use, you also bless the target based upon the Arch Seraph that you call upon:",
+		{
+			"type": "entries",
+			"name": "Aphaelon:",
+			"entries": [
+				"The target has {@variantrule Immunity|XPHB} to the {@condition Charmed|XPHB} condition. If the target fails a saving throw, it can take a {@variantrule Reaction|XPHB} to cause the save to be rerolled. It must use the new roll."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Empyreus:",
+			"entries": [
+				"The target has {@variantrule Immunity|XPHB} to the {@condition Frightened|XPHB} condition, and the target deals an extra {@damage 4d6} Force damage to the first target it hits on each of its turns."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Miklas:",
+			"entries": [
+				"The target has {@variantrule Immunity|XPHB} to Poison damage and the {@condition Poisoned|XPHB} condition, and it regains {@dice 4d6} {@variantrule Hit Points|XPHB} at the start of each of its turns."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Morael:",
+			"entries": [
+				"The target gains 30 {@variantrule Temporary Hit Points|XPHB}. When an ally within 60 feet of the target takes damage, the target can take a {@variantrule Reaction|XPHB} to take the damage instead."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Solyma:",
+			"entries": [
+				"The target has {@variantrule Immunity|XPHB} to Thunder damage. When the target takes damage from a creature it can see, it can take a {@variantrule Reaction|XPHB} to deal Fire damage to that creature equal to the triggering damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Zabriel:",
+			"entries": [
+				"The target gains {@sense Truesight|XPHB} with a range of 60 feet. At the end of each of its turn, the target can award {@variantrule Heroic Inspiration|XPHB} to an ally that doesn't have it."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"force"
+	],
+	"miscTags": [
+		"HL",
+		"SGT",
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Perfection.webp"
+}

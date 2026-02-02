@@ -1,0 +1,68 @@
+{
+	"name": "Puppet Master",
+	"source": "CrookedMoon24",
+	"page": 131,
+	"level": 4,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a marionette string"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"One creature that you can see within range must succeed on a Wisdom saving throw or have the {@condition Charmed|XPHB} condition for the duration.",
+		"Magical marionette strings attach to the {@condition Charmed|XPHB} creature's limbs or body, and it must use its action on its turn to make a melee attack against a creature other than itself that you mentally choose, moving to reach the target if necessary. The target can act normally on its turn if you don't choose another creature, or if the creature isn't within the target's reach after it moves. The target repeats the save at the end of each of its turns, ending the spell on itself on a success.",
+		"On your later turns, you must take a {@variantrule Bonus Action|XPHB} to maintain control of the target, or the spell ends."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"SGT",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Puppet-Master.webp"
+}

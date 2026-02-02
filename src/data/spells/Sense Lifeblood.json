@@ -1,0 +1,68 @@
+{
+	"name": "Sense Lifeblood",
+	"source": "GrimHollowPG24",
+	"page": 200,
+	"level": 2,
+	"school": "D",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend two {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. The lifeblood flowing within creatures tells you its secrets. Creatures that have {@variantrule Immunity|XPHB} to the {@condition Exhaustion|XPHB} condition are {@variantrule Immunity|XPHB|Immune} to this spell. Until the spell ends, you can determine if creatures you can see are related biologically. In addition, you know if a creature's {@variantrule Hit Points|XPHB} are at maximum, below maximum, at half, or below half.",
+		"Once on each of your turns when you hit a {@condition Bloodied|XPHB} creature with an attack roll using a weapon, {@variantrule Unarmed Strike|XPHB}, or spell, you can cause the target to take extra Necrotic. To determine this damage, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"Your {@status Concentration|XPHB} can last longer with a spell slot of level 3-4 (up to 1 hour) or 5+ (up to 8 hours)."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Sense%20Lifeblood.webp"
+}

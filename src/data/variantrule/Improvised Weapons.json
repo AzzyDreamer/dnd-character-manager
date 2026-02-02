@@ -1,0 +1,44 @@
+{
+	"name": "Improvised Weapons",
+	"source": "XPHB",
+	"page": 369,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An improvised weapon is an object wielded as a makeshift weapon, such as broken glass, a table leg, or a frying pan. A Simple or Martial weapon also counts as an improvised weapon if it's wielded in a way contrary to its design; if you use a Ranged weapon to make a melee attack or throw a Melee weapon that lacks the Thrown property, the weapon counts as an improvised weapon. An improvised weapon follows the rules below.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Proficiency",
+					"entries": [
+						"Don't add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to attack rolls with an improvised weapon."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Damage",
+					"entries": [
+						"On a hit, the weapon deals {@damage 1d4} damage of a type the DM thinks is appropriate for the object."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Range",
+					"entries": [
+						"If you throw the weapon, it has a normal range of 20 feet and a long range of 60 feet."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Weapon Equivalents",
+					"entries": [
+						"If an improvised weapon resembles a Simple or Martial weapon, the DM may say it functions as that weapon and uses that weapon's rules. For example, the DM could treat a table leg as a {@item Club|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

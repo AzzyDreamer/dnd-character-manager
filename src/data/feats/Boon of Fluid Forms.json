@@ -1,0 +1,42 @@
+{
+	"name": "Boon of Fluid Forms",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Shapechanger",
+			"entries": [
+				"You can take a {@action Magic|XPHB} action to shape-shift into a Beast, Humanoid, or Monstrosity with a {@variantrule Challenge Rating|XPHB} no higher than 10. When you shape-shift, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to the {@variantrule Hit Points|XPHB} of the form. The shape-shifting effect lasts for 1 hour, and it ends early if you have no {@variantrule Temporary Hit Points|XPHB} left or if you take a {@action Magic|XPHB} action to return to your true form.",
+				"Your game statistics are replaced by the stat block of the chosen form, but you retain your creature type; alignment; personality; Intelligence, Wisdom, and Charisma scores; {@variantrule Hit Points|XPHB}; {@variantrule Hit Point Dice|XPHB}; proficiencies; and ability to communicate. If you have the Spellcasting or Pact Magic feature, you retain it too. Upon shape-shifting, you determine whether your equipment drops to the ground or changes in size and shape to fit the new form while you're in it.",
+				"Once you use this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Hardy Transformation",
+			"entries": [
+				"When you gain {@variantrule Temporary Hit Points|XPHB} when you shape-shift, increase that number of {@variantrule Temporary Hit Points|XPHB} by 20."
+			]
+		}
+	]
+}

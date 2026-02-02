@@ -1,0 +1,46 @@
+{
+	"name": "Greater Mark of Shadow",
+	"source": "EFA",
+	"page": 45,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of shadow|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Cunning Intuition benefit of your {@feat Mark of Shadow|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Shadow",
+			"entries": [
+				"When you use the Shape Shadows benefit of your {@feat Mark of Shadow|EFA} feat to cast {@spell Invisibility|XPHB} without a spell slot, you cast the spell as its level 3 version."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

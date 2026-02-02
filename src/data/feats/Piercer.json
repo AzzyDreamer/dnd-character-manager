@@ -1,0 +1,38 @@
+{
+	"name": "Piercer",
+	"source": "XPHB",
+	"page": 206,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Puncture",
+			"entries": [
+				"Once per turn, when you hit a creature with an attack that deals Piercing damage, you can reroll one of the attack's damage dice, and you must use the new roll."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Enhanced Critical",
+			"entries": [
+				"When you score a {@variantrule Critical Hit|XPHB} that deals Piercing damage to a creature, you can roll one additional damage die when determining the extra Piercing damage the target takes."
+			]
+		}
+	]
+}

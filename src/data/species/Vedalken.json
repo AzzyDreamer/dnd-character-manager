@@ -1,0 +1,140 @@
+{
+	"name": "Vedalken",
+	"source": "GGR",
+	"page": 21,
+	"size": [
+		"M"
+	],
+	"speed": 30,
+	"ability": [
+		{
+			"int": 2,
+			"wis": 1
+		}
+	],
+	"heightAndWeight": {
+		"baseHeight": 64,
+		"heightMod": "2d10",
+		"baseWeight": 110,
+		"weightMod": "2d4"
+	},
+	"age": {
+		"mature": 40,
+		"max": 500
+	},
+	"traitTags": [
+		"Skill Bonus Dice",
+		"Tool Bonus Dice"
+	],
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"arcana",
+					"history",
+					"investigation",
+					"medicine",
+					"performance",
+					"sleight of hand"
+				]
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"other": true,
+			"anyStandard": 1
+		}
+	],
+	"toolProficiencies": [
+		{
+			"any": 1
+		}
+	],
+	"entries": [
+		{
+			"name": "Age",
+			"type": "entries",
+			"entries": [
+				"Vedalken mature slower than humans do, reaching maturity around age 40. Their life span is typically 350 years, with some living to the age of 500."
+			]
+		},
+		{
+			"name": "Alignment",
+			"type": "entries",
+			"entries": [
+				"Vedalken are usually lawful and non-evil."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Size",
+			"entries": [
+				"Tall and slender, Vedalken stand 6 to 6½ feet tall on average and usually weigh less than 200 pounds. Your size is Medium."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Vedalken Dispassion",
+			"entries": [
+				"You have advantage on all Intelligence, Wisdom, and Charisma saving throws."
+			]
+		},
+		{
+			"name": "Tireless Precision",
+			"entries": [
+				"You are proficient in one of the following skills of your choice: {@skill Arcana}, {@skill History}, {@skill Investigation}, {@skill Medicine}, {@skill Performance}, or {@skill Sleight of Hand}. You are also proficient with one {@book tool|phb|5|tools} of your choice.",
+				"Whenever you make an ability check with the chosen skill or tool, roll a {@dice d4} and add the number rolled to the check's total."
+			],
+			"type": "entries"
+		},
+		{
+			"type": "entries",
+			"name": "Partially Amphibious",
+			"entries": [
+				"By absorbing oxygen through your skin, you can breathe underwater for up to 1 hour. Once you've reached that limit, you can't use this trait again until you finish a long rest."
+			]
+		},
+		{
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common, Vedalken, and one other language of your choice."
+			],
+			"type": "entries"
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	{
+		"type": "entries",
+		"entries": [
+			{
+				"type": "entries",
+				"entries": [
+					"Nothing is perfect. Vedalken not only believe this fact, they rejoice in it. Every imperfection is a chance for improvement, and progress is an endless march toward a state of perfection that can never be reached. This viewpoint leads vedalken to pursue their work with delighted enthusiasm, never deterred by setbacks and excited by every opportunity for improvement.",
+					"Vedalken are tall and slender, standing almost a head taller than humans on average but weighing about the same. Their hairless skin comes in a range of shades of blue. Their eyes are darker shades of blue or violet. They lack external ears, their noses are broad and flat, and they are partially amphibious.",
+					{
+						"type": "entries",
+						"name": "Cool Rationality",
+						"entries": [
+							"Despite being talkative, vedalken keep their personal lives private, and they tend to engage more with ideas than with people. They form close friendships based on mutual interests or compelling disagreements, and their interactions dwell on their thoughts about those issues rather than their feelings about them.",
+							"To members of other races, vedalken often seem cold, even emotionless. That assessment isn't fair—they feel emotion every bit as intensely as other folk do, but they are skilled at not displaying it. Cool rationality guides their actions, they make and follow careful plans, and they are patient enough to do nothing when the ideal outcome relies on such inaction."
+						]
+					},
+					{
+						"type": "entries",
+						"name": "Reasoning toward Perfection",
+						"entries": [
+							"Their curious intellects and rational minds incline vedalken toward membership in the Azorius Senate, the Simic Combine, and (less often) the Izzet League. Whatever their guild affiliation, they put their intelligence to use in crafting and improving things, whether those things are laws, procedures, or magical sciences.",
+							"Vedalken believe that the path toward the impossible goal of perfection is paved with bricks of education, careful deliberation, and controlled experimentation. Some vedalken direct their energy toward perfecting themselves, whether by means of Simic bioengineering or through extensive study, and others concentrate on perfecting society through the careful drafting and application of laws."
+						]
+					}
+				]
+			}
+		]
+	}
+]

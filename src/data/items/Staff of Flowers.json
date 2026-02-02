@@ -1,0 +1,37 @@
+{
+	"name": "Staff of Flowers",
+	"source": "XDMG",
+	"page": 308,
+	"type": "M|XPHB",
+	"rarity": "common",
+	"weight": 4,
+	"weaponCategory": "simple",
+	"property": [
+		"V|XPHB"
+	],
+	"mastery": [
+		"Topple|XPHB"
+	],
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"dmg2": "1d8",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6 + 4}",
+	"charges": 10,
+	"staff": true,
+	"entries": [
+		"This wooden staff has 10 charges. While holding it, you can take a {@action Magic|XPHB} action to expend 1 charge from the staff and cause a flower to sprout from a patch of earth or soil within 5 feet of yourself, or from the staff itself. Unless you choose a specific kind of flower, the staff creates a mild-scented daisy. The flower is harmless and nonmagical, and it grows or withers as a normal flower would.",
+		{
+			"type": "entries",
+			"name": "Regaining Charges",
+			"entries": [
+				"The staff regains {@dice 1d6 + 4} expended charges daily at dawn. If you expend the last charge, roll {@dice 1d20}. On a 1, the staff turns into flower petals and is lost forever."
+			]
+		}
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Relics - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

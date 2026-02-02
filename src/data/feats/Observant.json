@@ -1,0 +1,62 @@
+{
+	"name": "Observant",
+	"source": "XPHB",
+	"page": 205,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"int": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"wis": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis"
+				]
+			}
+		}
+	],
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"insight",
+					"investigation",
+					"perception"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Keen Observer",
+			"entries": [
+				"Choose one of the following skills: {@skill Insight|XPHB}, {@skill Investigation|XPHB}, or {@skill Perception|XPHB}. If you lack proficiency with the chosen skill, you gain proficiency in it, and if you already have proficiency in it, you gain {@variantrule Expertise|XPHB} in it."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Search",
+			"entries": [
+				"You can take the {@action Search|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+			]
+		}
+	]
+}

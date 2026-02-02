@@ -1,0 +1,18 @@
+{
+	"name": "Fragmentation Grenade",
+	"source": "XDMG",
+	"page": 73,
+	"type": "EXP|XDMG",
+	"rarity": "none",
+	"weight": 1,
+	"valueRarity": "rare",
+	"age": "modern",
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Grenade|XDMG}",
+		"Each creature in the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} makes a {@dc 15} Dexterity saving throw, taking 17 ({@damage 5d6}) Piercing damage on a failed save or half as much damage on a successful one."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

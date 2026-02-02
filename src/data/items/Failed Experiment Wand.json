@@ -1,0 +1,30 @@
+{
+	"name": "Failed Experiment Wand",
+	"source": "AI",
+	"page": 162,
+	"type": "WD|DMG",
+	"rarity": "rare",
+	"reqAttune": "by a spellcaster",
+	"reqAttuneTags": [
+		{
+			"spellcasting": true
+		}
+	],
+	"weight": 1,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6 + 1}",
+	"charges": 2,
+	"entries": [
+		"This wand has 2 charges. While holding it, you can use an action to expend 1 or more of its charges to cast either a green-flamed {@spell fireball} or a blue {@spell lightning bolt} at random from it (save {@dc 15}).",
+		"For 1 charge, you cast the 3rd-level version of the spell. You can increase the spell slot level by one for each additional charge you expend.",
+		"The wand regains {@dice 1d6 + 1} expended charges daily at dawn. If you expend the wand's last charge, roll a {@dice d20}. On a 1, the wand crumbles into ashes and is destroyed."
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"fireball",
+				"lightning bolt"
+			]
+		}
+	}
+}

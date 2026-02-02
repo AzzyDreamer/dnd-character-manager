@@ -1,0 +1,61 @@
+{
+	"name": "Boon of Energy Resistance",
+	"source": "XPHB",
+	"page": 210,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"resist": [
+		{
+			"choose": {
+				"from": [
+					"acid",
+					"cold",
+					"fire",
+					"lightning",
+					"necrotic",
+					"poison",
+					"psychic",
+					"radiant",
+					"thunder"
+				],
+				"count": 2
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Energy Resistances",
+			"entries": [
+				"You gain {@variantrule Resistance|XPHB} to two of the following damage types of your choice: Acid, Cold, Fire, Lightning, Necrotic, Poison, Psychic, Radiant, or Thunder. Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your choices."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Energy Redirection",
+			"entries": [
+				"When you take damage of one of the types chosen for the Energy Resistances benefit, you can take a {@variantrule Reaction|XPHB} to direct damage of the same type toward another creature you can see within 60 feet of yourself that isn't behind {@variantrule Cover|XPHB|Total Cover}. If you do so, that creature must succeed on a Dexterity saving throw ({@dc 8} plus your Constitution modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}) or take damage equal to {@dice 2d12} plus your Constitution modifier."
+			]
+		}
+	]
+}

@@ -1,0 +1,117 @@
+{
+	"name": "Fey-Blessed",
+	"source": "GrimHollowPG24",
+	"page": 109,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"magic initiate; wizard|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"arcana": true,
+			"performance": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyMusicalInstrument": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Dagger|XPHB"
+				},
+				{
+					"item": "Musical Instrument|XPHB"
+				},
+				{
+					"item": "Traveler's Clothes|XPHB"
+				},
+				{
+					"value": 800
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Constitution, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Magic Initiate|XPHB} (Wizard)"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Arcana|XPHB} and {@skill Performance|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "One kind of {@item Musical Instrument|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB}, {@item Musical Instrument|XPHB} (same as above), {@item Traveler's Clothes|XPHB}, 8 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"The powerful and fickle faerie-folk of your area have taken note of you, and your existence pleases them. Whether you were born under a lucky star, had a favorable run-in with a nature spirit, or simply were in the right place at the right time, the fey favor you with small gifts and boons. You find small trinkets in your shoes when you wake up in the morning. Beasts of the forest and field are more receptive to your presence and your training. Will this blessing somehow turn into a curse later in your life?",
+			"People you encounter instantly recognize your connection with the Realm of Faerie. Sometimes this works to your favor, as folks seem entranced by your glowing personality. Other times your power is a curse just waiting to seep into their lives. And they may not be wrong!"
+		]
+	}
+}

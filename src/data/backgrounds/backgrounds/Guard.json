@@ -1,0 +1,129 @@
+{
+	"name": "Guard",
+	"source": "XPHB",
+	"page": 181,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"int",
+						"wis"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"int",
+						"wis"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"alert|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"athletics": true,
+			"perception": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyGamingSet": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "spear|xphb"
+				},
+				{
+					"item": "light crossbow|xphb"
+				},
+				{
+					"item": "bolts (20)|xphb"
+				},
+				{
+					"equipmentType": "setGaming"
+				},
+				{
+					"item": "hooded lantern|xphb"
+				},
+				{
+					"item": "manacles|xphb"
+				},
+				{
+					"item": "quiver|xphb"
+				},
+				{
+					"item": "traveler's clothes|xphb"
+				},
+				{
+					"value": 1200
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Intelligence, Wisdom"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Alert|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Athletics|XPHB}, {@skill Perception|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "Choose one kind of {@item Gaming Set|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Spear|XPHB}, {@item Light Crossbow|XPHB}, 20 {@item Bolt|XPHB|Bolts}, {@item Gaming Set|XPHB} (same as above), {@item Hooded Lantern|XPHB}, {@item Manacles|XPHB}, {@item Quiver|XPHB}, {@item Traveler's Clothes|XPHB}, 12 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Your feet ache when you remember the countless hours you spent at your post in the tower. You were trained to keep one eye looking outside the wall, watching for marauders sweeping from the nearby forest, and your other eye looking inside the wall, searching for cutpurses and troublemakers."
+	]
+}

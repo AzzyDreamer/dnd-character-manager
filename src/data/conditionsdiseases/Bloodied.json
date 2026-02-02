@@ -1,0 +1,10 @@
+{
+	"name": "Bloodied",
+	"source": "XPHB",
+	"page": 362,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"A creature is Bloodied while it has half its {@variantrule Hit Points|XPHB} or fewer remaining."
+	]
+}

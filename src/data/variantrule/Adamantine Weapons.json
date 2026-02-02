@@ -1,0 +1,12 @@
+{
+	"name": "Adamantine Weapons",
+	"source": "XGE",
+	"page": 78,
+	"ruleType": "O",
+	"type": "section",
+	"entries": [
+		"Adamantine is an ultrahard metal found in meteorites and extraordinary mineral veins. In addition to being used to craft {@item adamantine armor}, the metal is also used for weapons.",
+		"Melee weapons and ammunition made of or coated with adamantine are unusually effective when used to break objects. Whenever an {@item adamantine weapon|xge} or piece of {@item adamantine ammunition|xge|ammunition} hits an object, the hit is a critical hit.",
+		"The adamantine version of a melee weapon or of ten pieces of ammunition costs 500 gp more than the normal version, whether the weapon or ammunition is made of the metal or coated with it."
+	]
+}

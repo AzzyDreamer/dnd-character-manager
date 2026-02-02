@@ -1,0 +1,39 @@
+{
+	"name": "Wave of Rolling Earth",
+	"source": "PHB",
+	"page": 81,
+	"featureType": [
+		"ED"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 17,
+				"class": {
+					"name": "Monk"
+				},
+				"subclass": {
+					"name": "Four Elements"
+				}
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"_": {
+					"resource": {
+						"6": [
+							"wall of stone"
+						]
+					}
+				}
+			},
+			"resourceName": "Ki",
+			"ability": "wis"
+		}
+	],
+	"entries": [
+		"You can spend 6 ki points to cast {@spell wall of stone}."
+	]
+}

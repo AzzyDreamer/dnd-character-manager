@@ -1,0 +1,14 @@
+{
+	"name": "Covered Wagon",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "VEH|XPHB",
+	"rarity": "none",
+	"weight": 1300,
+	"value": 25000,
+	"entries": [
+		"This vehicle is a {@item Wagon|XPHB} covered by durable canvas. A creature has {@variantrule Cover|XPHB|Three-Quarters Cover} while riding inside this vehicle."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

@@ -1,0 +1,119 @@
+{
+	"name": "Disembodied",
+	"source": "GrimHollowPG24",
+	"page": 26,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 30,
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small or Medium (Disembodied appear as translucent versions of their former selves. Their nearly insubstantial nature reduces their weight to a quarter of what it was.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. If you are Small, you can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"The Disembodied mature at a much slower rate than the Humanoids they once were, with their life expectancy doubled or even tripled."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Disembodied Traits",
+			"entries": [
+				"Most Disembodied retain a touch of the ethereal magic that marks them as creatures of two worlds.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Magical Fortification|GrimHollowPG24}",
+								"{@optfeature Master of Distraction|GrimHollowPG24}",
+								"{@optfeature Out of Phase|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Ethereal Fade|GrimHollowPG24}",
+								"{@optfeature Inured to the Elements|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Magical Insight|GrimHollowPG24}",
+								"{@optfeature Magical Savvy|GrimHollowPG24|Magical Savant} ({@spell Feather Fall|XPHB})",
+								"{@optfeature Magical Savvy|GrimHollowPG24} ({@spell Dancing Lights|XPHB})"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"To allow one's mind to touch the planes is the ultimate dream of many an arcane spellcaster, and nowhere has that dream come closer to reality than in the lost city of Ulmyr's Gate. Founded in the Bürach Empire by a group of ambitious wizards who chafed under the limitations imposed upon them by government bureaucracy, Ulmyr's Gate boasted free study for all mages who sought sanctuary within its walls. The Great College dedicated to magical study in the city quickly became a sanctum for mages of all disciplines from across Etharis, creating a golden age of magic within its walls.",
+	"That golden age came crashing down in a single night, when the founding mages of Ulmyr's Gate attempted an ambitious ritual intended to part the veil and create a permanent portal to the Ethereal Plane. Instead, their magic tore a gaping rift in the fabric of reality, and in an instant the entire city was tipped into the void between worlds. Ulmyr's Gate and all its citizens were presumed destroyed. The incident triggered another inquisition against hubristic arcanists who tampered in things mortals were not meant to know. Then, life in the empire went on.",
+	"Years later, stories began to surface of frightening apparitions sighted in the region where Ulmyr's Gate once stood. These haunting folk seemed oddly blurred or indistinct. Witnesses reporting that they would vanish as suddenly as they appeared. Gradually, it became clear that these poor souls were the survivors of the Ethereal Rift, now trapped between worlds and trying to retain their tenuous grasp on the Material Plane.",
+	"Those residents of lost Ulmyr's Gate who have mustered the strength to return to the world have been named the disembodied by the sages who have studied them. These rare individuals have left or fled their former home, crossing through the Ethereal Rift to roam the mortal world. Though they resemble the people they once were, they are both more and less—creatures of two realms, often haunted by memories of the city's destruction, of which they rarely if ever speak.",
+	{
+		"type": "entries",
+		"name": "Eldritch Heritages",
+		"entries": [
+			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+		]
+	}
+]

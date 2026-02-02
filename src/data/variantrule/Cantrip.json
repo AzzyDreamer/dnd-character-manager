@@ -1,0 +1,11 @@
+{
+	"name": "Cantrip",
+	"source": "XPHB",
+	"page": 362,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A cantrip is a level 0 spell, which is cast without a spell slot."
+	]
+}

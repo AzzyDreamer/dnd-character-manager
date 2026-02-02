@@ -1,0 +1,13 @@
+{
+	"name": "Pole of Angling",
+	"source": "XDMG",
+	"page": 286,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"This item functions as a Pole. While holding it, you can take a {@action Magic|XPHB} action to cause it to transform into a fishing pole with a hook, a line, and a reel, or have the fishing pole revert to a Pole."
+	],
+	"lootTables": [
+		"Implements - Common|XDMG"
+	]
+}

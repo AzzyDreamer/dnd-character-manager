@@ -1,0 +1,48 @@
+{
+	"name": "Spellfire Adept",
+	"source": "FRHoF",
+	"page": 41,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"spellfire spark|frhof"
+			]
+		},
+		{
+			"feature": [
+				"Spellcasting",
+				"Pact Magic"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Fueled Spellfire",
+			"entries": [
+				"Once per turn, when a spell you cast deals Radiant damage, you can expend up to two {@variantrule Hit Point Dice|XPHB}, roll them, and add the total rolled to one damage roll of the spell."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Searing Spellfire",
+			"entries": [
+				"When you make a damage roll that deals Radiant damage, it ignores {@variantrule Resistance|XPHB} to Radiant damage."
+			]
+		}
+	]
+}

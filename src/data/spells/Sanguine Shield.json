@@ -1,0 +1,65 @@
+{
+	"name": "Sanguine Shield",
+	"source": "GrimHollowPG24",
+	"page": 200,
+	"level": 2,
+	"school": "A",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend two {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. You draw lifeforce from those injured around you to create a swirling shield of blood. You gain 5 {@variantrule Temporary Hit Points|XPHB} for each creature within 30 feet of you that is below its {@variantrule Hit Points|XPHB|Hit Point} maximum (including you) to a maximum of 15 {@variantrule Temporary Hit Points|XPHB}. While you have {@variantrule Temporary Hit Points|XPHB} from this spell, you have {@variantrule Cover|XPHB|Half Cover}. When the spell ends, all {@variantrule Temporary Hit Points|XPHB} from it are lost."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The maximum number of {@variantrule Temporary Hit Points|XPHB} you gain increases by 5 for each two spell slot levels above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"THP"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Sanguine%20Shield.webp"
+}

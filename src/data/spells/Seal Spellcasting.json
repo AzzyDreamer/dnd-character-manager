@@ -1,0 +1,65 @@
+{
+	"name": "Seal Spellcasting",
+	"source": "GrimHollowPG24",
+	"page": 200,
+	"level": 2,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "wax mixed with lead and a stamp"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"When you cast this spell, choose a creature you can see within range. When the target casts a spell, it must make a Charisma saving throw. On a failed save, the creature expends a spell slot to cast the spell as normal but the spell has no effect. On a successful save, the creature casts the spell but takes {@damage 3d8} Force damage. After the creature makes a saving throw, the spell immediately ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d8} for each spell slot above level 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"force"
+	],
+	"savingThrow": [
+		"charisma"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Seal%20Spellcasting.webp"
+}

@@ -1,0 +1,36 @@
+{
+	"name": "Heavy Armor Master",
+	"source": "XPHB",
+	"page": 204,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"proficiency": [
+				{
+					"armor": "heavy"
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"con",
+					"str"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Damage Reduction",
+			"entries": [
+				"When you're hit by an attack while you're wearing Heavy armor, any Bludgeoning, Piercing, and Slashing damage dealt to you by that attack is reduced by an amount equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+			]
+		}
+	]
+}

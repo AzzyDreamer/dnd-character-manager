@@ -1,0 +1,14 @@
+{
+	"name": "Veteran's Cane",
+	"source": "XDMG",
+	"page": 318,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can transform this walking cane into an ordinary Longsword or change the Longsword back into a walking cane. In either case, you must be holding the item."
+	],
+	"lootTables": [
+		"Armaments - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

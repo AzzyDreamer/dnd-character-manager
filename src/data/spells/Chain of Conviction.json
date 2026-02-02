@@ -1,0 +1,83 @@
+{
+	"name": "Chain of Conviction",
+	"source": "CrookedMoon24",
+	"page": 126,
+	"level": 2,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You hurl a spectral, barbed chain at a creature that you can see within range. The target makes a Strength saving throw. On a failed save, the target takes {@damage 2d6} Force damage, is pulled up to 30 feet toward you, and is bound by the chain. While bound by the chain, the creature is tethered to you and can't move or teleport to a space more than 30 feet away from you, and you have {@variantrule Advantage|XPHB} on attack rolls made against the creature.",
+		"On a successful save, the target takes half as much damage only. The bound target repeats the save at the end of each of its turns, ending the spell on itself on a success. If you are ever more than 30 feet away from the target, the spell ends."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@dice 1d6} for each spell slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"force"
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"miscTags": [
+		"ADV",
+		"FMV",
+		"SGT"
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Spells/chain-of-conviction.webp"
+				},
+				"width": 1700,
+				"height": 543,
+				"credit": "Brent Hollowell"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Chain-of-Conviction.webp"
+}

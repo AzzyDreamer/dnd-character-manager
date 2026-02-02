@@ -1,0 +1,14 @@
+{
+	"name": "Riposte",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When a creature misses you with a melee attack roll, you can take a {@variantrule Reaction|XPHB} and expend one Superiority Die to make a melee attack roll with a weapon or an {@variantrule Unarmed Strike|XPHB} against the creature. If you hit, add the Superiority Die to the attack's damage."
+	]
+}

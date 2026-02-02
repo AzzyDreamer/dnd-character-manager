@@ -1,0 +1,124 @@
+{
+	"name": "Gnome",
+	"source": "GrimHollowPG24",
+	"page": 16,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S"
+	],
+	"speed": 30,
+	"age": {
+		"mature": 40,
+		"max": 500
+	},
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small (Gnomes are between 3 and 4 feet tall and average about 40 pounds.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. You can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Gnomes are physically mature by 18, and most are expected to settle down into an adult life by around age 40. They can live to almost 500 years."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Gnome Traits",
+			"entries": [
+				"For many Gnomes, an instinctive quickness of body and mind shapes their approach to life and learning.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Magical Fortification|GrimHollowPG24}",
+								"{@optfeature Quick Slip|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Artifice Expertise|GrimHollowPG24}",
+								"{@optfeature Darkvision|GrimHollowPG24}",
+								"{@optfeature Fade Away|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Magical Savvy|GrimHollowPG24}",
+								"{@optfeature Masterful Aptitude|GrimHollowPG24}",
+								"{@optfeature Nature's Voice|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Ingenious and full of energy, gnomes are thought to be distant cousins of the dwarves. Shorter than their dwarf kin and less bulky, these small-framed folk are often known for their ever-working brains and great aptitude for invention. Gnomes are clever, curious, sometimes mischievous, but culturally very diligent.",
+	"Gnomes have created some of the most impressive mechanical wonders of Etharis. Cannons, automatons, flintlocks, and explosives are all reputed to be results of gnomish crafting. The process of tinkering is as important as the result. Gnomes create new inventions simply to prove it can be done. It's said among other folk that if you're looking for a gnome in a populated city, you need only wait for the explosion to guide your steps.",
+	"During the Era of Expansion, gnomes fled their settlements outside the sheltering mountains to seek the protection of dwarf cities such as Stehlenwald. There, they shared the fate of their dwarf cousins as human armies besieged the soaring stone walls of the city. While the dwarves eventually gazed upon adamantine, the ingenious minds of the gnomes hatched other plans with the gifts from the mountains.",
+	"Gnome alchemists worked day and night, mixing chemicals and powders, until they invented a new weapon: explosives. As the adamantine-clad dwarves charged the besieging human armies, they were supported by the sound of explosions as gnome artillery hurled cannonballs and dynamite at the enemy. Beneath the barrage, the human forces were quickly broken. The effects of the never-before-seen explosives struck fear into their minds, as if witnessing a new and terrible sorcery. A first great battle had been won, but the losses for both gnomes and dwarves were great.",
+	"So did the gnomes follow the dwarves of Stehlenwald into their centuries-long isolation—and when the dwarf king voluntarily brought his people into the Bürach Empire, the gnomes followed.",
+	"Curiously, gnomes have an affinity with the natural world. Those who did not flee for the safety of mountains were called back to their ancestral homes deep in Etharis's forests. Perhaps this suggests a common ancestor with the elves, also.",
+	{
+		"type": "entries",
+		"name": "Common Heritages",
+		"entries": [
+			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+		]
+	}
+]

@@ -1,0 +1,98 @@
+{
+	"name": "Wrathful Smite",
+	"source": "XPHB",
+	"page": 343,
+	"level": 1,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus",
+			"condition": "which you take immediately after hitting a creature with a Melee weapon or an {@variantrule Unarmed Strike|XPHB}"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"The target takes an extra {@damage 1d6} Necrotic damage from the attack, and it must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition until the spell ends. At the end of each of its turns, the {@condition Frightened|XPHB} target repeats the save, ending the spell on itself on a success."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage increases by {@scaledamage 1d6|1-9|1d6} for each spell slot level above 1."
+			]
+		}
+	],
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"frightened"
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"AAD"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "The Hexblade",
+					"shortName": "Hexblade",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Shadow Touched",
+			"source": "TCE"
+		},
+		{
+			"name": "Shadow-Touched",
+			"source": "XPHB"
+		}
+	]
+}

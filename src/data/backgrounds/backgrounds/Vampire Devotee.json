@@ -1,0 +1,120 @@
+{
+	"name": "Vampire Devotee",
+	"source": "ABH",
+	"page": 6,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"vampire's plaything|abh": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"persuasion": true,
+			"stealth": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"cook's utensils": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"cook's utensils|xphb",
+				"fine clothes|xphb",
+				{
+					"item": "glass bottle|xphb",
+					"quantity": 2,
+					"displayName": "Glass Bottles"
+				},
+				"healer's kit|xphb",
+				"perfume|xphb",
+				"lamp|xphb",
+				{
+					"item": "oil|xphb",
+					"displayName": "Oil (3 flasks)"
+				},
+				"waterskin|xphb",
+				{
+					"value": 1900
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Constitution, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Vampire's Plaything|ABH}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Persuasion|XPHB} and {@skill Stealth|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Cook's Utensils|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Cook's Utensils|XPHB}, {@item Fine Clothes|XPHB}, 2 {@item Glass Bottle|XPHB|Glass Bottles}, {@item Healer's Kit|XPHB}, {@item Perfume|XPHB}, {@item Lamp|XPHB}, {@item Oil|XPHB} (3 flasks), {@item Waterskin|XPHB}, 19 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You were in service to a vampire or a small group of vampires lairing together. The Undead drank your blood more times than you can count. You might have served willingly, perhaps with aspirations of one day becoming a vampire yourself. Or you might have been magically charmed and retain only a few muddled memories of your time as a vampire familiar. In either case, your time in the vampire den is over."
+	]
+}

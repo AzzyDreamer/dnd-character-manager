@@ -1,0 +1,16 @@
+{
+	"name": "Vanrak's Mithral Shirt",
+	"source": "WDMM",
+	"page": 237,
+	"baseItem": "chain shirt|phb",
+	"type": "MA",
+	"rarity": "uncommon",
+	"weight": 20,
+	"ac": 13,
+	"strength": null,
+	"stealth": false,
+	"entries": [
+		"Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+		"While you wear this armor, you gain {@sense darkvision} out to a range of 60 feet."
+	]
+}

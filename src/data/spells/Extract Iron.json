@@ -1,0 +1,70 @@
+{
+	"name": "Extract Iron",
+	"source": "GrimHollowPG24",
+	"page": 191,
+	"level": 3,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a rusty knife"
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend three {@variantrule Hit Point Dice|XPHB|Hit Dice} or the spell automatically fails. Roll the expended {@variantrule Hit Point Dice|XPHB|Hit Dice} and extract a number of pounds of iron from your blood equal to the roll's total.",
+		"You fashion this iron into nonmagical metal objects. The combined weight of these objects must be equal to or less than the number rolled on the expended {@variantrule Hit Point Dice|XPHB}. The quality of these created objects is poor but functional."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend an additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} and create additional iron for each spell slot level above 3."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"OBJ"
+	],
+	"hasFluffImages": true,
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Extract%20Iron.webp"
+}

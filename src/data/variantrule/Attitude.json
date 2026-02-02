@@ -1,0 +1,11 @@
+{
+	"name": "Attitude",
+	"source": "XPHB",
+	"page": 361,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A {@variantrule Monster|XPHB|monster} has a starting attitude toward a {@variantrule Player Character|XPHB|player character}: {@variantrule Friendly [Attitude]|XPHB|Friendly}, {@variantrule Hostile [Attitude]|XPHB|Hostile}, or {@variantrule Indifferent [Attitude]|XPHB|Indifferent}."
+	]
+}

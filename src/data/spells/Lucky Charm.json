@@ -1,0 +1,61 @@
+{
+	"name": "Lucky Charm",
+	"source": "CrookedMoon24",
+	"page": 130,
+	"level": 5,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a four-leaf clover and a shard of broken mirror"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You touch a Tiny, nonmagical object, infusing it with a portion of your own luck for the duration. While another creature carries the object, that creature has {@variantrule Advantage|XPHB} on {@variantrule D20 Test|XPHB|D20 Tests}, and you have {@variantrule Disadvantage|XPHB} on {@variantrule D20 Test|XPHB|D20 Tests}."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"OBJ"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Lucky-Charm.webp"
+}

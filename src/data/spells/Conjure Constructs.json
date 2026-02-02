@@ -1,0 +1,148 @@
+{
+	"name": "Conjure Constructs",
+	"source": "FRHoF",
+	"page": 143,
+	"level": 3,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a brass cog"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You conjure a group of intangible, orderly spirits that appear as a Medium group of modrons or other Constructs in an unoccupied space you can see within range. The spirits last for the duration. When you cast this spell and as a {@action Magic|XPHB} action on subsequent turns, you can command the spirits to target one creature or object you can see within 5 feet of the spirits and create one of the following effects:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Clockwork Force",
+					"entries": [
+						"The target makes a Dexterity saving throw, taking {@damage 3d6} Force damage on a failed save or half as much damage on a successful one."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Orderly Ward",
+					"entries": [
+						"The target gains {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d6} plus your spellcasting ability modifier."
+					]
+				}
+			]
+		},
+		"When you move on your turn, you can also move the spirits up to 30 feet to an unoccupied space you can see."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The damage and {@variantrule Temporary Hit Points|XPHB} both increase by {@scaledamage 3d6|3-9|1d6} for each spell slot level above 3."
+			]
+		}
+	],
+	"damageInflict": [
+		"force"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"OBJ",
+		"SGT",
+		"THP"
+	],
+	"areaTags": [
+		"C"
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Fighter",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Eldritch Knight",
+					"shortName": "Eldritch Knight",
+					"source": "PHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Rogue",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcane Trickster",
+					"shortName": "Arcane Trickster",
+					"source": "PHB"
+				}
+			}
+		]
+	}
+}

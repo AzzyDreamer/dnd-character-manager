@@ -1,0 +1,13 @@
+{
+	"name": "Helm of Awareness",
+	"source": "EFA",
+	"page": 112,
+	"rarity": "uncommon",
+	"wondrous": true,
+	"entries": [
+		"While wearing this helmet, you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls."
+	],
+	"classFeatures": [
+		"replicate magic item|artificer|efa|2|efa"
+	]
+}

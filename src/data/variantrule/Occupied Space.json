@@ -1,0 +1,11 @@
+{
+	"name": "Occupied Space",
+	"source": "XPHB",
+	"page": 371,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A space is occupied if a creature is in it or if it is completely filled by objects."
+	]
+}

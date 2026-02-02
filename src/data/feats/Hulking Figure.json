@@ -1,0 +1,50 @@
+{
+	"name": "Hulking Figure",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"con"
+				]
+			}
+		}
+	],
+	"entries": [
+		"Either from extensive training or a natural build, you have a broad and formidable size for your species. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Brutal",
+			"entries": [
+				"Once per turn, you can deal an extra {@damage 1d4} Bludgeoning damage to a target you hit with an {@variantrule Unarmed Strike|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Intimidating",
+			"entries": [
+				"When you make a Charisma ({@skill Intimidation|XPHB}, {@skill Performance|XPHB}, or {@skill Persuasion|XPHB}) check, you can also add your Strength modifier to the roll."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Powerful",
+			"entries": [
+				"You count as one size larger (to a maximum size of Large) when determining your carrying capacity."
+			]
+		}
+	]
+}

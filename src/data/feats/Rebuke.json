@@ -1,0 +1,35 @@
+{
+	"name": "Rebuke",
+	"source": "ABH",
+	"page": 10,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Radiant Strike",
+			"entries": [
+				"When you make a damage roll that deals Radiant damage, you can cause one Huge or smaller creature taking the damage to have the {@condition Prone|XPHB} condition. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

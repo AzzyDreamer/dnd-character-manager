@@ -1,0 +1,39 @@
+{
+	"name": "Clench of the North Wind",
+	"source": "PHB",
+	"page": 81,
+	"featureType": [
+		"ED"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 6,
+				"class": {
+					"name": "Monk"
+				},
+				"subclass": {
+					"name": "Four Elements"
+				}
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"_": {
+					"resource": {
+						"3": [
+							"hold person"
+						]
+					}
+				}
+			},
+			"resourceName": "Ki",
+			"ability": "wis"
+		}
+	],
+	"entries": [
+		"You can spend 3 ki points to cast {@spell hold person}."
+	]
+}

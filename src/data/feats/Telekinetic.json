@@ -1,0 +1,49 @@
+{
+	"name": "Telekinetic",
+	"source": "XPHB",
+	"page": 208,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": "inherit",
+			"known": {
+				"_": [
+					"mage hand|xphb#c"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Minor Telekinesis",
+			"entries": [
+				"You learn the {@spell Mage Hand|XPHB} spell. You can cast it without Verbal or Somatic components, you can make the spectral hand {@condition Invisible|XPHB}, and its range and the distance it can be away from you both increase by 30 feet when you cast it. The spell's spellcasting ability is the ability increased by this feat."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Telekinetic Shove",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you can telekinetically shove one creature you can see within 30 feet of yourself. When you do so, the target must succeed on a Strength saving throw ({@dc 8} plus the ability modifier of the score increased by this feat and your {@variantrule Proficiency|XPHB|Proficiency Bonus}) or be moved 5 feet toward or away from you."
+			]
+		}
+	]
+}

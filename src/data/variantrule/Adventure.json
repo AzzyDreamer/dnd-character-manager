@@ -1,0 +1,11 @@
+{
+	"name": "Adventure",
+	"source": "XPHB",
+	"page": 360,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An adventure is a series of {@variantrule Encounter|XPHB|encounters}. A story emerges through playing them."
+	]
+}

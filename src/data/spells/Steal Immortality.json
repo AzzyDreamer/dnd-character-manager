@@ -1,0 +1,92 @@
+{
+	"name": "Steal Immortality",
+	"source": "GrimHollowPG24",
+	"page": 202,
+	"level": 9,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "which you take when a Celestial, Elemental, Fey, Fiend, or Undead within range that you can see is reduced to 0 Hit Points"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 300
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "the skull of a humanoid encrusted in gems worth 1,000+ GP, which the spell consumes",
+			"cost": 100000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend nine {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell and gain a number of {@variantrule Temporary Hit Points|XPHB} equal to twice the roll's total. You gain the creature type of the spell's target, in addition to your own type.",
+		"While the spell lasts, you have {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition; you no longer need to eat, drink, or breathe; you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage; and you gain a benefit based on your new creature type:",
+		{
+			"type": "entries",
+			"name": "Celestial",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Radiant and Necrotic damage and have a {@variantrule Fly Speed|XPHB} of 60 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Elemental",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Acid, Cold, Fire, Lightning, and Thunder damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fey",
+			"entries": [
+				"You can use a {@variantrule Bonus Action|XPHB} to have the {@condition Invisible|XPHB} condition until the start of your next turn, or teleport up to 60 feet to an unoccupied space you can see."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fiend",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Cold and Fire damage and have a {@variantrule Fly Speed|XPHB} of 60 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Undead",
+			"entries": [
+				"You have {@variantrule Immunity|XPHB} to Necrotic damage, and you have {@variantrule Immunity|XPHB} to the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions.",
+				"You have the creature type and benefits until you cast the spell again, or you are reduced to 0 {@variantrule Hit Points|XPHB}."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"SGT",
+		"THP",
+		"UBA"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Steal%20Immortality.webp"
+}

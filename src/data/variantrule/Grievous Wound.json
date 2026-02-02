@@ -1,0 +1,23 @@
+{
+	"name": "Grievous Wound",
+	"source": "GrimHollowPG24",
+	"page": 47,
+	"ruleType": "O",
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Wounds in Grim Hollow",
+			"entries": [
+				"Grievous Wounds are applied to characters that would be dropped to 0 {@variantrule Hit Points|XPHB}, but instead choose to gain a lingering wound that stays with them. These wounds remain until a character takes a {@variantrule Long Rest|XPHB} (see Resting below) and undergoes treatment by a physician or someone trained in {@skill Medicine|XPHB}.",
+				"Permanent Wounds occur when a creature takes multiple Grievous Wounds, or when a character dies and is brought back to life. The challenges of Permanent Wounds can be offset with certain magic items or prosthetics."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Rests in Grim Hollow",
+			"entries": [
+				"The dark-fantasy vibe of Grim Hollow necessitates a change to the effects of {@variantrule Short Rest|XPHB|Short} and {@variantrule Long Rest|XPHB|Long Rests}. Grievous Wounds can be healed by taking a {@variantrule Long Rest|XPHB}, but those rests in Grim Hollow take 32 hours of resting in a completely safe environment."
+			]
+		}
+	]
+}

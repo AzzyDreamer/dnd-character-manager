@@ -1,0 +1,15 @@
+{
+	"name": "Skyship",
+	"source": "EGW",
+	"page": 72,
+	"type": "AIR|DMG",
+	"rarity": "none",
+	"value": 10000000,
+	"crewMin": 6,
+	"crewMax": 10,
+	"vehSpeed": 10,
+	"capPassenger": 30,
+	"capCargo": 10,
+	"travelCost": 200,
+	"shippingCost": 100
+}

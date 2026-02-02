@@ -1,0 +1,53 @@
+{
+	"name": "Ruidium Shield",
+	"source": "CRCotN",
+	"page": 215,
+	"baseItem": "shield|PHB",
+	"type": "S",
+	"resist": [
+		"psychic"
+	],
+	"rarity": "very rare",
+	"reqAttune": true,
+	"weight": 6,
+	"ac": 2,
+	"bonusAc": "+2",
+	"modifySpeed": {
+		"equal": {
+			"swim": "walk"
+		}
+	},
+	"entries": [
+		"Tendrils of ruidium extend across the metal surface of this shield. While this shield is on your person, you gain the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"You have resistance to psychic damage.",
+				"You can breathe water.",
+				"You gain a swimming speed equal to your walking speed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Psychic Reflection",
+			"entries": [
+				"When you take psychic damage while holding the shield, you can use your reaction to choose another creature you can see within 30 feet of you. That creature takes the psychic damage you would have taken."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ruidium Corruption",
+			"entries": [
+				"When you use the shield's Psychic Reflection property, you must make a {@dc 20} Charisma saving throw. On a failed save, you gain 1 level of {@condition exhaustion}. If you are not already suffering from ruidium corruption, you become corrupted when you fail this save."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "If Ruidium Is Destroyed",
+			"entries": [
+				"If the Apotheon is killed or redeemed, all the ruidium in Exandria is destroyed instantly, and a ruidium shield becomes a {@item +2 shield}."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

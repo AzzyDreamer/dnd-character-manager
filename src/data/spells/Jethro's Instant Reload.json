@@ -1,0 +1,56 @@
+{
+	"name": "Jethro's Instant Reload",
+	"source": "ValdaGunslinger",
+	"otherSources": [
+		{
+			"source": "ValdaSpire24"
+		}
+	],
+	"level": 2,
+	"school": "C",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a spent bullet casing"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 8
+			}
+		}
+	],
+	"entries": [
+		"One Ranged weapon you touch becomes enchanted to reload itself automatically. If the weapon has the {@itemProperty LD|XPHB|Loading} or {@itemProperty RLD|XDMG|Reload} property, you ignore the property for the duration. When the weapon's ammunition is depleted, ammunition you are carrying teleports into the weapon."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	}
+}

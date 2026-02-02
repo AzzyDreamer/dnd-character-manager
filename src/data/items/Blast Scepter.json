@@ -1,0 +1,23 @@
+{
+	"name": "Blast Scepter",
+	"source": "WDMM",
+	"page": 310,
+	"type": "RD|DMG",
+	"scfType": "arcane",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"focus": [
+		"Sorcerer",
+		"Warlock",
+		"Wizard"
+	],
+	"entries": [
+		"The Blast Scepter can be used as an arcane focus.",
+		"Whoever is attuned to the Blast Scepter gains resistance to fire and lightning damage and can, as an action, use it to cast {@spell thunderwave} as a 4th-level spell (save {@dc 16}) without expending a spell slot."
+	],
+	"attachedSpells": {
+		"will": [
+			"thunderwave#4"
+		]
+	}
+}

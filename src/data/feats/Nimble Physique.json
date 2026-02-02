@@ -1,0 +1,51 @@
+{
+	"name": "Nimble Physique",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con"
+				],
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You are small and thin for your species. You have a mysterious and consistent ability to avoid danger. You gain the following benefits:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Dodgy",
+					"entries": [
+						"While you aren't wearing armor or wielding a {@item Shield|XPHB}, you can take the {@action Dodge|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Slippery",
+					"entries": [
+						"While you are {@condition Grappled|XPHB} or {@condition Restrained|XPHB}, your attacks don't have {@variantrule Disadvantage|XPHB} and attacks against you don't have {@variantrule Advantage|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

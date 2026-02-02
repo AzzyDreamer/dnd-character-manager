@@ -1,0 +1,11 @@
+{
+	"name": "Player Character",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A player character is a character controlled by a player."
+	]
+}

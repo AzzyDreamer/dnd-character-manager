@@ -1,0 +1,30 @@
+{
+	"name": "Vampire's Plaything",
+	"source": "ABH",
+	"page": 9,
+	"category": "O",
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Decanting",
+			"entries": [
+				"When you finish a {@variantrule Long Rest|XPHB}, you can create one {@item Potion of Healing|XDMG} or an {@item Antitoxin|XPHB}, as long as you have an empty {@item vial|XPHB} or {@item flask|XPHB}. These liquids evaporate when you finish another {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Timely Retreat",
+			"entries": [
+				"You can take a {@variantrule Bonus Action|XPHB} to take the {@action Dash|XPHB} action or the {@action Disengage|XPHB} action. You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you recover all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Vampiric Connection",
+			"entries": [
+				"The DM determines the fate of your former vampire master. While you and your former vampire master are on the same plane of existence, the vampire can communicate with you telepathically, and you can choose to allow the vampire to perceive through your senses."
+			]
+		}
+	]
+}

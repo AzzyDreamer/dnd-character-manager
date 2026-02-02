@@ -1,0 +1,11 @@
+{
+	"name": "Sun",
+	"source": "WDH",
+	"page": 169,
+	"type": "$C",
+	"rarity": "none",
+	"value": 1000,
+	"entries": [
+		"Platinum coin, twice as large as a {@item nib|wdh} (1 sun = 1,000 {@item nib|wdh|nibs})"
+	]
+}

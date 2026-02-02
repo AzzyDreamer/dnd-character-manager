@@ -1,0 +1,9 @@
+{
+	"name": "Filth Fever",
+	"source": "PHB",
+	"page": 227,
+	"entries": [
+		"A raging fever sweeps through the creature's body. The creature has disadvantage on Strength checks, Strength saving throws, and attack rolls that use Strength.",
+		"{@note This disease can be inflicted with the {@spell contagion} spell.}"
+	]
+}

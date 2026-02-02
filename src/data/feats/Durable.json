@@ -1,0 +1,33 @@
+{
+	"name": "Durable",
+	"source": "XPHB",
+	"page": 203,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"con": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Defy Death",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Speedy Recovery",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you can expend one of your {@variantrule Hit Point Dice|XPHB}, roll the die, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll."
+			]
+		}
+	]
+}

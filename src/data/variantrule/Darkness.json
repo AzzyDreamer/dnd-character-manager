@@ -1,0 +1,11 @@
+{
+	"name": "Darkness",
+	"source": "XPHB",
+	"page": 365,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"An area of Darkness is {@variantrule Heavily Obscured|XPHB}."
+	]
+}

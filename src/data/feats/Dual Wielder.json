@@ -1,0 +1,51 @@
+{
+	"name": "Dual Wielder",
+	"source": "XPHB",
+	"page": 203,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Enhanced Dual Wielding",
+			"entries": [
+				"When you take the {@action Attack|XPHB} action on your turn and attack with a weapon that has the {@itemProperty L|XPHB|Light} property, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn with a different weapon, which must be a Melee weapon that lacks the {@itemProperty 2H|XPHB|Two-Handed} property. You don't add your ability modifier to the extra attack's damage unless that modifier is negative."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Draw",
+			"entries": [
+				"You can draw or stow two weapons that lack the {@itemProperty 2H|XPHB|Two-Handed} property when you would normally be able to draw or stow only one."
+			]
+		}
+	]
+}

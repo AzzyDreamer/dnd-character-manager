@@ -1,0 +1,35 @@
+{
+	"name": "Lash of Shadows (Awakened)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Lash of Shadows (Dormant)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Awakened",
+					"entries": [
+						"When the whip reaches an awakened state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"The weapon's bonus to attack and damage rolls increases to +2.",
+								"The saving throw DC for the weapon's poisons increases to 15.",
+								"The weapon gains a new poison option called Ghoul's Blood. A creature that fails the saving throw against this poison is {@condition poisoned} for 1 minute. While {@condition poisoned} in this way, the creature is {@condition paralyzed}. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"bonusWeapon": "+2",
+	"hasFluffImages": true
+}

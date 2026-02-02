@@ -1,0 +1,153 @@
+{
+	"name": "Genasi (Air)",
+	"source": "MPMM",
+	"page": 16,
+	"lineage": "VRGR",
+	"size": [
+		"S",
+		"M"
+	],
+	"speed": 35,
+	"age": {
+		"max": 120
+	},
+	"darkvision": 60,
+	"soundClip": {
+		"type": "internal",
+		"path": "races/genasi.mp3"
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Size",
+			"entries": [
+				"You are Medium or Small. You choose the size when you select this race."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Darkvision",
+			"entries": [
+				"You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Unending Breath",
+			"entries": [
+				"You can hold your breath indefinitely while you're not {@condition incapacitated}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Lightning Resistance",
+			"entries": [
+				"You have resistance to lightning damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mingle with the Wind",
+			"entries": [
+				"You know the {@spell shocking grasp} cantrip. Starting at 3rd level, you can cast the {@spell feather fall} spell with this trait, without requiring a material component. Starting 5th level, you can also cast the {@spell levitate} spell with this trait, without requiring a material component. Once you cast {@spell feather fall} or {@spell levitate} with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.",
+				"Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"anyStandard": 1
+		}
+	],
+	"raceName": "Genasi",
+	"raceSource": "MPMM",
+	"resist": [
+		"lightning"
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"3": {
+					"daily": {
+						"1": [
+							"feather fall"
+						]
+					}
+				},
+				"5": {
+					"daily": {
+						"1": [
+							"levitate"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"known": {
+				"1": [
+					"shocking grasp#c"
+				]
+			}
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"Tracing their ancestry to the genies of the Elemental Planes, each genasi can tap into the power of one of the elements. Air, earth, fire, and water—these are the four pillars of the Material Plane and the four types of genasi. Some genasi are direct descendants of a genie, while others were born to non-genasi parents who lived near a place suffused by a genie's magic.",
+	"A typical genasi has a life span of 120 years."
+]

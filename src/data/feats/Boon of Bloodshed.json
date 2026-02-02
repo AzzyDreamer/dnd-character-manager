@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Bloodshed",
+	"source": "FRHoF",
+	"page": 42,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Killer's Fortune",
+			"entries": [
+				"When an enemy you can see is reduced to 0 {@variantrule Hit Points|XPHB}, you gain {@variantrule Advantage|XPHB} on the next attack roll you make before the end of your next turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Power from Pain",
+			"entries": [
+				"Once per turn, when you make an attack roll while {@status Bloodied|XPHB}, you can deal extra damage to the target equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}. The extra damage's type is the same as the attack's type."
+			]
+		}
+	]
+}

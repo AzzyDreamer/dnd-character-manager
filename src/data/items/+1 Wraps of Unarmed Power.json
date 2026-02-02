@@ -1,0 +1,17 @@
+{
+	"name": "+1 Wraps of Unarmed Power",
+	"source": "XDMG",
+	"page": 325,
+	"rarity": "uncommon",
+	"wondrous": true,
+	"bonusWeapon": "+1",
+	"entries": [
+		"While wearing these wraps, you have a +1 bonus to attack rolls and damage rolls made with your Unarmed Strikes. Those strikes deal your choice of Force damage or their normal damage type."
+	],
+	"classFeatures": [
+		"replicate magic item|artificer|efa|2|efa"
+	],
+	"lootTables": [
+		"Armaments - Uncommon|XDMG"
+	]
+}

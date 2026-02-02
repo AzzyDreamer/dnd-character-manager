@@ -1,0 +1,44 @@
+{
+	"name": "Boon of the Elder Fey",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Fey|GrimHollowPG24|Fey Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Fey Bulwark",
+			"entries": [
+				"You are no longer affected by the {@optfeature Weakened Constitution|GrimHollowPG24|Weakened Constitution Transformation Flaw}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Divergent Growth",
+			"entries": [
+				"Choose any {@filter Fey Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=f:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+			]
+		}
+	]
+}

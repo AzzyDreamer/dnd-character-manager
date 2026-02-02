@@ -1,0 +1,37 @@
+{
+	"name": "Grappling",
+	"source": "XPHB",
+	"page": 367,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A creature can grapple another creature. Characters typically grapple by using an {@variantrule Unarmed Strike|XPHB}. Many {@variantrule Monster|XPHB|monsters} have special attacks that allow them to quickly grapple prey. However a grapple is initiated, it follows these rules.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Grappled Condition",
+					"entries": [
+						"Successfully grappling a creature gives it the {@condition Grappled|XPHB} condition."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "One Grapple per Hand",
+					"entries": [
+						"A creature must have a hand free to grapple another creature. Some stat blocks and game effects allow a creature to grapple using a tentacle, a maw, or another body part. Whatever part a grappler uses, it can grapple only one creature at a time with that part, and the grappler can't use that part to target another creature unless it ends the grapple."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Ending a Grapple",
+					"entries": [
+						"A Grappled creature can use its action to make a Strength ({@skill Athletics|XPHB}) or Dexterity ({@skill Acrobatics|XPHB}) check against the grapple's escape DC, ending the {@variantrule Condition|XPHB|condition} on itself on a success. The {@variantrule Condition|XPHB|condition} also ends if the grappler has the {@condition Incapacitated|XPHB} condition or if the distance between the Grappled target and the grappler exceeds the grapple's range. In addition, the grappler can release the target at any time (no action required)."
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Poison Soaked Kukri",
+	"source": "WttHC",
+	"type": "M|XPHB",
+	"rarity": "uncommon",
+	"reqAttune": true,
+	"weaponCategory": "simple",
+	"property": [
+		"F|XPHB",
+		"L|XPHB",
+		"T|XPHB"
+	],
+	"mastery": [
+		"Nick|XPHB"
+	],
+	"range": "20/60",
+	"dmg1": "1d4",
+	"dmgType": "P",
+	"entries": [
+		"You can take a {@variantrule Bonus Action|XPHB} to magically coat the blade of this Dagger with poison. The poison remains for 1 minute or until an attack using this weapon hits a creature. That creature must succeed on a DC 13 Constitution saving throw or take {@damage 2d8} Poison damage and have the {@condition Poisoned|XPHB} condition for 1 minute. This {@variantrule Bonus Action|XPHB} can't be used again this way until the next dawn."
+	],
+	"hasFluffImages": true
+}

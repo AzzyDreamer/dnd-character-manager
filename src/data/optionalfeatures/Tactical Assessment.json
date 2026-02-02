@@ -1,0 +1,14 @@
+{
+	"name": "Tactical Assessment",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When you make an Intelligence ({@skill History|XPHB} or {@skill Investigation|XPHB}) check or a Wisdom ({@skill Insight|XPHB}) check, you can expend one Superiority Die and add that die to the ability check."
+	]
+}

@@ -1,0 +1,22 @@
+{
+	"name": "Poisoned",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Poisoned condition, you experience the following effect.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Ability Checks and Attacks Affected",
+					"entries": [
+						"You have {@variantrule Disadvantage|XPHB} on attack rolls and ability checks."
+					]
+				}
+			]
+		}
+	]
+}

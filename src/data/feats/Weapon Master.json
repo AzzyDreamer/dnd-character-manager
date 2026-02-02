@@ -1,0 +1,32 @@
+{
+	"name": "Weapon Master",
+	"source": "XPHB",
+	"page": 209,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Mastery Property",
+			"entries": [
+				"Your training with weapons allows you to use the mastery property of one kind of Simple or Martial weapon of your choice, provided you have proficiency with it. Whenever you finish a {@variantrule Long Rest|XPHB}, you can change the kind of weapon to another eligible kind."
+			]
+		}
+	],
+	"hasFluffImages": true
+}

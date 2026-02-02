@@ -1,0 +1,41 @@
+{
+	"name": "Zhentarim Tactics",
+	"source": "FRHoF",
+	"page": 41,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"zhentarim ruffian|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"dex",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Retaliate",
+			"entries": [
+				"Immediately after a creature within 5 feet of you hits you with a melee attack, you can make an {@action Opportunity Attack|XPHB} against that creature."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Versatile Merc",
+			"entries": [
+				"When you finish a {@variantrule Long Rest|XPHB}, choose a skill in which you have proficiency. You have {@variantrule Expertise|XPHB} in that skill until you finish your next {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

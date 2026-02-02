@@ -1,0 +1,58 @@
+{
+	"name": "Thrown Weapon Master",
+	"source": "GrimHollowPG24",
+	"page": 118,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		},
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You excel at thrown weapons. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Multithrow",
+			"entries": [
+				"After you take the {@action Attack|XPHB} action to make a ranged attack roll using a Simple weapon that has {@itemProperty T|XPHB|Thrown}, you can make two additional ranged attacks using Simple weapons that have {@itemProperty T|XPHB|Thrown} as a {@variantrule Bonus Action|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Quick Hands",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you can retrieve and stow or wield all Simple weapons with {@itemProperty T|XPHB|Thrown} that are within 5 feet of you. You need a free hand to perform this maneuver."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Returning",
+			"entries": [
+				"Simple weapons with {@itemProperty T|XPHB|Thrown} that you are proficient with also have the Returning property (see Chapter 8: Advanced Weapons & Equipment)."
+			]
+		}
+	]
+}

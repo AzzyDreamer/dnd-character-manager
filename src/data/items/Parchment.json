@@ -1,0 +1,13 @@
+{
+	"name": "Parchment",
+	"source": "XPHB",
+	"page": 227,
+	"srd52": true,
+	"basicRules2024": true,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 10,
+	"entries": [
+		"One sheet of Parchment can hold about 250 handwritten words."
+	]
+}

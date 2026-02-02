@@ -1,0 +1,27 @@
+{
+	"name": "Preeminent in House",
+	"source": "EFA",
+	"page": 68,
+	"featureType": [
+		"RP"
+	],
+	"prerequisite": [
+		{
+			"otherSummary": {
+				"entry": "Renown 50+ with a {@book Dragonmarked House|EFA|5|Dragonmarked House Renown}",
+				"entrySummary": "Dragonmarked House Renown 50+"
+			}
+		}
+	],
+	"entries": [
+		"When you request a favor from your house (as decribed under \"{@optfeature Favored in House|EFA}\"), it can take one of the following additional forms:",
+		{
+			"type": "list",
+			"items": [
+				"A dragonmarked member of the house casts for you a level 5 spell associated with the house's mark at no cost.",
+				"A member of the house casts for you a different spell of level 8 or lower at half the usual cost."
+			]
+		},
+		"In addition, your house stipend increases to support your Aristocratic lifestyle (10 GP per day)."
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"name": "Tireless Reveler",
+	"source": "ABH",
+	"page": 8,
+	"category": "O",
+	"entries": [
+		"When an ally you can see within 60 feet of yourself expends {@variantrule Heroic Inspiration|XPHB}, you can gain {@variantrule Heroic Inspiration|XPHB} if you lack it. You can use this benefit a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Hazard",
+	"source": "XPHB",
+	"page": 368,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A {@5etools hazard|trapshazards.html} is an environmental danger."
+	]
+}

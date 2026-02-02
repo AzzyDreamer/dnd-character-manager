@@ -1,0 +1,30 @@
+{
+	"name": "Lucky",
+	"source": "XPHB",
+	"page": 201,
+	"category": "O",
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Luck Points",
+			"entries": [
+				"You have a number of Luck Points equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} and can spend the points on the benefits below. You regain your expended Luck Points when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Advantage",
+			"entries": [
+				"When you roll a {@dice d20} for a {@variantrule D20 Test|XPHB}, you can spend 1 Luck Point to give yourself {@variantrule Advantage|XPHB} on the roll."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Disadvantage",
+			"entries": [
+				"When a creature rolls a {@dice d20} for an attack roll against you, you can spend 1 Luck Point to impose {@variantrule Disadvantage|XPHB} on that roll."
+			]
+		}
+	]
+}

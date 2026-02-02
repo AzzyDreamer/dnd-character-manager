@@ -1,0 +1,69 @@
+{
+	"name": "Variant Entertainer (Gladiator)",
+	"source": "PHB",
+	"page": 131,
+	"_copy": {
+		"name": "Entertainer",
+		"source": "PHB",
+		"_mod": {
+			"entries": [
+				{
+					"mode": "replaceArr",
+					"replace": {
+						"index": 0
+					},
+					"items": {
+						"type": "list",
+						"style": "list-hang-notitle",
+						"items": [
+							{
+								"type": "item",
+								"name": "Skill Proficiencies:",
+								"entry": "{@skill Acrobatics}, {@skill Performance}"
+							},
+							{
+								"type": "item",
+								"name": "Tool Proficiencies:",
+								"entry": "{@item Disguise kit|phb}, one type of {@filter musical instrument|items|source=phb|miscellaneous=mundane|type=instrument}"
+							},
+							{
+								"type": "item",
+								"name": "Equipment:",
+								"entry": "An inexpensive but unusual weapon, such as a {@item trident|phb} or {@item net|phb} (one of your choice), the favor of an admirer (love letter, lock of hair, or trinket), {@item costume clothes|phb}, and a belt {@item pouch|phb} containing 15 gp"
+							}
+						]
+					}
+				},
+				{
+					"mode": "replaceArr",
+					"replace": {
+						"index": 1
+					},
+					"items": {
+						"name": "Feature: By Popular Demand",
+						"type": "entries",
+						"entries": [
+							"You can always find a place to perform in any place that features combat for entertainment—perhaps a gladiatorial arena or secret pit fighting club. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, they typically take a liking to you."
+						],
+						"data": {
+							"isFeature": true
+						}
+					}
+				}
+			]
+		}
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"A gladiator is as much an entertainer as any minstrel or circus performer, trained to make the arts of combat into a spectacle the crowd can enjoy. This kind of flashy combat is your entertainer routine, though you might also have some skills as a tumbler or actor. Using your By Popular Demand feature, you can find a place to perform in any place that features combat for entertainment–perhaps a gladiatorial arena or secret pit fighting club. You can replace the musical instrument in your equipment package with an inexpensive but unusual weapon, such as a trident or net."
+					]
+				}
+			]
+		}
+	]
+}

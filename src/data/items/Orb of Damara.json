@@ -1,0 +1,134 @@
+{
+	"name": "Orb of Damara",
+	"source": "FRAiF",
+	"page": 246,
+	"rarity": "artifact",
+	"reqAttune": true,
+	"wondrous": true,
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4 + 2}",
+	"charges": 6,
+	"entries": [
+		"A wizard named Damara created this orb while devising a way to become a dragon. Aided by a mysterious magician (actually an aspect of Tiamat in disguise), Damara eventually created an Artifact that would enable him to achieve his dream. Yet the potential power of his creation terrified Damara so much that he dared not use the orb. Instead, the wizard entombed himself with the Artifact to seal it away.",
+		"The Orb of Damara is about 6 inches in diameter and is made of a glassy, iridescent material that's like obsidian but incredibly hard. If held to one's own lips with the intention of consuming it, the orb shrinks to the size of a grape.",
+		{
+			"type": "entries",
+			"name": "Properties of the Orb",
+			"entries": [
+				"While attuned to the orb, you gain the following benefits:",
+				{
+					"type": "list",
+					"style": "list-hang-notitle",
+					"items": [
+						{
+							"type": "item",
+							"name": "Dragon's Breath",
+							"entries": [
+								"You can take a {@action Magic|XPHB} action to exhale a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone}. When you do, choose Acid, Cold, Fire, Lightning, or Poison. Each creature in the {@variantrule Cone [Area of Effect]|XPHB|Cone} makes a DC 18 Dexterity saving throw, taking {@damage 6d6} damage of the chosen type on a failed save or half as much damage on a successful one."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Fear Aura",
+							"entries": [
+								"You exude a terrifying aura in a 20-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} while you don't have the {@condition Incapacitated|XPHB} condition. You can take a {@action Magic|XPHB} action to disable or enable this aura. Any enemy that starts its turn in the aura must succeed on a DC 18 Wisdom saving throw or have the {@condition Frightened|XPHB} condition until the start of its next turn. A creature that succeeds on this save is immune to the aura's effects for 24 hours."
+							]
+						},
+						{
+							"type": "item",
+							"name": "Flight",
+							"entries": [
+								"You have a {@variantrule Fly Speed|XPHB} of 60 feet and can hover."
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Random Properties",
+			"entries": [
+				"The Artifact has the following random properties (see chapter 7 of the Dungeon Master's Guide):",
+				{
+					"type": "list",
+					"items": [
+						"2 {@table Artifact Properties; Minor Beneficial Properties|XDMG|minor beneficial} properties",
+						"2 {@table Artifact Properties; Minor Detrimental Properties|XDMG|minor detrimental} properties"
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spellcasting",
+			"entries": [
+				"The orb has 6 charges and regains {@dice 1d4 + 2} expended charges daily at dawn. While attuned to the orb, you can cast one of the spells on the following table from it (+10 spell attack modifier, spell save DC 18). The table indicates how many charges you must expend to cast the spell.",
+				{
+					"type": "table",
+					"colStyles": [
+						"col-6",
+						"col-6 text-center"
+					],
+					"colLabels": [
+						"Spell",
+						"Charge Cost"
+					],
+					"rows": [
+						[
+							"{@spell Disguise Self|XPHB}",
+							"0"
+						],
+						[
+							"{@spell Fire Shield|XPHB}",
+							"2"
+						],
+						[
+							"{@spell Hold Person|XPHB}",
+							"1"
+						],
+						[
+							"{@spell See Invisibility|XPHB}",
+							"1"
+						],
+						[
+							"{@spell Summon Dragon|XPHB} (level 9 version)",
+							"4"
+						]
+					]
+				}
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon Transformation",
+			"entries": [
+				"If you swallow the orb, you transform into an adult chromatic dragon under the DM's control. The type of chromatic dragon depends on your alignment and personality and is left to the DM to decide. The transformation is permanent, but if the dragon is slain, its body reverts to its original form and the orb reappears outside its body."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Destroying the Orb",
+			"entries": [
+				"If an {@creature Ancient Gold Dragon|XMM} willingly swallows the orb, the orb and the dragon are both destroyed."
+			]
+		}
+	],
+	"attachedSpells": {
+		"will": [
+			"disguise self|xphb"
+		],
+		"charges": {
+			"1": [
+				"hold person|xphb",
+				"see invisibility|xphb"
+			],
+			"2": [
+				"fire shield|xphb"
+			],
+			"4": [
+				"summon dragon|xphb#9"
+			]
+		}
+	}
+}

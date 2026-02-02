@@ -1,0 +1,68 @@
+{
+	"name": "Heartseeker",
+	"source": "GrimHollowPG24",
+	"page": 194,
+	"level": 6,
+	"school": "V",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 300
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a ruby worth 100+ GP",
+			"cost": 10000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend six {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. Blood flows from your body then crystallizes into a barbed arrow, which launches at a creature. Make a ranged spell attack against a target within range. On a hit, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell, and the creature takes Piercing damage equal to the numbered rolled.",
+		"Once lodged in the creature, the bloody arrow begins to burrow toward its heart, rendering it susceptible to injury. Until the spell ends, the first successful attack against a creature after its turn ends each round is automatically a {@variantrule Critical Hit|XPHB}.",
+		"The target makes a Constitution saving throw at the end of each of its turns. On a failed save, the effect continues. On a success save, the creature takes {@damage 3d8} Necrotic damage and the spell ends."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Heartseeker.webp"
+}

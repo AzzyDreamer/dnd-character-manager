@@ -1,0 +1,58 @@
+{
+	"name": "Veil of the Reaper",
+	"source": "CrookedMoon24",
+	"page": 133,
+	"level": 2,
+	"school": "I",
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a dried corn husk or wheat straw"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You wrap yourself in shadows that veil you between strikes. At the end of any turn in which you hit a creature with an attack roll, you gain the {@condition Invisible|XPHB} condition until the start of your next turn."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Ranger",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Veil-of-the-Reaper.webp"
+}

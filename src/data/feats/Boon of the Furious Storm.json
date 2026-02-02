@@ -1,0 +1,45 @@
+{
+	"name": "Boon of the Furious Storm",
+	"source": "FRHoF",
+	"page": 43,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"spellcasting2020": true
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"resist": [
+		"lightning",
+		"thunder"
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Eye of the Storm",
+			"entries": [
+				"You have {@variantrule Resistance|XPHB} to Lightning and Thunder damage. While you are {@status Bloodied|XPHB}, you have {@variantrule Immunity|XPHB} to Lightning and Thunder damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Storm's Strength",
+			"entries": [
+				"Creatures have {@variantrule Disadvantage|XPHB} on saving throws against your spells that deal Lightning or Thunder damage."
+			]
+		}
+	]
+}

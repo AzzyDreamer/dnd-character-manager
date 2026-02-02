@@ -1,0 +1,10 @@
+{
+	"name": "History",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "int",
+	"entries": [
+		"Recall lore about historical events, people, nations, and cultures."
+	]
+}

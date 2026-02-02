@@ -1,0 +1,48 @@
+{
+	"name": "Book of Vile Darkness (Variant)",
+	"source": "KftGV",
+	"page": 207,
+	"_copy": {
+		"name": "Book of Vile Darkness",
+		"source": "DMG",
+		"_mod": {
+			"entries": {
+				"mode": "replaceArr",
+				"replace": {
+					"index": 7
+				},
+				"items": [
+					"The Book of Vile Darkness has the following properties:",
+					{
+						"type": "list",
+						"style": "list-hang-notitle",
+						"items": [
+							{
+								"type": "item",
+								"name": "Circle of Death",
+								"entries": [
+									"While attuned to the book, you can cast {@spell circle of death} (save {@dc 20}) from it as an action. After you cast the spell, roll a {@dice d6}. On a roll of 1-5, you can't use this property again until the next dawn."
+								]
+							},
+							{
+								"type": "item",
+								"name": "Condition Immunities",
+								"entries": [
+									"While attuned to the book, you can't be {@condition charmed} or {@condition frightened}."
+								]
+							},
+							{
+								"type": "item",
+								"name": "Evil Presence",
+								"entries": [
+									"The book houses an evil spirit that is hostile toward you. When you become attuned to the book, the spirit tries to leave the book and enter your body. If you fail a {@dc 20} Charisma saving throw, it succeeds, and you become an NPC under the DM's control until the intruding spirit is banished using magic such as the {@spell dispel evil and good} spell. The banished spirit returns to the book."
+								]
+							}
+						]
+					}
+				]
+			}
+		}
+	},
+	"hasFluffImages": true
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Healing",
+	"source": "XPHB",
+	"page": 368,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Healing is how you regain {@variantrule Hit Points|XPHB}."
+	]
+}

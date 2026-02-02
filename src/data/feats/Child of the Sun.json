@@ -1,0 +1,43 @@
+{
+	"name": "Child of the Sun",
+	"source": "LFL",
+	"category": "O",
+	"additionalSpells": [
+		{
+			"innate": {
+				"_": {
+					"daily": {
+						"1": [
+							"faerie fire|xphb"
+						]
+					}
+				}
+			},
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Eyes of Eirdu",
+			"entries": [
+				"You and allies within 10 feet of you have {@variantrule Advantage|XPHB} on saving throws made to avoid or end the {@condition Blinded|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Faerie Fire",
+			"entries": [
+				"You learn the {@spell Faerie Fire|XPHB} spell. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat). You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.",
+				"When you cast {@spell Faerie Fire|XPHB} without a spell slot using this benefit, taking damage can't break your {@status Concentration|XPHB} on the spell."
+			]
+		}
+	]
+}

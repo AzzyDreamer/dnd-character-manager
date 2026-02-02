@@ -1,0 +1,139 @@
+{
+	"name": "Breaking Objects",
+	"source": "XPHB",
+	"page": 362,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Objects can be harmed by attacks and by some spells, using the rules below. If an object is exceedingly fragile, the DM may allow a creature to break it automatically with the {@action Attack|XPHB} or {@action Utilize|XPHB} action.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Armor Class",
+					"entries": [
+						"The Object {@variantrule Armor Class|XPHB} table suggests ACs for various substances."
+					]
+				}
+			]
+		},
+		{
+			"type": "table",
+			"caption": "Object Armor Class",
+			"colLabels": [
+				"AC",
+				"Substance"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"11",
+					"Cloth, paper, rope"
+				],
+				[
+					"13",
+					"Crystal, glass, ice"
+				],
+				[
+					"15",
+					"Wood"
+				],
+				[
+					"17",
+					"Stone"
+				],
+				[
+					"19",
+					"Iron, steel"
+				],
+				[
+					"21",
+					"Mithral"
+				],
+				[
+					"23",
+					"Adamantite"
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Hit Points",
+					"entries": [
+						"An object is destroyed when it has 0 Hit Points. The Object Hit Points table suggests {@variantrule Hit Points|XPHB} for fragile and resilient objects that are Large or smaller. To track Hit Points for a Huge or Gargantuan object, divide it into Large or smaller sections, and track each section's {@variantrule Hit Points|XPHB} separately. The DM determines whether destroying part of an object causes the whole thing to collapse."
+					]
+				}
+			]
+		},
+		{
+			"type": "table",
+			"caption": "Object Hit Points",
+			"colLabels": [
+				"Size",
+				"Fragile",
+				"Resilient"
+			],
+			"colStyles": [
+				"col-8",
+				"col-2 text-center",
+				"col-2 text-center"
+			],
+			"rows": [
+				[
+					"Tiny (bottle, lock)",
+					"2 ({@dice 1d4})",
+					"5 ({@dice 2d4})"
+				],
+				[
+					"Small (chest, lute)",
+					"3 ({@dice 1d6})",
+					"10 ({@dice 3d6})"
+				],
+				[
+					"Medium (barrel, chandelier)",
+					"4 ({@dice 1d8})",
+					"18 ({@dice 4d8})"
+				],
+				[
+					"Large (cart, dining table)",
+					"5 ({@dice 1d10})",
+					"27 ({@dice 5d10})"
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Damage Types and Objects",
+					"entries": [
+						"Objects have {@variantrule Immunity|XPHB} to Poison and Psychic damage. The DM might decide that some {@variantrule Damage Types|XPHB|damage types} are more or less effective against an object. For example, Bludgeoning damage works well for smashing things but not for cutting. Paper or cloth objects might have {@variantrule Vulnerability|XPHB} to Fire damage."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Damage Threshold",
+					"entries": [
+						"Big objects, such as castle walls, often have extra resilience represented by a damage threshold."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "No Ability Scores",
+					"entries": [
+						"An object lacks ability scores unless a rule assigns scores to the object. Without ability scores, an object can't make ability checks, and it fails all saving throws."
+					]
+				}
+			]
+		}
+	]
+}

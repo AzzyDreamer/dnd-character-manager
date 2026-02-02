@@ -1,0 +1,48 @@
+{
+	"type": "entries",
+	"name": "Training to Gain Levels",
+	"page": 49,
+	"entries": [
+		"As a variant rule, you can require characters to spend time between adventures training or studying before they gain the benefits of a new level. This variant slows the passage of time in the game world, which can help support a more realistic or gritty tone in your campaign.",
+		"If you choose this option, after earning enough Experience Points to attain a new level, a character must train for a number of days before gaining any class features associated with the new level. You can decide whether the character can train independently or requires a trainer.",
+		"The training time required depends on the level to be gained, as shown on the Training to Gain Levels table. The training cost is for the total training time.",
+		{
+			"type": "table",
+			"caption": "Training to Gain Levels",
+			"colLabels": [
+				"Level Attained",
+				"Training Time",
+				"Training Cost"
+			],
+			"colStyles": [
+				"col-3 text-center",
+				"col-3 text-center",
+				"col-3 text-center"
+			],
+			"rows": [
+				[
+					"2–4",
+					"10 days",
+					"20 GP"
+				],
+				[
+					"5–10",
+					"20 days",
+					"40 GP"
+				],
+				[
+					"11–16",
+					"30 days",
+					"60 GP"
+				],
+				[
+					"17–20",
+					"40 days",
+					"80 GP"
+				]
+			]
+		}
+	],
+	"ruleType": "V",
+	"source": "XDMG"
+}

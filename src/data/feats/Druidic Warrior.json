@@ -1,0 +1,30 @@
+{
+	"name": "Druidic Warrior",
+	"source": "XPHB",
+	"page": 120,
+	"category": "FS:R",
+	"prerequisite": [
+		{
+			"otherSummary": {
+				"entry": "When Gaining the Level 2 Ranger \"Fighting Style\" Feature",
+				"entrySummary": "Special"
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": "wis",
+			"known": {
+				"_": [
+					{
+						"choose": "level=0|class=druid",
+						"count": 2
+					}
+				]
+			}
+		}
+	],
+	"entries": [
+		"You learn two {@filter Druid cantrips|spells|level=0|class=druid} of your choice. {@spell Guidance|XPHB} and {@spell Starry Wisp|XPHB} are recommended. The chosen cantrips count as Ranger spells for you, and Wisdom is your spellcasting ability for them. Whenever you gain a Ranger level, you can replace one of these cantrips with another Druid cantrip."
+	]
+}

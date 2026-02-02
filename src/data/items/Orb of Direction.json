@@ -1,0 +1,18 @@
+{
+	"name": "Orb of Direction",
+	"source": "XDMG",
+	"page": 283,
+	"scfType": "arcane",
+	"rarity": "common",
+	"wondrous": true,
+	"weight": 3,
+	"entries": [
+		"This orb can be used as an Arcane Focus.",
+		"While holding this orb, you can take a {@action Magic|XPHB} action to determine which way is magnetic north. Nothing happens if the orb is used in a location that has no magnetic north."
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

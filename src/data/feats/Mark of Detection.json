@@ -1,0 +1,124 @@
+{
+	"name": "Mark of Detection",
+	"source": "EFA",
+	"page": 39,
+	"category": "D",
+	"prerequisite": [
+		{
+			"campaign": [
+				"Eberron"
+			],
+			"exclusiveFeatCategory": [
+				"D"
+			]
+		}
+	],
+	"additionalSpells": [
+		{
+			"ability": {
+				"choose": [
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"prepared": {
+				"3": {
+					"daily": {
+						"1": [
+							"see invisibility|xphb"
+						]
+					}
+				},
+				"_": {
+					"daily": {
+						"1": [
+							"detect magic|xphb"
+						]
+					}
+				}
+			},
+			"expanded": {
+				"s1": [
+					"detect evil and good|xphb",
+					"identify|xphb"
+				],
+				"s2": [
+					"detect thoughts|xphb",
+					"find traps|xphb"
+				],
+				"s3": [
+					"clairvoyance|xphb",
+					"nondetection|xphb"
+				],
+				"s4": [
+					"arcane eye|xphb",
+					"divination|xphb"
+				],
+				"s5": [
+					"legend lore|xphb"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Deductive Intuition",
+			"entries": [
+				"When you make an Intelligence ({@skill Investigation|XPHB}) or Wisdom ({@skill Insight|XPHB}) check, you can roll {@dice 1d4} and add the number rolled to the ability check."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Magical Detection",
+			"entries": [
+				"You always have the {@spell Detect Magic|XPHB} and {@spell Detect Poison and Disease|XPHB} spells prepared. You can cast each spell once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast these spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells (choose when you select this feat).",
+				"When you reach character level 3, you also always have the {@spell See Invisibility|XPHB} spell prepared and can cast it the same way."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Spells of the Mark",
+			"entries": [
+				"If you have the Spellcasting or Pact Magic class feature, the spells on the Mark of Detection Spells table are added to that feature's spell list.",
+				{
+					"type": "table",
+					"caption": "Mark of Detection Spells",
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"colLabels": [
+						"Spell Level",
+						"Spells"
+					],
+					"rows": [
+						[
+							"1",
+							"{@spell Detect Evil and Good|XPHB}, {@spell Identify|XPHB}"
+						],
+						[
+							"2",
+							"{@spell Detect Thoughts|XPHB}, {@spell Find Traps|XPHB}"
+						],
+						[
+							"3",
+							"{@spell Clairvoyance|XPHB}, {@spell Nondetection|XPHB}"
+						],
+						[
+							"4",
+							"{@spell Arcane Eye|XPHB}, {@spell Divination|XPHB}"
+						],
+						[
+							"5",
+							"{@spell Legend Lore|XPHB}"
+						]
+					]
+				}
+			]
+		}
+	],
+	"hasFluffImages": true
+}

@@ -1,0 +1,147 @@
+{
+	"name": "Elminster's Effulgent Spheres",
+	"source": "FRHoF",
+	"page": 144,
+	"level": 6,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "an opal worth 1,000 GP+",
+			"cost": 100000
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"Six chromatic spheres orbit you for the duration.",
+		"While the spheres are present, you can expend spheres to create the following effects:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Absorb Energy",
+					"entries": [
+						"When you take Acid, Cold, Fire, Lightning, or Thunder damage, you can take a {@variantrule Reaction|XPHB} to expend one sphere and give yourself {@variantrule Resistance|XPHB} to the triggering damage type until the start of your next turn."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Energy Blast",
+					"entries": [
+						"As a {@variantrule Bonus Action|XPHB}, you send one sphere hurtling toward a target within 120 feet of yourself. Make a ranged spell attack. On a hit, the target takes {@damage 3d6} Acid, Cold, Fire, Lightning, or Thunder damage (your choice). Regardless of whether you hit, the sphere is expended."
+					]
+				}
+			]
+		},
+		"The spell ends early if you have no more spheres remaining."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The number of spheres increases by 1 for every spell slot level above 6."
+			]
+		}
+	],
+	"damageInflict": [
+		"acid",
+		"cold",
+		"fire",
+		"lightning",
+		"thunder"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"miscTags": [
+		"UBA"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"hasFluffImages": true,
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB",
+				"definedInSource": "FRHoF"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Arcana Domain",
+					"shortName": "Arcana",
+					"source": "SCAG"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Evoker",
+					"shortName": "Evoker",
+					"source": "XPHB"
+				}
+			}
+		]
+	},
+	"feats": [
+		{
+			"name": "Boon of Siberys",
+			"source": "EFA"
+		}
+	]
+}

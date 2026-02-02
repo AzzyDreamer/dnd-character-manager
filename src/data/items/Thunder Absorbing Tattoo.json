@@ -1,0 +1,17 @@
+{
+	"name": "Thunder Absorbing Tattoo",
+	"source": "TCE",
+	"page": 119,
+	"resist": [
+		"thunder"
+	],
+	"detail1": "orange",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"tattoo": true,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Absorbing Tattoo|TCE}"
+	]
+}

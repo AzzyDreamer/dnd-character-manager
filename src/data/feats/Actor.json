@@ -1,0 +1,38 @@
+{
+	"name": "Actor",
+	"source": "XPHB",
+	"page": 202,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"cha": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"cha": 1
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Impersonation",
+			"entries": [
+				"While you're disguised as a real or fictional person, you have {@variantrule Advantage|XPHB} on Charisma ({@skill Deception|XPHB} or {@skill Performance|XPHB}) checks to convince others that you are that person."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Mimicry",
+			"entries": [
+				"You can mimic the sounds of other creatures, including speech. A creature that hears the mimicry must succeed on a Wisdom ({@skill Insight|XPHB}) check to determine the effect is faked ({@dc 8} plus your Charisma modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus})."
+			]
+		}
+	]
+}

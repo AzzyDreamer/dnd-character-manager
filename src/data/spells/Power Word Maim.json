@@ -1,0 +1,61 @@
+{
+	"name": "Power Word Maim",
+	"source": "GrimHollowPG24",
+	"page": 197,
+	"level": 7,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You command the body of a creature to twist and warp. If the target has 125 {@variantrule Hit Points|XPHB} or fewer, it takes {@damage 8d10} Necrotic damage, and it has the {@condition Prone|XPHB} condition. Otherwise, its {@variantrule Speed|XPHB} is 0 until the start of your next turn. The target makes a Constitution saving throw at the end of each of its turns, ending the condition on a success."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Power%20Word%20Maim.webp"
+}

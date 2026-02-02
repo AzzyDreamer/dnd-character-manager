@@ -1,0 +1,11 @@
+{
+	"name": "Weapon Attack",
+	"source": "XPHB",
+	"page": 377,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A weapon attack is an attack roll made with a weapon."
+	]
+}

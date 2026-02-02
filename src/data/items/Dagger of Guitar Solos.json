@@ -1,0 +1,22 @@
+{
+	"name": "Dagger of Guitar Solos",
+	"source": "WDMM",
+	"page": 228,
+	"baseItem": "dagger|phb",
+	"type": "M",
+	"rarity": "unknown (magic)",
+	"weight": 1,
+	"value": 75000,
+	"weaponCategory": "simple",
+	"property": [
+		"F",
+		"L",
+		"T"
+	],
+	"range": "20/60",
+	"dmg1": "1d4",
+	"dmgType": "P",
+	"entries": [
+		"This drow-made dagger is decorated with silver web filigree. It magically plays a fragment of a guitar solo when struck or used to strike a foe."
+	]
+}

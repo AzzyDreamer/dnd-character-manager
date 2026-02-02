@@ -1,0 +1,30 @@
+{
+	"name": "Prone Defense",
+	"source": "GrimHollowPG24",
+	"page": 119,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Defensive",
+			"entries": [
+				"When you have the {@condition Prone|XPHB} condition, you don't have {@variantrule Disadvantage|XPHB} on attack rolls. {@action Attack|XPHB} roll against you doesn't have {@variantrule Advantage|XPHB} because of the {@condition Prone|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Hop Up",
+			"entries": [
+				"When you have the {@condition Prone|XPHB} condition, you can right yourself with only 5 feet of movement."
+			]
+		}
+	]
+}

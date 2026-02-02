@@ -1,0 +1,36 @@
+{
+	"name": "Restrained",
+	"source": "XPHB",
+	"page": 373,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Restrained condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Speed 0",
+					"entries": [
+						"Your {@variantrule Speed|XPHB} is 0 and can't increase."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attacks Affected",
+					"entries": [
+						"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}, and your attack rolls have {@variantrule Disadvantage|XPHB}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Saving Throws Affected",
+					"entries": [
+						"You have {@variantrule Disadvantage|XPHB} on Dexterity {@variantrule Saving Throw|XPHB|saving throws}."
+					]
+				}
+			]
+		}
+	]
+}

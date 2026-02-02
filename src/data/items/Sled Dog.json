@@ -1,0 +1,12 @@
+{
+	"name": "Sled Dog",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "MNT|XPHB",
+	"rarity": "none",
+	"value": 5000,
+	"entries": [
+		"A sled dog uses the {@creature Wolf|XMM} stat block (see the Monster Manual). A sled dog pulling a sled alone must take a {@variantrule Short Rest|XPHB} after pulling a sled for 1 hour; otherwise, it gains 1 {@condition Exhaustion|XPHB} level."
+	],
+	"hasFluff": true
+}

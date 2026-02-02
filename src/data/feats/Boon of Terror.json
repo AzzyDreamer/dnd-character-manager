@@ -1,0 +1,54 @@
+{
+	"name": "Boon of Terror",
+	"source": "FRHoF",
+	"page": 43,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"cha": 1,
+			"max": 30
+		}
+	],
+	"skillProficiencies": [
+		{
+			"intimidation": true
+		}
+	],
+	"expertise": [
+		{
+			"intimidation": true
+		}
+	],
+	"conditionImmune": [
+		"frightened"
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Fearless",
+			"entries": [
+				"You have {@variantrule Immunity|XPHB} to the {@condition Frightened|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Flee, Fools!",
+			"entries": [
+				"When a creature with the {@condition Frightened|XPHB} condition starts its turn within 60 feet of you, you can take a {@variantrule Reaction|XPHB} to stoke its terror, provided you can see the creature and it isn't behind {@variantrule Cover|XPHB|Total Cover}. If you do so, the creature must succeed on a Wisdom saving throw (DC 8 plus your Charisma modifier and your {@variantrule Proficiency|XPHB|Proficiency Bonus}) or spend its turn moving away from you by the fastest available means. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Intimidating",
+			"entries": [
+				"You gain {@variantrule Proficiency|XPHB} in the {@skill Intimidation|XPHB} skill if you don't already have it. You also gain {@variantrule Expertise|XPHB} in {@skill Intimidation|XPHB}."
+			]
+		}
+	]
+}

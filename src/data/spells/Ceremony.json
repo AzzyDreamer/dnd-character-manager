@@ -1,0 +1,195 @@
+{
+	"name": "Ceremony",
+	"source": "XGE",
+	"page": 151,
+	"level": 1,
+	"school": "A",
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "25 gp worth of powdered silver, which the spell consumes",
+			"cost": 2500,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"meta": {
+		"ritual": true
+	},
+	"entries": [
+		"You perform a special religious ceremony that is infused with magic. When you cast the spell, choose one of the following rites, the target of which must be within 10 feet of you throughout the casting.",
+		{
+			"type": "entries",
+			"name": "Atonement",
+			"entries": [
+				"You touch one willing creature whose alignment has changed, and you make a {@dc 20} Wisdom ({@skill Insight}) check. On a successful check, you restore the target to its original alignment."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Bless Water",
+			"entries": [
+				"You touch one {@item vial|phb} of water and cause it to become {@item Holy Water (flask)|phb|holy water}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Coming of Age",
+			"entries": [
+				"You touch one humanoid who is a young adult. For the next 24 hours, whenever the target makes an ability check, it can roll a {@dice d4} and add the number rolled to the ability check. A creature can benefit from this rite only once."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dedication",
+			"entries": [
+				"You touch one humanoid who wishes to be dedicated to your god's service. For the next 24 hours, whenever the target makes a saving throw, it can roll a {@dice d4} and add the number rolled to the save. A creature can benefit from this rite only once."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Funeral Rite",
+			"entries": [
+				"You touch one corpse, and for the next 7 days, the target can't become undead by any means short of a {@spell wish} spell."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Wedding",
+			"entries": [
+				"You touch adult humanoids willing to be bonded together in marriage. For the next 7 days, each target gains a +2 bonus to AC while they are within 30 feet of each other. A creature can benefit from this rite again only if widowed."
+			]
+		}
+	],
+	"affectsCreatureType": [
+		"humanoid"
+	],
+	"miscTags": [
+		"MAC"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromClassListVariant": [
+			{
+				"name": "Cleric",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Paladin",
+				"source": "PHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB",
+				"definedInSource": "XGE"
+			}
+		],
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Bard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "College of Lore",
+					"shortName": "Lore",
+					"source": "XPHB"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			},
+			{
+				"class": {
+					"name": "Sorcerer",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Divine Soul",
+					"shortName": "Divine Soul",
+					"source": "XGE"
+				}
+			}
+		]
+	},
+	"optionalfeatures": [
+		{
+			"name": "Book of Ancient Secrets",
+			"source": "PHB",
+			"featureType": [
+				"EI"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	],
+	"feats": [
+		{
+			"name": "Divinely Favored",
+			"source": "DSotDQ"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "PHB"
+		},
+		{
+			"name": "Ritual Caster",
+			"source": "PHB"
+		},
+		{
+			"name": "Magic Initiate",
+			"source": "XPHB"
+		},
+		{
+			"name": "Ritual Caster",
+			"source": "XPHB"
+		},
+		{
+			"name": "Quicksmithing",
+			"source": "PSK"
+		},
+		{
+			"name": "Strixhaven Initiate",
+			"source": "SCC"
+		}
+	]
+}

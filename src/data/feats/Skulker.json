@@ -1,0 +1,50 @@
+{
+	"name": "Skulker",
+	"source": "XPHB",
+	"page": 208,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"dex": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"dex": 1
+		}
+	],
+	"senses": [
+		{
+			"blindsight": 10
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Blindsight",
+			"entries": [
+				"You have {@sense Blindsight|XPHB} with a range of 10 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fog of War",
+			"entries": [
+				"You exploit the distractions of battle, gaining {@variantrule Advantage|XPHB} on any Dexterity ({@skill Stealth|XPHB}) check you make as part of the {@action Hide|XPHB} action during combat."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sniper",
+			"entries": [
+				"If you make an attack roll while hidden and the roll misses, making the attack roll doesn't reveal your location."
+			]
+		}
+	]
+}

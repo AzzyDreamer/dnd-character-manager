@@ -1,0 +1,55 @@
+{
+	"name": "Martyr",
+	"source": "CrookedMoon24",
+	"page": 130,
+	"level": 3,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a Dagger worth at least 1 CP",
+			"cost": 1
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You touch a dead creature that died within the last minute and transfer your life essence into it. The target returns to life with {@variantrule Hit Points|XPHB} equal to your current {@variantrule Hit Points|XPHB|Hit Point} total. You immediately drop to 0 {@variantrule Hit Points|XPHB} (which nothing can prevent) with two failed {@variantrule Death Saving Throw|XPHB|Death Saving Throws}, and you must immediately make a Death {@variantrule Save|XPHB}. You can't regain {@variantrule Hit Points|XPHB} or become {@variantrule Stable|XPHB} until after you make this save."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"HL"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Martyr.webp"
+}

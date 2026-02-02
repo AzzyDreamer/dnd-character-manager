@@ -1,0 +1,11 @@
+{
+	"name": "Artisan's Tools",
+	"abbreviation": "AT",
+	"source": "XPHB",
+	"page": 220,
+	"basicRules2024": true,
+	"entries": [
+		"Artisan's Tools are each focused on crafting items and pursuing a trade. Each type of Artisan's Tools tools requires a separate proficiency.",
+		"If you have proficiency with a tool, add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to any ability check you make that uses the tool. If you have proficiency in a skill that's used with that check, you have {@variantrule Advantage|XPHB} on the check too."
+	]
+}

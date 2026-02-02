@@ -1,0 +1,37 @@
+{
+	"name": "Gift of the Depths",
+	"source": "XPHB",
+	"page": 156,
+	"featureType": [
+		"EI"
+	],
+	"prerequisite": [
+		{
+			"level": {
+				"level": 5,
+				"class": {
+					"name": "Warlock",
+					"source": "XPHB",
+					"visibleStats": true
+				}
+			}
+		}
+	],
+	"additionalSpells": [
+		{
+			"innate": {
+				"_": {
+					"daily": {
+						"1e": [
+							"water breathing|xphb"
+						]
+					}
+				}
+			}
+		}
+	],
+	"entries": [
+		"You can breathe underwater, and you gain a {@variantrule Swim Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+		"You can also cast {@spell Water Breathing|XPHB} once without expending a spell slot. You regain the ability to cast it in this way again when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

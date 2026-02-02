@@ -1,0 +1,117 @@
+{
+	"name": "Prisoner",
+	"source": "GrimHollowPG24",
+	"page": 112,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"con",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"alert|XPHB": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"deception": true,
+			"sleight of hand": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"thieves' tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Dagger|XPHB"
+				},
+				{
+					"item": "Thieves' Tools|XPHB"
+				},
+				{
+					"item": "Traveler's Clothes|XPHB"
+				},
+				{
+					"value": 800
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Constitution, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Alert|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Deception|XPHB} and {@skill Sleight of Hand|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Thieves' Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB} (shiv), {@item Thieves' Tools|XPHB}, {@item Traveler's Clothes|XPHB}, 8 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"Something from your past landed you in prison. Your transgressions might be real or imagined, against a just society or a corrupt one. Regardless of how you became a prisoner, you have learned to survive within your environment.",
+			"As a prisoner, you've had to learn to deal with guards, other prisoners, and the unpleasant environment. Part of that survival was learning to find, craft, or steal small items that make your incarceration more tolerable. Whether your release was long ago or about to happen, your time as a Prisoner has changed you."
+		]
+	}
+}

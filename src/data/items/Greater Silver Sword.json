@@ -1,0 +1,30 @@
+{
+	"name": "Greater Silver Sword",
+	"source": "MTF",
+	"page": 89,
+	"baseItem": "greatsword|phb",
+	"type": "M",
+	"resist": [
+		"psychic"
+	],
+	"rarity": "legendary",
+	"reqAttune": "by a creature that has psionic ability",
+	"reqAttuneTags": [
+		{
+			"psionics": true
+		}
+	],
+	"weight": 6,
+	"weaponCategory": "martial",
+	"property": [
+		"H",
+		"2H"
+	],
+	"dmg1": "2d6",
+	"dmgType": "S",
+	"bonusWeapon": "+3",
+	"entries": [
+		"This magic weapon grants a +3 bonus to attack and damage rolls made with it. While you hold the sword, you have advantage on Intelligence, Wisdom, and Charisma saving throws, you are immune to being {@condition charmed}, and you have resistance to psychic damage. In addition, if you score a critical hit with it against a creature's astral body, you can cut the silvery cord that tethers the target to its material body, instead of dealing damage."
+	],
+	"hasFluffImages": true
+}

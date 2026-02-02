@@ -1,0 +1,42 @@
+{
+	"name": "Order's Resilience",
+	"source": "FRHoF",
+	"page": 40,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"tyro of the gauntlet|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Resurge",
+			"entries": [
+				"When you have the {@condition Prone|XPHB} condition, you can right yourself with only 5 feet of movement."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stronger Together",
+			"entries": [
+				"If you are within 5 feet of an ally that doesn't have the {@condition Incapacitated|XPHB} condition, you and that ally have {@variantrule Advantage|XPHB} on Strength saving throws. You can't use this benefit while you have the {@condition Incapacitated|XPHB} condition."
+			]
+		}
+	]
+}

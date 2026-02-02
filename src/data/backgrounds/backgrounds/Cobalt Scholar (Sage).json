@@ -1,0 +1,23 @@
+{
+	"name": "Cobalt Scholar (Sage)",
+	"source": "EGW",
+	"page": 203,
+	"_copy": {
+		"name": "Sage",
+		"source": "PHB"
+	},
+	"fluff": [
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"The Cobalt Soul is an organization of monastic scholars dedicated to preserving knowledge and recorded history, not just across Wildemount but all of Exandria. Its operations are primarily based out of the cities of Zadash and Rexxentrum in the Dwendalian Empire, and you likely studied at one of those sites.",
+						"As a rank-and-file pupil of the Cobalt Soul, you adventure to help expand your mind. Alternatively (and with the DM's permission), you might also take on a more specific role within the organization. Expositors are secret agents who gather information in the field, while archivists are the curators who ensure the well-being of the Cobalt Soul's many Archives. Monks of the Cobalt Soul are enlightened scholars who lead expeditions into ancient and forgotten places, hoping to reclaim their lost knowledge and history."
+					]
+				}
+			]
+		}
+	]
+}

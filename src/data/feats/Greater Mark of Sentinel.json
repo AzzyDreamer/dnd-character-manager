@@ -1,0 +1,45 @@
+{
+	"name": "Greater Mark of Sentinel",
+	"source": "EFA",
+	"page": 44,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"mark of sentinel|efa"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Improved Intuition",
+			"entries": [
+				"When you use the Sentinel's Intuition benefit of your {@feat Mark of Sentinel|EFA} feat, you can roll {@dice 1d6} instead of {@dice 1d4}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Improved Sentinel",
+			"entries": [
+				"When you use the Vigilant Guardian benefit of your {@feat Mark of Sentinel|EFA} feat, you can also make one attack with a weapon or an {@variantrule Unarmed Strike|XPHB} as part of that same {@variantrule Reaction|XPHB}."
+			]
+		}
+	]
+}

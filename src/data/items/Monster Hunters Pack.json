@@ -1,0 +1,54 @@
+{
+	"name": "Monster Hunter's Pack",
+	"source": "VRGR",
+	"page": 34,
+	"otherSources": [
+		{
+			"source": "CoS",
+			"page": 209
+		}
+	],
+	"type": "G",
+	"rarity": "none",
+	"weight": 48.5,
+	"value": 3300,
+	"entries": [
+		"Includes:",
+		{
+			"type": "list",
+			"items": [
+				"a {@item chest|phb}",
+				"a {@item crowbar|phb}",
+				"a {@item hammer|phb}",
+				"three wooden stakes",
+				"a {@item holy symbol|phb}",
+				"a {@item holy water (flask)|phb|flask of holy water}",
+				"a set of {@item manacles|phb}",
+				"a {@item steel mirror|phb}",
+				"a {@item oil (flask)|phb|flask of oil}",
+				"a {@item tinderbox|phb}",
+				"3 {@item torch|phb|torches}"
+			]
+		}
+	],
+	"packContents": [
+		"backpack|phb",
+		"chest|phb",
+		"crowbar|phb",
+		"hammer|phb",
+		{
+			"special": "wooden stake",
+			"quantity": 3
+		},
+		"holy symbol|phb",
+		"holy water (flask)|phb",
+		"manacles|phb",
+		"steel mirror|phb",
+		"oil (flask)|phb",
+		"tinderbox|phb",
+		{
+			"item": "torch|phb",
+			"quantity": 3
+		}
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Damage Roll",
+	"source": "XPHB",
+	"page": 364,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"A damage roll is a die roll, adjusted by any applicable modifiers, that deals damage to a target."
+	]
+}

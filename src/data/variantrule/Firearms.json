@@ -1,0 +1,183 @@
+{
+	"type": "entries",
+	"name": "Firearms",
+	"page": 72,
+	"entries": [
+		"The Firearms table provides examples of modern and futuristic firearms. If you make them available for purchase (perhaps in the fantastical marketplaces of the City of Brass), treat modern items as Rare magic items and futuristic items as Very Rare ones (see {@book chapter 7|XDMG|6|Magic Items}).",
+		{
+			"type": "entries",
+			"name": "Properties",
+			"page": 72,
+			"entries": [
+				"Some weapons in the Firearms table have the following properties, in addition to properties described in the {@book Player's Handbook|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Burst Fire",
+			"page": 72,
+			"entries": [
+				"As an action, you can expend 10 pieces of a Burst Fire weapon's ammunition to spray shots in a 10-foot {@variantrule Cube [Area of Effect]|XPHB|Cube} within the weapon's normal range. Each creature in that area must succeed on a {@dc 15} Dexterity saving throw or take damage. Roll the weapon's damage once, and apply it to each creature that failed the save."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Reload",
+			"page": 72,
+			"entries": [
+				"You can make a limited number of shots with a Reload weapon. You must then reload the weapon as an action or a Bonus Action."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Ammunition",
+			"page": 72,
+			"entries": [
+				"Firearm Bullets are destroyed upon use in a modern firearm. Futuristic firearms use Energy Cells that become depleted but could possibly be recharged with the proper equipment, at your discretion. An {@item Energy Cell|XDMG} weighs 1/2 lb.",
+				{
+					"type": "table",
+					"caption": "Firearms",
+					"colLabels": [
+						"Modern Item",
+						"Damage",
+						"Properties",
+						"Mastery",
+						"Weight"
+					],
+					"colStyles": [
+						"col-2",
+						"col-2",
+						"col-5-4",
+						"col-1-3 text-center",
+						"col-1-3 text-center"
+					],
+					"rows": [
+						[
+							{
+								"type": "cell",
+								"width": 5,
+								"entry": "{@i Martial Ranged Weapons}"
+							}
+						],
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Automatic Rifle|XDMG}",
+								"{@dice 2d8} Piercing",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 80/240; Bullet), {@itemProperty BF|XDMG|Burst Fire}, {@itemProperty RLD|XDMG|Reload} (30 shots), {@itemProperty 2H|XPHB|Two-Handed}",
+								"{@itemMastery Slow}",
+								"8 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Hunting Rifle|XDMG}",
+								"{@dice 2d10} Piercing",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 80/240; Bullet), {@itemProperty RLD|XDMG|Reload} (5 shots), {@itemProperty 2H|XPHB|Two-Handed}",
+								"{@itemMastery Slow}",
+								"8 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Revolver|XDMG}",
+								"{@dice 2d8} Piercing",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 40/120; Bullet), {@itemProperty RLD|XDMG|Reload} (6 shots)",
+								"{@itemMastery Sap}",
+								"3 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Semiautomatic Pistol|XDMG}",
+								"{@dice 2d6} Piercing",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 50/150; Bullet), {@itemProperty RLD|XDMG|Reload} (15 shots)",
+								"{@itemMastery Vex}",
+								"3 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Shotgun|XDMG}",
+								"{@dice 2d8} Piercing",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 30/90; Bullet), {@itemProperty RLD|XDMG|Reload} (2 shots), {@itemProperty 2H|XPHB|Two-Handed}",
+								"{@itemMastery Push}",
+								"7 lb."
+							]
+						}
+					]
+				},
+				{
+					"type": "table",
+					"colLabels": [
+						"Futuristic Item",
+						"Damage",
+						"Properties",
+						"Mastery",
+						"Weight"
+					],
+					"colStyles": [
+						"col-2",
+						"col-2",
+						"col-5-4",
+						"col-1-3 text-center",
+						"col-1-3 text-center"
+					],
+					"rows": [
+						[
+							{
+								"type": "cell",
+								"width": 5,
+								"entry": "{@i Martial Ranged Weapons}"
+							}
+						],
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Antimatter Rifle|XDMG}",
+								"{@dice 6d8} Necrotic",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 120/360; Energy Cell), {@itemProperty RLD|XDMG|Reload} (2 shots), {@itemProperty 2H|XPHB|Two-Handed}",
+								"{@itemMastery Sap}",
+								"10 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Laser Pistol|XDMG}",
+								"{@dice 3d6} Radiant",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 40/120; Energy Cell), {@itemProperty RLD|XDMG|Reload} (50 shots)",
+								"{@itemMastery Vex}",
+								"2 lb."
+							]
+						},
+						{
+							"type": "row",
+							"style": "row-indent-first",
+							"row": [
+								"{@item Laser Rifle|XDMG}",
+								"{@dice 3d8} Radiant",
+								"{@itemProperty AF|XDMG|Ammunition} (Range 100/300; Energy Cell), {@itemProperty RLD|XDMG|Reload} (30 shots), {@itemProperty 2H|XPHB|Two-Handed}",
+								"{@itemMastery Slow}",
+								"7 lb."
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"ruleType": "C",
+	"source": "XDMG"
+}

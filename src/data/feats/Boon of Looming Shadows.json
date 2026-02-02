@@ -1,0 +1,43 @@
+{
+	"name": "Boon of Looming Shadows",
+	"source": "ABH",
+	"page": 11,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Shadowy Stretch",
+			"entries": [
+				"When you take the {@action Attack|XPHB} action, your reach for your Melee weapon attacks increases by 10 feet until the end of your turn."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dancing Silhouette",
+			"entries": [
+				"You can take the {@action Dodge|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+			]
+		}
+	]
+}

@@ -1,0 +1,98 @@
+{
+	"name": "Curse of Ravenous Hunger",
+	"source": "GrimHollowPG24",
+	"page": 213,
+	"level": 3,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a morsel of food that belonged to the target, a sun-dried slug, and a dining plate worth 400+ GP, all of which the spell consumes",
+			"cost": 40000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with painful and unending starvation. The target must make a Constitution saving throw.",
+		{
+			"type": "entries",
+			"name": "Successful Saving Throw",
+			"entries": [
+				"On a successful save, the target takes {@damage 2d10} Poison damage, has the {@condition Poisoned|XPHB} condition until the end of its next turn, and is aware it was targeted by a curse."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 4d10} Poison damage, has the {@condition Poisoned|XPHB} condition for 1 minute, and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time it eats a meal, the cursed creature bites its tongue and its mouth fills with blood, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature is gripped with an insatiable appetite."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature becomes compelled to eat inappropriate items such as coins, flowers, glass, and dirt. Additionally, the cursed creature has {@variantrule Disadvantage|XPHB} on Constitution saving throws, and its {@variantrule Hit Points|XPHB|Hit Point} maximum decreases by an amount equal to its character level (or {@variantrule Hit Point Dice|XPHB|Hit Dice} if it has no character level)."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature becomes ravenous and is compelled to consume the flesh of Humanoids. No other food satiates it. The creature can't have {@variantrule Advantage|XPHB} on {@variantrule D20 Test|XPHB|D20 Tests}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Bloated Gastromorph."
+			]
+		}
+	],
+	"damageInflict": [
+		"poison"
+	],
+	"conditionInflict": [
+		"poisoned"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Ravenous%20Hunger.webp"
+}

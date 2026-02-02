@@ -1,0 +1,9 @@
+{
+	"name": "Tough",
+	"source": "XPHB",
+	"page": 202,
+	"category": "O",
+	"entries": [
+		"Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by an amount equal to twice your character level when you gain this feat. Whenever you gain a character level thereafter, your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by an additional 2 {@variantrule Hit Points|XPHB}."
+	]
+}

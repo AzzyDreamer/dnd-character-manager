@@ -1,0 +1,53 @@
+{
+	"name": "Reanimate",
+	"source": "GrimHollowPG24",
+	"page": 198,
+	"level": 3,
+	"school": "V",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "touch"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a mélange of wilted daisies and other herbal powders worth 300+ GP, which this spell consumes",
+			"cost": 30000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend three {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. You touch a creature that has died within the last 10 minutes and return it to life with 1 {@variantrule Hit Points|XPHB|Hit Point}. In addition, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell, and the creature gains {@variantrule Temporary Hit Points|XPHB} equal to the roll.",
+		"At the start of each of the target's turns, it loses 1 {@variantrule Temporary Hit Points|XPHB|Temporary Hit Point} granted by this spell. While the creature has {@variantrule Temporary Hit Points|XPHB} granted by this spell, it moves with unnatural vigor, gaining a +2 bonus to {@variantrule D20 Test|XPHB|D20 Tests}. Once it loses the {@variantrule Temporary Hit Points|XPHB} granted by this spell, the creature gains 1 {@condition Exhaustion|XPHB} level.",
+		"This spell can't revive a creature that has died of old age, nor does it restore any missing body parts."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Reanimate.webp"
+}

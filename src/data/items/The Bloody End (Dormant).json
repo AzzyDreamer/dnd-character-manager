@@ -1,0 +1,69 @@
+{
+	"name": "The Bloody End (Dormant)",
+	"source": "EGW",
+	"page": 278,
+	"baseItem": "morningstar|PHB",
+	"type": "M",
+	"rarity": "artifact",
+	"reqAttune": true,
+	"sentient": true,
+	"weight": 4,
+	"weaponCategory": "martial",
+	"property": [
+		"Vst|EGW"
+	],
+	"dmg1": "1d8",
+	"dmgType": "P",
+	"grantsLanguage": true,
+	"bonusWeapon": "+1",
+	"entries": [
+		"Carrying the power of Bane, this adamantine morningstar sports foot-long spikes and has a jagged blade on its pommel.",
+		{
+			"type": "entries",
+			"name": "Sentience",
+			"entries": [
+				"The Bloody End is a sentient lawful evil weapon with an Intelligence of 22, a Wisdom of 18, and a Charisma of 24. It has hearing and {@sense darkvision} out to a range of 120 feet.",
+				"The weapon communicates telepathically with its wielder and can speak, read, and understand Common and Infernal."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Personality",
+			"entries": [
+				"A tyrannical {@creature pit fiend} named Izeelzee lives within The Bloody End. The weapon boisterously pushes its wielder to subjugate others and to never back down from a challenge. If the wielder doesn't demand fealty from others, the weapon is happy to demand it on their behalf."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dormant",
+			"entries": [
+				"The morningstar grants the following benefits in its dormant state:",
+				{
+					"type": "list",
+					"items": [
+						"You can speak, read, and write Infernal.",
+						"You gain a +1 bonus to attack and damage rolls made with this magic weapon.",
+						"While holding the morningstar, you can use an action to cast one of the following spells from it (save {@dc 13}): {@spell charm person}, {@spell dominate person}, or {@spell fear}. Once a spell has been cast using the morningstar, that spell can't be cast from it again until the next dawn.",
+						"While holding the morningstar, you have advantage on Charisma ({@skill Intimidation}) checks."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Betrayer Artifact Properties",
+			"entries": [
+				"The Arms of the Betrayers advance in power in the same manner as the Vestiges of Divergence. In its dormant state, each of these artifacts has one {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} property and one {@table Artifact Properties; Minor Detrimental Properties|dmg|minor detrimental} property. When the artifact attains an awakened state, it gains an additional {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} property and an additional {@table Artifact Properties; Minor Detrimental Properties|dmg|minor detrimental} property. When the item reaches its exalted state, it gains a {@table Artifact Properties; Major Beneficial Properties|dmg|major beneficial} property. See \"Artifact Properties\" in chapter 7 of the Dungeon Master's Guide for more information."
+			]
+		}
+	],
+	"attachedSpells": {
+		"daily": {
+			"1e": [
+				"charm person",
+				"dominate person",
+				"fear"
+			]
+		}
+	}
+}

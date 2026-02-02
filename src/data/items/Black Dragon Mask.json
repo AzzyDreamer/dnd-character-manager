@@ -1,0 +1,70 @@
+{
+	"name": "Black Dragon Mask",
+	"source": "HotDQ",
+	"page": 94,
+	"otherSources": [
+		{
+			"source": "ToD",
+			"page": 179
+		}
+	],
+	"resist": [
+		"acid"
+	],
+	"rarity": "legendary",
+	"reqAttune": true,
+	"wondrous": true,
+	"grantsLanguage": true,
+	"entries": [
+		"This horned mask of glossy ebony has horns and a skull-like mien. The mask reshapes to fit a wearer attuned to it. While you are wearing the mask and attuned to it, you can access the following properties.",
+		{
+			"type": "entries",
+			"name": "Damage Absorption",
+			"entries": [
+				"You have resistance to acid damage. If you already have damage resistance to acid from another source, you gain immunity to acid damage. If you already have immunity to acid damage from another source, you regain hit points equal to half of any acid damage you are dealt."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Draconic Majesty",
+			"entries": [
+				"While you are wearing no armor, you can add your Charisma bonus to your Armor Class."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon Breath",
+			"entries": [
+				"If you have a breath weapon that requires rest to recharge, it gains a recharge of 6."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon Sight",
+			"entries": [
+				"You gain {@sense darkvision} with a radius of 60 feet, or an additional 60 feet of {@sense darkvision} if you already have that sense. Once per day, you can gain {@sense blindsight} out to a range of 30 feet for 5 minutes."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Dragon Tongue",
+			"entries": [
+				"You can speak and understand Draconic. You also have advantage on any Charisma check you make against Black dragons."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Legendary Resistance",
+			"entries": [
+				"(1/Day) If you fail a saving throw, you can choose to succeed instead."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Water Breathing",
+			"entries": [
+				"You can breathe underwater."
+			]
+		}
+	]
+}

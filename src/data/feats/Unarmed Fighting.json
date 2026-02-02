@@ -1,0 +1,17 @@
+{
+	"name": "Unarmed Fighting",
+	"source": "XPHB",
+	"page": 210,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"When you hit with your {@variantrule Unarmed Strike|XPHB} and deal damage, you can deal Bludgeoning damage equal to {@damage 1d6} plus your Strength modifier instead of the normal damage of an {@variantrule Unarmed Strike|XPHB}. If you aren't holding any weapons or a {@item Shield|XPHB} when you make the attack roll, the {@dice d6} becomes a {@dice d8}.",
+		"At the start of each of your turns, you can deal {@damage 1d4} Bludgeoning damage to one creature {@condition Grappled|XPHB} by you."
+	]
+}

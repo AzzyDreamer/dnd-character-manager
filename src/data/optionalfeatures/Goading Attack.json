@@ -1,0 +1,14 @@
+{
+	"name": "Goading Attack",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When you hit a creature with an attack roll, you can expend one Superiority Die to attempt to goad the target into attacking you. Add the Superiority Die to the attack's damage roll. The target must succeed on a Wisdom saving throw or have {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you until the end of your next turn."
+	]
+}

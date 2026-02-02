@@ -1,0 +1,118 @@
+{
+	"name": "Wechselkind",
+	"source": "GrimHollowPG24",
+	"page": 28,
+	"edition": "one",
+	"creatureTypes": [
+		"humanoid"
+	],
+	"size": [
+		"S"
+	],
+	"speed": 30,
+	"sizeEntry": {
+		"type": "item",
+		"name": "Size:",
+		"entries": [
+			"Small (Wechselkind are between 2 and 3 feet tall and weigh between 35 and 55 pounds.)"
+		]
+	},
+	"speedEntry": {
+		"type": "item",
+		"name": "Speed:",
+		"entries": [
+			"30 feet. You can reduce your {@variantrule Speed|XPHB} by 5 feet to gain an extra traditional trait."
+		]
+	},
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Age:",
+					"entries": [
+						"Wechselkind do not age as normal creatures do, forever trapped in the doll-like visage of their creation. Their maximum age is a function of natural wear and damage, and they are immune to magical aging effects."
+					]
+				}
+			]
+		},
+		{
+			"type": "inset",
+			"name": "Traditional Wechselkind Traits",
+			"entries": [
+				"The magical and artificial nature shapes the aptitudes and innate features of all Wechselkind.",
+				{
+					"type": "entries",
+					"name": "Combat Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Creature Cover|GrimHollowPG24}",
+								"{@optfeature Magical Fortification|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Exploration Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Artificial Form|GrimHollowPG24}",
+								"{@optfeature Helping Hand|GrimHollowPG24}",
+								"{@optfeature Pass Through|GrimHollowPG24}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Roleplaying Traits:",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@optfeature Magical Savvy|GrimHollowPG24|Magical Savant} ({@spell Disguise Self|XPHB})",
+								"{@optfeature Magical Savvy|GrimHollowPG24} ({@spell Minor Illusion|XPHB})",
+								"{@optfeature Intuitive Acrobat|GrimHollowPG24}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Trait Selection",
+					"entries": [
+						"Selecting the traditional traits noted for your heritage is quick and easy, and creates a character who feels like a solid archetype within your chosen heritage. But you can swap any of those suggested traditional heritage traits for {@filter any of the traits provided|optionalfeatures|source=GrimHollowPG24|feature type=HT}, building your character around any eight traits. This can include taking the traditional traits presented for any other heritage, taking one of your traditional traits again to gain its secondary effect, or taking any of the many traits that aren't part of any heritage's default presentation."
+					]
+				}
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}
+
+[
+	"A mother hears a sound in the night and worriedly checks on her sleeping toddler. Nothing appears amiss. But weeks later, an unseen glamour fades and a horror is revealed: the child has been stolen by the faerie, and a wechselkind is left in their place. For the faerie are callous and unchanging beings, and nothing inspires their fascination—and their envy—more than the malleable, bright spark of a young humanoid child.",
+	"A wechselkind is a construct crafted of wood, clay, and ceramic in the form of a small child, animated by faerie magic and concealed in illusion that makes them appear identical to a stolen mortal babe. Once that glamour fades and the lie is revealed, a wechselkind is most often cast out by the stolen child's family, if not destroyed. Occasionally, though, a family takes pity on the poor creature and attempts to raise them, only to find that while their mind develops normally, a wechselkind is forever bound in the unchanging form of a childlike doll.",
+	"Whether nurtured or shunned, most wechselkind eventually find themselves living as outcasts, and learning to fend for themselves as best they can. The residual magic of their faerie glamour allows a wechselkind to conceal themself for short periods, whether in the guise of the child they replaced or an adult halfling, gnome, or other person of similar stature. With few physical needs, a wechselkind can easily wander from settlement to settlement, watching the people they encounter with envious eyes, and hoping for a place to finally fit in.",
+	"With the spread of the Weeping Pox, many wechselkind have emerged from hiding. With their immunity to disease, they're able to aid healers in plague-stricken regions, gaining a measure of respect—or even admiration—from those able to see beyond their tragic origins. However, even wechselkind who are accepted among other folk often remain wary, fearing that once their usefulness is at an end, they might be cast out once more.",
+	{
+		"type": "entries",
+		"name": "Eldritch Heritages",
+		"entries": [
+			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+		]
+	}
+]

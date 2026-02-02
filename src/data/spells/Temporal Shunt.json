@@ -1,0 +1,103 @@
+{
+	"name": "Temporal Shunt",
+	"source": "EGW",
+	"page": 189,
+	"level": 5,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "taken when a creature you can see makes an attack roll or starts to cast a spell"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "round",
+				"amount": 1
+			}
+		}
+	],
+	"entries": [
+		"You target the triggering creature, which must succeed on a Wisdom saving throw or vanish, being thrown to another point in time and causing the attack to miss or the spell to be wasted. At the start of its next turn, the target reappears where it was or in the closest unoccupied space. The target doesn't remember you casting the spell or being affected by it."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "At Higher Levels",
+			"entries": [
+				"When you cast this spell using a spell slot of 6th level or higher, you can target one additional creature for each slot level above 5th. All targets must be within 30 feet of each other."
+			]
+		}
+	],
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"SCT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			}
+		]
+	}
+}

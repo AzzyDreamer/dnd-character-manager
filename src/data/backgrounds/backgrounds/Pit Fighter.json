@@ -1,0 +1,120 @@
+{
+	"name": "Pit Fighter",
+	"source": "GrimHollowPG24",
+	"page": 112,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"savage attacker|XPHB": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"athletics": true,
+			"performance": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyGamingSet": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Dagger|XPHB"
+				},
+				{
+					"item": "Spear|XPHB"
+				},
+				{
+					"item": "Gaming Set|XPHB"
+				},
+				{
+					"item": "Robe|XPHB"
+				},
+				{
+					"value": 1000
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Dexterity, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Savage Attacker|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Athletics|XPHB} and {@skill Performance|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "One type of {@item Gaming Set|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB}, {@item Spear|XPHB}, {@item Gaming Set|XPHB} (same as above), {@item Robe|XPHB}, 10 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"Pit fighting was once a major institution in the Bürach Empire. Since then, the practice has been driven underground, but, like poison spreading silently throughout a healthy body, it has infiltrated nearly every major city.",
+			"Ostensibly illegal, you can almost always find small groups of desperate individuals putting their lives on the line for the amusement and enrichment of others. This hidden network of arenas has recently been organized into the self-proclaimed Pit Fighter's Guild and developed a series of coded phrases and symbols to identify its members. You follow the unspoken rule of Etharis: only the strong survive."
+		]
+	}
+}

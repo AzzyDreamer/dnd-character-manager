@@ -1,0 +1,139 @@
+{
+	"name": "Lizardfolk",
+	"source": "MPMM",
+	"page": 26,
+	"lineage": "VRGR",
+	"size": [
+		"M"
+	],
+	"speed": {
+		"walk": 30,
+		"swim": true
+	},
+	"traitTags": [
+		"Natural Armor",
+		"Natural Weapon"
+	],
+	"skillProficiencies": [
+		{
+			"choose": {
+				"from": [
+					"animal handling",
+					"medicine",
+					"nature",
+					"perception",
+					"stealth",
+					"survival"
+				],
+				"count": 2
+			}
+		}
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "races/lizardfolk.mp3"
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Speed",
+			"entries": [
+				"Your walking speed is 30 feet, and you have a swimming speed equal to your walking speed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Bite",
+			"entries": [
+				"You have a fanged maw that you can use to make unarmed strikes. When you hit with it, the strike deals {@damage 1d6} + your Strength modifier slashing damage, instead of the bludgeoning damage normal for an unarmed strike."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Hold Breath",
+			"entries": [
+				"You can hold your breath for up to 15 minutes at a time."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Hungry Jaws",
+			"entries": [
+				"You can throw yourself into a feeding frenzy. As a bonus action, you can make a special attack with your Bite. If the attack hits, it deals its normal damage, and you gain temporary hit points equal to your proficiency bonus. You can use this trait a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Natural Armor",
+			"entries": [
+				"You have tough, scaly skin. When you aren't wearing armor, your base AC is 13 + Dexterity modifier. You can use your natural armor to determine your AC if the armor you wear would leave you with a lower AC. A shield's benefits apply as normal while you use your natural armor."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Nature's Intuition",
+			"entries": [
+				"Thanks to your mystical connection to nature, you gain proficiency with two of the following skills of your choice: {@skill Animal Handling}, {@skill Medicine}, {@skill Nature}, {@skill Perception}, {@skill Stealth}, or {@skill Survival}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Languages",
+			"entries": [
+				"You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+			]
+		}
+	],
+	"hasFluff": true,
+	"hasFluffImages": true,
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"con",
+						"int",
+						"wis",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"languageProficiencies": [
+		{
+			"common": true,
+			"anyStandard": 1
+		}
+	]
+}
+
+[
+	"The saurian lizardfolk are thought by some sages to be distant cousins of dragonborn and kobolds. Despite their resemblance to those other scaled folk, however, lizardfolk are their own people and have lived on the worlds of the Material Plane since the worlds' creation. Gifted by the gods with remarkable physical defenses and a mystical connection to the natural world, lizardfolk can survive with just their wits in situations that would be deadly for other folk. Because of that fact, many lizardfolk myths state that their people were placed by the gods in the Material Plane to guard its natural wonders.",
+	"Lizardfolk have colorful scales and exhibit a wide array of scale patterns. Their individual facial features are as varied as those of lizards."
+]

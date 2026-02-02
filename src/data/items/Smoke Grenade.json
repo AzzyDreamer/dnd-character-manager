@@ -1,0 +1,17 @@
+{
+	"name": "Smoke Grenade",
+	"source": "XDMG",
+	"page": 73,
+	"type": "EXP|XDMG",
+	"rarity": "none",
+	"weight": 2,
+	"value": 5000,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Grenade|XDMG}",
+		"The area of the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} is {@variantrule Heavily Obscured|XPHB} by smoke for 1 minute. A strong wind (such as the {@spell Gust of Wind|XPHB} spell) disperses the smoke."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

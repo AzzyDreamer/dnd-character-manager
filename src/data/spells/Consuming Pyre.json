@@ -1,0 +1,67 @@
+{
+	"name": "Consuming Pyre",
+	"source": "CrookedMoon24",
+	"page": 126,
+	"level": 4,
+	"school": "V",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 90
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You cause a creature that you can see within range to burst into consuming, relentless flames. The target must make a Dexterity saving throw. On a failed save, the target takes {@damage 2d8} Fire damage and {@damage 2d8} Necrotic or Radiant damage (choose when you cast the spell), and the radiant flames linger. On a successful save, it takes half as much damage only.",
+		"While the flames linger, the creature takes the damage again at the start of each of its turns. The target, or another creature within reach of the target, can take an action to allow the target to repeat the saving throw, ending the spell on a success.",
+		"A creature killed by the damage from this spell is reduced to ash, along with any nonmagical equipment it is wearing or carrying."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"fire",
+		"necrotic",
+		"radiant"
+	],
+	"savingThrow": [
+		"dexterity"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Consuming-Pyre.webp"
+}

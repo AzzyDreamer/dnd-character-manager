@@ -1,0 +1,28 @@
+{
+	"name": "Automatic Rifle",
+	"source": "XDMG",
+	"page": 73,
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 8,
+	"valueRarity": "rare",
+	"weaponCategory": "martial",
+	"age": "modern",
+	"property": [
+		"AF|XDMG",
+		"BF|XDMG",
+		"RLD|XDMG",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Slow|XPHB"
+	],
+	"range": "80/240",
+	"reload": 30,
+	"dmg1": "2d8",
+	"dmgType": "P",
+	"firearm": true,
+	"weapon": true,
+	"ammoType": "firearm bullet|xphb"
+}

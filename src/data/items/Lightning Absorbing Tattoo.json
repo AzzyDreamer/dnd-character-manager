@@ -1,0 +1,17 @@
+{
+	"name": "Lightning Absorbing Tattoo",
+	"source": "TCE",
+	"page": 119,
+	"resist": [
+		"lightning"
+	],
+	"detail1": "yellow",
+	"rarity": "very rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"tattoo": true,
+	"hasRefs": true,
+	"entries": [
+		"{#itemEntry Absorbing Tattoo|TCE}"
+	]
+}

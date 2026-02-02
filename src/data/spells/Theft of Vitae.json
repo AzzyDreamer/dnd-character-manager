@@ -1,0 +1,61 @@
+{
+	"name": "Theft of Vitae",
+	"source": "GrimHollowPG24",
+	"page": 204,
+	"level": 2,
+	"school": "T",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction",
+			"condition": "which you take when a creature you can see within 30 feet of you takes damage"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"Roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell. The triggering creature takes Necrotic damage equal to the result. You gain {@variantrule Temporary Hit Points|XPHB} equal to the result plus the triggering damage, to a maximum of 15 {@variantrule Temporary Hit Points|XPHB}."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"The maximum number of {@variantrule Temporary Hit Points|XPHB} you can gain from casting increases by 10 for each slot level above 2."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Druid",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"SGT",
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Theft%20of%20Vitae.webp"
+}

@@ -1,0 +1,73 @@
+{
+	"name": "Viscous Sheath",
+	"source": "GrimHollowPG24",
+	"page": 205,
+	"level": 4,
+	"school": "N",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "self"
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a bloody funerary shroud"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 10
+			}
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend seven {@variantrule Hit Point Dice|XPHB|Hit Dice} or the spell automatically fails. Your body is wrapped in clotted blood. Whenever a creature within 5 feet of you hits you with a melee attack roll, the attacker takes Necrotic damage. To determine this damage, roll the {@variantrule Hit Point Dice|XPHB} expended to cast the spell plus your spellcasting ability modifier.",
+		"If a creature hits you with a Melee weapon, you can take a {@variantrule Reaction|XPHB} to have clots form around the weapon, entrapping it. The attacker must succeed on a Strength saving throw or the weapon sticks to you. If the attacker doesn't release the weapon, the creature has the {@condition Grappled|XPHB} condition while the weapon is stuck. While stuck, the weapon can't be used. The target can take an action to make a Strength ({@skill Athletics|XPHB}) check against your spell save DC, freeing the weapon on a success. The creature can also release the weapon to end the {@condition Grappled|XPHB} condition.",
+		"You can trap a number of weapons equal to the number of {@variantrule Hit Point Dice|XPHB|Hit Dice} expended to cast the spell. When the spell ends, the weapons are released."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can trap an additional weapon for each spell slot level above 4."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Sorcerer",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"conditionInflict": [
+		"grappled"
+	],
+	"savingThrow": [
+		"strength"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Viscous%20Sheath.webp"
+}

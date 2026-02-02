@@ -1,0 +1,108 @@
+{
+	"name": "House Thuranni Heir",
+	"source": "EFA",
+	"page": 32,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"mark of shadow|efa": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"performance": true,
+			"stealth": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyMusicalInstrument": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"musical instrument|xphb",
+				"costume|xphb",
+				"fine clothes|xphb",
+				{
+					"value": 1300
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Mark of Shadow|EFA}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Performance|XPHB} and {@skill Stealth|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "Choose one kind of {@item Musical Instrument|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Musical Instrument|XPHB} (same as above), {@item Costume|XPHB}, {@item Fine Clothes|XPHB}, 13 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Given House Thuranni's short history and focus on espionage, its leaders expect you to further the interests of the house at every opportunity. During the house's formative years as an independent entity, every move you make has been watched closely. This isn't to say that every Thuranni heir must actively spy at the behest of house elders. But even the house's most insular artists and artisans must keep up with current political events and pass on or collect information when asked."
+	]
+}

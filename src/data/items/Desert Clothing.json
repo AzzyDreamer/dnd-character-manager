@@ -1,0 +1,14 @@
+{
+	"name": "Desert Clothing",
+	"source": "FRHoF",
+	"page": 132,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"weight": 4,
+	"value": 1000,
+	"entries": [
+		"When you are wearing Desert Clothing and not wearing Medium or Heavy armor, you automatically succeed on saving throws against the effects of {@hazard extreme heat|XDMG}."
+	],
+	"hasFluff": true,
+	"hasFluffImages": true
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Ring of Puzzler's Wit",
+	"source": "BMT",
+	"page": 37,
+	"type": "RG|DMG",
+	"rarity": "uncommon",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d4 - 1}",
+	"charges": 3,
+	"entries": [
+		"This gold ring bears a fluorite stone and is enchanted to sharpen the wearer's mind.",
+		"The ring has 3 charges and regains {@dice 1d4 - 1} expended charges daily at dawn. When you make an Intelligence check, you can expend 1 charge to grant yourself advantage on the check."
+	]
+}

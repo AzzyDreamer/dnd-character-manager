@@ -1,0 +1,18 @@
+{
+	"name": "Ulcrun",
+	"source": "FRAiF",
+	"page": 237,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 100000,
+	"poison": true,
+	"entries": [
+		"A creature subjected to Ulcrun must succeed on a {@dc 15} Constitution saving throw or take 21 ({@dice 6d6}) Poison damage and gain 1 {@condition Exhaustion|XPHB} level."
+	],
+	"poisonTypes": [
+		"injury"
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

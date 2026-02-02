@@ -1,0 +1,10 @@
+{
+	"name": "Arcana",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "int",
+	"entries": [
+		"Recall lore about spells, magic items, and the planes of existence."
+	]
+}

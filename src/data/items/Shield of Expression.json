@@ -1,0 +1,17 @@
+{
+	"name": "Shield of Expression",
+	"source": "XDMG",
+	"page": 303,
+	"baseItem": "shield|xphb",
+	"type": "S|XPHB",
+	"rarity": "common",
+	"weight": 6,
+	"ac": 2,
+	"entries": [
+		"The front of this Shield is shaped in the likeness of a face. While bearing the Shield, you can take a {@variantrule Bonus Action|XPHB} to alter the face's expression."
+	],
+	"lootTables": [
+		"Armaments - Common|XDMG",
+		"Relics - Common|XDMG"
+	]
+}

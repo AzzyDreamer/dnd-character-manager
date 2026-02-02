@@ -1,0 +1,11 @@
+{
+	"name": "Proficiency",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If you have proficiency with something, you can add your Proficiency Bonus to any {@variantrule D20 Test|XPHB} you make using that thing. A creature might have proficiency in a skill or {@variantrule Saving Throw|XPHB|saving throw} or with a weapon or tool."
+	]
+}

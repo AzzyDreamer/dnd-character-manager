@@ -1,0 +1,64 @@
+{
+	"name": "Petrified",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"entries": [
+		"While you have the Petrified condition, you experience the following effects.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Turned to Inanimate Substance",
+					"entries": [
+						"You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Incapacitated",
+					"entries": [
+						"You have the {@condition Incapacitated|XPHB} condition."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Speed 0",
+					"entries": [
+						"Your {@variantrule Speed|XPHB} is 0 and can't increase."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Attacks Affected",
+					"entries": [
+						"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Saving Throws Affected",
+					"entries": [
+						"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Resist Damage",
+					"entries": [
+						"You have {@variantrule Resistance|XPHB} to all damage."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Poison Immunity",
+					"entries": [
+						"You have {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition."
+					]
+				}
+			]
+		}
+	]
+}

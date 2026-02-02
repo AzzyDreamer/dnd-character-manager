@@ -1,0 +1,14 @@
+{
+	"name": "Silver Bar (5-pound)",
+	"source": "XDMG",
+	"page": 213,
+	"type": "TB|XDMG",
+	"rarity": "none",
+	"weight": 5,
+	"value": 2500,
+	"barDimensions": {
+		"l": 6,
+		"w": 2,
+		"h": 1
+	}
+}

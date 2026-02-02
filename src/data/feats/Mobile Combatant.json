@@ -1,0 +1,23 @@
+{
+	"name": "Mobile Combatant",
+	"source": "GrimHollowPG24",
+	"page": 119,
+	"category": "FS",
+	"prerequisite": [
+		{
+			"feature": [
+				"Fighting Style"
+			]
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Slippery",
+			"entries": [
+				"When you take the {@action Attack|XPHB} action, your {@variantrule Speed|XPHB} increases by 10 feet and {@action Opportunity Attack|XPHB|Opportunity Attacks} have {@variantrule Disadvantage|XPHB} against you until the end of your turn."
+			]
+		}
+	]
+}

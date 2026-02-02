@@ -1,0 +1,120 @@
+{
+	"name": "Chondathan Freebooter",
+	"source": "FRHoF",
+	"page": 28,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"wis"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"wis"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"skilled|xphb": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"athletics": true,
+			"sleight of hand": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"weaver's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				"dagger|xphb",
+				"weaver's tools|xphb",
+				"backpack|xphb",
+				"ball bearings|xphb",
+				"basket|xphb",
+				"bedroll|xphb",
+				"bucket|xphb",
+				{
+					"item": "rations|xphb",
+					"quantity": 3,
+					"displayName": "Rations (3 days' worth)"
+				},
+				"rope|xphb",
+				"signal whistle|xphb",
+				"traveler's clothes|xphb",
+				{
+					"value": 3800
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Dexterity, Wisdom"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Skilled|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Athletics|XPHB} and {@skill Sleight of Hand|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Weaver's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Dagger|XPHB}, {@item Weaver's Tools|XPHB}, {@item Backpack|XPHB}, {@item Ball Bearings|XPHB}, {@item Basket|XPHB}, {@item Bedroll|XPHB}, {@item Bucket|XPHB}, {@item Rations|XPHB} (3 days' worth), {@item Rope|XPHB}, {@item Signal Whistle|XPHB}, {@item Traveler's Clothes|XPHB}, 38 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Though most youths in Chondath accept their four-year term of compulsory military service, you bristled at that authoritarian attempt to control your life. You forsook your nationhood, discarded your given name, and worked as a freebooter with the first ship that would have you. Since then, you've traveled the Vilhon Reach. Though you've never sailed more than a few dozen leagues from land, you make up for it with deep local connections and the breadth of your experiences."
+	]
+}

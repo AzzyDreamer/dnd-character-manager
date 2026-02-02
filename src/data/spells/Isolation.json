@@ -1,0 +1,57 @@
+{
+	"name": "Isolation",
+	"source": "CrookedMoon24",
+	"page": 130,
+	"level": 3,
+	"school": "E",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 120
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a small metal cube"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"One creature that you can see within range must succeed on a Wisdom saving throw or have its mind shrouded in the dread of total isolation. For the duration, all other creatures have the {@condition Invisible|XPHB} condition toward the target, which the target can't see through—even with {@sense Blindsight|XPHB}, {@sense Truesight|XPHB}, or magic such as the {@spell See Invisibility|XPHB} spell—and the target can't perceive other creatures with any of its other senses. The target moves around other creatures, or otherwise rationalizes not moving through spaces occupied by them (such as perceiving a door as closed or as a wall if another creature is standing in the way). The target still feels pain but can't identify the source of any injury caused by another creature. The target repeats the saving throw at the end of each of its turns, ending the spell on itself on a success."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"wisdom"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Isolation.webp"
+}

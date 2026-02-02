@@ -1,0 +1,38 @@
+{
+	"name": "Hat of Wizardry",
+	"source": "XDMG",
+	"page": 267,
+	"type": "SCF|XPHB",
+	"rarity": "common",
+	"reqAttune": "by a wizard",
+	"reqAttuneTags": [
+		{
+			"class": "wizard"
+		}
+	],
+	"wondrous": true,
+	"focus": [
+		"Wizard"
+	],
+	"entries": [
+		"This cone-shaped hat is adorned with moons and stars. While you are wearing it, you gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Spellcasting Focus",
+			"entries": [
+				"You can use the hat as a {@variantrule Spellcasting Focus|XPHB} for your Wizard spells."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Unknown Spell",
+			"entries": [
+				"As a {@action Magic|XPHB} action, you can try to cast a cantrip that you don't know. The cantrip must be on the Wizard spell list and have a casting time of an action, and you make a {@dc 10} Intelligence ({@skill Arcana|XPHB}) check. On a successful check, you cast the spell. On a failed check, the spell fails, and the action used to cast the spell is wasted. In either case, you can't use this property again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Per Day",
+	"source": "XPHB",
+	"page": 372,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"If a rule says you can use something a certain number of times per day, that means you must finish a {@variantrule Long Rest|XPHB} to use it again after you run out of uses."
+	]
+}

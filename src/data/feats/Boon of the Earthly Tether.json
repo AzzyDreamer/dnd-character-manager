@@ -1,0 +1,44 @@
+{
+	"name": "Boon of the Earthly Tether",
+	"source": "GrimHollowPG24",
+	"page": 120,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19,
+			"other": "{@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Persistent Haunter",
+			"entries": [
+				"You are no longer affected by the {@optfeature Fraying Reality|GrimHollowPG24|Fraying Reality Transformation Flaw}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Divergent Growth",
+			"entries": [
+				"Choose any {@filter Specter Transformation Boon|optionalfeatures|source=grimhollowpg24|feature type=spec:tb|miscellaneous=} that you don't already have but meet the prerequisites for. You gain that Boon."
+			]
+		}
+	]
+}

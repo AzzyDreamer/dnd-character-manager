@@ -1,0 +1,20 @@
+{
+	"name": "Macuahuitl",
+	"source": "TftYP",
+	"page": 70,
+	"baseItem": "longsword|phb",
+	"type": "M",
+	"rarity": "unknown (magic)",
+	"weight": 3,
+	"weaponCategory": "martial",
+	"property": [
+		"V"
+	],
+	"dmg1": "1d8",
+	"dmgType": "S",
+	"dmg2": "1d10",
+	"bonusWeapon": "+1",
+	"entries": [
+		"You have a +1 bonus to attack and damage rolls made with this longsword, which is made of laminated wood, and inset with jagged teeth of obsidian. It deals an extra {@damage 2d6} damage to any creature of the plant type."
+	]
+}

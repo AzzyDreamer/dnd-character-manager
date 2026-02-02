@@ -1,0 +1,62 @@
+{
+	"name": "Sanctum of the Flock",
+	"source": "CrookedMoon24",
+	"page": 132,
+	"level": 3,
+	"school": "T",
+	"time": [
+		{
+			"number": 1,
+			"unit": "minute"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 5
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "powdered silver worth 25+ GP, which the spell consumes",
+			"cost": 2500,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "hour",
+				"amount": 24
+			}
+		}
+	],
+	"entries": [
+		"You create a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} of faint, shimmering light centered on a point within range. You and a number of creatures of your choice up to your spellcasting ability modifier (minimum of 1 other creature) can absorb empowering magic from the {@variantrule Sphere [Area of Effect]|XPHB|Sphere}. When any of the chosen creatures finish a {@variantrule Long Rest|XPHB} in the area, the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} vanishes, and those creatures gain {@dice 2d10} {@variantrule Temporary Hit Points|XPHB}, and for the remainder of the duration, they have {@variantrule Advantage|XPHB} on Charisma checks that use one of their skill proficiencies. Chosen creatures who don't finish a {@variantrule Long Rest|XPHB} in the {@variantrule Sphere [Area of Effect]|XPHB|Sphere} gain no benefit."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Paladin",
+				"source": "XPHB"
+			}
+		]
+	},
+	"miscTags": [
+		"ADV",
+		"THP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/CrookedMoon24/Foundry/Spells/Sanctum-of-the-Flock.webp"
+}

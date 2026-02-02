@@ -1,0 +1,7 @@
+{
+	"name": "Armor of Resistance",
+	"source": "XDMG",
+	"entriesTemplate": [
+		"You have {@variantrule Resistance|XPHB} to {{getFullImmRes item.resist}} damage while you wear this armor."
+	]
+}

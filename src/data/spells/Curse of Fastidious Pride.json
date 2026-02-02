@@ -1,0 +1,92 @@
+{
+	"name": "Curse of Fastidious Pride",
+	"source": "GrimHollowPG24",
+	"page": 211,
+	"level": 3,
+	"school": "E",
+	"subschools": [
+		"Shadowsteel Curse"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "hour"
+		}
+	],
+	"range": {
+		"type": "special"
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": {
+			"text": "a shred of the target's clothing, an uncrushed dead spider, and a sewing needle worth 600+ GP, all of which the spell consumes",
+			"cost": 60000,
+			"consume": true
+		}
+	},
+	"duration": [
+		{
+			"type": "permanent",
+			"ends": [
+				"cured"
+			]
+		}
+	],
+	"entries": [
+		"This spell curses a creature with narcissistic hubris.",
+		"The target must make an Intelligence saving throw. Successful {@variantrule Saving Throw|XPHB}. On a successful save, the target takes {@damage 2d10} Psychic damage and is aware it was targeted by a curse.",
+		{
+			"type": "entries",
+			"name": "Initial Effect",
+			"entries": [
+				"On a failed save, the target takes {@damage 4d10} Psychic damage, has the {@condition Blinded|XPHB} condition for 1 minute, and is cursed."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Triggering Event",
+			"entries": [
+				"The next time the target hears its name spoken, the speaker sounds derisive regardless of its actual tone, and the curse advances to Stage 1."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 1",
+			"entries": [
+				"The cursed creature hears veiled insults everywhere, believing everyone is jealous of its brilliance and talent."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 2",
+			"entries": [
+				"The cursed creature feels restless unless it is actively working to accomplish a goal. The cursed creature gains no benefit from its {@variantrule Short Rest|XPHB|Short Rests}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Stage 3",
+			"entries": [
+				"The cursed creature believes everyone is involved in a conspiracy to bring about its downfall. Whenever it fails a {@variantrule D20 Test|XPHB}, it has {@variantrule Disadvantage|XPHB} on the next {@variantrule D20 Test|XPHB} it makes."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Culmination",
+			"entries": [
+				"The cursed creature twists into a deformed figure and becomes a Mind Siphon."
+			]
+		}
+	],
+	"damageInflict": [
+		"psychic"
+	],
+	"conditionInflict": [
+		"blinded"
+	],
+	"savingThrow": [
+		"intelligence"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Curse%20of%20Fastidious%20Pride.webp"
+}

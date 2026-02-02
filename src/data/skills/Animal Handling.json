@@ -1,0 +1,10 @@
+{
+	"name": "Animal Handling",
+	"source": "XPHB",
+	"page": 14,
+	"srd52": true,
+	"ability": "wis",
+	"entries": [
+		"Calm or train an animal, or get an animal to behave in a certain way."
+	]
+}

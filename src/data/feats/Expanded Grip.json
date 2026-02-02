@@ -1,0 +1,44 @@
+{
+	"name": "Expanded Grip",
+	"source": "GrimHollowPG24",
+	"page": 116,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"ability": [
+				{
+					"str": 13
+				}
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con"
+				]
+			}
+		}
+	],
+	"entries": [
+		"Your natural ability with larger weapons lets you use them in a way others can't. You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "One-Handed Grip",
+			"entries": [
+				"When you use a Versatile weapon with one hand, the weapon deals the damage in parentheses when used to make a melee attack."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Zealous Grasp",
+			"entries": [
+				"If an effect forces you to drop what you are holding, you can make a DC 15 Strength saving throw to maintain your grip. When you are subjected to an effect that allows you to make a saving throw to maintain your grip, you have {@variantrule Advantage|XPHB} on the saving throw."
+			]
+		}
+	]
+}

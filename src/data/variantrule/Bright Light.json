@@ -1,0 +1,11 @@
+{
+	"name": "Bright Light",
+	"source": "XPHB",
+	"page": 362,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Bright Light is normal illumination."
+	]
+}

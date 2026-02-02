@@ -1,0 +1,144 @@
+{
+	"name": "Sapping Sting",
+	"source": "EGW",
+	"page": 189,
+	"level": 0,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 30
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"You sap the vitality of one creature you can see in range. The target must succeed on a Constitution saving throw or take {@damage 1d4} necrotic damage and fall {@condition prone}.",
+		"This spell's damage increases by {@damage 1d4} when you reach 5th level ({@damage 2d4}), 11th level ({@damage 3d4}), and 17th level ({@damage 4d4})."
+	],
+	"scalingLevelDice": {
+		"label": "necrotic damage",
+		"scaling": {
+			"1": "1d4",
+			"5": "2d4",
+			"11": "3d4",
+			"17": "4d4"
+		}
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SCL",
+		"SGT"
+	],
+	"areaTags": [
+		"ST"
+	],
+	"classes": {
+		"fromSubclass": [
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Death Domain",
+					"shortName": "Death",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "PHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Cleric",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Death Domain",
+					"shortName": "Death",
+					"source": "DMG"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Chronurgy Magic",
+					"shortName": "Chronurgy",
+					"source": "EGW"
+				}
+			},
+			{
+				"class": {
+					"name": "Wizard",
+					"source": "XPHB"
+				},
+				"subclass": {
+					"name": "Graviturgy Magic",
+					"shortName": "Graviturgy",
+					"source": "EGW"
+				}
+			}
+		]
+	},
+	"optionalfeatures": [
+		{
+			"name": "Pact of the Tome",
+			"source": "PHB",
+			"featureType": [
+				"PB"
+			]
+		},
+		{
+			"name": "Pact of the Tome",
+			"source": "XPHB",
+			"featureType": [
+				"EI"
+			]
+		}
+	]
+}

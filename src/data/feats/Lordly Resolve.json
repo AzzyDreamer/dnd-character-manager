@@ -1,0 +1,35 @@
+{
+	"name": "Lordly Resolve",
+	"source": "FRHoF",
+	"page": 40,
+	"category": "G",
+	"prerequisite": [
+		{
+			"level": 4,
+			"feat": [
+				"lords' alliance agent|frhof"
+			]
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"cha"
+				]
+			}
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Standard Bearer",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, choose up to three creatures within 60 feet of yourself that can see you. Each target can immediately take a {@variantrule Reaction|XPHB} to right itself and end the {@condition Prone|XPHB} condition, provided its {@variantrule Speed|XPHB} isn't 0. Additionally, you bolster the targets' resolve, which lasts for 1 minute or until you have the {@condition Incapacitated|XPHB} condition. While bolstered, a target can't be possessed or gain the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition; if a target is already possessed, {@condition Charmed|XPHB}, or {@condition Frightened|XPHB}, the target has {@variantrule Advantage|XPHB} on any new saving throw against the relevant effect.",
+				"Once you use this benefit, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

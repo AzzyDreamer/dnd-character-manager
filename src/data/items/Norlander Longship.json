@@ -1,0 +1,15 @@
+{
+	"name": "Norlander Longship",
+	"source": "FRAiF",
+	"page": 166,
+	"type": "SHP|XPHB",
+	"rarity": "none",
+	"value": 2000000,
+	"crew": 50,
+	"vehAc": 17,
+	"vehHp": 300,
+	"vehDmgThresh": 15,
+	"vehSpeed": 6,
+	"capPassenger": 100,
+	"capCargo": 10
+}

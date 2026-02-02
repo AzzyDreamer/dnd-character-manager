@@ -1,0 +1,22 @@
+{
+	"name": "Mask of the Beast",
+	"source": "ToA",
+	"page": 207,
+	"rarity": "uncommon",
+	"wondrous": true,
+	"weight": 1,
+	"recharge": "dawn",
+	"rechargeAmount": 3,
+	"charges": 3,
+	"entries": [
+		"This wooden mask is shaped in the likeness of a beast's visage and has 3 charges. While wearing the mask you can expend 1 charge and use the mask to cast the {@spell animal friendship} spell as an action. The mask regains all expended charges at dawn."
+	],
+	"attachedSpells": {
+		"charges": {
+			"1": [
+				"animal friendship"
+			]
+		}
+	},
+	"hasFluffImages": true
+}

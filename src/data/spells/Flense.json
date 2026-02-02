@@ -1,0 +1,63 @@
+{
+	"name": "Flense",
+	"source": "GrimHollowPG24",
+	"page": 192,
+	"level": 8,
+	"school": "N",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 60
+		}
+	},
+	"components": {
+		"v": true,
+		"s": true,
+		"m": "a scalpel"
+	},
+	"duration": [
+		{
+			"type": "timed",
+			"duration": {
+				"type": "minute",
+				"amount": 1
+			},
+			"concentration": true
+		}
+	],
+	"entries": [
+		"You target a creature you can see within range, using necromantic force to slice the skin from its body. Make a ranged spell attack against that creature. On a hit, the target takes {@damage 8d6} Necrotic damage on a failed save or half as much damage on a successful one. On each of your turns until the spell ends, you can take a {@action Magic|XPHB} action to force the same target to make a Constitution saving throw, taking {@damage 8d6} Necrotic damage on a failed save or half as much damage on a successful one. The spell ends if the target is ever outside the spell's range, if the target is reduced to 0 {@variantrule Hit Points|XPHB}, or if you can't see it."
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Cleric",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"damageInflict": [
+		"necrotic"
+	],
+	"spellAttack": [
+		"R"
+	],
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Flense.webp"
+}

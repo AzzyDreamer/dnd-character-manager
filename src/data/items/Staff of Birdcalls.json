@@ -1,0 +1,36 @@
+{
+	"name": "Staff of Birdcalls",
+	"source": "XDMG",
+	"page": 307,
+	"type": "M|XPHB",
+	"rarity": "common",
+	"weight": 4,
+	"weaponCategory": "simple",
+	"property": [
+		"V|XPHB"
+	],
+	"mastery": [
+		"Topple|XPHB"
+	],
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"dmg2": "1d8",
+	"recharge": "dawn",
+	"rechargeAmount": "{@dice 1d6 + 4}",
+	"charges": 10,
+	"staff": true,
+	"entries": [
+		"This wooden staff is decorated with bird carvings. It has 10 charges. While holding it, you can take a {@action Magic|XPHB} action to expend 1 charge from the staff and cause it to create one of the following sounds, which can be heard out to 120 feet: a finch's chirp, a raven's caw, a duck's quack, a chicken's cluck, a goose's honk, a loon's call, a turkey's gobble, a seagull's cry, an owl's hoot, or an eagle's shriek.",
+		{
+			"type": "entries",
+			"name": "Regaining Charges",
+			"entries": [
+				"The staff regains {@dice 1d6 + 4} expended charges daily at dawn. If you expend the last charge, roll {@dice 1d20}. On a 1, the staff explodes in a harmless cloud of bird feathers and is lost forever."
+			]
+		}
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG",
+		"Implements - Common|XDMG"
+	]
+}

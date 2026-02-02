@@ -1,0 +1,67 @@
+{
+	"name": "Burst Forth",
+	"source": "GrimHollowPG24",
+	"page": 187,
+	"level": 7,
+	"school": "C",
+	"subschools": [
+		"Sangromancy"
+	],
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"range": {
+		"type": "point",
+		"distance": {
+			"type": "feet",
+			"amount": 200
+		}
+	},
+	"components": {
+		"v": true
+	},
+	"duration": [
+		{
+			"type": "instant"
+		}
+	],
+	"entries": [
+		"As part of casting this spell, you must expend seven {@variantrule Hit Point Dice|XPHB} or the spell automatically fails. You teleport inside a creature that you can see within range and burst forth from it in a fountain of gore in the nearest unoccupied space. The target makes a Constitution saving throw, taking Necrotic damage equal to a roll of the {@variantrule Hit Point Dice|XPHB} expended to cast the spell plus your spellcasting ability modifier on a failed save or half as much damage on a successful one."
+	],
+	"entriesHigherLevel": [
+		{
+			"type": "entries",
+			"name": "Using a Higher-Level Spell Slot",
+			"entries": [
+				"You can expend one additional {@variantrule Hit Point Dice|XPHB|Hit Point Die} for each spell slot level above 7."
+			]
+		}
+	],
+	"classes": {
+		"fromClassList": [
+			{
+				"name": "Bard",
+				"source": "XPHB"
+			},
+			{
+				"name": "Warlock",
+				"source": "XPHB"
+			},
+			{
+				"name": "Wizard",
+				"source": "XPHB"
+			}
+		]
+	},
+	"savingThrow": [
+		"constitution"
+	],
+	"miscTags": [
+		"SGT",
+		"TP"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/GrimHollowPG24/Foundry/Spells/Burst%20Forth.webp"
+}

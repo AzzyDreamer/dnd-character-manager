@@ -1,0 +1,121 @@
+{
+	"name": "Zhentarim Mercenary",
+	"source": "FRHoF",
+	"page": 36,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"dex",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"zhentarim ruffian|frhof": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"intimidation": true,
+			"perception": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"forgery kit": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				"club|xphb",
+				"dagger|xphb",
+				"forgery kit|xphb",
+				"fine clothes|xphb",
+				"hooded lantern|xphb",
+				{
+					"item": "oil|xphb",
+					"displayName": "Oil (3 flasks)"
+				},
+				{
+					"item": "pouch|xphb",
+					"displayName": "Pouches",
+					"quantity": 2
+				},
+				"string|xphb",
+				"tinderbox|xphb",
+				{
+					"value": 1100
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Dexterity, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Zhentarim Ruffian|FRHoF}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Intimidation|XPHB} and {@skill Perception|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "{@item Forgery Kit|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Club|XPHB}, {@item Dagger|XPHB}, {@item Forgery Kit|XPHB}, {@item Fine Clothes|XPHB}, {@item Hooded Lantern|XPHB}, {@item Oil|XPHB} (3 flasks), 2 {@item Pouch|XPHB|Pouches}, {@item String|XPHB}, {@item Tinderbox|XPHB}, 11 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"Maybe you needed the money. Maybe you longed for a family, no matter how dubious. Or maybe you're just good at getting the job done by any means necessary. Whatever your reason, you enlisted with the Zhentarim, the most notorious mercenary guild in the Realms. Though the Zhentarim's leaders insist the organization is more like a family than a shadowy syndicate, few families exhibit as much dishonesty, nepotism, and corruption as this one. You've honed your cunning, reflexes, and blade to climb the guild's ranks."
+	]
+}

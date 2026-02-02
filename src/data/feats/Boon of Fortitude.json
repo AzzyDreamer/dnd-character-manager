@@ -1,0 +1,36 @@
+{
+	"name": "Boon of Fortitude",
+	"source": "XPHB",
+	"page": 210,
+	"category": "EB",
+	"prerequisite": [
+		{
+			"level": 19
+		}
+	],
+	"ability": [
+		{
+			"choose": {
+				"from": [
+					"str",
+					"dex",
+					"con",
+					"int",
+					"wis",
+					"cha"
+				]
+			},
+			"max": 30
+		}
+	],
+	"entries": [
+		"You gain the following benefits.",
+		{
+			"type": "entries",
+			"name": "Fortified Health",
+			"entries": [
+				"Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by 40. In addition, whenever you regain {@variantrule Hit Points|XPHB}, you can regain additional {@variantrule Hit Points|XPHB} equal to your Constitution modifier. Once you've regained these additional {@variantrule Hit Points|XPHB}, you can't do so again until the start of your next turn."
+			]
+		}
+	]
+}

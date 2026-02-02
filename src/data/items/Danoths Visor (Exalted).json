@@ -1,0 +1,36 @@
+{
+	"name": "Danoth's Visor (Exalted)",
+	"source": "EGW",
+	"_copy": {
+		"name": "Danoth's Visor (Awakened)",
+		"source": "EGW",
+		"_mod": {
+			"entries": {
+				"mode": "insertArr",
+				"index": -1,
+				"items": {
+					"type": "entries",
+					"name": "Exalted",
+					"entries": [
+						"When Danoth's Visor reaches an exalted state, it gains the following properties:",
+						{
+							"type": "list",
+							"items": [
+								"You automatically detect illusions you can see and automatically succeed on saving throws against them. In addition, you see a bright aura around any creature that isn't in its true form.",
+								"As an action, you can cast the {@spell antimagic field} spell from the visor. This property can't be used again until the next dawn."
+							]
+						}
+					]
+				}
+			}
+		},
+		"_preserve": {
+			"page": true,
+			"hasFluffImages": true
+		}
+	},
+	"attachedSpells": [
+		"antimagic field"
+	],
+	"hasFluffImages": true
+}

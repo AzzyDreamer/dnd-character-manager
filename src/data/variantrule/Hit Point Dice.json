@@ -1,0 +1,11 @@
+{
+	"name": "Hit Point Dice",
+	"source": "XPHB",
+	"page": 368,
+	"srd52": true,
+	"basicRules2024": true,
+	"ruleType": "C",
+	"entries": [
+		"Hit Point Dice, or Hit Dice for short, help determine a {@variantrule Player Character|XPHB|player character's} Hit Point maximum, as explained in {@book chapter 2|XPHB|2}. Most {@variantrule Monster|XPHB|monsters} also have Hit Dice. A creature can spend Hit Dice during a {@variantrule Short Rest|XPHB} to regain {@variantrule Hit Points|XPHB}."
+	]
+}

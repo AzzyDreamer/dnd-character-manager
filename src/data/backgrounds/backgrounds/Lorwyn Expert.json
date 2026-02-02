@@ -1,0 +1,115 @@
+{
+	"name": "Lorwyn Expert",
+	"source": "LFL",
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"wis"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"str",
+						"con",
+						"wis"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"child of the sun|lfl": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"athletics": true,
+			"nature": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"cartographer's tools": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"a": [
+				"quarterstaff|xphb",
+				"cartographer's tools|xphb",
+				"backpack|xphb",
+				"basket|xphb",
+				{
+					"item": "parchment|xphb",
+					"quantity": 4,
+					"displayName": "Parchment (4 sheets)"
+				},
+				"rope|xphb",
+				"traveler's clothes|xphb",
+				{
+					"value": 2900
+				}
+			],
+			"b": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Strength, Constitution, Wisdom"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Child of the Sun|LFL}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Athletics|XPHB} and {@skill Nature|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Cartographer's Tools|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Quarterstaff|XPHB}, {@item Cartographer's Tools|XPHB}, {@item Backpack|XPHB}, {@item Basket|XPHB}, {@item Parchment|XPHB} (4 sheets), {@item Rope|XPHB}, {@item Traveler's Clothes|XPHB}, 29 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You hail from Lorwyn, a land of eternal sunshine, or you have studied the place with great intensity. You consider the majestic creature Eirdu the living embodiment of the sun, and you love embarking on whimsical adventures. You hold your loved ones close, even if only emotionally, for you've seen some venture into Shadowmoor or beyond and become faded versions of themselves. You're nevertheless courageous and always long for new experiences."
+	]
+}

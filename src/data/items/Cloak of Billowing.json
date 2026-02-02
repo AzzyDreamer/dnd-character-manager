@@ -1,0 +1,14 @@
+{
+	"name": "Cloak of Billowing",
+	"source": "XDMG",
+	"page": 244,
+	"rarity": "common",
+	"wondrous": true,
+	"entries": [
+		"While wearing this cloak, you can take a {@variantrule Bonus Action|XPHB} to make it billow dramatically for 1 minute."
+	],
+	"lootTables": [
+		"Arcana - Common|XDMG"
+	],
+	"hasFluffImages": true
+}

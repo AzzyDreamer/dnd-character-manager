@@ -1,0 +1,120 @@
+{
+	"name": "Syndicate Smuggler",
+	"source": "GrimHollowPG24",
+	"page": 113,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"dex",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"resolution of the syndicate|GrimHollowPG24": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"history": true,
+			"stealth": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"forgery kit": true
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "Forgery Kit|XPHB"
+				},
+				{
+					"item": "Chest|XPHB"
+				},
+				{
+					"item": "Parchment|XPHB"
+				},
+				{
+					"item": "Costume|XPHB"
+				},
+				{
+					"value": 800
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Dexterity, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Resolution of the Syndicate|GrimHollowPG24}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill History|XPHB} and {@skill Stealth|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiency:",
+					"entry": "{@item Forgery Kit|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Forgery Kit|XPHB}, Chest (with False Bottom), {@item Parchment|XPHB}, {@item Costume|XPHB}, 8 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": {
+		"entries": [
+			"Goods from one side of Etharis often fetch a fair price on the other side. Transporting such goods are a hassle—dealing with the bureaucracy of customs and taxes is an even larger one. Thankfully, as a representative of the Ebon Syndicate, you are there to eliminate at least part of the hassle.",
+			"Whether you move goods by land, sea, river, or air, crossing borders and avoiding detection are your specialty. Sometimes having a way to hide goods is the game. Other times falsifying paperwork or bribing guards does the trick. However you manage to do it, you get what people want into their hands for the right price."
+		]
+	}
+}

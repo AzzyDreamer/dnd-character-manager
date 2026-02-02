@@ -1,0 +1,62 @@
+{
+	"name": "Cube of Summoning",
+	"source": "XDMG",
+	"page": 247,
+	"rarity": "rare",
+	"wondrous": true,
+	"entries": [
+		"This Tiny cube looks like a jack-in-the-box. When you wind its crank as a {@action Magic|XPHB} action, a merry tune emits from the box, the lid pops open, a creature appears in the nearest unoccupied space, and the lid closes. The lid can't otherwise be opened.",
+		"Roll on the {@item Cube of Summoning|XDMG} table to determine which spell the cube casts to summon the creature. The spell is cast at level 5 (save {@dc 17}, +9 attack bonus) and doesn't require {@status Concentration|XPHB}, but you otherwise function as the spell's caster.",
+		"Once the cube summons a creature, the cube can't do so again until the next dawn.",
+		{
+			"type": "table",
+			"caption": "Cube of Summoning",
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"colLabels": [
+				"1d6",
+				"Spell"
+			],
+			"rows": [
+				[
+					"1",
+					"{@spell Summon Aberration|XPHB}"
+				],
+				[
+					"2",
+					"{@spell Summon Beast|XPHB}"
+				],
+				[
+					"3",
+					"{@spell Summon Construct|XPHB}"
+				],
+				[
+					"4",
+					"{@spell Summon Dragon|XPHB}"
+				],
+				[
+					"5",
+					"{@spell Summon Elemental|XPHB}"
+				],
+				[
+					"6",
+					"{@spell Summon Fey|XPHB}"
+				]
+			]
+		}
+	],
+	"attachedSpells": [
+		"summon aberration|xphb",
+		"summon beast|xphb",
+		"summon construct|xphb",
+		"summon dragon|xphb",
+		"summon elemental|xphb",
+		"summon fey|xphb"
+	],
+	"lootTables": [
+		"Arcana - Rare|XDMG"
+	],
+	"hasFluffImages": true
+}

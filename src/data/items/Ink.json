@@ -1,0 +1,16 @@
+{
+	"name": "Ink",
+	"source": "XPHB",
+	"page": 226,
+	"srd52": true,
+	"basicRules2024": true,
+	"type": "G|XPHB",
+	"rarity": "none",
+	"value": 1000,
+	"entries": [
+		"Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

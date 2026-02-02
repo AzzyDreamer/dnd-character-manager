@@ -1,0 +1,14 @@
+{
+	"name": "Parry",
+	"source": "XPHB",
+	"page": 95,
+	"featureType": [
+		"MV:B"
+	],
+	"consumes": {
+		"name": "Superiority Die"
+	},
+	"entries": [
+		"When another creature damages you with a melee attack roll, you can take a {@variantrule Reaction|XPHB} and expend one Superiority Die to reduce the damage by the number you roll on your Superiority Die plus your Strength or Dexterity modifier (your choice)."
+	]
+}

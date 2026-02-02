@@ -1,0 +1,119 @@
+{
+	"name": "Spellfire Initiate",
+	"source": "FRHoF",
+	"page": 36,
+	"edition": "one",
+	"ability": [
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						2,
+						1
+					]
+				}
+			}
+		},
+		{
+			"choose": {
+				"weighted": {
+					"from": [
+						"con",
+						"int",
+						"cha"
+					],
+					"weights": [
+						1,
+						1,
+						1
+					]
+				}
+			}
+		}
+	],
+	"feats": [
+		{
+			"spellfire spark|frhof": true
+		}
+	],
+	"skillProficiencies": [
+		{
+			"arcana": true,
+			"perception": true
+		}
+	],
+	"toolProficiencies": [
+		{
+			"anyGamingSet": 1
+		}
+	],
+	"startingEquipment": [
+		{
+			"A": [
+				{
+					"item": "gaming set|xphb",
+					"displayName": "Gaming Set (same as above)"
+				},
+				{
+					"item": "arcane focus|xphb",
+					"displayName": "Arcane Focus (Crystal or Wand)"
+				},
+				{
+					"item": "pouch|xphb",
+					"displayName": "Pouches",
+					"quantity": 2
+				},
+				"traveler's clothes|xphb",
+				{
+					"value": 3600
+				}
+			],
+			"B": [
+				{
+					"value": 5000
+				}
+			]
+		}
+	],
+	"entries": [
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Ability Scores:",
+					"entry": "Constitution, Intelligence, Charisma"
+				},
+				{
+					"type": "item",
+					"name": "Feat:",
+					"entry": "{@feat Spellfire Spark|FRHoF}"
+				},
+				{
+					"type": "item",
+					"name": "Skill Proficiencies:",
+					"entry": "{@skill Arcana|XPHB} and {@skill Perception|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Tool Proficiencies:",
+					"entry": "Choose one kind of {@item Gaming Set|XPHB}"
+				},
+				{
+					"type": "item",
+					"name": "Equipment:",
+					"entry": "Choose A or B: (A) {@item Gaming Set|XPHB} (same as above), {@item Arcane Focus|XPHB} ({@item Crystal|XPHB} or {@item Wand|XPHB}), 2 {@item Pouch|XPHB|Pouches}, {@item Traveler's Clothes|XPHB}, 36 GP; or (B) 50 GP"
+				}
+			]
+		}
+	],
+	"fluff": [
+		"You bear the gift of spellfire: a rare form of magic that channels the raw power of the Weave. Wielding spellfire takes a heavy toll on the body. You've trained both mind and body to efficiently wield this sacred power."
+	]
+}
