@@ -33,23 +33,19 @@ export async function initRegistry(): Promise<void> {
 
   _initializing = (async () => {
     try {
-      // Загружаем модули параллельно
-      const results = await Promise.all([
-        import('./spells'),
-        import('./feats'),
-        import('./species'),
-        import('./conditionsdiseases'),
-        import('./senses'),
-        import('./skills'),
-        import('./variantrule'),
-        import('./optionalfeatures'),
-        import('./backgrounds/jsonBackgrounds'),
-        import('./items-base'),
-        import('./items'),
-      ]);
-
-      [_spells, _feats, _species, _conditions, _senses, _skills,
-       _variantrule, _optfeatures, _backgrounds, _itemsBase, _items] = results;
+      // Загружаем модули последовательно — каждый тянет сотни JSON через
+      // import.meta.glob, параллельная загрузка убивает Vite dev server
+      _spells = await import('./spells');
+      _feats = await import('./feats');
+      _species = await import('./species');
+      _conditions = await import('./conditionsdiseases');
+      _senses = await import('./senses');
+      _skills = await import('./skills');
+      _variantrule = await import('./variantrule');
+      _optfeatures = await import('./optionalfeatures');
+      _backgrounds = await import('./backgrounds/jsonBackgrounds');
+      _itemsBase = await import('./items-base');
+      _items = await import('./items');
 
       _initialized = true;
     } catch (e) {
