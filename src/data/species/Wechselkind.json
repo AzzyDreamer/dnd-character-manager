@@ -100,19 +100,18 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"A mother hears a sound in the night and worriedly checks on her sleeping toddler. Nothing appears amiss. But weeks later, an unseen glamour fades and a horror is revealed: the child has been stolen by the faerie, and a wechselkind is left in their place. For the faerie are callous and unchanging beings, and nothing inspires their fascination—and their envy—more than the malleable, bright spark of a young humanoid child.",
+		"A wechselkind is a construct crafted of wood, clay, and ceramic in the form of a small child, animated by faerie magic and concealed in illusion that makes them appear identical to a stolen mortal babe. Once that glamour fades and the lie is revealed, a wechselkind is most often cast out by the stolen child's family, if not destroyed. Occasionally, though, a family takes pity on the poor creature and attempts to raise them, only to find that while their mind develops normally, a wechselkind is forever bound in the unchanging form of a childlike doll.",
+		"Whether nurtured or shunned, most wechselkind eventually find themselves living as outcasts, and learning to fend for themselves as best they can. The residual magic of their faerie glamour allows a wechselkind to conceal themself for short periods, whether in the guise of the child they replaced or an adult halfling, gnome, or other person of similar stature. With few physical needs, a wechselkind can easily wander from settlement to settlement, watching the people they encounter with envious eyes, and hoping for a place to finally fit in.",
+		"With the spread of the Weeping Pox, many wechselkind have emerged from hiding. With their immunity to disease, they're able to aid healers in plague-stricken regions, gaining a measure of respect—or even admiration—from those able to see beyond their tragic origins. However, even wechselkind who are accepted among other folk often remain wary, fearing that once their usefulness is at an end, they might be cast out once more.",
+		{
+			"type": "entries",
+			"name": "Eldritch Heritages",
+			"entries": [
+				"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+			]
+		}
+	]
 }
-
-[
-	"A mother hears a sound in the night and worriedly checks on her sleeping toddler. Nothing appears amiss. But weeks later, an unseen glamour fades and a horror is revealed: the child has been stolen by the faerie, and a wechselkind is left in their place. For the faerie are callous and unchanging beings, and nothing inspires their fascination—and their envy—more than the malleable, bright spark of a young humanoid child.",
-	"A wechselkind is a construct crafted of wood, clay, and ceramic in the form of a small child, animated by faerie magic and concealed in illusion that makes them appear identical to a stolen mortal babe. Once that glamour fades and the lie is revealed, a wechselkind is most often cast out by the stolen child's family, if not destroyed. Occasionally, though, a family takes pity on the poor creature and attempts to raise them, only to find that while their mind develops normally, a wechselkind is forever bound in the unchanging form of a childlike doll.",
-	"Whether nurtured or shunned, most wechselkind eventually find themselves living as outcasts, and learning to fend for themselves as best they can. The residual magic of their faerie glamour allows a wechselkind to conceal themself for short periods, whether in the guise of the child they replaced or an adult halfling, gnome, or other person of similar stature. With few physical needs, a wechselkind can easily wander from settlement to settlement, watching the people they encounter with envious eyes, and hoping for a place to finally fit in.",
-	"With the spread of the Weeping Pox, many wechselkind have emerged from hiding. With their immunity to disease, they're able to aid healers in plague-stricken regions, gaining a measure of respect—or even admiration—from those able to see beyond their tragic origins. However, even wechselkind who are accepted among other folk often remain wary, fearing that once their usefulness is at an end, they might be cast out once more.",
-	{
-		"type": "entries",
-		"name": "Eldritch Heritages",
-		"entries": [
-			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
-		]
-	}
-]

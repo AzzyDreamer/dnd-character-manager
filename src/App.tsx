@@ -4,8 +4,9 @@ import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
 import { CharacterList } from './components/CharacterList';
+import { Glossary } from './components/Glossary';
 import { importCharacter } from './utils/storage';
-import { PlusCircle, BookOpen, ArrowLeft } from 'lucide-react';
+import { PlusCircle, BookOpen, ArrowLeft, Library } from 'lucide-react';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -41,6 +42,8 @@ class ErrorBoundary extends Component<
   }
 }
 
+type AppView = 'main' | 'creator' | 'glossary';
+
 function AppContent() {
   const {
     characters,
@@ -53,7 +56,7 @@ function AppContent() {
     setActiveCharacter,
   } = useCharacters();
 
-  const [showCreator, setShowCreator] = useState(false);
+  const [currentView, setCurrentView] = useState<AppView>('main');
 
   const handleImportCharacter = async (file: File) => {
     try {
@@ -79,8 +82,8 @@ function AppContent() {
       <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-center relative">
-            {/* Back button - shows when viewing a character or in creator */}
-            {(showCreator || activeCharacter) && !showCreator && (
+            {/* Back button - shows when viewing a character */}
+            {currentView === 'main' && activeCharacter && (
               <button
                 onClick={() => setActiveCharacter('')}
                 className="absolute left-0 flex items-center gap-2 text-white/70 hover:text-white transition-colors sm:flex hidden"
@@ -92,21 +95,38 @@ function AppContent() {
 
             <div className="flex items-center gap-3">
               <BookOpen className="text-dnd-secondary" size={36} />
-              <h1 className="text-2xl sm:text-3xl font-medieval text-white">
+              <h1
+                className="text-2xl sm:text-3xl font-medieval text-white cursor-pointer hover:text-dnd-secondary transition-colors"
+                onClick={() => { setCurrentView('main'); }}
+              >
                 D&D 5e Character Manager
               </h1>
             </div>
 
-            {!showCreator && (
-              <button
-                onClick={() => setShowCreator(true)}
-                className="absolute right-0 px-4 py-2 sm:px-6 sm:py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg text-sm sm:text-base"
-              >
-                <PlusCircle size={18} />
-                <span className="hidden sm:inline">Создать персонажа</span>
-                <span className="sm:hidden">Создать</span>
-              </button>
-            )}
+            <div className="absolute right-0 flex items-center gap-2">
+              {/* Кнопка глоссария */}
+              {currentView !== 'glossary' && (
+                <button
+                  onClick={() => setCurrentView('glossary')}
+                  className="px-3 py-2 sm:px-4 sm:py-3 bg-gray-800/60 text-white rounded-lg hover:bg-gray-700 flex items-center gap-2 font-semibold shadow-lg text-sm border border-gray-600 hover:border-dnd-secondary transition-all"
+                >
+                  <Library size={18} />
+                  <span className="hidden sm:inline">База знаний</span>
+                </button>
+              )}
+
+              {/* Кнопка создания */}
+              {currentView === 'main' && (
+                <button
+                  onClick={() => setCurrentView('creator')}
+                  className="px-3 py-2 sm:px-5 sm:py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg text-sm sm:text-base"
+                >
+                  <PlusCircle size={18} />
+                  <span className="hidden sm:inline">Создать персонажа</span>
+                  <span className="sm:hidden">Создать</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -114,14 +134,16 @@ function AppContent() {
       {/* Основной контент */}
       <main className="flex-1 min-h-0 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 h-full">
-          {showCreator ? (
+          {currentView === 'creator' ? (
             <CharacterCreator
               onSave={(character) => {
                 addCharacter(character);
-                setShowCreator(false);
+                setCurrentView('main');
               }}
-              onCancel={() => setShowCreator(false)}
+              onCancel={() => setCurrentView('main')}
             />
+          ) : currentView === 'glossary' ? (
+            <Glossary onBack={() => setCurrentView('main')} />
           ) : (
             <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
               {/* Боковая панель со списком персонажей */}
@@ -150,12 +172,21 @@ function AppContent() {
                     <p className="text-gray-700 mb-6">
                       Создайте своего первого персонажа или выберите существующего из списка.
                     </p>
-                    <button
-                      onClick={() => setShowCreator(true)}
-                      className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
-                    >
-                      Создать первого персонажа
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      <button
+                        onClick={() => setCurrentView('creator')}
+                        className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
+                      >
+                        Создать первого персонажа
+                      </button>
+                      <button
+                        onClick={() => setCurrentView('glossary')}
+                        className="px-8 py-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 font-semibold text-lg shadow-lg flex items-center gap-2 justify-center"
+                      >
+                        <Library size={20} />
+                        База знаний
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

@@ -130,50 +130,49 @@
 			"common": true,
 			"anyStandard": 1
 		}
+	],
+	"_fluffText": [
+		"Autognomes are mechanical beings built by rock gnomes. Sometimes, because of a malfunction or a unique circumstance, an autognome becomes separated from its creator and strikes out on its own.",
+		"An autognome bears a resemblance to its creator, and most autognomes are programmed to speak and understand Gnomish. The internal components used in an autognome's manufacture can vary wildly; one autognome might have an actual beating heart in its chest cavity, while another might be powered by stardust or intricate clockwork gears.",
+		"Roll on the Autognome History table or choose an entry that you like to identify what event set you on the path to adventure. If nothing on the table appeals to you, work with your DM to create an origin story for your character.",
+		"Like gnomes, autognomes can live for centuries, typically up to 500 years.",
+		{
+			"type": "table",
+			"caption": "Autognome History",
+			"colLabels": [
+				"d6",
+				"Story"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"Your creator gave you autonomy and urged you to follow your dreams."
+				],
+				[
+					"2",
+					"Your creator died, leaving you to fend for yourself."
+				],
+				[
+					"3",
+					"A glitch caused you to forget your original programming. You don't remember who made you or where you came from."
+				],
+				[
+					"4",
+					"You didn't like how you were being treated by your creator, so you ran away from home."
+				],
+				[
+					"5",
+					"You were built to complete a special mission."
+				],
+				[
+					"6",
+					"You felt trapped in the role for which you were built and abandoned your creator, determined to find a greater purpose."
+				]
+			]
+		}
 	]
 }
-
-[
-	"Autognomes are mechanical beings built by rock gnomes. Sometimes, because of a malfunction or a unique circumstance, an autognome becomes separated from its creator and strikes out on its own.",
-	"An autognome bears a resemblance to its creator, and most autognomes are programmed to speak and understand Gnomish. The internal components used in an autognome's manufacture can vary wildly; one autognome might have an actual beating heart in its chest cavity, while another might be powered by stardust or intricate clockwork gears.",
-	"Roll on the Autognome History table or choose an entry that you like to identify what event set you on the path to adventure. If nothing on the table appeals to you, work with your DM to create an origin story for your character.",
-	"Like gnomes, autognomes can live for centuries, typically up to 500 years.",
-	{
-		"type": "table",
-		"caption": "Autognome History",
-		"colLabels": [
-			"d6",
-			"Story"
-		],
-		"colStyles": [
-			"col-2 text-center",
-			"col-10"
-		],
-		"rows": [
-			[
-				"1",
-				"Your creator gave you autonomy and urged you to follow your dreams."
-			],
-			[
-				"2",
-				"Your creator died, leaving you to fend for yourself."
-			],
-			[
-				"3",
-				"A glitch caused you to forget your original programming. You don't remember who made you or where you came from."
-			],
-			[
-				"4",
-				"You didn't like how you were being treated by your creator, so you ran away from home."
-			],
-			[
-				"5",
-				"You were built to complete a special mission."
-			],
-			[
-				"6",
-				"You felt trapped in the role for which you were built and abandoned your creator, determined to find a greater purpose."
-			]
-		]
-	}
-]

@@ -101,19 +101,18 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"Across wilderness and settled lands, in forest hamlets and farmsteads, the fear of lycanthropy runs deep. But few folk ever come to realize that the hulking stranger they passed on the trade road at dusk, the forest hermit who appeared from nowhere to warn of unseen danger ahead, or the druidic acolyte protecting a sacred spring do not share their fears. For these folk have already been touched by the lycanthropic curse, and have accepted the bestial gifts it bestows.",
+		"Wulven are the natural-born children or descendants of an individual cursed with lycanthropy, not inheriting the curse in full but touched by its feral nature. Those afflicted in this way are commonly associated with werewolves in the minds of commoners, inspiring the name given to them. But wulven are equally likely to be descended from werebears, wererats, wereravens, or even rarer lycanthropes.",
+		"The weaker trace of lycanthropy handed down to a wulven means they do not take animal or hybrid form. They are as calm and personable as any folk, suffering no loss of control or mindless bloodlust under the full moon. However, the feral nature of the beast they carry within them drives most wulven to lives of solitude and the quiet of the wilderness.",
+		"Wulven embody the mysticism of the primal world, rather than its savagery. Where they wander through forest and scrubland, their wild look and solitary nature sees them often mistaken for fey spirits, druids, or actual lycanthropes. Many make lives for themselves as members of druidic enclaves or as protectors of small, isolated communities. Some become emissaries or champions of the fey courts, though the touch of cursed magic in the wulven makes some fey distrust them. But in the end, most wulven live as outlanders, cautious around folk they don't know for fear of their solitary nature and subtly bestial features being misunderstood.",
+		{
+			"type": "entries",
+			"name": "Eldritch Heritages",
+			"entries": [
+				"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+			]
+		}
+	]
 }
-
-[
-	"Across wilderness and settled lands, in forest hamlets and farmsteads, the fear of lycanthropy runs deep. But few folk ever come to realize that the hulking stranger they passed on the trade road at dusk, the forest hermit who appeared from nowhere to warn of unseen danger ahead, or the druidic acolyte protecting a sacred spring do not share their fears. For these folk have already been touched by the lycanthropic curse, and have accepted the bestial gifts it bestows.",
-	"Wulven are the natural-born children or descendants of an individual cursed with lycanthropy, not inheriting the curse in full but touched by its feral nature. Those afflicted in this way are commonly associated with werewolves in the minds of commoners, inspiring the name given to them. But wulven are equally likely to be descended from werebears, wererats, wereravens, or even rarer lycanthropes.",
-	"The weaker trace of lycanthropy handed down to a wulven means they do not take animal or hybrid form. They are as calm and personable as any folk, suffering no loss of control or mindless bloodlust under the full moon. However, the feral nature of the beast they carry within them drives most wulven to lives of solitude and the quiet of the wilderness.",
-	"Wulven embody the mysticism of the primal world, rather than its savagery. Where they wander through forest and scrubland, their wild look and solitary nature sees them often mistaken for fey spirits, druids, or actual lycanthropes. Many make lives for themselves as members of druidic enclaves or as protectors of small, isolated communities. Some become emissaries or champions of the fey courts, though the touch of cursed magic in the wulven makes some fey distrust them. But in the end, most wulven live as outlanders, cautious around folk they don't know for fear of their solitary nature and subtly bestial features being misunderstood.",
-	{
-		"type": "entries",
-		"name": "Eldritch Heritages",
-		"entries": [
-			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
-		]
-	}
-]

@@ -279,119 +279,118 @@
 				}
 			]
 		}
+	],
+	"_fluffText": [
+		"Ravenites have no tails and a hearty physique. They remember the days when they were slaves to the draconblood, as well as the day when they overthrew their masters.",
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "entries",
+					"entries": [
+						"Born of dragons, as their name proclaims, the dragonborn walk proudly through a world that greets them with fearful incomprehension. Shaped by draconic gods or the dragons themselves, dragonborn originally hatched from dragon eggs as a unique race, combining the best attributes of dragons and humanoids. Some dragonborn are faithful servants to true dragons, others form the ranks of soldiers in great wars, and still others find themselves adrift, with no clear calling in life.",
+						{
+							"type": "entries",
+							"name": "Proud Dragon Kin",
+							"entries": [
+								"Dragonborn look very much like dragons standing erect in humanoid form, though they lack wings or a tail. The first dragonborn had scales of vibrant hues matching the colors of their dragon kin, but generations of interbreeding have created a more uniform appearance. Their small, fine scales are usually brass or bronze in color, sometimes ranging to scarlet, rust, gold, or copper-green. They are tall and strongly built, often standing close to 6½ feet tall and weighing 300 pounds or more. Their hands and feet are smiting, talon-like claws with three fingers and a thumb on each hand.",
+								"The blood of a particular type of dragon runs very strong through some dragonborn clans. These dragonborn often boast scales that more closely match those of their dragon ancestor-bright red, green, blue, or white, lustrous black, or gleaming metallic like gold, silver, brass, copper, or bronze."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Self-Sufficient Clans",
+							"entries": [
+								"To any dragonborn, the clan is more important than life itself. Dragonborn owe their devotion and respect to their clan above all else, even the gods. Each dragonborn's conduct reflects on the honor of his or her clan, and bringing dishonor to the clan can result in expulsion and exile. Each dragonborn knows his or her station and duties within the clan, and honor demands maintaining the bounds of that position.",
+								"A continual drive for self-improvement reflects the self-sufficiency, of the race as a whole. Dragonborn value skill and excellence in all endeavors. They hate to fail, and they push themselves to extreme efforts before they give up on something. A dragonborn holds mastery of that particular skill as a lifetime goal. Members of other races who share the same commitment find it easy to earn the respect of a dragonborn.",
+								"Though all dragonborn strive to be self-sufficient, they recognize that help is sometimes needed in difficult situations. But the best source for such help is the clan, and when a client needs help, it turns to another dragonborn clan before seeking aid from other races or even from the gods."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Dragonborn Names",
+							"entries": [
+								"Dragonborn have personal names given at birth, but they put their clan names first as a mark of honor. A childhood name or nickname is often used among clutch mates as a descriptive term or endearment. The name might recall an event or center on a habit.",
+								{
+									"type": "list",
+									"style": "list-hang-notitle",
+									"items": [
+										{
+											"type": "item",
+											"name": "Male Names:",
+											"entry": "Arjhan, Balasar, Bharash, Donaar, Ghesh, Hesken, Kriv, Medrash, Mehen, Nadarr, Pandjed, Patrin, Rhogar, Shamash, Shedinn, Tarhun, Torinn"
+										},
+										{
+											"type": "item",
+											"name": "Female Names:",
+											"entry": "Akra, Biri, Daar, Farideh, Harann, Havilar, Jheri, Kava, Korinn, Mishann, Nala, Perra, Raiann, Sora, Surina, Thava, Uadjit"
+										},
+										{
+											"type": "item",
+											"name": "Childhood Names:",
+											"entry": "Climber, Earbenden Leaper, Pious, Shieldbiter, Zealous"
+										},
+										{
+											"type": "item",
+											"name": "Clan Names:",
+											"entry": "Clethtinthiallor, Daardendrian, Delmirev, Drachedandion, Fenkenkabradon, Kepeshkmolik, Kerrhylon, Kimbatuul, Linxakasendalor, Myastan, Nemmonis, Norixius, Ophinshtalajiir, Prexijandilin, Shestendeliath, Turnuroth, Verthisathurgiesh, Yarjerit"
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "inset",
+							"name": "Draconians",
+							"entries": [
+								"In the Dragonlance setting, the followers of the evil goddess Takhisis learned a dark ritual that let them corrupt the eggs of metallic dragons, producing evil dragonborn called draconians. Five types of draconians, corresponding to the five types of metallic dragons, fought for Takhisis in the War of the Lance-auraks (gold), baaz (brass), bozak (bronze), kapak (copper), and sivak (silver). In place of their draconic breath weapons they have unique magical abilities."
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Uncommon Races",
+			"type": "inset",
+			"entries": [
+				"This race, and those listed below, are uncommon. They don't exist in every world of D&D, and even where they are found, they are less widespread than dwarves, elves, halflings, and humans. In the cosmopolitan cities of the D&D multiverse, most people hardly look twice at members of even the most exotic races. But the small towns and villages that dot the countryside are different. The common folk aren't accustomed to seeing members of these races, and they react accordingly.",
+				{
+					"type": "entries",
+					"name": "Dragonborn",
+					"entries": [
+						"It's easy to assume that a dragonborn is a monster, especially if his or her scales betray a chromatic heritage. Unless the dragonborn starts breathing fire and causing destruction, though, people are likely to respond with caution rather than outright fear."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Gnome",
+					"entries": [
+						"Gnomes don't look like a threat and can quickly disarm suspicion with good humor. The common folk are often curious about gnomes, likely never having seen one before, but they are rarely hostile or fearful."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Half-Elf",
+					"entries": [
+						"Although many people have never seen a half-elf, virtually everyone knows they exist. A half-elf stranger's arrival is followed by gossip behind the half-elf's back and stolen glances across the common room, rather than any confrontation or open curiosity."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Half-Orc",
+					"entries": [
+						"It's usually safe to assume that a half-orc is belligerent and quick to anger, so people watch themselves around an unfamiliar half-orc. Shopkeepers might surreptitiously hide valuable or fragile goods when a half-orc comes in, and people slowly clear out of a tavern, assuming a fight will break out soon."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Tiefling",
+					"entries": [
+						"Half-orcs are greeted with a practical caution, but tieflings are the subject of supernatural fear. The evil of their heritage is plainly visible in their features, and as far as most people are concerned, a tiefling could very well be a devil straight from the Nine Hells. People might make warding signs as a tiefling approaches, cross the street to avoid passing near, or bar shop doors before a tiefling can enter."
+					]
+				}
+			]
+		}
 	]
 }
-
-[
-	"Ravenites have no tails and a hearty physique. They remember the days when they were slaves to the draconblood, as well as the day when they overthrew their masters.",
-	{
-		"type": "section",
-		"entries": [
-			{
-				"type": "entries",
-				"entries": [
-					"Born of dragons, as their name proclaims, the dragonborn walk proudly through a world that greets them with fearful incomprehension. Shaped by draconic gods or the dragons themselves, dragonborn originally hatched from dragon eggs as a unique race, combining the best attributes of dragons and humanoids. Some dragonborn are faithful servants to true dragons, others form the ranks of soldiers in great wars, and still others find themselves adrift, with no clear calling in life.",
-					{
-						"type": "entries",
-						"name": "Proud Dragon Kin",
-						"entries": [
-							"Dragonborn look very much like dragons standing erect in humanoid form, though they lack wings or a tail. The first dragonborn had scales of vibrant hues matching the colors of their dragon kin, but generations of interbreeding have created a more uniform appearance. Their small, fine scales are usually brass or bronze in color, sometimes ranging to scarlet, rust, gold, or copper-green. They are tall and strongly built, often standing close to 6½ feet tall and weighing 300 pounds or more. Their hands and feet are smiting, talon-like claws with three fingers and a thumb on each hand.",
-							"The blood of a particular type of dragon runs very strong through some dragonborn clans. These dragonborn often boast scales that more closely match those of their dragon ancestor-bright red, green, blue, or white, lustrous black, or gleaming metallic like gold, silver, brass, copper, or bronze."
-						]
-					},
-					{
-						"type": "entries",
-						"name": "Self-Sufficient Clans",
-						"entries": [
-							"To any dragonborn, the clan is more important than life itself. Dragonborn owe their devotion and respect to their clan above all else, even the gods. Each dragonborn's conduct reflects on the honor of his or her clan, and bringing dishonor to the clan can result in expulsion and exile. Each dragonborn knows his or her station and duties within the clan, and honor demands maintaining the bounds of that position.",
-							"A continual drive for self-improvement reflects the self-sufficiency, of the race as a whole. Dragonborn value skill and excellence in all endeavors. They hate to fail, and they push themselves to extreme efforts before they give up on something. A dragonborn holds mastery of that particular skill as a lifetime goal. Members of other races who share the same commitment find it easy to earn the respect of a dragonborn.",
-							"Though all dragonborn strive to be self-sufficient, they recognize that help is sometimes needed in difficult situations. But the best source for such help is the clan, and when a client needs help, it turns to another dragonborn clan before seeking aid from other races or even from the gods."
-						]
-					},
-					{
-						"type": "entries",
-						"name": "Dragonborn Names",
-						"entries": [
-							"Dragonborn have personal names given at birth, but they put their clan names first as a mark of honor. A childhood name or nickname is often used among clutch mates as a descriptive term or endearment. The name might recall an event or center on a habit.",
-							{
-								"type": "list",
-								"style": "list-hang-notitle",
-								"items": [
-									{
-										"type": "item",
-										"name": "Male Names:",
-										"entry": "Arjhan, Balasar, Bharash, Donaar, Ghesh, Hesken, Kriv, Medrash, Mehen, Nadarr, Pandjed, Patrin, Rhogar, Shamash, Shedinn, Tarhun, Torinn"
-									},
-									{
-										"type": "item",
-										"name": "Female Names:",
-										"entry": "Akra, Biri, Daar, Farideh, Harann, Havilar, Jheri, Kava, Korinn, Mishann, Nala, Perra, Raiann, Sora, Surina, Thava, Uadjit"
-									},
-									{
-										"type": "item",
-										"name": "Childhood Names:",
-										"entry": "Climber, Earbenden Leaper, Pious, Shieldbiter, Zealous"
-									},
-									{
-										"type": "item",
-										"name": "Clan Names:",
-										"entry": "Clethtinthiallor, Daardendrian, Delmirev, Drachedandion, Fenkenkabradon, Kepeshkmolik, Kerrhylon, Kimbatuul, Linxakasendalor, Myastan, Nemmonis, Norixius, Ophinshtalajiir, Prexijandilin, Shestendeliath, Turnuroth, Verthisathurgiesh, Yarjerit"
-									}
-								]
-							}
-						]
-					},
-					{
-						"type": "inset",
-						"name": "Draconians",
-						"entries": [
-							"In the Dragonlance setting, the followers of the evil goddess Takhisis learned a dark ritual that let them corrupt the eggs of metallic dragons, producing evil dragonborn called draconians. Five types of draconians, corresponding to the five types of metallic dragons, fought for Takhisis in the War of the Lance-auraks (gold), baaz (brass), bozak (bronze), kapak (copper), and sivak (silver). In place of their draconic breath weapons they have unique magical abilities."
-						]
-					}
-				]
-			}
-		]
-	},
-	{
-		"name": "Uncommon Races",
-		"type": "inset",
-		"entries": [
-			"This race, and those listed below, are uncommon. They don't exist in every world of D&D, and even where they are found, they are less widespread than dwarves, elves, halflings, and humans. In the cosmopolitan cities of the D&D multiverse, most people hardly look twice at members of even the most exotic races. But the small towns and villages that dot the countryside are different. The common folk aren't accustomed to seeing members of these races, and they react accordingly.",
-			{
-				"type": "entries",
-				"name": "Dragonborn",
-				"entries": [
-					"It's easy to assume that a dragonborn is a monster, especially if his or her scales betray a chromatic heritage. Unless the dragonborn starts breathing fire and causing destruction, though, people are likely to respond with caution rather than outright fear."
-				]
-			},
-			{
-				"type": "entries",
-				"name": "Gnome",
-				"entries": [
-					"Gnomes don't look like a threat and can quickly disarm suspicion with good humor. The common folk are often curious about gnomes, likely never having seen one before, but they are rarely hostile or fearful."
-				]
-			},
-			{
-				"type": "entries",
-				"name": "Half-Elf",
-				"entries": [
-					"Although many people have never seen a half-elf, virtually everyone knows they exist. A half-elf stranger's arrival is followed by gossip behind the half-elf's back and stolen glances across the common room, rather than any confrontation or open curiosity."
-				]
-			},
-			{
-				"type": "entries",
-				"name": "Half-Orc",
-				"entries": [
-					"It's usually safe to assume that a half-orc is belligerent and quick to anger, so people watch themselves around an unfamiliar half-orc. Shopkeepers might surreptitiously hide valuable or fragile goods when a half-orc comes in, and people slowly clear out of a tavern, assuming a fight will break out soon."
-				]
-			},
-			{
-				"type": "entries",
-				"name": "Tiefling",
-				"entries": [
-					"Half-orcs are greeted with a practical caution, but tieflings are the subject of supernatural fear. The evil of their heritage is plainly visible in their features, and as far as most people are concerned, a tiefling could very well be a devil straight from the Nine Hells. People might make warding signs as a tiefling approaches, cross the street to avoid passing near, or bar shop doors before a tiefling can enter."
-				]
-			}
-		]
-	}
-]

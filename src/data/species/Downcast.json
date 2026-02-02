@@ -93,19 +93,18 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"At the conclusion of the Gods' End, a thousand souls fell to Etharis like burning stars from the sky. The downcast had once been part of the celestial legions, but the death of the gods sent shockwaves through the heavens. Cast down to the mortal realm, these former angels found themselves bereft of power and left to live out their now-mortal existence among the people of the world.",
+		"In the absence of the gods, the Arch Seraphs of each deity descended upon the mortal realm, taking upon themselves the burden of imposing order on a world cast into disarray. The Arch Seraphs were the most powerful lieutenants among the angelic hosts, strong enough to retain a semblance of their divine power following the tragedy. But an angel is not a god. An Arch Seraph cannot embody every aspect of a divine domain. Some became consumed with enforcing narrow virtues. Others have turned from grace entirely, choosing to embody vice rather than virtue, and becoming feared as Arch Daemons.",
+		"The downcast, are far fewer in number than when they first arrived. Many succumbed to despair and sickness after their fall from grace. Of those who remain, some still serve the Arch Seraphs in their twisted crusades, hoping to reclaim what they have lost. Others have turned their backs on their former comrades to seek their own goals, fully embracing mortal life. And more than a few feel embittered enough by their fall that they have been gleefully accepted by the Arch Daemons as agents to spread fear and destruction in the world.",
+		"Physically, the downcast still possess the beauty of their angelic forms, although they no longer shine as brightly as before. For most, the mark of the divine still lingers as a visible glow within their eyes, or faintly glowing Celestial runes on their otherwise unblemished skin. Others have been marked by their shift in morality, manifesting cracked skin or devilish horns.",
+		{
+			"type": "entries",
+			"name": "Eldritch Heritages",
+			"entries": [
+				"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
+			]
+		}
+	]
 }
-
-[
-	"At the conclusion of the Gods' End, a thousand souls fell to Etharis like burning stars from the sky. The downcast had once been part of the celestial legions, but the death of the gods sent shockwaves through the heavens. Cast down to the mortal realm, these former angels found themselves bereft of power and left to live out their now-mortal existence among the people of the world.",
-	"In the absence of the gods, the Arch Seraphs of each deity descended upon the mortal realm, taking upon themselves the burden of imposing order on a world cast into disarray. The Arch Seraphs were the most powerful lieutenants among the angelic hosts, strong enough to retain a semblance of their divine power following the tragedy. But an angel is not a god. An Arch Seraph cannot embody every aspect of a divine domain. Some became consumed with enforcing narrow virtues. Others have turned from grace entirely, choosing to embody vice rather than virtue, and becoming feared as Arch Daemons.",
-	"The downcast, are far fewer in number than when they first arrived. Many succumbed to despair and sickness after their fall from grace. Of those who remain, some still serve the Arch Seraphs in their twisted crusades, hoping to reclaim what they have lost. Others have turned their backs on their former comrades to seek their own goals, fully embracing mortal life. And more than a few feel embittered enough by their fall that they have been gleefully accepted by the Arch Daemons as agents to spread fear and destruction in the world.",
-	"Physically, the downcast still possess the beauty of their angelic forms, although they no longer shine as brightly as before. For most, the mark of the divine still lingers as a visible glow within their eyes, or faintly glowing Celestial runes on their otherwise unblemished skin. Others have been marked by their shift in morality, manifesting cracked skin or devilish horns.",
-	{
-		"type": "entries",
-		"name": "Eldritch Heritages",
-		"entries": [
-			"Folk of the rare heritages of Etharis have dwelled long in isolation or on the fringes between the lands and cultures of more populous folk. Characters of these heritages face the same struggles as all people, but often possess unique views of the world that others struggle to understand."
-		]
-	}
-]

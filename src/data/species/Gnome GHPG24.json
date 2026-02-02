@@ -104,21 +104,20 @@
 		}
 	],
 	"hasFluff": true,
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"_fluffText": [
+		"Ingenious and full of energy, gnomes are thought to be distant cousins of the dwarves. Shorter than their dwarf kin and less bulky, these small-framed folk are often known for their ever-working brains and great aptitude for invention. Gnomes are clever, curious, sometimes mischievous, but culturally very diligent.",
+		"Gnomes have created some of the most impressive mechanical wonders of Etharis. Cannons, automatons, flintlocks, and explosives are all reputed to be results of gnomish crafting. The process of tinkering is as important as the result. Gnomes create new inventions simply to prove it can be done. It's said among other folk that if you're looking for a gnome in a populated city, you need only wait for the explosion to guide your steps.",
+		"During the Era of Expansion, gnomes fled their settlements outside the sheltering mountains to seek the protection of dwarf cities such as Stehlenwald. There, they shared the fate of their dwarf cousins as human armies besieged the soaring stone walls of the city. While the dwarves eventually gazed upon adamantine, the ingenious minds of the gnomes hatched other plans with the gifts from the mountains.",
+		"Gnome alchemists worked day and night, mixing chemicals and powders, until they invented a new weapon: explosives. As the adamantine-clad dwarves charged the besieging human armies, they were supported by the sound of explosions as gnome artillery hurled cannonballs and dynamite at the enemy. Beneath the barrage, the human forces were quickly broken. The effects of the never-before-seen explosives struck fear into their minds, as if witnessing a new and terrible sorcery. A first great battle had been won, but the losses for both gnomes and dwarves were great.",
+		"So did the gnomes follow the dwarves of Stehlenwald into their centuries-long isolation—and when the dwarf king voluntarily brought his people into the Bürach Empire, the gnomes followed.",
+		"Curiously, gnomes have an affinity with the natural world. Those who did not flee for the safety of mountains were called back to their ancestral homes deep in Etharis's forests. Perhaps this suggests a common ancestor with the elves, also.",
+		{
+			"type": "entries",
+			"name": "Common Heritages",
+			"entries": [
+				"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
+			]
+		}
+	]
 }
-
-[
-	"Ingenious and full of energy, gnomes are thought to be distant cousins of the dwarves. Shorter than their dwarf kin and less bulky, these small-framed folk are often known for their ever-working brains and great aptitude for invention. Gnomes are clever, curious, sometimes mischievous, but culturally very diligent.",
-	"Gnomes have created some of the most impressive mechanical wonders of Etharis. Cannons, automatons, flintlocks, and explosives are all reputed to be results of gnomish crafting. The process of tinkering is as important as the result. Gnomes create new inventions simply to prove it can be done. It's said among other folk that if you're looking for a gnome in a populated city, you need only wait for the explosion to guide your steps.",
-	"During the Era of Expansion, gnomes fled their settlements outside the sheltering mountains to seek the protection of dwarf cities such as Stehlenwald. There, they shared the fate of their dwarf cousins as human armies besieged the soaring stone walls of the city. While the dwarves eventually gazed upon adamantine, the ingenious minds of the gnomes hatched other plans with the gifts from the mountains.",
-	"Gnome alchemists worked day and night, mixing chemicals and powders, until they invented a new weapon: explosives. As the adamantine-clad dwarves charged the besieging human armies, they were supported by the sound of explosions as gnome artillery hurled cannonballs and dynamite at the enemy. Beneath the barrage, the human forces were quickly broken. The effects of the never-before-seen explosives struck fear into their minds, as if witnessing a new and terrible sorcery. A first great battle had been won, but the losses for both gnomes and dwarves were great.",
-	"So did the gnomes follow the dwarves of Stehlenwald into their centuries-long isolation—and when the dwarf king voluntarily brought his people into the Bürach Empire, the gnomes followed.",
-	"Curiously, gnomes have an affinity with the natural world. Those who did not flee for the safety of mountains were called back to their ancestral homes deep in Etharis's forests. Perhaps this suggests a common ancestor with the elves, also.",
-	{
-		"type": "entries",
-		"name": "Common Heritages",
-		"entries": [
-			"The common heritages of Etharis include the Humans who now rule the continent and the folk of the elder peoples who have been forced to reckon with new lives in lands they once ruled or dominated."
-		]
-	}
-]
