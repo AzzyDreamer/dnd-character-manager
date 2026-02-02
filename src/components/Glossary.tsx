@@ -54,51 +54,65 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   const [data, setData] = useState<LoadedData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // ─── Ленивая загрузка всех модулей данных (напрямую, без registry) ───
+  // ─── Ленивая загрузка модулей данных (последовательно, чтобы не перегрузить dev server) ───
   useEffect(() => {
     let cancelled = false;
 
-    // Загружаем каждый модуль данных отдельно
-    Promise.all([
-      import('../data/spells'),
-      import('../data/feats'),
-      import('../data/species'),
-      import('../data/conditionsdiseases'),
-      import('../data/senses'),
-      import('../data/skills'),
-      import('../data/variantrule'),
-      import('../data/optionalfeatures'),
-      import('../data/backgrounds/jsonBackgrounds'),
-      import('../data/items-base'),
-      import('../data/items'),
-      import('../utils/entryRenderer'),
-    ]).then(([spells, feats, species, conditions, senses, skills, variantrule, optfeatures, backgrounds, itemsBase, items, entryRenderer]) => {
-      if (cancelled) return;
-      setData({
-        ALL_SPELLS: spells.ALL_SPELLS,
-        ALL_FEATS: feats.ALL_FEATS,
-        ALL_SPECIES: species.ALL_SPECIES,
-        ALL_CONDITIONS: conditions.ALL_CONDITIONS,
-        ALL_SENSES: senses.ALL_SENSES,
-        ALL_SKILLS: skills.ALL_SKILLS,
-        ALL_VARIANT_RULES: variantrule.ALL_VARIANT_RULES,
-        ALL_OPTIONAL_FEATURES: optfeatures.ALL_OPTIONAL_FEATURES,
-        ALL_JSON_BACKGROUNDS: backgrounds.ALL_JSON_BACKGROUNDS,
-        ALL_ITEMS_BASE: itemsBase.ALL_ITEMS_BASE,
-        ITEM_TEMPLATES: items.ITEM_TEMPLATES,
-        SCHOOL_NAMES: spells.SCHOOL_NAMES,
-        FEAT_CATEGORY_NAMES: feats.FEAT_CATEGORY_NAMES,
-        SIZE_NAMES: species.SIZE_NAMES,
-        RULE_TYPE_NAMES: variantrule.RULE_TYPE_NAMES,
-        FEATURE_TYPE_NAMES: optfeatures.FEATURE_TYPE_NAMES,
-        ABILITY_ABBR_NAMES: skills.ABILITY_ABBR_NAMES,
-        EntryRenderer: entryRenderer.EntryRenderer,
-      });
-    }).catch(err => {
-      if (cancelled) return;
-      console.error('Failed to load glossary data:', err);
-      setLoadError(err?.message || 'Не удалось загрузить данные');
-    });
+    (async () => {
+      try {
+        // Загружаем модули по одному — каждый тянет сотни JSON через import.meta.glob,
+        // параллельная загрузка всех модулей создаёт ~3500 HTTP-запросов и убивает dev server
+        const spells = await import('../data/spells');
+        if (cancelled) return;
+        const feats = await import('../data/feats');
+        if (cancelled) return;
+        const species = await import('../data/species');
+        if (cancelled) return;
+        const conditions = await import('../data/conditionsdiseases');
+        if (cancelled) return;
+        const senses = await import('../data/senses');
+        if (cancelled) return;
+        const skills = await import('../data/skills');
+        if (cancelled) return;
+        const variantrule = await import('../data/variantrule');
+        if (cancelled) return;
+        const optfeatures = await import('../data/optionalfeatures');
+        if (cancelled) return;
+        const backgrounds = await import('../data/backgrounds/jsonBackgrounds');
+        if (cancelled) return;
+        const itemsBase = await import('../data/items-base');
+        if (cancelled) return;
+        const items = await import('../data/items');
+        if (cancelled) return;
+        const entryRenderer = await import('../utils/entryRenderer');
+        if (cancelled) return;
+
+        setData({
+          ALL_SPELLS: spells.ALL_SPELLS,
+          ALL_FEATS: feats.ALL_FEATS,
+          ALL_SPECIES: species.ALL_SPECIES,
+          ALL_CONDITIONS: conditions.ALL_CONDITIONS,
+          ALL_SENSES: senses.ALL_SENSES,
+          ALL_SKILLS: skills.ALL_SKILLS,
+          ALL_VARIANT_RULES: variantrule.ALL_VARIANT_RULES,
+          ALL_OPTIONAL_FEATURES: optfeatures.ALL_OPTIONAL_FEATURES,
+          ALL_JSON_BACKGROUNDS: backgrounds.ALL_JSON_BACKGROUNDS,
+          ALL_ITEMS_BASE: itemsBase.ALL_ITEMS_BASE,
+          ITEM_TEMPLATES: items.ITEM_TEMPLATES,
+          SCHOOL_NAMES: spells.SCHOOL_NAMES,
+          FEAT_CATEGORY_NAMES: feats.FEAT_CATEGORY_NAMES,
+          SIZE_NAMES: species.SIZE_NAMES,
+          RULE_TYPE_NAMES: variantrule.RULE_TYPE_NAMES,
+          FEATURE_TYPE_NAMES: optfeatures.FEATURE_TYPE_NAMES,
+          ABILITY_ABBR_NAMES: skills.ABILITY_ABBR_NAMES,
+          EntryRenderer: entryRenderer.EntryRenderer,
+        });
+      } catch (err: any) {
+        if (cancelled) return;
+        console.error('Failed to load glossary data:', err);
+        setLoadError(err?.message || 'Не удалось загрузить данные');
+      }
+    })();
 
     return () => { cancelled = true; };
   }, []);
