@@ -1,26 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X } from 'lucide-react';
-import {
-  ALL_SPELLS, type SpellData,
-  ALL_FEATS, type FeatData,
-  ALL_SPECIES, type SpeciesData,
-  ALL_CONDITIONS, type ConditionDiseaseData,
-  ALL_SENSES, type SenseData,
-  ALL_SKILLS, type SkillData,
-  ALL_VARIANT_RULES, type VariantRuleData,
-  ALL_OPTIONAL_FEATURES, type OptionalFeatureData,
-  ALL_JSON_BACKGROUNDS, type JsonBackgroundData,
-  ITEM_TEMPLATES, type ItemTemplate,
-  ALL_ITEMS_BASE, type ItemBaseData,
-  type RegistryEntry,
-} from '../data/registry';
-import { SCHOOL_NAMES } from '../data/spells';
-import { FEAT_CATEGORY_NAMES } from '../data/feats';
-import { SIZE_NAMES } from '../data/species';
-import { RULE_TYPE_NAMES } from '../data/variantrule';
-import { FEATURE_TYPE_NAMES } from '../data/optionalfeatures';
-import { ABILITY_ABBR_NAMES } from '../data/skills';
-import { EntryRenderer } from '../utils/entryRenderer';
+
+// ─── Типы (только описания, без импорта данных) ───
+interface RegistryEntry {
+  type: string;
+  name: string;
+  source?: string;
+  entries?: any[];
+  data: any;
+}
 
 type GlossaryCategory =
   | 'spells' | 'feats' | 'species' | 'backgrounds' | 'conditions'
@@ -37,23 +25,129 @@ interface GlossaryProps {
   onBack: () => void;
 }
 
+// ─── Контейнер для лениво загруженных данных ───
+interface LoadedData {
+  ALL_SPELLS: any[];
+  ALL_FEATS: any[];
+  ALL_SPECIES: any[];
+  ALL_CONDITIONS: any[];
+  ALL_SENSES: any[];
+  ALL_SKILLS: any[];
+  ALL_VARIANT_RULES: any[];
+  ALL_OPTIONAL_FEATURES: any[];
+  ALL_JSON_BACKGROUNDS: any[];
+  ALL_ITEMS_BASE: any[];
+  ITEM_TEMPLATES: any[];
+  SCHOOL_NAMES: Record<string, string>;
+  FEAT_CATEGORY_NAMES: Record<string, string>;
+  SIZE_NAMES: Record<string, string>;
+  RULE_TYPE_NAMES: Record<string, string>;
+  FEATURE_TYPE_NAMES: Record<string, string>;
+  ABILITY_ABBR_NAMES: Record<string, string>;
+  EntryRenderer: React.FC<any>;
+}
+
 export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   const [activeCategory, setActiveCategory] = useState<GlossaryCategory | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntry, setSelectedEntry] = useState<{ type: string; data: any } | null>(null);
+  const [data, setData] = useState<LoadedData | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  // ─── Ленивая загрузка всех модулей данных ───
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all([
+      import('../data/registry'),
+      import('../data/spells'),
+      import('../data/feats'),
+      import('../data/species'),
+      import('../data/variantrule'),
+      import('../data/optionalfeatures'),
+      import('../data/skills'),
+      import('../utils/entryRenderer'),
+    ]).then(([registry, spells, feats, species, variantrule, optfeatures, skills, entryRenderer]) => {
+      if (cancelled) return;
+      setData({
+        ALL_SPELLS: registry.ALL_SPELLS,
+        ALL_FEATS: registry.ALL_FEATS,
+        ALL_SPECIES: registry.ALL_SPECIES,
+        ALL_CONDITIONS: registry.ALL_CONDITIONS,
+        ALL_SENSES: registry.ALL_SENSES,
+        ALL_SKILLS: registry.ALL_SKILLS,
+        ALL_VARIANT_RULES: registry.ALL_VARIANT_RULES,
+        ALL_OPTIONAL_FEATURES: registry.ALL_OPTIONAL_FEATURES,
+        ALL_JSON_BACKGROUNDS: registry.ALL_JSON_BACKGROUNDS,
+        ALL_ITEMS_BASE: registry.ALL_ITEMS_BASE,
+        ITEM_TEMPLATES: registry.ITEM_TEMPLATES,
+        SCHOOL_NAMES: spells.SCHOOL_NAMES,
+        FEAT_CATEGORY_NAMES: feats.FEAT_CATEGORY_NAMES,
+        SIZE_NAMES: species.SIZE_NAMES,
+        RULE_TYPE_NAMES: variantrule.RULE_TYPE_NAMES,
+        FEATURE_TYPE_NAMES: optfeatures.FEATURE_TYPE_NAMES,
+        ABILITY_ABBR_NAMES: skills.ABILITY_ABBR_NAMES,
+        EntryRenderer: entryRenderer.EntryRenderer,
+      });
+    }).catch(err => {
+      if (cancelled) return;
+      console.error('Failed to load glossary data:', err);
+      setLoadError(err?.message || 'Не удалось загрузить данные');
+    });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  // ─── Показываем загрузку, пока данные не подтянулись ───
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <div className="text-red-400 text-lg">Ошибка загрузки: {loadError}</div>
+        <button
+          onClick={onBack}
+          className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+        >
+          Назад
+        </button>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-white text-xl font-medieval animate-pulse">Загрузка базы знаний...</div>
+      </div>
+    );
+  }
+
+  // ─── Данные загружены, рендерим глоссарий ───
+  return <GlossaryContent data={data} onBack={onBack} />;
+};
+
+// ─── Внутренний компонент (рендерится только когда данные готовы) ───
+const GlossaryContent: React.FC<{
+  data: LoadedData;
+  onBack: () => void;
+}> = ({ data, onBack }) => {
+  const [activeCategory, setActiveCategory] = useState<GlossaryCategory | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedEntry, setSelectedEntry] = useState<{ type: string; data: any } | null>(null);
+
+  const { EntryRenderer } = data;
 
   const categories: CategoryConfig[] = useMemo(() => [
-    { key: 'spells', label: 'Заклинания', icon: Wand2, count: ALL_SPELLS.length },
-    { key: 'feats', label: 'Черты', icon: Star, count: ALL_FEATS.length },
-    { key: 'species', label: 'Виды', icon: Sparkles, count: ALL_SPECIES.length },
-    { key: 'backgrounds', label: 'Предыстории', icon: BookOpen, count: ALL_JSON_BACKGROUNDS.length },
-    { key: 'conditions', label: 'Состояния и болезни', icon: Shield, count: ALL_CONDITIONS.length },
-    { key: 'senses', label: 'Чувства', icon: Eye, count: ALL_SENSES.length },
-    { key: 'skills', label: 'Навыки', icon: Brain, count: ALL_SKILLS.length },
-    { key: 'rules', label: 'Правила', icon: Scroll, count: ALL_VARIANT_RULES.length },
-    { key: 'optionalfeatures', label: 'Особые способности', icon: Swords, count: ALL_OPTIONAL_FEATURES.length },
-    { key: 'items', label: 'Предметы', icon: Shield, count: ITEM_TEMPLATES.length + ALL_ITEMS_BASE.length },
-  ], []);
+    { key: 'spells', label: 'Заклинания', icon: Wand2, count: data.ALL_SPELLS.length },
+    { key: 'feats', label: 'Черты', icon: Star, count: data.ALL_FEATS.length },
+    { key: 'species', label: 'Виды', icon: Sparkles, count: data.ALL_SPECIES.length },
+    { key: 'backgrounds', label: 'Предыстории', icon: BookOpen, count: data.ALL_JSON_BACKGROUNDS.length },
+    { key: 'conditions', label: 'Состояния и болезни', icon: Shield, count: data.ALL_CONDITIONS.length },
+    { key: 'senses', label: 'Чувства', icon: Eye, count: data.ALL_SENSES.length },
+    { key: 'skills', label: 'Навыки', icon: Brain, count: data.ALL_SKILLS.length },
+    { key: 'rules', label: 'Правила', icon: Scroll, count: data.ALL_VARIANT_RULES.length },
+    { key: 'optionalfeatures', label: 'Особые способности', icon: Swords, count: data.ALL_OPTIONAL_FEATURES.length },
+    { key: 'items', label: 'Предметы', icon: Shield, count: data.ITEM_TEMPLATES.length + data.ALL_ITEMS_BASE.length },
+  ], [data]);
 
   // Фильтрованный список по категории и поиску
   const filteredItems = useMemo(() => {
@@ -64,25 +158,25 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
       q ? items.filter(i => i.name.toLowerCase().includes(q)) : items;
 
     switch (activeCategory) {
-      case 'spells': return filterByName(ALL_SPELLS);
-      case 'feats': return filterByName(ALL_FEATS);
-      case 'species': return filterByName(ALL_SPECIES);
-      case 'backgrounds': return filterByName(ALL_JSON_BACKGROUNDS);
-      case 'conditions': return filterByName(ALL_CONDITIONS);
-      case 'senses': return filterByName(ALL_SENSES);
-      case 'skills': return filterByName(ALL_SKILLS);
-      case 'rules': return filterByName(ALL_VARIANT_RULES);
-      case 'optionalfeatures': return filterByName(ALL_OPTIONAL_FEATURES);
+      case 'spells': return filterByName(data.ALL_SPELLS);
+      case 'feats': return filterByName(data.ALL_FEATS);
+      case 'species': return filterByName(data.ALL_SPECIES);
+      case 'backgrounds': return filterByName(data.ALL_JSON_BACKGROUNDS);
+      case 'conditions': return filterByName(data.ALL_CONDITIONS);
+      case 'senses': return filterByName(data.ALL_SENSES);
+      case 'skills': return filterByName(data.ALL_SKILLS);
+      case 'rules': return filterByName(data.ALL_VARIANT_RULES);
+      case 'optionalfeatures': return filterByName(data.ALL_OPTIONAL_FEATURES);
       case 'items': {
         const allItems = [
-          ...ITEM_TEMPLATES.map(t => ({ name: t.name, source: t.raw.source, _type: 'template' as const, data: t })),
-          ...ALL_ITEMS_BASE.map(b => ({ name: b.name, source: b.source, _type: 'base' as const, data: b })),
+          ...data.ITEM_TEMPLATES.map((t: any) => ({ name: t.name, source: t.raw.source, _type: 'template' as const, data: t })),
+          ...data.ALL_ITEMS_BASE.map((b: any) => ({ name: b.name, source: b.source, _type: 'base' as const, data: b })),
         ];
         return q ? allItems.filter(i => i.name.toLowerCase().includes(q)) : allItems;
       }
       default: return [];
     }
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, data]);
 
   // Обработка навигации по тегам из EntryRenderer
   const handleNavigate = (entry: RegistryEntry) => {
@@ -94,44 +188,32 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     if (!activeCategory) return '';
     switch (activeCategory) {
       case 'spells': {
-        const spell = item as SpellData;
-        const level = spell.level === 0 ? 'Заговор' : `${spell.level} ур.`;
-        const school = SCHOOL_NAMES[spell.school] || spell.school;
+        const level = item.level === 0 ? 'Заговор' : `${item.level} ур.`;
+        const school = data.SCHOOL_NAMES[item.school] || item.school;
         return `${level} • ${school}`;
       }
-      case 'feats': {
-        const feat = item as FeatData;
-        return FEAT_CATEGORY_NAMES[feat.category || ''] || feat.source || '';
-      }
+      case 'feats':
+        return data.FEAT_CATEGORY_NAMES[item.category || ''] || item.source || '';
       case 'species': {
-        const sp = item as SpeciesData;
-        const sizes = sp.size?.map(s => SIZE_NAMES[s] || s).join('/') || '';
-        return `${sizes} • ${sp.source}`;
+        const sizes = item.size?.map((s: string) => data.SIZE_NAMES[s] || s).join('/') || '';
+        return `${sizes} • ${item.source}`;
       }
-      case 'backgrounds': {
-        const bg = item as JsonBackgroundData;
-        return bg.source || '';
-      }
-      case 'conditions':
-        return (item as ConditionDiseaseData).source || '';
-      case 'senses':
-        return (item as SenseData).source || '';
-      case 'skills': {
-        const skill = item as SkillData;
-        return ABILITY_ABBR_NAMES[skill.ability] || skill.ability || '';
-      }
-      case 'rules': {
-        const rule = item as VariantRuleData;
-        return RULE_TYPE_NAMES[rule.ruleType || ''] || rule.source || '';
-      }
-      case 'optionalfeatures': {
-        const opt = item as OptionalFeatureData;
-        const types = opt.featureType?.map(t => FEATURE_TYPE_NAMES[t] || t).join(', ');
-        return types || opt.source || '';
-      }
-      case 'items': {
+      case 'backgrounds':
         return item.source || '';
+      case 'conditions':
+        return item.source || '';
+      case 'senses':
+        return item.source || '';
+      case 'skills':
+        return data.ABILITY_ABBR_NAMES[item.ability] || item.ability || '';
+      case 'rules':
+        return data.RULE_TYPE_NAMES[item.ruleType || ''] || item.source || '';
+      case 'optionalfeatures': {
+        const types = item.featureType?.map((t: string) => data.FEATURE_TYPE_NAMES[t] || t).join(', ');
+        return types || item.source || '';
       }
+      case 'items':
+        return item.source || '';
       default: return '';
     }
   };
@@ -142,9 +224,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     switch (activeCategory) {
       case 'items': {
         if (item._type === 'template') {
-          return (item.data as ItemTemplate).raw.entries || [];
+          return item.data?.raw?.entries || [];
         }
-        return (item.data as ItemBaseData).entries || (item.data as ItemBaseData).entriesTemplate || [];
+        return item.data?.entries || item.data?.entriesTemplate || [];
       }
       default:
         return item.entries || [];
@@ -158,14 +240,14 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   // ─── Рендеринг выбранного элемента ───
   const renderDetail = () => {
     if (!selectedEntry) return null;
-    const data = selectedEntry.data;
-    const entries = data.entries || data.raw?.entries || [];
+    const d = selectedEntry.data;
+    const entries = d.entries || d.raw?.entries || [];
 
     return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div className="bg-gray-900 rounded-xl border-2 border-dnd-secondary max-w-3xl w-full max-h-[85vh] overflow-y-auto">
           <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4 flex items-center justify-between z-10">
-            <h2 className="text-xl font-medieval text-dnd-secondary">{data.name || 'Запись'}</h2>
+            <h2 className="text-xl font-medieval text-dnd-secondary">{d.name || 'Запись'}</h2>
             <button
               onClick={() => setSelectedEntry(null)}
               className="text-gray-400 hover:text-white"
@@ -176,45 +258,45 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
           <div className="p-6">
             {/* Мета-информация */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {data.source && (
+              {d.source && (
                 <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">
-                  {data.source}
+                  {d.source}
                 </span>
               )}
-              {data.level !== undefined && (
+              {d.level !== undefined && (
                 <span className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs">
-                  {data.level === 0 ? 'Заговор' : `${data.level} уровень`}
+                  {d.level === 0 ? 'Заговор' : `${d.level} уровень`}
                 </span>
               )}
-              {data.school && (
+              {d.school && (
                 <span className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs">
-                  {SCHOOL_NAMES[data.school] || data.school}
+                  {data.SCHOOL_NAMES[d.school] || d.school}
                 </span>
               )}
-              {data.category && (
+              {d.category && (
                 <span className="px-2 py-1 bg-green-900/40 text-green-300 rounded text-xs">
-                  {FEAT_CATEGORY_NAMES[data.category] || data.category}
+                  {data.FEAT_CATEGORY_NAMES[d.category] || d.category}
                 </span>
               )}
-              {data.ruleType && (
+              {d.ruleType && (
                 <span className="px-2 py-1 bg-yellow-900/40 text-yellow-300 rounded text-xs">
-                  {RULE_TYPE_NAMES[data.ruleType] || data.ruleType}
+                  {data.RULE_TYPE_NAMES[d.ruleType] || d.ruleType}
                 </span>
               )}
-              {data.featureType?.map((ft: string) => (
+              {d.featureType?.map((ft: string) => (
                 <span key={ft} className="px-2 py-1 bg-red-900/40 text-red-300 rounded text-xs">
-                  {FEATURE_TYPE_NAMES[ft] || ft}
+                  {data.FEATURE_TYPE_NAMES[ft] || ft}
                 </span>
               ))}
             </div>
 
             {/* Для заклинаний — дополнительная информация */}
-            {selectedEntry.type === 'spell' && renderSpellMeta(data)}
+            {selectedEntry.type === 'spell' && renderSpellMeta(d)}
 
             {/* Fluff (описание предыстории) */}
-            {data.fluff && Array.isArray(data.fluff) && data.fluff.length > 0 && (
+            {d.fluff && Array.isArray(d.fluff) && d.fluff.length > 0 && (
               <div className="mb-4 text-gray-300 italic text-sm leading-relaxed">
-                {data.fluff.map((text: string, i: number) => (
+                {d.fluff.map((text: string, i: number) => (
                   <p key={i} className="mb-2">{text}</p>
                 ))}
               </div>
@@ -224,28 +306,28 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             {entries.length > 0 && (
               <EntryRenderer
                 entries={entries}
-                context={data.name || ''}
+                context={d.name || ''}
                 onNavigate={handleNavigate}
               />
             )}
 
             {/* EntriesHigherLevel для заклинаний */}
-            {data.entriesHigherLevel && data.entriesHigherLevel.length > 0 && (
+            {d.entriesHigherLevel && d.entriesHigherLevel.length > 0 && (
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <EntryRenderer
-                  entries={data.entriesHigherLevel}
-                  context={data.name || ''}
+                  entries={d.entriesHigherLevel}
+                  context={d.name || ''}
                   onNavigate={handleNavigate}
                 />
               </div>
             )}
 
             {/* Для заклинаний — классы */}
-            {data.classes?.fromClassList && (
+            {d.classes?.fromClassList && (
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <h4 className="text-sm text-gray-400 mb-2">Доступно классам:</h4>
                 <div className="flex flex-wrap gap-1">
-                  {data.classes.fromClassList.map((c: any, i: number) => (
+                  {d.classes.fromClassList.map((c: any, i: number) => (
                     <span key={i} className="px-2 py-1 bg-dnd-primary/30 text-red-300 rounded text-xs">
                       {c.name}
                     </span>
@@ -255,16 +337,16 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             )}
 
             {/* Предпосылки для черт */}
-            {data.prerequisite && data.prerequisite.length > 0 && (
+            {d.prerequisite && d.prerequisite.length > 0 && (
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <h4 className="text-sm text-gray-400 mb-2">Предпосылки:</h4>
                 <div className="text-sm text-gray-300">
-                  {data.prerequisite.map((p: any, i: number) => (
+                  {d.prerequisite.map((p: any, i: number) => (
                     <div key={i}>
                       {p.level && <span>Уровень {typeof p.level === 'object' ? p.level.level : p.level}</span>}
                       {p.ability && p.ability.map((a: any, j: number) => (
                         <span key={j} className="ml-2">
-                          {Object.entries(a).map(([k, v]) => `${ABILITY_ABBR_NAMES[k] || k} ${v}`).join(', ')}
+                          {Object.entries(a).map(([k, v]) => `${data.ABILITY_ABBR_NAMES[k] || k} ${v}`).join(', ')}
                         </span>
                       ))}
                     </div>
@@ -279,8 +361,8 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   };
 
   // Мета-информация для заклинания
-  const renderSpellMeta = (spell: SpellData) => {
-    const timeStr = spell.time?.map(t => `${t.number} ${t.unit === 'action' ? 'действие' : t.unit === 'bonus' ? 'бонус. действие' : t.unit === 'reaction' ? 'реакция' : t.unit === 'minute' ? 'мин.' : t.unit}`).join(', ');
+  const renderSpellMeta = (spell: any) => {
+    const timeStr = spell.time?.map((t: any) => `${t.number} ${t.unit === 'action' ? 'действие' : t.unit === 'bonus' ? 'бонус. действие' : t.unit === 'reaction' ? 'реакция' : t.unit === 'minute' ? 'мин.' : t.unit}`).join(', ');
 
     const rangeStr = spell.range?.distance?.amount
       ? `${spell.range.distance.amount} ${spell.range.distance.type === 'feet' ? 'фт.' : spell.range.distance.type === 'miles' ? 'миль' : spell.range.distance.type}`
@@ -289,10 +371,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     const componentsStr = [
       spell.components?.v ? 'В' : '',
       spell.components?.s ? 'С' : '',
-      spell.components?.m ? `М (${typeof spell.components.m === 'string' ? spell.components.m : typeof spell.components.m === 'object' && spell.components.m && 'text' in (spell.components.m as any) ? (spell.components.m as any).text : ''})` : '',
+      spell.components?.m ? `М (${typeof spell.components.m === 'string' ? spell.components.m : typeof spell.components.m === 'object' && spell.components.m && 'text' in spell.components.m ? spell.components.m.text : ''})` : '',
     ].filter(Boolean).join(', ');
 
-    const durationStr = spell.duration?.map(d => {
+    const durationStr = spell.duration?.map((d: any) => {
       if (d.type === 'instant') return 'Мгновенная';
       if (d.type === 'permanent') return 'Постоянная';
       if (d.type === 'special') return 'Особая';
@@ -443,7 +525,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             onClick={() => {
               setSelectedEntry({
                 type: activeCategory === 'items' ? 'item' : activeCategory,
-                data: activeCategory === 'items' ? (item._type === 'template' ? item.data : item.data) : item,
+                data: activeCategory === 'items' ? item.data : item,
               });
             }}
             className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-800/40 hover:bg-gray-800 border border-transparent hover:border-gray-600 transition-all text-left group"
