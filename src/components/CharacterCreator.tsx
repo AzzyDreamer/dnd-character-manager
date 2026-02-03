@@ -139,7 +139,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   React.useEffect(() => {
     if (!selectedClass?.spellcaster) return;
     let cancelled = false;
-    import('../data/spells').then(mod => {
+    import('../data/spells').then(async mod => {
+      await mod.init(); // Инициализируем данные заклинаний
       if (cancelled) return;
       const spells = mod.getSpellsByClass(selectedClass.name);
       setLoadedSpells(spells);

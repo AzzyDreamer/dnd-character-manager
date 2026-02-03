@@ -1,13 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Character } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
-import { getSpellByName, SCHOOL_NAMES } from '../data/spells';
-import { EntryRenderer } from '../utils/entryRenderer';
+
+// Типы для данных заклинаний (без импорта модуля)
+interface SpellDataLocal {
+  name: string;
+  school: string;
+  time?: { number: number; unit: string }[];
+  range?: { type: string; distance?: { type: string; amount?: number } };
+  components?: { v?: boolean; s?: boolean; m?: string | boolean | any };
+  duration?: { type: string; duration?: { type: string; amount: number }; concentration?: boolean }[];
+  entries: any[];
+  entriesHigherLevel?: any[];
+}
+
+interface LoadedModules {
+  getSpellByName: (name: string) => SpellDataLocal | undefined;
+  SCHOOL_NAMES: Record<string, string>;
+  EntryRenderer: React.FC<any>;
+}
 
 export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => {
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
+  const [modules, setModules] = useState<LoadedModules | null>(null);
+
+  // Ленивая загрузка модулей данных
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const spells = await import('../data/spells');
+      await spells.init();
+      if (cancelled) return;
+      const entryRenderer = await import('../utils/entryRenderer');
+      if (cancelled) return;
+      setModules({
+        getSpellByName: spells.getSpellByName,
+        SCHOOL_NAMES: spells.SCHOOL_NAMES,
+        EntryRenderer: entryRenderer.EntryRenderer,
+      });
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   const spellcasting = character.spellcasting;
   if (!spellcasting) return null;
+
+  // Показываем загрузку, пока модули не подгружены
+  if (!modules) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="text-gray-400 animate-pulse">Загрузка заклинаний...</div>
+      </div>
+    );
+  }
+
+  const { getSpellByName, SCHOOL_NAMES, EntryRenderer } = modules;
 
   const cantrips = spellcasting.spells.filter(s => s.level === 0);
   const leveledSpells = spellcasting.spells.filter(s => s.level > 0);

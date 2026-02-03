@@ -54,36 +54,58 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   const [data, setData] = useState<LoadedData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // ─── Ленивая загрузка модулей данных (последовательно, чтобы не перегрузить dev server) ───
+  // ─── Ленивая загрузка модулей данных (последовательно) ───
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        // Загружаем модули по одному — каждый тянет сотни JSON через import.meta.glob,
-        // параллельная загрузка всех модулей создаёт ~3500 HTTP-запросов и убивает dev server
+        // Импортируем модули и вызываем init() для загрузки JSON файлов
+        // Каждый модуль использует ленивый import.meta.glob()
         const spells = await import('../data/spells');
+        await spells.init();
         if (cancelled) return;
+
         const feats = await import('../data/feats');
+        await feats.init();
         if (cancelled) return;
+
         const species = await import('../data/species');
+        await species.init();
         if (cancelled) return;
+
         const conditions = await import('../data/conditionsdiseases');
+        await conditions.init();
         if (cancelled) return;
+
         const senses = await import('../data/senses');
+        await senses.init();
         if (cancelled) return;
+
         const skills = await import('../data/skills');
+        await skills.init();
         if (cancelled) return;
+
         const variantrule = await import('../data/variantrule');
+        await variantrule.init();
         if (cancelled) return;
+
         const optfeatures = await import('../data/optionalfeatures');
+        await optfeatures.init();
         if (cancelled) return;
+
         const backgrounds = await import('../data/backgrounds/jsonBackgrounds');
+        await backgrounds.init();
         if (cancelled) return;
+
         const itemsBase = await import('../data/items-base');
+        await itemsBase.init();
         if (cancelled) return;
+
         const items = await import('../data/items');
+        // items не использует glob
         if (cancelled) return;
+
         const entryRenderer = await import('../utils/entryRenderer');
         if (cancelled) return;
 

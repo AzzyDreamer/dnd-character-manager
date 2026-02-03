@@ -1,5 +1,5 @@
-// Загрузка всех вариантных правил из JSON файлов
-const modules = import.meta.glob('./*.json', { eager: true });
+// Загрузка всех вариантных правил из JSON файлов (ленивая загрузка)
+const modules = import.meta.glob('./*.json');
 
 export interface VariantRuleData {
   name: string;
@@ -11,19 +11,30 @@ export interface VariantRuleData {
   [key: string]: any;
 }
 
-const ALL_VARIANT_RULES: VariantRuleData[] = [];
+export const ALL_VARIANT_RULES: VariantRuleData[] = [];
 
-for (const path of Object.keys(modules)) {
-  const mod = modules[path] as any;
-  const data = mod.default ?? mod;
-  if (data && typeof data === 'object' && data.name) {
-    ALL_VARIANT_RULES.push(data as VariantRuleData);
-  }
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+export async function init(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    const entries = Object.entries(modules);
+    for (const [, loader] of entries) {
+      const mod = await (loader as () => Promise<any>)();
+      const data = mod.default ?? mod;
+      if (data && typeof data === 'object' && data.name) {
+        ALL_VARIANT_RULES.push(data as VariantRuleData);
+      }
+    }
+    ALL_VARIANT_RULES.sort((a, b) => a.name.localeCompare(b.name));
+    _initialized = true;
+  })();
+
+  return _initializing;
 }
-
-ALL_VARIANT_RULES.sort((a, b) => a.name.localeCompare(b.name));
-
-export { ALL_VARIANT_RULES };
 
 export function getVariantRuleByName(name: string): VariantRuleData | undefined {
   return ALL_VARIANT_RULES.find(r => r.name.toLowerCase() === name.toLowerCase());

@@ -1,5 +1,5 @@
-// Загрузка всех опциональных способностей из JSON файлов
-const modules = import.meta.glob('./*.json', { eager: true });
+// Загрузка всех опциональных способностей из JSON файлов (ленивая загрузка)
+const modules = import.meta.glob('./*.json');
 
 export interface OptionalFeatureData {
   name: string;
@@ -11,19 +11,30 @@ export interface OptionalFeatureData {
   [key: string]: any;
 }
 
-const ALL_OPTIONAL_FEATURES: OptionalFeatureData[] = [];
+export const ALL_OPTIONAL_FEATURES: OptionalFeatureData[] = [];
 
-for (const path of Object.keys(modules)) {
-  const mod = modules[path] as any;
-  const data = mod.default ?? mod;
-  if (data && typeof data === 'object' && data.name) {
-    ALL_OPTIONAL_FEATURES.push(data as OptionalFeatureData);
-  }
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+export async function init(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    const entries = Object.entries(modules);
+    for (const [, loader] of entries) {
+      const mod = await (loader as () => Promise<any>)();
+      const data = mod.default ?? mod;
+      if (data && typeof data === 'object' && data.name) {
+        ALL_OPTIONAL_FEATURES.push(data as OptionalFeatureData);
+      }
+    }
+    ALL_OPTIONAL_FEATURES.sort((a, b) => a.name.localeCompare(b.name));
+    _initialized = true;
+  })();
+
+  return _initializing;
 }
-
-ALL_OPTIONAL_FEATURES.sort((a, b) => a.name.localeCompare(b.name));
-
-export { ALL_OPTIONAL_FEATURES };
 
 export function getOptionalFeatureByName(name: string): OptionalFeatureData | undefined {
   return ALL_OPTIONAL_FEATURES.find(f => f.name.toLowerCase() === name.toLowerCase());

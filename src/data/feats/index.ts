@@ -1,11 +1,11 @@
-// Загрузка всех черт из JSON файлов
-const featModules = import.meta.glob('./*.json', { eager: true });
+// Загрузка всех черт из JSON файлов (ленивая загрузка)
+const featModules = import.meta.glob('./*.json');
 
 export interface FeatData {
   name: string;
   source: string;
   page?: number;
-  category?: string; // "G" = General, "OF" = Origin Feat, etc.
+  category?: string;
   prerequisite?: any[];
   ability?: any[];
   entries: any[];
@@ -14,19 +14,30 @@ export interface FeatData {
   [key: string]: any;
 }
 
-const ALL_FEATS: FeatData[] = [];
+export const ALL_FEATS: FeatData[] = [];
 
-for (const path of Object.keys(featModules)) {
-  const mod = featModules[path] as any;
-  const data = mod.default ?? mod;
-  if (data && typeof data === 'object' && data.name) {
-    ALL_FEATS.push(data as FeatData);
-  }
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+export async function init(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    const entries = Object.entries(featModules);
+    for (const [, loader] of entries) {
+      const mod = await (loader as () => Promise<any>)();
+      const data = mod.default ?? mod;
+      if (data && typeof data === 'object' && data.name) {
+        ALL_FEATS.push(data as FeatData);
+      }
+    }
+    ALL_FEATS.sort((a, b) => a.name.localeCompare(b.name));
+    _initialized = true;
+  })();
+
+  return _initializing;
 }
-
-ALL_FEATS.sort((a, b) => a.name.localeCompare(b.name));
-
-export { ALL_FEATS };
 
 export function getFeatByName(name: string): FeatData | undefined {
   return ALL_FEATS.find(f => f.name.toLowerCase() === name.toLowerCase());
