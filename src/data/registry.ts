@@ -33,19 +33,40 @@ export async function initRegistry(): Promise<void> {
 
   _initializing = (async () => {
     try {
-      // Загружаем модули последовательно — каждый тянет сотни JSON через
-      // import.meta.glob, параллельная загрузка убивает Vite dev server
+      // Загружаем модули последовательно — каждый модуль имеет init() который
+      // загружает JSON файлы через ленивый import.meta.glob
       _spells = await import('./spells');
+      await _spells.init();
+
       _feats = await import('./feats');
+      await _feats.init();
+
       _species = await import('./species');
+      await _species.init();
+
       _conditions = await import('./conditionsdiseases');
+      await _conditions.init();
+
       _senses = await import('./senses');
+      await _senses.init();
+
       _skills = await import('./skills');
+      await _skills.init();
+
       _variantrule = await import('./variantrule');
+      await _variantrule.init();
+
       _optfeatures = await import('./optionalfeatures');
+      await _optfeatures.init();
+
       _backgrounds = await import('./backgrounds/jsonBackgrounds');
+      await _backgrounds.init();
+
       _itemsBase = await import('./items-base');
+      await _itemsBase.init();
+
       _items = await import('./items');
+      // items не использует glob, так что init не нужен
 
       _initialized = true;
     } catch (e) {

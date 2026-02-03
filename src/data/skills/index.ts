@@ -1,5 +1,5 @@
-// Загрузка всех навыков из JSON файлов
-const modules = import.meta.glob('./*.json', { eager: true });
+// Загрузка всех навыков из JSON файлов (ленивая загрузка)
+const modules = import.meta.glob('./*.json');
 
 export interface SkillData {
   name: string;
@@ -11,19 +11,30 @@ export interface SkillData {
   [key: string]: any;
 }
 
-const ALL_SKILLS: SkillData[] = [];
+export const ALL_SKILLS: SkillData[] = [];
 
-for (const path of Object.keys(modules)) {
-  const mod = modules[path] as any;
-  const data = mod.default ?? mod;
-  if (data && typeof data === 'object' && data.name) {
-    ALL_SKILLS.push(data as SkillData);
-  }
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+export async function init(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    const entries = Object.entries(modules);
+    for (const [, loader] of entries) {
+      const mod = await (loader as () => Promise<any>)();
+      const data = mod.default ?? mod;
+      if (data && typeof data === 'object' && data.name) {
+        ALL_SKILLS.push(data as SkillData);
+      }
+    }
+    ALL_SKILLS.sort((a, b) => a.name.localeCompare(b.name));
+    _initialized = true;
+  })();
+
+  return _initializing;
 }
-
-ALL_SKILLS.sort((a, b) => a.name.localeCompare(b.name));
-
-export { ALL_SKILLS };
 
 export function getSkillByName(name: string): SkillData | undefined {
   return ALL_SKILLS.find(s => s.name.toLowerCase() === name.toLowerCase());

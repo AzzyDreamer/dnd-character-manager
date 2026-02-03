@@ -1,5 +1,7 @@
-// Загрузка всех заклинаний из JSON файлов
-const spellModules = import.meta.glob('./*.json', { eager: true });
+// Загрузка всех заклинаний из JSON файлов (ленивая загрузка)
+// НЕ используем { eager: true } — это убивает Vite dev server
+
+const spellModules = import.meta.glob('./*.json');
 
 export interface SpellData {
   name: string;
@@ -28,28 +30,38 @@ export interface SpellData {
   scalingLevelDice?: any;
   hasFluff?: boolean;
   hasFluffImages?: boolean;
-  // Изображения
   foundryImg?: string;
   fluff?: { images?: { type: string; href: { type: string; url?: string; path?: string }; width?: number; height?: number; credit?: string }[] };
   [key: string]: any;
 }
 
-const ALL_SPELLS: SpellData[] = [];
+export const ALL_SPELLS: SpellData[] = [];
 
-for (const path of Object.keys(spellModules)) {
-  const mod = spellModules[path] as any;
-  const data = mod.default ?? mod;
-  if (data && typeof data === 'object' && data.name && data.entries) {
-    ALL_SPELLS.push(data as SpellData);
-  }
+let _initialized = false;
+let _initializing: Promise<void> | null = null;
+
+export async function init(): Promise<void> {
+  if (_initialized) return;
+  if (_initializing) return _initializing;
+
+  _initializing = (async () => {
+    const entries = Object.entries(spellModules);
+    for (const [, loader] of entries) {
+      const mod = await (loader as () => Promise<any>)();
+      const data = mod.default ?? mod;
+      if (data && typeof data === 'object' && data.name && data.entries) {
+        ALL_SPELLS.push(data as SpellData);
+      }
+    }
+    ALL_SPELLS.sort((a, b) => {
+      if (a.level !== b.level) return a.level - b.level;
+      return a.name.localeCompare(b.name);
+    });
+    _initialized = true;
+  })();
+
+  return _initializing;
 }
-
-ALL_SPELLS.sort((a, b) => {
-  if (a.level !== b.level) return a.level - b.level;
-  return a.name.localeCompare(b.name);
-});
-
-export { ALL_SPELLS };
 
 export function getSpellByName(name: string): SpellData | undefined {
   return ALL_SPELLS.find(s => s.name.toLowerCase() === name.toLowerCase());
@@ -82,7 +94,6 @@ export const SCHOOL_NAMES: Record<string, string> = {
 };
 
 export function getSpellImagePath(spell: SpellData): string {
-  // Используем локальное изображение из папки images
   const imageName = spell.name.replace(/[^a-zA-Z0-9]/g, '_');
   return `/src/data/spells/images/${imageName}.webp`;
 }
