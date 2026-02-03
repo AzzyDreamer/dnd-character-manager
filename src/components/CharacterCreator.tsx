@@ -160,8 +160,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const maxCantrips = 2;
   const maxSpells = isSpellcaster ? Math.max(1, 1 + (activeBonuses[selectedClass?.spellcastingAbility as keyof AbilityScores] || 0)) : 0;
 
-  // Navigation
-  const totalSteps = isSpellcaster ? 7 : 6; // 7 если заклинатель, 6 если нет
+  // Navigation (7 шагов для заклинателя, 6 для остальных)
   const getEffectiveStep = (s: number): string => {
     if (!isSpellcaster && s >= 4) {
       // Пропускаем шаг заклинаний
