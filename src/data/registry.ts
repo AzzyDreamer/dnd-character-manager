@@ -171,7 +171,7 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
 }
 
 // ─── Получить отображаемое имя тега (работает без инициализации) ───
-export function getTagDisplayName(tagType: string, content: string): string {
+export function getTagDisplayName(_tagType: string, content: string): string {
   const parts = content.split('|');
   if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
   let name = parts[0].trim();

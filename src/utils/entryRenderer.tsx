@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-// ─── Ленивый импорт registry (чтобы не грузить все JSON при старте) ───
+// ─── Типы для навигации по тегам ───
 export interface RegistryEntry {
   type: string;
   name: string;
@@ -9,42 +9,70 @@ export interface RegistryEntry {
   data: any;
 }
 
-let _lookupByTag: ((tagType: string, name: string) => RegistryEntry | undefined) | null = null;
-let _getTagDisplayName: ((tagType: string, content: string) => string) | null = null;
-let _registryLoading = false;
-let _registryReady = false;
-
-async function ensureRegistry(): Promise<void> {
-  if (_registryReady) return;
-  if (_registryLoading) return;
-  _registryLoading = true;
-  try {
-    // Импортируем registry (теперь это лёгкий модуль без top-level импортов)
-    const reg = await import('../data/registry');
-    // Инициализируем registry (загружает все модули данных)
-    await reg.initRegistry();
-    _lookupByTag = reg.lookupByTag;
-    _getTagDisplayName = reg.getTagDisplayName;
-    _registryReady = true;
-  } catch (e) {
-    console.error('Failed to load registry:', e);
-  }
-  _registryLoading = false;
+// Локальный кеш загруженных данных для поиска по тегам
+interface LoadedData {
+  spells?: any[];
+  feats?: any[];
+  conditions?: any[];
+  skills?: any[];
+  senses?: any[];
+  species?: any[];
+  backgrounds?: any[];
+  items?: any[];
+  optionalfeatures?: any[];
+  rules?: any[];
 }
 
-// Инициализируем загрузку при первом использовании
-function lookupByTag(tagType: string, name: string): RegistryEntry | undefined {
-  if (!_registryReady) {
-    ensureRegistry();
-    return undefined;
-  }
-  return _lookupByTag?.(tagType, name);
+let _loadedData: LoadedData = {};
+
+// Регистрируем загруженные данные из Glossary
+export function registerLoadedData(type: string, items: any[]): void {
+  (_loadedData as any)[type] = items;
 }
 
-function getTagDisplayName(tagType: string, content: string): string {
-  if (_getTagDisplayName) return _getTagDisplayName(tagType, content);
-  // Fallback: просто возвращаем имя
+// Маппинг тегов на типы данных
+const TAG_TO_CATEGORY: Record<string, string> = {
+  spell: 'spells',
+  condition: 'conditions',
+  disease: 'conditions',
+  skill: 'skills',
+  sense: 'senses',
+  feat: 'feats',
+  species: 'species',
+  race: 'species',
+  background: 'backgrounds',
+  item: 'items',
+  optfeature: 'optionalfeatures',
+  variantrule: 'rules',
+};
+
+// Поиск по тегу в загруженных данных
+function lookupByTag(tagType: string, content: string): RegistryEntry | undefined {
+  const category = TAG_TO_CATEGORY[tagType];
+  if (!category) return undefined;
+
+  const items = (_loadedData as any)[category];
+  if (!items || !Array.isArray(items)) return undefined;
+
   const parts = content.split('|');
+  const name = parts[0].trim().toLowerCase();
+
+  const found = items.find((item: any) => item.name?.toLowerCase() === name);
+  if (!found) return undefined;
+
+  return {
+    type: tagType,
+    name: found.name,
+    source: found.source,
+    entries: found.entries,
+    data: found,
+  };
+}
+
+// Получить отображаемое имя из тега
+function getTagDisplayName(_tagType: string, content: string): string {
+  const parts = content.split('|');
+  // Если есть третья часть — это кастомное отображаемое имя
   if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
   return parts[0].trim();
 }

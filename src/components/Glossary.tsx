@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2 } from 'lucide-react';
 
 // ─── Типы ───
@@ -31,7 +31,7 @@ interface CategoryData {
 }
 
 const categoryCache: Partial<Record<GlossaryCategory, CategoryData>> = {};
-let entryRendererCache: React.FC<any> | null = null;
+let entryRendererCache: { EntryRenderer: React.FC<any>; registerLoadedData: (type: string, items: any[]) => void } | null = null;
 
 // ─── Загрузчики категорий (ленивая загрузка по запросу) ───
 async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
@@ -132,14 +132,29 @@ async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
   }
 
   categoryCache[category] = result;
+
+  // Регистрируем загруженные данные для поиска по тегам
+  if (entryRendererCache) {
+    entryRendererCache.registerLoadedData(category, result.items);
+  }
+
   return result;
 }
 
 async function loadEntryRenderer(): Promise<React.FC<any>> {
-  if (entryRendererCache) return entryRendererCache;
+  if (entryRendererCache) return entryRendererCache.EntryRenderer;
   const mod = await import('../utils/entryRenderer');
-  entryRendererCache = mod.EntryRenderer;
-  return entryRendererCache;
+  entryRendererCache = {
+    EntryRenderer: mod.EntryRenderer,
+    registerLoadedData: mod.registerLoadedData,
+  };
+
+  // Регистрируем уже закешированные данные
+  for (const [category, data] of Object.entries(categoryCache)) {
+    mod.registerLoadedData(category, data.items);
+  }
+
+  return entryRendererCache.EntryRenderer;
 }
 
 // ─── Конфигурация категорий ───
