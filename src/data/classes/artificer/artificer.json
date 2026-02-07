@@ -14,14 +14,14 @@
   "proficiencies": {
     "armor": ["Light armor", "Medium armor", "Shields"],
     "weapons": ["Simple weapons"],
-    "tools": ["Thieves' Tools", "Tinker's Tools", "One type of Artisan's Tools of your choice"],
+    "tools": ["{@item Thieves' Tools|XPHB}", "{@item Tinker's Tools|XPHB}", "One type of {@item Artisan's Tools|XPHB} of your choice"],
     "skillChoices": {
       "count": 2,
       "from": ["arcana", "history", "investigation", "medicine", "nature", "perception", "sleightOfHand"]
     }
   },
   "startingEquipment": {
-    "optionA": ["Studded Leather Armor", "Dagger", "Thieves' Tools", "Tinker's Tools", "Dungeoneer's Pack", "16 GP"],
+    "optionA": ["{@item Studded Leather Armor|XPHB}", "{@item Dagger|XPHB}", "{@item Thieves' Tools|XPHB}", "{@item Tinker's Tools|XPHB}", "{@item Dungeoneer's Pack|XPHB}", "16 GP"],
     "optionB": ["150 GP"]
   },
   "multiclassing": {
@@ -30,7 +30,7 @@
       "count": 1,
       "from": ["arcana", "history", "investigation", "medicine", "nature", "perception", "sleightOfHand"]
     },
-    "toolProficiencies": ["Tinker's Tools"],
+    "toolProficiencies": ["{@item Tinker's Tools|XPHB}"],
     "armorTraining": ["Light armor", "Medium armor", "Shields"]
   },
   "levelTable": [
@@ -60,13 +60,14 @@
       "name": "Spellcasting",
       "level": 1,
       "source": "EFA",
-      "description": "You have learned how to channel magical energy through objects. See the Player's Handbook for the rules on spellcasting. The information below details how you use those rules with Artificer spells, which appear in the Artificer spell list later in the class's description.",
+      "page": 7,
+      "description": "You have learned how to channel magical energy through objects. See the {@book Player's Handbook|XPHB} for the rules on spellcasting. The information below details how you use those rules with Artificer spells, which appear in the Artificer spell list later in the class's description.",
       "details": {
-        "toolsRequired": "You produce your Artificer spells through tools. You can use Thieves' Tools, Tinker's Tools, or another kind of Artisan's Tools with which you have proficiency as a Spellcasting Focus, and you must have one of those focuses in hand when you cast an Artificer spell (meaning the spell has an M component when you cast it).",
-        "cantrips": "You know two Artificer cantrips of your choice. Acid Splash and Prestidigitation are recommended. Whenever you finish a Long Rest, you can replace one of your cantrips from this feature with another Artificer cantrip of your choice. When you reach Artificer levels 10 and 14, you learn another Artificer cantrip of your choice, as shown in the Cantrips column of the Artificer Features table.",
-        "spellSlots": "The Artificer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.",
-        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Artificer spells. Cure Wounds and Grease are recommended. The number of spells on your list increases as you gain Artificer levels, as shown in the Prepared Spells column of the Artificer Features table. Whenever that number increases, choose additional Artificer spells until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 5 Artificer, your list of prepared spells can include six Artificer spells of levels 1 and 2 in any combination.",
-        "changingPreparedSpells": "Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells there with other Artificer spells for which you have spell slots.",
+        "toolsRequired": "You produce your Artificer spells through tools. You can use {@item Thieves' Tools|XPHB}, {@item Tinker's Tools|XPHB}, or another kind of {@item Artisan's Tools|XPHB} with which you have proficiency as a {@variantrule Spellcasting Focus|XPHB}, and you must have one of those focuses in hand when you cast an Artificer spell (meaning the spell has an M component when you cast it).",
+        "cantrips": "You know two Artificer cantrips of your choice. {@spell Acid Splash|XPHB} and {@spell Prestidigitation|XPHB} are recommended. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace one of your cantrips from this feature with another Artificer cantrip of your choice. When you reach Artificer levels 10 and 14, you learn another Artificer cantrip of your choice, as shown in the Cantrips column of the Artificer Features table.",
+        "spellSlots": "The Artificer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Artificer spells. {@spell Cure Wounds|XPHB} and {@spell Grease|XPHB} are recommended. The number of spells on your list increases as you gain Artificer levels, as shown in the Prepared Spells column of the Artificer Features table. Whenever that number increases, choose additional {@filter Artificer spells|spells|class=Artificer} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 5 Artificer, your list of prepared spells can include six Artificer spells of levels 1 and 2 in any combination.",
+        "changingPreparedSpells": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your list of prepared spells, replacing any of the spells there with other Artificer spells for which you have spell slots.",
         "spellcastingAbility": "Intelligence is your spellcasting ability for your Artificer spells."
       }
     },
@@ -74,93 +75,96 @@
       "name": "Tinker's Magic",
       "level": 1,
       "source": "EFA",
-      "description": "You know the Mending cantrip. As a Magic action while holding Tinker's Tools, you can create one item in an unoccupied space within 5 feet of yourself, choosing the item from the following list.",
+      "page": 7,
+      "description": "You know the {@spell Mending|XPHB} cantrip. As a {@action Magic|XPHB} action while holding {@item Tinker's Tools|XPHB}, you can create one item in an unoccupied space within 5 feet of yourself, choosing the item from the following list.",
       "details": {
         "items": [
-          "Ball Bearings", "Basket", "Bedroll", "Bell", "Blanket", "Block and Tackle",
-          "Bottle, Glass", "Bucket", "Caltrops", "Candle", "Crowbar", "Flask",
-          "Grappling Hook", "Hunting Trap", "Jug", "Lamp", "Manacles", "Net",
-          "Oil", "Paper", "Parchment", "Pole", "Pouch", "Rope",
-          "Sack", "Shovel", "Spikes, Iron", "String", "Tinderbox", "Torch", "Vial"
+          "{@item Ball Bearings|XPHB}", "{@item Basket|XPHB}", "{@item Bedroll|XPHB}", "{@item Bell|XPHB}", "{@item Blanket|XPHB}", "{@item Block and Tackle|XPHB}",
+          "{@item Bottle, Glass|XPHB}", "{@item Bucket|XPHB}", "{@item Caltrops|XPHB}", "{@item Candle|XPHB}", "{@item Crowbar|XPHB}", "{@item Flask|XPHB}",
+          "{@item Grappling Hook|XPHB}", "{@item Hunting Trap|XPHB}", "{@item Jug|XPHB}", "{@item Lamp|XPHB}", "{@item Manacles|XPHB}", "{@item Net|XPHB}",
+          "{@item Oil|XPHB}", "{@item Paper|XPHB}", "{@item Parchment|XPHB}", "{@item Pole|XPHB}", "{@item Pouch|XPHB}", "{@item Rope|XPHB}",
+          "{@item Sack|XPHB}", "{@item Shovel|XPHB}", "{@item Spikes, Iron|XPHB}", "{@item String|XPHB}", "{@item Tinderbox|XPHB}", "{@item Torch|XPHB}", "{@item Vial|XPHB}"
         ],
-        "duration": "The item lasts until you finish a Long Rest, at which point it vanishes.",
-        "uses": "You can use this feature a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a Long Rest."
+        "duration": "See the rules for the item in the {@book Player's Handbook|XPHB}. The item lasts until you finish a {@variantrule Long Rest|XPHB}, at which point it vanishes.",
+        "uses": "You can use this feature a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
       }
     },
     {
       "name": "Replicate Magic Item",
       "level": 2,
       "source": "EFA",
+      "page": 7,
       "description": "You have learned arcane plans that you use to make magic items.",
       "details": {
-        "plansKnown": "When you gain this feature, choose four plans to learn from the Magic Item Plans (Artificer Level 2+) table. Bag of Holding, Cap of Water Breathing, Sending Stones, and Wand of the War Mage are recommended. Whenever you gain an Artificer level, you can replace one of the plans you know with a new plan for which you qualify. You learn another plan of your choice when you reach certain Artificer levels, as shown in the Plans Known column of the Artificer Features table. When you choose a plan to learn, you choose it from any Magic Item Plans table for which you qualify; your qualification is based on your Artificer level.",
-        "creatingAnItem": "When you finish a Long Rest, you can create one or two different magic items if you have Tinker's Tools in hand. Each item is based on one of the plans you know for this feature. If a created item requires Attunement, you can attune yourself to it the instant you create it. If you decide to attune to the item later, you must do so using the normal process for Attunement. When you reach certain Artificer levels specified in the Magic Items column of the Artificer Features table, the number of magic items you can create at the end of a Long Rest increases. Each item you create must be based on a different plan you know. You can't have more magic items from this feature than the number shown in the Magic Items column of the Artificer Features table for your level. If you try to exceed your maximum number of magic items for this feature, the oldest item vanishes, and then the new item appears.",
-        "duration": "A magic item created by this feature functions as the normal magic item, except its magic isn't permanent; when you die, the magic item vanishes after 1d4 days. If you replace a plan you know with a new plan, any magic item created with the replaced plan immediately vanishes.",
-        "spellcastingFocus": "You can use any Wand or Weapon created by this feature as a Spellcasting Focus in lieu of using a set of Artisan's Tools.",
+        "plansKnown": "When you gain this feature, choose four plans to learn from the Magic Item Plans (Artificer Level 2+) table (see the {@book Dungeon Master's Guide|DMG} for the items' descriptions). {@item Bag of Holding|DMG}, {@item Cap of Water Breathing|DMG}, {@item Sending Stones|DMG}, and {@item Wand of the War Mage|DMG} are recommended. Whenever you gain an Artificer level, you can replace one of the plans you know with a new plan for which you qualify. You learn another plan of your choice when you reach certain Artificer levels, as shown in the Plans Known column of the Artificer Features table. When you choose a plan to learn, you choose it from any Magic Item Plans table for which you qualify; your qualification is based on your Artificer level.",
+        "creatingAnItem": "When you finish a {@variantrule Long Rest|XPHB}, you can create one or two different magic items if you have {@item Tinker's Tools|XPHB} in hand. Each item is based on one of the plans you know for this feature. If a created item requires {@variantrule Attunement|XPHB}, you can attune yourself to it the instant you create it. If you decide to attune to the item later, you must do so using the normal process for {@variantrule Attunement|XPHB}. When you reach certain Artificer levels specified in the Magic Items column of the Artificer Features table, the number of magic items you can create at the end of a {@variantrule Long Rest|XPHB} increases. Each item you create must be based on a different plan you know. You can't have more magic items from this feature than the number shown in the Magic Items column of the Artificer Features table for your level. If you try to exceed your maximum number of magic items for this feature, the oldest item vanishes, and then the new item appears.",
+        "duration": "A magic item created by this feature functions as the normal magic item, except its magic isn't permanent; when you die, the magic item vanishes after {@dice 1d4} days. If you replace a plan you know with a new plan, any magic item created with the replaced plan immediately vanishes.",
+        "spellcastingFocus": "You can use any Wand or Weapon created by this feature as a {@variantrule Spellcasting Focus|XPHB} in lieu of using a set of {@item Artisan's Tools|XPHB}.",
+        "craftingMoreMagicItems": "The Replicate Magic Item feature isn't the only way for an Artificer to make magic items. The {@book Dungeon Master's Guide|DMG} provides rules for characters—not just Artificers—who want to make magic items of all sorts. Though many different characters can make magic items, Artificers can do it faster than others; each Artificer subclass improves a character's speed at making items of a certain category. When an Artificer crafts a magic item using the normal rules in the {@book Dungeon Master's Guide|DMG}, the character gains no special connection to that item. Class features that refer to items created by your Replicate Magic Item feature don't apply to items you craft by other means.",
         "magicItemPlans": {
           "level2": [
-            { "name": "Alchemy Jug", "attunement": false },
-            { "name": "Bag of Holding", "attunement": false },
-            { "name": "Cap of Water Breathing", "attunement": false },
+            { "name": "{@item Alchemy Jug|DMG}", "attunement": false },
+            { "name": "{@item Bag of Holding|DMG}", "attunement": false },
+            { "name": "{@item Cap of Water Breathing|DMG}", "attunement": false },
             { "name": "Common magic item that isn't a Potion, a Scroll, or cursed", "attunement": "Varies" },
-            { "name": "Goggles of Night", "attunement": false },
-            { "name": "Manifold Tool", "attunement": true },
-            { "name": "Repeating Shot", "attunement": true },
-            { "name": "Returning Weapon", "attunement": false },
-            { "name": "Rope of Climbing", "attunement": false },
-            { "name": "Sending Stones", "attunement": false },
-            { "name": "Shield +1", "attunement": false },
-            { "name": "Wand of Magic Detection", "attunement": false },
-            { "name": "Wand of Secrets", "attunement": false },
-            { "name": "Wand of the War Mage, +1", "attunement": true },
-            { "name": "Weapon +1", "attunement": true },
-            { "name": "Wraps of Unarmed Power, +1", "attunement": false }
+            { "name": "{@item Goggles of Night|DMG}", "attunement": false },
+            { "name": "{@item Manifold Tool|DMG}", "attunement": true },
+            { "name": "{@item Repeating Shot|DMG}", "attunement": true },
+            { "name": "{@item Returning Weapon|DMG}", "attunement": false },
+            { "name": "{@item Rope of Climbing|DMG}", "attunement": false },
+            { "name": "{@item Sending Stones|DMG}", "attunement": false },
+            { "name": "{@item Shield +1|DMG}", "attunement": false },
+            { "name": "{@item Wand of Magic Detection|DMG}", "attunement": false },
+            { "name": "{@item Wand of Secrets|DMG}", "attunement": false },
+            { "name": "{@item Wand of the War Mage, +1|DMG}", "attunement": true },
+            { "name": "{@item Weapon +1|DMG}", "attunement": true },
+            { "name": "{@item Wraps of Unarmed Power, +1|DMG}", "attunement": false }
           ],
           "level6": [
-            { "name": "Armor +1", "attunement": false },
-            { "name": "Boots of Elvenkind", "attunement": false },
-            { "name": "Boots of the Winding Path", "attunement": true },
-            { "name": "Cloak of Elvenkind", "attunement": true },
-            { "name": "Cloak of the Manta Ray", "attunement": true },
-            { "name": "Dazzling Weapon", "attunement": true },
-            { "name": "Eyes of Charming", "attunement": true },
-            { "name": "Eyes of Minute Seeing", "attunement": false },
-            { "name": "Gloves of Thievery", "attunement": false },
-            { "name": "Helm of Awareness", "attunement": false },
-            { "name": "Lantern of Revealing", "attunement": false },
-            { "name": "Mind Sharpener", "attunement": true },
-            { "name": "Necklace of Adaptation", "attunement": true },
-            { "name": "Pipes of Haunting", "attunement": false },
-            { "name": "Repulsion Shield", "attunement": false },
-            { "name": "Ring of Swimming", "attunement": false },
-            { "name": "Ring of Water Walking", "attunement": false },
-            { "name": "Sentinel Shield", "attunement": false },
-            { "name": "Spell-Refueling Ring", "attunement": false },
-            { "name": "Wand of Magic Missiles", "attunement": false },
-            { "name": "Wand of Web", "attunement": true },
-            { "name": "Weapon of Warning", "attunement": true }
+            { "name": "{@item Armor +1|DMG}", "attunement": false },
+            { "name": "{@item Boots of Elvenkind|DMG}", "attunement": false },
+            { "name": "{@item Boots of the Winding Path|DMG}", "attunement": true },
+            { "name": "{@item Cloak of Elvenkind|DMG}", "attunement": true },
+            { "name": "{@item Cloak of the Manta Ray|DMG}", "attunement": true },
+            { "name": "{@item Dazzling Weapon|DMG}", "attunement": true },
+            { "name": "{@item Eyes of Charming|DMG}", "attunement": true },
+            { "name": "{@item Eyes of Minute Seeing|DMG}", "attunement": false },
+            { "name": "{@item Gloves of Thievery|DMG}", "attunement": false },
+            { "name": "{@item Helm of Awareness|DMG}", "attunement": false },
+            { "name": "{@item Lantern of Revealing|DMG}", "attunement": false },
+            { "name": "{@item Mind Sharpener|DMG}", "attunement": true },
+            { "name": "{@item Necklace of Adaptation|DMG}", "attunement": true },
+            { "name": "{@item Pipes of Haunting|DMG}", "attunement": false },
+            { "name": "{@item Repulsion Shield|DMG}", "attunement": false },
+            { "name": "{@item Ring of Swimming|DMG}", "attunement": false },
+            { "name": "{@item Ring of Water Walking|DMG}", "attunement": false },
+            { "name": "{@item Sentinel Shield|DMG}", "attunement": false },
+            { "name": "{@item Spell-Refueling Ring|DMG}", "attunement": false },
+            { "name": "{@item Wand of Magic Missiles|DMG}", "attunement": false },
+            { "name": "{@item Wand of Web|DMG}", "attunement": true },
+            { "name": "{@item Weapon of Warning|DMG}", "attunement": true }
           ],
           "level10": [
-            { "name": "Armor of Resistance", "attunement": true },
-            { "name": "Dagger of Venom", "attunement": false },
-            { "name": "Elven Chain", "attunement": false },
-            { "name": "Ring of Feather Falling", "attunement": true },
-            { "name": "Ring of Jumping", "attunement": true },
-            { "name": "Ring of Mind Shielding", "attunement": true },
-            { "name": "Shield, +2", "attunement": false },
+            { "name": "{@item Armor of Resistance|DMG}", "attunement": true },
+            { "name": "{@item Dagger of Venom|DMG}", "attunement": false },
+            { "name": "{@item Elven Chain|DMG}", "attunement": false },
+            { "name": "{@item Ring of Feather Falling|DMG}", "attunement": true },
+            { "name": "{@item Ring of Jumping|DMG}", "attunement": true },
+            { "name": "{@item Ring of Mind Shielding|DMG}", "attunement": true },
+            { "name": "{@item Shield, +2|DMG}", "attunement": false },
             { "name": "Uncommon Wondrous Item that isn't cursed", "attunement": "Varies" },
-            { "name": "Wand of the War Mage, +2", "attunement": true },
-            { "name": "Weapon, +2", "attunement": true },
-            { "name": "Wraps of Unarmed Power, +2", "attunement": false }
+            { "name": "{@item Wand of the War Mage, +2|DMG}", "attunement": true },
+            { "name": "{@item Weapon, +2|DMG}", "attunement": true },
+            { "name": "{@item Wraps of Unarmed Power, +2|DMG}", "attunement": false }
           ],
           "level14": [
-            { "name": "Armor, +2", "attunement": false },
-            { "name": "Arrow-Catching Shield", "attunement": true },
-            { "name": "Flame Tongue", "attunement": true },
+            { "name": "{@item Armor, +2|DMG}", "attunement": false },
+            { "name": "{@item Arrow-Catching Shield|DMG}", "attunement": true },
+            { "name": "{@item Flame Tongue|DMG}", "attunement": true },
             { "name": "Rare Wondrous Item that isn't cursed", "attunement": "Varies" },
-            { "name": "Ring of Free Action", "attunement": true },
-            { "name": "Ring of Protection", "attunement": true },
-            { "name": "Ring of the Ram", "attunement": true }
+            { "name": "{@item Ring of Free Action|DMG}", "attunement": true },
+            { "name": "{@item Ring of Protection|DMG}", "attunement": true },
+            { "name": "{@item Ring of the Ram|DMG}", "attunement": true }
           ]
         }
       }
@@ -169,60 +173,121 @@
       "name": "Artificer Subclass",
       "level": 3,
       "source": "EFA",
+      "page": 10,
       "description": "You gain an Artificer subclass of your choice. The Alchemist, Armorer, Artillerist, Battle Smith, and Cartographer subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Artificer levels. For the rest of your career, you gain each of your subclass's features that are unlocked by the Artificer levels specified in the subclass."
     },
     {
       "name": "Ability Score Improvement",
       "level": 4,
       "source": "EFA",
-      "description": "You gain the Ability Score Improvement feat or another feat of your choice for which you qualify. You gain this feature again at Artificer levels 8, 12, and 16."
+      "page": 10,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Artificer levels 8, 12, and 16."
+    },
+    {
+      "name": "Subclass feature",
+      "level": 5,
+      "source": "EFA",
+      "page": 8,
+      "description": "You gain a feature from your Artificer Subclass."
     },
     {
       "name": "Magic Item Tinker",
       "level": 6,
       "source": "EFA",
-      "description": "Your understanding of magic items allows you to tinker with them."
+      "page": 10,
+      "description": "Your {@variantrule Replicate Magic Item} feature gains the following options.",
+      "details": {
+        "chargeMagicItem": "As a {@action Bonus Action|XPHB}, you can touch a magic item within 5 feet of yourself that you created with Replicate Magic Item and that uses charges. You expend a level 1+ spell slot and recharge the item. The number of charges the item regains is equal to the level of spell slot expended.",
+        "drainMagicItem": "As a {@action Bonus Action|XPHB}, you can touch a magic item within 5 feet of yourself that you created with Replicate Magic Item and cause the item to vanish, converting its magical energy into a spell slot. The slot is level 1 if the item is Common or level 2 if the item is Uncommon or Rare. Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}. Any spell you create with this feature vanishes when you finish a {@variantrule Long Rest|XPHB}.",
+        "transmuteMagicItem": "As a {@action Magic|XPHB} action, you can touch one magic item within 5 feet of yourself that you created with Replicate Magic Item and transform it into a different magic item. The resulting item must be based on a magic item plan you know. Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     },
     {
       "name": "Flash of Genius",
       "level": 7,
       "source": "EFA",
+      "page": 10,
       "description": "You can use your ingenuity to aid an ally."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 8,
+      "source": "EFA",
+      "page": 10,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Subclass feature",
+      "level": 9,
+      "source": "EFA",
+      "page": 8,
+      "description": "You gain a feature from your Artificer Subclass."
     },
     {
       "name": "Magic Item Adept",
       "level": 10,
       "source": "EFA",
-      "description": "You achieve a profound understanding of how to use and make magic items."
+      "page": 10,
+      "description": "You can now attune to up to four magic items at once."
     },
     {
       "name": "Spell-Storing Item",
       "level": 11,
       "source": "EFA",
-      "description": "You can store a spell in an object for later use."
+      "page": 11,
+      "description": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can touch one Simple or Martial weapon or one item that you can use as a {@variantrule Spellcasting Focus|XPHB}, and you store a spell in it, choosing a level 1, 2, or 3 Artificer spell that has a casting time of an action and doesn't require a Material component that is consumed by the spell (you needn't have the spell prepared). While holding the object, a creature can take a {@action Magic|XPHB} action to produce the spell's effect from it, using your spellcasting ability modifier. If the spell requires {@status Concentration|XPHB}, the creature must concentrate. Once a creature has used the object to produce the spell's effect, the object can't be used this way again until the start of the creature's next turn. The spell stays in the object until it's been used a number of times equal to twice your Intelligence modifier (minimum of twice) or until you use this feature again to store a spell in an object."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 12,
+      "source": "EFA",
+      "page": 10,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
     },
     {
       "name": "Advanced Artifice",
       "level": 14,
       "source": "EFA",
-      "description": "Your skill with magic items deepens."
+      "page": 11,
+      "description": "You gain the following benefits.",
+      "details": {
+        "magicItemSavant": "You can now attune to up to five magic items at once.",
+        "refreshedGenius": "When you finish a {@variantrule Short Rest|XPHB}, you regain one expended use of your Flash of Genius feature."
+      }
+    },
+    {
+      "name": "Subclass feature",
+      "level": 15,
+      "source": "EFA",
+      "page": 8,
+      "description": "You gain a feature from your Artificer Subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 16,
+      "source": "EFA",
+      "page": 10,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
     },
     {
       "name": "Magic Item Master",
       "level": 18,
       "source": "EFA",
+      "page": 11,
       "description": "You have achieved mastery over magic items."
     },
     {
       "name": "Epic Boon",
       "level": 19,
       "source": "EFA",
-      "description": "You gain an Epic Boon feat or another feat of your choice for which you qualify."
+      "page": 11,
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify."
     },
     {
       "name": "Soul of Artifice",
       "level": 20,
       "source": "EFA",
+      "page": 11,
       "description": "Your connection to your magic items deepens."
     }
   ],
