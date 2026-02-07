@@ -53,6 +53,16 @@
         "detonate": "When your cannon takes damage, you can take a {@variantrule Reaction|XPHB} to command the cannon to detonate if you are within 60 feet of it. Doing so destroys the cannon and forces each creature within 20 feet of it to make a Dexterity saving throw against your spell save DC, taking {@damage 3d10} Force damage on a failed save or half as much damage on a successful one.",
         "firepower": "The cannon's damage rolls and the number of {@variantrule Temporary Hit Points|XPHB} granted by Protector increase by {@dice 1d8}."
       }
+    },
+    {
+      "name": "Fortified Position",
+      "level": 15,
+      "source": "EFA",
+      "description": "You're a master at forming well-defended emplacements using your {@creature Eldritch Cannon|EFA}. You gain the following benefits.",
+      "details": {
+        "doubleFirepower": "You can now have two cannons at the same time, and you can create two with the same {@action Magic|XPHB} action. (If you expend a spell slot to create the first cannon, you must expend another spell slot to create the second.) You can activate both of them with the same {@action Bonus Action|XPHB}, ordering them to use the same activation option or different ones. You can't create a third cannon while you have two.",
+        "shimmeringFieldProjection": "You and your allies have {@variantrule Half Cover|XPHB} within 10 feet of your {@creature Eldritch Cannon|EFA}."
+      }
     }
   ]
 }

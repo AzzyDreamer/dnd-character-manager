@@ -91,6 +91,26 @@
         "armorReplication": "You learn an additional plan for your Replicate Magic Item feature, and it must be in the Armor category. If you replace that plan, you must replace it with another Armor plan.",
         "improvedArsenal": "You gain a +1 bonus to attack and damage rolls made with the special weapon of your Arcane Armor model."
       }
+    },
+    {
+      "name": "Perfected Armor",
+      "level": 15,
+      "source": "EFA",
+      "description": "Your Arcane Armor gains additional benefits based on its model, as detailed below.",
+      "models": {
+        "dreadnaught": {
+          "name": "Dreadnaught",
+          "description": "The damage die of your Force Demolisher increases to {@damage 2d6} Force damage. In addition, when you use your Giant Stature, your reach increases by 10 feet, your size can increase to Large or Huge (your choice), and you have {@variantrule Advantage|XPHB} on Strength checks and Strength saving throws for the duration."
+        },
+        "guardian": {
+          "name": "Guardian",
+          "description": "The damage die of your Thunder Pulse increases to {@damage 1d10} Thunder damage. In addition, when a Huge or smaller creature you can see ends its turn within 30 feet of you, you can take a {@variantrule Reaction|XPHB} to magically force that creature to make a Strength saving throw against your spell save DC. On a failed save, you pull the creature up to 25 feet directly toward you to an unoccupied space. If you pull the target to a space within 5 feet of yourself, you can make a melee weapon attack against it as part of this {@variantrule Reaction|XPHB}. You can take this {@variantrule Reaction|XPHB} a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+        },
+        "infiltrator": {
+          "name": "Infiltrator",
+          "description": "The damage die of your Lightning Launcher increases to {@damage 2d6} Lightning damage. Any creature that takes Lightning damage from your Lightning Launcher glimmers with magical light until the start of your next turn. The glimmering creature sheds {@variantrule Dim Light|XPHB} in a 5-foot radius, and it has {@variantrule Disadvantage|XPHB} on attack rolls against you, as the light jolts it if it attacks you. Additionally, as a {@action Bonus Action|XPHB}, you can gain a {@variantrule Fly Speed|XPHB} equal to twice your {@variantrule Speed|XPHB} until the end of the current turn. You can take this {@action Bonus Action|XPHB} a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+        }
+      }
     }
   ]
 }

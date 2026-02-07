@@ -62,6 +62,16 @@
       "level": 9,
       "source": "EFA",
       "description": "When you use your Flash of Genius, you or a willing creature of your choice that you can see within 30 feet of yourself can teleport up to 30 feet to an unoccupied space you can see as part of that same {@variantrule Reaction|XPHB}."
+    },
+    {
+      "name": "Strategic Atlas",
+      "level": 15,
+      "source": "EFA",
+      "description": "Your Adventurer's Atlas improves, gaining the following benefits.",
+      "details": {
+        "safeHaven": "When a map holder would be reduced to 0 {@variantrule Hit Points|XPHB} but not killed outright, that creature can destroy its map. The creature's {@variantrule Hit Points|XPHB} instead change to a number equal to twice your Artificer level, and the creature is teleported to an unoccupied space within 5 feet of you or another map holder of its choice.",
+        "unerringPath": "If you are one of the map holders for your Adventurer's Atlas, you can cast {@spell Find the Path|XPHB} without expending a spell slot, without preparing the spell, and without needing spell components. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }

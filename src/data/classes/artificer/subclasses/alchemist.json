@@ -61,6 +61,17 @@
       "level": 9,
       "source": "EFA",
       "description": "You can cast {@spell Lesser Restoration|XPHB} without expending a spell slot and without preparing the spell, provided you use {@item Alchemist's Supplies|XPHB} as the {@variantrule Spellcasting Focus|XPHB}. You can do so a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Chemical Mastery",
+      "level": 15,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "alchemicalEruption": "When you cast an Artificer spell that deals Acid, Fire, or Poison damage to a target, you can also deal {@damage 2d8} Force damage to that target. You can use this benefit only once on each of your turns.",
+        "chemicalResistance": "You gain {@variantrule Resistance|XPHB} to Acid damage and Poison damage. You also gain {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition.",
+        "conjuredCauldron": "You can cast {@spell Tasha's Bubbling Cauldron|XPHB} without expending a spell slot, without preparing the spell, and without Material components, provided you use {@item Alchemist's Supplies|XPHB} as the {@variantrule Spellcasting Focus|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }

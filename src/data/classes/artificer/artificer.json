@@ -207,7 +207,7 @@
       "level": 7,
       "source": "EFA",
       "page": 10,
-      "description": "You can use your ingenuity to aid an ally."
+      "description": "When you or a creature you can see within 30 feet of you fails an ability check or a saving throw, you can take a {@variantrule Reaction|XPHB} to add a bonus to the roll, potentially causing it to succeed. The bonus equals your Intelligence modifier (minimum of +1). You can take this {@variantrule Reaction|XPHB} a number of times equal to your Intelligence modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
     },
     {
       "name": "Ability Score Improvement",
@@ -274,21 +274,25 @@
       "level": 18,
       "source": "EFA",
       "page": 11,
-      "description": "You have achieved mastery over magic items."
+      "description": "You can now attune to up to six magic items at once."
     },
     {
       "name": "Epic Boon",
       "level": 19,
       "source": "EFA",
       "page": 11,
-      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify."
+      "description": "You gain an Epic Boon feat or another feat of your choice for which you qualify. {@feat Boon of Energy Resistance|XPHB} is recommended."
     },
     {
       "name": "Soul of Artifice",
       "level": 20,
       "source": "EFA",
       "page": 11,
-      "description": "Your connection to your magic items deepens."
+      "description": "You have developed a mystical connection to your magic items, which you can draw on for aid. You gain the following benefits.",
+      "details": {
+        "cheatDeath": "If you're reduced to 0 {@variantrule Hit Points|XPHB} but not killed outright, you can disintegrate any number of Uncommon or Rare magic items created by your Replicate Magic Item feature. If you do so, your {@variantrule Hit Points|XPHB} instead change to a number equal to 20 times the number of magic items disintegrated.",
+        "magicalGuidance": "When you finish a {@variantrule Short Rest|XPHB}, you regain all expended uses of your Flash of Genius if you have {@variantrule Attunement|XPHB} to at least one magic item."
+      }
     }
   ],
   "subclassIds": ["alchemist", "armorer", "artillerist", "battle-smith", "cartographer"]
