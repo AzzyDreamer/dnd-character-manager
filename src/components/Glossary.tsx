@@ -278,21 +278,30 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   };
 
   const formatSpellRange = (range: any): string => {
-    if (!range) return '';
+    if (!range) return 'Не указана';
+    if (typeof range === 'string') return range;
+    if (typeof range === 'number') return `${range} футов`;
     if (range.type === 'special') return 'Особая';
+    if (range.type === 'sight') return 'В пределах видимости';
+    if (range.type === 'unlimited') return 'Неограниченная';
     if (range.type === 'self') {
-      if (range.distance?.type === 'radius') return `На себя (радиус ${range.distance.amount} футов)`;
-      if (range.distance?.type === 'cone') return `На себя (конус ${range.distance.amount} футов)`;
-      if (range.distance?.type === 'line') return `На себя (линия ${range.distance.amount} футов)`;
+      if (range.distance?.type === 'radius') return `На себя (радиус ${range.distance.amount} фт.)`;
+      if (range.distance?.type === 'cone') return `На себя (конус ${range.distance.amount} фт.)`;
+      if (range.distance?.type === 'line') return `На себя (линия ${range.distance.amount} фт.)`;
+      if (range.distance?.type === 'sphere') return `На себя (сфера ${range.distance.amount} фт.)`;
       return 'На себя';
     }
     if (range.type === 'touch') return 'Касание';
     if (range.type === 'point' && range.distance) {
-      if (range.distance.type === 'feet') return `${range.distance.amount} футов`;
-      if (range.distance.type === 'miles') return `${range.distance.amount} миль`;
-      if (range.distance.type === 'unlimited') return 'Неограниченная';
+      const amt = range.distance.amount;
+      if (range.distance.type === 'feet') return `${amt} фт.`;
+      if (range.distance.type === 'miles') return `${amt} миль`;
+      if (range.distance.type === 'self') return 'На себя';
+      return `${amt} ${range.distance.type}`;
     }
-    return '';
+    // Fallback для любых других форматов
+    if (range.distance?.amount) return `${range.distance.amount} фт.`;
+    return JSON.stringify(range);
   };
 
   const formatSpellComponents = (comp: any): string => {
@@ -302,7 +311,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     if (comp.s) parts.push('С');
     if (comp.m) {
       const mat = typeof comp.m === 'string' ? comp.m : comp.m?.text || '';
-      parts.push(`М (${mat})`);
+      if (mat) {
+        const cost = comp.m?.cost ? ` (${comp.m.cost / 100} зм)` : '';
+        const consumed = comp.m?.consume ? ' (расходуется)' : '';
+        parts.push(`М (${mat}${cost}${consumed})`);
+      } else {
+        parts.push('М');
+      }
     }
     return parts.join(', ');
   };
@@ -311,29 +326,108 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     if (!duration?.length) return '';
     return duration.map(d => {
       if (d.type === 'instant') return 'Мгновенная';
-      if (d.type === 'permanent') return 'Постоянная';
+      if (d.type === 'permanent') {
+        const ends = d.ends?.join(', ') || '';
+        return ends ? `Пока не ${ends}` : 'Постоянная';
+      }
       if (d.type === 'special') return 'Особая';
-      if (d.type === 'timed') {
+      if (d.type === 'timed' && d.duration) {
         const units: Record<string, string> = {
-          round: 'раунд',
-          minute: 'минут',
-          hour: 'часов',
-          day: 'дней',
+          round: d.duration.amount === 1 ? 'раунд' : 'раундов',
+          minute: d.duration.amount === 1 ? 'минута' : 'минут',
+          hour: d.duration.amount === 1 ? 'час' : 'часов',
+          day: d.duration.amount === 1 ? 'день' : 'дней',
         };
-        const conc = d.concentration ? 'Концентрация, до ' : '';
+        const conc = d.concentration ? 'Концентрация, ' : '';
         return `${conc}${d.duration.amount} ${units[d.duration.type] || d.duration.type}`;
       }
       return '';
-    }).join(' или ');
+    }).filter(Boolean).join(' или ');
+  };
+
+  // ─── Форматирование требований черты ───
+  const formatPrerequisite = (prereq: any[]): string => {
+    if (!prereq?.length) return '';
+    return prereq.map((p: any) => {
+      const parts: string[] = [];
+      if (p.level) {
+        const cls = p.class ? ` ${p.class.name}` : '';
+        parts.push(`${p.level} уровень${cls}`);
+      }
+      if (p.ability) {
+        const abilities: Record<string, string> = {
+          str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
+          int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
+        };
+        const abReqs = p.ability.map((ab: any) =>
+          Object.entries(ab).map(([k, v]) => `${abilities[k] || k} ${v}+`).join(', ')
+        ).join(' или ');
+        if (abReqs) parts.push(abReqs);
+      }
+      if (p.spellcasting) parts.push('Умение накладывать заклинания');
+      if (p.spellcastingFeature) parts.push('Умение накладывать заклинания');
+      if (p.race) {
+        const races = p.race.map((r: any) => r.name || r).join(' или ');
+        parts.push(`Раса: ${races}`);
+      }
+      if (p.feat) {
+        const feats = p.feat.map((f: any) => f.split('|')[0]).join(', ');
+        parts.push(`Черта: ${feats}`);
+      }
+      if (p.proficiency) {
+        const profs = p.proficiency.map((pr: any) =>
+          Object.entries(pr).map(([k, v]) => typeof v === 'boolean' ? k : `${k}`).join(', ')
+        ).join(', ');
+        if (profs) parts.push(`Владение: ${profs}`);
+      }
+      if (p.other) parts.push(p.other);
+      return parts.join(', ');
+    }).filter(Boolean).join('; ');
+  };
+
+  // ─── Форматирование способностей предыстории ───
+  const formatAbilityChoice = (ability: any[]): string => {
+    if (!ability?.length) return '';
+    return ability.map((a: any) => {
+      if (a.choose?.weighted?.from) {
+        const abilities: Record<string, string> = {
+          str: 'Сил', dex: 'Лов', con: 'Тел', int: 'Инт', wis: 'Мдр', cha: 'Хар',
+        };
+        const opts = a.choose.weighted.from.map((ab: string) => abilities[ab] || ab).join('/');
+        return `Выбор из: ${opts}`;
+      }
+      if (a.choose?.from) {
+        const abilities: Record<string, string> = {
+          str: 'Сил', dex: 'Лов', con: 'Тел', int: 'Инт', wis: 'Мдр', cha: 'Хар',
+        };
+        const opts = a.choose.from.map((ab: string) => abilities[ab] || ab).join('/');
+        return `Выбор из: ${opts}`;
+      }
+      // Фиксированные бонусы
+      const abilities: Record<string, string> = {
+        str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
+        int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
+      };
+      const fixed = Object.entries(a)
+        .filter(([k]) => ['str', 'dex', 'con', 'int', 'wis', 'cha'].includes(k))
+        .map(([k, v]) => `${abilities[k]} +${v}`)
+        .join(', ');
+      return fixed;
+    }).filter(Boolean).join('; ');
   };
 
   // ─── Рендеринг выбранного элемента ───
   const renderDetail = () => {
     if (!selectedEntry || !EntryRenderer) return null;
     const d = selectedEntry.data;
-    const entries = d.entries || d.raw?.entries || [];
-    const constants = categoryData?.constants || {};
     const type = activeCategory;
+    const constants = categoryData?.constants || {};
+
+    // Получаем entries из разных источников
+    let entries: any[] = [];
+    if (d.entries) entries = d.entries;
+    else if (d.raw?.entries) entries = d.raw.entries;
+    else if (d.entriesTemplate) entries = d.entriesTemplate;
 
     return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -344,13 +438,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               <X size={24} />
             </button>
           </div>
-          <div className="p-6">
+          <div className="p-6 space-y-4">
             {/* Мета-информация (теги) */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2">
               {d.source && (
                 <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">{d.source}</span>
               )}
-              {d.level !== undefined && (
+              {d.level !== undefined && type === 'spells' && (
                 <span className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs">
                   {d.level === 0 ? 'Заговор' : `${d.level} уровень`}
                 </span>
@@ -360,113 +454,186 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
                   {constants.SCHOOL_NAMES?.[d.school] || d.school}
                 </span>
               )}
+              {d.rarity && (
+                <span className="px-2 py-1 bg-amber-900/40 text-amber-300 rounded text-xs">{d.rarity}</span>
+              )}
+              {d.category && type === 'feats' && (
+                <span className="px-2 py-1 bg-green-900/40 text-green-300 rounded text-xs">
+                  {constants.FEAT_CATEGORY_NAMES?.[d.category] || d.category}
+                </span>
+              )}
             </div>
 
-            {/* Детальная информация для заклинаний */}
+            {/* ═══════════ ЗАКЛИНАНИЯ ═══════════ */}
             {type === 'spells' && (
-              <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-                {d.time && (
-                  <div><span className="text-gray-400">Время:</span> <span className="text-gray-200">{formatSpellTime(d.time)}</span></div>
-                )}
-                {d.range && (
-                  <div><span className="text-gray-400">Дистанция:</span> <span className="text-gray-200">{formatSpellRange(d.range)}</span></div>
-                )}
-                {d.components && (
-                  <div><span className="text-gray-400">Компоненты:</span> <span className="text-gray-200">{formatSpellComponents(d.components)}</span></div>
-                )}
-                {d.duration && (
-                  <div><span className="text-gray-400">Длительность:</span> <span className="text-gray-200">{formatSpellDuration(d.duration)}</span></div>
-                )}
-                {d.savingThrow && (
-                  <div><span className="text-gray-400">Спасбросок:</span> <span className="text-gray-200">{d.savingThrow.join(', ')}</span></div>
-                )}
-                {d.damageInflict && (
-                  <div><span className="text-gray-400">Урон:</span> <span className="text-gray-200">{d.damageInflict.join(', ')}</span></div>
-                )}
-              </div>
-            )}
-
-            {/* Детальная информация для черт */}
-            {type === 'feats' && d.prerequisite && (
-              <div className="mb-4 text-sm">
-                <span className="text-gray-400">Требования: </span>
-                <span className="text-gray-200">
-                  {d.prerequisite.map((p: any) => {
-                    const parts: string[] = [];
-                    if (p.level) parts.push(`${p.level} уровень`);
-                    if (p.ability) {
-                      const abs = Object.entries(p.ability[0] || {}).map(([k, v]) => `${k} ${v}+`).join(', ');
-                      if (abs) parts.push(abs);
-                    }
-                    if (p.spellcasting) parts.push('Заклинатель');
-                    if (p.proficiency) parts.push(JSON.stringify(p.proficiency));
-                    return parts.join(', ');
-                  }).join('; ')}
-                </span>
-              </div>
-            )}
-
-            {/* Детальная информация для видов */}
-            {type === 'species' && (
-              <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-                {d.size && (
-                  <div><span className="text-gray-400">Размер:</span> <span className="text-gray-200">
-                    {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join('/')}
-                  </span></div>
-                )}
-                {d.speed && (
-                  <div><span className="text-gray-400">Скорость:</span> <span className="text-gray-200">
-                    {typeof d.speed === 'number' ? `${d.speed} фт.` : `${d.speed.walk || 30} фт.`}
-                  </span></div>
-                )}
-                {d.darkvision && (
-                  <div><span className="text-gray-400">Тёмное зрение:</span> <span className="text-gray-200">{d.darkvision} фт.</span></div>
-                )}
-                {d.resist && (
-                  <div><span className="text-gray-400">Сопротивление:</span> <span className="text-gray-200">{d.resist.join(', ')}</span></div>
-                )}
-              </div>
-            )}
-
-            {/* Детальная информация для предысторий */}
-            {type === 'backgrounds' && (
-              <div className="space-y-2 mb-4 text-sm">
-                {d.skillProficiencies && d.skillProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Навыки: </span>
-                    <span className="text-gray-200">
-                      {d.skillProficiencies.map((sp: any) => Object.keys(sp).join(', ')).join('; ')}
-                    </span>
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  <div><span className="text-gray-400">Время накладывания: </span><span className="text-gray-200">{formatSpellTime(d.time) || '—'}</span></div>
+                  <div><span className="text-gray-400">Дистанция: </span><span className="text-gray-200">{formatSpellRange(d.range)}</span></div>
+                  <div><span className="text-gray-400">Компоненты: </span><span className="text-gray-200">{formatSpellComponents(d.components) || '—'}</span></div>
+                  <div><span className="text-gray-400">Длительность: </span><span className="text-gray-200">{formatSpellDuration(d.duration) || '—'}</span></div>
+                </div>
+                {(d.savingThrow || d.damageInflict) && (
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 pt-2 border-t border-gray-700">
+                    {d.savingThrow && (
+                      <div><span className="text-gray-400">Спасбросок: </span><span className="text-gray-200">{d.savingThrow.join(', ')}</span></div>
+                    )}
+                    {d.damageInflict && (
+                      <div><span className="text-gray-400">Тип урона: </span><span className="text-gray-200">{d.damageInflict.join(', ')}</span></div>
+                    )}
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ ЧЕРТЫ ═══════════ */}
+            {type === 'feats' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.prerequisite && d.prerequisite.length > 0 && (
+                  <div><span className="text-gray-400">Требования: </span><span className="text-gray-200">{formatPrerequisite(d.prerequisite)}</span></div>
+                )}
+                {d.ability && (
+                  <div><span className="text-gray-400">Бонус характеристики: </span><span className="text-gray-200">
+                    {d.ability.map((a: any) => Object.entries(a).map(([k, v]) => `${k} +${v}`).join(', ')).join('; ')}
+                  </span></div>
+                )}
+                {d.additionalSpells && (
+                  <div><span className="text-gray-400">Заклинания: </span><span className="text-gray-200">Да</span></div>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ ВИДЫ ═══════════ */}
+            {type === 'species' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  {d.size && (
+                    <div><span className="text-gray-400">Размер: </span><span className="text-gray-200">
+                      {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join(' или ')}
+                    </span></div>
+                  )}
+                  {d.speed !== undefined && (
+                    <div><span className="text-gray-400">Скорость: </span><span className="text-gray-200">
+                      {typeof d.speed === 'number' ? `${d.speed} фт.` :
+                        Object.entries(d.speed).map(([k, v]) => k === 'walk' ? `${v} фт.` : `${k}: ${v} фт.`).join(', ')}
+                    </span></div>
+                  )}
+                  {d.darkvision && (
+                    <div><span className="text-gray-400">Тёмное зрение: </span><span className="text-gray-200">{d.darkvision} фт.</span></div>
+                  )}
+                  {d.creatureTypes && (
+                    <div><span className="text-gray-400">Тип существа: </span><span className="text-gray-200">{d.creatureTypes.join(', ')}</span></div>
+                  )}
+                </div>
+                {d.resist && (
+                  <div><span className="text-gray-400">Сопротивление: </span><span className="text-gray-200">{d.resist.join(', ')}</span></div>
+                )}
+                {d.traitTags && (
+                  <div><span className="text-gray-400">Особенности: </span><span className="text-gray-200">{d.traitTags.join(', ')}</span></div>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ ПРЕДЫСТОРИИ ═══════════ */}
+            {type === 'backgrounds' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.ability && d.ability.length > 0 && (
+                  <div><span className="text-gray-400">Характеристики: </span><span className="text-gray-200">{formatAbilityChoice(d.ability)}</span></div>
+                )}
+                {d.skillProficiencies && d.skillProficiencies.length > 0 && (
+                  <div><span className="text-gray-400">Навыки: </span><span className="text-gray-200">
+                    {d.skillProficiencies.map((sp: any) => Object.keys(sp).filter(k => k !== 'choose').join(', ')).join('; ')}
+                  </span></div>
                 )}
                 {d.toolProficiencies && d.toolProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Инструменты: </span>
-                    <span className="text-gray-200">
-                      {d.toolProficiencies.map((tp: any) =>
-                        Object.entries(tp).map(([k, v]) => typeof v === 'boolean' ? k : `${k}: ${v}`).join(', ')
-                      ).join('; ')}
-                    </span>
-                  </div>
+                  <div><span className="text-gray-400">Инструменты: </span><span className="text-gray-200">
+                    {d.toolProficiencies.map((tp: any) => Object.keys(tp).filter(k => k !== 'choose').join(', ')).join('; ')}
+                  </span></div>
                 )}
                 {d.languageProficiencies && d.languageProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Языки: </span>
-                    <span className="text-gray-200">
-                      {d.languageProficiencies.map((lp: any) =>
-                        Object.entries(lp).map(([k, v]) => typeof v === 'boolean' ? k : `${k}: ${v}`).join(', ')
-                      ).join('; ')}
-                    </span>
-                  </div>
+                  <div><span className="text-gray-400">Языки: </span><span className="text-gray-200">
+                    {d.languageProficiencies.map((lp: any) => {
+                      const langs = Object.entries(lp).filter(([k]) => k !== 'anyStandard' && k !== 'choose');
+                      const anyCount = lp.anyStandard || lp.choose?.count || 0;
+                      const fixed = langs.map(([k]) => k).join(', ');
+                      const any = anyCount > 0 ? `+${anyCount} на выбор` : '';
+                      return [fixed, any].filter(Boolean).join(', ');
+                    }).join('; ')}
+                  </span></div>
                 )}
                 {d.feats && d.feats.length > 0 && (
-                  <div><span className="text-gray-400">Черта: </span>
+                  <div><span className="text-gray-400">Черта: </span><span className="text-gray-200">
+                    {d.feats.map((f: any) => Object.keys(f)[0]?.split('|')[0]).join(', ')}
+                  </span></div>
+                )}
+                {d.startingEquipment && d.startingEquipment.length > 0 && (
+                  <div className="pt-2 border-t border-gray-700">
+                    <span className="text-gray-400">Начальное снаряжение: </span>
                     <span className="text-gray-200">
-                      {d.feats.map((f: any) => Object.keys(f).join(', ')).join('; ')}
+                      {d.startingEquipment.map((eq: any) => {
+                        if (eq.A) {
+                          return eq.A.map((item: any) => {
+                            if (typeof item === 'string') return item;
+                            if (item.item) return item.displayName || item.item.split('|')[0];
+                            if (item.value) return `${item.value / 100} зм`;
+                            return '';
+                          }).filter(Boolean).join(', ');
+                        }
+                        return '';
+                      }).filter(Boolean).join(' или ')}
                     </span>
                   </div>
                 )}
               </div>
             )}
 
-            {/* Основной контент */}
+            {/* ═══════════ ПРЕДМЕТЫ ═══════════ */}
+            {type === 'items' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {/* Для шаблонов предметов (items) */}
+                {d._type === 'template' && d.raw && (
+                  <>
+                    <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type}</span></div>
+                    {d.weight && <div><span className="text-gray-400">Вес: </span><span className="text-gray-200">{d.weight} фунт.</span></div>}
+                    {d.value && <div><span className="text-gray-400">Цена: </span><span className="text-gray-200">{d.value} зм</span></div>}
+                    {d.description && <div className="text-gray-200">{d.description}</div>}
+                  </>
+                )}
+                {/* Для базовых предметов (items-base) */}
+                {d._type === 'base' && (
+                  <>
+                    {d.type && <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type}</span></div>}
+                    {d.rarity && <div><span className="text-gray-400">Редкость: </span><span className="text-gray-200">{d.rarity}</span></div>}
+                    {d.reqAttune && <div><span className="text-gray-400">Настройка: </span><span className="text-gray-200">
+                      {typeof d.reqAttune === 'string' ? d.reqAttune : 'Требуется'}
+                    </span></div>}
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ СПОСОБНОСТИ (Optional Features) ═══════════ */}
+            {type === 'optionalfeatures' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.featureType && (
+                  <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">
+                    {d.featureType.map((t: string) => constants.FEATURE_TYPE_NAMES?.[t] || t).join(', ')}
+                  </span></div>
+                )}
+                {d.prerequisite && d.prerequisite.length > 0 && (
+                  <div><span className="text-gray-400">Требования: </span><span className="text-gray-200">{formatPrerequisite(d.prerequisite)}</span></div>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ СОСТОЯНИЯ ═══════════ */}
+            {type === 'conditions' && d.type && (
+              <div className="bg-gray-800/50 rounded-lg p-4 text-sm">
+                <span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type === 'condition' ? 'Состояние' : 'Болезнь'}</span>
+              </div>
+            )}
+
+            {/* ═══════════ ОСНОВНОЙ КОНТЕНТ ═══════════ */}
             {entries.length > 0 && (
               <div className="prose prose-invert prose-sm max-w-none">
                 <EntryRenderer entries={entries} context={d.name || ''} onNavigate={handleNavigate} />
@@ -475,14 +642,15 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* EntriesHigherLevel для заклинаний */}
             {d.entriesHigherLevel?.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-700">
+              <div className="pt-4 border-t border-gray-700">
+                <h4 className="text-sm font-medium text-gray-300 mb-2">На более высоких уровнях</h4>
                 <EntryRenderer entries={d.entriesHigherLevel} context={d.name || ''} onNavigate={handleNavigate} />
               </div>
             )}
 
             {/* Fluff текст */}
             {d.fluff && (
-              <div className="mt-4 pt-4 border-t border-gray-700">
+              <div className="pt-4 border-t border-gray-700">
                 <div className="text-sm italic text-gray-400">
                   {Array.isArray(d.fluff) ? (
                     <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
@@ -497,13 +665,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* Классы для заклинаний */}
             {type === 'spells' && d.classes?.fromClassList && (
-              <div className="mt-4 pt-4 border-t border-gray-700">
-                <div className="text-sm text-gray-400">
-                  <span className="font-medium">Классы: </span>
-                  <span className="text-gray-300">
-                    {d.classes.fromClassList.map((c: any) => c.name).join(', ')}
-                  </span>
-                </div>
+              <div className="pt-4 border-t border-gray-700 text-sm">
+                <span className="text-gray-400">Классы: </span>
+                <span className="text-gray-300">{d.classes.fromClassList.map((c: any) => c.name).join(', ')}</span>
               </div>
             )}
           </div>
