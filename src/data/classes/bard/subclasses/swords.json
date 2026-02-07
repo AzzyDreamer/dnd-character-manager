@@ -1,0 +1,11 @@
+{
+  "id": "swords",
+  "name": "Коллегия Мечей",
+  "classId": "bard",
+  "description": "Bards of the College of Swords are called blades, and they entertain through daring feats of weapon prowess. Blades perform stunts such as sword swallowing, knife throwing and juggling, and mock combats. Though they use their weapons to entertain, they are also highly trained and skilled warriors in their own right.",
+  "shortDescription": "Entertain and Fight with Blade Flourishes",
+  "source": "XGE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": []
+}

@@ -1,0 +1,23 @@
+{
+  "id": "dance",
+  "name": "Коллегия Танца",
+  "classId": "bard",
+  "description": "Bards of the College of Dance know that the Words of Creation can't be contained within speech or song; the words are uttered by the movements of celestial bodies and flow through the motions of the smallest creatures. These Bards practice a way of being in harmony with the whirling cosmos that emphasizes agility, speed, and grace.",
+  "shortDescription": "Move in Harmony with the Cosmos",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Dazzling Footwork",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "While you aren't wearing armor or wielding a {@item Shield|XPHB}, you gain the following benefits.",
+      "details": {
+        "danceVirtuoso": "You have {@variantrule Advantage|XPHB} on any Charisma ({@skill Performance}) check you make that involves dancing.",
+        "unarmoredDefense": "Your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity and Charisma modifiers.",
+        "agileStrikes": "When you expend a use of your Bardic Inspiration as part of an action, a {@action Bonus Action|XPHB}, or a {@variantrule Reaction|XPHB}, you can make one {@variantrule Unarmed Strike|XPHB} as part of that action, {@action Bonus Action|XPHB}, or {@variantrule Reaction|XPHB}.",
+        "bardicDamage": "You can use Dexterity instead of Strength for the attack rolls of your Unarmed Strikes. When you deal damage with an {@variantrule Unarmed Strike|XPHB}, you can deal Bludgeoning damage equal to a roll of your Bardic Inspiration die plus your Dexterity modifier, instead of the strike's normal damage. This roll doesn't expend the die."
+      }
+    }
+  ]
+}

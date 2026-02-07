@@ -1,0 +1,11 @@
+{
+  "id": "whispers",
+  "name": "Коллегия Шёпотов",
+  "classId": "bard",
+  "description": "Most folk are happy to welcome a bard into their midst. Bards of the College of Whispers use this to their advantage. They appear to be like any other bard, sharing news, singing songs, and telling tales to the audiences they gather. In truth, the College of Whispers teaches its students that they are wolves among sheep.",
+  "shortDescription": "Use Secrets and Fears as Weapons",
+  "source": "XGE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": []
+}

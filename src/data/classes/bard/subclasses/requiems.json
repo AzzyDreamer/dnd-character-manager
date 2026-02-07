@@ -1,0 +1,27 @@
+{
+  "id": "requiems",
+  "name": "Коллегия Реквиемов",
+  "classId": "bard",
+  "description": "Performing macabre melodies filled with grief-stricken chords and mournful refrains, the College of Requiems stirs the very bones of the dead. Requiem Bards weave necromantic magic into their funerary songs to control and empower a host of Undead minions.",
+  "shortDescription": "Sing the Songs of the Dead",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Chilling Melody",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You learn two Necromancy cantrips of your choice. These count as Bard spells for you but don't count against the number of cantrips you know."
+    },
+    {
+      "name": "Pluck the Heartstrings",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your Bardic Inspiration can pluck at the tethers of life. Each creature that has a Bardic Inspiration die from you can use it for one of the following effects.",
+      "details": {
+        "defense": "When the creature is reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, the creature can roll the Bardic Inspiration die to be reduced to a number of {@variantrule Hit Points|XPHB} rolled on the Bardic Inspiration die instead.",
+        "offense": "Immediately after the creature hits a target with an attack roll, the creature can roll the Bardic Inspiration die and add the number rolled as extra Necrotic damage dealt by the attack."
+      }
+    }
+  ]
+}

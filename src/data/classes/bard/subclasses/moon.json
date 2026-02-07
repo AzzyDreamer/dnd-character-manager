@@ -1,0 +1,11 @@
+{
+  "id": "moon",
+  "name": "Коллегия Луны",
+  "classId": "bard",
+  "description": "Bards of the College of the Moon are itinerant musicians who weave the bytes of moonlight into their performances.",
+  "shortDescription": "Weave Moonlight into Performance",
+  "source": "FRHoF",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": []
+}

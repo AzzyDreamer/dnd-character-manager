@@ -1,0 +1,24 @@
+{
+  "id": "eloquence",
+  "name": "Коллегия Красноречия",
+  "classId": "bard",
+  "description": "Adherents of the College of Eloquence master the art of oratory. Persuasion is regarded as a high art, and a well-reasoned, well-spoken argument often proves more persuasive than facts. These bards wield a blend of logic and theatrical wordplay, winning over skeptics and detractors with logical arguments and plucking at heartstrings to appeal to the emotions of audiences.",
+  "shortDescription": "Master the Art of Oratory",
+  "source": "TCE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Silver Tongue",
+      "level": 3,
+      "source": "TCE",
+      "description": "You are a master at saying the right thing at the right time. When you make a Charisma ({@skill Persuasion}) or Charisma ({@skill Deception}) check, you can treat a {@dice d20} roll of 9 or lower as a 10."
+    },
+    {
+      "name": "Unsettling Words",
+      "level": 3,
+      "source": "TCE",
+      "description": "You can spin words laced with magic that unsettle a creature and cause it to doubt itself. As a bonus action, you can expend one use of your Bardic Inspiration and choose one creature you can see within 60 feet of you. Roll the Bardic Inspiration die. The creature must subtract the number rolled from the next saving throw it makes before the start of your next turn."
+    }
+  ]
+}

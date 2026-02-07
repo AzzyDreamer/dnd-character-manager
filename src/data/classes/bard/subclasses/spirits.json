@@ -1,0 +1,11 @@
+{
+  "id": "spirits",
+  "name": "Коллегия Духов",
+  "classId": "bard",
+  "description": "Bards of the College of Spirits seek tales with inherent power—be they legends, histories, or fictions—and bring their subjects to life. Using occult trappings, these bards conjure spiritual embodiments of powerful forces to change the world once more. Such bards congregate in candlelit séances, at ## forgotten shrines, and at crossroads to reach the dead and channel otherworldly forces.",
+  "shortDescription": "Seek Tales with Inherent Power",
+  "source": "VRGR",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": []
+}

@@ -1,0 +1,171 @@
+{
+  "id": "bard",
+  "name": "Бард",
+  "source": "PHB'24",
+  "page": 58,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d8",
+  "hitPointsAtFirstLevel": "8 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d8 (or 5) + your Constitution modifier per Bard level after 1st",
+  "primaryAbility": ["charisma"],
+  "savingThrows": ["dexterity", "charisma"],
+  "spellcaster": true,
+  "spellcastingAbility": "charisma",
+  "description": "Бард — вдохновляющий маг, чья сила проистекает из музыки, слов и танца. Мастер на все руки.",
+  "proficiencies": {
+    "armor": ["Light armor"],
+    "weapons": ["Simple weapons"],
+    "tools": ["Choose three Musical Instruments"],
+    "skillChoices": {
+      "count": 3,
+      "from": ["any"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "Musical Instrument of your choice", "{@item Entertainer's Pack|XPHB}", "19 GP"],
+    "optionB": ["90 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Charisma 13",
+    "skillProficiencies": "Choose any 1 skill",
+    "toolProficiencies": "Choose one {@item Musical Instrument|XPHB}",
+    "armorTraining": ["Light armor"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Bardic Inspiration", "Spellcasting"],         "bardicDie": "1d6",  "cantrips": 2, "preparedSpells": 4,  "spellSlots": [2,0,0,0,0,0,0,0,0] },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Expertise", "Jack of All Trades"],             "bardicDie": "1d6",  "cantrips": 2, "preparedSpells": 5,  "spellSlots": [3,0,0,0,0,0,0,0,0] },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Bard Subclass"],                               "bardicDie": "1d6",  "cantrips": 2, "preparedSpells": 6,  "spellSlots": [4,2,0,0,0,0,0,0,0] },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                   "bardicDie": "1d6",  "cantrips": 3, "preparedSpells": 7,  "spellSlots": [4,3,0,0,0,0,0,0,0] },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Font of Inspiration"],                         "bardicDie": "1d8",  "cantrips": 3, "preparedSpells": 9,  "spellSlots": [4,3,2,0,0,0,0,0,0] },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                            "bardicDie": "1d8",  "cantrips": 3, "preparedSpells": 10, "spellSlots": [4,3,3,0,0,0,0,0,0] },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Countercharm"],                                "bardicDie": "1d8",  "cantrips": 3, "preparedSpells": 11, "spellSlots": [4,3,3,1,0,0,0,0,0] },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                   "bardicDie": "1d8",  "cantrips": 3, "preparedSpells": 12, "spellSlots": [4,3,3,2,0,0,0,0,0] },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Expertise"],                                   "bardicDie": "1d8",  "cantrips": 3, "preparedSpells": 14, "spellSlots": [4,3,3,3,1,0,0,0,0] },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Magical Secrets"],                             "bardicDie": "1d10", "cantrips": 4, "preparedSpells": 15, "spellSlots": [4,3,3,3,2,0,0,0,0] },
+    { "level": 11, "proficiencyBonus": 4, "features": [],                                              "bardicDie": "1d10", "cantrips": 4, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                   "bardicDie": "1d10", "cantrips": 4, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 13, "proficiencyBonus": 5, "features": [],                                              "bardicDie": "1d10", "cantrips": 4, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Subclass Feature"],                            "bardicDie": "1d10", "cantrips": 4, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 15, "proficiencyBonus": 5, "features": [],                                              "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                   "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 17, "proficiencyBonus": 6, "features": [],                                              "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 19, "spellSlots": [4,3,3,3,2,1,1,1,1] },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Superior Inspiration"],                        "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 20, "spellSlots": [4,3,3,3,3,1,1,1,1] },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                   "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 21, "spellSlots": [4,3,3,3,3,2,1,1,1] },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Words of Creation"],                           "bardicDie": "1d12", "cantrips": 4, "preparedSpells": 22, "spellSlots": [4,3,3,3,3,2,2,1,1] }
+  ],
+  "classFeatures": [
+    {
+      "name": "Bardic Inspiration",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 59,
+      "description": "You can supernaturally inspire others through words, music, or dance. This inspiration is represented by your Bardic Inspiration die, which is a {@dice d6}.",
+      "details": {
+        "usingBardicInspiration": "As a {@action Bonus Action|XPHB}, you can inspire another creature within 60 feet of yourself who can see or hear you. That creature gains one of your Bardic Inspiration dice. A creature can have only one Bardic Inspiration die at a time. Once within the next hour when the creature fails a {@variantrule D20 Test|XPHB}, the creature can roll the Bardic Inspiration die and add the number rolled to the {@dice d20}, potentially turning the failure into a success. A Bardic Inspiration die is expended when it's rolled.",
+        "numberOfUses": "You can confer a Bardic Inspiration die a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        "atHigherLevels": "Your Bardic Inspiration die changes when you reach certain Bard levels, as shown in the Bardic Die column of the Bard Features table. The die becomes a {@dice d8} at level 5, a {@dice d10} at level 10, and a {@dice d12} at level 15."
+      }
+    },
+    {
+      "name": "Spellcasting",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 59,
+      "description": "You have learned to cast spells through your bardic arts. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Bard spells, which appear in the {@filter Bard spell list}.",
+      "details": {
+        "cantrips": "You know two cantrips of your choice from the {@filter Bard spell list}. {@spell Dancing Lights|XPHB} and {@spell Vicious Mockery|XPHB} are recommended. Whenever you gain a Bard level, you can replace one of your cantrips with another cantrip of your choice from the {@filter Bard spell list}. When you reach Bard levels 4 and 10, you learn another cantrip of your choice from the {@filter Bard spell list}, as shown in the Cantrips column of the Bard Features table.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the {@filter Bard spell list}. {@spell Charm Person|XPHB}, {@spell Color Spray|XPHB}, {@spell Dissonant Whispers|XPHB}, and {@spell Healing Word|XPHB} are recommended. The number of spells on your list increases as you gain Bard levels, as shown in the Prepared Spells column of the Bard Features table. Whenever that number increases, choose additional spells from the {@filter Bard spell list} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. If another Bard feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Bard spells for you.",
+        "changingPreparedSpells": "Whenever you gain a Bard level, you can replace one spell on your list with another Bard spell for which you have spell slots.",
+        "spellcastingAbility": "Charisma is your spellcasting ability for your Bard spells.",
+        "spellcastingFocus": "You can use a {@item Musical Instrument|XPHB} as a {@variantrule Spellcasting Focus|XPHB} for your Bard spells."
+      }
+    },
+    {
+      "name": "Expertise",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 60,
+      "description": "You gain {@variantrule Expertise|XPHB} in two of your skill proficiencies of your choice. {@skill Performance} and {@skill Persuasion} are recommended if you have proficiency in them. At Bard level 9, you gain {@variantrule Expertise|XPHB} in two more of your skill proficiencies of your choice."
+    },
+    {
+      "name": "Jack of All Trades",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 60,
+      "description": "You can add half your {@variantrule Proficiency Bonus|XPHB} (round down) to any ability check you make that uses a skill proficiency you lack and that doesn't otherwise use your {@variantrule Proficiency Bonus|XPHB}. For example, if you make a Strength ({@skill Athletics}) check and lack {@skill Athletics} proficiency, you can add half your {@variantrule Proficiency Bonus|XPHB} to the check."
+    },
+    {
+      "name": "Bard Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 60,
+      "description": "You gain a Bard subclass of your choice. A subclass is a specialization that grants you features at certain Bard levels. For the rest of your career, you gain each of your subclass's features that are of your Bard level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16."
+    },
+    {
+      "name": "Font of Inspiration",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "You now also regain all your expended uses of Bardic Inspiration when you finish a {@variantrule Short Rest|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Bard subclass."
+    },
+    {
+      "name": "Countercharm",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You can use musical notes or words of power to disrupt mind-influencing effects. If you or a creature within 30 feet of you fails a saving throw against an effect that applies the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition, you can take a {@variantrule Reaction|XPHB} to cause the save to be rerolled, and the new roll has {@variantrule Advantage|XPHB}."
+    },
+    {
+      "name": "Expertise",
+      "level": 9,
+      "source": "PHB'24",
+      "description": "You gain {@variantrule Expertise|XPHB} in two more of your skill proficiencies of your choice."
+    },
+    {
+      "name": "Magical Secrets",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You have collected magical knowledge from a wide spectrum of disciplines. Whenever you prepare your Bard spells, two of the spells you prepare can be from any spell list. A spell you choose must be of a level you can cast, as shown on the Bard Features table, or a cantrip. The chosen spells count as Bard spells for you."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Bard subclass."
+    },
+    {
+      "name": "Superior Inspiration",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "When you roll {@variantrule Initiative|XPHB} and have no uses of Bardic Inspiration left, you regain two expended uses of it."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Spell Recall|XPHB} is recommended."
+    },
+    {
+      "name": "Words of Creation",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "You have mastered two of the Words of Creation: the words of life and death. You therefore always have {@spell Power Word Heal|XPHB} and {@spell Power Word Kill|XPHB} prepared. When you use either spell, you can target a second creature with it if that creature is within 10 feet of the first target."
+    }
+  ],
+  "subclassIds": [
+    "adventurers", "creation", "dance", "eloquence", "fools",
+    "glamour", "lore", "moon", "requiems", "spirits",
+    "swords", "valor", "whispers"
+  ]
+}

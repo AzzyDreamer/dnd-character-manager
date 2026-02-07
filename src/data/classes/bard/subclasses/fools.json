@@ -1,0 +1,23 @@
+{
+  "id": "fools",
+  "name": "Коллегия Шутов",
+  "classId": "bard",
+  "description": "It's commonly believed the College of Fools is merely a front for a cult of Beleth. Bards in the College would say their relationship with the Arch Daemon of Fear is much more complicated. These Bards choose to laugh at Etharis's many horrors rather than be dismayed by them—a whimsical, if ghoulish, philosophy. Their delight in other creatures' terror encourages their outsized antics and cruel jests. One person's trick is another person's terror, after all.",
+  "shortDescription": "Laugh at Your Foes' Terror",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Antagonistic Antics",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You know the {@spell Vicious Mockery|XPHB} cantrip. If you already know it, you learn a different Bard cantrip of your choice. The cantrip doesn't count against your number of cantrips known. Additionally, you always have the {@spell Dissonant Whispers|XPHB} spell prepared. In addition, when you take the {@action Dash|XPHB}, {@action Disengage|XPHB}, or {@action Influence|XPHB} action on your turn, you can take a {@action Bonus Action|XPHB} on the same turn to cast {@spell Vicious Mockery|XPHB}."
+    },
+    {
+      "name": "Cruel Jest",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "When a creature that you can see or hear within 30 feet of yourself fails a {@variantrule D20 Test|XPHB}, you can take a {@variantrule Reaction|XPHB} to expend one use of your Bardic Inspiration, roll your Bardic Inspiration die and deal Psychic damage equal to the number rolled plus your Charisma modifier. In addition, the creature has {@variantrule Disadvantage|XPHB} on the next {@variantrule D20 Test|XPHB} it makes before the end of its next turn."
+    }
+  ]
+}
