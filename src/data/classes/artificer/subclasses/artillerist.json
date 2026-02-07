@@ -2,8 +2,57 @@
   "id": "artillerist",
   "name": "Артиллерист",
   "classId": "artificer",
-  "description": "Создаёт магические пушки-конструкты для огневой поддержки.",
+  "description": "An Artillerist specializes in using magic to hurl energy, projectiles, and explosions on a battlefield.",
+  "shortDescription": "Wield Destructive Power from Afar",
   "source": "EFA",
+  "page": 13,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Tools of the Trade",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "rangedWeaponry": "You gain proficiency with Martial Ranged weapons.",
+        "toolProficiency": "You gain proficiency with {@item Woodcarver's Tools|XPHB}. If you already have this proficiency, you gain proficiency with one other type of {@item Artisan's Tools|XPHB} of your choice.",
+        "wandCrafting": "When you craft a magic {@item Wand|XPHB}, the amount of time required to craft it is halved."
+      }
+    },
+    {
+      "name": "Artillerist Spells",
+      "level": 3,
+      "source": "EFA",
+      "description": "When you reach an Artificer level specified in the Artillerist Spells table, you thereafter always have the listed spells prepared.",
+      "spells": [
+        { "artificerLevel": 3,  "spells": ["{@spell Shield|XPHB}", "{@spell Thunderwave|XPHB}"] },
+        { "artificerLevel": 5,  "spells": ["{@spell Scorching Ray|XPHB}", "{@spell Shatter|XPHB}"] },
+        { "artificerLevel": 9,  "spells": ["{@spell Fireball|XPHB}", "{@spell Wind Wall|XPHB}"] },
+        { "artificerLevel": 13, "spells": ["{@spell Ice Storm|XPHB}", "{@spell Wall of Fire|XPHB}"] },
+        { "artificerLevel": 17, "spells": ["{@spell Cone of Cold|XPHB}", "{@spell Wall of Force|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Eldritch Cannon",
+      "level": 3,
+      "source": "EFA",
+      "description": "Using {@item Smith's Tools|XPHB} or {@item Woodcarver's Tools|XPHB}, you can take a {@action Magic|XPHB} action to create a Small or Tiny {@creature Eldritch Cannon|EFA} in an unoccupied space on a horizontal surface within 5 feet of yourself. You determine its appearance, including whether you carry it or not (and your choice of legs or wheels, for the latter). It disappears if it is reduced to 0 {@variantrule Hit Points|XPHB} or after 1 hour. You can dismiss it early as a {@action Magic|XPHB} action. Once you create a cannon, you can't do so again until you finish a {@variantrule Long Rest|XPHB} or expend a spell slot to create one. You can have only one cannon at a time and can't create one while you already have one."
+    },
+    {
+      "name": "Arcane Firearm",
+      "level": 5,
+      "source": "EFA",
+      "description": "When you finish a {@variantrule Long Rest|XPHB}, you can use {@item Woodcarver's Tools|XPHB} to carve special sigils into a Rod, Staff, {@item Wand|XPHB}, or Martial Ranged weapon and thereby turn it into your Arcane Firearm. The sigils disappear from the object if you later carve them on a different item. The sigils otherwise last indefinitely. You can use your Arcane Firearm as a {@variantrule Spellcasting Focus|XPHB} for your Artificer spells. When you cast an Artificer spell through the firearm, roll {@dice 1d8}, and you gain a bonus to one of the spell's damage rolls equal to the number rolled."
+    },
+    {
+      "name": "Explosive Cannon",
+      "level": 9,
+      "source": "EFA",
+      "description": "Every {@creature Eldritch Cannon|EFA} you create is now more destructive. You gain the following benefits.",
+      "details": {
+        "detonate": "When your cannon takes damage, you can take a {@variantrule Reaction|XPHB} to command the cannon to detonate if you are within 60 feet of it. Doing so destroys the cannon and forces each creature within 20 feet of it to make a Dexterity saving throw against your spell save DC, taking {@damage 3d10} Force damage on a failed save or half as much damage on a successful one.",
+        "firepower": "The cannon's damage rolls and the number of {@variantrule Temporary Hit Points|XPHB} granted by Protector increase by {@dice 1d8}."
+      }
+    }
+  ]
 }

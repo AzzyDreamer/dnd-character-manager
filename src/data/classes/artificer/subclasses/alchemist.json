@@ -2,8 +2,65 @@
   "id": "alchemist",
   "name": "Алхимик",
   "classId": "artificer",
-  "description": "Создаёт магические эликсиры и зелья с чудесными свойствами.",
+  "description": "An Alchemist is an expert at combining reagents to produce magical effects. Alchemists use their creations to give life and to leech it away.",
+  "shortDescription": "Craft Magic Elixirs and Potions",
   "source": "EFA",
+  "page": 11,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Tools of the Trade",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "toolProficiency": "You gain proficiency with {@item Alchemist's Supplies|XPHB} and the {@item Herbalism Kit|XPHB}. If you already have one of these proficiencies, you gain proficiency with one other type of {@item Artisan's Tools|XPHB} of your choice (or with two other types if you have both).",
+        "potionCrafting": "When you brew a potion using the crafting rules in the {@book Dungeon Master's Guide|DMG}, the amount of time required to craft it is halved."
+      }
+    },
+    {
+      "name": "Alchemist Spells",
+      "level": 3,
+      "source": "EFA",
+      "description": "When you reach an Artificer level specified in the Alchemist Spells table, you thereafter always have the listed spells prepared.",
+      "spells": [
+        { "artificerLevel": 3,  "spells": ["{@spell Healing Word|XPHB}", "{@spell Ray of Sickness|XPHB}"] },
+        { "artificerLevel": 5,  "spells": ["{@spell Flaming Sphere|XPHB}", "{@spell Melf's Acid Arrow|XPHB}"] },
+        { "artificerLevel": 9,  "spells": ["{@spell Gaseous Form|XPHB}", "{@spell Mass Healing Word|XPHB}"] },
+        { "artificerLevel": 13, "spells": ["{@spell Death Ward|XPHB}", "{@spell Vitriolic Sphere|XPHB}"] },
+        { "artificerLevel": 17, "spells": ["{@spell Cloudkill|XPHB}", "{@spell Raise Dead|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Experimental Elixir",
+      "level": 3,
+      "source": "EFA",
+      "description": "Whenever you finish a {@variantrule Long Rest|XPHB} while holding {@item Alchemist's Supplies|XPHB}, you can use that tool to magically produce two elixirs. For each elixir, roll on the Experimental Elixir table for the elixir's effect, which is triggered when someone drinks the elixir. The elixir appears in a vial, and the vial vanishes when the elixir is drunk or poured out. If any elixir remains when you finish a {@variantrule Long Rest|XPHB}, the elixir and its vial vanish.",
+      "details": {
+        "drinkingAnElixir": "As a {@action Bonus Action|XPHB}, a creature can drink the elixir or administer it to another creature within 5 feet of itself.",
+        "creatingAdditionalElixirs": "As a {@action Magic|XPHB} action while holding {@item Alchemist's Supplies|XPHB}, you can expend one spell slot to create another elixir. When you do so, you choose its effect from the Experimental Elixir table rather than rolling.",
+        "additionalElixirsPerRest": "When you reach certain Artificer levels, you can make an additional elixir at the end of each {@variantrule Long Rest|XPHB}: a total of three at level 5, four at level 9, and five at level 15.",
+        "experimentalElixirTable": [
+          { "roll": 1, "name": "Healing", "effect": "The drinker regains a number of {@variantrule Hit Points|XPHB} equal to {@dice 2d6} plus your Intelligence modifier. The number of {@variantrule Hit Points|XPHB} restored increases by {@dice 1d8} when you reach Artificer levels 9 ({@dice 3d6}) and 15 ({@dice 4d6})." },
+          { "roll": 2, "name": "Swiftness", "effect": "The drinker's {@variantrule Speed|XPHB} increases by 10 feet for 1 hour. This bonus increases when you reach Artificer levels 9 (15 feet) and 15 (20 feet)." },
+          { "roll": 3, "name": "Resilience", "effect": "The drinker gains a +1 bonus to AC for 10 minutes. The duration increases when you reach Artificer levels 9 (1 hour) and 15 (8 hours)." },
+          { "roll": 4, "name": "Boldness", "effect": "The drinker can roll {@dice 1d4} and add the number rolled to every attack roll and saving throw they make for the next minute. The duration increases when you reach Artificer levels 9 (10 minutes) and 15 (1 hour)." },
+          { "roll": 5, "name": "Flight", "effect": "The drinker gains a {@variantrule Fly Speed|XPHB} of 10 feet for 10 minutes. The {@variantrule Fly Speed|XPHB} increases when you reach Artificer levels 9 (20 feet) and 15 (30 feet)." },
+          { "roll": 6, "name": "Transformation", "effect": "You determine the elixir's effect by choosing one of the other rows in this table." }
+        ]
+      }
+    },
+    {
+      "name": "Alchemical Savant",
+      "level": 5,
+      "source": "EFA",
+      "description": "Whenever you cast a spell using your {@item Alchemist's Supplies|XPHB} as the {@variantrule Spellcasting Focus|XPHB}, you gain a bonus to one roll of the spell. That roll must restore {@variantrule Hit Points|XPHB} or be a damage roll that deals Acid, Fire, or Poison damage. The bonus equals your Intelligence modifier (minimum bonus of +1)."
+    },
+    {
+      "name": "Restorative Reagents",
+      "level": 9,
+      "source": "EFA",
+      "description": "You can cast {@spell Lesser Restoration|XPHB} without expending a spell slot and without preparing the spell, provided you use {@item Alchemist's Supplies|XPHB} as the {@variantrule Spellcasting Focus|XPHB}. You can do so a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }

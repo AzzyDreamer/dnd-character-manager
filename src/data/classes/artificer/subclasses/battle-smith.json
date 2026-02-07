@@ -2,8 +2,72 @@
   "id": "battle-smith",
   "name": "Боевой Кузнец",
   "classId": "artificer",
-  "description": "Сражается вместе со стальным защитником-конструктом.",
+  "description": "A Battle Smith is a combination of protector and medic, an expert at defending others and repairing both materiel and personnel. To aid in their work, Battle Smiths are accompanied by a {@creature Steel Defender|EFA}, a protective companion of their own creation.",
+  "shortDescription": "Command a Construct Guardian",
   "source": "EFA",
+  "page": 14,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Tools of the Trade",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "toolProficiency": "You gain proficiency with {@item Smith's Tools|XPHB}. If you already have this proficiency, you gain proficiency with one other type of {@item Artisan's Tools|XPHB} of your choice.",
+        "weaponCrafting": "When you craft a nonmagical or magic weapon, the amount of time required to craft it is halved."
+      }
+    },
+    {
+      "name": "Battle Smith Spells",
+      "level": 3,
+      "source": "EFA",
+      "description": "When you reach an Artificer level specified in the Battle Smith Spells table, you thereafter always have the listed spells prepared.",
+      "spells": [
+        { "artificerLevel": 3,  "spells": ["{@spell Heroism|XPHB}", "{@spell Shield|XPHB}"] },
+        { "artificerLevel": 5,  "spells": ["{@spell Shining Smite|XPHB}", "{@spell Warding Bond|XPHB}"] },
+        { "artificerLevel": 9,  "spells": ["{@spell Aura of Vitality|XPHB}", "{@spell Conjure Barrage|XPHB}"] },
+        { "artificerLevel": 13, "spells": ["{@spell Aura of Purity|XPHB}", "{@spell Fire Shield|XPHB}"] },
+        { "artificerLevel": 17, "spells": ["{@spell Banishing Smite|XPHB}", "{@spell Mass Cure Wounds|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Battle Ready",
+      "level": 3,
+      "source": "EFA",
+      "description": "Your combat training and your experiments with magic have paid off in two ways.",
+      "details": {
+        "arcaneEmpowerment": "When you attack with a magic weapon, you can use your Intelligence modifier, instead of your Strength or Dexterity modifier, for the attack and damage rolls.",
+        "weaponKnowledge": "You gain proficiency with {@variantrule Martial weapons|XPHB}. You can use a weapon with which you have proficiency as a {@variantrule Spellcasting Focus|XPHB} for your Artificer spells."
+      }
+    },
+    {
+      "name": "Steel Defender",
+      "level": 3,
+      "source": "EFA",
+      "description": "Your tinkering has borne you a companion, a {@creature Steel Defender|EFA}. You determine the defender's appearance and whether it has two legs or four; your choices don't affect the defender's game statistics. It vanishes if you die.",
+      "details": {
+        "friendly": "The {@creature Steel Defender|EFA} is {@variantrule Friendly|XPHB} to you and your allies and obeys you.",
+        "defenderInCombat": "In combat, the defender acts during your turn. It can move and take its {@variantrule Reaction|XPHB} on its own, but the only action it takes is the {@action Dodge|XPHB} action unless you take a {@action Bonus Action|XPHB} to command it to take an action. If you have the {@condition Incapacitated|XPHB} condition, the defender acts on its own and isn't limited to the {@action Dodge|XPHB} action.",
+        "restoringOrReplacing": "If the defender has died within the last hour, you can take a {@action Magic|XPHB} action to touch it and expend a spell slot. The defender returns to life after 1 minute with all its {@variantrule Hit Points|XPHB} restored. Whenever you finish a {@variantrule Long Rest|XPHB}, you can create a new defender if you have {@item Smith's Tools|XPHB} in hand. If you already have a defender from this feature, the first one vanishes."
+      }
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "EFA",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn. You can forgo one of your attacks when you take the {@action Attack|XPHB} action to command your {@creature Steel Defender|EFA} to take the Force-Empowered Rend action."
+    },
+    {
+      "name": "Arcane Jolt",
+      "level": 9,
+      "source": "EFA",
+      "description": "When either you hit a target with an attack roll using a magic weapon or your {@creature Steel Defender|EFA} hits a target, you can channel magical energy through the strike to create one of the following effects:",
+      "details": {
+        "destructiveEnergy": "The target takes an extra {@damage 2d6} Force damage.",
+        "restorativeEnergy": "Choose one creature or object you can see within 30 feet of the target. Healing energy flows into the chosen recipient, restoring {@dice 2d6} {@variantrule Hit Points|XPHB} to it.",
+        "uses": "You can use this energy a number of times equal to your Intelligence modifier (minimum of once), but you can do so no more than once per turn. You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+      }
+    }
+  ]
 }

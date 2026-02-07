@@ -2,8 +2,95 @@
   "id": "armorer",
   "name": "Бронник",
   "classId": "artificer",
-  "description": "Превращает доспехи в мощный магический экзоскелет.",
+  "description": "An Armorer modifies armor to function almost like a second skin. The armor is enhanced to hone the Armorer's magic, unleash potent attacks, and generate a formidable defense.",
+  "shortDescription": "Craft Magic Armor to Enhance Your Abilities",
   "source": "EFA",
+  "page": 12,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Tools of the Trade",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "armorTraining": "You gain training with Heavy armor.",
+        "toolProficiency": "You gain proficiency with {@item Smith's Tools|XPHB}. If you already have this tool proficiency, you gain proficiency with one other type of {@item Artisan's Tools|XPHB} of your choice.",
+        "armorCrafting": "When you craft nonmagical or magic armor, the amount of time required to craft it is halved."
+      }
+    },
+    {
+      "name": "Armorer Spells",
+      "level": 3,
+      "source": "EFA",
+      "description": "When you reach an Artificer level specified in the Armorer Spells table, you thereafter always have the listed spells prepared.",
+      "spells": [
+        { "artificerLevel": 3,  "spells": ["{@spell Magic Missile|XPHB}", "{@spell Thunderwave|XPHB}"] },
+        { "artificerLevel": 5,  "spells": ["{@spell Mirror Image|XPHB}", "{@spell Shatter|XPHB}"] },
+        { "artificerLevel": 9,  "spells": ["{@spell Hypnotic Pattern|XPHB}", "{@spell Lightning Bolt|XPHB}"] },
+        { "artificerLevel": 13, "spells": ["{@spell Fire Shield|XPHB}", "{@spell Greater Invisibility|XPHB}"] },
+        { "artificerLevel": 17, "spells": ["{@spell Passwall|XPHB}", "{@spell Wall of Force|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Arcane Armor",
+      "level": 3,
+      "source": "EFA",
+      "description": "As a {@action Magic|XPHB} action while you have {@item Smith's Tools|XPHB} in hand, you can turn a suit of armor you are wearing into Arcane Armor. The armor continues to be Arcane Armor until you don another suit of armor or you die. You gain the following benefits while wearing your Arcane Armor.",
+      "details": {
+        "noStrengthRequirement": "If the armor normally has a Strength requirement, the Arcane Armor lacks this requirement for you.",
+        "quickDonAndDoff": "You can don or doff the armor as a {@action Utilize|XPHB} action. The armor can't be removed against your will.",
+        "spellcastingFocus": "You can use the Arcane Armor as a {@variantrule Spellcasting Focus|XPHB} for your Artificer spells."
+      }
+    },
+    {
+      "name": "Armor Model",
+      "level": 3,
+      "source": "EFA",
+      "description": "You can customize your Arcane Armor. When you do so, choose one of the following armor models: Dreadnaught, Guardian, or Infiltrator. The model you choose gives you special benefits while you wear it. Each model includes a special weapon. When you attack with that weapon, you can add your Intelligence modifier, instead of your Strength or Dexterity modifier, to the attack and damage rolls. You can change the armor's model whenever you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} if you have {@item Smith's Tools|XPHB} in hand.",
+      "models": {
+        "dreadnaught": {
+          "name": "Dreadnaught",
+          "description": "You design your armor to become a towering juggernaut in battle. It has the following features:",
+          "features": {
+            "forceDemolisher": "An arcane wrecking ball or sledgehammer projects from your armor. The demolisher counts as a Simple Melee weapon with the {@variantrule Reach|XPHB} property, and it deals {@damage 1d10} Force damage on a hit. If you hit a creature that is at least one size smaller than you with the demolisher, you can push the creature up to 10 feet straight away from yourself or pull the creature up to 10 feet toward yourself.",
+            "giantStature": "As a {@action Bonus Action|XPHB}, you can transform and enlarge your armor for 1 minute. For the duration, your reach increases by 5 feet, and if you are smaller than Large, you become Large, along with anything you are wearing. If there isn't enough room for you to increase your size, your size doesn't change. You can use this {@action Bonus Action|XPHB} a number of times equal to your Intelligence modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+          }
+        },
+        "guardian": {
+          "name": "Guardian",
+          "description": "You design your armor to be in the front line of conflict. It has the following features:",
+          "features": {
+            "thunderPulse": "You can discharge concussive blasts with strikes from your armor. The pulse counts as a Simple Melee weapon and deals {@damage 1d8} Thunder damage on a hit. A creature hit by the pulse has {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you until the start of your next turn.",
+            "defensiveField": "While Bloodied, you can take a {@action Bonus Action|XPHB} to gain {@variantrule Temporary Hit Points|XPHB} equal to your Artificer level. You lose these {@variantrule Temporary Hit Points|XPHB} if you doff the armor."
+          }
+        },
+        "infiltrator": {
+          "name": "Infiltrator",
+          "description": "You customize your armor for subtle undertakings. It has the following features:",
+          "features": {
+            "lightningLauncher": "A gemlike node appears on your armor, from which you can shoot bolts of lightning. The launcher counts as a Simple Ranged weapon with a normal range of 90 feet and a long range of 300 feet, and it deals {@damage 1d6} Lightning damage on a hit. Once on each of your turns when you hit a creature with the launcher, you can deal an extra {@damage 1d6} Lightning damage to that target.",
+            "poweredSteps": "Your {@variantrule Speed|XPHB} increases by 5 feet.",
+            "dampeningField": "You have {@variantrule Advantage|XPHB} on Dexterity (Stealth) checks. If the armor imposes {@variantrule Disadvantage|XPHB} on such checks, the {@variantrule Advantage|XPHB} and {@variantrule Disadvantage|XPHB} cancel each other, as normal."
+          }
+        }
+      }
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "EFA",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Improved Armorer",
+      "level": 9,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "armorReplication": "You learn an additional plan for your Replicate Magic Item feature, and it must be in the Armor category. If you replace that plan, you must replace it with another Armor plan.",
+        "improvedArsenal": "You gain a +1 bonus to attack and damage rolls made with the special weapon of your Arcane Armor model."
+      }
+    }
+  ]
 }
