@@ -1,0 +1,9 @@
+{
+  "id": "alchemist",
+  "name": "Алхимик",
+  "classId": "artificer",
+  "description": "Создаёт магические эликсиры и зелья с чудесными свойствами.",
+  "source": "EFA",
+  "level": 3,
+  "features": []
+}

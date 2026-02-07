@@ -1,0 +1,9 @@
+{
+  "id": "artillerist",
+  "name": "Артиллерист",
+  "classId": "artificer",
+  "description": "Создаёт магические пушки-конструкты для огневой поддержки.",
+  "source": "EFA",
+  "level": 3,
+  "features": []
+}

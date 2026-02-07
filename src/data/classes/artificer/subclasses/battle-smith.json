@@ -1,0 +1,9 @@
+{
+  "id": "battle-smith",
+  "name": "Боевой Кузнец",
+  "classId": "artificer",
+  "description": "Сражается вместе со стальным защитником-конструктом.",
+  "source": "EFA",
+  "level": 3,
+  "features": []
+}

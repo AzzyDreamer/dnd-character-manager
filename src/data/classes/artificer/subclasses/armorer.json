@@ -1,0 +1,9 @@
+{
+  "id": "armorer",
+  "name": "Бронник",
+  "classId": "artificer",
+  "description": "Превращает доспехи в мощный магический экзоскелет.",
+  "source": "EFA",
+  "level": 3,
+  "features": []
+}
