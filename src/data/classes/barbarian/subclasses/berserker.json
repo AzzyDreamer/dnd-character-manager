@@ -1,0 +1,17 @@
+{
+  "id": "berserker",
+  "name": "Путь Берсерка",
+  "classId": "barbarian",
+  "description": "Barbarians who walk the Path of the Berserker direct their Rage primarily toward violence. Their path is one of untrammeled fury, and they thrill in the chaos of battle as they allow their Rage to seize and empower them.",
+  "shortDescription": "Channel Rage into Violent Fury",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Frenzy",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "If you use Reckless Attack while your Rage is active, you deal extra damage to the first target you hit on your turn with a Strength-based attack. To determine the extra damage, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. The damage has the same type as the weapon or {@variantrule Unarmed Strike|XPHB} used for the attack."
+    }
+  ]
+}

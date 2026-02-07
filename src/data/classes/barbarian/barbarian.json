@@ -1,0 +1,214 @@
+{
+  "id": "barbarian",
+  "name": "Варвар",
+  "source": "PHB'24",
+  "page": 50,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d12",
+  "hitPointsAtFirstLevel": "12 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d12 (or 7) + your Constitution modifier per Barbarian level after 1st",
+  "primaryAbility": ["strength"],
+  "savingThrows": ["strength", "constitution"],
+  "spellcaster": false,
+  "description": "Варвар — свирепый воин, черпающий силу из первобытной ярости. Непревзойдённый боец ближнего боя.",
+  "proficiencies": {
+    "armor": ["Light armor", "Medium armor", "Shields"],
+    "weapons": ["Simple weapons", "Martial weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["animalHandling", "athletics", "intimidation", "nature", "perception", "survival"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Greataxe|XPHB}", "4 {@item Handaxes|XPHB}", "{@item Explorer's Pack|XPHB}", "15 GP"],
+    "optionB": ["75 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Strength 13",
+    "weaponProficiencies": ["Martial weapons"],
+    "armorTraining": ["Shields"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Rage", "Unarmored Defense", "Weapon Mastery"], "rages": 2, "rageDamage": 2, "weaponMastery": 2 },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Danger Sense", "Reckless Attack"],             "rages": 2, "rageDamage": 2, "weaponMastery": 2 },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Barbarian Subclass", "Primal Knowledge"],      "rages": 3, "rageDamage": 2, "weaponMastery": 2 },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                   "rages": 3, "rageDamage": 2, "weaponMastery": 3 },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Extra Attack", "Fast Movement"],               "rages": 3, "rageDamage": 2, "weaponMastery": 3 },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                            "rages": 4, "rageDamage": 2, "weaponMastery": 3 },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Feral Instinct", "Instinctive Pounce"],        "rages": 4, "rageDamage": 2, "weaponMastery": 3 },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                   "rages": 4, "rageDamage": 2, "weaponMastery": 3 },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Brutal Strike"],                               "rages": 4, "rageDamage": 3, "weaponMastery": 3 },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Subclass Feature"],                            "rages": 4, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Relentless Rage"],                             "rages": 4, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                   "rages": 5, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Improved Brutal Strike"],                      "rages": 5, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Subclass Feature"],                            "rages": 5, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Persistent Rage"],                             "rages": 5, "rageDamage": 3, "weaponMastery": 4 },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                   "rages": 5, "rageDamage": 4, "weaponMastery": 4 },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Improved Brutal Strike"],                      "rages": 6, "rageDamage": 4, "weaponMastery": 4 },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Indomitable Might"],                           "rages": 6, "rageDamage": 4, "weaponMastery": 4 },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                   "rages": 6, "rageDamage": 4, "weaponMastery": 4 },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Primal Champion"],                             "rages": 6, "rageDamage": 4, "weaponMastery": 4 }
+  ],
+  "classFeatures": [
+    {
+      "name": "Rage",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "You can imbue yourself with a primal power called Rage, a force that grants you extraordinary might and resilience. You can enter it as a {@action Bonus Action|XPHB} if you aren't wearing Heavy armor. You can enter your Rage the number of times shown for your Barbarian level in the Rages column of the Barbarian Features table. You regain one expended use when you finish a {@variantrule Short Rest|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "damageResistance": "You have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage.",
+        "rageDamage": "When you make an attack using Strength—with either a weapon or an {@variantrule Unarmed Strike|XPHB}—and deal damage to the target, you gain a bonus to the damage that increases as you gain levels as a Barbarian, as shown in the Rage Damage column of the Barbarian Features table.",
+        "strengthAdvantage": "You have {@variantrule Advantage|XPHB} on Strength checks and Strength saving throws.",
+        "noConcentrationOrSpells": "You can't maintain {@status Concentration|XPHB}, and you can't cast spells.",
+        "duration": "The Rage lasts until the end of your next turn, and it ends early if you don Heavy armor or have the {@condition Incapacitated|XPHB} condition. If your Rage is still active on your next turn, you can extend the Rage for another round by doing one of the following: Make an attack roll against an enemy. Force an enemy to make a saving throw. Take a {@action Bonus Action|XPHB} to extend your Rage. Each time the Rage is extended, it lasts until the end of your next turn. You can maintain a Rage for up to 10 minutes."
+      }
+    },
+    {
+      "name": "Unarmored Defense",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "While you aren't wearing any armor, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity and Constitution modifiers. You can use a {@item Shield|XPHB} and still gain this benefit."
+    },
+    {
+      "name": "Weapon Mastery",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "Your training with weapons allows you to use the {@variantrule mastery properties|XPHB} of two kinds of Simple or Martial Melee weapons of your choice, such as {@item Greataxes|XPHB} and {@item Handaxes|XPHB}. Whenever you finish a {@variantrule Long Rest|XPHB}, you can practice weapon drills and change one of those weapon choices. When you reach certain Barbarian levels, you gain the ability to use the {@variantrule mastery properties|XPHB} of more kinds of weapons, as shown in the Weapon Mastery column of the Barbarian Features table."
+    },
+    {
+      "name": "Danger Sense",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "You gain an uncanny sense of when things aren't as they should be, giving you an edge when you dodge perils. You have {@variantrule Advantage|XPHB} on Dexterity saving throws unless you have the {@condition Incapacitated|XPHB} condition."
+    },
+    {
+      "name": "Reckless Attack",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "You can throw aside all concern for defense to attack with increased ferocity. When you make your first attack roll on your turn, you can decide to attack recklessly. Doing so gives you {@variantrule Advantage|XPHB} on attack rolls using Strength until the start of your next turn, but attack rolls against you have {@variantrule Advantage|XPHB} during that time."
+    },
+    {
+      "name": "Barbarian Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "You gain a Barbarian subclass of your choice. A subclass is a specialization that grants you features at certain Barbarian levels. For the rest of your career, you gain each of your subclass's features that are of your Barbarian level or lower."
+    },
+    {
+      "name": "Primal Knowledge",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 51,
+      "description": "You gain proficiency in another skill available to Barbarians at level 1."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Fast Movement",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "Your {@variantrule Speed|XPHB} increases by 10 feet while you aren't wearing Heavy armor."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Barbarian subclass."
+    },
+    {
+      "name": "Feral Instinct",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "Your instincts are so honed that you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls."
+    },
+    {
+      "name": "Instinctive Pounce",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "As part of the {@action Bonus Action|XPHB} you take to enter your Rage, you can move up to half your {@variantrule Speed|XPHB}."
+    },
+    {
+      "name": "Brutal Strike",
+      "level": 9,
+      "source": "PHB'24",
+      "description": "When you use Reckless Attack, you can forgo {@variantrule Advantage|XPHB} on the next attack roll you make on your turn with a Strength-based attack. If that attack hits, the target takes extra damage and suffers an additional effect based on a Brutal Strike option of your choice."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Barbarian subclass."
+    },
+    {
+      "name": "Relentless Rage",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "Your Rage can keep you fighting despite grievous wounds."
+    },
+    {
+      "name": "Improved Brutal Strike",
+      "level": 13,
+      "source": "PHB'24",
+      "description": "You have honed new ways to attack furiously. Additional Brutal Strike options become available."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Barbarian subclass."
+    },
+    {
+      "name": "Persistent Rage",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "When you roll {@variantrule Initiative|XPHB}, you can regain all expended uses of Rage. In addition, your Rage is so fierce that it now ends early only if you have the {@condition Unconscious|XPHB} condition, not the {@condition Incapacitated|XPHB} condition."
+    },
+    {
+      "name": "Improved Brutal Strike",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "Your Brutal Strike options improve further."
+    },
+    {
+      "name": "Indomitable Might",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "If your total for a Strength check or Strength saving throw is less than your Strength score, you can use that score in place of the total."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an Epic Boon feat or another feat of your choice for which you qualify. {@feat Boon of Irresistible Offense|XPHB} is recommended."
+    },
+    {
+      "name": "Primal Champion",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "You embody the power of the wilds. Your Strength and Constitution scores increase by 4, to a maximum of 25."
+    }
+  ],
+  "subclassIds": [
+    "ancestral-guardian", "battlerager", "beast", "berserker", "fractured",
+    "giant", "primal-spirit", "storm-herald", "wild-heart", "wild-magic",
+    "world-tree", "wrathful-dead", "zealot"
+  ]
+}

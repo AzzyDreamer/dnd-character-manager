@@ -1,0 +1,28 @@
+{
+  "id": "wild-heart",
+  "name": "Путь Дикого Сердца",
+  "classId": "barbarian",
+  "description": "Barbarians who follow the Path of the Wild Heart view themselves as kin to animals. These Barbarians learn magical means to communicate with animals, and their Rage heightens their connection to animals as it fills them with supernatural might.",
+  "shortDescription": "Walk in Community with the Animal World",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Animal Speaker",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can cast the {@spell Beast Sense|XPHB} and {@spell Speak with Animals|XPHB} spells but only as Rituals. Wisdom is your spellcasting ability for them."
+    },
+    {
+      "name": "Rage of the Wilds",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your Rage taps into the primal power of animals. Whenever you activate your Rage, you gain one of the following options of your choice.",
+      "details": {
+        "bear": "While your Rage is active, you have {@variantrule Resistance|XPHB} to every damage type except Force, Necrotic, Psychic, and Radiant.",
+        "eagle": "When you activate your Rage, you can take the {@action Disengage|XPHB} and {@action Dash|XPHB} actions as part of that {@action Bonus Action|XPHB}. While your Rage is active, you can take a {@action Bonus Action|XPHB} to take both of those actions.",
+        "wolf": "While your Rage is active, your allies have {@variantrule Advantage|XPHB} on attack rolls against any enemy of yours within 5 feet of you."
+      }
+    }
+  ]
+}

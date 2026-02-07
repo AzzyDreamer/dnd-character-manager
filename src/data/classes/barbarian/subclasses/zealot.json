@@ -1,0 +1,10 @@
+{
+  "id": "zealot",
+  "name": "Путь Фанатика",
+  "classId": "barbarian",
+  "description": "Barbarians who walk the Path of the Zealot burn with divine fury, channeling divine power through their Rage.",
+  "shortDescription": "Burn with Divine Fury",
+  "source": "PHB'24",
+  "level": 3,
+  "features": []
+}

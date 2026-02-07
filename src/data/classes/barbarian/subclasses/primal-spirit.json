@@ -1,0 +1,28 @@
+{
+  "id": "primal-spirit",
+  "name": "Путь Первобытного Духа",
+  "classId": "barbarian",
+  "description": "Many Barbarians are in tune with the natural world, but few are as mystically intertwined with it as those who walk the Path of the Primal Spirit. These Barbarians forge powerful connections with beasts and nature spirits, inspiring such ethereal beings to manifest and journey on far-flung adventures.",
+  "shortDescription": "Rage Alongside a Bestial Spirit",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Primal Companion",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You magically summon a primal spirit that adopts the form of a beast and accompanies you on your adventures. Choose its stat block: {@creature Primal Guardian|XPHB} or {@creature Primal Striker|XPHB}. In addition, choose an environment that will modify the creature's stat block: Land, Sea, or Sky. You also determine the kind of animal it is, choosing a kind appropriate for the stat block. Whatever companion you choose, it bears eldrich markings indicating its otherworldly origin.",
+      "details": {
+        "friendly": "The companion is {@variantrule Friendly|XPHB} to you and your allies and obeys your commands. It vanishes if you die.",
+        "beastInCombat": "The companion acts during your turn. It can move and use its {@variantrule Reaction|XPHB} on its own, but the only action it takes is the {@action Dodge|XPHB} action unless you take a {@action Bonus Action|XPHB} to command it to take an action in its stat block or some other action. You can also sacrifice one of your attacks when you take the {@action Attack|XPHB} action to command the beast to take the Beast's Strike action. If you have the {@condition Incapacitated|XPHB} condition, the companion acts on its own and isn't limited to the {@action Dodge|XPHB} action.",
+        "restoringOrReplacing": "If the companion has died within the last hour, you can take a {@action Magic|XPHB} action to touch it and expend a use of your Rage. The companion returns to life immediately with all its {@variantrule Hit Points|XPHB} restored. Whenever you finish a {@variantrule Long Rest|XPHB}, you can summon a different primal companion, which appears in an unoccupied space within 5 feet of you. You choose its stat block and appearance. If you already have a beast from this feature, the old one vanishes."
+      }
+    },
+    {
+      "name": "Shared Rage",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "While your Rage is active, your primal companion has {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage."
+    }
+  ]
+}

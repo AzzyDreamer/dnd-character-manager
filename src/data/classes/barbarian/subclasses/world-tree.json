@@ -1,0 +1,21 @@
+{
+  "id": "world-tree",
+  "name": "Путь Мирового Древа",
+  "classId": "barbarian",
+  "description": "Barbarians who follow the Path of the World Tree connect with the cosmic tree Yggdrasil through their Rage. This tree grows among the Outer Planes, connecting them to each other and the Material Plane. These Barbarians draw on the tree's magic for vitality and as a means of dimensional travel.",
+  "shortDescription": "Trace the Roots and Branches of the Multiverse",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Vitality of the Tree",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your Rage taps into the life force of the World Tree. You gain the following benefits.",
+      "details": {
+        "vitalitySurge": "When you activate your Rage, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your Barbarian level.",
+        "lifeGivingForce": "At the start of each of your turns while your Rage is active, you can choose another creature within 10 feet of yourself to gain {@variantrule Temporary Hit Points|XPHB}. To determine the number of {@variantrule Temporary Hit Points|XPHB}, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. If any of those {@variantrule Temporary Hit Points|XPHB} remain when your Rage ends, they vanish."
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "beast",
+  "name": "Путь Зверя",
+  "classId": "barbarian",
+  "description": "Barbarians who walk the Path of the Beast draw their rage from a bestial spark burning within their souls. That beast bursts forth in the throes of rage, physically transforming the barbarian.",
+  "shortDescription": "Transform into a Bestial Form",
+  "source": "TCE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Form of the Beast",
+      "level": 3,
+      "source": "TCE",
+      "description": "When you enter your rage, you can transform, revealing the bestial power within you. Until the rage ends, you manifest a natural weapon. It counts as a simple melee weapon for you, and you add your Strength modifier to the attack and damage rolls when you attack with it, as normal. You choose the weapon's form each time you rage.",
+      "details": {
+        "originOfTheBeast": [
+          { "roll": 1, "origin": "One of your parents is a lycanthrope, and you've inherited some of their curse." },
+          { "roll": 2, "origin": "You are descended from an archdruid and inherited the ability to partially change shape." },
+          { "roll": 3, "origin": "A fey spirit gifted you with the ability to adopt different bestial aspects." },
+          { "roll": 4, "origin": "An ancient animal spirit dwells within you, allowing you to walk this path." }
+        ],
+        "bite": "Your mouth transforms into a bestial muzzle or great mandibles (your choice). It deals {@damage 1d8} piercing damage on a hit. Once on each of your turns when you damage a creature with this bite, you regain a number of hit points equal to your proficiency bonus, provided you have less than half your hit points when you hit.",
+        "claws": "Each of your hands transforms into a claw, which you can use as a weapon if it's empty. It deals {@damage 1d6} slashing damage on a hit. Once on each of your turns when you attack with a claw using the {@action Attack|XPHB} action, you can make one additional claw attack as part of the same action.",
+        "tail": "You grow a lashing, spiny tail, which deals {@damage 1d8} piercing damage on a hit and has the reach property. If a creature you can see within 10 feet of you hits you with an attack roll, you can use your {@variantrule Reaction|XPHB} to swipe your tail and roll a {@dice d8}, applying a bonus to your AC equal to the number rolled, potentially causing the attack to miss you."
+      }
+    }
+  ]
+}
