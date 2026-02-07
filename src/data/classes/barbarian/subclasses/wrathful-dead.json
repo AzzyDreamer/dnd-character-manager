@@ -24,9 +24,41 @@
       "source": "GH:PG'24",
       "description": "You are overcome by an emotion a nearby spirit experienced at its death. You gain one of the following options of your choice. Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your choice.",
       "details": {
-        "hate": "When you miss with an attack roll against a creature, you have {@variantrule Advantage|XPHB} on the next attack roll you make against it before the end of your next turn.",
-        "jealousy": "When a creature you have {@condition Grappled|XPHB} is about to make an ability check to end the {@condition Grappled|XPHB} condition on itself, you can take a {@variantrule Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that roll.",
-        "terror": "While you are {@variantrule Bloodied|XPHB}, you can take a {@action Bonus Action|XPHB} to take the {@action Dash|XPHB} or {@action Disengage|XPHB} action."
+        "hate": "While your Rage is active, your attacks with weapons and {@variantrule Unarmed Strikes|XPHB} score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}.",
+        "jealousy": "Whenever a creature you can see starts its turn within 30 feet of you while your Rage is active, you can take a {@variantrule Reaction|XPHB} to summon spectral assailants to {@condition Grapple|XPHB} the creature. The creature makes a Strength or Dexterity saving throw (DC 8 plus your Constitution modifier and {@variantrule Proficiency Bonus|XPHB}). On a failure, the creature has the {@condition Grappled|XPHB} condition until the end of its turn. On a successful save, the creature is not {@condition Grappled|XPHB}; however, each foot of movement costs 1 extra foot for that creature until the end of its turn.",
+        "terror": "Whenever a creature you can see starts its turn within 30 feet of you while your Rage is active, you can take a {@variantrule Reaction|XPHB} to make that creature terrified until the start of its next turn. A terrified creature's {@variantrule Speed|XPHB} is halved and {@variantrule Opportunity Attacks|XPHB} against it have {@variantrule Advantage|XPHB}."
+      }
+    },
+    {
+      "name": "Dark Doom Revisited",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Once per active Rage, you can take a {@action Magic|XPHB} action to channel a traumatic death. When you do, choose one of the following options.",
+      "details": {
+        "contamination": "At the start of their turn, each creature of your choice in a 10-foot {@variantrule Emanation|XPHB} originating from you must make a Constitution saving throw (DC 8 plus your Constitution modifier and {@variantrule Proficiency Bonus|XPHB}) or take Poison damage and gain the {@condition Poisoned|XPHB} condition for 1 minute. To determine the Poison damage, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. An affected creature can use an action to end the {@condition Poisoned|XPHB} condition on itself.",
+        "hypothermia": "At the start of their turn, each creature of your choice in a 10-foot {@variantrule Emanation|XPHB} originating from you must make a Constitution saving throw (DC 8 plus your Strength modifier and {@variantrule Proficiency Bonus|XPHB}) or take Cold damage and have its {@variantrule Speed|XPHB} halved for 1 minute. To determine the Cold damage, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. A creature can use an action to end this effect on itself.",
+        "immolation": "At the start of their turn, each creature of your choice in a 15-foot {@variantrule Emanation|XPHB} originating from you must make a Dexterity saving throw (DC 8 plus your Constitution modifier and {@variantrule Proficiency Bonus|XPHB}) or take Fire damage. To determine the Fire damage, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. A creature can extinguish the fire on itself by giving itself the {@condition Prone|XPHB} condition and rolling on the ground. The fire also goes out if it is doused, submerged, or suffocated."
+      }
+    },
+    {
+      "name": "Death Is but a Door",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "Your familiarity with death has left you resistant to its call. You gain the following benefits.",
+      "details": {
+        "hardToKill": "You have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throws|XPHB}. In addition, you must fail four {@variantrule Death Saving Throws|XPHB} to die instead of three as normal.",
+        "returnTheSpirit": "You can call the spirits of the deceased to restore life essence to a nearby creature. You can cast the {@spell Cure Wounds|XPHB}, {@spell Raise Dead|XPHB}, or {@spell Revivify|XPHB} spell without providing Material components. When you do, you gain 1 {@condition Exhaustion|XPHB} level for {@spell Cure Wounds|XPHB}, 2 {@condition Exhaustion|XPHB} levels for {@spell Revivify|XPHB}, and 3 {@condition Exhaustion|XPHB} levels for {@spell Raise Dead|XPHB}. Constitution is your spellcasting ability for this feature. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you expend two uses of your Rage (no action required) to restore your use of it."
+      }
+    },
+    {
+      "name": "Powered by Pathos",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "Your Rage is empowered by the overwhelming emotions of the unquiet dead. Your Final Night Catharsis feature grants an additional effect based on the chosen emotion.",
+      "details": {
+        "hate": "While your Rage is active, your attacks with weapons and {@variantrule Unarmed Strikes|XPHB} score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}.",
+        "jealousy": "Whenever a creature you can see starts its turn within 30 feet of you while your Rage is active, you can take a {@variantrule Reaction|XPHB} to summon spectral assailants to {@condition Grapple|XPHB} the creature. The creature makes a Strength or Dexterity saving throw (DC 8 plus your Constitution modifier and {@variantrule Proficiency Bonus|XPHB}). On a failure, the creature has the {@condition Grappled|XPHB} condition until the end of its turn. On a successful save, the creature is not {@condition Grappled|XPHB}; however, each foot of movement costs 1 extra foot for that creature until the end of its turn.",
+        "terror": "Whenever a creature you can see starts its turn within 30 feet of you while your Rage is active, you can take a {@variantrule Reaction|XPHB} to make that creature terrified until the start of its next turn. A terrified creature's {@variantrule Speed|XPHB} is halved and {@variantrule Opportunity Attacks|XPHB} against it have {@variantrule Advantage|XPHB}."
       }
     }
   ]

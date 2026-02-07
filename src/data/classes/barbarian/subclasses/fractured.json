@@ -23,6 +23,24 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "You are proficient in one of the following skills of your choice: Arcana, History, Investigation, Medicine, Nature, Persuasion, or Religion. In addition, you gain proficiency with one type of {@item Artisan's Tools|XPHB} of your choice or you know one language of your choice."
+    },
+    {
+      "name": "Brains and Brawn",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "While your Rage is not active, you have {@variantrule Resistance|XPHB} to Psychic damage. While your Rage is active, you have {@variantrule Resistance|XPHB} to every damage type except Force and Psychic."
+    },
+    {
+      "name": "Cunning and Brutal",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "While your Rage is not active, you can take the {@action Disengage|XPHB} or {@action Help|XPHB} action as a {@action Bonus Action|XPHB}. While your Rage is active, your attack rolls with {@variantrule Unarmed Strikes|XPHB} score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}."
+    },
+    {
+      "name": "Better Half",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can drop to 1 {@variantrule Hit Point|XPHB} instead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to half your {@variantrule Hit Point|XPHB} maximum. In addition, if your Rage is active, your Rage ends. If your Rage was not active, immediately activate your Rage (even if you have no remaining uses of your Rage). If any of these {@variantrule Temporary Hit Points|XPHB} remain after 1 minute, they vanish. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

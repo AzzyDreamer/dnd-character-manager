@@ -23,6 +23,24 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "While your Rage is active, your primal companion has {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage."
+    },
+    {
+      "name": "Kin to Beasts",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You always have the {@spell Animal Friendship|XPHB} and {@spell Speak with Animals|XPHB} spells prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You can also cast these spells using spell slots you have of the appropriate level. Constitution is your spellcasting ability for them."
+    },
+    {
+      "name": "Skinrider's Trance",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "You take a {@action Magic|XPHB} action to enter a trance and choose your primal companion or one Beast currently under the effect of your {@spell Animal Friendship|XPHB} spell within 60 feet of yourself. For the duration of this trance, you possess the chosen creature. Once you possess a creature's body, you control it. Your {@variantrule Hit Points|XPHB}, {@variantrule Hit Point Dice|XPHB}, Strength, Dexterity, Constitution, {@variantrule Speed|XPHB}, and senses are replaced by the creature's. You otherwise keep your game statistics. This possession ends if you choose to exit the trance (no action required by you), if the Beast you're possessing is reduced to 0 {@variantrule Hit Points|XPHB}, or if you and the Beast are on different planes of existence. While in this trance, your body falls into a catatonic state. You can't move or take {@variantrule Reactions|XPHB}, and you're unaware of your surroundings. You can remain in the trance for a number of hours up to half your Barbarian level plus your Constitution modifier. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending one use of your Rage (no action)."
+    },
+    {
+      "name": "Shape of the Wild",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can choose a new form for your primal companion, causing it to transform instantaneously. When you cause your primal companion to transform in this way, its current {@variantrule Hit Points|XPHB} change to its new {@variantrule Hit Point|XPHB} maximum. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending one use of your Rage (no action required)."
     }
   ]
 }

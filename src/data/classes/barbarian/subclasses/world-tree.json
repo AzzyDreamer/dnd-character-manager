@@ -16,6 +16,24 @@
         "vitalitySurge": "When you activate your Rage, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your Barbarian level.",
         "lifeGivingForce": "At the start of each of your turns while your Rage is active, you can choose another creature within 10 feet of yourself to gain {@variantrule Temporary Hit Points|XPHB}. To determine the number of {@variantrule Temporary Hit Points|XPHB}, roll a number of {@dice d6}s equal to your Rage Damage bonus, and add them together. If any of those {@variantrule Temporary Hit Points|XPHB} remain when your Rage ends, they vanish."
       }
+    },
+    {
+      "name": "Branches of the Tree",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Whenever a creature you can see starts its turn within 30 feet of you while your Rage is active, you can take a {@variantrule Reaction|XPHB} to summon spectral branches of the World Tree around it. The target must succeed on a Strength saving throw (DC 8 plus your Strength modifier and {@variantrule Proficiency Bonus|XPHB}) or be teleported to an unoccupied space you can see within 5 feet of yourself or in the nearest unoccupied space you can see. After the target teleports, you can reduce its {@variantrule Speed|XPHB} to 0 until the end of the current turn."
+    },
+    {
+      "name": "Battering Roots",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "During your turn, your reach is 10 feet greater with any {@variantrule Melee|XPHB} weapon that has the {@variantrule Heavy|XPHB} or {@variantrule Versatile|XPHB} property, as tendrils of the World Tree extend from you. When you hit with such a weapon on your turn, you can activate the {@variantrule Push|XPHB} or {@variantrule Topple|XPHB} mastery property in addition to a different mastery property you're using with that weapon."
+    },
+    {
+      "name": "Travel Along the Tree",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You activate your Rage and as a {@action Bonus Action|XPHB} while your Rage is active, you can teleport up to 60 feet to an unoccupied space you can see. In addition, once per Rage, you can also bring up to six willing creatures who are within 10 feet of you. Each creature teleports to an unoccupied space of your choice within 10 feet of your destination space."
     }
   ]
 }
