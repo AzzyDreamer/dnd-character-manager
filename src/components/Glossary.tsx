@@ -257,12 +257,83 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     setSelectedEntry({ type: entry.type, data: entry.data });
   }, []);
 
+  // ─── Форматирование данных заклинания ───
+  const formatSpellTime = (time: any[]): string => {
+    if (!time?.length) return '';
+    return time.map(t => {
+      const num = t.number || 1;
+      const units: Record<string, string> = {
+        action: 'действие',
+        bonus: 'бонусное действие',
+        reaction: 'реакция',
+        minute: num === 1 ? 'минута' : 'минут',
+        hour: num === 1 ? 'час' : 'часов',
+      };
+      const unit = units[t.unit] || t.unit;
+      if (t.unit === 'action' || t.unit === 'bonus' || t.unit === 'reaction') {
+        return `1 ${unit}`;
+      }
+      return `${num} ${unit}`;
+    }).join(' или ');
+  };
+
+  const formatSpellRange = (range: any): string => {
+    if (!range) return '';
+    if (range.type === 'special') return 'Особая';
+    if (range.type === 'self') {
+      if (range.distance?.type === 'radius') return `На себя (радиус ${range.distance.amount} футов)`;
+      if (range.distance?.type === 'cone') return `На себя (конус ${range.distance.amount} футов)`;
+      if (range.distance?.type === 'line') return `На себя (линия ${range.distance.amount} футов)`;
+      return 'На себя';
+    }
+    if (range.type === 'touch') return 'Касание';
+    if (range.type === 'point' && range.distance) {
+      if (range.distance.type === 'feet') return `${range.distance.amount} футов`;
+      if (range.distance.type === 'miles') return `${range.distance.amount} миль`;
+      if (range.distance.type === 'unlimited') return 'Неограниченная';
+    }
+    return '';
+  };
+
+  const formatSpellComponents = (comp: any): string => {
+    if (!comp) return '';
+    const parts: string[] = [];
+    if (comp.v) parts.push('В');
+    if (comp.s) parts.push('С');
+    if (comp.m) {
+      const mat = typeof comp.m === 'string' ? comp.m : comp.m?.text || '';
+      parts.push(`М (${mat})`);
+    }
+    return parts.join(', ');
+  };
+
+  const formatSpellDuration = (duration: any[]): string => {
+    if (!duration?.length) return '';
+    return duration.map(d => {
+      if (d.type === 'instant') return 'Мгновенная';
+      if (d.type === 'permanent') return 'Постоянная';
+      if (d.type === 'special') return 'Особая';
+      if (d.type === 'timed') {
+        const units: Record<string, string> = {
+          round: 'раунд',
+          minute: 'минут',
+          hour: 'часов',
+          day: 'дней',
+        };
+        const conc = d.concentration ? 'Концентрация, до ' : '';
+        return `${conc}${d.duration.amount} ${units[d.duration.type] || d.duration.type}`;
+      }
+      return '';
+    }).join(' или ');
+  };
+
   // ─── Рендеринг выбранного элемента ───
   const renderDetail = () => {
     if (!selectedEntry || !EntryRenderer) return null;
     const d = selectedEntry.data;
     const entries = d.entries || d.raw?.entries || [];
     const constants = categoryData?.constants || {};
+    const type = activeCategory;
 
     return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -274,7 +345,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             </button>
           </div>
           <div className="p-6">
-            {/* Мета-информация */}
+            {/* Мета-информация (теги) */}
             <div className="flex flex-wrap gap-2 mb-4">
               {d.source && (
                 <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">{d.source}</span>
@@ -291,15 +362,148 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               )}
             </div>
 
-            {/* Entries */}
-            {entries.length > 0 && (
-              <EntryRenderer entries={entries} context={d.name || ''} onNavigate={handleNavigate} />
+            {/* Детальная информация для заклинаний */}
+            {type === 'spells' && (
+              <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
+                {d.time && (
+                  <div><span className="text-gray-400">Время:</span> <span className="text-gray-200">{formatSpellTime(d.time)}</span></div>
+                )}
+                {d.range && (
+                  <div><span className="text-gray-400">Дистанция:</span> <span className="text-gray-200">{formatSpellRange(d.range)}</span></div>
+                )}
+                {d.components && (
+                  <div><span className="text-gray-400">Компоненты:</span> <span className="text-gray-200">{formatSpellComponents(d.components)}</span></div>
+                )}
+                {d.duration && (
+                  <div><span className="text-gray-400">Длительность:</span> <span className="text-gray-200">{formatSpellDuration(d.duration)}</span></div>
+                )}
+                {d.savingThrow && (
+                  <div><span className="text-gray-400">Спасбросок:</span> <span className="text-gray-200">{d.savingThrow.join(', ')}</span></div>
+                )}
+                {d.damageInflict && (
+                  <div><span className="text-gray-400">Урон:</span> <span className="text-gray-200">{d.damageInflict.join(', ')}</span></div>
+                )}
+              </div>
             )}
 
-            {/* EntriesHigherLevel */}
+            {/* Детальная информация для черт */}
+            {type === 'feats' && d.prerequisite && (
+              <div className="mb-4 text-sm">
+                <span className="text-gray-400">Требования: </span>
+                <span className="text-gray-200">
+                  {d.prerequisite.map((p: any) => {
+                    const parts: string[] = [];
+                    if (p.level) parts.push(`${p.level} уровень`);
+                    if (p.ability) {
+                      const abs = Object.entries(p.ability[0] || {}).map(([k, v]) => `${k} ${v}+`).join(', ');
+                      if (abs) parts.push(abs);
+                    }
+                    if (p.spellcasting) parts.push('Заклинатель');
+                    if (p.proficiency) parts.push(JSON.stringify(p.proficiency));
+                    return parts.join(', ');
+                  }).join('; ')}
+                </span>
+              </div>
+            )}
+
+            {/* Детальная информация для видов */}
+            {type === 'species' && (
+              <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
+                {d.size && (
+                  <div><span className="text-gray-400">Размер:</span> <span className="text-gray-200">
+                    {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join('/')}
+                  </span></div>
+                )}
+                {d.speed && (
+                  <div><span className="text-gray-400">Скорость:</span> <span className="text-gray-200">
+                    {typeof d.speed === 'number' ? `${d.speed} фт.` : `${d.speed.walk || 30} фт.`}
+                  </span></div>
+                )}
+                {d.darkvision && (
+                  <div><span className="text-gray-400">Тёмное зрение:</span> <span className="text-gray-200">{d.darkvision} фт.</span></div>
+                )}
+                {d.resist && (
+                  <div><span className="text-gray-400">Сопротивление:</span> <span className="text-gray-200">{d.resist.join(', ')}</span></div>
+                )}
+              </div>
+            )}
+
+            {/* Детальная информация для предысторий */}
+            {type === 'backgrounds' && (
+              <div className="space-y-2 mb-4 text-sm">
+                {d.skillProficiencies && d.skillProficiencies.length > 0 && (
+                  <div><span className="text-gray-400">Навыки: </span>
+                    <span className="text-gray-200">
+                      {d.skillProficiencies.map((sp: any) => Object.keys(sp).join(', ')).join('; ')}
+                    </span>
+                  </div>
+                )}
+                {d.toolProficiencies && d.toolProficiencies.length > 0 && (
+                  <div><span className="text-gray-400">Инструменты: </span>
+                    <span className="text-gray-200">
+                      {d.toolProficiencies.map((tp: any) =>
+                        Object.entries(tp).map(([k, v]) => typeof v === 'boolean' ? k : `${k}: ${v}`).join(', ')
+                      ).join('; ')}
+                    </span>
+                  </div>
+                )}
+                {d.languageProficiencies && d.languageProficiencies.length > 0 && (
+                  <div><span className="text-gray-400">Языки: </span>
+                    <span className="text-gray-200">
+                      {d.languageProficiencies.map((lp: any) =>
+                        Object.entries(lp).map(([k, v]) => typeof v === 'boolean' ? k : `${k}: ${v}`).join(', ')
+                      ).join('; ')}
+                    </span>
+                  </div>
+                )}
+                {d.feats && d.feats.length > 0 && (
+                  <div><span className="text-gray-400">Черта: </span>
+                    <span className="text-gray-200">
+                      {d.feats.map((f: any) => Object.keys(f).join(', ')).join('; ')}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Основной контент */}
+            {entries.length > 0 && (
+              <div className="prose prose-invert prose-sm max-w-none">
+                <EntryRenderer entries={entries} context={d.name || ''} onNavigate={handleNavigate} />
+              </div>
+            )}
+
+            {/* EntriesHigherLevel для заклинаний */}
             {d.entriesHigherLevel?.length > 0 && (
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <EntryRenderer entries={d.entriesHigherLevel} context={d.name || ''} onNavigate={handleNavigate} />
+              </div>
+            )}
+
+            {/* Fluff текст */}
+            {d.fluff && (
+              <div className="mt-4 pt-4 border-t border-gray-700">
+                <div className="text-sm italic text-gray-400">
+                  {Array.isArray(d.fluff) ? (
+                    <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
+                  ) : typeof d.fluff === 'object' && d.fluff.entries ? (
+                    <EntryRenderer entries={d.fluff.entries} context={d.name || ''} onNavigate={handleNavigate} />
+                  ) : (
+                    String(d.fluff)
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Классы для заклинаний */}
+            {type === 'spells' && d.classes?.fromClassList && (
+              <div className="mt-4 pt-4 border-t border-gray-700">
+                <div className="text-sm text-gray-400">
+                  <span className="font-medium">Классы: </span>
+                  <span className="text-gray-300">
+                    {d.classes.fromClassList.map((c: any) => c.name).join(', ')}
+                  </span>
+                </div>
               </div>
             )}
           </div>
