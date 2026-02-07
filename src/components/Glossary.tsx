@@ -350,9 +350,16 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     if (!prereq?.length) return '';
     return prereq.map((p: any) => {
       const parts: string[] = [];
+      // Уровень - может быть числом или объектом
       if (p.level) {
-        const cls = p.class ? ` ${p.class.name}` : '';
-        parts.push(`${p.level} уровень${cls}`);
+        if (typeof p.level === 'number') {
+          const cls = p.class ? ` ${p.class.name}` : '';
+          parts.push(`${p.level}+ уровень${cls}`);
+        } else if (typeof p.level === 'object' && p.level.level) {
+          const lvl = p.level.level;
+          const cls = p.level.class?.name ? ` ${p.level.class.name}` : '';
+          parts.push(`${lvl}+ уровень${cls}`);
+        }
       }
       if (p.ability) {
         const abilities: Record<string, string> = {
@@ -366,17 +373,29 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
       }
       if (p.spellcasting) parts.push('Умение накладывать заклинания');
       if (p.spellcastingFeature) parts.push('Умение накладывать заклинания');
+      if (p.pact) parts.push(`Пакт: ${p.pact}`);
+      if (p.patron) parts.push(`Покровитель: ${p.patron}`);
+      if (p.spell) {
+        // Требуется заклинание
+        const spells = p.spell.map((s: any) => {
+          if (typeof s === 'string') return s.split('|')[0];
+          if (s.entry) return s.entry;
+          if (s.entrySummary) return s.entrySummary;
+          return '';
+        }).filter(Boolean);
+        if (spells.length > 0) parts.push(spells.join(', '));
+      }
       if (p.race) {
         const races = p.race.map((r: any) => r.name || r).join(' или ');
         parts.push(`Раса: ${races}`);
       }
       if (p.feat) {
-        const feats = p.feat.map((f: any) => f.split('|')[0]).join(', ');
+        const feats = p.feat.map((f: any) => typeof f === 'string' ? f.split('|')[0] : f).join(', ');
         parts.push(`Черта: ${feats}`);
       }
       if (p.proficiency) {
         const profs = p.proficiency.map((pr: any) =>
-          Object.entries(pr).map(([k, v]) => typeof v === 'boolean' ? k : `${k}`).join(', ')
+          Object.entries(pr).map(([k]) => k).join(', ')
         ).join(', ');
         if (profs) parts.push(`Владение: ${profs}`);
       }
@@ -385,29 +404,29 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     }).filter(Boolean).join('; ');
   };
 
-  // ─── Форматирование способностей предыстории ───
-  const formatAbilityChoice = (ability: any[]): string => {
+  // ─── Форматирование бонусов характеристик (для черт и предысторий) ───
+  const formatAbilityBonus = (ability: any[]): string => {
     if (!ability?.length) return '';
+    const abilities: Record<string, string> = {
+      str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
+      int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
+    };
     return ability.map((a: any) => {
-      if (a.choose?.weighted?.from) {
-        const abilities: Record<string, string> = {
-          str: 'Сил', dex: 'Лов', con: 'Тел', int: 'Инт', wis: 'Мдр', cha: 'Хар',
-        };
-        const opts = a.choose.weighted.from.map((ab: string) => abilities[ab] || ab).join('/');
-        return `Выбор из: ${opts}`;
-      }
-      if (a.choose?.from) {
-        const abilities: Record<string, string> = {
-          str: 'Сил', dex: 'Лов', con: 'Тел', int: 'Инт', wis: 'Мдр', cha: 'Хар',
-        };
-        const opts = a.choose.from.map((ab: string) => abilities[ab] || ab).join('/');
-        return `Выбор из: ${opts}`;
+      // Выбор из нескольких
+      if (a.choose) {
+        if (a.choose.from) {
+          const opts = a.choose.from.map((ab: string) => abilities[ab] || ab).join('/');
+          const count = a.choose.count || 1;
+          const amount = a.choose.amount || 1;
+          return `+${amount} к одной из: ${opts}${count > 1 ? ` (${count} раза)` : ''}`;
+        }
+        if (a.choose.weighted?.from) {
+          const opts = a.choose.weighted.from.map((ab: string) => abilities[ab] || ab).join('/');
+          return `Выбор из: ${opts}`;
+        }
+        return 'Выбор характеристики';
       }
       // Фиксированные бонусы
-      const abilities: Record<string, string> = {
-        str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
-        int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
-      };
       const fixed = Object.entries(a)
         .filter(([k]) => ['str', 'dex', 'con', 'int', 'wis', 'cha'].includes(k))
         .map(([k, v]) => `${abilities[k]} +${v}`)
@@ -492,9 +511,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
                 {d.prerequisite && d.prerequisite.length > 0 && (
                   <div><span className="text-gray-400">Требования: </span><span className="text-gray-200">{formatPrerequisite(d.prerequisite)}</span></div>
                 )}
-                {d.ability && (
+                {d.ability && d.ability.length > 0 && (
                   <div><span className="text-gray-400">Бонус характеристики: </span><span className="text-gray-200">
-                    {d.ability.map((a: any) => Object.entries(a).map(([k, v]) => `${k} +${v}`).join(', ')).join('; ')}
+                    {formatAbilityBonus(d.ability)}
                   </span></div>
                 )}
                 {d.additionalSpells && (
@@ -538,7 +557,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             {type === 'backgrounds' && (
               <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
                 {d.ability && d.ability.length > 0 && (
-                  <div><span className="text-gray-400">Характеристики: </span><span className="text-gray-200">{formatAbilityChoice(d.ability)}</span></div>
+                  <div><span className="text-gray-400">Характеристики: </span><span className="text-gray-200">{formatAbilityBonus(d.ability)}</span></div>
                 )}
                 {d.skillProficiencies && d.skillProficiencies.length > 0 && (
                   <div><span className="text-gray-400">Навыки: </span><span className="text-gray-200">
