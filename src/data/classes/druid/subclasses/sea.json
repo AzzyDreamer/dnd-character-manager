@@ -1,0 +1,47 @@
+{
+  "id": "sea",
+  "name": "Круг Моря",
+  "classId": "druid",
+  "description": "Druids of the Circle of the Sea draw on the power of the ocean and its storms. Some of these Druids dwell on coastlines and patrol the shallows, while others sail the deep to explore hidden depths. Those who roam the waves may use their connection to the sea to protect sailors and coastal communities, drawing on the fury of the tides when enemies threaten their charges.",
+  "shortDescription": "Harness Oceanic Power and Storms",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Circle Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Druid level specified in the Sea Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "druidLevel": 3, "spells": ["{@spell Fog Cloud}", "{@spell Gust of Wind}", "{@spell Ray of Frost}", "{@spell Shatter}", "{@spell Thunderwave}"] },
+        { "druidLevel": 5, "spells": ["{@spell Lightning Bolt}", "{@spell Water Breathing}"] },
+        { "druidLevel": 7, "spells": ["{@spell Control Water}", "{@spell Ice Storm}"] },
+        { "druidLevel": 9, "spells": ["{@spell Conjure Elemental}", "{@spell Hold Monster}"] }
+      ]
+    },
+    {
+      "name": "Wrath of the Sea",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend a use of your Wild Shape to manifest ocean magic. For 10 minutes, you gain the following benefits. {@b Aquatic Advantage.} You gain a {@variantrule Swim Speed|XPHB} equal to your Speed, and you can breathe underwater. {@b Crashing Waves.} Whenever you hit a creature with an attack roll using a weapon or an {@action Unarmed Strike|XPHB}, you can push the creature up to 5 feet away from you, and the creature's {@variantrule Speed|XPHB} is reduced by 5 feet until the start of your next turn."
+    },
+    {
+      "name": "Aquatic Affinity",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "The sea magic flowing through you is hard to resist. You gain the following benefits. {@b Speed Enhancement.} Your {@variantrule Swim Speed|XPHB} now equals twice your Speed when using Wrath of the Sea. {@b Resistance.} You have Resistance to Cold and Lightning damage."
+    },
+    {
+      "name": "Stormborn",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Your connection to the storm deepens. You gain the following benefits. {@b Storm's Fury.} As a {@action Reaction|XPHB} when a creature you can see hits you with an attack roll, you deal Lightning damage to the attacker equal to your Wisdom modifier. {@b Windborne.} You gain a {@variantrule Fly Speed|XPHB} equal to your Speed for 10 minutes when you activate Wrath of the Sea. If you are still flying when this effect ends, you fall safely to the ground."
+    },
+    {
+      "name": "Oceanic Gift",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "Instead of targeting only yourself, you can also target up to a number of willing creatures equal to your Wisdom modifier (minimum of 1) when you activate Wrath of the Sea, granting the benefits of the feature to each of them. In addition, Crashing Waves can now push a creature up to 15 feet and reduces the creature's Speed by 15 feet."
+    }
+  ]
+}

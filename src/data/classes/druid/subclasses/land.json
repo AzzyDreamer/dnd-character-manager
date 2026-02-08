@@ -1,0 +1,47 @@
+{
+  "id": "land",
+  "name": "Круг Земли",
+  "classId": "druid",
+  "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These Druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk.",
+  "shortDescription": "Mystic Connected to the Land",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Land's Aid",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Magic|XPHB} action, you can expend a use of your Wild Shape and choose a point within 60 feet of yourself. Vitality-giving flowers and life appear for a moment in a 10-foot-radius {@variantrule Sphere|XPHB} centered on that point. Each creature of your choice in that area regains {@variantrule Hit Points|XPHB} equal to {@dice 2d6} plus your Wisdom modifier."
+    },
+    {
+      "name": "Circle Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Whenever you finish a {@variantrule Long Rest|XPHB}, choose one type of land: arid, polar, temperate, or tropical. Consult the table below that corresponds to the chosen type; you have the spells listed for your Druid level and lower prepared.",
+      "spellList": [
+        { "druidLevel": 3, "arid": ["{@spell Blur}", "{@spell Burning Hands}", "{@spell Fire Bolt}"], "polar": ["{@spell Fog Cloud}", "{@spell Hold Person}", "{@spell Ray of Frost}"], "temperate": ["{@spell Misty Step}", "{@spell Shocking Grasp}", "{@spell Sleep}"], "tropical": ["{@spell Acid Splash}", "{@spell Entangle}", "{@spell Web}"] },
+        { "druidLevel": 5, "arid": ["{@spell Fireball}"], "polar": ["{@spell Sleet Storm}"], "temperate": ["{@spell Lightning Bolt}"], "tropical": ["{@spell Stinking Cloud}"] },
+        { "druidLevel": 7, "arid": ["{@spell Blight}"], "polar": ["{@spell Ice Storm}"], "temperate": ["{@spell Freedom of Movement}"], "tropical": ["{@spell Polymorph}"] },
+        { "druidLevel": 9, "arid": ["{@spell Wall of Stone}"], "polar": ["{@spell Cone of Cold}"], "temperate": ["{@spell Tree Stride}"], "tropical": ["{@spell Insect Plague}"] }
+      ]
+    },
+    {
+      "name": "Natural Recovery",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can cast one of the spells you have prepared from your Circle Spells feature without expending a spell slot, and you must finish a {@variantrule Long Rest|XPHB} before you do so again. In addition, when you finish a {@variantrule Short Rest|XPHB}, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your Druid level (round up), and none of the slots can be level 6 or higher. For example, if you're a level 6 Druid, you can recover up to three levels worth of spell slots. You can recover a level 3 spell slot, a level 2 and a level 1 spell slot, or three level 1 spell slots. Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Nature's Ward",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You are immune to the {@condition Poisoned} condition, and you have Resistance to a damage type associated with your current land choice in the Circle Spells feature: Cold (polar), Fire (arid), Lightning (temperate), or Poison (tropical)."
+    },
+    {
+      "name": "Nature's Sanctuary",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When a creature attacks you or targets you with a spell, you can use your {@action Reaction|XPHB} to force that creature to make a Wisdom saving throw against your spell save DC. On a failed save, the creature must choose a different target, or the attack or spell automatically misses. On a successful save, the creature is immune to this effect for 24 hours. The creature is also immune to this effect if it can't be {@condition Charmed}."
+    }
+  ]
+}

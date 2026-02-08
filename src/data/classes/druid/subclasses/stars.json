@@ -1,0 +1,46 @@
+{
+  "id": "stars",
+  "name": "Круг Звёзд",
+  "classId": "druid",
+  "description": "The Circle of Stars allows Druids to draw on the power of starlight. These Druids have tracked heavenly patterns since time immemorial, discovering secrets hidden amid the constellations. By revealing and understanding these secrets, the Circle of Stars seeks to harness the powers of the cosmos.",
+  "shortDescription": "Read the Stars and Channel Cosmic Power",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Star Map",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You've created a star chart as part of your heavenly studies. The chart is a Tiny object, and you can use it as a {@variantrule Spellcasting Focus|XPHB} for your Druid spells. You determine its form by rolling on the Star Map table or by choosing one. While holding the map, you always have {@spell Guidance|XPHB} and {@spell Guiding Bolt|XPHB} prepared, and you can cast {@spell Guiding Bolt|XPHB} without expending a spell slot. You can cast it in that way a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. If you lose the map, you can perform a 1-hour ceremony to magically create a replacement."
+    },
+    {
+      "name": "Starry Form",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend a use of your Wild Shape to take on a starry form, rather than shape-shifting. While in your starry form, you retain your game statistics, but your body becomes luminous, your joints glimmer like stars, and glowing lines connect them as on a star chart. This form sheds {@variantrule Bright Light|XPHB} in a 10-foot radius and {@variantrule Dim Light|XPHB} for an additional 10 feet. The form lasts for 10 minutes. It ends early if you dismiss it (no action required), have the {@condition Incapacitated} condition, or die. Whenever you assume this form, choose which of the following constellations glimmers on your body; your choice gives you certain benefits while in the form.",
+      "details": {
+        "archer": "{@b Archer.} A constellation of an archer appears on you. When you make an attack with a spell or a weapon, you can make a ranged spell attack with a range of 60 feet, hurling a luminous arrow that targets one creature. On a hit, the arrow deals Radiant damage equal to {@dice 1d8} plus your Wisdom modifier.",
+        "chalice": "{@b Chalice.} A constellation of a life-giving goblet appears on you. Whenever you cast a spell using a spell slot that restores {@variantrule Hit Points|XPHB} to a creature, you or another creature within 30 feet of you can regain {@variantrule Hit Points|XPHB} equal to {@dice 1d8} plus your Wisdom modifier.",
+        "dragon": "{@b Dragon.} A constellation of a wise dragon appears on you. When you make an Intelligence or a Wisdom check or a Constitution saving throw to maintain {@status Concentration}, you can treat a roll of 9 or lower on the {@dice d20} as a 10."
+      }
+    },
+    {
+      "name": "Cosmic Omen",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can consult your Star Map for omens and roll a die. Until you finish your next {@variantrule Long Rest|XPHB}, you gain access to a special {@action Reaction|XPHB} based on whether you rolled an even or odd number on the die. {@b Weal (Even).} Whenever a creature you can see within 30 feet of you is about to make a {@dice d20} roll, you can use your {@action Reaction|XPHB} to roll {@dice 1d6} and add the number rolled to the total. {@b Woe (Odd).} Whenever a creature you can see within 30 feet of you is about to make a {@dice d20} roll, you can use your {@action Reaction|XPHB} to roll {@dice 1d6} and subtract the number rolled from the total. You can use this {@action Reaction|XPHB} a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Twinkling Constellations",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "The constellations of your Starry Form improve. The {@dice 1d8} of the Archer and the Chalice becomes {@dice 2d8}, and while the Dragon is active, you have a {@variantrule Fly Speed|XPHB} of 20 feet and can hover. Moreover, at the start of each of your turns while in your Starry Form, you can change which constellation glimmers on your body."
+    },
+    {
+      "name": "Full of Stars",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "While in your Starry Form, you become partially incorporeal, giving you Resistance to Bludgeoning, Piercing, and Slashing damage."
+    }
+  ]
+}
