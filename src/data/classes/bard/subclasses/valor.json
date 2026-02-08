@@ -6,5 +6,30 @@
   "shortDescription": "Inspire Heroism through Valor",
   "source": "PHB'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Combat Inspiration",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can use your wit to turn the tide of battle. A creature that has a Bardic Inspiration die from you can use it for one of the following effects.\n\nWhen the creature is hit by an attack roll, it can take a {@variantrule Reaction|XPHB} to roll the Bardic Inspiration die and add the number rolled to its AC against that attack, potentially causing the attack to miss.\n\nImmediately after the creature hits a target with an attack roll, the creature can roll the Bardic Inspiration die and add the number rolled to the attack's damage against the target."
+    },
+    {
+      "name": "Martial Training",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain proficiency with {@item martial weapons|XPHB} and training with {@item Medium Armor|XPHB} and {@item Shields|XPHB}."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn. In addition, you can cast one of your cantrips that has a casting time of an action in place of one of those attacks."
+    },
+    {
+      "name": "Battle Magic",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "After you cast a spell that has a casting time of an action, you can make one attack with a weapon as a {@action Bonus Action|XPHB}."
+    }
+  ]
 }

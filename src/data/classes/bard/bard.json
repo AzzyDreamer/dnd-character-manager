@@ -112,7 +112,7 @@
       "name": "Font of Inspiration",
       "level": 5,
       "source": "PHB'24",
-      "description": "You now also regain all your expended uses of Bardic Inspiration when you finish a {@variantrule Short Rest|XPHB}."
+      "description": "You now regain all your expended uses of Bardic Inspiration when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. In addition, you can expend a spell slot (no action required) to regain one expended use of Bardic Inspiration."
     },
     {
       "name": "Subclass Feature",

@@ -31,6 +31,18 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "While a creature has a Bardic Inspiration die from you, it can use a {@action Bonus Action|XPHB} to take the {@action Help|XPHB} action."
+    },
+    {
+      "name": "Well-Rounded",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You gain proficiency in two skills of your choice. In addition, you learn one additional adventurer's talent from the Talented Adventurer feature."
+    },
+    {
+      "name": "Improvisational Talent",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "You can change your adventurer's talent on the fly. When you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}, you can replace one of your adventurer's talents with another one from the Talented Adventurer feature. In addition, you learn one additional adventurer's talent."
     }
   ]
 }

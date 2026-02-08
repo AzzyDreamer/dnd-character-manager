@@ -18,6 +18,24 @@
         "agileStrikes": "When you expend a use of your Bardic Inspiration as part of an action, a {@action Bonus Action|XPHB}, or a {@variantrule Reaction|XPHB}, you can make one {@variantrule Unarmed Strike|XPHB} as part of that action, {@action Bonus Action|XPHB}, or {@variantrule Reaction|XPHB}.",
         "bardicDamage": "You can use Dexterity instead of Strength for the attack rolls of your Unarmed Strikes. When you deal damage with an {@variantrule Unarmed Strike|XPHB}, you can deal Bludgeoning damage equal to a roll of your Bardic Inspiration die plus your Dexterity modifier, instead of the strike's normal damage. This roll doesn't expend the die."
       }
+    },
+    {
+      "name": "Inspiring Movement",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "When an enemy you can see ends its turn within 5 feet of an ally of yours, you can take a {@variantrule Reaction|XPHB} to give that ally the option to use its {@variantrule Reaction|XPHB} to move up to half its {@variantrule Speed|XPHB}. No creature provokes {@variantrule Opportunity Attacks|XPHB} from that movement."
+    },
+    {
+      "name": "Tandem Footwork",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "When you roll {@variantrule Initiative|XPHB}, you can spend one use of Bardic Inspiration if you don't have the {@condition Incapacitated|XPHB} condition. When you do so, roll your Bardic Inspiration die, and choose a number of creatures within 60 feet of yourself (you can choose yourself), up to a number equal to your Charisma modifier (minimum of one creature). Each of those creatures gains a bonus to their Initiative equal to the number rolled."
+    },
+    {
+      "name": "Leading Evasion",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail. You can share this benefit with allies: when a creature within 5 feet of you makes a Dexterity saving throw against the same effect, the creature takes only half damage on a failed save, and no damage on a successful one, provided the creature isn't {@condition Incapacitated|XPHB}."
     }
   ]
 }

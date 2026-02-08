@@ -22,6 +22,18 @@
         "defense": "When the creature is reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, the creature can roll the Bardic Inspiration die to be reduced to a number of {@variantrule Hit Points|XPHB} rolled on the Bardic Inspiration die instead.",
         "offense": "Immediately after the creature hits a target with an attack roll, the creature can roll the Bardic Inspiration die and add the number rolled as extra Necrotic damage dealt by the attack."
       }
+    },
+    {
+      "name": "Stir the Bones",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You can use your music to raise the dead. As an action, you target one pile of bones or a corpse of a Medium or Small Humanoid within 10 feet of you and expend one use of Bardic Inspiration. The target becomes an Undead creature that uses the {@creature Skeleton|XPHB} or {@creature Zombie|XPHB} stat block (your choice). The creature is friendly to you and your companions for the duration.\n\nIn combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the {@action Dodge|XPHB} action and uses its move to avoid danger.\n\nThe creature remains animate for 1 hour, after which it collapses. You can have a number of Undead animated by this feature at the same time equal to your {@variantrule Proficiency Bonus|XPHB}."
+    },
+    {
+      "name": "Dual Death",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "When a creature that has a Bardic Inspiration die from you is reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can use your {@variantrule Reaction|XPHB} to have the creature drop to 1 {@variantrule Hit Point|XPHB} instead. The creature's appearance becomes deathly pale, and it gains {@variantrule Resistance|XPHB} to all damage except Radiant for 1 minute.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }
