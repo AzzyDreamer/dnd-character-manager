@@ -155,7 +155,7 @@
       "name": "Epic Boon",
       "level": 19,
       "source": "PHB'24",
-      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Spell Recall|XPHB} is recommended."
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Fate|XPHB} is recommended."
     },
     {
       "name": "Greater Divine Intervention",
