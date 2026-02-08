@@ -1,0 +1,47 @@
+{
+  "id": "purification",
+  "name": "Домен Очищения",
+  "classId": "cleric",
+  "description": "The Purification Domain represents the divine mandate to cleanse corruption, purify the unclean, and restore sanctity to desecrated places. Clerics of this domain serve gods who value purity of body, mind, and soul. They are often found at the forefront of battles against fiends, undead, and other corrupting forces, using their divine power to burn away impurity and restore what has been tainted.",
+  "shortDescription": "Cleanse Corruption and Restore Purity",
+  "source": "GHePG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Purification Domain Spells",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Purification Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Ceremony}", "{@spell Detect Evil and Good}", "{@spell Lesser Restoration}", "{@spell Protection from Poison}"] },
+        { "clericLevel": 5, "spells": ["{@spell Dispel Magic}", "{@spell Remove Curse}"] },
+        { "clericLevel": 7, "spells": ["{@spell Aura of Purity}", "{@spell Banishment}"] },
+        { "clericLevel": 9, "spells": ["{@spell Dispel Evil and Good}", "{@spell Greater Restoration}"] }
+      ]
+    },
+    {
+      "name": "Purifying Touch",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "As an action, you can touch a creature and expend a use of your Channel Divinity to purge corruption from it. The creature is cured of one disease or one condition afflicting it. The condition can be {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, or {@condition Poisoned|XPHB}."
+    },
+    {
+      "name": "Sacred Censure",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "When you deal Radiant damage to a creature with a spell or Channel Divinity, the creature emits {@variantrule Dim Light|XPHB} in a 5-foot radius until the end of your next turn. While emitting this light, the creature can't benefit from being {@condition Invisible|XPHB}, and attack rolls against it have {@variantrule Advantage|XPHB} if the attacker can see the light."
+    },
+    {
+      "name": "Aura of Purification",
+      "level": 6,
+      "source": "GHePG'24",
+      "description": "You and friendly creatures within 10 feet of you have {@variantrule Advantage|XPHB} on saving throws against being {@condition Poisoned|XPHB}, {@condition Diseased|XPHB}, or {@condition Cursed|XPHB}. At 18th level, the range of this aura increases to 30 feet."
+    },
+    {
+      "name": "Cleansing Radiance",
+      "level": 17,
+      "source": "GHePG'24",
+      "description": "Your purifying power reaches its apex. When you cast a spell that removes a condition, cures a disease, or ends a curse, the target also regains {@variantrule Hit Points|XPHB} equal to {@dice 2d8} plus your Wisdom modifier. Additionally, once per {@variantrule Long Rest|XPHB}, you can cast {@spell Greater Restoration} without expending a spell slot."
+    }
+  ]
+}

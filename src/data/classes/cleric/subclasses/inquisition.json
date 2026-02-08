@@ -1,0 +1,53 @@
+{
+  "id": "inquisition",
+  "name": "Домен Инквизиции",
+  "classId": "cleric",
+  "description": "The Inquisition Domain reflects the order of the multiverse and the rejection of tainted magic—so far as certain celestial powers see fit. Only the divine casters are pure and fit for use. Since arcane magic is strong enough to challenge the gods, divine beings of this domain, such as the Arch Seraph Empyreus, demand magic-using mortals be kept in check. Most zealots root out all arcanists, while some strike fragile truces when complete removal isn't feasible. Cleanse the Heretics.",
+  "shortDescription": "Cleanse the Heretics",
+  "source": "GHePG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Inquisition Domain Spells",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Inquisition Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell See Invisibility}", "{@spell Silence}"] },
+        { "clericLevel": 5, "spells": ["{@spell Dispel Magic}", "{@spell Remove Curse}"] },
+        { "clericLevel": 7, "spells": ["{@spell Arcane Eye}", "{@spell Locate Creature}"] },
+        { "clericLevel": 9, "spells": ["{@spell Creation}", "{@spell Hallow}"] }
+      ]
+    },
+    {
+      "name": "Witch Hunter's Strike",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "When you hit a creature with a weapon attack or {@variantrule Unarmed Strike|XPHB}, you can deal an extra {@damage 1d6} Force damage to the target. If the creature is {@status Concentrating|XPHB} on a spell, you deal an extra {@damage 2d6} Force damage instead. At Cleric level 14, the extra Force damage increases to {@damage 2d6}, or {@damage 3d6} if the creature is {@status Concentrating|XPHB} on a spell. If a creature fails its saving throw to maintain {@status Concentration|XPHB} as a result of taking damage from this feature, you gain {@variantrule Temporary Hit Points|XPHB} equal to the extra Force damage dealt. You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Spell Shield",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend one use of your Channel Divinity to bestow a temporary resilience against arcane harm for 10 minutes. Choose a creature you can see (including yourself) within 30 feet of yourself. The chosen creature gains {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d10} plus your Cleric level. While a creature has {@variantrule Temporary Hit Points|XPHB} granted by your Spell Shield, the creature has {@variantrule Advantage|XPHB} on saving throws against spells, and it has {@variantrule Resistance|XPHB} to the damage of spells. If any of these {@variantrule Temporary Hit Points|XPHB} remain when Spell Shield ends, they vanish."
+    },
+    {
+      "name": "Arcane Nullification",
+      "level": 6,
+      "source": "GHePG'24",
+      "description": "Starting at 6th level, when you or an ally within 30 feet of you is targeted by a spell, you can use your reaction to grant that creature advantage on the saving throw. If the spell doesn't require a saving throw, the spell's attack roll has disadvantage instead."
+    },
+    {
+      "name": "Sanctified Strikes",
+      "level": 8,
+      "source": "GHePG'24",
+      "description": "Your Witch Hunter's Strike damage increases. The base extra damage is now {@damage 2d6} Force, or {@damage 3d6} Force if the target is {@status Concentrating|XPHB} on a spell."
+    },
+    {
+      "name": "Supreme Inquisitor",
+      "level": 17,
+      "source": "GHePG'24",
+      "description": "At 17th level, you become an unmatched hunter of arcane practitioners. You gain resistance to damage from spells. Additionally, when you successfully disrupt a creature's {@status Concentration|XPHB} using your Witch Hunter's Strike, you can immediately cast {@spell dispel magic} as part of the same action without expending a spell slot, targeting one spell effect on the creature or within 30 feet of it."
+    }
+  ]
+}

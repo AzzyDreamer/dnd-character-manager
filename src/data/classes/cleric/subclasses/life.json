@@ -1,0 +1,47 @@
+{
+  "id": "life",
+  "name": "Домен Жизни",
+  "classId": "cleric",
+  "description": "The Life Domain focuses on the vibrant positive energy—one of the fundamental forces of the multiverse—that sustains all life. The gods of life promote vitality and health through healing the sick and wounded, caring for those in need, and driving away the forces of undeath and death. Almost any non-evil deity can claim influence over this domain, particularly agricultural deities, sun gods, gods of healing or endurance, and gods of home and community.",
+  "shortDescription": "Supreme Healer Blessed with Vitality",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Life Domain Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Life Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Aid}", "{@spell Bless}", "{@spell Cure Wounds}", "{@spell Lesser Restoration}"] },
+        { "clericLevel": 5, "spells": ["{@spell Mass Healing Word}", "{@spell Revivify}"] },
+        { "clericLevel": 7, "spells": ["{@spell Aura of Life}", "{@spell Death Ward}"] },
+        { "clericLevel": 9, "spells": ["{@spell Greater Restoration}", "{@spell Mass Cure Wounds}"] }
+      ]
+    },
+    {
+      "name": "Disciple of Life",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When a spell you cast with a spell slot restores {@variantrule Hit Points|XPHB} to a creature, that creature regains additional {@variantrule Hit Points|XPHB} equal to 2 plus the spell's level."
+    },
+    {
+      "name": "Preserve Life",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Magic|XPHB} action, you can expend a use of your Channel Divinity and evoke healing energy that can restore a number of {@variantrule Hit Points|XPHB} equal to five times your Cleric level. Choose any creatures within 30 feet of yourself (which can include you), and divide those {@variantrule Hit Points|XPHB} among them. This feature can restore a creature to no more than half its {@variantrule Hit Point|XPHB} maximum."
+    },
+    {
+      "name": "Blessed Healer",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "The healing spells you cast on others heal you as well. When you cast a spell with a spell slot that restores {@variantrule Hit Points|XPHB} to another creature, you regain {@variantrule Hit Points|XPHB} equal to 2 plus the spell's level."
+    },
+    {
+      "name": "Supreme Healing",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "When you would normally roll one or more dice to restore {@variantrule Hit Points|XPHB} with a spell or Channel Divinity, don't roll those dice for the healing; instead use the highest number possible for each die. For example, instead of restoring {@dice 2d6} {@variantrule Hit Points|XPHB} to a creature, you restore 12."
+    }
+  ]
+}
