@@ -25,22 +25,22 @@
       "description": "As a {@action Bonus Action|XPHB}, you can expend a use of your Wild Shape to adopt an aspect of entropy and the inevitable end of all things for 10 minutes. You gain the following benefits: {@b All Things Pass.} You have {@status Advantage} on attack rolls against {@status Bloodied} creatures. {@b Inexorable Onslaught.} You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn. {@b Ironskin Armor.} Your base AC becomes 17 plus your Wisdom modifier (minimum of +1) if your AC is lower than that."
     },
     {
-      "name": "Entropic Ward",
+      "name": "Many Roads to Ruin",
       "level": 6,
       "source": "GH:PG24",
-      "description": "Your connection to the forces of entropy shields you. When a creature you can see hits you with an attack, you can use your reaction to reduce the damage by an amount equal to {@dice 1d10} + your Wisdom modifier + your Druid level. You can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a long rest."
+      "description": "Your mystical connection to catastrophe and destruction grows stronger. You gain the following benefits. {@b Elemental Assault.} While your Ruin Incarnate feature is active, whenever you hit with a weapon or an {@action Unarmed Strike|XPHB}, you can cause it to deal your choice of Acid, Cold, Fire, Lightning, or Necrotic damage rather than its normal damage type. {@b Increased Might.} While your Ruin Incarnate is active, you can add your Wisdom modifier (minimum of +1) to your Strength and Dexterity saving throws."
     },
     {
-      "name": "Accelerated Decay",
+      "name": "Shake the Earth",
       "level": 10,
       "source": "GH:PG24",
-      "description": "Your entropic power causes weapons and armor to corrode upon contact. When you hit a creature with a weapon attack while your Ruin Incarnate feature is active, the target's AC is reduced by 1 until the end of your next turn (this can stack up to 3 times). Additionally, the Necrotic damage from your Ruinous Smite ignores resistance."
+      "description": "As a {@action Magic|XPHB} action, you can strike the earth with a thunderous tremor and grow. When you do so, your size increases by one category (from Medium to Large, for example) for 10 minutes. In addition, each creature in a 30-foot {@variantrule Emanation|XPHB} originating from your new form must make a Dexterity saving throw against your spell save DC, or have the {@condition Prone} condition. The tremor deals Bludgeoning damage to each structure in contact with the ground in the area. To determine this damage, roll a number of {@dice d4}s equal to your Druid level. While your size is increased by this feature, your attacks with weapons and {@action Unarmed Strikes|XPHB} deal an extra {@dice 1d4} damage on a hit. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
     },
     {
-      "name": "Herald of the End",
+      "name": "Entropy's Apex",
       "level": 14,
       "source": "GH:PG24",
-      "description": "You become an avatar of destruction. While your Ruin Incarnate feature is active, you gain the following additional benefits: You have resistance to all damage. When you reduce a creature to 0 hit points, you regain one expended use of Wild Shape. Your Elemental Cataclysm deals additional damage equal to your Wisdom modifier to each creature that fails its saving throw."
+      "description": "You have mastered the ability to hasten the inevitable slide toward entropy. You gain the following benefits. {@b Enhanced Ruinous Smite.} Until the end of your next turn, any creature affected by your Ruinous Smite suffers a {@variantrule Critical Hit|XPHB} on a roll of 19-20 on the {@dice d20}. {@b Improved Inexorable Onslaught.} While your Ruin Incarnate feature is active, you can attack with a weapon or an {@action Unarmed Strike|XPHB} three times instead of once whenever you take the {@action Attack|XPHB} action on your turn. {@b World Breaker.} You regain your use of the Shake the Earth feature when you finish a {@variantrule Short|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }
