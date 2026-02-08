@@ -32,22 +32,16 @@
       "description": "As a {@action Bonus Action|XPHB}, you can expend one use of your Channel Divinity to bestow a temporary resilience against arcane harm for 10 minutes. Choose a creature you can see (including yourself) within 30 feet of yourself. The chosen creature gains {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d10} plus your Cleric level. While a creature has {@variantrule Temporary Hit Points|XPHB} granted by your Spell Shield, the creature has {@variantrule Advantage|XPHB} on saving throws against spells, and it has {@variantrule Resistance|XPHB} to the damage of spells. If any of these {@variantrule Temporary Hit Points|XPHB} remain when Spell Shield ends, they vanish."
     },
     {
-      "name": "Arcane Nullification",
+      "name": "Rebuke Invoker",
       "level": 6,
       "source": "GHePG'24",
-      "description": "Starting at 6th level, when you or an ally within 30 feet of you is targeted by a spell, you can use your reaction to grant that creature advantage on the saving throw. If the spell doesn't require a saving throw, the spell's attack roll has disadvantage instead."
+      "description": "As a {@variantrule Reaction|XPHB} in response to a creature you can see within 60 feet of yourself using a {@action Magic|XPHB} action to cast a spell, you can force the creature to make a Constitution saving throw against your spell save DC. On a failed save, the creature takes {@damage 1d6} Force damage, plus another {@damage 1d6} per level of the spell slot the creature expended. Cantrips are considered level 1 spells for this ability. On a successful save, the creature takes half as much damage instead. You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses of this feature when you finish a {@variantrule Long Rest|XPHB}."
     },
     {
-      "name": "Sanctified Strikes",
-      "level": 8,
-      "source": "GHePG'24",
-      "description": "Your Witch Hunter's Strike damage increases. The base extra damage is now {@damage 2d6} Force, or {@damage 3d6} Force if the target is {@status Concentrating|XPHB} on a spell."
-    },
-    {
-      "name": "Supreme Inquisitor",
+      "name": "Supernal Safeguard",
       "level": 17,
       "source": "GHePG'24",
-      "description": "At 17th level, you become an unmatched hunter of arcane practitioners. You gain resistance to damage from spells. Additionally, when you successfully disrupt a creature's {@status Concentration|XPHB} using your Witch Hunter's Strike, you can immediately cast {@spell dispel magic} as part of the same action without expending a spell slot, targeting one spell effect on the creature or within 30 feet of it."
+      "description": "Spell Shield can target a number of creatures up to your Wisdom modifier (minimum of one creature)."
     }
   ]
 }

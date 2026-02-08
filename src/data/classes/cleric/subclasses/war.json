@@ -2,8 +2,8 @@
   "id": "war",
   "name": "Домен Войны",
   "classId": "cleric",
-  "description": "War has many manifestations. It can make heroes of ordinary people. It can be desperate and horrific, with acts of cruelty and cowardice eclipsing instances of excellence and courage. In either case, the gods of war watch over warriors and reward them for their great deeds. The clerics of such gods excel in battle, inspiring others to fight the good fight or offering acts of violence as prayers. Gods of war include champions of honor and chivalry (such as {@deity Torm}, {@deity Heironeous}, and {@deity Kiri-Jolith}) as well as gods of destruction and pillage (such as {@deity Erythnul}, the Fury, {@deity Gruumsh}, and {@deity Ares}) and gods of conquest and domination (such as {@deity Bane}, {@deity Hextor}, and {@deity Maglubiyet}).",
-  "shortDescription": "Warrior of Faith Blessed for Battle",
+  "description": "War has many manifestations. It can make heroes of ordinary people. It can be desperate and horrific, with acts of cruelty and cowardice eclipsing instances of excellence and courage. Clerics who tap into the magic of the War Domain excel in battle, inspiring others to fight the good fight or offering acts of violence as prayers. Gods of the War Domain watch over warriors and reward them for their great deeds. They include champions of honor and chivalry as well as gods of destruction and pillage. Other war gods take a more neutral stance, promoting war in all its manifestations and supporting warriors in any circumstance. Inspire Valor and Smite Foes.",
+  "shortDescription": "Inspire Valor and Smite Foes",
   "source": "PHB'24",
   "level": 3,
   "features": [
@@ -23,19 +23,19 @@
       "name": "War Priest",
       "level": 3,
       "source": "PHB'24",
-      "description": "Your god delivers bolts of inspiration to you while you are engaged in battle. When you take the {@action Attack} action, you can make one extra attack as a {@action Bonus Action|XPHB}. You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+      "description": "As a {@action Bonus Action|XPHB}, you can make one attack with a weapon or an {@variantrule Unarmed Strike|XPHB}. You can use this {@action Bonus Action|XPHB} a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     },
     {
       "name": "Guided Strike",
       "level": 3,
       "source": "PHB'24",
-      "description": "When you or a creature within 30 feet of you misses with an attack roll, you can expend a use of your Channel Divinity and grant a +10 bonus to the roll, potentially turning the miss into a hit."
+      "description": "When you or a creature within 30 feet of you misses with an attack roll, you can expend one use of your Channel Divinity and give that roll a +10 bonus, potentially turning the miss into a hit. When you use this feature to benefit another creature's attack roll, you must take a {@variantrule Reaction|XPHB} to do so."
     },
     {
       "name": "War God's Blessing",
       "level": 6,
       "source": "PHB'24",
-      "description": "You can use your Guided Strike to benefit another creature's attack roll rather than your own. When a creature within 30 feet of you misses with an attack roll, you can expend a use of your Channel Divinity and grant a +10 bonus to the creature's roll, potentially turning the miss into a hit."
+      "description": "You can expend a use of your Channel Divinity to cast {@spell Shield of Faith|XPHB} or {@spell Spiritual Weapon|XPHB} rather than expending a spell slot. When you cast either spell in this way, the spell doesn't require {@status Concentration|XPHB}. Instead the spell lasts for 1 minute, but it ends early if you cast that spell again, have the {@condition Incapacitated|XPHB} condition, or die."
     },
     {
       "name": "Avatar of Battle",

@@ -13,10 +13,11 @@
       "source": "TCE",
       "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Peace Domain Spells table, you thereafter always have the listed spells prepared.",
       "spellList": [
-        { "clericLevel": 3, "spells": ["{@spell Aid}", "{@spell Heroism}", "{@spell Sanctuary}", "{@spell Warding Bond}"] },
-        { "clericLevel": 5, "spells": ["{@spell Beacon of Hope}", "{@spell Sending}"] },
-        { "clericLevel": 7, "spells": ["{@spell Aura of Purity}", "{@spell Otiluke's Resilient Sphere}"] },
-        { "clericLevel": 9, "spells": ["{@spell Greater Restoration}", "{@spell Rary's Telepathic Bond}"] }
+        { "clericLevel": 1, "spells": ["{@spell heroism}", "{@spell sanctuary}"] },
+        { "clericLevel": 3, "spells": ["{@spell aid}", "{@spell warding bond}"] },
+        { "clericLevel": 5, "spells": ["{@spell beacon of hope}", "{@spell sending}"] },
+        { "clericLevel": 7, "spells": ["{@spell aura of purity}", "{@spell Otiluke's resilient sphere}"] },
+        { "clericLevel": 9, "spells": ["{@spell greater restoration}", "{@spell Rary's telepathic bond}"] }
       ]
     },
     {

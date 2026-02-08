@@ -33,22 +33,16 @@
       "description": "As a {@action Magic|XPHB} action, you can expend one use of your Channel Divinity to manifest your magical knowledge. Choose one spell from the Divination school on the Knowledge Domain Spells table that you have prepared. As part of that action, you cast that spell without expending a spell slot or needing Material components."
     },
     {
-      "name": "Thought Reader",
+      "name": "Unfettered Mind",
       "level": 6,
       "source": "FRHoF",
-      "description": "You gain the ability to read a creature's thoughts more deeply. When you cast {@spell Detect Thoughts}, you can target one additional creature. Additionally, when a creature fails its saving throw against your {@spell Detect Thoughts}, you learn one piece of information the creature is trying to keep hidden, such as a secret, a weakness, or a plan."
+      "description": "You gain {@sense telepathy|XPHB} out to 60 feet. When you use this telepathy, you can simultaneously contact a number of creatures equal to your Wisdom modifier (minimum of one). Additionally, you gain proficiency in Intelligence saving throws. If you already have this proficiency, you instead gain saving throw proficiency with one ability in which you lack it."
     },
     {
-      "name": "Potent Spellcasting",
-      "level": 8,
-      "source": "FRHoF",
-      "description": "You add your Wisdom modifier to the damage you deal with any Cleric cantrip."
-    },
-    {
-      "name": "Visions of the Past",
+      "name": "Divine Foreknowledge",
       "level": 17,
       "source": "FRHoF",
-      "description": "You can call up visions of the past that relate to an object you hold or your immediate surroundings. You spend at least 1 minute in meditation and prayer, then receive dreamlike, shadowy glimpses of recent events. You can meditate in this way for a number of minutes equal to your Wisdom score and must maintain concentration during that time, as if you were casting a spell. {@b Object Reading.} Holding an object as you meditate, you can see visions of the object's previous owner. After meditating for 1 minute, you learn how the owner acquired and lost the object, as well as the most recent significant event involving the object and that owner. {@b Area Reading.} As you meditate, you see visions of recent events in your immediate vicinity (a room, street, tunnel, clearing, or the like, up to a 50-foot cube), going back a number of days equal to your Wisdom score. For each minute you meditate, you learn about one significant event, beginning with the most recent."
+      "description": "As a {@action Bonus Action|XPHB}, you magically expand your mind to the future. For 1 hour, you have {@variantrule Advantage|XPHB} on {@variantrule D20 Tests|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of this feature by expending a level 6+ spell slot (no action required)."
     }
   ]
 }

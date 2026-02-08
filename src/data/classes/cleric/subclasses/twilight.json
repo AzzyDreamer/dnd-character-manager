@@ -13,11 +13,18 @@
       "source": "TCE",
       "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Twilight Domain Spells table, you thereafter always have the listed spells prepared.",
       "spellList": [
-        { "clericLevel": 3, "spells": ["{@spell Faerie Fire}", "{@spell Moonbeam}", "{@spell See Invisibility}", "{@spell Sleep}"] },
-        { "clericLevel": 5, "spells": ["{@spell Aura of Vitality}", "{@spell Leomund's Tiny Hut}"] },
-        { "clericLevel": 7, "spells": ["{@spell Aura of Life}", "{@spell Greater Invisibility}"] },
-        { "clericLevel": 9, "spells": ["{@spell Circle of Power}", "{@spell Mislead}"] }
+        { "clericLevel": 1, "spells": ["{@spell faerie fire}", "{@spell sleep}"] },
+        { "clericLevel": 3, "spells": ["{@spell moonbeam}", "{@spell see invisibility}"] },
+        { "clericLevel": 5, "spells": ["{@spell aura of vitality}", "{@spell Leomund's tiny hut}"] },
+        { "clericLevel": 7, "spells": ["{@spell aura of life}", "{@spell greater invisibility}"] },
+        { "clericLevel": 9, "spells": ["{@spell circle of power}", "{@spell mislead}"] }
       ]
+    },
+    {
+      "name": "Bonus Proficiencies",
+      "level": 3,
+      "source": "TCE",
+      "description": "You gain proficiency with martial weapons and heavy armor."
     },
     {
       "name": "Eyes of Night",

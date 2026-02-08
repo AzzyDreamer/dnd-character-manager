@@ -168,6 +168,6 @@
   "subclassIds": [
     "arcana", "eldritch", "forge", "grave", "inquisition", "knowledge",
     "life", "light", "order", "peace", "purification",
-    "tempest", "trickery", "twilight", "war"
+    "trickery", "twilight", "war"
   ]
 }

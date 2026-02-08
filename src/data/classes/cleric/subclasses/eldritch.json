@@ -42,16 +42,16 @@
       "description": "As a {@action Magic|XPHB} action, you expend a use of your Channel Divinity to choose a point within 120 feet of you that you can see and roll on the Eldritch Effects table. Each creature in a 15-foot-radius {@variantrule Sphere|XPHB} centered on that point must succeed on a Wisdom saving throw against your spell save DC or suffer the rolled effect for 1 minute. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success."
     },
     {
-      "name": "Whispers of the Void",
+      "name": "Otherworldly Calm",
       "level": 6,
       "source": "GHePG'24",
-      "description": "Your connection to eldritch forces deepens, granting you resistance to Psychic damage. Additionally, when a creature fails a saving throw against your Eldritch Contagion or Prophecy of Doom, you gain {@variantrule Temporary Hit Points|XPHB} equal to your Wisdom modifier (minimum 1)."
+      "description": "You have {@variantrule Resistance|XPHB} to Psychic damage and {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions. Additionally, your thoughts can't be read by telepathy or other means unless you allow it. The attempt automatically fails, and the creature must succeed on a Wisdom saving throw against your spell save DC or take Psychic damage equal to your Cleric level."
     },
     {
-      "name": "Maddening Presence",
+      "name": "Sing the Song that Ends the World",
       "level": 17,
       "source": "GHePG'24",
-      "description": "Your mere presence can unravel the minds of those around you. When you roll on the Eldritch Effects table, you can choose the result instead of rolling. Additionally, when a creature fails a saving throw against your Eldritch Contagion or Prophecy of Doom by 5 or more, it suffers two effects from the table instead of one (roll or choose both)."
+      "description": "When a creature fails a Wisdom saving throw against your Prophecy of Doom feature, you can deal {@damage 10d10} Psychic damage to it. Once a creature takes damage in this way, it is immune to this effect for 10 minutes, after which it can be affected again."
     }
   ]
 }
