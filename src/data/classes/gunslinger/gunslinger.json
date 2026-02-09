@@ -1,0 +1,221 @@
+{
+  "id": "gunslinger",
+  "name": "Стрелок",
+  "source": "GC:VSS'24",
+  "hitDie": "d8",
+  "hitPointsAtFirstLevel": "8 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d8 (or 5) + your Constitution modifier per Gunslinger level after 1st",
+  "primaryAbility": ["dexterity"],
+  "savingThrows": ["dexterity", "charisma"],
+  "spellcaster": false,
+  "description": "Стрелок — мастер огнестрельного оружия, сочетающий молниеносную реакцию, точную стрельбу и дерзкие манёвры. Рискуя жизнью ради победы, стрелки полагаются на ловкость, харизму и специальные кости риска.",
+  "proficiencies": {
+    "armor": ["Light armor"],
+    "weapons": ["Simple weapons", "Martial Ranged weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["acrobatics", "animalHandling", "athletics", "deception", "insight", "intimidation", "perception", "persuasion", "sleightOfHand", "stealth"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "{@item Revolver|GC:VSS'24}", "50 {@item Bullet|GC:VSS'24}", "{@item Explorer's Pack|XPHB}", "11 GP"],
+    "optionB": ["175 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Dexterity 13",
+    "weaponProficiencies": ["Martial Ranged weapons"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Fighting Style", "Quick Draw", "Weapon Mastery"],  "riskDice": null,   "weaponMastery": 2, "preparedSpells": null, "spellSlots": { "1st": null, "2nd": null, "3rd": null, "4th": null } },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Critical Shot", "Risk"],                          "riskDice": "4d8",  "weaponMastery": 2, "preparedSpells": null, "spellSlots": { "1st": null, "2nd": null, "3rd": null, "4th": null } },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Gunslinger Subclass"],                             "riskDice": "4d8",  "weaponMastery": 2, "preparedSpells": 3,    "spellSlots": { "1st": 2,    "2nd": null, "3rd": null, "4th": null } },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                       "riskDice": "4d8",  "weaponMastery": 3, "preparedSpells": 4,    "spellSlots": { "1st": 3,    "2nd": null, "3rd": null, "4th": null } },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Extra Attack", "Gut Shot"],                        "riskDice": "4d8",  "weaponMastery": 3, "preparedSpells": 4,    "spellSlots": { "1st": 3,    "2nd": null, "3rd": null, "4th": null } },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                                "riskDice": "5d8",  "weaponMastery": 3, "preparedSpells": 4,    "spellSlots": { "1st": 3,    "2nd": null, "3rd": null, "4th": null } },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Evasion"],                                         "riskDice": "5d8",  "weaponMastery": 3, "preparedSpells": 5,    "spellSlots": { "1st": 4,    "2nd": 2,    "3rd": null, "4th": null } },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                       "riskDice": "5d8",  "weaponMastery": 3, "preparedSpells": 6,    "spellSlots": { "1st": 4,    "2nd": 2,    "3rd": null, "4th": null } },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Critical Shot"],                                   "riskDice": "5d8",  "weaponMastery": 3, "preparedSpells": 7,    "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": null, "4th": null } },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Subclass Feature"],                                "riskDice": "5d10", "weaponMastery": 4, "preparedSpells": 7,    "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": null, "4th": null } },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Overkill"],                                        "riskDice": "5d10", "weaponMastery": 4, "preparedSpells": 8,    "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": null, "4th": null } },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                       "riskDice": "5d10", "weaponMastery": 4, "preparedSpells": 9,    "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 2,    "4th": null } },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Cheat Death"],                                     "riskDice": "5d10", "weaponMastery": 4, "preparedSpells": 10,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 2,    "4th": null } },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Subclass Feature"],                                "riskDice": "6d10", "weaponMastery": 4, "preparedSpells": 10,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 2,    "4th": null } },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Dire Gambit"],                                     "riskDice": "6d10", "weaponMastery": 4, "preparedSpells": 10,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 2,    "4th": null } },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                       "riskDice": "6d10", "weaponMastery": 4, "preparedSpells": 11,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 3,    "4th": null } },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Critical Shot"],                                   "riskDice": "6d10", "weaponMastery": 4, "preparedSpells": 11,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 3,    "4th": null } },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Deft Maneuver"],                                   "riskDice": "6d12", "weaponMastery": 4, "preparedSpells": 11,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 3,    "4th": null } },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                       "riskDice": "6d12", "weaponMastery": 4, "preparedSpells": 12,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 3,    "4th": 1    } },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Headshot"],                                        "riskDice": "6d12", "weaponMastery": 4, "preparedSpells": 13,   "spellSlots": { "1st": 4,    "2nd": 3,    "3rd": 3,    "4th": 1    } }
+  ],
+  "classFeatures": [
+    {
+      "name": "Fighting Style",
+      "level": 1,
+      "source": "GC:VSS'24",
+      "description": "You gain a {@feat Fighting Style|XPHB} feat of your choice. If you choose a feat, such as {@feat Great Weapon Fighting|XPHB}, that requires you to hold a Melee weapon in one or two hands, you can use that feat with Ranged weapons. Whenever you gain a Gunslinger level, you can replace the feat you chose with a different {@feat Fighting Style|XPHB} feat."
+    },
+    {
+      "name": "Quick Draw",
+      "level": 1,
+      "source": "GC:VSS'24",
+      "description": "You're adept at drawing and firing before others have time to react, granting you the following benefits.",
+      "details": {
+        "initiative": "You have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls.",
+        "doubleDraw": "You can draw or stow two weapons that lack {@property Two-Handed|XPHB} when you would normally be able to draw or stow only one."
+      }
+    },
+    {
+      "name": "Weapon Mastery",
+      "level": 1,
+      "source": "GC:VSS'24",
+      "description": "Your training with weapons allows you to use the {@variantrule mastery properties|XPHB} of two kinds of {@filter Simple or Martial Ranged weapons|items|type=martial ranged weapon} of your choice. Whenever you finish a {@variantrule Long Rest|XPHB}, you can practice weapon drills and change one of those weapon choices. When you reach certain Gunslinger levels, you gain the ability to use the {@variantrule mastery properties|XPHB} of more kinds of weapons, as shown in the Weapon Mastery column of the Gunslinger Features table."
+    },
+    {
+      "name": "Critical Shot",
+      "level": 2,
+      "source": "GC:VSS'24",
+      "description": "Your attack rolls with Ranged weapons can score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}. At Gunslinger level 9, your attack rolls with Ranged weapons score a {@variantrule Critical Hit|XPHB} on a roll of 18–20. At Gunslinger level 17, they score a {@variantrule Critical Hit|XPHB} on a roll of 17–20."
+    },
+    {
+      "name": "Risk",
+      "level": 2,
+      "source": "GC:VSS'24",
+      "description": "You can perform incredible feats of daring fueled by special dice called Risk Dice.",
+      "details": {
+        "riskDice": "You have four Risk Dice, which are d8s. A Risk Die is expended when you use it. You regain all expended Risk Dice when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. Your Risk Die changes and more Risk Dice become available as shown on the Risk Dice column of the Gunslinger Features table.",
+        "maneuvers": "You can expend Risk Dice to perform maneuvers. Your maneuver options are detailed later in the class description.",
+        "savingThrows": "If a maneuver requires a saving throw, the DC equals 8 plus your Dexterity modifier and {@variantrule Proficiency Bonus|XPHB}."
+      }
+    },
+    {
+      "name": "Maneuver Options",
+      "level": 2,
+      "source": "GC:VSS'24",
+      "description": "The following maneuver options are available to all Gunslingers.",
+      "details": {
+        "biteTheBullet": "As a {@action Bonus Action|XPHB}, you can expend one Risk Die to gain {@variantrule Temporary Hit Points|XPHB} equal to the number rolled on the die plus your Gunslinger level.",
+        "blindfire": "You can take a {@action Bonus Action|XPHB} and expend one Risk Die to gain {@sense Blindsight|XPHB} with a range of 30 feet until the end of the current turn.",
+        "dodgeRoll": "You can expend one Risk Die as a {@action Bonus Action|XPHB} to move up to 15 feet and reload any Ranged weapon you are holding. This movement doesn't provoke {@action Opportunity Attacks|XPHB} and is unaffected by {@variantrule Difficult Terrain|XPHB}.",
+        "grazingShot": "When you miss with a ranged attack roll using a weapon, you can expend one Risk Die (no action required) to deal damage to that creature equal to a roll of the die plus your Dexterity modifier (minimum of 1). This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier. You can only use this maneuver once per turn.",
+        "maverickSpirit": "When you fail an Intelligence, Wisdom, or Charisma ability check or saving throw, you can expend one Risk Die to add it to the roll, potentially turning it into a success. You can only use this maneuver once per turn.",
+        "skinOfYourTeeth": "When a creature you can see hits you with an attack roll, you can take a {@action Reaction|XPHB} and expend one Risk Die to dodge out of harm's way. Roll the die and add the number rolled to your AC against this attack, potentially causing it to miss."
+      }
+    },
+    {
+      "name": "Gunslinger Subclass",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You gain a Gunslinger subclass of your choice. A subclass is a specialization that grants you features at certain Gunslinger levels. For the rest of your career, you gain each of your subclass's features that are of your Gunslinger level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "GC:VSS'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Gunslinger levels 8, 12, and 16."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "GC:VSS'24",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Gut Shot",
+      "level": 5,
+      "source": "GC:VSS'24",
+      "description": "Whenever you score a {@variantrule Critical Hit|XPHB} against a Large or smaller creature with a ranged weapon using a weapon, the projectile lodges itself in the target. For 1 minute or until the target replaces one of its attacks with dislodging the projectile, its {@variantrule Speed|XPHB} is halved and it has {@variantrule Disadvantage|XPHB} on attack rolls."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "You gain a feature from your Gunslinger Subclass."
+    },
+    {
+      "name": "Evasion",
+      "level": 7,
+      "source": "GC:VSS'24",
+      "description": "When you're subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw and only half damage if you fail. You don't benefit from this feature if you have the {@condition Incapacitated|XPHB} condition."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 8,
+      "source": "GC:VSS'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Critical Shot",
+      "level": 9,
+      "source": "GC:VSS'24",
+      "description": "Your attack rolls with Ranged weapons can score a {@variantrule Critical Hit|XPHB} on a roll of 18, 19, or 20 on the {@dice d20}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "You gain a feature from your Gunslinger Subclass."
+    },
+    {
+      "name": "Overkill",
+      "level": 11,
+      "source": "GC:VSS'24",
+      "description": "When you deal damage with a Ranged weapon that doesn't add your ability modifier to the roll, you add your ability modifier nonetheless. If you already add your modifier to the damage roll, the target takes an extra {@dice 1d6} damage of the weapon's type. Note that weapons that have the Firearm property don't add your ability modifier to damage rolls."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 12,
+      "source": "GC:VSS'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Cheat Death",
+      "level": 13,
+      "source": "GC:VSS'24",
+      "description": "When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can drop to 1 {@variantrule Hit Point|XPHB} instead, and you regain a number of {@variantrule Hit Points|XPHB} equal to your Gunslinger level. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "You gain a feature from your Gunslinger Subclass."
+    },
+    {
+      "name": "Dire Gambit",
+      "level": 15,
+      "source": "GC:VSS'24",
+      "description": "Whenever you roll {@variantrule Initiative|XPHB} or score a {@variantrule Critical Hit|XPHB}, you regain one expended Risk Die."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 16,
+      "source": "GC:VSS'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Critical Shot",
+      "level": 17,
+      "source": "GC:VSS'24",
+      "description": "Your attack rolls with Ranged weapons can score a {@variantrule Critical Hit|XPHB} on a roll of 17, 18, 19, or 20 on the {@dice d20}."
+    },
+    {
+      "name": "Deft Maneuver",
+      "level": 18,
+      "source": "GC:VSS'24",
+      "description": "You gain a special additional {@action Bonus Action|XPHB} that you can take once on each of your turns. You can take this special {@action Bonus Action|XPHB} only to use a maneuver."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "GC:VSS'24",
+      "description": "You gain an {@feat Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Irresistible Offense|XPHB} is recommended."
+    },
+    {
+      "name": "Headshot",
+      "level": 20,
+      "source": "GC:VSS'24",
+      "description": "You have mastered the art of the perfect shot. When you score a {@variantrule Critical Hit|XPHB} with a Ranged weapon against a creature, you can deal maximum damage with the attack's damage dice instead of rolling them. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    }
+  ],
+  "subclassIds": ["deadeye", "high-roller", "secret-agent", "spellslinger", "trick-shot", "white-hat"]
+}

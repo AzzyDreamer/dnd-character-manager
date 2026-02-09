@@ -1,0 +1,46 @@
+{
+  "id": "white-hat",
+  "name": "Белая Шляпа",
+  "classId": "gunslinger",
+  "description": "Some Gunslingers live by a code and expect others to do the same. These Gunslingers, known as White Hats, sometimes serve as officers of the law but never hesitate to do what's right when the law says otherwise. Despite their affinity for deadly weapons, White Hats prefer to keep their friends safe and subdue their enemies nonviolently—a preference their enemies don't often oblige.",
+  "shortDescription": "Protect Your Allies and Uphold the Law",
+  "source": "GC:VSS'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Lay Down the Law",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] You can take a {@action Bonus Action|XPHB} and expend one Risk Die to keep an eye out for dangers that threaten your companions. Choose an ally that you can see within 60 feet of you. That ally gains {@variantrule Temporary Hit Points|XPHB} equal to the number rolled on the Risk Die. Until the start of your next turn, if the ally is hit by an attack, you can take a {@action Reaction|XPHB} to make a ranged attack using a weapon against the attacker."
+    },
+    {
+      "name": "Steely-Eyed Aura",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "An aura of stoic confidence radiates from you in a 10-foot {@variantrule Emanation|XPHB}. You and allies within the {@variantrule Emanation|XPHB} have {@variantrule Advantage|XPHB} on saving throws made to avoid or end the {@condition Frightened|XPHB} condition. The aura is inactive while you have the {@condition Incapacitated|XPHB} condition."
+    },
+    {
+      "name": "Reach for the Skies",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "When you score a {@variantrule Critical Hit|XPHB} against a creature, you call for the target to surrender instead of lodging a projectile in it. The target must succeed on a Wisdom saving throw against your Maneuver save DC or have the {@condition Frightened|XPHB} and {@condition Incapacitated|XPHB} conditions for 1 minute. These conditions end early if the creature takes any damage, if you have the {@condition Incapacitated|XPHB} condition, or if you die. The creature can repeat the Wisdom saving throw at the end of each of its turns, ending the conditions on itself on a success."
+    },
+    {
+      "name": "Long Arm of the Law",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "Once per turn when you hit a Large or smaller creature with a ranged attack using a weapon, you can hobble the target. The creature can't move on its next turn unless it first takes the {@action Disengage|XPHB} action."
+    },
+    {
+      "name": "Gold Star Hero",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "Through gunslinging heroism, you gain the following benefits.",
+      "details": {
+        "improvedAura": "The range of your Steely-Eyed Aura feature increases to 30 feet.",
+        "ironCladLaw": "When you use your Lay Down the Law maneuver, the ally has {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage until the start of your next turn.",
+        "stunnedSurrender": "When a creature fails its saving throw against your Reach for the Skies feature, it has the {@condition Stunned|XPHB} condition instead of the {@condition Incapacitated|XPHB} condition."
+      }
+    }
+  ]
+}

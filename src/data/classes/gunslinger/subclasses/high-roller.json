@@ -1,0 +1,46 @@
+{
+  "id": "high-roller",
+  "name": "Азартный Игрок",
+  "classId": "gunslinger",
+  "description": "Fortune is a fickle thing—unless you're a High Roller. These Gunslingers are master card sharps and dice throwers that mix their love of risk with their talent for gunplay. High Rollers push their luck until it runs out, then push harder. Why settle for a win when you could bet it all and win big?",
+  "shortDescription": "Gamble with Life and Death",
+  "source": "GC:VSS'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Poker Face",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You gain proficiency with all {@item Gaming Sets|XPHB} and in one of the following skills of your choice: {@skill Deception}, {@skill Insight}, or {@skill Perception}."
+    },
+    {
+      "name": "Liar's Dice",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] When you make a damage roll with a Ranged weapon, you can expend one Risk Die as a {@action Bonus Action|XPHB} and declare it to be a hidden roll. Roll the damage in secret and declare any total you wish. The GM has the option to call your bluff, in which case you reveal the damage dice you rolled. This has different consequences based on whether or not you lied.",
+      "details": {
+        "gmCallsBluffYouLied": "The damage you deal is halved.",
+        "gmCallsBluffYouToldTheTruth": "The damage deal is doubled.",
+        "gmDoesntCallBluff": "Use the total damage you declared, even if you rolled a different total."
+      }
+    },
+    {
+      "name": "Risky Business",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "Once per turn when you roll an attack roll against an enemy and the roll doesn't have {@variantrule Disadvantage|XPHB}, you can choose to make the roll with {@variantrule Disadvantage|XPHB}. When you do, you regain one expended Risk Die."
+    },
+    {
+      "name": "Risk Taker",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "You can use your Maverick Spirit and Skin of Your Teeth maneuvers without expending a Risk Die. When you do so, roll a {@dice d6} instead of a Risk Die."
+    },
+    {
+      "name": "Double or Nothing",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "When you score a {@variantrule Critical Hit|XPHB} using a Ranged weapon, you can gamble for a higher result. Roll a {@dice d20}. If the roll is a 10 or higher, roll all of the attack's damage dice four times and add them together, instead of only two times as normal for a {@variantrule Critical Hit|XPHB}. If you roll a 9 or lower on the {@dice d20}, the {@variantrule Critical Hit|XPHB} becomes a normal hit."
+    }
+  ]
+}

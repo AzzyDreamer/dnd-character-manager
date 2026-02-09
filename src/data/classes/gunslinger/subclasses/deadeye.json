@@ -1,0 +1,49 @@
+{
+  "id": "deadeye",
+  "name": "Меткий Стрелок",
+  "classId": "gunslinger",
+  "description": "A well-placed bullet is more powerful than a sword, arrow, or spell. Indeed, you believe that every violent conflict should sound like a single loud crack followed by a long silence. Such shots demand perfection, even at range, for when they are done right, they are as deadly for the target as they are stupendous for the audience.",
+  "shortDescription": "Shoot with Bullseye Precision",
+  "source": "GC:VSS'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Eagle Eye",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] Once per turn when you miss with a ranged attack roll, you can expend one Risk Die and add it to the attack roll, potentially causing the attack to hit."
+    },
+    {
+      "name": "Sharpshooter's Stance",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You have trained to fire from a stable {@condition Prone|XPHB} position, granting the following conditions.",
+      "details": {
+        "fireWhileProne": "You don't have {@variantrule Disadvantage|XPHB} on ranged attack rolls as a result of the {@condition Prone|XPHB} condition.",
+        "quickStand": "When you have the {@condition Prone|XPHB} condition, you can right yourself and thereby end the condition with only 5 feet of movement."
+      }
+    },
+    {
+      "name": "Concealed Position",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "You excel at firing from concealment, granting you the following benefits.",
+      "details": {
+        "camouflage": "You can take the {@action Hide|XPHB} action even if you aren't {@condition Heavily Obscured|XPHB} or behind {@variantrule Three-Quarters Cover|XPHB} or {@variantrule Total Cover|XPHB}, as long as you have the {@condition Prone|XPHB} condition. The {@condition Invisible|XPHB} condition of this {@action Hide|XPHB} action ends if you don't have the {@condition Prone|XPHB} condition.",
+        "snipersNest": "If you make an attack roll while hidden and the roll misses, making the attack roll doesn't reveal your location."
+      }
+    },
+    {
+      "name": "Reposition",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "Whenever a creature misses you with an attack roll, you can take a {@action Reaction|XPHB} to end the {@condition Prone|XPHB} condition on yourself and move up to half your {@variantrule Speed|XPHB}."
+    },
+    {
+      "name": "Focused Shot",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "When you take the {@action Attack|XPHB} action, you can choose to make only one ranged attack roll using a weapon to make a Focused Shot. You have {@variantrule Advantage|XPHB} on this attack roll and, on a hit, score a {@variantrule Critical Hit|XPHB}."
+    }
+  ]
+}

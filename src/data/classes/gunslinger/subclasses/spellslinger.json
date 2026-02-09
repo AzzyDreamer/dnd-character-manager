@@ -1,0 +1,60 @@
+{
+  "id": "spellslinger",
+  "name": "Заклинатель",
+  "classId": "gunslinger",
+  "description": "Magic and guns aren't so different—arcane power is like gunpowder, a spell is like a bullet, and you are like a gun, directing your spells with precision at unfortunate targets. Spellslingers mix the disciplines of gunplay and spellcasting, sometimes loading arcane charges with your shots and firing bullets enhanced with lighting, fire, or flame.",
+  "shortDescription": "Complement Your Gunslinging with Arcana",
+  "source": "GC:VSS'24",
+  "level": 3,
+  "spellcaster": true,
+  "spellcastingAbility": "intelligence",
+  "features": [
+    {
+      "name": "Spellcasting",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You complement your bullets with the ability to cast spells.",
+      "details": {
+        "cantrips": "You know two cantrips of your choice from the Wizard spell list (see that class's section for its list). {@spell Fire Bolt|XPHB} and {@spell Message|XPHB} are recommended. Whenever you gain a Gunslinger level, you can replace one of these cantrips with another cantrip of your choice from the Wizard spell list. When you reach Gunslinger level 10, you learn another Wizard cantrip of your choice.",
+        "spellSlots": "The Spellslinger Spellcasting table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose three level 1 spells from the Wizard spell list. {@spell Chromatic Orb|XPHB}, {@spell Jump|XPHB}, and {@spell Shield|XPHB} are recommended. The number of spells on your list increases as you gain Gunslinger levels, as shown in the Prepared Spells column of the Spellslinger Spellcasting table. Whenever that number increases, choose additional spells from the Wizard spell list until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 7 Gunslinger, your list of prepared spells can include five Wizard spells of levels 1 and 2 in any combination.",
+        "changingPreparedSpells": "Whenever you gain a Gunslinger level, you can replace one spell on your list with another Wizard spell for which you have spell slots.",
+        "spellcastingAbility": "Intelligence is your spellcasting ability for your Gunslinger spells.",
+        "spellcastingFocus": "You can use an {@item Arcane Focus|XPHB} or a Ranged weapon as a {@variantrule Spellcasting Focus|XPHB} for your Wizard spells."
+      }
+    },
+    {
+      "name": "Bang, You're Dead!",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You can use magic in place of guns.",
+      "details": {
+        "fingerGuns": "You learn the {@spell Finger Guns|GC:VSS'24} cantrip.",
+        "arcaneShot": "When you hit a target with a {@spell Finger Guns|GC:VSS'24} attack, you can expend one Risk Die as a {@action Bonus Action|XPHB} and add it to the damage roll."
+      }
+    },
+    {
+      "name": "Spellshot",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "When you take the {@action Attack|XPHB} action on your turn, you can replace one of the attacks with a casting of one of your Wizard cantrips that has a casting time of an action."
+    },
+    {
+      "name": "Counter-Mage",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "Your experience in combating spellcasters grants you the following benefits.",
+      "details": {
+        "abrogationRounds": "Whenever you make a ranged attack roll, you temporarily disrupt protective magic affecting the target. For the duration of the attack, the effects of spells targeting the creature, such as {@spell Mage Armor|XPHB}, as well as the properties and powers of magic items worn or carried by the creature, are suppressed and don't function. The target of the attack can't take a {@action Reaction|XPHB} to cast spells such as {@spell Shield|XPHB} in response to the attack or damage.",
+        "antimagicShot": "When you score a {@variantrule Critical Hit|XPHB} and the target is affected by your Gut Shot feature, it also impedes the target's ability to cast spells. While the projectile is lodged in the target, it can't cast spells or take the {@action Magic|XPHB} action. Additionally, the target has {@variantrule Disadvantage|XPHB} on Constitution saving throws it makes to maintain {@status Concentration|XPHB}.",
+        "inuredToMagic": "When you fail a saving throw against a spell or magical effect, you can take a {@action Reaction|XPHB} to roll {@dice 1d6} and add it to the roll, potentially turning the failure into a success."
+      }
+    },
+    {
+      "name": "Arcane Barrage",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] You can make a spell attack roll, you can expend one Risk Die as a {@action Bonus Action|XPHB} to substitute the spell attack with a ranged attack with a ranged weapon. Add the Risk Die to the attack roll. On a hit, the attack deals the weapon's normal damage, in addition to the effects of the spell attack roll."
+    }
+  ]
+}
