@@ -1,0 +1,190 @@
+{
+  "id": "fighter",
+  "name": "Воин",
+  "source": "PHB'24",
+  "page": 90,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d10",
+  "hitPointsAtFirstLevel": "10 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d10 (or 6) + your Constitution modifier per Fighter level after 1st",
+  "primaryAbility": ["strength", "dexterity"],
+  "savingThrows": ["strength", "constitution"],
+  "spellcaster": false,
+  "description": "Мастер боевых искусств, владеющий любым оружием и доспехами. Непревзойдённый тактик.",
+  "proficiencies": {
+    "armor": ["Light armor", "Medium armor", "Heavy armor", "Shields"],
+    "weapons": ["Simple weapons", "Martial weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["acrobatics", "animalHandling", "athletics", "history", "insight", "intimidation", "perception", "persuasion", "survival"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Chain Mail|XPHB}", "{@item Greatsword|XPHB}", "{@item Flail|XPHB}", "8 {@item Javelins|XPHB}", "{@item Dungeoneer's Pack|XPHB}", "4 GP"],
+    "optionB": ["{@item Studded Leather Armor|XPHB}", "{@item Scimitar|XPHB}", "{@item Shortsword|XPHB}", "{@item Longbow|XPHB}", "20 {@item Arrows|XPHB}", "{@item Quiver|XPHB}", "{@item Dungeoneer's Pack|XPHB}", "11 GP"],
+    "optionC": ["155 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Strength 13 or Dexterity 13",
+    "weaponProficiencies": ["Martial weapons"],
+    "armorTraining": ["Light armor", "Medium armor", "Shields"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Fighting Style", "Second Wind", "Weapon Mastery"],  "secondWind": 2, "weaponMastery": 3 },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Action Surge", "Tactical Mind"],                    "secondWind": 2, "weaponMastery": 3 },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Fighter Subclass"],                                 "secondWind": 2, "weaponMastery": 3 },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                        "secondWind": 2, "weaponMastery": 4 },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Extra Attack", "Tactical Shift"],                   "secondWind": 3, "weaponMastery": 4 },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                        "secondWind": 3, "weaponMastery": 4 },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                                 "secondWind": 3, "weaponMastery": 4 },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                        "secondWind": 3, "weaponMastery": 4 },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Indomitable", "Tactical Master"],                   "secondWind": 3, "weaponMastery": 4 },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Subclass Feature"],                                 "secondWind": 4, "weaponMastery": 5 },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Two Extra Attacks"],                                "secondWind": 4, "weaponMastery": 5 },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                        "secondWind": 4, "weaponMastery": 5 },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Indomitable", "Studied Attacks"],                   "secondWind": 4, "weaponMastery": 5 },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                        "secondWind": 4, "weaponMastery": 5 },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Subclass Feature"],                                 "secondWind": 4, "weaponMastery": 5 },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                        "secondWind": 4, "weaponMastery": 5 },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Action Surge", "Indomitable"],                      "secondWind": 4, "weaponMastery": 6 },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Subclass Feature"],                                 "secondWind": 4, "weaponMastery": 6 },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                        "secondWind": 4, "weaponMastery": 6 },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Three Extra Attacks"],                              "secondWind": 4, "weaponMastery": 6 }
+  ],
+  "classFeatures": [
+    {
+      "name": "Fighting Style",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "You have honed your martial prowess and gain a {@feat Fighting Style|XPHB} feat of your choice. {@feat Defense|XPHB} is recommended. Whenever you gain a Fighter level, you can replace the feat you chose with a different {@feat Fighting Style|XPHB} feat."
+    },
+    {
+      "name": "Second Wind",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "You have a limited well of physical and mental stamina that you can draw on. As a {@action Bonus Action|XPHB}, you can use it to regain {@variantrule Hit Points|XPHB} equal to {@dice 1d10} plus your Fighter level. You can use this feature twice. You regain one expended use when you finish a {@variantrule Short Rest|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. When you reach certain Fighter levels, you gain more uses of this feature, as shown in the Second Wind column of the Fighter Features table."
+    },
+    {
+      "name": "Weapon Mastery",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "Your training with weapons allows you to use the {@variantrule mastery properties|XPHB} of three kinds of {@filter Simple|XPHB} or {@filter Martial|XPHB} weapons of your choice. Whenever you finish a {@variantrule Long Rest|XPHB}, you can practice weapon drills and change one of your weapon choices. When you reach certain Fighter levels, you gain the ability to use the {@variantrule mastery properties|XPHB} of more kinds of weapons, as shown in the Weapon Mastery column of the Fighter Features table."
+    },
+    {
+      "name": "Action Surge",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the {@action Magic|XPHB} action. Once you use this feature, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. Starting at level 17, you can use it twice before a rest but only once on a turn."
+    },
+    {
+      "name": "Tactical Mind",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "You have a mind for tactics on and off the battlefield. When you fail an ability check, you can expend a use of your Second Wind to push yourself toward success. Rather than regaining {@variantrule Hit Points|XPHB}, you roll {@dice 1d10} and add the number rolled to the ability check, potentially turning it into a success. If the check still fails, this use of Second Wind isn't expended."
+    },
+    {
+      "name": "Fighter Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 91,
+      "description": "You gain a Fighter subclass of your choice. A subclass is a specialization that grants you features at certain Fighter levels. For the rest of your career, you gain each of your subclass's features that are of your Fighter level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Tactical Shift",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "Whenever you activate your Second Wind with a {@action Bonus Action|XPHB}, you can move up to half your {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Fighter subclass."
+    },
+    {
+      "name": "Indomitable",
+      "level": 9,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "If you fail a saving throw, you can reroll it with a bonus equal to your Fighter level divided by three (round down), and you must use the new result. You can use this feature twice. You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You gain additional uses when you reach certain Fighter levels, as shown in the Fighter Features table."
+    },
+    {
+      "name": "Tactical Master",
+      "level": 9,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "When you attack with a weapon whose {@variantrule mastery property|XPHB} you can use, you can replace that property with the {@variantrule Push|XPHB}, {@variantrule Sap|XPHB}, or {@variantrule Slow|XPHB} property for that attack."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Fighter subclass."
+    },
+    {
+      "name": "Two Extra Attacks",
+      "level": 11,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "You can attack three times instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Studied Attacks",
+      "level": 13,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "You study your opponents and learn from each attack you make. If you make an attack roll against a creature and miss, you have {@variantrule Advantage|XPHB} on your next attack roll against that creature before the end of your next turn."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Fighter subclass."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Fighter subclass."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Combat Prowess|XPHB} is recommended."
+    },
+    {
+      "name": "Three Extra Attacks",
+      "level": 20,
+      "source": "PHB'24",
+      "page": 92,
+      "description": "You can attack four times instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    }
+  ],
+  "subclassIds": [
+    "arcane-archer", "banneret", "battle-master", "bulwark-warrior",
+    "cavalier", "champion", "echo-knight", "eldritch-knight",
+    "living-crucible", "nightwatcher", "psi-warrior", "rune-knight", "samurai"
+  ]
+}

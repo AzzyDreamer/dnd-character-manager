@@ -1,0 +1,47 @@
+{
+  "id": "nightwatcher",
+  "name": "Ночной Дозорный",
+  "classId": "fighter",
+  "description": "Nightwatchers are vigilant sentinels who patrol the borders between civilization and the wilds. Through rigorous training and keen senses, they have learned to fight effectively in darkness and to protect their allies from threats that lurk in the shadows. Their ability to see in the dark and anticipate danger makes them invaluable guardians.",
+  "shortDescription": "Vigilant Sentinel of the Night",
+  "source": "GH PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Night Vision",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "You gain {@sense darkvision|XPHB} with a range of 60 feet. If you already have {@sense darkvision|XPHB}, its range increases by 30 feet. You can see in magical darkness within the range of your {@sense darkvision|XPHB}."
+    },
+    {
+      "name": "Shadow Strike",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "When you hit a creature with a weapon attack while you are in dim light or darkness, you deal an extra {@damage 1d6} damage of the weapon's damage type. This extra damage increases to {@damage 2d6} at 10th level and {@damage 3d6} at 18th level."
+    },
+    {
+      "name": "Vigilant Senses",
+      "level": 7,
+      "source": "GH PG'24",
+      "description": "You gain proficiency in the {@skill Perception} skill if you don't already have it. Your proficiency bonus is doubled for any {@skill Perception} checks you make. In addition, you can't be {@condition surprised|XPHB} while you are conscious."
+    },
+    {
+      "name": "Cloak of Shadows",
+      "level": 10,
+      "source": "GH PG'24",
+      "description": "You can use a {@action Bonus Action|XPHB} to become {@condition invisible|XPHB} while you are in dim light or darkness. The invisibility lasts until you make an attack, cast a spell, or move into bright light."
+    },
+    {
+      "name": "Shadow Step",
+      "level": 15,
+      "source": "GH PG'24",
+      "description": "When you are in dim light or darkness, you can use a {@action Bonus Action|XPHB} to teleport up to 60 feet to an unoccupied space you can see that is also in dim light or darkness. You then have {@variantrule Advantage|XPHB} on the first melee attack you make before the end of the turn."
+    },
+    {
+      "name": "Master of Darkness",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "As an action, you can create a 30-foot radius sphere of magical darkness centered on yourself. The darkness lasts for 1 minute and moves with you. You and allies you choose within the darkness can see through it normally. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "bulwark-warrior",
+  "name": "Воин-Бастион",
+  "classId": "fighter",
+  "description": "Those who learn the fighting prowess of the Bulwark Warriors protect their allies from certain death. With endurance and strength as their primary skills, these warriors are prepared to take lethal strikes for their companions.",
+  "shortDescription": "Provoke Your Enemies, Protect Your Allies",
+  "source": "GH PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Protective Taunt",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "Once per turn when you hit a creature with a melee attack using a weapon or {@variantrule Unarmed Strike|XPHB}, you can taunt it. Until the start of your next turn or until you have the {@condition Incapacitated|XPHB} condition, the target has {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you. A creature can only be affected by one Taunt at a time."
+    },
+    {
+      "name": "Weather the Storm",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "You have grown accustomed to being battered and bruised. As a {@action Bonus Action|XPHB}, you toughen up for 1 minute. At the end of each of your turns, you gain {@variantrule Temporary Hit Points|XPHB} equal to your Fighter level plus your Constitution modifier. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Intercept",
+      "level": 7,
+      "source": "GH PG'24",
+      "description": "When a creature you can see targets an ally within 5 feet of you with an attack, you can use your {@variantrule Reaction|XPHB} to become the target of that attack instead."
+    },
+    {
+      "name": "Immovable",
+      "level": 10,
+      "source": "GH PG'24",
+      "description": "You can't be moved against your will while you are conscious. You have {@variantrule Advantage|XPHB} on saving throws against being knocked {@condition Prone|XPHB} or moved."
+    },
+    {
+      "name": "Unyielding Guardian",
+      "level": 15,
+      "source": "GH PG'24",
+      "description": "When an ally within 5 feet of you takes damage, you can use your {@variantrule Reaction|XPHB} to take half of that damage instead. The damage you take can't be reduced in any way."
+    },
+    {
+      "name": "Unbreakable",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "When you use Weather the Storm, you also gain resistance to all damage for the duration. In addition, when you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can drop to 1 Hit Point instead. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

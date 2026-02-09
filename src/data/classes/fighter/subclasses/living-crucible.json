@@ -1,0 +1,52 @@
+{
+  "id": "living-crucible",
+  "name": "Живой Тигель",
+  "classId": "fighter",
+  "description": "Fighters who become Living Crucibles have discovered an external source of power. While most Fighters train in martial traditions or study the art of war, Living Crucibles hone their craft of alchemy to endure compounds poisonous to others. In exchange for this rigorous physical and mental preparation, these Fighters are able to temporarily push their bodies past their natural limits. Under the influence of their alchemical compounds, these warriors can see in darkness, enhance their speed, inure themselves to magical attacks, and more.",
+  "shortDescription": "Enhance Your Martial Prowess with Alchemy",
+  "source": "GH PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Compound Creator",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "You learn to create alchemical compounds toxic to others but empowering to you.",
+      "details": {
+        "compounds": "{@b Compounds.} You learn three compounds of your choice from the \"Compound Options\" section below. You learn two additional compounds of your choice when you reach Fighter levels 7, 10, and 15. Each time you learn new compounds, you can also replace one compound you know with a different one.",
+        "creating": "{@b Creating.} Whenever you finish a {@variantrule Long Rest|XPHB} while holding {@item Alchemist's Supplies|XPHB}, you can use that tool to magically produce any number of compounds. The compound appears in a vial, and the vial vanishes when the compound is consumed or poured out. If any compound remains when you finish a {@variantrule Long Rest|XPHB}, the compound and its vial vanish.",
+        "consuming": "{@b Consuming.} As a {@action Bonus Action|XPHB}, you can consume a compound. You can consume a number of compounds up to your Constitution modifier (minimum of one). Once you reach this limit, you cannot benefit from more compounds until you finish a {@variantrule Long Rest|XPHB}. You can benefit from multiple compounds at the same time, but consuming multiple vials of the same compound provides no additional effects. Only you can benefit from your compounds. Any other creature that consumes a compound must succeed on a Constitution saving throw (DC 8 plus your Intelligence modifier plus {@variantrule Proficiency Bonus|XPHB}) or have the {@condition Poisoned|XPHB} condition for 1 minute."
+      }
+    },
+    {
+      "name": "Student of Alchemy",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "Your long nights of vigilance have left your senses attuned to signs of danger, granting you the following benefits. You gain {@item Alchemist's Supplies|XPHB}, and you gain proficiency with it. In addition, your {@variantrule Proficiency Bonus|XPHB} is doubled for ability checks with {@item Alchemist's Supplies|XPHB}."
+    },
+    {
+      "name": "Adaptive Physiology",
+      "level": 7,
+      "source": "GH PG'24",
+      "description": "Your body has adapted to the constant flow of alchemical compounds. You have {@variantrule Advantage|XPHB} on saving throws against the {@condition Poisoned|XPHB} condition and {@variantrule Resistance|XPHB} to Poison damage."
+    },
+    {
+      "name": "Potent Compounds",
+      "level": 10,
+      "source": "GH PG'24",
+      "description": "Your compounds become more potent. When you consume a compound, you can choose to enhance it, gaining additional effects based on the compound. Each compound's enhanced effect is described in its entry. Once you enhance a compound, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Alchemical Mastery",
+      "level": 15,
+      "source": "GH PG'24",
+      "description": "You have mastered the art of alchemical enhancement. When you consume a compound as a {@action Bonus Action|XPHB}, you can consume two compounds at once, and they count as only one toward your consumption limit. In addition, you can enhance compounds twice before needing a rest."
+    },
+    {
+      "name": "Living Catalyst",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "Your body has become a living catalyst for alchemical reactions. When you roll {@variantrule Initiative|XPHB}, you can consume one compound without using a {@action Bonus Action|XPHB} and without it counting against your consumption limit. In addition, compounds you consume now last until the end of your next {@variantrule Long Rest|XPHB} instead of their normal duration."
+    }
+  ]
+}

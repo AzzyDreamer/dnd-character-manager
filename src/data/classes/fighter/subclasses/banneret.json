@@ -1,0 +1,47 @@
+{
+  "id": "banneret",
+  "name": "Знаменосец",
+  "classId": "fighter",
+  "description": "Bannerets are paragons of valor and leadership who protect the innocent and rally fellow adventurers to the causes of justice and freedom. Many are knights serving in Cormyr, the Silver Marches, Damara, Chessenta, or other lands across Faerûn, taking the fight against evil beyond their kingdom's borders. A Banneret relies on judgment, bravery, and fidelity to the code of chivalry to guide them in defeating evildoers. A lone Banneret is a skilled warrior, but when leading a band of allies one of these warriors can transform even a poorly equipped militia into a ferocious war band.",
+  "shortDescription": "Rally Fellow Heroes with Inspiring Leadership",
+  "source": "FRMoF",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Nobility Envoy",
+      "level": 3,
+      "source": "FRMoF",
+      "description": "You know how to conduct yourself with grace as a noble ambassador. You gain the following benefits.",
+      "details": {
+        "comprehension": "{@b Comprehension.} You can cast the {@spell Comprehend Languages|XPHB} spell but only as a {@variantrule Ritual|XPHB}. Charisma is your spellcasting ability for it.",
+        "polyglot": "{@b Polyglot.} You learn one language from the language tables in the Player's Handbook or chapter 2 of this book. When you finish a {@variantrule Long Rest|XPHB}, you can replace a language learned from this benefit with another language you have heard, seen signed, or read in the past 24 hours.",
+        "wellSpoken": "{@b Well Spoken.} You gain proficiency in one of the following skills of your choice: {@skill Insight}, {@skill Intimidation}, {@skill Persuasion}, or {@skill Performance}."
+      }
+    },
+    {
+      "name": "Group Recovery",
+      "level": 3,
+      "source": "FRMoF",
+      "description": "When you use your Second Wind to regain {@variantrule Hit Points|XPHB}, you can choose a number of allies within a 30-foot {@variantrule Emanation|XPHB} originating from yourself, up to a number of allies equal to your Charisma modifier (minimum of one). Each of those allies regains {@variantrule Hit Points|XPHB} equal to {@dice 1d4} plus your Fighter level. Once you use this ability, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Royal Envoy",
+      "level": 7,
+      "source": "FRMoF",
+      "description": "You gain proficiency in the {@skill Persuasion} skill. If you are already proficient in it, you gain proficiency in one of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, {@skill Intimidation}, or {@skill Performance}. Your proficiency bonus is doubled for any ability check you make that uses {@skill Persuasion}."
+    },
+    {
+      "name": "Inspiring Surge",
+      "level": 10,
+      "source": "FRMoF",
+      "description": "When you use your Action Surge feature, you can choose one creature within 60 feet of you that is allied with you. That creature can make one melee or ranged weapon attack with its {@variantrule Reaction|XPHB}, provided that it can see or hear you. Starting at 18th level, you can choose two allies within 60 feet of you, rather than one."
+    },
+    {
+      "name": "Bulwark",
+      "level": 15,
+      "source": "FRMoF",
+      "description": "You can extend the benefit of your Indomitable feature to an ally. When you decide to use Indomitable to reroll a saving throw and you aren't {@condition incapacitated|XPHB}, you can choose one ally within 60 feet of you that also failed its saving throw against the same effect. If that creature can see or hear you, it can reroll its saving throw and must use the new roll."
+    }
+  ]
+}

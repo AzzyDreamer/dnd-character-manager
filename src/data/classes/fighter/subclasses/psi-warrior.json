@@ -1,0 +1,50 @@
+{
+  "id": "psi-warrior",
+  "name": "Пси-воин",
+  "classId": "fighter",
+  "description": "Psi Warriors are Fighters who augment their physical might with psi-infused weapon strikes, telekinetic lashes, and barriers of mental force. Many githyanki train to become such combatants, as do some of the most disciplined high elves. In the world of Eberron, many young kalashtar dream of mastering their innate psionic talent and joining the Psi Warriors. As a Psi Warrior, you hone your psionic abilities alongside your combat skills, using each to enhance your fighting prowess.",
+  "shortDescription": "Augment Physical Might with Psionic Power",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Psionic Power",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You harbor a wellspring of psionic energy within yourself. It is represented by your Psionic Energy Dice, which fuel various psionic powers you have. The Psi Warrior Energy Die column of the Psi Warrior Features table shows the die size and number of these dice you have when you reach certain Fighter levels.",
+      "details": {
+        "protectiveField": "{@b Protective Field.} When you or another creature you can see within 30 feet of you takes damage, you can take a {@variantrule Reaction|XPHB} to expend one Psionic Energy Die, roll the die, and reduce the damage taken by the number rolled plus your Intelligence modifier (minimum reduction of 1), as you create a momentary shield of telekinetic force.",
+        "psionicStrike": "{@b Psionic Strike.} You can propel your weapons with psionic force. Once on each of your turns, immediately after you hit a target within 30 feet of you with an attack and deal damage to it with a weapon, you can expend one Psionic Energy Die, rolling it and dealing force damage to the target equal to the number rolled plus your Intelligence modifier.",
+        "telekineticMovement": "{@b Telekinetic Movement.} You can move an object or a creature with your mind. As a {@action Magic|XPHB} action, you target one loose object that is Large or smaller or one willing creature, other than yourself. If you can see the target and it is within 30 feet of you, you can move it up to 30 feet to an unoccupied space you can see. Alternatively, if it is a Tiny object, you can move it to or from your hand. Either way, you can move the target horizontally, vertically, or both. Once you take this action, you can't do so again until you finish a {@variantrule Short Rest|XPHB}, unless you expend a Psionic Energy Die to take it again."
+      }
+    },
+    {
+      "name": "Telekinetic Adept",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You have mastered new ways to use your telekinetic abilities, detailed below.",
+      "details": {
+        "psiPoweredLeap": "{@b Psi-Powered Leap.} As a {@action Bonus Action|XPHB}, you gain a Fly Speed equal to twice your {@variantrule Speed|XPHB} until the end of the current turn. Once you take this Bonus Action, you can't do so again until you finish a {@variantrule Short Rest|XPHB}, unless you expend a Psionic Energy Die to take it again.",
+        "telekineticThrust": "{@b Telekinetic Thrust.} When you deal damage to a target with your Psionic Strike, you can force the target to make a Strength saving throw (DC 8 plus your Intelligence modifier plus your {@variantrule Proficiency Bonus|XPHB}). On a failed save, you can knock the target {@condition Prone|XPHB} or move it up to 10 feet in any direction horizontally."
+      }
+    },
+    {
+      "name": "Guarded Mind",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "The psionic energy flowing through you has bolstered your mind. You have {@variantrule Resistance|XPHB} to Psychic damage. Moreover, if you start your turn with the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition, you can expend a Psionic Energy Die and end every effect on yourself subjected to those conditions."
+    },
+    {
+      "name": "Bulwark of Force",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "You can shield yourself and others with telekinetic force. As a {@action Bonus Action|XPHB}, you can choose creatures, which can include yourself, that you can see within 30 feet of you, up to a number of creatures equal to your Intelligence modifier (minimum of one creature). Each of the chosen creatures has {@variantrule Half Cover|XPHB} for 1 minute or until you have the {@condition Incapacitated|XPHB} condition. Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}, unless you expend a Psionic Energy Die to use it again."
+    },
+    {
+      "name": "Telekinetic Master",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "Your ability to move creatures and objects with your mind is matched by few. You can cast {@spell Telekinesis|XPHB}, requiring no spell components, and your spellcasting ability for the spell is Intelligence. On each of your turns while you {@status Concentrate|XPHB} on the spell, including the turn when you cast it, you can make one attack with a weapon as a {@action Bonus Action|XPHB}. Once you cast this spell with this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}, unless you expend a Psionic Energy Die to cast it again."
+    }
+  ]
+}
