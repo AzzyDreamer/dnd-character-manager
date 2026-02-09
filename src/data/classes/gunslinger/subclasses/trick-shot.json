@@ -1,0 +1,45 @@
+{
+  "id": "trick-shot",
+  "name": "Трюкач",
+  "classId": "gunslinger",
+  "description": "Accuracy means different things to different people. For you, true accuracy isn't necessarily in hitting a target on the first shot, but might include hitting the mark after the bullet bounces around a dozen times. Your attacks are just as dangerous if they miss, or even after hitting their mark, as others' are while they're still in the air.",
+  "shortDescription": "Ricochet Bullets from Every Angle",
+  "source": "GC:VSS'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Creative Trajectory",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "You can make your projectiles travel in unexpected ways. Your ranged attacks with weapons ignore {@variantrule Half Cover|XPHB} and {@variantrule Three-Quarters Cover|XPHB}."
+    },
+    {
+      "name": "Ricochet",
+      "level": 3,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] When you miss with a ranged attack using a weapon, you can take a {@action Bonus Action|XPHB} and expend one Risk Die to reroll the attack and add the Risk Die to the roll. You must use the new roll."
+    },
+    {
+      "name": "Fancy Gunplay",
+      "level": 6,
+      "source": "GC:VSS'24",
+      "description": "Your flashy weapon tricks grant you the following benefits.",
+      "details": {
+        "gunSpinning": "Once per turn when you make a Charisma ({@skill Performance}) check or a Dexterity ({@skill Sleight of Hand}) check using one of your Ranged weapons, you can roll a Risk Die and add it to the ability check without expending it.",
+        "speedLoader": "On your turn, you can reload a weapon with {@property Reload|GC:VSS'24} without taking an action or {@action Bonus Action|XPHB}."
+      }
+    },
+    {
+      "name": "Deft Deflection",
+      "level": 10,
+      "source": "GC:VSS'24",
+      "description": "[Maneuver] You can shoot projectiles out of the air. When an ally within 30 feet of you is hit by an attack, you can take a {@action Reaction|XPHB} and expend one Risk Die to grant that ally the benefit of the Skin of Your Teeth maneuver against that attack. You must be holding a Ranged weapon to use this maneuver."
+    },
+    {
+      "name": "Pinball Shot",
+      "level": 14,
+      "source": "GC:VSS'24",
+      "description": "Once on each of your turns when you hit a creature with a ranged attack using a weapon, you can deflect the projectile at additional targets. Choose a different target within 30 feet of the first and make an attack roll against it. On a hit, you can repeat this attack against a new target within 30 feet until you miss or make a total of five attacks. You can't target the same creature with more than one attack each time you use this feature. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending two Risk Dice (no action required)."
+    }
+  ]
+}
