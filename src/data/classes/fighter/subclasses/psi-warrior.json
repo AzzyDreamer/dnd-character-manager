@@ -52,7 +52,7 @@
       "name": "Telekinetic Master",
       "level": 18,
       "source": "PHB'24",
-      "description": "Your ability to move creatures and objects with your mind is matched by few. You can cast {@spell Telekinesis|XPHB}, requiring no spell components, and your spellcasting ability for the spell is Intelligence. On each of your turns while you {@status Concentrate|XPHB} on the spell, including the turn when you cast it, you can make one attack with a weapon as a {@action Bonus Action|XPHB}. Once you cast this spell with this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}, unless you expend a Psionic Energy Die to cast it again."
+      "description": "You always have the {@spell Telekinesis|XPHB} spell prepared. With this feature, you can cast it without a spell slot or components, and your spellcasting ability for it is Intelligence. On each of your turns while you maintain {@status Concentration|XPHB} on it, including the turn when you cast it, you can make one attack with a weapon as a {@action Bonus Action|XPHB}. Once you cast the spell with this feature, you can't do so in this way again until you finish a {@variantrule Long Rest|XPHB} unless you expend a Psionic Energy Die (no action required) to restore your use of it."
     }
   ]
 }

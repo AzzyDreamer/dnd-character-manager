@@ -41,6 +41,12 @@
       "level": 15,
       "source": "GH PG'24",
       "description": "You have {@variantrule Resistance|XPHB} to Poison damage. Also, as a {@action Bonus Action|XPHB}, you can end the {@condition Poisoned|XPHB} condition on yourself. When you end the {@condition Poisoned|XPHB} condition on yourself in this way, you can choose to gain {@variantrule Temporary Hit Points|XPHB} equal to your Fighter level. You regain the ability to gain these {@variantrule Temporary Hit Points|XPHB} after completing a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Living Catalyst",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "When you finish a {@variantrule Long Rest|XPHB}, you can replace one compound you know with another one."
     }
   ]
 }

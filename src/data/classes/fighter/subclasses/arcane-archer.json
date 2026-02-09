@@ -48,6 +48,12 @@
       "level": 15,
       "source": "XGE",
       "description": "Your magical archery is available whenever battle starts. If you roll {@variantrule Initiative|XPHB} and have no uses of Arcane Shot remaining, you regain one use of it."
+    },
+    {
+      "name": "Additional Arcane Shot Option",
+      "level": 18,
+      "source": "XGE",
+      "description": "You gain an additional Arcane Shot option of your choice when you reach 18th level. Each option also improves when you become an 18th-level fighter."
     }
   ]
 }

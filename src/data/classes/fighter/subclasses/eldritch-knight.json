@@ -69,7 +69,7 @@
       "name": "Improved War Magic",
       "level": 18,
       "source": "PHB'24",
-      "description": "When you take the {@action Attack|XPHB} action on your turn, you can replace two of the attacks with a casting of one of your {@filter Wizard|XPHB} spells that has a casting time of an action."
+      "description": "When you take the {@action Attack|XPHB} action on your turn, you can replace two of the attacks with a casting of one of your level 1 or level 2 {@filter Wizard|XPHB} spells that has a casting time of an action."
     }
   ]
 }

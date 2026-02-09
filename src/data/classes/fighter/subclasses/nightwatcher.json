@@ -49,6 +49,12 @@
       "level": 15,
       "source": "GH PG'24",
       "description": "When you make an {@variantrule Initiative|XPHB} roll, you can treat a {@dice d20} roll of 9 or lower as a 10. When you roll 18–20 on an {@variantrule Initiative|XPHB} roll, you can take one additional action, except the {@action Magic|XPHB} action, on your first turn."
+    },
+    {
+      "name": "Beat Down",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "Immediately after you miss a creature under the effect of your Size Up feature with an attack roll, you can take a {@action Bonus Action|XPHB} or {@variantrule Reaction|XPHB} to make a melee attack against that creature if it's within range. You have {@variantrule Advantage|XPHB} on the new attack roll against that creature."
     }
   ]
 }

@@ -46,6 +46,16 @@
       "level": 15,
       "source": "FRMoF",
       "description": "When an ally you can see within 60 feet of yourself fails a saving throw, you can take a {@variantrule Reaction|XPHB} to expend a use of your Indomitable feature. The ally can immediately reroll the saving throw with a bonus equal to your Fighter level; the ally must use the new roll."
+    },
+    {
+      "name": "Inspiring Commander",
+      "level": 18,
+      "source": "FRMoF",
+      "description": "You gain the following benefits.",
+      "details": {
+        "bolsteredRally": "{@b Bolstered Rally.} The area of effect for both Group Recovery and Rallying Surge is now a 60-foot {@variantrule Emanation|XPHB}.",
+        "unshakableBravery": "{@b Unshakable Bravery.} You have {@variantrule Immunity|XPHB} to the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions."
+      }
     }
   ]
 }

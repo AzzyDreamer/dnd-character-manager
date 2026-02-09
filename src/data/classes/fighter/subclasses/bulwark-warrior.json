@@ -36,6 +36,12 @@
       "level": 15,
       "source": "GH PG'24",
       "description": "Your endurance is unrivaled. When you regain {@variantrule Hit Points|XPHB} from Second Wind, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to the roll's total."
+    },
+    {
+      "name": "Halt the Assault",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "When another creature you can see within 5 feet of you is hit by an attack roll, you can take a {@variantrule Reaction|XPHB} to change the target to yourself. You have {@variantrule Resistance|XPHB} to all damage against that attack."
     }
   ]
 }

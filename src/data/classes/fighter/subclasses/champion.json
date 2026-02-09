@@ -41,7 +41,11 @@
       "name": "Survivor",
       "level": 18,
       "source": "PHB'24",
-      "description": "You attain the pinnacle of resilience in battle. At the start of each of your turns, you regain {@variantrule Hit Points|XPHB} equal to 5 plus your Constitution modifier if you have no more than half of your {@variantrule Hit Points|XPHB} remaining. You don't gain this benefit if you have 0 {@variantrule Hit Points|XPHB}."
+      "description": "You attain the pinnacle of resilience in battle, giving you these benefits.",
+      "details": {
+        "defyDeath": "{@b Defy Death.} You have {@variantrule Advantage|XPHB} on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it.",
+        "heroicRally": "{@b Heroic Rally.} At the start of each of your turns, you regain {@variantrule Hit Points|XPHB} equal to 5 plus your Constitution modifier if you are {@variantrule Bloodied|XPHB} and have at least 1 {@variantrule Hit Point|XPHB}."
+      }
     }
   ]
 }
