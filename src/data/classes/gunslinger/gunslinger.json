@@ -214,7 +214,7 @@
       "name": "Headshot",
       "level": 20,
       "source": "GC:VSS'24",
-      "description": "You have mastered the art of the perfect shot. When you score a {@variantrule Critical Hit|XPHB} with a Ranged weapon against a creature, you can deal maximum damage with the attack's damage dice instead of rolling them. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+      "description": "When you score a {@variantrule Critical Hit|XPHB} against a creature using a Ranged weapon, you can choose for it to be a Headshot. If the creature has less than 100 {@variantrule Hit Points|XPHB}, it dies. Otherwise, it takes an extra {@dice 10d10} damage of the weapon's type. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending three Risk Dice (no action required)."
     }
   ],
   "subclassIds": ["deadeye", "high-roller", "secret-agent", "spellslinger", "trick-shot", "white-hat"]
