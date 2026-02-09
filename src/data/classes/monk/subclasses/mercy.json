@@ -1,0 +1,51 @@
+{
+  "id": "mercy",
+  "name": "Воин Милосердия",
+  "classId": "monk",
+  "description": "Warriors of Mercy manipulate the life force of others. These Monks are wandering physicians, but they bring a swift end to their enemies. They often wear masks, presenting themselves as faceless bringers of life and death.",
+  "shortDescription": "Manipulate Forces of Life and Death",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Hand of Harm",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Once per turn when you hit a creature with an {@variantrule Unarmed Strike|XPHB} and deal damage, you can expend 1 Focus Point to deal extra Necrotic damage equal to one roll of your Martial Arts die plus your Wisdom modifier."
+    },
+    {
+      "name": "Hand of Healing",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Magic|XPHB} action, you can expend 1 Focus Point to touch a creature and restore a number of {@variantrule Hit Points|XPHB} equal to a roll of your Martial Arts die plus your Wisdom modifier. When you use your Flurry of Blows, you can replace one of the {@variantrule Unarmed Strikes|XPHB} with a use of this feature without expending a Focus Point for the healing."
+    },
+    {
+      "name": "Implements of Mercy",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain proficiency in the {@skill Insight} and {@skill Medicine} skills and proficiency with the {@item Herbalism Kit|XPHB}."
+    },
+    {
+      "name": "Physician's Touch",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Your Hand of Harm and Hand of Healing improve.",
+      "details": {
+        "handOfHarm": "{@b Hand of Harm.} When you use Hand of Harm on a creature, you can also give that creature the {@condition Poisoned|XPHB} condition until the end of your next turn.",
+        "handOfHealing": "{@b Hand of Healing.} When you use Hand of Healing, you can also end one of the following conditions on the creature you heal: {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, {@condition Poisoned|XPHB}, or {@condition Stunned|XPHB}."
+      }
+    },
+    {
+      "name": "Flurry of Healing and Harm",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "When you use Flurry of Blows, you can replace each of the {@variantrule Unarmed Strikes|XPHB} with a use of Hand of Healing without expending Focus Points for the healing. In addition, when you make an {@variantrule Unarmed Strike|XPHB} with Flurry of Blows and deal damage, you can use Hand of Harm with that strike without expending a Focus Point for Hand of Harm. You can still use Hand of Harm only once per turn."
+    },
+    {
+      "name": "Hand of Ultimate Mercy",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "Your mastery of life energy opens the door to the ultimate mercy. As a {@action Magic|XPHB} action, you can touch the corpse of a creature that died within the past 24 hours and expend 5 Focus Points. The creature then returns to life with a number of {@variantrule Hit Points|XPHB} equal to {@dice 4d10} plus your Wisdom modifier. If the creature died with any of the following conditions, the creature revives without them: {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, {@condition Poisoned|XPHB}, and {@condition Stunned|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "pride",
+  "name": "Воин Гордыни",
+  "classId": "monk",
+  "description": "Monks who become Warriors of Pride value themselves above all. These monks focus on mastering their form, ego, and their destructive power. They display monastic aesthetics publicly with the intention of gaining the respect and admiration of \"lesser beings.\" The prideful traditions of this order include adorning themselves with jewelry, hiding their scars, and commanding respect from those who would oppose them.",
+  "shortDescription": "Prove Your Superiority",
+  "source": "GHPG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Tall Tales",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "You have gained a knack for telling embellished tales of your past achievements. You gain proficiency in one of the following skills of your choice: {@skill Deception}, {@skill Intimidation}, {@skill Performance}, or {@skill Persuasion}."
+    },
+    {
+      "name": "Bruised Ego",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Your ego strengthens as you fight to prove your value. When you expend a Focus Point, you can also gain {@variantrule Temporary Hit Points|XPHB} equal to your Wisdom modifier (minimum of 1 {@variantrule Temporary Hit Point|XPHB}). While you are {@variantrule Bloodied|XPHB}, you gain twice that amount instead."
+    },
+    {
+      "name": "Assertive Attacker",
+      "level": 6,
+      "source": "GHPG'24",
+      "description": "While you are {@variantrule Bloodied|XPHB}, you add your Wisdom modifier to the damage you deal with {@variantrule Unarmed Strikes|XPHB} and Monk weapons."
+    },
+    {
+      "name": "Commanding Presence",
+      "level": 11,
+      "source": "GHPG'24",
+      "description": "Your sheer force of personality can impose your will on others. As a {@action Bonus Action|XPHB}, you can expend 2 Focus Points and choose a creature within 30 feet of you that can see or hear you. That creature must succeed on a Wisdom saving throw or be {@condition Frightened|XPHB} of you until the end of your next turn. While {@condition Frightened|XPHB} in this way, the creature's {@variantrule Speed|XPHB} is 0."
+    },
+    {
+      "name": "Undeniable",
+      "level": 17,
+      "source": "GHPG'24",
+      "description": "Your ego has become an unstoppable force. When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can expend 4 Focus Points to drop to 1 {@variantrule Hit Point|XPHB} instead. When you do, each creature of your choice within 30 feet of you that can see you must succeed on a Wisdom saving throw or be {@condition Frightened|XPHB} of you for 1 minute. A {@condition Frightened|XPHB} creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+    }
+  ]
+}

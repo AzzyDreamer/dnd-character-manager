@@ -1,0 +1,40 @@
+{
+  "id": "shadow",
+  "name": "Воин Тени",
+  "classId": "monk",
+  "description": "Warriors of Shadow practice stealth and subterfuge, harnessing the power of the Shadowfell. They are at home in darkness, able to draw gloom around themselves to hide, leap from shadow to shadow, and take on a wraithlike form.",
+  "shortDescription": "Harness Shadow Power for Stealth and Subterfuge",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Shadow Arts",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You have learned to draw on the power of the Shadowfell, gaining the following benefits.",
+      "details": {
+        "darkness": "{@b Darkness.} You can expend 1 Focus Point to cast the {@spell Darkness|XPHB} spell without spell components. You can see within the spell's area when you cast it with this feature. While the spell persists, you can move its area of {@spell Darkness|XPHB} to a space within 60 feet of yourself at the start of each of your turns.",
+        "darkvision": "{@b Darkvision.} You gain {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB}, its range increases by 60 feet.",
+        "shadowyFigments": "{@b Shadowy Figments.} You know the {@spell Minor Illusion|XPHB} spell. Wisdom is your spellcasting ability for it."
+      }
+    },
+    {
+      "name": "Shadow Step",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "While you are in {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can take a {@action Bonus Action|XPHB} to teleport up to 60 feet to an unoccupied space you can see that is also in {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}. You then have {@variantrule Advantage|XPHB} on the next melee attack you make before the end of the turn."
+    },
+    {
+      "name": "Improved Shadow Step",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "You can draw on your Shadowfell connection to empower yourself. When you use Shadow Step, you can expend 1 Focus Point to remove the requirement that you must start and end in {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB} for that use of the feature. As part of this {@action Bonus Action|XPHB}, you can make an {@variantrule Unarmed Strike|XPHB} immediately after the teleportation."
+    },
+    {
+      "name": "Cloak of Shadows",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB} while entirely within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can expend 3 Focus Points to shroud yourself with magical darkness for 1 minute, until you have the {@condition Incapacitated|XPHB} condition, or until you end your turn in {@variantrule Bright Light|XPHB}. While shrouded in darkness, you gain the following benefits: you have the {@condition Invisible|XPHB} condition; you have Resistance to all damage except Force and Radiant; you can move through creatures and objects as if they were {@variantrule Difficult Terrain|XPHB} (you take {@damage 1d10} Force damage if you end your turn inside a creature or an object)."
+    }
+  ]
+}

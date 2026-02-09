@@ -1,0 +1,261 @@
+{
+  "id": "monk",
+  "name": "Монах",
+  "source": "PHB'24",
+  "page": 100,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d8",
+  "hitPointsAtFirstLevel": "8 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d8 (or 5) + your Constitution modifier per Monk level after 1st",
+  "primaryAbility": ["dexterity", "wisdom"],
+  "savingThrows": ["strength", "dexterity"],
+  "spellcaster": false,
+  "description": "Мастер боевых искусств, использующий внутреннюю энергию ки для невероятных подвигов.",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple weapons", "Martial weapons that have the Light property"],
+    "tools": [],
+    "toolChoices": {
+      "count": 1,
+      "from": ["Artisan's Tools", "Musical Instrument"]
+    },
+    "skillChoices": {
+      "count": 2,
+      "from": ["acrobatics", "athletics", "history", "insight", "religion", "stealth"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Spear|XPHB}", "5 {@item Daggers|XPHB}", "Artisan's Tools or Musical Instrument chosen for the tool proficiency above", "{@item Explorer's Pack|XPHB}", "11 GP"],
+    "optionB": ["50 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Dexterity 13 and Wisdom 13",
+    "weaponProficiencies": [],
+    "armorTraining": []
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Martial Arts", "Unarmored Defense"],                         "martialArts": "1d6",  "focusPoints": null, "unarmoredMovement": null },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Monk's Focus", "Unarmored Movement", "Uncanny Metabolism"],   "martialArts": "1d6",  "focusPoints": 2,    "unarmoredMovement": "+10 ft." },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Deflect Attacks", "Monk Subclass"],                           "martialArts": "1d6",  "focusPoints": 3,    "unarmoredMovement": "+10 ft." },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement", "Slow Fall"],                     "martialArts": "1d6",  "focusPoints": 4,    "unarmoredMovement": "+10 ft." },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Extra Attack", "Stunning Strike"],                            "martialArts": "1d8",  "focusPoints": 5,    "unarmoredMovement": "+10 ft." },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Empowered Strikes", "Subclass Feature"],                      "martialArts": "1d8",  "focusPoints": 6,    "unarmoredMovement": "+15 ft." },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Evasion"],                                                    "martialArts": "1d8",  "focusPoints": 7,    "unarmoredMovement": "+15 ft." },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                                  "martialArts": "1d8",  "focusPoints": 8,    "unarmoredMovement": "+15 ft." },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Acrobatic Movement"],                                         "martialArts": "1d8",  "focusPoints": 9,    "unarmoredMovement": "+15 ft." },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Heightened Focus", "Self-Restoration"],                        "martialArts": "1d8",  "focusPoints": 10,   "unarmoredMovement": "+20 ft." },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Subclass Feature"],                                           "martialArts": "1d10", "focusPoints": 11,   "unarmoredMovement": "+20 ft." },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                                  "martialArts": "1d10", "focusPoints": 12,   "unarmoredMovement": "+20 ft." },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Deflect Energy"],                                             "martialArts": "1d10", "focusPoints": 13,   "unarmoredMovement": "+20 ft." },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Disciplined Survivor"],                                       "martialArts": "1d10", "focusPoints": 14,   "unarmoredMovement": "+25 ft." },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Perfect Focus"],                                              "martialArts": "1d10", "focusPoints": 15,   "unarmoredMovement": "+25 ft." },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                                  "martialArts": "1d10", "focusPoints": 16,   "unarmoredMovement": "+25 ft." },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Subclass Feature"],                                           "martialArts": "1d12", "focusPoints": 17,   "unarmoredMovement": "+25 ft." },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Superior Defense"],                                           "martialArts": "1d12", "focusPoints": 18,   "unarmoredMovement": "+30 ft." },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                                  "martialArts": "1d12", "focusPoints": 19,   "unarmoredMovement": "+30 ft." },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Body and Mind"],                                              "martialArts": "1d12", "focusPoints": 20,   "unarmoredMovement": "+30 ft." }
+  ],
+  "classFeatures": [
+    {
+      "name": "Martial Arts",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "Your practice of martial arts gives you mastery of combat styles that use your {@variantrule Unarmed Strike|XPHB} and Monk weapons, which are the following: Simple Melee Weapons and Martial Melee Weapons that have the {@property Light} property. You gain the following benefits while you are unarmed or wielding only Monk weapons and you aren't wearing armor or wielding a {@item Shield|XPHB}.",
+      "details": {
+        "bonusUnarmedStrike": "{@b Bonus Unarmed Strike.} You can make an {@variantrule Unarmed Strike|XPHB} as a {@action Bonus Action|XPHB}.",
+        "martialArtsDie": "{@b Martial Arts Die.} You can roll {@dice 1d6} in place of the normal damage of your {@variantrule Unarmed Strike|XPHB} or Monk weapons. This changes as you gain Monk levels, as shown in the Martial Arts column of the Monk Features table.",
+        "dexterousAttacks": "{@b Dexterous Attacks.} You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your {@variantrule Unarmed Strikes|XPHB} and Monk weapons. In addition, when you use the Grapple or Shove option of your {@variantrule Unarmed Strike|XPHB}, you can use your Dexterity modifier instead of your Strength modifier to determine the save DC."
+      }
+    },
+    {
+      "name": "Unarmored Defense",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "While you aren't wearing armor or wielding a {@item Shield|XPHB}, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity and Wisdom modifiers."
+    },
+    {
+      "name": "Monk's Focus",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "Your focus and physical training allow you to harness a well of extraordinary energy within yourself. This energy is represented by Focus Points. Your Monk level determines the number of points you have, as shown in the Focus Points column of the Monk Features table. You can expend these points to enhance or fuel certain Monk features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind, each of which is detailed below. When you expend a Focus Point, it is unavailable until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}, at the end of which you regain all your expended points. Some features that use Focus Points require your target to make a saving throw. The save DC equals 8 plus your Wisdom modifier and {@variantrule Proficiency Bonus|XPHB}.",
+      "details": {
+        "flurryOfBlows": "{@b Flurry of Blows.} You can expend 1 Focus Point to make two {@variantrule Unarmed Strikes|XPHB} as a {@action Bonus Action|XPHB}.",
+        "patientDefense": "{@b Patient Defense.} You can take the {@action Disengage|XPHB} action as a {@action Bonus Action|XPHB}. Alternatively, you can expend 1 Focus Point to take both the {@action Disengage|XPHB} and the {@action Dodge|XPHB} actions as a {@action Bonus Action|XPHB}.",
+        "stepOfTheWind": "{@b Step of the Wind.} You can take the {@action Dash|XPHB} action as a {@action Bonus Action|XPHB}. Alternatively, you can expend 1 Focus Point to take both the {@action Disengage|XPHB} and {@action Dash|XPHB} actions as a {@action Bonus Action|XPHB}, and your jump distance is doubled for the turn."
+      }
+    },
+    {
+      "name": "Unarmored Movement",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "Your speed increases by 10 feet while you aren't wearing armor or wielding a {@item Shield|XPHB}. This bonus increases when you reach certain Monk levels, as shown on the Monk Features table."
+    },
+    {
+      "name": "Uncanny Metabolism",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "When you roll {@variantrule Initiative|XPHB}, you can regain all expended Focus Points. When you do so, roll your Martial Arts die, and regain a number of {@variantrule Hit Points|XPHB} equal to your Monk level plus the number rolled. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Deflect Attacks",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "When an attack roll hits you and its damage includes Bludgeoning, Piercing, or Slashing damage, you can take a {@action Reaction|XPHB} to reduce the attack's total damage against you. The reduction equals {@dice 1d10} plus your Dexterity modifier and Monk level. If you reduce the damage to 0, you can expend 1 Focus Point to redirect some of the attack's force. If you do so, choose a creature you can see within 5 feet of yourself if the attack was a melee attack or a creature you can see within 60 feet of yourself that isn't behind {@variantrule Total Cover|XPHB} if the attack was a ranged attack. That creature must succeed on a Dexterity saving throw or take damage equal to two rolls of your Martial Arts die plus your Dexterity modifier. The damage is the same type dealt by the attack."
+    },
+    {
+      "name": "Monk Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 101,
+      "description": "You gain a Monk subclass of your choice. A subclass is a specialization that grants you features at certain Monk levels. For the rest of your career, you gain each of your subclass's features that are of your Monk level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16."
+    },
+    {
+      "name": "Slow Fall",
+      "level": 4,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "You can take a {@action Reaction|XPHB} when you fall to reduce any damage you take from the fall by an amount equal to five times your Monk level."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Stunning Strike",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "Once per turn when you hit a creature with a Monk weapon or an {@variantrule Unarmed Strike|XPHB}, you can expend 1 Focus Point to attempt a stunning strike. The target must make a Constitution saving throw. On a failed save, the target has the {@condition Stunned|XPHB} condition until the start of your next turn. On a successful save, the target's {@variantrule Speed|XPHB} is halved until the start of your next turn, and the next attack roll made against the target before then has {@variantrule Advantage|XPHB}."
+    },
+    {
+      "name": "Empowered Strikes",
+      "level": 6,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "Whenever you deal damage with your {@variantrule Unarmed Strike|XPHB}, it can deal your choice of Force damage or its normal damage type."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Monk subclass."
+    },
+    {
+      "name": "Evasion",
+      "level": 7,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+    },
+    {
+      "name": "Acrobatic Movement",
+      "level": 9,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "While you aren't wearing armor or wielding a {@item Shield|XPHB}, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the movement."
+    },
+    {
+      "name": "Heightened Focus",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "Your Flurry of Blows, Patient Defense, and Step of the Wind gain the following benefits.",
+      "details": {
+        "flurryOfBlows": "{@b Flurry of Blows.} You can expend 1 Focus Point to use Flurry of Blows and make three {@variantrule Unarmed Strikes|XPHB} with it instead of two.",
+        "patientDefense": "{@b Patient Defense.} When you expend a Focus Point to use Patient Defense, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to two rolls of your Martial Arts die.",
+        "stepOfTheWind": "{@b Step of the Wind.} When you use Step of the Wind, your {@variantrule Speed|XPHB} increases by 20 feet until the end of the turn."
+      }
+    },
+    {
+      "name": "Self-Restoration",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "Through sheer force of will, you can remove one of the following conditions from yourself at the start of each of your turns: {@condition Charmed|XPHB}, {@condition Frightened|XPHB}, or {@condition Poisoned|XPHB}. In addition, forgoing food and drink doesn't give you levels of {@condition Exhaustion|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Monk subclass."
+    },
+    {
+      "name": "Deflect Energy",
+      "level": 13,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "You can now use your Deflect Attacks feature against attacks that deal any damage type, not just Bludgeoning, Piercing, or Slashing."
+    },
+    {
+      "name": "Disciplined Survivor",
+      "level": 14,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "Your physical and mental discipline grant you proficiency in all saving throws. Additionally, whenever you make a saving throw and fail, you can expend 1 Focus Point to reroll it, and you must use the new roll."
+    },
+    {
+      "name": "Perfect Focus",
+      "level": 15,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "When you roll {@variantrule Initiative|XPHB} and have fewer than 4 Focus Points remaining, you regain expended Focus Points until you have 4."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Monk subclass."
+    },
+    {
+      "name": "Superior Defense",
+      "level": 18,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "At the start of your turn, you can expend 3 Focus Points to perfectly bolster yourself against harm for 1 minute or until you are {@condition Incapacitated|XPHB}. During that time, you have Resistance to all damage except Force damage."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Irresistible Offense|XPHB} is recommended."
+    },
+    {
+      "name": "Body and Mind",
+      "level": 20,
+      "source": "PHB'24",
+      "page": 102,
+      "description": "You have honed your body and mind to new heights. Your Dexterity and Wisdom scores increase by 4 each. Your maximum for those scores is now 26."
+    }
+  ],
+  "subclassIds": [
+    "open-hand",
+    "shadow",
+    "elements",
+    "mercy",
+    "ascendant-dragon",
+    "astral-self",
+    "drunken-master",
+    "kensei",
+    "long-death",
+    "sun-soul",
+    "leaden-crown",
+    "pride",
+    "regret"
+  ]
+}

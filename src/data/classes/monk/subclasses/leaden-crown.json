@@ -1,0 +1,41 @@
+{
+  "id": "leaden-crown",
+  "name": "Воин Свинцовой Короны",
+  "classId": "monk",
+  "description": "In contrast to the esoteric ideals of other orders, Warriors of the Leaden Crown have practical aims: the self-governance of all people. These Monks see history as a series of clashes between groups of powerful beings where Humanoids are at best collateral damage and at worst disposable pawns. To break this cycle of dependence and destruction, Warriors of the Leaden Crown master mental abilities to fight against the otherworldly powers of the multiverse and protect Humanoid sovereignty. One component of this plan involves training to do battle with powerful planar foes. The other equally important component is ensuring that Humanoid societies are prepared to overthrow those already dominating them. To that end, these Monks seek political positions that place them in or near decision-making roles where they can influence others to fight back against Arch Seraphs, Arch Daemons, and Primordials.",
+  "shortDescription": "Harness the Will to Resist",
+  "source": "GHPG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Subtle Hand",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Your martial arts are enhanced by a capacity for telekinetic strikes. During your turn, your reach is 5 feet greater with {@variantrule Unarmed Strikes|XPHB}. In addition, when you hit a creature with an {@variantrule Unarmed Strike|XPHB} as part of the {@action Attack|XPHB} action on your turn, you can choose to have it deal your choice of Psychic damage or its normal damage type."
+    },
+    {
+      "name": "Psionic Prowess",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Your psychic powers have manifested in the ability to cast certain spells. You know the {@spell Mage Hand|XPHB} cantrip. You can cast it without Verbal or Somatic components, and you can make the spectral hand {@condition Invisible|XPHB}. In addition, you can cast certain spells by expending Focus Points. You can take a {@action Magic|XPHB} action and expend 1 Focus Point to cast {@spell Detect Evil and Good|XPHB} or {@spell Protection from Evil and Good|XPHB}. You can also take a {@action Magic|XPHB} action and expend 2 Focus Points to cast {@spell Hold Person|XPHB}, {@spell Levitate|XPHB}, or {@spell Shatter|XPHB}. Wisdom is your spellcasting ability for these spells, and you can cast them without Material components."
+    },
+    {
+      "name": "Telekinetic Barrage",
+      "level": 6,
+      "source": "GHPG'24",
+      "description": "When you use Flurry of Blows while your Subtle Hand is active, you can make one of the {@variantrule Unarmed Strikes|XPHB} as a telekinetic blast against a creature within 30 feet of you. This {@variantrule Unarmed Strike|XPHB} uses your Martial Arts die for damage and deals Psychic damage."
+    },
+    {
+      "name": "Psionic Shield",
+      "level": 11,
+      "source": "GHPG'24",
+      "description": "You can expend 2 Focus Points as a {@action Reaction|XPHB} when you or a creature you can see within 30 feet of you is hit by an attack to create a telekinetic shield. The shielded creature gains a bonus to AC equal to your Wisdom modifier (minimum of +1) against that attack, potentially causing it to miss. If the attack still hits, the shielded creature has Resistance to any Psychic damage dealt by the attack."
+    },
+    {
+      "name": "Crown of the Sovereign Mind",
+      "level": 17,
+      "source": "GHPG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend 4 Focus Points to project an aura of psychic sovereignty for 1 minute. For the duration, you and each creature of your choice within 30 feet of you have {@variantrule Advantage|XPHB} on saving throws against being {@condition Charmed|XPHB} or {@condition Frightened|XPHB} and against any spell or effect that would read your thoughts or detect your emotions. Additionally, when a creature within 30 feet of you that you can see makes a saving throw, you can use your {@action Reaction|XPHB} to grant it a bonus to the save equal to your Wisdom modifier."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "elements",
+  "name": "Воин Стихий",
+  "classId": "monk",
+  "description": "Warriors of the Elements tap into the power of the Elemental Planes. Harnessing their supernatural focus, these Monks momentarily tame the energy of the Elemental Chaos to empower themselves in and out of battle.",
+  "shortDescription": "Wield Bursts of Elemental Power",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Elemental Attunement",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "At the start of your turn, you can expend 1 Focus Point to imbue yourself with elemental energy. The energy lasts for 10 minutes or until you have the {@condition Incapacitated|XPHB} condition. You gain the following benefits while this feature is active.",
+      "details": {
+        "reach": "{@b Reach.} When you make an {@variantrule Unarmed Strike|XPHB}, your reach is 10 feet greater than normal, as elemental energy extends from you.",
+        "elementalStrikes": "{@b Elemental Strikes.} Whenever you hit with your {@variantrule Unarmed Strike|XPHB}, you can cause it to deal your choice of Acid, Cold, Fire, Lightning, or Thunder damage rather than its normal damage type. When you deal one of these types with it, you can also force the target to make a Strength saving throw. On a failed save, you can move the target up to 10 feet toward or away from you, as elemental energy swirls around it."
+      }
+    },
+    {
+      "name": "Environmental Burst",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "As a {@action Magic|XPHB} action, you can expend 2 Focus Points and choose a point within 120 feet of yourself. A burst of elemental energy erupts in a 20-foot-radius {@variantrule Sphere|XPHB} centered on that point. Each creature in the {@variantrule Sphere|XPHB} must make a Dexterity saving throw. On a failed save, a creature takes damage equal to three rolls of your Martial Arts die. On a successful save, a creature takes half as much damage. You choose the damage type: Acid, Cold, Fire, Lightning, or Thunder."
+    },
+    {
+      "name": "Stride of the Elements",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "When you use your Elemental Attunement feature, you also gain a Fly Speed and a Swim Speed equal to your {@variantrule Speed|XPHB} for the duration of that feature."
+    },
+    {
+      "name": "Elemental Epitome",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "When you use your Elemental Attunement feature, you also gain the following benefits for the duration of that feature.",
+      "details": {
+        "damageResistance": "{@b Damage Resistance.} You gain Resistance to one of the following damage types of your choice: Acid, Cold, Fire, Lightning, or Thunder. At the start of each of your turns, you can change this choice.",
+        "destructiveStride": "{@b Destructive Stride.} When you use your Step of the Wind, your movement for that turn doesn't provoke {@variantrule Opportunity Attacks|XPHB}, and you can cause each creature within 5 feet of you to make a Dexterity saving throw at any point during your movement. On a failed save, a creature takes damage equal to one roll of your Martial Arts die plus your Wisdom modifier. A creature can take this damage only once per turn. You choose the damage type: Acid, Cold, Fire, Lightning, or Thunder.",
+        "empoweredStrikes": "{@b Empowered Strikes.} Once on each of your turns, you can deal extra damage to a target equal to one roll of your Martial Arts die when you hit it with an {@variantrule Unarmed Strike|XPHB}. The extra damage is the same type you chose for the Damage Resistance in this feature."
+      }
+    }
+  ]
+}
