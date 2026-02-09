@@ -25,28 +25,22 @@
       "description": "Your long nights of vigilance have left your senses attuned to signs of danger, granting you the following benefits. You gain {@item Alchemist's Supplies|XPHB}, and you gain proficiency with it. In addition, your {@variantrule Proficiency Bonus|XPHB} is doubled for ability checks with {@item Alchemist's Supplies|XPHB}."
     },
     {
-      "name": "Adaptive Physiology",
+      "name": "Living Cauldron",
       "level": 7,
       "source": "GH PG'24",
-      "description": "Your body has adapted to the constant flow of alchemical compounds. You have {@variantrule Advantage|XPHB} on saving throws against the {@condition Poisoned|XPHB} condition and {@variantrule Resistance|XPHB} to Poison damage."
+      "description": "The number of compounds you can safely consume increases to three plus your Constitution modifier (minimum one). At Fighter level 18, the number of compounds you can safely consume increases to five plus your Constitution modifier (minimum one)."
     },
     {
-      "name": "Potent Compounds",
+      "name": "Rapid Consumption",
       "level": 10,
       "source": "GH PG'24",
-      "description": "Your compounds become more potent. When you consume a compound, you can choose to enhance it, gaining additional effects based on the compound. Each compound's enhanced effect is described in its entry. Once you enhance a compound, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+      "description": "When you use a {@action Bonus Action|XPHB} to drink a compound, you can drink a second compound."
     },
     {
-      "name": "Alchemical Mastery",
+      "name": "Toxin Transmutation",
       "level": 15,
       "source": "GH PG'24",
-      "description": "You have mastered the art of alchemical enhancement. When you consume a compound as a {@action Bonus Action|XPHB}, you can consume two compounds at once, and they count as only one toward your consumption limit. In addition, you can enhance compounds twice before needing a rest."
-    },
-    {
-      "name": "Living Catalyst",
-      "level": 18,
-      "source": "GH PG'24",
-      "description": "Your body has become a living catalyst for alchemical reactions. When you roll {@variantrule Initiative|XPHB}, you can consume one compound without using a {@action Bonus Action|XPHB} and without it counting against your consumption limit. In addition, compounds you consume now last until the end of your next {@variantrule Long Rest|XPHB} instead of their normal duration."
+      "description": "You have {@variantrule Resistance|XPHB} to Poison damage. Also, as a {@action Bonus Action|XPHB}, you can end the {@condition Poisoned|XPHB} condition on yourself. When you end the {@condition Poisoned|XPHB} condition on yourself in this way, you can choose to gain {@variantrule Temporary Hit Points|XPHB} equal to your Fighter level. You regain the ability to gain these {@variantrule Temporary Hit Points|XPHB} after completing a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

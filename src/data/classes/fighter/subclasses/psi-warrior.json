@@ -11,8 +11,16 @@
       "name": "Psionic Power",
       "level": 3,
       "source": "PHB'24",
-      "description": "You harbor a wellspring of psionic energy within yourself. It is represented by your Psionic Energy Dice, which fuel various psionic powers you have. The Psi Warrior Energy Die column of the Psi Warrior Features table shows the die size and number of these dice you have when you reach certain Fighter levels.",
+      "description": "You harbor a wellspring of psionic energy within yourself. It is represented by your Psionic Energy Dice, which fuel powers you have from this subclass. The Psi Warrior Energy Dice table shows the die size and number of these dice you have when you reach certain Fighter levels. Any features in this subclass that use a Psionic Energy Die use only the dice from this subclass. Some of your powers expend the Psionic Energy Die, as specified in a power's description, and you can't use a power if it requires you to use a die when all your Psionic Energy Dice are expended. You regain one of your expended Psionic Energy Dice when you finish a {@variantrule Short Rest|XPHB}, and you regain all of them when you finish a {@variantrule Long Rest|XPHB}.",
       "details": {
+        "energyDiceTable": [
+          { "level": 3,  "dieSize": "d6",  "number": 4 },
+          { "level": 5,  "dieSize": "d8",  "number": 6 },
+          { "level": 9,  "dieSize": "d8",  "number": 8 },
+          { "level": 11, "dieSize": "d10", "number": 8 },
+          { "level": 13, "dieSize": "d10", "number": 10 },
+          { "level": 17, "dieSize": "d12", "number": 12 }
+        ],
         "protectiveField": "{@b Protective Field.} When you or another creature you can see within 30 feet of you takes damage, you can take a {@variantrule Reaction|XPHB} to expend one Psionic Energy Die, roll the die, and reduce the damage taken by the number rolled plus your Intelligence modifier (minimum reduction of 1), as you create a momentary shield of telekinetic force.",
         "psionicStrike": "{@b Psionic Strike.} You can propel your weapons with psionic force. Once on each of your turns, immediately after you hit a target within 30 feet of you with an attack and deal damage to it with a weapon, you can expend one Psionic Energy Die, rolling it and dealing force damage to the target equal to the number rolled plus your Intelligence modifier.",
         "telekineticMovement": "{@b Telekinetic Movement.} You can move an object or a creature with your mind. As a {@action Magic|XPHB} action, you target one loose object that is Large or smaller or one willing creature, other than yourself. If you can see the target and it is within 30 feet of you, you can move it up to 30 feet to an unoccupied space you can see. Alternatively, if it is a Tiny object, you can move it to or from your hand. Either way, you can move the target horizontally, vertically, or both. Once you take this action, you can't do so again until you finish a {@variantrule Short Rest|XPHB}, unless you expend a Psionic Energy Die to take it again."

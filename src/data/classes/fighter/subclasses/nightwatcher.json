@@ -2,46 +2,53 @@
   "id": "nightwatcher",
   "name": "Ночной Дозорный",
   "classId": "fighter",
-  "description": "Nightwatchers are vigilant sentinels who patrol the borders between civilization and the wilds. Through rigorous training and keen senses, they have learned to fight effectively in darkness and to protect their allies from threats that lurk in the shadows. Their ability to see in the dark and anticipate danger makes them invaluable guardians.",
-  "shortDescription": "Vigilant Sentinel of the Night",
+  "description": "Nightwatchers come from humble origins, often toiling as guards or investigators. Undaunted by dangers in the darkness, they stand firm against the growing night. Ever vigilant, they use the darkness to surprise and overwhelm foes much greater than themselves.",
+  "shortDescription": "Take Back the Night",
   "source": "GH PG'24",
   "level": 3,
   "features": [
     {
-      "name": "Night Vision",
+      "name": "Skilled Guardian",
       "level": 3,
       "source": "GH PG'24",
-      "description": "You gain {@sense darkvision|XPHB} with a range of 60 feet. If you already have {@sense darkvision|XPHB}, its range increases by 30 feet. You can see in magical darkness within the range of your {@sense darkvision|XPHB}."
+      "description": "Unraveling mysteries under the cover of night has honed your skills. You gain the following benefits.",
+      "details": {
+        "expertise": "{@b Expertise.} Choose one of your skill proficiencies with which you lack {@variantrule Expertise|XPHB}. You gain {@variantrule Expertise|XPHB} in that skill.",
+        "skilled": "{@b Skilled.} You gain proficiency in two skills of your choice from the following list: {@skill Deception}, {@skill History}, {@skill Insight}, {@skill Intimidation}, {@skill Investigation}, {@skill Perception}, or {@skill Stealth}."
+      }
     },
     {
-      "name": "Shadow Strike",
+      "name": "Ever Vigilant",
       "level": 3,
       "source": "GH PG'24",
-      "description": "When you hit a creature with a weapon attack while you are in dim light or darkness, you deal an extra {@damage 1d6} damage of the weapon's damage type. This extra damage increases to {@damage 2d6} at 10th level and {@damage 3d6} at 18th level."
+      "description": "Your long nights of vigilance have left your senses attuned to signs of danger, granting you the following benefits.",
+      "details": {
+        "darkvision": "{@b Darkvision.} You gain {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB} when you gain this feature, its range increases by 60 feet.",
+        "keenSenses": "{@b Keen Senses.} You have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls and Wisdom ({@skill Perception}) checks.",
+        "warningShout": "{@b Warning Shout.} When you make an {@variantrule Initiative|XPHB} roll, you can take a {@variantrule Reaction|XPHB} to warn creatures of your choice within 30 feet of yourself that can see or hear you. Each creature can then take a {@variantrule Reaction|XPHB} to have {@variantrule Advantage|XPHB} on its {@variantrule Initiative|XPHB} roll and move up to half its {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     },
     {
-      "name": "Vigilant Senses",
+      "name": "Size Up",
       "level": 7,
       "source": "GH PG'24",
-      "description": "You gain proficiency in the {@skill Perception} skill if you don't already have it. Your proficiency bonus is doubled for any {@skill Perception} checks you make. In addition, you can't be {@condition surprised|XPHB} while you are conscious."
+      "description": "As a {@action Bonus Action|XPHB}, you assess a creature you can see within 30 feet of you. Until the start of your next turn, when that creature makes an attack roll against you or another creature within 5 feet of you, you can take a {@variantrule Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that roll and give {@variantrule Resistance|XPHB} to that damage."
     },
     {
-      "name": "Cloak of Shadows",
+      "name": "Night Stalker",
       "level": 10,
       "source": "GH PG'24",
-      "description": "You can use a {@action Bonus Action|XPHB} to become {@condition invisible|XPHB} while you are in dim light or darkness. The invisibility lasts until you make an attack, cast a spell, or move into bright light."
+      "description": "You are adept at tracking down enemies in the dead of night, giving you these benefits.",
+      "details": {
+        "blindsight": "{@b Blindsight.} As a {@action Bonus Action|XPHB}, you gain {@sense Blindsight|XPHB} with a range of 30 feet for 10 minutes. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}.",
+        "slippery": "{@b Slippery.} {@variantrule Opportunity Attacks|XPHB} have {@variantrule Disadvantage|XPHB} against you. While entirely within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, your movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
+      }
     },
     {
-      "name": "Shadow Step",
+      "name": "Ready for Action",
       "level": 15,
       "source": "GH PG'24",
-      "description": "When you are in dim light or darkness, you can use a {@action Bonus Action|XPHB} to teleport up to 60 feet to an unoccupied space you can see that is also in dim light or darkness. You then have {@variantrule Advantage|XPHB} on the first melee attack you make before the end of the turn."
-    },
-    {
-      "name": "Master of Darkness",
-      "level": 18,
-      "source": "GH PG'24",
-      "description": "As an action, you can create a 30-foot radius sphere of magical darkness centered on yourself. The darkness lasts for 1 minute and moves with you. You and allies you choose within the darkness can see through it normally. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      "description": "When you make an {@variantrule Initiative|XPHB} roll, you can treat a {@dice d20} roll of 9 or lower as a 10. When you roll 18–20 on an {@variantrule Initiative|XPHB} roll, you can take one additional action, except the {@action Magic|XPHB} action, on your first turn."
     }
   ]
 }

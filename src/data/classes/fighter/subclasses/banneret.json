@@ -26,22 +26,26 @@
       "description": "When you use your Second Wind to regain {@variantrule Hit Points|XPHB}, you can choose a number of allies within a 30-foot {@variantrule Emanation|XPHB} originating from yourself, up to a number of allies equal to your Charisma modifier (minimum of one). Each of those allies regains {@variantrule Hit Points|XPHB} equal to {@dice 1d4} plus your Fighter level. Once you use this ability, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     },
     {
-      "name": "Royal Envoy",
+      "name": "Team Tactics",
       "level": 7,
       "source": "FRMoF",
-      "description": "You gain proficiency in the {@skill Persuasion} skill. If you are already proficient in it, you gain proficiency in one of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, {@skill Intimidation}, or {@skill Performance}. Your proficiency bonus is doubled for any ability check you make that uses {@skill Persuasion}."
+      "description": "When you use Group Recovery, each chosen ally has {@variantrule Advantage|XPHB} on {@variantrule D20 Tests|XPHB} until the start of your next turn."
     },
     {
-      "name": "Inspiring Surge",
+      "name": "Rallying Surge",
       "level": 10,
       "source": "FRMoF",
-      "description": "When you use your Action Surge feature, you can choose one creature within 60 feet of you that is allied with you. That creature can make one melee or ranged weapon attack with its {@variantrule Reaction|XPHB}, provided that it can see or hear you. Starting at 18th level, you can choose two allies within 60 feet of you, rather than one."
+      "description": "When you use your Action Surge, you can choose allies within a 30-foot {@variantrule Emanation|XPHB} originating from yourself, up to a number equal to your Charisma modifier (minimum of one). Each of those allies can immediately take a {@variantrule Reaction|XPHB} to use one of the following options.",
+      "details": {
+        "attack": "{@b Attack.} The ally makes one attack with a weapon or an {@variantrule Unarmed Strike|XPHB}.",
+        "move": "{@b Move.} The ally moves up to half its {@variantrule Speed|XPHB} without provoking an {@variantrule Opportunity Attack|XPHB}."
+      }
     },
     {
-      "name": "Bulwark",
+      "name": "Shared Resilience",
       "level": 15,
       "source": "FRMoF",
-      "description": "You can extend the benefit of your Indomitable feature to an ally. When you decide to use Indomitable to reroll a saving throw and you aren't {@condition incapacitated|XPHB}, you can choose one ally within 60 feet of you that also failed its saving throw against the same effect. If that creature can see or hear you, it can reroll its saving throw and must use the new roll."
+      "description": "When an ally you can see within 60 feet of yourself fails a saving throw, you can take a {@variantrule Reaction|XPHB} to expend a use of your Indomitable feature. The ally can immediately reroll the saving throw with a bonus equal to your Fighter level; the ally must use the new roll."
     }
   ]
 }

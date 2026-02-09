@@ -20,28 +20,22 @@
       "description": "You have grown accustomed to being battered and bruised. As a {@action Bonus Action|XPHB}, you toughen up for 1 minute. At the end of each of your turns, you gain {@variantrule Temporary Hit Points|XPHB} equal to your Fighter level plus your Constitution modifier. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     },
     {
-      "name": "Intercept",
+      "name": "Threatening Presence",
       "level": 7,
       "source": "GH PG'24",
-      "description": "When a creature you can see targets an ally within 5 feet of you with an attack, you can use your {@variantrule Reaction|XPHB} to become the target of that attack instead."
+      "description": "You can provoke your enemies into single-minded hatred of you. As a {@action Magic|XPHB} action, each creature of your choice that can hear you in a 30-foot {@variantrule Emanation|XPHB} originating from you must make a Wisdom saving throw (DC 8 plus your Constitution modifier and {@variantrule Proficiency Bonus|XPHB}). On a failed save, the creature takes {@damage 5d6} Psychic damage and has {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you. When you use this feature, you restore your use of Weather the Storm. You can use this feature twice. You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. When you reach Fighter level 15, you gain another use of this feature."
     },
     {
-      "name": "Immovable",
+      "name": "Aggressive Defense",
       "level": 10,
       "source": "GH PG'24",
-      "description": "You can't be moved against your will while you are conscious. You have {@variantrule Advantage|XPHB} on saving throws against being knocked {@condition Prone|XPHB} or moved."
+      "description": "You know when to switch from defense to offense. Once on each of your turns when you hit a creature with an attack roll using a Melee weapon or {@variantrule Unarmed Strike|XPHB}, you can lose {@variantrule Temporary Hit Points|XPHB} equal to no more than half your Fighter level (round down) to deal extra damage to the target equal to the number of {@variantrule Temporary Hit Points|XPHB} lost in this way."
     },
     {
-      "name": "Unyielding Guardian",
+      "name": "Improved Second Wind",
       "level": 15,
       "source": "GH PG'24",
-      "description": "When an ally within 5 feet of you takes damage, you can use your {@variantrule Reaction|XPHB} to take half of that damage instead. The damage you take can't be reduced in any way."
-    },
-    {
-      "name": "Unbreakable",
-      "level": 18,
-      "source": "GH PG'24",
-      "description": "When you use Weather the Storm, you also gain resistance to all damage for the duration. In addition, when you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can drop to 1 Hit Point instead. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      "description": "Your endurance is unrivaled. When you regain {@variantrule Hit Points|XPHB} from Second Wind, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to the roll's total."
     }
   ]
 }
