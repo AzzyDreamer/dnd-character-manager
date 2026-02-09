@@ -1,0 +1,48 @@
+{
+  "id": "samurai",
+  "name": "Самурай",
+  "classId": "fighter",
+  "description": "The Samurai is a fighter who draws on an implacable fighting spirit to overcome enemies. A Samurai's resolve is nearly unbreakable, and the enemies in a Samurai's path have two choices: yield or die fighting.",
+  "shortDescription": "Wield an Implacable Fighting Spirit",
+  "source": "XGE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Bonus Proficiency",
+      "level": 3,
+      "source": "XGE",
+      "description": "You gain proficiency in one of the following skills of your choice: {@skill History}, {@skill Insight}, {@skill Performance}, or {@skill Persuasion}. Alternatively, you learn one language of your choice."
+    },
+    {
+      "name": "Fighting Spirit",
+      "level": 3,
+      "source": "XGE",
+      "description": "Your intensity in battle can shield you and help you strike true. As a {@action Bonus Action|XPHB} on your turn, you can give yourself {@variantrule Advantage|XPHB} on weapon attack rolls until the end of the current turn. When you do so, you also gain 5 {@variantrule Temporary Hit Points|XPHB}. The number of temporary hit points increases when you reach certain levels in this class, increasing to 10 at 10th level and 15 at 15th level. You can use this feature three times, and you regain all expended uses of it when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Elegant Courtier",
+      "level": 7,
+      "source": "XGE",
+      "description": "Your discipline and attention to detail allow you to excel in social situations. Whenever you make a Charisma ({@skill Persuasion}) check, you gain a bonus to the check equal to your Wisdom modifier. Your self-control also causes you to gain proficiency in Wisdom saving throws. If you already have this proficiency, you instead gain proficiency in Intelligence or Charisma saving throws (your choice)."
+    },
+    {
+      "name": "Tireless Spirit",
+      "level": 10,
+      "source": "XGE",
+      "description": "When you roll {@variantrule Initiative|XPHB} and have no uses of Fighting Spirit remaining, you regain one use."
+    },
+    {
+      "name": "Rapid Strike",
+      "level": 15,
+      "source": "XGE",
+      "description": "You learn to trade accuracy for swift strikes. If you take the {@action Attack|XPHB} action on your turn and have {@variantrule Advantage|XPHB} on an attack roll against one of the targets, you can forgo the advantage for that roll to make an additional weapon attack against that target, as part of the same action. You can do so no more than once per turn."
+    },
+    {
+      "name": "Strength Before Death",
+      "level": 18,
+      "source": "XGE",
+      "description": "Your fighting spirit can delay the grasp of death. If you take damage that reduces you to 0 {@variantrule Hit Points|XPHB} and doesn't kill you outright, you can use your {@variantrule Reaction|XPHB} to delay falling {@condition unconscious|XPHB}, and you can immediately take an extra turn, interrupting the current turn. While you have 0 {@variantrule Hit Points|XPHB} during that extra turn, taking damage causes death saving throw failures as normal, and three death saving throw failures can still kill you. When the extra turn ends, you fall {@condition unconscious|XPHB} if you still have 0 {@variantrule Hit Points|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

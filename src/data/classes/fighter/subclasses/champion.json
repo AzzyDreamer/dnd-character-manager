@@ -1,0 +1,51 @@
+{
+  "id": "champion",
+  "name": "Чемпион",
+  "classId": "fighter",
+  "description": "A Champion focuses on the development of martial prowess in a relentless pursuit of victory. Champions combine rigorous training with physical excellence to deal devastating blows, withstand peril, and garner glory. Whether in athletic contests or bloody battle, Champions strive for the crown of the victor.",
+  "shortDescription": "Pursue Physical Excellence in Combat",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Improved Critical",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your attack rolls with weapons and {@variantrule Unarmed Strikes|XPHB} can score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}."
+    },
+    {
+      "name": "Remarkable Athlete",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Thanks to your athleticism, you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls and Strength ({@skill Athletics}) checks. In addition, immediately after you score a {@variantrule Critical Hit|XPHB}, you can move up to half your {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Additional Fighting Style",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You gain another {@feat Fighting Style|XPHB} feat of your choice."
+    },
+    {
+      "name": "Heroic Warrior",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "The thrill of battle drives you toward victory. During combat, you can give yourself {@variantrule Heroic Inspiration|XPHB} whenever you start your turn without it."
+    },
+    {
+      "name": "Superior Critical",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "Your attack rolls with weapons and {@variantrule Unarmed Strikes|XPHB} can now score a {@variantrule Critical Hit|XPHB} on a roll of 18–20 on the {@dice d20}."
+    },
+    {
+      "name": "Survivor",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You attain the pinnacle of resilience in battle, giving you these benefits.",
+      "details": {
+        "defyDeath": "{@b Defy Death.} You have {@variantrule Advantage|XPHB} on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it.",
+        "heroicRally": "{@b Heroic Rally.} At the start of each of your turns, you regain {@variantrule Hit Points|XPHB} equal to 5 plus your Constitution modifier if you are {@variantrule Bloodied|XPHB} and have at least 1 {@variantrule Hit Point|XPHB}."
+      }
+    }
+  ]
+}

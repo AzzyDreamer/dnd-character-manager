@@ -1,0 +1,60 @@
+{
+  "id": "twilight",
+  "name": "Домен Сумерек",
+  "classId": "cleric",
+  "description": "The twilit transition from light into darkness often brings calm and even joy, as the day's labors end and the hours of rest begin. The darkness can also bring terrors, but the gods of twilight guard against the horrors of the night. Clerics who serve these deities—examples of which appear on the Twilight Deities table—bring comfort to those who seek rest and protect them by venturing into the encroaching darkness to ensure that the dark is a comfort, not a terror.",
+  "shortDescription": "Guardian of the Twilight Between Light and Dark",
+  "source": "TCE",
+  "level": 3,
+  "features": [
+    {
+      "name": "Twilight Domain Spells",
+      "level": 3,
+      "source": "TCE",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Twilight Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 1, "spells": ["{@spell faerie fire}", "{@spell sleep}"] },
+        { "clericLevel": 3, "spells": ["{@spell moonbeam}", "{@spell see invisibility}"] },
+        { "clericLevel": 5, "spells": ["{@spell aura of vitality}", "{@spell Leomund's tiny hut}"] },
+        { "clericLevel": 7, "spells": ["{@spell aura of life}", "{@spell greater invisibility}"] },
+        { "clericLevel": 9, "spells": ["{@spell circle of power}", "{@spell mislead}"] }
+      ]
+    },
+    {
+      "name": "Bonus Proficiencies",
+      "level": 3,
+      "source": "TCE",
+      "description": "You gain proficiency with martial weapons and heavy armor."
+    },
+    {
+      "name": "Eyes of Night",
+      "level": 3,
+      "source": "TCE",
+      "description": "You can see through the deepest gloom. You have {@sense Darkvision|XPHB} out to a range of 300 feet. As an action, you can magically share this Darkvision with willing creatures you can see within 10 feet of you, up to a number of creatures equal to your Wisdom modifier (minimum of one creature). The shared Darkvision lasts for 1 hour. Once you share it, you can't do so again until you finish a {@variantrule Long Rest|XPHB}, unless you expend a spell slot of any level to share it again."
+    },
+    {
+      "name": "Vigilant Blessing",
+      "level": 3,
+      "source": "TCE",
+      "description": "The night has taught you to be vigilant. As an action, you give one creature you touch (including possibly yourself) {@variantrule Advantage|XPHB} on the next {@variantrule Initiative|XPHB} roll the creature makes. This benefit ends immediately after the roll or if you use this feature again."
+    },
+    {
+      "name": "Twilight Sanctuary",
+      "level": 3,
+      "source": "TCE",
+      "description": "You can use your Channel Divinity to refresh your allies with soothing twilight. As a {@action Magic|XPHB} action, you present your {@item Holy Symbol|XPHB}, and a sphere of twilight emanates from you. The sphere is centered on you, has a 30-foot radius, and is filled with {@variantrule Dim Light|XPHB}. The sphere moves with you, and it lasts for 1 minute or until you are {@condition Incapacitated|XPHB} or die. Whenever a creature (including you) ends its turn in the sphere, you can grant that creature one of these benefits: You grant it {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d6} plus your Cleric level. You end one effect on it causing it to be {@condition Charmed|XPHB} or {@condition Frightened|XPHB}."
+    },
+    {
+      "name": "Steps of Night",
+      "level": 6,
+      "source": "TCE",
+      "description": "You can draw on the mystical power of night to rise into the air. As a {@action Bonus Action|XPHB} when you are in {@variantrule Dim Light|XPHB} or darkness, you can magically grant yourself a flying speed equal to your walking speed for 1 minute. You can use this feature a number of times equal to your {@variantrule Proficiency Bonus|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Twilight Shroud",
+      "level": 17,
+      "source": "TCE",
+      "description": "The twilight that you summon offers a protective embrace: you and your allies have half cover while in the sphere created by your Twilight Sanctuary."
+    }
+  ]
+}

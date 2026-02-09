@@ -1,0 +1,36 @@
+{
+  "id": "moon",
+  "name": "Коллегия Луны",
+  "classId": "bard",
+  "description": "Bards of the College of the Moon are itinerant musicians who weave the bytes of moonlight into their performances.",
+  "shortDescription": "Weave Moonlight into Performance",
+  "source": "FRHoF",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Moon's Inspiration",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "When you expend a use of Bardic Inspiration, you can choose the target to be bathed in moonlight for 10 minutes. While bathed in moonlight, the target sheds bright light in a 5-foot radius and dim light for an additional 5 feet. In addition, the target has {@variantrule Advantage|XPHB} on saving throws against being {@condition Charmed|XPHB} or {@condition Frightened|XPHB}."
+    },
+    {
+      "name": "Primal Lore",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "You gain proficiency in the {@skill Nature} and {@skill Survival} skills if you don't already have them. Additionally, you learn the {@spell Faerie Fire|XPHB} and {@spell Moonbeam|XPHB} spells. They count as Bard spells for you and don't count against the number of Bard spells you know."
+    },
+    {
+      "name": "Blessing of Moonlight",
+      "level": 6,
+      "source": "FRHoF",
+      "description": "When you or a creature you can see within 60 feet of you is hit by an attack, you can use your {@variantrule Reaction|XPHB} to shroud the target in moonlight, granting it {@variantrule Resistance|XPHB} to the triggering damage. In addition, the attacker must succeed on a Constitution saving throw against your spell save DC or have the {@condition Blinded|XPHB} condition until the start of its next turn.\n\nYou can use this feature a number of times equal to your {@variantrule Proficiency Bonus|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Eventide's Splendor",
+      "level": 14,
+      "source": "FRHoF",
+      "description": "You can channel the full brilliance of the moon. As an action, you can create a 30-foot-radius sphere of moonlight centered on a point you can see within 120 feet. The sphere lasts for 1 minute or until you lose {@status Concentration|XPHB} (as if concentrating on a spell). When a creature enters the sphere for the first time on a turn or starts its turn there, you choose one of the following effects:\n\n• The creature regains {@variantrule Hit Points|XPHB} equal to a roll of your Bardic Inspiration die + your Charisma modifier.\n• The creature must succeed on a Constitution saving throw against your spell save DC or take radiant damage equal to two rolls of your Bardic Inspiration die and have the {@condition Blinded|XPHB} condition until the end of its next turn.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

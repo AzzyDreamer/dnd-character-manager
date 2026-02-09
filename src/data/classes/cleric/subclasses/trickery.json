@@ -1,0 +1,47 @@
+{
+  "id": "trickery",
+  "name": "Домен Обмана",
+  "classId": "cleric",
+  "description": "The Trickery Domain offers magic of deception, illusion, and stealth. Clerics who wield this magic are a disruptive force in the world, puncturing pride, mocking tyrants, freeing captives, and flouting hollow traditions. They prefer subterfuge and pranks to direct confrontation. Gods of trickery are mischief-makers and instigators who stand as a constant challenge to the accepted order among both gods and mortals. They embody the forces of change and social upheaval, and they're patrons of thieves, scoundrels, gamblers, rebels, and liberators. Religious orders that operate in secret, especially those that seek to undermine oppressive governments or hierarchies, also draw on the power of the Trickery Domain. Make Mischief and Challenge Authority.",
+  "shortDescription": "Make Mischief and Challenge Authority",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Trickery Domain Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Trickery Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Charm Person}", "{@spell Disguise Self}", "{@spell Invisibility}", "{@spell Pass without Trace}"] },
+        { "clericLevel": 5, "spells": ["{@spell Hypnotic Pattern}", "{@spell Nondetection}"] },
+        { "clericLevel": 7, "spells": ["{@spell Confusion}", "{@spell Dimension Door}"] },
+        { "clericLevel": 9, "spells": ["{@spell Dominate Person}", "{@spell Modify Memory}"] }
+      ]
+    },
+    {
+      "name": "Blessing of the Trickster",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Magic|XPHB} action, you can choose yourself or a willing creature within 30 feet of yourself to have {@variantrule Advantage|XPHB} on Dexterity ({@skill Stealth}) checks. This blessing lasts until you finish a {@variantrule Long Rest|XPHB} or you use this feature again."
+    },
+    {
+      "name": "Invoke Duplicity",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend one use of your Channel Divinity to create a perfect visual illusion of yourself in an unoccupied space you can see within 30 feet of yourself. The illusion is intangible and doesn't occupy its space. It lasts for 1 minute, but it ends early if you dismiss it (no action required) or have the {@condition Incapacitated|XPHB} condition. The illusion is animated and mimics your expressions and gestures. While it persists, you gain the following benefits: {@b Cast Spells.} You can cast spells as though you were in the illusion's space, but you must use your own senses. {@b Distract.} When both you and your illusion are within 5 feet of a creature that can see the illusion, you have {@variantrule Advantage|XPHB} on attack rolls against that creature, given how distracting the illusion is to the target. {@b Move.} As a {@action Bonus Action|XPHB}, you can move the illusion up to 30 feet to an unoccupied space you can see that is within 120 feet of yourself."
+    },
+    {
+      "name": "Trickster's Transposition",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Whenever you take the {@action Bonus Action|XPHB} to create or move the illusion of your Invoke Duplicity, you can teleport, swapping places with the illusion."
+    },
+    {
+      "name": "Improved Duplicity",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "The illusion of your Invoke Duplicity has grown more powerful in the following ways. {@b Shared Distraction.} When you and your allies make attack rolls against a creature within 5 feet of the illusion, the attack rolls have {@variantrule Advantage|XPHB}. {@b Healing Illusion.} When the illusion ends, you or a creature of your choice within 5 feet of it regains a number of {@variantrule Hit Points|XPHB} equal to your Cleric level."
+    }
+  ]
+}

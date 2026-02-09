@@ -1,0 +1,60 @@
+{
+  "id": "nightwatcher",
+  "name": "Ночной Дозорный",
+  "classId": "fighter",
+  "description": "Nightwatchers come from humble origins, often toiling as guards or investigators. Undaunted by dangers in the darkness, they stand firm against the growing night. Ever vigilant, they use the darkness to surprise and overwhelm foes much greater than themselves.",
+  "shortDescription": "Take Back the Night",
+  "source": "GH PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Skilled Guardian",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "Unraveling mysteries under the cover of night has honed your skills. You gain the following benefits.",
+      "details": {
+        "expertise": "{@b Expertise.} Choose one of your skill proficiencies with which you lack {@variantrule Expertise|XPHB}. You gain {@variantrule Expertise|XPHB} in that skill.",
+        "skilled": "{@b Skilled.} You gain proficiency in two skills of your choice from the following list: {@skill Deception}, {@skill History}, {@skill Insight}, {@skill Intimidation}, {@skill Investigation}, {@skill Perception}, or {@skill Stealth}."
+      }
+    },
+    {
+      "name": "Ever Vigilant",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "Your long nights of vigilance have left your senses attuned to signs of danger, granting you the following benefits.",
+      "details": {
+        "darkvision": "{@b Darkvision.} You gain {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB} when you gain this feature, its range increases by 60 feet.",
+        "keenSenses": "{@b Keen Senses.} You have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls and Wisdom ({@skill Perception}) checks.",
+        "warningShout": "{@b Warning Shout.} When you make an {@variantrule Initiative|XPHB} roll, you can take a {@variantrule Reaction|XPHB} to warn creatures of your choice within 30 feet of yourself that can see or hear you. Each creature can then take a {@variantrule Reaction|XPHB} to have {@variantrule Advantage|XPHB} on its {@variantrule Initiative|XPHB} roll and move up to half its {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Size Up",
+      "level": 7,
+      "source": "GH PG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you assess a creature you can see within 30 feet of you. Until the start of your next turn, when that creature makes an attack roll against you or another creature within 5 feet of you, you can take a {@variantrule Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that roll and give {@variantrule Resistance|XPHB} to that damage."
+    },
+    {
+      "name": "Night Stalker",
+      "level": 10,
+      "source": "GH PG'24",
+      "description": "You are adept at tracking down enemies in the dead of night, giving you these benefits.",
+      "details": {
+        "blindsight": "{@b Blindsight.} As a {@action Bonus Action|XPHB}, you gain {@sense Blindsight|XPHB} with a range of 30 feet for 10 minutes. Once you use this benefit, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}.",
+        "slippery": "{@b Slippery.} {@variantrule Opportunity Attacks|XPHB} have {@variantrule Disadvantage|XPHB} against you. While entirely within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, your movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
+      }
+    },
+    {
+      "name": "Ready for Action",
+      "level": 15,
+      "source": "GH PG'24",
+      "description": "When you make an {@variantrule Initiative|XPHB} roll, you can treat a {@dice d20} roll of 9 or lower as a 10. When you roll 18–20 on an {@variantrule Initiative|XPHB} roll, you can take one additional action, except the {@action Magic|XPHB} action, on your first turn."
+    },
+    {
+      "name": "Beat Down",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "Immediately after you miss a creature under the effect of your Size Up feature with an attack roll, you can take a {@action Bonus Action|XPHB} or {@variantrule Reaction|XPHB} to make a melee attack against that creature if it's within range. You have {@variantrule Advantage|XPHB} on the new attack roll against that creature."
+    }
+  ]
+}

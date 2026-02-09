@@ -1,0 +1,52 @@
+{
+  "id": "living-crucible",
+  "name": "Живой Тигель",
+  "classId": "fighter",
+  "description": "Fighters who become Living Crucibles have discovered an external source of power. While most Fighters train in martial traditions or study the art of war, Living Crucibles hone their craft of alchemy to endure compounds poisonous to others. In exchange for this rigorous physical and mental preparation, these Fighters are able to temporarily push their bodies past their natural limits. Under the influence of their alchemical compounds, these warriors can see in darkness, enhance their speed, inure themselves to magical attacks, and more.",
+  "shortDescription": "Enhance Your Martial Prowess with Alchemy",
+  "source": "GH PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Compound Creator",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "You learn to create alchemical compounds toxic to others but empowering to you.",
+      "details": {
+        "compounds": "{@b Compounds.} You learn three compounds of your choice from the \"Compound Options\" section below. You learn two additional compounds of your choice when you reach Fighter levels 7, 10, and 15. Each time you learn new compounds, you can also replace one compound you know with a different one.",
+        "creating": "{@b Creating.} Whenever you finish a {@variantrule Long Rest|XPHB} while holding {@item Alchemist's Supplies|XPHB}, you can use that tool to magically produce any number of compounds. The compound appears in a vial, and the vial vanishes when the compound is consumed or poured out. If any compound remains when you finish a {@variantrule Long Rest|XPHB}, the compound and its vial vanish.",
+        "consuming": "{@b Consuming.} As a {@action Bonus Action|XPHB}, you can consume a compound. You can consume a number of compounds up to your Constitution modifier (minimum of one). Once you reach this limit, you cannot benefit from more compounds until you finish a {@variantrule Long Rest|XPHB}. You can benefit from multiple compounds at the same time, but consuming multiple vials of the same compound provides no additional effects. Only you can benefit from your compounds. Any other creature that consumes a compound must succeed on a Constitution saving throw (DC 8 plus your Intelligence modifier plus {@variantrule Proficiency Bonus|XPHB}) or have the {@condition Poisoned|XPHB} condition for 1 minute."
+      }
+    },
+    {
+      "name": "Student of Alchemy",
+      "level": 3,
+      "source": "GH PG'24",
+      "description": "Your long nights of vigilance have left your senses attuned to signs of danger, granting you the following benefits. You gain {@item Alchemist's Supplies|XPHB}, and you gain proficiency with it. In addition, your {@variantrule Proficiency Bonus|XPHB} is doubled for ability checks with {@item Alchemist's Supplies|XPHB}."
+    },
+    {
+      "name": "Living Cauldron",
+      "level": 7,
+      "source": "GH PG'24",
+      "description": "The number of compounds you can safely consume increases to three plus your Constitution modifier (minimum one). At Fighter level 18, the number of compounds you can safely consume increases to five plus your Constitution modifier (minimum one)."
+    },
+    {
+      "name": "Rapid Consumption",
+      "level": 10,
+      "source": "GH PG'24",
+      "description": "When you use a {@action Bonus Action|XPHB} to drink a compound, you can drink a second compound."
+    },
+    {
+      "name": "Toxin Transmutation",
+      "level": 15,
+      "source": "GH PG'24",
+      "description": "You have {@variantrule Resistance|XPHB} to Poison damage. Also, as a {@action Bonus Action|XPHB}, you can end the {@condition Poisoned|XPHB} condition on yourself. When you end the {@condition Poisoned|XPHB} condition on yourself in this way, you can choose to gain {@variantrule Temporary Hit Points|XPHB} equal to your Fighter level. You regain the ability to gain these {@variantrule Temporary Hit Points|XPHB} after completing a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Living Catalyst",
+      "level": 18,
+      "source": "GH PG'24",
+      "description": "When you finish a {@variantrule Long Rest|XPHB}, you can replace one compound you know with another one."
+    }
+  ]
+}

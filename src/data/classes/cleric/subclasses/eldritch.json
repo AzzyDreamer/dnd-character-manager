@@ -1,0 +1,57 @@
+{
+  "id": "eldritch",
+  "name": "Домен Древнего Ужаса",
+  "classId": "cleric",
+  "description": "The Eldritch Domain empowers the followers of the unknown and distant forces of chaos, divine entities of eldritch oblivion, and dead gods. Wield the Power that Killed the Gods. Even the most benevolent divine beings operate outside the bounds of mortal comprehension. These eldritch forces sing a siren song that calls to mortal worshippers through lucid dreams and terrible whispers.",
+  "shortDescription": "Wield the Power that Killed the Gods",
+  "source": "GHePG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Eldritch Domain Spells",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Eldritch Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Detect Thoughts}", "{@spell Hideous Laughter}", "{@spell See Invisibility}", "{@spell Sleep}"] },
+        { "clericLevel": 5, "spells": ["{@spell Fear}", "{@spell Tongues}"] },
+        { "clericLevel": 7, "spells": ["{@spell Confusion}", "{@spell Phantasmal Killer}"] },
+        { "clericLevel": 9, "spells": ["{@spell Contact Other Plane}", "{@spell Dream}"] }
+      ]
+    },
+    {
+      "name": "Eldritch Contagion",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "You've been gifted with the ability to impart a fleeting taste of the unknowable on others. When you take a {@action Magic|XPHB} action to cast a spell using a spell slot that targets one or more creatures, you can force one target of the original spell to make a Wisdom saving throw against your spell save DC. On a failed save, roll on the Eldritch Effects table, and the target creature suffers that effect for 1 minute. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success. This effect ends early if you use this feature.",
+      "eldritchEffects": [
+        { "roll": 1, "effect": "The creature can't speak or cast spells that have Verbal components." },
+        { "roll": 2, "effect": "The creature takes {@damage 1d6} Psychic damage at the start of each of its turns." },
+        { "roll": 3, "effect": "The creature is disoriented. If it uses more than 5 feet of its movement to do anything other than stand, it has the {@condition Prone} condition." },
+        { "roll": 4, "effect": "The creature is distracted by visions and voices and has {@variantrule Disadvantage|XPHB} on attack rolls and Wisdom ({@skill Perception}) checks." },
+        { "roll": 5, "effect": "The creature is unsure of itself. On its turns, it can take either an action or a {@action Bonus Action|XPHB}, not both, and it can make only one attack if it takes the {@action Attack} action." },
+        { "roll": 6, "effect": "The creature is reckless. It has {@variantrule Advantage|XPHB} on attack rolls, but attack rolls against it have {@variantrule Advantage|XPHB}." },
+        { "roll": 7, "effect": "The creature has the {@condition Deafened} condition and can't see anything more than 30 feet away." },
+        { "roll": 8, "effect": "The creature has the {@condition Frightened} condition." }
+      ]
+    },
+    {
+      "name": "Prophecy of Doom",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "As a {@action Magic|XPHB} action, you expend a use of your Channel Divinity to choose a point within 120 feet of you that you can see and roll on the Eldritch Effects table. Each creature in a 15-foot-radius {@variantrule Sphere|XPHB} centered on that point must succeed on a Wisdom saving throw against your spell save DC or suffer the rolled effect for 1 minute. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success."
+    },
+    {
+      "name": "Otherworldly Calm",
+      "level": 6,
+      "source": "GHePG'24",
+      "description": "You have {@variantrule Resistance|XPHB} to Psychic damage and {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions. Additionally, your thoughts can't be read by telepathy or other means unless you allow it. The attempt automatically fails, and the creature must succeed on a Wisdom saving throw against your spell save DC or take Psychic damage equal to your Cleric level."
+    },
+    {
+      "name": "Sing the Song that Ends the World",
+      "level": 17,
+      "source": "GHePG'24",
+      "description": "When a creature fails a Wisdom saving throw against your Prophecy of Doom feature, you can deal {@damage 10d10} Psychic damage to it. Once a creature takes damage in this way, it is immune to this effect for 10 minutes, after which it can be affected again."
+    }
+  ]
+}

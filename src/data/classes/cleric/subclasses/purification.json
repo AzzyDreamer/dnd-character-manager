@@ -1,0 +1,47 @@
+{
+  "id": "purification",
+  "name": "Домен Очищения",
+  "classId": "cleric",
+  "description": "The Purification Domain believes sickness, mutation, and other forms of bodily corruption are signs of a corresponding spiritual malady. Virtue can't exist alongside impurity. The wickedness of humanity and other mortal, sentient creatures is a contagion that manifests plagues such as the Weeping Pox. When there's a risk of such corruption spreading, there's only one surefire way to contain the rot and atone for the sins that led to this point: Burn it out. Purge Sickness with Suffering.",
+  "shortDescription": "Purge Sickness with Suffering",
+  "source": "GHePG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Cleanse with Fire",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "When you deal damage with a cantrip or an attack with a weapon or {@variantrule Unarmed Strike|XPHB}, you can deal an additional {@damage 1d8} Fire damage. You can use this feature a number of times equal to your Wisdom modifier plus your {@variantrule Proficiency Bonus|XPHB} (minimum of once), and you regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Purification Domain Spells",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Purification Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Detect Poison and Disease}", "{@spell Flame Blade}"] },
+        { "clericLevel": 5, "spells": ["{@spell Fear}", "{@spell Flash Fever}"] },
+        { "clericLevel": 7, "spells": ["{@spell Aura of Purity}", "{@spell Wall of Fire}"] },
+        { "clericLevel": 9, "spells": ["{@spell Flame Strike}", "{@spell Hold Monster}"] }
+      ]
+    },
+    {
+      "name": "Unclean Brand",
+      "level": 3,
+      "source": "GHePG'24",
+      "description": "When you hit a creature with a melee attack with a weapon or {@variantrule Unarmed Strike|XPHB}, instead of dealing the strike's normal damage, you can expend one use of your Channel Divinity to sear a symbol into the creature's flesh, marking it with a glowing brand for 1 minute. During that time, the creature has {@variantrule Disadvantage|XPHB} on saving throws against your spells. Additionally, the creature gains {@variantrule Vulnerability|XPHB} to Fire damage you deal, even if it normally has {@variantrule Resistance|XPHB} or {@variantrule Immunity|XPHB} to Fire damage."
+    },
+    {
+      "name": "Ward Against Corruption",
+      "level": 6,
+      "source": "GHePG'24",
+      "description": "You have {@variantrule Advantage|XPHB} on saving throws to avoid or end diseases and against any effect that would change your form, such as the {@spell Polymorph|XPHB} spell. As a {@action Magic|XPHB} action, you can touch a willing creature to grant this benefit, but the creature takes Fire damage equal to your Wisdom modifier (minimum of 1). This damage ignores {@variantrule Resistance|XPHB} and {@variantrule Immunity|XPHB}. Once you grant this benefit, it lasts for 1 hour or until you grant this benefit again."
+    },
+    {
+      "name": "Sear Imperfections",
+      "level": 17,
+      "source": "GHePG'24",
+      "description": "You can cast {@spell Lesser Restoration|XPHB} and {@spell Greater Restoration|XPHB} on a willing creature without expending spell slots and without Material components, but the target takes {@damage 1d6} Fire damage for each level of the spell slot immediately after you cast it. This damage ignores {@variantrule Resistance|XPHB} and {@variantrule Immunity|XPHB}."
+    }
+  ]
+}

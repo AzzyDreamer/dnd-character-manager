@@ -1,0 +1,48 @@
+{
+  "id": "adventurers",
+  "name": "Коллегия Искателей Приключений",
+  "classId": "bard",
+  "description": "Bards of the College of Adventurers learn from heroes of old and stories of legend. Bards are jacks of all trades, and, for the College of Adventurers, this statement rings even truer. They combine all the skills of their companions into one, allowing them to be versatile and supportive. While not having a direct goal, many adventurer-studying Bards live to tell tales of other heroes or seek to create their own. Stories of great deeds, of desperate cunning, of magical anomalies, or of godly might fuel these Bards.",
+  "shortDescription": "Be a Master of Classes",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Talented Adventurer",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You learn an adventurer's talent of your choice from the \"Adventurer's Talent Options\" section later in this subclass's description. You learn an additional adventurer's talent of your choice when you reach Bard levels 6 and 14.",
+      "details": {
+        "barbarian": "You've learned to fight with primal ferocity. As a {@action Bonus Action|XPHB} you aren't wearing Heavy armor, you can enter a rampage for 1 minute. During this time, you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage, and you can't maintain {@status Concentration|XPHB}. Your rampage ends early if you use a {@action Bonus Action|XPHB} or have the {@condition Incapacitated|XPHB} condition. Once you use this talent, you can't do so again until you finish a {@variantrule Long Rest|XPHB}.",
+        "cleric": "You've gained the ability to channel divine energy directly from the gods, emboldening allies and sanctifying their attacks. As a {@action Bonus Action|XPHB}, choose a creature within 30 feet of you. For 10 minutes, the target gains {@variantrule Temporary Hit Points|XPHB} equal to half your Bard level plus your Charisma modifier. While a creature has {@variantrule Temporary Hit Points|XPHB} granted by this talent, it can choose to lose all remaining {@variantrule Temporary Hit Points|XPHB} when it hits a creature with an attack made with a weapon or {@variantrule Unarmed Strike|XPHB}, dealing extra Radiant damage equal to the number of {@variantrule Temporary Hit Points|XPHB} lost. Once you use this talent, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}.",
+        "druid": "You can cast the {@spell Polymorph|XPHB} spell without expending a spell slot. When you cast the {@spell Polymorph|XPHB} spell with this talent, you can target yourself only and the maximum {@variantrule Challenge Rating|XPHB} of the Beast you can transform into equals half your Druid level. Once you cast the spell using this talent, you can't do so again until you finish a {@variantrule Long Rest|XPHB}.",
+        "fighter": "You gain proficiency with {@item martial weapons|XPHB} and training with {@item Shields|XPHB}. In addition, you gain a {@feat Fighting Style|XPHB} feat of your choice.",
+        "monk": "While you aren't wearing armor or wielding a {@item Shield|XPHB}, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity and Charisma modifiers. You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your {@variantrule Unarmed Strikes|XPHB}, and you can roll {@dice 1d6} in place of the normal damage of your {@variantrule Unarmed Strike|XPHB}. In addition, after you cast a spell that has a casting time of an action or take the {@action Attack|XPHB} action, you can make one attack with an {@variantrule Unarmed Strike|XPHB} as a {@action Bonus Action|XPHB}.",
+        "paladin": "Once per turn, when you hit a creature with a melee attack using a weapon or {@variantrule Unarmed Strike|XPHB}, you can expend a spell slot to deal an extra {@dice 1d6} Radiant damage to the target, plus another {@dice 1d6} per level of the spell slot. The damage increases by {@dice 1d6} if the target is a Fiend or an Undead. Once you use this talent, you must finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} before you can use it again.",
+        "ranger": "You always have the {@spell Hunter's Mark|XPHB} spell prepared. You can cast this spell using a 5th-level spell slot without expending a spell slot. Once you cast the spell using this talent, you can't do so again until you finish a {@variantrule Long Rest|XPHB}.",
+        "rogue": "You've adopted the quick thinking of heroes who have outsmarted their foes. On your turn, you can take one of the following actions as a {@action Bonus Action|XPHB}: {@action Dash|XPHB}, {@action Disengage|XPHB}, or {@action Hide|XPHB}.",
+        "sorcerer": "Choose one of the following Metamagic Options available to the Sorcerer class: {@variantrule Careful Spell|XPHB}, {@variantrule Distant Spell|XPHB}, {@variantrule Empowered Spell|XPHB}, {@variantrule Extended Spell|XPHB}, {@variantrule Seeking Spell|XPHB}, {@variantrule Subtle Spell|XPHB}, or {@variantrule Transmuted Spell|XPHB}. When you cast a Bard spell, you can apply that Metamagic Option as if you had paid its Sorcery Point cost. Once you use this talent, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}.",
+        "warlock": "You learn one {@variantrule Eldritch Invocation|XPHB} of your choice. If an invocation has a level requirement, use your Bard level. When you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation for which you qualify.",
+        "wizard": "You prepare any two spells from the {@filter Wizard spell list} that are of a level you can cast. These count as Bard spells for you but do not count against your number of Prepared Spells. When you gain a level in this class, you can replace one of the Wizard spells you have prepared and replace it with another spell from the {@filter Wizard spell list} of a level you can cast."
+      }
+    },
+    {
+      "name": "Party Planner",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "While a creature has a Bardic Inspiration die from you, it can use a {@action Bonus Action|XPHB} to take the {@action Help|XPHB} action."
+    },
+    {
+      "name": "Well-Rounded",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You gain proficiency in two skills of your choice. In addition, you learn one additional adventurer's talent from the Talented Adventurer feature."
+    },
+    {
+      "name": "Improvisational Talent",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "You can change your adventurer's talent on the fly. When you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}, you can replace one of your adventurer's talents with another one from the Talented Adventurer feature. In addition, you learn one additional adventurer's talent."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "entropy",
+  "name": "Круг Энтропии",
+  "classId": "druid",
+  "description": "Druids of the Circle of Entropy see doom as a constant of the natural world. Lives end, works erode, and the civilizations of Etharis ultimately come to ruin. The inevitable end of the old brings opportunity for the new. These fatalistic Druids see themselves as agents of ruin, ending those whose time has passed to make space for those whose time has yet to come.",
+  "shortDescription": "Become an Instrument of Decay and Ruin",
+  "source": "GH:PG24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Catastrophic Power",
+      "level": 3,
+      "source": "GH:PG24",
+      "description": "You have mastered talents, both magical and martial, in your pursuit of the inevitable destruction of mortals and their works. When you finish a {@variantrule Short|XPHB} or {@variantrule Long Rest|XPHB}, you gain one of the following benefits until you finish your next {@variantrule Short|XPHB} or {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "elementalCataclysm": "{@b Elemental Cataclysm.} As a {@action Magic|XPHB} action, you can expend a spell slot to cause elemental energy to burst in a 10-foot-radius {@variantrule Sphere|XPHB} centered on a point within 60 feet of yourself. Choose a damage type: Acid, Cold, Fire, or Lightning. Each creature in the {@variantrule Sphere|XPHB} must make a Dexterity saving throw against your spell save DC. On a failed save, a creature takes {@dice 1d6} damage of the chosen type per level of the spell slot expended, and then has {@status Vulnerability} to that damage type for 1 minute. On a successful save, a creature takes half as much damage only. The target repeats the save at the end of each of its turns, ending the {@status Vulnerability} on a success.",
+        "ruinousSmite": "{@b Ruinous Smite.} Once per turn when you deal damage with an attack with a weapon or an {@action Unarmed Strike|XPHB}, you can choose to expend a spell slot to deal an extra {@dice 1d8} Necrotic damage, plus another {@dice 1d8} per level of the spell slot.",
+        "weaponMastery": "{@b Weapon Mastery.} Your supernatural connection to destruction allows you to use the mastery property of one kind of weapon of your choice with which you have proficiency, such as {@item Shortbows|XPHB} or {@item Quarterstaffs|XPHB}. Whenever you finish a {@variantrule Long Rest|XPHB}, you can change the kind of weapon you choose."
+      }
+    },
+    {
+      "name": "Ruin Incarnate",
+      "level": 3,
+      "source": "GH:PG24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend a use of your Wild Shape to adopt an aspect of entropy and the inevitable end of all things for 10 minutes. You gain the following benefits: {@b All Things Pass.} You have {@status Advantage} on attack rolls against {@status Bloodied} creatures. {@b Inexorable Onslaught.} You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn. {@b Ironskin Armor.} Your base AC becomes 17 plus your Wisdom modifier (minimum of +1) if your AC is lower than that."
+    },
+    {
+      "name": "Many Roads to Ruin",
+      "level": 6,
+      "source": "GH:PG24",
+      "description": "Your mystical connection to catastrophe and destruction grows stronger. You gain the following benefits. {@b Elemental Assault.} While your Ruin Incarnate feature is active, whenever you hit with a weapon or an {@action Unarmed Strike|XPHB}, you can cause it to deal your choice of Acid, Cold, Fire, Lightning, or Necrotic damage rather than its normal damage type. {@b Increased Might.} While your Ruin Incarnate is active, you can add your Wisdom modifier (minimum of +1) to your Strength and Dexterity saving throws."
+    },
+    {
+      "name": "Shake the Earth",
+      "level": 10,
+      "source": "GH:PG24",
+      "description": "As a {@action Magic|XPHB} action, you can strike the earth with a thunderous tremor and grow. When you do so, your size increases by one category (from Medium to Large, for example) for 10 minutes. In addition, each creature in a 30-foot {@variantrule Emanation|XPHB} originating from your new form must make a Dexterity saving throw against your spell save DC, or have the {@condition Prone} condition. The tremor deals Bludgeoning damage to each structure in contact with the ground in the area. To determine this damage, roll a number of {@dice d4}s equal to your Druid level. While your size is increased by this feature, your attacks with weapons and {@action Unarmed Strikes|XPHB} deal an extra {@dice 1d4} damage on a hit. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Entropy's Apex",
+      "level": 14,
+      "source": "GH:PG24",
+      "description": "You have mastered the ability to hasten the inevitable slide toward entropy. You gain the following benefits. {@b Enhanced Ruinous Smite.} Until the end of your next turn, any creature affected by your Ruinous Smite suffers a {@variantrule Critical Hit|XPHB} on a roll of 19-20 on the {@dice d20}. {@b Improved Inexorable Onslaught.} While your Ruin Incarnate feature is active, you can attack with a weapon or an {@action Unarmed Strike|XPHB} three times instead of once whenever you take the {@action Attack|XPHB} action on your turn. {@b World Breaker.} You regain your use of the Shake the Earth feature when you finish a {@variantrule Short|XPHB} or {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

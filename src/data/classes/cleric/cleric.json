@@ -1,0 +1,173 @@
+{
+  "id": "cleric",
+  "name": "Жрец",
+  "source": "PHB'24",
+  "page": 68,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d8",
+  "hitPointsAtFirstLevel": "8 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d8 (or 5) + your Constitution modifier per Cleric level after 1st",
+  "primaryAbility": ["wisdom"],
+  "savingThrows": ["wisdom", "charisma"],
+  "spellcaster": true,
+  "spellcastingAbility": "wisdom",
+  "description": "Божественный заклинатель, служащий высшей силе. Целитель и защитник веры.",
+  "proficiencies": {
+    "armor": ["Light armor", "Medium armor", "Shields"],
+    "weapons": ["Simple weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["history", "insight", "medicine", "persuasion", "religion"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Chain Shirt|XPHB}", "{@item Shield|XPHB}", "{@item Mace|XPHB}", "{@item Holy Symbol|XPHB}", "{@item Priest's Pack|XPHB}", "7 GP"],
+    "optionB": ["110 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Wisdom 13",
+    "armorTraining": ["Light armor", "Medium armor", "Shields"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Spellcasting", "Divine Order"],            "channelDivinity": null, "cantrips": 3, "preparedSpells": 4,  "spellSlots": [2,0,0,0,0,0,0,0,0] },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Channel Divinity"],                        "channelDivinity": 2,    "cantrips": 3, "preparedSpells": 5,  "spellSlots": [3,0,0,0,0,0,0,0,0] },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Cleric Subclass"],                         "channelDivinity": 2,    "cantrips": 3, "preparedSpells": 6,  "spellSlots": [4,2,0,0,0,0,0,0,0] },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],               "channelDivinity": 2,    "cantrips": 4, "preparedSpells": 7,  "spellSlots": [4,3,0,0,0,0,0,0,0] },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Sear Undead"],                             "channelDivinity": 2,    "cantrips": 4, "preparedSpells": 9,  "spellSlots": [4,3,2,0,0,0,0,0,0] },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                        "channelDivinity": 3,    "cantrips": 4, "preparedSpells": 10, "spellSlots": [4,3,3,0,0,0,0,0,0] },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Blessed Strikes"],                         "channelDivinity": 3,    "cantrips": 4, "preparedSpells": 11, "spellSlots": [4,3,3,1,0,0,0,0,0] },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],               "channelDivinity": 3,    "cantrips": 4, "preparedSpells": 12, "spellSlots": [4,3,3,2,0,0,0,0,0] },
+    { "level": 9,  "proficiencyBonus": 4, "features": [],                                          "channelDivinity": 3,    "cantrips": 4, "preparedSpells": 14, "spellSlots": [4,3,3,3,1,0,0,0,0] },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Divine Intervention"],                     "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 15, "spellSlots": [4,3,3,3,2,0,0,0,0] },
+    { "level": 11, "proficiencyBonus": 4, "features": [],                                          "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],               "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 13, "proficiencyBonus": 5, "features": [],                                          "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Improved Blessed Strikes"],                "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 15, "proficiencyBonus": 5, "features": [],                                          "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],               "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Subclass Feature"],                        "channelDivinity": 3,    "cantrips": 5, "preparedSpells": 19, "spellSlots": [4,3,3,3,2,1,1,1,1] },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Ability Score Improvement"],               "channelDivinity": 4,    "cantrips": 5, "preparedSpells": 20, "spellSlots": [4,3,3,3,3,1,1,1,1] },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                               "channelDivinity": 4,    "cantrips": 5, "preparedSpells": 21, "spellSlots": [4,3,3,3,3,2,1,1,1] },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Greater Divine Intervention"],             "channelDivinity": 4,    "cantrips": 5, "preparedSpells": 22, "spellSlots": [4,3,3,3,3,2,2,1,1] }
+  ],
+  "classFeatures": [
+    {
+      "name": "Spellcasting",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 70,
+      "description": "You have learned to cast spells through prayer and meditation. See {@variantrule chapter 7|XPHB} for the rules on spellcasting. The information below details how you use those rules with Cleric spells, which appear on the {@filter Cleric spell list} later in the class's description.",
+      "details": {
+        "cantrips": "You know three cantrips of your choice from the {@filter Cleric spell list}. {@spell Guidance|XPHB}, {@spell Sacred Flame|XPHB}, and {@spell Thaumaturgy|XPHB} are recommended. Whenever you gain a Cleric level, you can replace one of your cantrips with another cantrip of your choice from the {@filter Cleric spell list}. When you reach Cleric levels 4 and 10, you learn another cantrip of your choice from the {@filter Cleric spell list}, as shown in the Cantrips column of the Cleric Features table.",
+        "spellSlots": "The Cleric Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended spell slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the {@filter Cleric spell list}. {@spell Bless|XPHB}, {@spell Cure Wounds|XPHB}, {@spell Guiding Bolt|XPHB}, and {@spell Shield of Faith|XPHB} are recommended. The number of spells on your list increases as you gain Cleric levels, as shown in the Prepared Spells column of the Cleric Features table. Whenever that number increases, choose additional spells from the {@filter Cleric spell list} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. If another Cleric feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Cleric spells for you.",
+        "changingPreparedSpells": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your list of prepared spells, replacing any of the spells there with other Cleric spells for which you have spell slots.",
+        "spellcastingAbility": "Wisdom is your spellcasting ability for your Cleric spells.",
+        "spellcastingFocus": "You can use a {@item Holy Symbol|XPHB} as a {@variantrule Spellcasting Focus|XPHB} for your Cleric spells."
+      }
+    },
+    {
+      "name": "Divine Order",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 70,
+      "description": "You have dedicated yourself to one of the following sacred roles of your choice.",
+      "details": {
+        "protector": "{@b Protector.} Trained for battle, you gain proficiency with {@filter Martial weapons|XPHB} and training with {@item Heavy armor|XPHB}.",
+        "thaumaturge": "{@b Thaumaturge.} You know one extra cantrip from the {@filter Cleric spell list}. In addition, your mystical connection to the divine gives you a bonus to your Intelligence ({@skill Arcana} or {@skill Religion}) checks. The bonus equals your Wisdom modifier (minimum of +1)."
+      }
+    },
+    {
+      "name": "Channel Divinity",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 71,
+      "description": "You can channel divine energy directly from the Outer Planes to fuel magical effects. You start with two such effects: Divine Spark and Turn Undead, each of which is described below. Each time you use this class's Channel Divinity, choose which Channel Divinity effect from this class to create. You gain additional effect options at higher Cleric levels. You can use this class's Channel Divinity twice. You regain one of its expended uses when you finish a {@variantrule Short Rest|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You gain additional uses when you reach certain Cleric levels, as shown in the Channel Divinity column of the Cleric Features table. If a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class's Spellcasting feature.",
+      "details": {
+        "divineSpark": "{@b Divine Spark.} As a {@action Magic|XPHB} action, you point your {@item Holy Symbol|XPHB} at another creature you can see within 30 feet of yourself and focus divine energy at it. Roll {@dice 1d8} and add your Wisdom modifier. You either restore {@variantrule Hit Points|XPHB} to the creature equal to that total or force the creature to make a Constitution saving throw. On a failed save, the creature takes Necrotic or Radiant damage (your choice) equal to that total. On a successful save, the creature takes half as much damage (round down). You roll an additional {@dice d8} when you reach Cleric levels 7 ({@dice 2d8}), 13 ({@dice 3d8}), and 18 ({@dice 4d8}).",
+        "turnUndead": "{@b Turn Undead.} As a {@action Magic|XPHB} action, you present your {@item Holy Symbol|XPHB} and censure Undead creatures. Each Undead of your choice within 30 feet of you must make a Wisdom saving throw. If the creature fails its save, it has the {@condition Frightened|XPHB} and {@condition Incapacitated|XPHB} conditions for 1 minute. For that duration, it tries to move as far from you as it can on its turns. This effect ends early on the creature if it takes any damage, if you have the {@condition Incapacitated|XPHB} condition, or if you die."
+      }
+    },
+    {
+      "name": "Cleric Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 71,
+      "description": "You gain a Cleric subclass of your choice. A subclass is a specialization that grants you features at certain Cleric levels. For the rest of your career, you gain each of your subclass's features that are of your Cleric level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, 16, and 18."
+    },
+    {
+      "name": "Sear Undead",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 71,
+      "description": "Whenever you use Turn Undead, you can roll a number of {@dice d8}s equal to your Wisdom modifier (minimum of {@dice 1d8}) and add the rolls together. Each Undead that fails its saving throw against that use of Turn Undead takes Radiant damage equal to the roll's total. This damage doesn't end the turn effect."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Cleric subclass."
+    },
+    {
+      "name": "Blessed Strikes",
+      "level": 7,
+      "source": "PHB'24",
+      "page": 71,
+      "description": "Divine power infuses you in battle. You gain one of the following options of your choice (if you get either option from a Cleric subclass feature, you aren't limited to the options below).",
+      "details": {
+        "divineStrike": "{@b Divine Strike.} Once on each of your turns when you hit a creature with an attack roll using a weapon, you can cause the target to take an extra {@damage 1d8} Necrotic or Radiant damage (your choice).",
+        "potentSpellcasting": "{@b Potent Spellcasting.} You add your Wisdom modifier to the damage you deal with any Cleric cantrip."
+      }
+    },
+    {
+      "name": "Divine Intervention",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 72,
+      "description": "You can call on your deity or pantheon to intervene on your behalf. As a {@action Magic|XPHB} action, choose any Cleric spell of level 5 or lower that doesn't require a {@variantrule Reaction|XPHB} to cast. As part of the same action, you cast that spell without expending a spell slot or needing Material components. You can't use this feature again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Improved Blessed Strikes",
+      "level": 14,
+      "source": "PHB'24",
+      "page": 72,
+      "description": "The option you chose for Blessed Strikes grows more powerful.",
+      "details": {
+        "divineStrike": "{@b Divine Strike.} The extra damage of your Divine Strike increases to {@damage 2d8}.",
+        "potentSpellcasting": "{@b Potent Spellcasting.} When you cast a Cleric cantrip and deal damage to a creature with it, you can give vitality to yourself or another creature within 60 feet of yourself, granting a number of {@variantrule Temporary Hit Points|XPHB} equal to twice your Wisdom modifier."
+      }
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Cleric subclass."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Fate|XPHB} is recommended."
+    },
+    {
+      "name": "Greater Divine Intervention",
+      "level": 20,
+      "source": "PHB'24",
+      "page": 72,
+      "description": "You can call on even more powerful divine intervention. When you use your Divine Intervention feature, you can choose {@spell Wish|XPHB} when you select a spell. If you do so, you can't use Divine Intervention again until you finish {@dice 2d4} {@variantrule Long Rests|XPHB}."
+    }
+  ],
+  "subclassIds": [
+    "arcana", "eldritch", "forge", "grave", "inquisition", "knowledge",
+    "life", "light", "order", "peace", "purification",
+    "trickery", "twilight", "war"
+  ]
+}

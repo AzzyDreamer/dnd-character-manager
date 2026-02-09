@@ -1,0 +1,46 @@
+{
+  "id": "zealot",
+  "name": "Путь Фанатика",
+  "classId": "barbarian",
+  "description": "Barbarians who walk the Path of the Zealot receive boons from a god or pantheon. These Barbarians experience their Rage as an ecstatic episode of divine union that infuses them with power. They are often allies to the priests and other followers of their god or pantheon.",
+  "shortDescription": "Rage in Ecstatic Union with a God",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Divine Fury",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can channel divine power into your strikes. On each of your turns while your Rage is active, the first creature you hit with a weapon or an {@variantrule Unarmed Strike|XPHB} takes extra damage equal to {@dice 1d6} plus half your Barbarian level (round down). The extra damage is Necrotic or Radiant; you choose the type each time you deal the damage."
+    },
+    {
+      "name": "Warrior of the Gods",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "A divine entity helps ensure you can continue the fight. You have a pool of four {@dice d12}s that you can spend to heal yourself. As a {@action Bonus Action|XPHB}, you can expend dice from the pool, roll them, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll's total. Your pool regains all expended dice when you finish a {@variantrule Long Rest|XPHB}. The pool's maximum number of dice increases by one when you reach Barbarian levels 6 (5 dice), 12 (6 dice), and 17 (7 dice)."
+    },
+    {
+      "name": "Fanatical Focus",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Once per active Rage, if you fail a saving throw, you can reroll it with a bonus equal to your Rage Damage bonus, and you must use the new roll."
+    },
+    {
+      "name": "Zealous Presence",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you unleash a battle cry infused with divine energy. Up to ten other creatures of your choice within 60 feet of you gain {@variantrule Advantage|XPHB} on attack rolls and saving throws until the start of your next turn. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you expend a use of your Rage (no action required) to restore your use of it."
+    },
+    {
+      "name": "Rage of the Gods",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you activate your Rage, you can assume the form of a divine warrior. This form lasts for 1 minute or until you drop to 0 {@variantrule Hit Points|XPHB}. Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}. While in this form, you gain the benefits below.",
+      "details": {
+        "flight": "You have a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB} and can hover.",
+        "resistance": "You have {@variantrule Resistance|XPHB} to Necrotic, Psychic, and Radiant damage.",
+        "revivification": "When a creature within 30 feet of you would drop to 0 {@variantrule Hit Points|XPHB}, you can take a {@variantrule Reaction|XPHB} to expend a use of your Rage to instead change the target's {@variantrule Hit Points|XPHB} to a number equal to your Barbarian level."
+      }
+    }
+  ]
+}

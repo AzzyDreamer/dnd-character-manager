@@ -1,0 +1,47 @@
+{
+  "id": "war",
+  "name": "Домен Войны",
+  "classId": "cleric",
+  "description": "War has many manifestations. It can make heroes of ordinary people. It can be desperate and horrific, with acts of cruelty and cowardice eclipsing instances of excellence and courage. Clerics who tap into the magic of the War Domain excel in battle, inspiring others to fight the good fight or offering acts of violence as prayers. Gods of the War Domain watch over warriors and reward them for their great deeds. They include champions of honor and chivalry as well as gods of destruction and pillage. Other war gods take a more neutral stance, promoting war in all its manifestations and supporting warriors in any circumstance. Inspire Valor and Smite Foes.",
+  "shortDescription": "Inspire Valor and Smite Foes",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "War Domain Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the War Domain Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "clericLevel": 3, "spells": ["{@spell Guiding Bolt}", "{@spell Magic Weapon}", "{@spell Shield of Faith}", "{@spell Spiritual Weapon}"] },
+        { "clericLevel": 5, "spells": ["{@spell Crusader's Mantle}", "{@spell Spirit Guardians}"] },
+        { "clericLevel": 7, "spells": ["{@spell Fire Shield}", "{@spell Freedom of Movement}"] },
+        { "clericLevel": 9, "spells": ["{@spell Hold Monster}", "{@spell Steel Wind Strike}"] }
+      ]
+    },
+    {
+      "name": "War Priest",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can make one attack with a weapon or an {@variantrule Unarmed Strike|XPHB}. You can use this {@action Bonus Action|XPHB} a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Guided Strike",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you or a creature within 30 feet of you misses with an attack roll, you can expend one use of your Channel Divinity and give that roll a +10 bonus, potentially turning the miss into a hit. When you use this feature to benefit another creature's attack roll, you must take a {@variantrule Reaction|XPHB} to do so."
+    },
+    {
+      "name": "War God's Blessing",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can expend a use of your Channel Divinity to cast {@spell Shield of Faith|XPHB} or {@spell Spiritual Weapon|XPHB} rather than expending a spell slot. When you cast either spell in this way, the spell doesn't require {@status Concentration|XPHB}. Instead the spell lasts for 1 minute, but it ends early if you cast that spell again, have the {@condition Incapacitated|XPHB} condition, or die."
+    },
+    {
+      "name": "Avatar of Battle",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You gain {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage."
+    }
+  ]
+}

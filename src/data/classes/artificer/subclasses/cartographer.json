@@ -1,0 +1,77 @@
+{
+  "id": "cartographer",
+  "name": "Картограф",
+  "classId": "artificer",
+  "description": "Cartographers are the premier navigators and reconnaissance agents. Using their creations, Cartographers can highlight threats, safeguard allies, and carve portals to distant locations.",
+  "shortDescription": "Chart Advantageous Courses through Turmoil",
+  "source": "EFA",
+  "page": 15,
+  "level": 3,
+  "features": [
+    {
+      "name": "Tools of the Trade",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "toolProficiency": "You gain proficiency with {@item Calligrapher's Supplies|XPHB} and {@item Cartographer's Tools|XPHB}. If you already have one of these proficiencies, you gain proficiency with one other type of {@item Artisan's Tools|XPHB} of your choice (or with two other types if you have both).",
+        "scrollCrafting": "When you scribe a {@item Spell Scroll|XPHB} using the crafting rules in the {@book Player's Handbook|XPHB}, the amount of time required to craft it is halved."
+      }
+    },
+    {
+      "name": "Cartographer Spells",
+      "level": 3,
+      "source": "EFA",
+      "description": "When you reach an Artificer level specified in the Cartographer Spells table, you thereafter always have the listed spells prepared.",
+      "spells": [
+        { "artificerLevel": 3,  "spells": ["{@spell Faerie Fire|XPHB}", "{@spell Guiding Bolt|XPHB}", "{@spell Healing Word|XPHB}"] },
+        { "artificerLevel": 5,  "spells": ["{@spell Locate Object|XPHB}", "{@spell Mind Spike|XPHB}"] },
+        { "artificerLevel": 9,  "spells": ["{@spell Call Lightning|XPHB}", "{@spell Clairvoyance|XPHB}"] },
+        { "artificerLevel": 13, "spells": ["{@spell Banishment|XPHB}", "{@spell Locate Creature|XPHB}"] },
+        { "artificerLevel": 17, "spells": ["{@spell Scrying|XPHB}", "{@spell Teleportation Circle|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Adventurer's Atlas",
+      "level": 3,
+      "source": "EFA",
+      "description": "Whenever you finish a {@variantrule Long Rest|XPHB} while holding {@item Cartographer's Tools|XPHB}, you can use that tool to create a set of magical maps by touching at least two creatures (one of whom can be yourself), up to a maximum number of creatures equal to 1 plus your Intelligence modifier (minimum of two creatures). Each target receives a magical map, which constantly updates to show the relative position of all the map holders but is illegible to all others. The maps last until you die or until you use this feature again, at which point any existing maps created by this feature immediately vanish.",
+      "details": {
+        "awareness": "The target adds {@dice 1d4} to its {@variantrule Initiative|XPHB} rolls.",
+        "positioning": "The target knows the location of all other map holders that are on the same plane of existence as itself. When casting a spell or creating another effect that requires being able to see the effect's target, a map holder can target another map holder regardless of sight or cover, so long as the other map holder is still within the effect's range."
+      }
+    },
+    {
+      "name": "Mapping Magic",
+      "level": 3,
+      "source": "EFA",
+      "description": "You gain the following benefits.",
+      "details": {
+        "illuminatedCartography": "You can cast {@spell Faerie Fire|XPHB} without expending a spell slot, outlining the affected creatures as if in ink. You can do so a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        "portalJump": "On your turn, you can spend an amount of movement equal to half your {@variantrule Speed|XPHB} (round down) to teleport to an unoccupied space you can see within 10 feet of yourself or within 5 feet of a creature that is within 30 feet of you and holding one of your Adventurer's Atlas maps. You can't use this benefit if your {@variantrule Speed|XPHB} is 0."
+      }
+    },
+    {
+      "name": "Guided Precision",
+      "level": 5,
+      "source": "EFA",
+      "description": "Once per turn, whenever you cast a spell from your Cartographer Spells list or hit a creature affected by your {@spell Faerie Fire|XPHB} with an attack roll, you can add your Intelligence modifier to one damage roll of the spell or attack. In addition, taking damage can't cause you to lose {@status Concentration|XPHB} on {@spell Faerie Fire|XPHB}."
+    },
+    {
+      "name": "Ingenious Movement",
+      "level": 9,
+      "source": "EFA",
+      "description": "When you use your Flash of Genius, you or a willing creature of your choice that you can see within 30 feet of yourself can teleport up to 30 feet to an unoccupied space you can see as part of that same {@variantrule Reaction|XPHB}."
+    },
+    {
+      "name": "Strategic Atlas",
+      "level": 15,
+      "source": "EFA",
+      "description": "Your Adventurer's Atlas improves, gaining the following benefits.",
+      "details": {
+        "safeHaven": "When a map holder would be reduced to 0 {@variantrule Hit Points|XPHB} but not killed outright, that creature can destroy its map. The creature's {@variantrule Hit Points|XPHB} instead change to a number equal to twice your Artificer level, and the creature is teleported to an unoccupied space within 5 feet of you or another map holder of its choice.",
+        "unerringPath": "If you are one of the map holders for your Adventurer's Atlas, you can cast {@spell Find the Path|XPHB} without expending a spell slot, without preparing the spell, and without needing spell components. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
+    }
+  ]
+}

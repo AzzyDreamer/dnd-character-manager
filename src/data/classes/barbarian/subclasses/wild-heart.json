@@ -1,0 +1,56 @@
+{
+  "id": "wild-heart",
+  "name": "Путь Дикого Сердца",
+  "classId": "barbarian",
+  "description": "Barbarians who follow the Path of the Wild Heart view themselves as kin to animals. These Barbarians learn magical means to communicate with animals, and their Rage heightens their connection to animals as it fills them with supernatural might.",
+  "shortDescription": "Walk in Community with the Animal World",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Animal Speaker",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can cast the {@spell Beast Sense|XPHB} and {@spell Speak with Animals|XPHB} spells but only as Rituals. Wisdom is your spellcasting ability for them."
+    },
+    {
+      "name": "Rage of the Wilds",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your Rage taps into the primal power of animals. Whenever you activate your Rage, you gain one of the following options of your choice.",
+      "details": {
+        "bear": "While your Rage is active, you have {@variantrule Resistance|XPHB} to every damage type except Force, Necrotic, Psychic, and Radiant.",
+        "eagle": "When you activate your Rage, you can take the {@action Disengage|XPHB} and {@action Dash|XPHB} actions as part of that {@action Bonus Action|XPHB}. While your Rage is active, you can take a {@action Bonus Action|XPHB} to take both of those actions.",
+        "wolf": "While your Rage is active, your allies have {@variantrule Advantage|XPHB} on attack rolls against any enemy of yours within 5 feet of you."
+      }
+    },
+    {
+      "name": "Aspect of the Wilds",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain one of the following options of your choice. Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your choice.",
+      "details": {
+        "owl": "You have {@variantrule Darkvision|XPHB} with a range of 60 feet. If you already have {@variantrule Darkvision|XPHB}, its range increases by 60 feet.",
+        "panther": "You have a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+        "salmon": "You have a {@variantrule Swim Speed|XPHB} equal to your {@variantrule Speed|XPHB}."
+      }
+    },
+    {
+      "name": "Nature Speaker",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You can cast the {@spell Commune with Nature|XPHB} spell but only as a Ritual. Wisdom is your spellcasting ability for it."
+    },
+    {
+      "name": "Power of the Wilds",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "Whenever you activate your Rage, you gain one of the following options of your choice.",
+      "details": {
+        "falcon": "While your Rage is active, you have a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB} if you aren't wearing any armor.",
+        "lion": "While your Rage is active, any of your enemies within 5 feet of you have {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you or another Barbarian who has this option active.",
+        "ram": "While your Rage is active, you can cause a Large or smaller creature to have the {@condition Prone|XPHB} condition when you hit it with a melee attack."
+      }
+    }
+  ]
+}

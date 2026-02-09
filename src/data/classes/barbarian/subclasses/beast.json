@@ -1,0 +1,56 @@
+{
+  "id": "beast",
+  "name": "Путь Зверя",
+  "classId": "barbarian",
+  "description": "Barbarians who walk the Path of the Beast draw their rage from a bestial spark burning within their souls. That beast bursts forth in the throes of rage, physically transforming the barbarian.",
+  "shortDescription": "Transform into a Bestial Form",
+  "source": "TCE",
+  "level": 3,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Form of the Beast",
+      "level": 3,
+      "source": "TCE",
+      "description": "When you enter your rage, you can transform, revealing the bestial power within you. Until the rage ends, you manifest a natural weapon. It counts as a simple melee weapon for you, and you add your Strength modifier to the attack and damage rolls when you attack with it, as normal. You choose the weapon's form each time you rage.",
+      "details": {
+        "originOfTheBeast": [
+          { "roll": 1, "origin": "One of your parents is a lycanthrope, and you've inherited some of their curse." },
+          { "roll": 2, "origin": "You are descended from an archdruid and inherited the ability to partially change shape." },
+          { "roll": 3, "origin": "A fey spirit gifted you with the ability to adopt different bestial aspects." },
+          { "roll": 4, "origin": "An ancient animal spirit dwells within you, allowing you to walk this path." }
+        ],
+        "bite": "Your mouth transforms into a bestial muzzle or great mandibles (your choice). It deals {@damage 1d8} piercing damage on a hit. Once on each of your turns when you damage a creature with this bite, you regain a number of hit points equal to your proficiency bonus, provided you have less than half your hit points when you hit.",
+        "claws": "Each of your hands transforms into a claw, which you can use as a weapon if it's empty. It deals {@damage 1d6} slashing damage on a hit. Once on each of your turns when you attack with a claw using the {@action Attack|XPHB} action, you can make one additional claw attack as part of the same action.",
+        "tail": "You grow a lashing, spiny tail, which deals {@damage 1d8} piercing damage on a hit and has the reach property. If a creature you can see within 10 feet of you hits you with an attack roll, you can use your {@variantrule Reaction|XPHB} to swipe your tail and roll a {@dice d8}, applying a bonus to your AC equal to the number rolled, potentially causing the attack to miss you."
+      }
+    },
+    {
+      "name": "Bestial Soul",
+      "level": 6,
+      "source": "TCE",
+      "description": "The feral power within you increases, causing the natural weapons of your Form of the Beast to count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. You can also alter your form to help you adapt to your surroundings. When you finish a short or long rest, choose one of the following benefits, which lasts until you finish your next short or long rest.",
+      "details": {
+        "swimming": "You gain a swimming speed equal to your walking speed, and you can breathe underwater.",
+        "climbing": "You gain a climbing speed equal to your walking speed, and you can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.",
+        "jumping": "When you jump, you can make a Strength ({@skill Athletics}) check and extend your jump by a number of feet equal to the check's total. You can make this special check only once per turn."
+      }
+    },
+    {
+      "name": "Infectious Fury",
+      "level": 10,
+      "source": "TCE",
+      "description": "When you hit a creature with your natural weapons while you are raging, the beast within you can curse your target with rabid fury. The target must succeed on a Wisdom saving throw (DC equal to 8 + your Constitution modifier + your proficiency bonus) or suffer one of the following effects (your choice).",
+      "details": {
+        "forcedAttack": "The target must use its reaction to make a melee attack against another creature of your choice that you can see.",
+        "psychicDamage": "The target takes {@dice 2d12} psychic damage."
+      }
+    },
+    {
+      "name": "Call the Hunt",
+      "level": 14,
+      "source": "TCE",
+      "description": "The beast within you grows so powerful that you can spread its ferocity to others and gain resilience from them joining your hunt. When you enter your rage, you can choose a number of other willing creatures you can see within 30 feet of you equal to your Constitution modifier (minimum of one creature). You gain 5 temporary hit points for each creature that accepts this feature. Until the rage ends, the chosen creatures can each use the following benefit once on each of their turns: when the creature hits a target with an attack roll and deals damage to it, the creature can roll a {@dice d6} and gain a bonus to the damage equal to the number rolled. You can use this feature a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

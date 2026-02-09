@@ -1,0 +1,35 @@
+{
+  "id": "glamour",
+  "name": "Коллегия Гламура",
+  "classId": "bard",
+  "description": "The College of Glamour traces its origins to the beguiling magic of the Feywild. Bards who study this magic weave threads of beauty and terror into their songs and stories, and the mightiest among them can cloak themselves in otherworldly majesty. Their performances stir up wistful longing for forgotten innocence, evoke unconscious memories of long-held fears, and tug at the emotions of even the most hard-hearted listeners.",
+  "shortDescription": "Weave Beguiling Fey Magic",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Beguiling Magic",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You always have the {@spell Charm Person|XPHB} and {@spell Mirror Image|XPHB} spells prepared. In addition, immediately after you cast an Enchantment or Illusion spell using a spell slot, you can cause a creature you can see within 60 feet of yourself to make a Wisdom saving throw against your spell save DC. On a failed save, the target has the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition (your choice) for 1 minute. The target repeats the save at the end of each of its turns, ending the effect on itself on a success. Once you use this benefit, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending one use of your Bardic Inspiration (no action required)."
+    },
+    {
+      "name": "Mantle of Inspiration",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can weave fey magic into a song or a dance to fill others with vigor. As a {@action Bonus Action|XPHB}, you can expend a use of Bardic Inspiration, rolling a Bardic Inspiration die. When you do so, choose a number of other creatures within 60 feet of yourself, up to a number equal to your Charisma modifier (minimum of one creature). Each of those creatures gains a number of {@variantrule Temporary Hit Points|XPHB} equal to two times the number rolled on the Bardic Inspiration die, and then each can use its {@variantrule Reaction|XPHB} to move up to its {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Mantle of Majesty",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can cast {@spell Command|XPHB} without expending a spell slot. You appear unearthly beautiful while concentrating on the spell.\n\nOnce you cast the spell with this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of the feature by expending a use of your Bardic Inspiration (no action required)."
+    },
+    {
+      "name": "Unbreakable Majesty",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can assume a magically majestic presence for 1 minute or until you have the {@condition Incapacitated|XPHB} condition. For the duration, whenever any creature tries to attack you for the first time on a turn, the attacker must make a Charisma saving throw against your spell save DC. On a failed save, it can't attack you on this turn, and it must choose a new target for its attack or the attack is wasted. On a successful save, it can attack you on this turn, but it has {@variantrule Disadvantage|XPHB} on any saving throw it makes against your spells on your next turn.\n\nOnce you assume this majestic presence, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}
