@@ -1,0 +1,54 @@
+{
+  "id": "open-sea",
+  "name": "Клятва Открытого Моря",
+  "classId": "paladin",
+  "description": "The Oath of the Open Sea calls to seafaring warriors, swashbuckling adventurers, and those who find freedom in the endless waves. These Paladins believe in the power of the sea to cleanse and renew, and they swear to protect the freedom of all who travel the waters and to stand against tyranny wherever it threatens to restrict the horizon.",
+  "shortDescription": "Freedom of the Endless Waves",
+  "source": "Homebrew",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of the Open Sea Spells",
+      "level": 3,
+      "source": "Homebrew",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of the Open Sea Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Create or Destroy Water}", "{@spell Expeditious Retreat}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Augury}", "{@spell Misty Step}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Call Lightning}", "{@spell Freedom of the Waves}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Control Water}", "{@spell Freedom of Movement}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Commune with Nature}", "{@spell Maelstrom}"] }
+      ]
+    },
+    {
+      "name": "Marine Layer",
+      "level": 3,
+      "source": "Homebrew",
+      "description": "You can use your Channel Divinity to summon a thick cloud of fog. As an action, you channel the sea to create a 20-foot radius of fog centered on you. The fog moves with you, and its area is heavily obscured. You and each creature you choose within 5 feet of you can see normally through the fog. The fog lasts for 10 minutes, spreads around corners, and can't be dispersed unless you choose to end this effect (no action required)."
+    },
+    {
+      "name": "Fury of the Tides",
+      "level": 3,
+      "source": "Homebrew",
+      "description": "You can use your Channel Divinity to channel the power of the tides. As a {@action Bonus Action|XPHB}, you select a creature within 5 feet of you. If the creature fails a Strength saving throw, it is pushed 10 feet away from you. You can then move to an unoccupied space adjacent to the creature without provoking {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Aura of Liberation",
+      "level": 7,
+      "source": "Homebrew",
+      "description": "You fill nearby creatures with the energy of movement. While you're not {@condition Incapacitated|XPHB}, you and creatures of your choice within your Aura of Protection can't be {@condition Grappled|XPHB} or {@condition Restrained|XPHB}, and they ignore penalties to movement and obstacles that cost extra movement. At 18th level, the range of this aura increases to 30 feet."
+    },
+    {
+      "name": "Stormy Waters",
+      "level": 15,
+      "source": "Homebrew",
+      "description": "You can call crashing waters around you as a {@variantrule Reaction|XPHB} whenever a creature enters or exits your melee range. The creature takes {@damage 1d12} Bludgeoning damage and must succeed on a Strength saving throw or be knocked {@condition Prone|XPHB}."
+    },
+    {
+      "name": "Mythic Swashbuckler",
+      "level": 20,
+      "source": "Homebrew",
+      "description": "You learn to channel the spirits of historic combatants into your own, becoming a conduit for their bytes and their skill in battle. As an action, you gain the following benefits for 1 minute. {@b Climbing and Swimming Speed.} You gain a climbing {@variantrule Speed|XPHB} and a swimming {@variantrule Speed|XPHB} equal to your walking {@variantrule Speed|XPHB}. {@b Advantage.} You have {@variantrule Advantage|XPHB} on all attack rolls. {@b Extra Damage.} If you hit a creature with an attack, you can deal an additional {@damage 1d6} Force damage to that creature. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

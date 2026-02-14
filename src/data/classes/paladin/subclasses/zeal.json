@@ -1,0 +1,54 @@
+{
+  "id": "zeal",
+  "name": "Клятва Рвения",
+  "classId": "paladin",
+  "description": "The Oath of Zeal is taken by Paladins who embrace the tenets of fierce devotion and unrelenting fervor. These Paladins burn with an inner fire that drives them to pursue their goals with absolute commitment. They believe that half-measures are the tools of the faithless and that only through total dedication can justice be served.",
+  "shortDescription": "Fierce Devotion and Inner Fire",
+  "source": "PSA",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Zeal Spells",
+      "level": 3,
+      "source": "PSA",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Zeal Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Searing Smite}", "{@spell Thunderous Smite}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Magic Weapon}", "{@spell Shatter}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Haste}", "{@spell Fireball}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Fire Shield}", "{@spell Freedom of Movement}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Destructive Wave}", "{@spell Flame Strike}"] }
+      ]
+    },
+    {
+      "name": "Zealous Presence",
+      "level": 3,
+      "source": "PSA",
+      "description": "As a {@action Bonus Action|XPHB}, you can use your Channel Divinity to unleash a battle cry infused with divine energy. Up to ten other creatures of your choice within 60 feet of you that can hear you gain {@variantrule Advantage|XPHB} on attack rolls and saving throws until the start of your next turn."
+    },
+    {
+      "name": "Resounding Strike",
+      "level": 3,
+      "source": "PSA",
+      "description": "When you take the {@action Attack|XPHB} action, you can use your Channel Divinity to empower your strikes. For 1 minute, the first creature you hit on each of your turns with a weapon attack takes extra Fire damage equal to your Charisma modifier (minimum of 1)."
+    },
+    {
+      "name": "Aura of Zeal",
+      "level": 7,
+      "source": "PSA",
+      "description": "You emanate an aura of fervent energy. You and friendly creatures within your Aura of Protection each deal {@damage 1d4} extra Fire damage when they hit with weapon attacks."
+    },
+    {
+      "name": "Flames of Devotion",
+      "level": 15,
+      "source": "PSA",
+      "description": "The divine fire within you burns ever brighter. You have {@variantrule Resistance|XPHB} to Fire damage. Additionally, when you deal Fire or Radiant damage to a creature, you ignore any {@variantrule Resistance|XPHB} to that damage type the creature might have."
+    },
+    {
+      "name": "Avatar of Zeal",
+      "level": 20,
+      "source": "PSA",
+      "description": "As an action, you transform into a living conflagration of divine zeal, gaining the following benefits for 1 minute. {@b Nimbus of Fire.} You emanate an aura of fire in a 30-foot radius. Each enemy that starts its turn in the aura takes {@damage 2d6} Fire damage, and each ally that starts its turn in the aura regains {@dice 1d6} {@variantrule Hit Points|XPHB}. {@b Burning Strikes.} Your weapon attacks deal an extra {@damage 2d6} Fire damage. {@b Ignite.} When you deal Fire damage to a creature, it catches fire and takes {@damage 1d6} Fire damage at the start of each of its turns until a creature uses an action to extinguish the flames. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "vengeance",
+  "name": "Клятва Мести",
+  "classId": "paladin",
+  "description": "The Oath of Vengeance is a solemn commitment to punish those who have committed grievously sinful acts. When evil armies slaughter helpless villagers, when a tyrant defies the will of the gods, when a thieves' guild grows too violent and powerful, when a dragon rampages through the countryside—at times like these, paladins arise and swear an Oath of Vengeance to set right that which has gone wrong.",
+  "shortDescription": "Punish Sinful Evildoers",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Vengeance Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Vengeance Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Bane}", "{@spell Hunter's Mark}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Hold Person}", "{@spell Misty Step}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Haste}", "{@spell Protection from Energy}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Banishment}", "{@spell Dimension Door}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Hold Monster}", "{@spell Scrying}"] }
+      ]
+    },
+    {
+      "name": "Vow of Enmity",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you take the {@action Attack|XPHB} action, you can expend one use of your Channel Divinity to utter a vow of enmity against a creature you can see within 30 feet of yourself. You have {@variantrule Advantage|XPHB} on attack rolls against the creature for 1 minute or until it drops to 0 {@variantrule Hit Points|XPHB} or falls {@condition Unconscious|XPHB}."
+    },
+    {
+      "name": "Relentless Avenger",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "Your supernatural focus helps you close off a foe's retreat. When you hit a creature with an {@variantrule Opportunity Attack|XPHB}, you can reduce the creature's {@variantrule Speed|XPHB} to 0 until the end of the current turn. You can then move up to half your {@variantrule Speed|XPHB} as part of the same {@variantrule Reaction|XPHB}. This movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Soul of Vengeance",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "The bond of your Vow of Enmity intensifies. When a creature under the effect of your Vow of Enmity makes an attack, you can take a {@variantrule Reaction|XPHB} to make a melee attack against that creature if it is within range."
+    },
+    {
+      "name": "Avenging Angel",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can imbue your Aura of Protection with holy power, granting the following benefits for 10 minutes or until you end them (no action required). {@b Flight.} You sprout spectral wings on your back, gaining a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB}. {@b Frightful Aura.} Whenever an enemy starts its turn in the aura, that creature must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition for 1 minute or until it takes any damage. Attack rolls against the {@condition Frightened|XPHB} creature have {@variantrule Advantage|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

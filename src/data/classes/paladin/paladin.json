@@ -1,0 +1,211 @@
+{
+  "id": "paladin",
+  "name": "Паладин",
+  "source": "PHB'24",
+  "page": 108,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d10",
+  "hitPointsAtFirstLevel": "10 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d10 (or 6) + your Constitution modifier per Paladin level after 1st",
+  "primaryAbility": ["strength", "charisma"],
+  "savingThrows": ["wisdom", "charisma"],
+  "spellcaster": true,
+  "spellcastingAbility": "charisma",
+  "description": "Святой воин, связанный священной клятвой. Сочетает божественную магию с боевым мастерством.",
+  "proficiencies": {
+    "armor": ["Light armor", "Medium armor", "Heavy armor", "Shields"],
+    "weapons": ["Simple weapons", "Martial weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["athletics", "insight", "intimidation", "medicine", "persuasion", "religion"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Chain Mail|XPHB}", "{@item Shield|XPHB}", "{@item Longsword|XPHB}", "6 {@item Javelins|XPHB}", "{@item Holy Symbol|XPHB}", "{@item Priest's Pack|XPHB}", "9 GP"],
+    "optionB": ["150 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Strength 13 and Charisma 13",
+    "armorTraining": ["Light armor", "Medium armor", "Shields"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Lay on Hands", "Spellcasting", "Weapon Mastery"],  "channelDivinity": null, "preparedSpells": 2,  "spellSlots": [2,0,0,0,0], "weaponMastery": 2 },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Fighting Style", "Paladin's Smite"],               "channelDivinity": null, "preparedSpells": 3,  "spellSlots": [2,0,0,0,0], "weaponMastery": 2 },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Channel Divinity", "Paladin Subclass"],            "channelDivinity": 2,    "preparedSpells": 4,  "spellSlots": [3,0,0,0,0], "weaponMastery": 2 },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                       "channelDivinity": 2,    "preparedSpells": 5,  "spellSlots": [3,0,0,0,0], "weaponMastery": 2 },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Extra Attack", "Faithful Steed"],                  "channelDivinity": 2,    "preparedSpells": 6,  "spellSlots": [4,2,0,0,0], "weaponMastery": 2 },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Aura of Protection"],                              "channelDivinity": 2,    "preparedSpells": 6,  "spellSlots": [4,2,0,0,0], "weaponMastery": 2 },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                                "channelDivinity": 2,    "preparedSpells": 7,  "spellSlots": [4,3,0,0,0], "weaponMastery": 2 },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                       "channelDivinity": 2,    "preparedSpells": 7,  "spellSlots": [4,3,0,0,0], "weaponMastery": 2 },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Abjure Foes"],                                     "channelDivinity": 2,    "preparedSpells": 9,  "spellSlots": [4,3,2,0,0], "weaponMastery": 2 },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Aura of Courage"],                                 "channelDivinity": 2,    "preparedSpells": 9,  "spellSlots": [4,3,2,0,0], "weaponMastery": 3 },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Radiant Strikes"],                                 "channelDivinity": 3,    "preparedSpells": 10, "spellSlots": [4,3,3,0,0], "weaponMastery": 3 },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                       "channelDivinity": 3,    "preparedSpells": 10, "spellSlots": [4,3,3,0,0], "weaponMastery": 3 },
+    { "level": 13, "proficiencyBonus": 5, "features": [],                                                  "channelDivinity": 3,    "preparedSpells": 11, "spellSlots": [4,3,3,1,0], "weaponMastery": 3 },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Restoring Touch"],                                 "channelDivinity": 3,    "preparedSpells": 11, "spellSlots": [4,3,3,1,0], "weaponMastery": 3 },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Subclass Feature"],                                "channelDivinity": 3,    "preparedSpells": 12, "spellSlots": [4,3,3,2,0], "weaponMastery": 3 },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                       "channelDivinity": 3,    "preparedSpells": 12, "spellSlots": [4,3,3,2,0], "weaponMastery": 3 },
+    { "level": 17, "proficiencyBonus": 6, "features": [],                                                  "channelDivinity": 3,    "preparedSpells": 13, "spellSlots": [4,3,3,3,1], "weaponMastery": 3 },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Aura Expansion"],                                  "channelDivinity": 3,    "preparedSpells": 13, "spellSlots": [4,3,3,3,1], "weaponMastery": 3 },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                       "channelDivinity": 3,    "preparedSpells": 14, "spellSlots": [4,3,3,3,2], "weaponMastery": 3 },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Subclass Feature"],                                "channelDivinity": 3,    "preparedSpells": 14, "spellSlots": [4,3,3,3,2], "weaponMastery": 3 }
+  ],
+  "classFeatures": [
+    {
+      "name": "Lay on Hands",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 110,
+      "description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a {@variantrule Long Rest|XPHB}. With that pool, you can restore a total number of {@variantrule Hit Points|XPHB} equal to five times your Paladin level.",
+      "details": {
+        "healing": "As a {@action Bonus Action|XPHB}, you can touch a creature (which could be yourself) and draw power from the pool of healing to restore a number of {@variantrule Hit Points|XPHB} to that creature, up to the maximum amount remaining in the pool.",
+        "poisonRemoval": "In addition, you can expend 5 {@variantrule Hit Points|XPHB} from the pool of healing power to remove the {@condition Poisoned|XPHB} condition from the creature; those points don't also restore {@variantrule Hit Points|XPHB} to the creature."
+      }
+    },
+    {
+      "name": "Spellcasting",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 110,
+      "description": "You have learned to cast spells through prayer and meditation. See {@variantrule chapter 7|XPHB} for the rules on spellcasting. The information below details how you use those rules with Paladin spells, which appear on the {@filter Paladin spell list} later in the class's description.",
+      "details": {
+        "spellSlots": "The Paladin Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended spell slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the {@filter Paladin spell list}. {@spell Command|XPHB} and {@spell Cure Wounds|XPHB} are recommended. The number of spells on your list increases as you gain Paladin levels, as shown in the Prepared Spells column of the Paladin Features table. Whenever that number increases, choose additional spells from the {@filter Paladin spell list} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. If another Paladin feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Paladin spells for you.",
+        "changingPreparedSpells": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your list of prepared spells, replacing any of the spells there with other Paladin spells for which you have spell slots.",
+        "spellcastingAbility": "Charisma is your spellcasting ability for your Paladin spells.",
+        "spellcastingFocus": "You can use a {@item Holy Symbol|XPHB} as a {@variantrule Spellcasting Focus|XPHB} for your Paladin spells."
+      }
+    },
+    {
+      "name": "Weapon Mastery",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 110,
+      "description": "Your training with weapons allows you to use the {@variantrule mastery properties|XPHB} of two kinds of weapons of your choice with which you have proficiency. Whenever you finish a {@variantrule Long Rest|XPHB}, you can practice weapon drills and change one of those weapon choices. When you reach certain Paladin levels, you gain the ability to use the {@variantrule mastery properties|XPHB} of more kinds of weapons, as shown in the Weapon Mastery column of the Paladin Features table."
+    },
+    {
+      "name": "Fighting Style",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 110,
+      "description": "You gain a {@feat Fighting Style|XPHB} feat of your choice. {@feat Defense|XPHB} is recommended. Whenever you gain a Paladin level, you can replace the feat you chose with a different {@feat Fighting Style|XPHB} feat."
+    },
+    {
+      "name": "Paladin's Smite",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 110,
+      "description": "You always have the {@spell Divine Smite|XPHB} spell prepared. In addition, you can cast it without expending a spell slot, but you must finish a {@variantrule Long Rest|XPHB} before you can cast it in this way again."
+    },
+    {
+      "name": "Channel Divinity",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "You can channel divine energy directly from the Outer Planes, using that energy to fuel the magical effects described below. You can use this class's Channel Divinity twice. You regain one expended use when you finish a {@variantrule Short Rest|XPHB}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You gain additional uses when you reach certain Paladin levels, as shown in the Channel Divinity column of the Paladin Features table. If a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class's Spellcasting feature.",
+      "details": {
+        "divineSense": "{@b Divine Sense.} As a {@action Bonus Action|XPHB}, you can open your awareness to detect Celestials, Fiends, and Undead. For the next 10 minutes or until you have the {@condition Incapacitated|XPHB} condition, you know the location of any creature of those types within 60 feet of yourself, and you know its creature type. Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the {@spell Hallow|XPHB} spell."
+      }
+    },
+    {
+      "name": "Paladin Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "You gain a Paladin subclass of your choice. A subclass is a specialization that grants you features at certain Paladin levels. For the rest of your career, you gain each of your subclass's features that are of your Paladin level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16."
+    },
+    {
+      "name": "Extra Attack",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    },
+    {
+      "name": "Faithful Steed",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "You can cast the {@spell Find Steed|XPHB} spell without expending a spell slot. You can also cast the spell as normal using spell slots you have of the appropriate level. When you cast this spell, the steed is Celestial, and you always have the spell prepared."
+    },
+    {
+      "name": "Aura of Protection",
+      "level": 6,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "You radiate a protective, invisible aura in a 10-foot {@variantrule Emanation|XPHB} that originates from you. The aura is inactive while you have the {@condition Incapacitated|XPHB} condition. You and your allies in the aura gain a bonus to saving throws equal to your Charisma modifier (minimum bonus of +1). If another Paladin grants you this bonus, you use only the highest bonus."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Paladin subclass."
+    },
+    {
+      "name": "Abjure Foes",
+      "level": 9,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "As a {@action Magic|XPHB} action, you can expend one use of this class's Channel Divinity to overwhelm foes with divine awe. As you present your {@item Holy Symbol|XPHB} or weapon, you can target a number of creatures you can see within 60 feet of yourself equal to your Charisma modifier (minimum of one creature). Each target must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition for 1 minute. On a failed save, the target also has the {@condition Dazed|XPHB} condition for the same duration. The {@condition Frightened|XPHB} target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a successful save."
+    },
+    {
+      "name": "Aura of Courage",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "You and your allies in your Aura of Protection can't have the {@condition Frightened|XPHB} condition while you are conscious."
+    },
+    {
+      "name": "Radiant Strikes",
+      "level": 11,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "Your strikes carry divine power. When you hit a creature with a melee weapon or an {@variantrule Unarmed Strike|XPHB}, the target takes an extra {@damage 1d8} Radiant damage."
+    },
+    {
+      "name": "Restoring Touch",
+      "level": 14,
+      "source": "PHB'24",
+      "page": 111,
+      "description": "When you use Lay on Hands on a creature, you can also remove one or more of the following conditions from the creature: {@condition Blinded|XPHB}, {@condition Charmed|XPHB}, {@condition Deafened|XPHB}, {@condition Frightened|XPHB}, {@condition Paralyzed|XPHB}, or {@condition Stunned|XPHB}. You must expend 5 {@variantrule Hit Points|XPHB} from the healing pool for each of these conditions you remove; those points don't also restore {@variantrule Hit Points|XPHB} to the creature."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Paladin subclass."
+    },
+    {
+      "name": "Aura Expansion",
+      "level": 18,
+      "source": "PHB'24",
+      "page": 112,
+      "description": "Your Aura of Protection is now a 30-foot {@variantrule Emanation|XPHB}."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Truesight|XPHB} is recommended."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Paladin subclass."
+    }
+  ],
+  "subclassIds": [
+    "ancients", "conquest", "crown", "devotion",
+    "glory", "oathbreaker", "open-sea",
+    "redemption", "treachery", "vengeance",
+    "watchers", "zeal"
+  ]
+}

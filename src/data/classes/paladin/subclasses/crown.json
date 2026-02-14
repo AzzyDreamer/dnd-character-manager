@@ -1,0 +1,54 @@
+{
+  "id": "crown",
+  "name": "Клятва Короны",
+  "classId": "paladin",
+  "description": "The Oath of the Crown is sworn to the ideals of civilization, be it the spirit of a nation, fealty to a sovereign, or service to a deity of law and rulership. The Paladins who swear this oath dedicate themselves to serving society and, in particular, the just laws that hold society together.",
+  "shortDescription": "Serve Law and Civilization",
+  "source": "SCAG",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of the Crown Spells",
+      "level": 3,
+      "source": "SCAG",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of the Crown Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Command}", "{@spell Compelled Duel}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Warding Bond}", "{@spell Zone of Truth}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Aura of Vitality}", "{@spell Spirit Guardians}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Banishment}", "{@spell Guardian of Faith}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Circle of Power}", "{@spell Geas}"] }
+      ]
+    },
+    {
+      "name": "Champion Challenge",
+      "level": 3,
+      "source": "SCAG",
+      "description": "As a {@action Bonus Action|XPHB}, you issue a challenge that compels other creatures to do battle with you. Each creature of your choice that you can see within 30 feet of you must make a Wisdom saving throw. On a failed save, a creature can't willingly move more than 30 feet away from you. This effect ends on the creature if you are {@condition Incapacitated|XPHB} or die or if the creature is more than 30 feet away from you."
+    },
+    {
+      "name": "Turn the Tide",
+      "level": 3,
+      "source": "SCAG",
+      "description": "As a {@action Bonus Action|XPHB}, you can use your Channel Divinity to bolster injured creatures with your holy power. Each creature of your choice within 30 feet of you that can hear you regains {@variantrule Hit Points|XPHB} equal to {@dice 1d6} plus your Charisma modifier (minimum of 1) if it has no more than half of its {@variantrule Hit Points|XPHB}."
+    },
+    {
+      "name": "Divine Allegiance",
+      "level": 7,
+      "source": "SCAG",
+      "description": "When a creature within 5 feet of you takes damage, you can use your {@variantrule Reaction|XPHB} to magically substitute your own health for that of the target creature, causing that creature not to take the damage. Instead, you take the damage. This damage to you can't be reduced or prevented in any way."
+    },
+    {
+      "name": "Unyielding Spirit",
+      "level": 15,
+      "source": "SCAG",
+      "description": "You have {@variantrule Advantage|XPHB} on saving throws to avoid becoming {@condition Paralyzed|XPHB} or {@condition Stunned|XPHB}."
+    },
+    {
+      "name": "Exalted Champion",
+      "level": 20,
+      "source": "SCAG",
+      "description": "Your presence on the field of battle is an inspiration to those dedicated to your cause. You can use your action to gain the following benefits for 1 hour. {@b Resistance.} You have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage from nonmagical weapons. {@b Saving Throw Aura.} Your allies within 30 feet of you have {@variantrule Advantage|XPHB} on Wisdom saving throws. {@b Healing Aura.} Whenever you or an ally starts their turn in the aura while at 0 {@variantrule Hit Points|XPHB}, the creature regains 1 {@variantrule Hit Point|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

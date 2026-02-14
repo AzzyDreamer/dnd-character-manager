@@ -1,0 +1,48 @@
+{
+  "id": "devotion",
+  "name": "Клятва Преданности",
+  "classId": "paladin",
+  "description": "The Oath of Devotion binds a Paladin to the loftiest ideals of justice and order. These Paladins meet the ideal of the knight in shining armor. They hold themselves to the highest standards of conduct, and some, for better or worse, hold the rest of the world to the same standards. Many who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of their devotion.",
+  "shortDescription": "Ideal of Justice and Order",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Devotion Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Devotion Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Protection from Evil and Good}", "{@spell Shield of Faith}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Aid}", "{@spell Zone of Truth}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Beacon of Hope}", "{@spell Dispel Magic}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Freedom of Movement}", "{@spell Guardian of Faith}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Commune}", "{@spell Flame Strike}"] }
+      ]
+    },
+    {
+      "name": "Sacred Weapon",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you take the {@action Attack|XPHB} action, you can expend one use of your Channel Divinity to imbue one Melee weapon that you are holding with positive energy. For 10 minutes or until you use this feature again, you add your Charisma modifier to attack rolls you make with that weapon (minimum bonus of +1), and each time you hit with it, you cause it to deal its normal damage type or Radiant damage. The weapon also emits {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet. You can end this effect early (no action required). This effect also ends if you no longer hold the weapon."
+    },
+    {
+      "name": "Smite of Protection",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "Your magical smite now radiates protective energy. Whenever you cast {@spell Divine Smite|XPHB}, you and your allies in your Aura of Protection gain {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d8} plus the level of the spell slot used for the {@spell Divine Smite|XPHB}."
+    },
+    {
+      "name": "Aura of Devotion",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "You and your allies in your Aura of Protection can't be {@condition Charmed|XPHB}."
+    },
+    {
+      "name": "Holy Nimbus",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can imbue your Aura of Protection with holy power, granting the following benefits for 10 minutes or until you end them (no action required). {@b Holy Ward.} You have {@variantrule Advantage|XPHB} on any saving throw you are forced to make by a Fiend or an Undead. {@b Radiant Damage.} Whenever an enemy starts its turn in the aura, that creature takes Radiant damage equal to your Charisma modifier plus your {@variantrule Proficiency Bonus|XPHB}. {@b Sunlight.} The aura is filled with {@variantrule Bright Light|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}
