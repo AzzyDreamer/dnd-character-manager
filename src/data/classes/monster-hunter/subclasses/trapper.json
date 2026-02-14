@@ -1,0 +1,47 @@
+{
+  "id": "trapper",
+  "name": "Гильдия Ловчих",
+  "classId": "monster-hunter",
+  "description": "Legends say that the founding members of the Trapper Guild were game hunters who had grown bored of stalking common elk and dreamed of taking down bigger game. Trappers take pride in their kills and the ingenuity exhibited when a trap works perfectly. The legacy of the Trapper Guild is a consistent testament to the benefits of lying in wait. The element of surprise is paramount to the trapper, whose kit can flourish before the hunter and monster even meet. Preparation is key, and the resourceful trapper has devices to assist in bringing down even the strongest foes.",
+  "shortDescription": "Dispatch Monsters with Cunning Traps",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Sneaky and Crafty",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You gain proficiency in the {@skill Stealth} skill and with {@item Tinker's Tools|XPHB}."
+    },
+    {
+      "name": "Trapper Gadgets",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You learn to create gadgets and mechanisms that help you during the hunt. As part of a {@variantrule Long Rest|XPHB}, you can craft two Trapper Gadgets if you have materials and {@item Tinker's Tools|XPHB} on hand. Also, with 1 hour of work with such a kit and expending 20 GP worth of materials (such as equipment or monster salvage), you can create one Trapper Gadget from the {@filter Trapper Gadgets|optionalfeatures|feature type=MH:TG} list. Some Trapper Gadgets allow your target to make an ability check or saving throw to resist the gadget's effects. The saving throw DC is calculated as follows: {@b Trapper Gadgets save DC} = 8 + Intelligence modifier + {@variantrule Proficiency Bonus|XPHB}."
+    },
+    {
+      "name": "Ambusher's Advantage",
+      "level": 7,
+      "source": "GH:PG'24",
+      "description": "You have become a ferocious ambusher. When you roll {@variantrule Initiative|XPHB}, you can add your Intelligence modifier to the roll. Additionally, you can't be surprised by enemies that include creature types in your Monster Grimoire."
+    },
+    {
+      "name": "Agile Response",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "You can leap aside to avoid enemies rushing toward you. When a creature makes a melee attack roll against you, you can take a {@variantrule Reaction|XPHB} to impose {@status Disadvantage} on that roll and use your Studied Response as part of the same {@variantrule Reaction|XPHB}. Whether the attack hits or misses, you can then move up to half your {@variantrule Speed|XPHB}. This movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Monster-Hide Armor",
+      "level": 15,
+      "source": "GH:PG'24",
+      "description": "You have learned to craft a set of Light or Medium armor by using dragon scales, werewolf hide, troll leather, or a similar monster component. The armor takes on the appearance of your choice, reflecting the component it is made from. The armor has the same properties as Light or Medium armor (your choice when the armor is crafted) and gains two modifications from the {@filter Armor Modifications|optionalfeatures|feature type=MH:AM} list. Whenever you gain a Monster Hunter level, you can replace one of these modifications with another modification. Modifications require the armor to be worn to function."
+    },
+    {
+      "name": "Rapid Tinkerer",
+      "level": 18,
+      "source": "GH:PG'24",
+      "description": "You have become capable of crafting trapper tools at a much faster rate. You can spend 1 minute to make a Trapper Gadget without spending GP or components. You can use this feature twice, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "carver",
+  "name": "Гильдия Живодёров",
+  "classId": "monster-hunter",
+  "description": "Since the beginning of time, the brave glared into danger's ferocious eyes and fought monsters. Those who survived were the ones smart enough to arm themselves properly and know precisely where to strike—or those who knew when to flee and return with a new plan. Members of the Carver Guild are the Monster Hunters typically called upon when immediate danger threatens a settlement and there is no army or militia available. Carvers stride unflinchingly toward death, armed with years of training and the knowledge passed down from those before them.",
+  "shortDescription": "Slay Monsters Fearlessly and Recklessly",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Equipped for Battle",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You gain training with {@item Heavy armor|XPHB}."
+    },
+    {
+      "name": "Close Quarters",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your skill in close combat enables you to inflict crushing blows while keeping your opponent off balance. When you hit a creature with an attack roll using a Melee weapon, you can use a {@variantrule Reaction|XPHB} to deal an extra {@damage 1d6} damage of the same type dealt by the weapon. That creature has {@status Disadvantage} on its next attack roll before the start of your next turn."
+    },
+    {
+      "name": "True Grit",
+      "level": 7,
+      "source": "GH:PG'24",
+      "description": "You have {@status Advantage} on saving throws you make to avoid or end the {@condition Frightened|XPHB} condition, and you are Immune to the {@condition Frightened|XPHB} condition caused by creature types in your Monster Grimoire. Additionally, when you hit a creature with an attack as part of a {@variantrule Reaction|XPHB}, you can choose a {@condition Frightened|XPHB} creature within 60 feet that can see you (including yourself). The condition ends on that creature."
+    },
+    {
+      "name": "Terrorize the Terrors",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "Your reputation has become such that monsters preying on the fearful have come to fear you. When you hit a creature with an attack as part of a {@variantrule Reaction|XPHB}, you can force the creature to make a Wisdom saving throw or have the {@condition Frightened|XPHB} condition until the end of your next turn. The DC for the saving throw equals 8 plus your Intelligence modifier and your {@variantrule Proficiency Bonus|XPHB}."
+    },
+    {
+      "name": "Deadly Redirect",
+      "level": 15,
+      "source": "GH:PG'24",
+      "description": "Your strikes have become even deadlier. The extra damage of your Close Quarters increases to {@damage 3d6}. In addition, if you deal damage to a creature with Close Quarters, the target has {@status Disadvantage} on all attack rolls until the end of your next turn."
+    },
+    {
+      "name": "Controlled Footwork",
+      "level": 18,
+      "source": "GH:PG'24",
+      "description": "You are such an effective combatant that you are always in control and never off balance. You can take a {@variantrule Reaction|XPHB} twice in a round instead of once."
+    }
+  ]
+}
