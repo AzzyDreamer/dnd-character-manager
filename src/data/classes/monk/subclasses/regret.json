@@ -24,22 +24,22 @@
       "description": "When you take the {@action Dash|XPHB} action, instead of moving, you can teleport yourself or an ally within 60 feet of you to the location of your shade."
     },
     {
-      "name": "Weight of the Past",
+      "name": "Aid Not Given",
       "level": 6,
       "source": "GHPG'24",
-      "description": "When your shade is within 5 feet of a creature that makes a saving throw, you can use your {@action Reaction|XPHB} and expend 1 Focus Point to impose {@variantrule Disadvantage|XPHB} on the saving throw."
+      "description": "You can take a {@action Bonus Action|XPHB} to take the Help action or touch a creature and restore a number of {@variantrule Hit Points|XPHB} equal to a roll of your Martial Arts die plus your Wisdom modifier. You can use this feature as though you were in the shade's space."
     },
     {
-      "name": "Echoes of Remorse",
+      "name": "Crushing Guilt",
       "level": 11,
       "source": "GHPG'24",
-      "description": "When you create your shade, you can create two shades instead of one. Each shade follows the same rules. When you use Shade Strike, you can have attacks originate from either shade. You can move both shades with the same {@action Bonus Action|XPHB}."
+      "description": "You can expend 3 Focus Points to release your pent-up guilt in a crushing wave that drops your foes to their knees. Creatures of your choice in a 20-foot {@variantrule Emanation|XPHB} originating from you or your shade must make a Wisdom saving throw against your Focus Point save DC. On a failed save, a creature takes Psychic damage equal to three rolls of your Martial Arts die and has the {@condition Prone|XPHB} condition. On a successful save, a creature takes half as much damage only."
     },
     {
-      "name": "Atonement",
+      "name": "Relive the Past",
       "level": 17,
       "source": "GHPG'24",
-      "description": "As an action, you can expend 5 Focus Points to merge with one of your shades for 1 minute. For the duration, you gain the following benefits: you have Resistance to all damage except Force and Radiant; you can move through creatures and objects as if they were {@variantrule Difficult Terrain|XPHB} (you take {@damage 1d10} Force damage if you end your turn inside a creature or an object); when you deal damage with {@variantrule Unarmed Strikes|XPHB}, you deal extra Necrotic or Force damage (your choice) equal to your Wisdom modifier. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      "description": "Your Shade of Regret now lasts for 10 minutes. After using Flurry of Blows, your Shade can make one additional {@variantrule Unarmed Strike|XPHB} as per Shade Strike. You can also use the Stunning Strike feature through the Shade Strike."
     }
   ]
 }

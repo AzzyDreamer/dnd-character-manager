@@ -28,13 +28,18 @@
       "name": "Improved Shadow Step",
       "level": 11,
       "source": "PHB'24",
-      "description": "You can draw on your Shadowfell connection to empower yourself. When you use Shadow Step, you can expend 1 Focus Point to remove the requirement that you must start and end in {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB} for that use of the feature. As part of this {@action Bonus Action|XPHB}, you can make an {@variantrule Unarmed Strike|XPHB} immediately after the teleportation."
+      "description": "You can draw on your Shadowfell connection to empower your teleportation. When you use your Shadow Step, you can expend 1 Focus Point to remove the requirement that you must start and end in {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB} for that use of the feature. As part of this {@action Bonus Action|XPHB}, you can make an {@variantrule Unarmed Strike|XPHB} immediately after you teleport."
     },
     {
       "name": "Cloak of Shadows",
       "level": 17,
       "source": "PHB'24",
-      "description": "As a {@action Bonus Action|XPHB} while entirely within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can expend 3 Focus Points to shroud yourself with magical darkness for 1 minute, until you have the {@condition Incapacitated|XPHB} condition, or until you end your turn in {@variantrule Bright Light|XPHB}. While shrouded in darkness, you gain the following benefits: you have the {@condition Invisible|XPHB} condition; you have Resistance to all damage except Force and Radiant; you can move through creatures and objects as if they were {@variantrule Difficult Terrain|XPHB} (you take {@damage 1d10} Force damage if you end your turn inside a creature or an object)."
+      "description": "As a {@action Magic|XPHB} action while entirely within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can expend 3 Focus Points to shroud yourself with shadows for 1 minute, until you have the {@condition Incapacitated|XPHB} condition, or until you end your turn in {@variantrule Bright Light|XPHB}. While shrouded by these shadows, you gain the following benefits.",
+      "details": {
+        "invisibility": "{@b Invisibility.} You have the {@condition Invisible|XPHB} condition.",
+        "partiallyIncorporeal": "{@b Partially Incorporeal.} You can move through occupied spaces as if they were {@variantrule Difficult Terrain|XPHB}. If you end your turn in such a space, you are shunted to the last unoccupied space you were in.",
+        "shadowFlurry": "{@b Shadow Flurry.} You can use your Flurry of Blows without expending any Focus Points."
+      }
     }
   ]
 }

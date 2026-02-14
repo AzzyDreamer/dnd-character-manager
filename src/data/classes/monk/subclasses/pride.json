@@ -21,21 +21,40 @@
     },
     {
       "name": "Assertive Attacker",
-      "level": 6,
+      "level": 3,
       "source": "GHPG'24",
       "description": "While you are {@variantrule Bloodied|XPHB}, you add your Wisdom modifier to the damage you deal with {@variantrule Unarmed Strikes|XPHB} and Monk weapons."
     },
     {
-      "name": "Commanding Presence",
-      "level": 11,
+      "name": "Inescapable Retribution",
+      "level": 6,
       "source": "GHPG'24",
-      "description": "Your sheer force of personality can impose your will on others. As a {@action Bonus Action|XPHB}, you can expend 2 Focus Points and choose a creature within 30 feet of you that can see or hear you. That creature must succeed on a Wisdom saving throw or be {@condition Frightened|XPHB} of you until the end of your next turn. While {@condition Frightened|XPHB} in this way, the creature's {@variantrule Speed|XPHB} is 0."
+      "description": "Damage dealt to you is damage dealt to your pride, and that is something you simply can't allow. Whenever a creature deals damage to you, you can take a {@action Reaction|XPHB} and expend 1 Focus Point. You have {@variantrule Advantage|XPHB} on attack rolls against that creature until the end of your next turn."
     },
     {
-      "name": "Undeniable",
+      "name": "Redoubled Efforts",
+      "level": 6,
+      "source": "GHPG'24",
+      "description": "When you score a {@variantrule Critical Hit|XPHB} while you are {@variantrule Bloodied|XPHB}, you can roll one additional damage die when determining the extra damage dealt by the attack."
+    },
+    {
+      "name": "Ever Prideful",
+      "level": 11,
+      "source": "GHPG'24",
+      "description": "When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can expend 1 Focus Point to enter a trance. While in this trance, you have the following effects.",
+      "details": {
+        "unconsciousImmunity": "You are immune to the {@condition Unconscious|XPHB} condition.",
+        "cantSpeak": "You can't speak.",
+        "cantCast": "You can't cast or concentrate on spells.",
+        "deathSaves": "You suffer 1 {@variantrule Death Saving Throw|XPHB} failure from damage from a {@variantrule Critical Hit|XPHB} instead of 2.",
+        "maintenance": "Whenever you start your turn with 0 {@variantrule Hit Points|XPHB}, you must expend 1 Focus Point to maintain a trance, and you make {@variantrule Death Saving Throws|XPHB} as normal."
+      }
+    },
+    {
+      "name": "Egotistical",
       "level": 17,
       "source": "GHPG'24",
-      "description": "Your ego has become an unstoppable force. When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can expend 4 Focus Points to drop to 1 {@variantrule Hit Point|XPHB} instead. When you do, each creature of your choice within 30 feet of you that can see you must succeed on a Wisdom saving throw or be {@condition Frightened|XPHB} of you for 1 minute. A {@condition Frightened|XPHB} creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+      "description": "Injuries to your pride enrage you. You are considered {@variantrule Bloodied|XPHB} if your current {@variantrule Hit Points|XPHB} are below your {@variantrule Hit Point|XPHB} maximum."
     }
   ]
 }

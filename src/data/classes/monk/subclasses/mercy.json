@@ -39,7 +39,7 @@
       "name": "Flurry of Healing and Harm",
       "level": 11,
       "source": "PHB'24",
-      "description": "When you use Flurry of Blows, you can replace each of the {@variantrule Unarmed Strikes|XPHB} with a use of Hand of Healing without expending Focus Points for the healing. In addition, when you make an {@variantrule Unarmed Strike|XPHB} with Flurry of Blows and deal damage, you can use Hand of Harm with that strike without expending a Focus Point for Hand of Harm. You can still use Hand of Harm only once per turn."
+      "description": "When you use Flurry of Blows, you can replace each of the {@variantrule Unarmed Strikes|XPHB} with a use of Hand of Healing without expending Focus Points for the healing. In addition, when you make an {@variantrule Unarmed Strike|XPHB} with Flurry of Blows and deal damage, you can use Hand of Harm with that strike without expending a Focus Point for Hand of Harm. You can still use Hand of Harm only once per turn. You can use these benefits a total number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
     },
     {
       "name": "Hand of Ultimate Mercy",

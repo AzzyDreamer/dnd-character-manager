@@ -161,7 +161,7 @@
       "level": 7,
       "source": "PHB'24",
       "page": 102,
-      "description": "When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+      "description": "When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail. You don't benefit from this feature if you have the {@condition Incapacitated|XPHB} condition."
     },
     {
       "name": "Acrobatic Movement",
@@ -179,7 +179,7 @@
       "details": {
         "flurryOfBlows": "{@b Flurry of Blows.} You can expend 1 Focus Point to use Flurry of Blows and make three {@variantrule Unarmed Strikes|XPHB} with it instead of two.",
         "patientDefense": "{@b Patient Defense.} When you expend a Focus Point to use Patient Defense, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to two rolls of your Martial Arts die.",
-        "stepOfTheWind": "{@b Step of the Wind.} When you use Step of the Wind, your {@variantrule Speed|XPHB} increases by 20 feet until the end of the turn."
+        "stepOfTheWind": "{@b Step of the Wind.} When you expend a Focus Point to use Step of the Wind, you can choose a willing creature within 5 feet of yourself that is Large or smaller. You move the creature with you until the end of your turn. The creature's movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
       }
     },
     {
@@ -187,7 +187,7 @@
       "level": 10,
       "source": "PHB'24",
       "page": 102,
-      "description": "Through sheer force of will, you can remove one of the following conditions from yourself at the start of each of your turns: {@condition Charmed|XPHB}, {@condition Frightened|XPHB}, or {@condition Poisoned|XPHB}. In addition, forgoing food and drink doesn't give you levels of {@condition Exhaustion|XPHB}."
+      "description": "Through sheer force of will, you can remove one of the following conditions from yourself at the end of each of your turns: {@condition Charmed|XPHB}, {@condition Frightened|XPHB}, or {@condition Poisoned|XPHB}. In addition, forgoing food and drink doesn't give you levels of {@condition Exhaustion|XPHB}."
     },
     {
       "name": "Subclass Feature",
@@ -214,7 +214,7 @@
       "level": 15,
       "source": "PHB'24",
       "page": 102,
-      "description": "When you roll {@variantrule Initiative|XPHB} and have fewer than 4 Focus Points remaining, you regain expended Focus Points until you have 4."
+      "description": "When you roll {@variantrule Initiative|XPHB} and don't use Uncanny Metabolism, you regain expended Focus Points until you have 4 if you have 3 or fewer."
     },
     {
       "name": "Subclass Feature",
@@ -240,7 +240,7 @@
       "level": 20,
       "source": "PHB'24",
       "page": 102,
-      "description": "You have honed your body and mind to new heights. Your Dexterity and Wisdom scores increase by 4 each. Your maximum for those scores is now 26."
+      "description": "You have developed your body and mind to new heights. Your Dexterity and Wisdom scores increase by 4, to a maximum of 25."
     }
   ],
   "subclassIds": [

@@ -20,22 +20,22 @@
       "description": "Your psychic powers have manifested in the ability to cast certain spells. You know the {@spell Mage Hand|XPHB} cantrip. You can cast it without Verbal or Somatic components, and you can make the spectral hand {@condition Invisible|XPHB}. In addition, you can cast certain spells by expending Focus Points. You can take a {@action Magic|XPHB} action and expend 1 Focus Point to cast {@spell Detect Evil and Good|XPHB} or {@spell Protection from Evil and Good|XPHB}. You can also take a {@action Magic|XPHB} action and expend 2 Focus Points to cast {@spell Hold Person|XPHB}, {@spell Levitate|XPHB}, or {@spell Shatter|XPHB}. Wisdom is your spellcasting ability for these spells, and you can cast them without Material components."
     },
     {
-      "name": "Telekinetic Barrage",
+      "name": "Unsubtle Strike",
       "level": 6,
       "source": "GHPG'24",
-      "description": "When you use Flurry of Blows while your Subtle Hand is active, you can make one of the {@variantrule Unarmed Strikes|XPHB} as a telekinetic blast against a creature within 30 feet of you. This {@variantrule Unarmed Strike|XPHB} uses your Martial Arts die for damage and deals Psychic damage."
+      "description": "Once on each of your turns when you hit a creature with your {@variantrule Unarmed Strike|XPHB} or Monk weapon, you can force it to make a Strength saving throw against your Focus Point save DC. On a failed save, you can move the target up to 10 feet toward or away from you."
     },
     {
-      "name": "Psionic Shield",
+      "name": "Psychic Crush",
       "level": 11,
       "source": "GHPG'24",
-      "description": "You can expend 2 Focus Points as a {@action Reaction|XPHB} when you or a creature you can see within 30 feet of you is hit by an attack to create a telekinetic shield. The shielded creature gains a bonus to AC equal to your Wisdom modifier (minimum of +1) against that attack, potentially causing it to miss. If the attack still hits, the shielded creature has Resistance to any Psychic damage dealt by the attack."
+      "description": "Each time you hit a creature with an {@variantrule Unarmed Strike|XPHB}, it gains a Pressure Point. A creature loses all Pressure Points if you cause a different creature to gain a Pressure Point or after 1 minute, whichever comes first. As a {@action Bonus Action|XPHB}, you can expend 1 Focus Point to telekinetically crush a creature with 1 or more of your Pressure Points. The creature loses all Pressure Points and must make a Strength saving throw against your Focus Point save DC. On a failed save, the creature takes {@damage 1d8} Force damage per Pressure Point, and it has the {@condition Restrained|XPHB} condition until the end of your next turn. On a successful save, the creature takes half as much damage only."
     },
     {
-      "name": "Crown of the Sovereign Mind",
+      "name": "Psionic Mastery",
       "level": 17,
       "source": "GHPG'24",
-      "description": "As a {@action Bonus Action|XPHB}, you can expend 4 Focus Points to project an aura of psychic sovereignty for 1 minute. For the duration, you and each creature of your choice within 30 feet of you have {@variantrule Advantage|XPHB} on saving throws against being {@condition Charmed|XPHB} or {@condition Frightened|XPHB} and against any spell or effect that would read your thoughts or detect your emotions. Additionally, when a creature within 30 feet of you that you can see makes a saving throw, you can use your {@action Reaction|XPHB} to grant it a bonus to the save equal to your Wisdom modifier."
+      "description": "After much training, you have mastered the psionic disciplines necessary to defend mortals from planar threats. As a {@action Magic|XPHB} action, you can spend 5 Focus Points to cast {@spell Dispel Evil and Good|XPHB}, {@spell Hold Monster|XPHB}, {@spell Telekinesis|XPHB}, or {@spell Wall of Force|XPHB}. Wisdom is your spellcasting ability for these spells, and you can cast them without Material components."
     }
   ]
 }

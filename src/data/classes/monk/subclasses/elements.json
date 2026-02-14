@@ -18,7 +18,7 @@
       }
     },
     {
-      "name": "Environmental Burst",
+      "name": "Elemental Burst",
       "level": 6,
       "source": "PHB'24",
       "description": "As a {@action Magic|XPHB} action, you can expend 2 Focus Points and choose a point within 120 feet of yourself. A burst of elemental energy erupts in a 20-foot-radius {@variantrule Sphere|XPHB} centered on that point. Each creature in the {@variantrule Sphere|XPHB} must make a Dexterity saving throw. On a failed save, a creature takes damage equal to three rolls of your Martial Arts die. On a successful save, a creature takes half as much damage. You choose the damage type: Acid, Cold, Fire, Lightning, or Thunder."
@@ -36,7 +36,7 @@
       "description": "When you use your Elemental Attunement feature, you also gain the following benefits for the duration of that feature.",
       "details": {
         "damageResistance": "{@b Damage Resistance.} You gain Resistance to one of the following damage types of your choice: Acid, Cold, Fire, Lightning, or Thunder. At the start of each of your turns, you can change this choice.",
-        "destructiveStride": "{@b Destructive Stride.} When you use your Step of the Wind, your movement for that turn doesn't provoke {@variantrule Opportunity Attacks|XPHB}, and you can cause each creature within 5 feet of you to make a Dexterity saving throw at any point during your movement. On a failed save, a creature takes damage equal to one roll of your Martial Arts die plus your Wisdom modifier. A creature can take this damage only once per turn. You choose the damage type: Acid, Cold, Fire, Lightning, or Thunder.",
+        "destructiveStride": "{@b Destructive Stride.} When you use your Step of the Wind, your {@variantrule Speed|XPHB} increases by 20 feet until the end of the turn. For that duration, any creature of your choice takes damage equal to one roll of your Martial Arts die when you enter a space within 5 feet of it. The damage type is your choice of Acid, Cold, Fire, Lightning, or Thunder. A creature can take this damage only once per turn.",
         "empoweredStrikes": "{@b Empowered Strikes.} Once on each of your turns, you can deal extra damage to a target equal to one roll of your Martial Arts die when you hit it with an {@variantrule Unarmed Strike|XPHB}. The extra damage is the same type you chose for the Damage Resistance in this feature."
       }
     }
