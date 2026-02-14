@@ -1,0 +1,53 @@
+{
+  "id": "slaughter",
+  "name": "Клятва Бойни",
+  "classId": "paladin",
+  "description": "The only truth of war is death. The only virtue is to kill. The only victory is to survive. Heroism, honor, and glory are illusions. This is the creed of Tormach, Arch Daemon of Wrath, but this philosophy rings true for all warriors who devote themselves, body and soul, to the thrill of combat and the delight of bloodshed. Such champions find themselves at the forefront of armies, using the most violent methods at their disposal to bring battles to a swift close... or drawing out the war to sate their own appetites.",
+  "shortDescription": "Revel in Unbridled Violence",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Slaughter Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Slaughter Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Crimson Lash}", "{@spell Inflict Wounds}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Bloodletter}", "{@spell Shatter}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Fear}", "{@spell Suffocate}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Consume Mind}", "{@spell Supernal Smite}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Destructive Wave}", "{@spell Incite Riot}"] }
+      ]
+    },
+    {
+      "name": "Frenzied Slaughter",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You can harness the oath of battle to drive you to even greater acts of violence. As a {@action Bonus Action|XPHB}, you can expend one use of your Channel Divinity to enter a battle frenzy. You gain the following benefits while this feature is active.",
+      "details": {
+        "reflexiveAttack": "{@b Reflexive Attack.} When you miss with an attack roll using a Melee weapon or {@variantrule Unarmed Strike|XPHB}, you can take a {@variantrule Reaction|XPHB} to make another attack with the same weapon.",
+        "conditionResistance": "{@b Condition Resistance.} You have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Charmed|XPHB}, {@condition Frightened|XPHB}, and {@condition Stunned|XPHB} conditions.",
+        "duration": "{@b Duration.} Frenzied Slaughter lasts until the end of your next turn, and it ends early if you have the {@condition Incapacitated|XPHB} condition. If your Frenzied Slaughter is still active on your next turn, you can extend it for another round by doing one of the following: make an attack roll against an enemy; force an enemy to make a saving throw; or you are {@status Bloodied|XPHB} at the end of your turn. Each time Frenzied Slaughter is extended, it lasts until the end of your next turn. You can maintain it for up to 1 minute."
+      }
+    },
+    {
+      "name": "Bloodthirst Aura",
+      "level": 7,
+      "source": "GH:PG'24",
+      "description": "Your lust for blood affects those around you. When a {@status Bloodied|XPHB} ally within your Aura of Protection makes an attack with a weapon or an {@variantrule Unarmed Strike|XPHB}, it gains a bonus to damage. The bonus equals your Charisma modifier. Additionally, when a {@status Bloodied|XPHB} creature within your Aura of Protection makes a saving throw against a Sanguimancy spell, you can take a {@variantrule Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on the save."
+    },
+    {
+      "name": "Follow Through",
+      "level": 15,
+      "source": "GH:PG'24",
+      "description": "When a creature in your Aura of Protection becomes {@status Bloodied|XPHB}, you can take a {@variantrule Reaction|XPHB} to move up to half your {@variantrule Speed|XPHB} and make a Melee weapon or {@variantrule Unarmed Strike|XPHB}. This movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}, and you have {@variantrule Advantage|XPHB} on the attack roll."
+    },
+    {
+      "name": "Blood Knight",
+      "level": 20,
+      "source": "GH:PG'24",
+      "description": "Your bloodlust imbues you with preternatural strength and resilience, allowing you to keep sowing slaughter. As a {@action Bonus Action|XPHB}, you gain the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5 spell slot (no action required). {@b Crimson Armor.} When a creature within your Aura of Protection becomes {@status Bloodied|XPHB} by an enemy, you gain 30 {@variantrule Temporary Hit Points|XPHB}. {@b Seeing Red.} When a creature hits you with an attack roll, you can take a {@variantrule Reaction|XPHB} to make one melee attack against that creature, using a weapon or an {@variantrule Unarmed Strike|XPHB}. {@b Wanton Slaughter.} When you hit a creature with a melee attack roll using a weapon or an {@variantrule Unarmed Strike|XPHB}, you can choose any number of creatures within 5 feet of the original target and within your reach. Each chosen creature takes Force damage equal to your Charisma modifier (minimum of +1) plus your {@variantrule Proficiency Bonus|XPHB}."
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "name": "Клятва Славы",
   "classId": "paladin",
   "description": "Paladins who take the Oath of Glory believe they and their companions are destined to achieve glory through deeds of heroism. They train diligently and encourage their companions so they're all ready when destiny calls. These Paladins share the following tenets: actions over words, challenges are but tests, and one must hone the body for it is a vessel for the soul.",
-  "shortDescription": "Achieve Glory through Heroism",
+  "shortDescription": "Strive for the Heights of Heroism",
   "source": "PHB'24",
   "level": 3,
   "features": [
@@ -24,13 +24,19 @@
       "name": "Inspiring Smite",
       "level": 3,
       "source": "PHB'24",
-      "description": "Immediately after you cast {@spell Divine Smite|XPHB}, you can expend one use of your Channel Divinity and distribute {@variantrule Temporary Hit Points|XPHB} to creatures of your choice within 30 feet of yourself. The total number of {@variantrule Temporary Hit Points|XPHB} equals {@dice 2d8} plus your Paladin level, divided among the chosen creatures however you like."
+      "description": "Immediately after you cast {@spell Divine Smite|XPHB}, you can expend one use of your Channel Divinity and distribute {@variantrule Temporary Hit Points|XPHB} to creatures of your choice within 30 feet of yourself, which can include you. The total number of {@variantrule Temporary Hit Points|XPHB} equals {@dice 2d8} plus your Paladin level, divided among the chosen creatures however you like."
+    },
+    {
+      "name": "Peerless Athlete",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can expend one use of your Channel Divinity to augment your athleticism. For 1 hour, you have {@variantrule Advantage|XPHB} on Strength ({@skill Athletics}) and Dexterity ({@skill Acrobatics}) checks, and the distance of your {@variantrule Long Jump|XPHB} and {@variantrule High Jump|XPHB} increases by 10 feet (this extra distance costs movement as normal)."
     },
     {
       "name": "Aura of Alacrity",
       "level": 7,
       "source": "PHB'24",
-      "description": "Your Speed increases by 10 feet, and your allies in your Aura of Protection also gain this bonus."
+      "description": "Your {@variantrule Speed|XPHB} increases by 10 feet. In addition, whenever an ally enters your Aura of Protection for the first time on a turn or starts their turn there, the ally's {@variantrule Speed|XPHB} increases by 10 feet until the end of their next turn."
     },
     {
       "name": "Glorious Defense",
@@ -42,7 +48,7 @@
       "name": "Living Legend",
       "level": 20,
       "source": "PHB'24",
-      "description": "As a {@action Bonus Action|XPHB}, you can imbue yourself with legendary power, granting the following benefits for 10 minutes or until you end them (no action required). {@b Charismatic.} You are blessed with an otherworldly presence and have {@variantrule Advantage|XPHB} on all Charisma checks. {@b Saving Throw Reroll.} If you fail a saving throw, you can use your {@variantrule Reaction|XPHB} to reroll it. You must use the new roll. {@b Unerring Strike.} Once on each of your turns when you make a weapon attack and miss, you can cause that attack to hit instead. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      "description": "You can empower yourself with the legends—whether true or exaggerated—of your great deeds. As a {@action Bonus Action|XPHB}, you gain the benefits below for 10 minutes. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5 spell slot (no action required). {@b Charismatic.} You are blessed with an otherworldly presence and have {@variantrule Advantage|XPHB} on all Charisma checks. {@b Saving Throw Reroll.} If you fail a saving throw, you can take a {@variantrule Reaction|XPHB} to reroll it. You must use the new roll. {@b Unerring Strike.} Once on each of your turns when you make an attack roll with a weapon and miss, you can cause that attack to hit instead."
     }
   ]
 }

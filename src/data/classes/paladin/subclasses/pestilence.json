@@ -1,0 +1,54 @@
+{
+  "id": "pestilence",
+  "name": "Клятва Чумы",
+  "classId": "paladin",
+  "description": "Clad in grime-soaked armor and wielding rusting weapons, Oath of Pestilence Paladins spread corruption, disease, and filth. Bound by an oath that infests their bodies with all manner of plagues, these heralds of decay lumber forward with unholy toughness and grim resolve.",
+  "shortDescription": "Gain Strength Through Suffering",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Pestilence Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Pestilence Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Bane}", "{@spell Inflict Wounds}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Acid Arrow}", "{@spell Ray of Enfeeblement}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Flash Fever}", "{@spell Stinking Cloud}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Blight}", "{@spell Confusion}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Contagion}", "{@spell Insect Plague}"] }
+      ]
+    },
+    {
+      "name": "Debilitating Fever",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You can inflict disease upon a creature. When you hit a creature with an attack roll using a weapon or {@variantrule Unarmed Strike|XPHB}, you can expend one use of your Channel Divinity to give that creature the {@condition Poisoned|XPHB} condition for 1 minute. While {@condition Poisoned|XPHB} in this way, the target also has the {@condition Incapacitated|XPHB} condition. At the end of each of its turns, the {@condition Poisoned|XPHB} target makes a Constitution saving throw, ending the effect on itself on a success."
+    },
+    {
+      "name": "Entropic Infection",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "As a {@action Magic|XPHB} action, you can expend one use of your Channel Divinity and select a creature you can see within 30 feet of yourself. For 1 minute, if you deal damage to the target, the target takes an extra {@damage 2d6} Necrotic damage. In addition, the target loses {@variantrule Resistance|XPHB} and Immunity to Necrotic damage. The target can make a Constitution saving throw against the Paladin's spell save DC at the end of each of its turns, ending the effect on itself on a success."
+    },
+    {
+      "name": "Aura of Rampant Sickness",
+      "level": 7,
+      "source": "GH:PG'24",
+      "description": "You emit an aura of contagion and virulence. When a creature within your Aura of Protection is about to make a {@variantrule D20 Test|XPHB}, you can take a {@variantrule Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that {@variantrule D20 Test|XPHB}."
+    },
+    {
+      "name": "Disgusting Resilience",
+      "level": 15,
+      "source": "GH:PG'24",
+      "description": "When you are reduced to 0 {@variantrule Hit Points|XPHB} and not killed outright, you can spend any number of Hit Dice, roll them, and reduce the damage taken by the total rolled on those dice. In addition, if you are killed, your corpse explodes in a shower of pus and gore. Each creature in a 20-foot {@variantrule Emanation|XPHB} originating from you must succeed on a Constitution saving throw against the Paladin's spell save DC, taking {@damage 8d6} Necrotic damage on a failed save or half as much damage on a successful one."
+    },
+    {
+      "name": "Plaguebringer",
+      "level": 20,
+      "source": "GH:PG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you gain the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5 spell slot (no action required). {@b One with Plague.} You are Immune to Poison damage and the {@condition Poisoned|XPHB} condition, and you have {@variantrule Resistance|XPHB} to Necrotic damage. {@b Bolstered by Rot.} Your {@variantrule Hit Point|XPHB} maximum can't be reduced. {@b Entropic Radiance.} Whenever an enemy starts its turn within your Aura of Protection, it takes Necrotic damage equal to your Charisma modifier plus your {@variantrule Proficiency Bonus|XPHB}."
+    }
+  ]
+}
