@@ -1,0 +1,36 @@
+{
+  "id": "vermin-lord",
+  "name": "Повелитель Паразитов",
+  "classId": "ranger",
+  "description": "Vermin Lords cultivate loyal hordes of disease-bearing rodents to help them battle greater evils. For many of these Rangers, that greater evil is some kind of societal ill, but a rare few see their fellow Humanoids as an infestation that threatens the natural world. Regardless of their goal, they make their homes in sewers, slums, and other forgotten places where they are free to plot against their enemies and tend to their verminkin.",
+  "shortDescription": "Grow Powerful from Strength in Numbers",
+  "source": "GHPg'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Verminkin",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "You can comprehend and verbally communicate with Tiny Beasts. As a {@action Magic|XPHB} action, you can expend a spell slot to summon vermin swarms. You summon a number of swarms equal to the slot's level for 1 hour. Each swarm is summoned to an unoccupied space you can see within 30 feet of yourself. A swarm uses the {@creature Swarm of Vermin} stat block. In combat, each swarm acts during your turn. It can move and use its {@action Reaction|XPHB} on its own, but the only action it takes is the {@action Dodge|XPHB} action unless you take a {@action Bonus Action|XPHB} to command it to take an action in its stat block or some other action. You can command each swarm with a single {@action Bonus Action|XPHB}. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Swarming Strikes",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can command all of your swarms to make an {@action Attack|XPHB} action instead of just one. Alternatively, a single swarm can attack twice instead of once when it takes the {@action Attack|XPHB} action. You can use this feature a number of times equal to your Wisdom modifier plus your {@variantrule Proficiency Bonus|XPHB}, and you regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Vermin Lord Spells",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "When you reach a Ranger level specified in the Vermin Lord Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "rangerLevel": 3, "spells": ["{@spell Consumption|GHPg}"] },
+        { "rangerLevel": 5, "spells": ["{@spell Animal Messenger|XPHB}"] },
+        { "rangerLevel": 9, "spells": ["{@spell Flash Fever|GHPg}"] },
+        { "rangerLevel": 13, "spells": ["{@spell Freedom of Movement|XPHB}"] },
+        { "rangerLevel": 17, "spells": ["{@spell Contagion|XPHB}"] }
+      ]
+    }
+  ]
+}
