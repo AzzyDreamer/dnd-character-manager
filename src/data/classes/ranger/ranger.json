@@ -134,13 +134,17 @@
       "name": "Expertise",
       "level": 9,
       "source": "PHB'24",
-      "description": ""
+      "description": "Choose two of your skill proficiencies with which you lack {@variantrule Expertise|XPHB}. You gain {@variantrule Expertise|XPHB} in those skills."
     },
     {
       "name": "Tireless",
       "level": 10,
       "source": "PHB'24",
-      "description": ""
+      "description": "Primal forces now help fuel you on your journeys, granting you the following benefits.",
+      "details": {
+        "temporaryHitPoints": "{@b Temporary Hit Points.} As a {@action Magic|XPHB} action, you can give yourself a number of {@variantrule Temporary Hit Points|XPHB} equal to {@damage 1d8} plus your Wisdom modifier (minimum of 1). You can use this action a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        "decreaseExhaustion": "{@b Decrease Exhaustion.} Whenever you finish a {@variantrule Short Rest|XPHB}, your {@variantrule Exhaustion|XPHB} level, if any, decreases by 1."
+      }
     },
     {
       "name": "Subclass Feature",
@@ -152,13 +156,13 @@
       "name": "Relentless Hunter",
       "level": 13,
       "source": "PHB'24",
-      "description": ""
+      "description": "Taking damage can't break your {@variantrule Concentration|XPHB} on {@spell Hunter's Mark|XPHB}."
     },
     {
       "name": "Nature's Veil",
       "level": 14,
       "source": "PHB'24",
-      "description": ""
+      "description": "You invoke spirits of nature to magically hide yourself. As a {@action Bonus Action|XPHB}, you can give yourself the {@condition Invisible|XPHB} condition until the end of your next turn. You can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
     },
     {
       "name": "Subclass Feature",
@@ -170,13 +174,13 @@
       "name": "Precise Hunter",
       "level": 17,
       "source": "PHB'24",
-      "description": ""
+      "description": "You have {@variantrule Advantage|XPHB} on attack rolls against the creature currently marked by your {@spell Hunter's Mark|XPHB}."
     },
     {
       "name": "Feral Senses",
       "level": 18,
       "source": "PHB'24",
-      "description": ""
+      "description": "Your connection to the forces of nature grants you {@sense Blindsight|XPHB} with a range of 30 feet."
     },
     {
       "name": "Epic Boon",
@@ -188,7 +192,7 @@
       "name": "Foe Slayer",
       "level": 20,
       "source": "PHB'24",
-      "description": ""
+      "description": "The damage die of your {@spell Hunter's Mark|XPHB} is a d10 rather than a d6."
     }
   ],
   "subclassIds": [

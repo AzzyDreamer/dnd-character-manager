@@ -31,6 +31,30 @@
         { "rangerLevel": 13, "spells": ["{@spell Polymorph|XPHB}"] },
         { "rangerLevel": 17, "spells": ["{@spell Wall of Stone|XPHB}"] }
       ]
+    },
+    {
+      "name": "Weave the Elements",
+      "level": 7,
+      "source": "GHPg'24",
+      "description": "With 1 hour of work or when you finish a {@variantrule Long Rest|XPHB}, you can use an {@item Herbalism Kit|XPHB} to mark yourself with elemental patterns. You gain {@variantrule Resistance|XPHB} to one of the following damage types of your choice until you finish a {@variantrule Long Rest|XPHB}: Acid, Cold, Fire, Lightning, or Thunder."
+    },
+    {
+      "name": "Witching Arrows",
+      "level": 11,
+      "source": "GHPg'24",
+      "description": "You gain the ability to imbue curses into your arrows. Once per turn when you hit a creature with a ranged attack using a Longbow or Shortbow, you can expend a level 1+ spell slot to choose one of the following effects (no action required). The listed damage increases by {@damage 2d6} for each spell slot above 1.",
+      "details": {
+        "arcingShot": "{@b Arcing Shot.} Electricity crackles around the arrow. Make a ranged attack roll with the same weapon against a second creature within 30 feet of the first that is also within your range. Each creature hit takes {@damage 2d6} Lightning damage.",
+        "entanglingShot": "{@b Entangling Shot.} The wooden shaft of the arrow sprouts tiny green leaves. The target must succeed on a Strength saving throw against your spell save DC. On a failed save, the target takes {@damage 2d6} Piercing damage and has the {@condition Restrained|XPHB} condition for 1 minute. On a successful save, the creature takes the damage only. A {@condition Restrained|XPHB} creature repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+        "hexingShot": "{@b Hexing Shot.} The magic surrounding your arrow clouds the mind of your target. The target must make a Wisdom saving throw against your spell save DC. On a failed save, the target takes {@damage 2d6} Psychic damage and gains the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition for 1 minute (your choice). The creature can repeat the save at the end of each of its turns, ending the effect on a success. On a successful save, the creature takes half as much damage only.",
+        "viperShot": "{@b Viper Shot.} The arrow transforms into a hissing serpent. The target must make a Constitution saving throw against your spell save DC. On a failed save, the target takes {@damage 2d6} Poison damage and has the {@condition Poisoned|XPHB} condition for 1 minute. The creature can repeat the save at the end of each of its turns, ending the effect on a success. On a successful save, the creature takes half as much damage only."
+      }
+    },
+    {
+      "name": "Primordial Magic",
+      "level": 15,
+      "source": "GHPg'24",
+      "description": "Taking damage can't break your {@variantrule Concentration|XPHB} on any Ranger spells you cast. In addition, you can take a {@action Bonus Action|XPHB} to change the damage type you chose for the Weave the Elements feature to a different damage type in the list. When you do, you can choose a creature that you can see within 30 feet of yourself. That creature must succeed on a Constitution saving throw or take {@damage 6d6} damage of either damage type (your choice). You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

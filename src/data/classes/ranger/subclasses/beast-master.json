@@ -17,6 +17,24 @@
         "restoring": "If the beast has died within the last hour, you can take a {@action Magic|XPHB} action to touch it and expend a spell slot. The beast returns to life after 1 minute with all its {@variantrule Hit Points|XPHB} restored.",
         "replacing": "When you finish a {@variantrule Long Rest|XPHB}, you can summon a different primal beast, which appears in an unoccupied space within 5 feet of you. You choose its stat block and appearance. If you already have a beast from this feature, the old one vanishes when the new one appears."
       }
+    },
+    {
+      "name": "Exceptional Training",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "When you take a {@action Bonus Action|XPHB} to command your Primal Companion beast to take an action, you can also command it to take the {@action Dash|XPHB}, {@action Disengage|XPHB}, {@action Dodge|XPHB}, or {@action Help|XPHB} action using its {@action Bonus Action|XPHB}. In addition, whenever it hits with an attack roll and deals damage, it can deal your choice of Force damage or its normal damage type."
+    },
+    {
+      "name": "Bestial Fury",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "When you command your Primal Companion beast to take the Beast's Strike action, the beast can use it twice. In addition, the first time each turn it hits a creature under the effect of your {@spell Hunter's Mark|XPHB} spell, the beast deals extra Force damage equal to the bonus damage of that spell."
+    },
+    {
+      "name": "Share Spells",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "When you cast a spell targeting yourself, you can also affect your Primal Companion beast with the spell if the beast is within 30 feet of you."
     }
   ]
 }

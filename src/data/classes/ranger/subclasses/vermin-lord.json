@@ -31,6 +31,24 @@
         { "rangerLevel": 13, "spells": ["{@spell Freedom of Movement|XPHB}"] },
         { "rangerLevel": 17, "spells": ["{@spell Contagion|XPHB}"] }
       ]
+    },
+    {
+      "name": "Filth and Fortitude",
+      "level": 7,
+      "source": "GHPg'24",
+      "description": "The time you've spent with plague-bearing rodents has rendered you Immune to the {@condition Poisoned|XPHB} condition. Additionally, you gain proficiency in Constitution saving throws."
+    },
+    {
+      "name": "Infectious Spread",
+      "level": 11,
+      "source": "GHPg'24",
+      "description": "When you use Swarming Strikes, each swarm that takes the {@action Attack|XPHB} action makes one additional attack. Each creature damaged by a swarm's attack during this action has the {@condition Poisoned|XPHB} condition until the start of your next turn."
+    },
+    {
+      "name": "Strength of the Swarm",
+      "level": 15,
+      "source": "GHPg'24",
+      "description": "You can call on your rodent minions for defense. When you take damage from a creature you can see within 10 feet of yourself, you can take a {@action Reaction|XPHB} to direct the damage toward a swarm you control you can see within 5 feet of yourself."
     }
   ]
 }

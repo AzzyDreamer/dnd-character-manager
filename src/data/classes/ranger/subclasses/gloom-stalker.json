@@ -36,6 +36,28 @@
       "level": 3,
       "source": "PHB'24",
       "description": "You gain {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB}, its range increases by 60 feet. You are also adept at evading creatures that rely on {@sense Darkvision|XPHB}. While you are entirely in {@variantrule Darkness|XPHB}, you have the {@condition Invisible|XPHB} condition to any creature that relies on {@sense Darkvision|XPHB} to see you in that {@variantrule Darkness|XPHB}."
+    },
+    {
+      "name": "Iron Mind",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You have honed your ability to resist mind-altering powers. You gain proficiency in Wisdom saving throws. If you already have this proficiency, you instead gain proficiency in Intelligence or Charisma saving throws (your choice)."
+    },
+    {
+      "name": "Stalker's Flurry",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "The Psychic damage of your Dreadful Strike becomes {@damage 2d8}. In addition, when you use the Dreadful Strike effect of your Dread Ambusher feature, you can cause one of the following additional effects.",
+      "details": {
+        "suddenStrike": "{@b Sudden Strike.} You can make another attack with the same weapon against a different creature that is within 5 feet of the original target and that is within the weapon's range.",
+        "massFear": "{@b Mass Fear.} The target and each creature within 10 feet of it must make a Wisdom saving throw against your spell save DC. On a failed save, a creature has the {@condition Frightened|XPHB} condition until the start of your next turn."
+      }
+    },
+    {
+      "name": "Shadowy Dodge",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "When a creature makes an attack roll against you, you can take a {@action Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that roll. Whether the attack hits or misses, you can then teleport up to 30 feet to an unoccupied space you can see."
     }
   ]
 }

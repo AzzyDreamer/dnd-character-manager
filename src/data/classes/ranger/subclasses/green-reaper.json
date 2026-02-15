@@ -71,6 +71,24 @@
         { "rangerLevel": 13, "spells": ["{@spell Greater Invisibility|XPHB}"] },
         { "rangerLevel": 17, "spells": ["{@spell Cloudkill|XPHB}"] }
       ]
+    },
+    {
+      "name": "Poison Control",
+      "level": 7,
+      "source": "GHPg'24",
+      "description": "You gain {@variantrule Resistance|XPHB} to Poison damage and have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Poisoned|XPHB} condition. In addition, you can cast the {@spell Protection from Poison|XPHB} spell without expending a spell slot. You can do so a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Variegated Vexations",
+      "level": 11,
+      "source": "GHPg'24",
+      "description": "Whenever you would deal Poison damage with a weapon attack, you can change that damage to be either Acid or Necrotic instead."
+    },
+    {
+      "name": "Pain Tolerance",
+      "level": 15,
+      "source": "GHPg'24",
+      "description": "You have learned to quickly inure yourself against harm. Immediately before you take damage from a creature you can see within 60 feet of yourself, you can take a {@action Reaction|XPHB} to gain {@variantrule Temporary Hit Points|XPHB} equal to the damage you take. If any of these Temporary Hit Points remain at the end of your next turn, they vanish."
     }
   ]
 }

@@ -22,6 +22,28 @@
       "level": 3,
       "source": "PHB'24",
       "description": "You can call on the forces of nature to reveal certain strengths and weaknesses of your prey. While a creature is marked by your {@spell Hunter's Mark|XPHB}, you know whether that creature has any Immunities, Resistances, or Vulnerabilities, and if the creature has any, you know what they are."
+    },
+    {
+      "name": "Defensive Tactics",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You gain one of the following feature options of your choice. Whenever you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}, you can replace the chosen option with the other one.",
+      "details": {
+        "escapeTheHorde": "{@b Escape the Horde.} {@action Opportunity Attacks|XPHB} have {@variantrule Disadvantage|XPHB} against you.",
+        "multiattackDefense": "{@b Multiattack Defense.} When a creature hits you with an attack roll, that creature has {@variantrule Disadvantage|XPHB} on all other attack rolls against you this turn."
+      }
+    },
+    {
+      "name": "Superior Hunter's Prey",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "Once per turn when you deal damage to a creature marked by your {@spell Hunter's Mark|XPHB}, you can also deal that spell's extra damage to a different creature that you can see within 30 feet of the first creature."
+    },
+    {
+      "name": "Superior Hunter's Defense",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "When you take damage, you can take a {@action Reaction|XPHB} to give yourself {@variantrule Resistance|XPHB} to that damage and any other damage of the same type until the end of the current turn."
     }
   ]
 }
