@@ -1,0 +1,63 @@
+{
+  "id": "gloom-stalker",
+  "name": "Мрачный Скиталец",
+  "classId": "ranger",
+  "description": "Gloom Stalkers are at home in the darkest places, wielding shadow magic to combat threats that lurk in the dark. These Rangers are adept at ambushes and striking from the shadows, drawing on the power of the Shadowfell to enhance their abilities.",
+  "shortDescription": "Draw on Shadow Magic to Fight Your Foes",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Dread Ambusher",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You master the art of the ambush. You gain the following benefits.",
+      "details": {
+        "ambushersLeap": "{@b Ambusher's Leap.} At the start of your first turn of each combat, your {@variantrule Walking Speed|XPHB} increases by 10 feet until the end of that turn.",
+        "dreadfulStrike": "{@b Dreadful Strike.} When you attack a creature and hit it with a weapon, you can deal an extra {@damage 2d6} Psychic damage. You can use this benefit only once per turn, you can use it a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        "initiativeBonus": "{@b Initiative Bonus.} When you roll {@variantrule Initiative|XPHB}, you can add your Wisdom modifier to the roll."
+      }
+    },
+    {
+      "name": "Gloom Stalker Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Ranger level specified in the Gloom Stalker Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "rangerLevel": 3, "spells": ["{@spell Disguise Self|XPHB}"] },
+        { "rangerLevel": 5, "spells": ["{@spell Rope Trick|XPHB}"] },
+        { "rangerLevel": 9, "spells": ["{@spell Fear|XPHB}"] },
+        { "rangerLevel": 13, "spells": ["{@spell Greater Invisibility|XPHB}"] },
+        { "rangerLevel": 17, "spells": ["{@spell Seeming|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Umbral Sight",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB}, its range increases by 60 feet. You are also adept at evading creatures that rely on {@sense Darkvision|XPHB}. While you are entirely in {@variantrule Darkness|XPHB}, you have the {@condition Invisible|XPHB} condition to any creature that relies on {@sense Darkvision|XPHB} to see you in that {@variantrule Darkness|XPHB}."
+    },
+    {
+      "name": "Iron Mind",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "You have honed your ability to resist mind-altering powers. You gain proficiency in Wisdom saving throws. If you already have this proficiency, you instead gain proficiency in Intelligence or Charisma saving throws (your choice)."
+    },
+    {
+      "name": "Stalker's Flurry",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "The Psychic damage of your Dreadful Strike becomes {@damage 2d8}. In addition, when you use the Dreadful Strike effect of your Dread Ambusher feature, you can cause one of the following additional effects.",
+      "details": {
+        "suddenStrike": "{@b Sudden Strike.} You can make another attack with the same weapon against a different creature that is within 5 feet of the original target and that is within the weapon's range.",
+        "massFear": "{@b Mass Fear.} The target and each creature within 10 feet of it must make a Wisdom saving throw against your spell save DC. On a failed save, a creature has the {@condition Frightened|XPHB} condition until the start of your next turn."
+      }
+    },
+    {
+      "name": "Shadowy Dodge",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "When a creature makes an attack roll against you, you can take a {@action Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on that roll. Whether the attack hits or misses, you can then teleport up to 30 feet to an unoccupied space you can see."
+    }
+  ]
+}

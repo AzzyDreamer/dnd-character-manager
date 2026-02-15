@@ -1,0 +1,94 @@
+{
+  "id": "green-reaper",
+  "name": "Зелёный Жнец",
+  "classId": "ranger",
+  "description": "A Green Reaper is an expert in the use of natural venoms and toxic substances, wielding the lethal power of nature's poisons to slay their foes. These Rangers harvest deadly compounds from plants and creatures, turning them into potent weapons.",
+  "shortDescription": "Slay with Nature's Venom",
+  "source": "GHPg'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Envenomed Attack",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can apply a natural venom to one weapon or piece of ammunition that you're holding. The next time you hit a creature with that weapon or ammunition, the target takes an extra {@damage 1d4} Poison damage. You can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. This feature improves when you reach Ranger level 11: the Poison damage increases to {@damage 2d4}, and you regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Toxic Tradecraft",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "You gain proficiency with the {@item Poisoner's Kit|XPHB}. If you already have this proficiency, you instead gain proficiency with another type of Artisan's Tools of your choice. Whenever you make an ability check using the {@item Poisoner's Kit|XPHB}, your {@variantrule Proficiency Bonus|XPHB} is doubled for the check. In addition, you've honed the ability to harvest and distill toxic components from plants and creatures. When you deal Poison damage to a creature with a weapon attack, you can expend a spell slot to infuse the attack with a concentrated toxin. The target takes an extra {@damage 1d6} Poison damage per level of the spell slot expended and must succeed on a Constitution saving throw against your spell save DC or have the {@condition Poisoned|XPHB} condition for 1 minute. A {@condition Poisoned|XPHB} creature can repeat the save at the end of each of its turns, ending the condition on a success. When the creature first fails this save, it also suffers a Toxin Effect determined by the level of the spell slot you expended, as shown in the Toxin Effects table.",
+      "toxinEffects": {
+        "level1": {
+          "description": "When you expend a level 1+ spell slot, choose one of the following effects.",
+          "effects": {
+            "attenuate": "{@b Attenuate.} While a creature has the {@condition Poisoned|XPHB} condition from this toxin, it has {@variantrule Disadvantage|XPHB} on Strength and Dexterity saving throws.",
+            "befuddled": "{@b Befuddled.} While a creature has the {@condition Poisoned|XPHB} condition from this toxin, it can't speak, read, or write and it has {@variantrule Disadvantage|XPHB} on saving throws made to maintain {@variantrule Concentration|XPHB} on spells.",
+            "uncoordinated": "{@b Uncoordinated.} While a creature has the {@condition Poisoned|XPHB} condition from this toxin, it can't take {@action Reactions|XPHB} or the {@action Disengage|XPHB} or {@action Dodge|XPHB} action."
+          }
+        },
+        "level2": {
+          "description": "When you expend a level 2+ spell slot, choose one of the following effects.",
+          "effects": {
+            "debilitate": "{@b Debilitate.} For 1 minute, the creature can't regain {@variantrule Hit Points|XPHB}.",
+            "potent": "{@b Potent.} For 1 minute, the creature loses {@variantrule Resistance|XPHB} to Poison damage.",
+            "suffer": "{@b Suffer.} For 1 minute, the first time on each turn the creature takes Poison damage, it takes an extra {@damage 1d6} Poison damage."
+          }
+        },
+        "level3": {
+          "description": "When you expend a level 3+ spell slot, choose one of the following effects.",
+          "effects": {
+            "lingering": "{@b Lingering.} Instead of ending at the end of your next turn, the creature has the {@condition Poisoned|XPHB} condition for 10 minutes. During this time it has {@variantrule Disadvantage|XPHB} on saving throws to end the {@condition Poisoned|XPHB} condition on itself. At the end of each of the creature's turns, it can make a Constitution saving throw to end the {@condition Poisoned|XPHB} condition.",
+            "supernatural": "{@b Supernatural.} When you deal damage to a creature with a poisoned item, the creature loses Immunity to the {@condition Poisoned|XPHB} condition and then has the {@condition Poisoned|XPHB} condition for 1 minute. At the end of each of the creature's turns, it can make a Constitution saving throw to end the {@condition Poisoned|XPHB} condition and regain its Immunity to the {@condition Poisoned|XPHB} condition."
+          }
+        },
+        "level4": {
+          "description": "When you expend a level 4+ spell slot, choose one of the following effects.",
+          "effects": {
+            "fleshEating": "{@b Flesh Eating.} For 1 minute, the creature has the {@condition Poisoned|XPHB} condition. While the creature has the {@condition Poisoned|XPHB} condition from this toxin, it takes {@damage 2d6} Acid damage at the start of each of its turns.",
+            "insensate": "{@b Insensate.} While the creature has the {@condition Poisoned|XPHB} condition from this toxin, it also has the {@condition Blinded|XPHB} and {@condition Deafened|XPHB} conditions.",
+            "paraplegia": "{@b Paraplegia.} While the creature has the {@condition Poisoned|XPHB} condition from this toxin, its Speed is reduced to 0 and it has {@variantrule Disadvantage|XPHB} on Dexterity saving throws."
+          }
+        },
+        "level5": {
+          "description": "When you expend a level 5 spell slot, choose one of the following effects.",
+          "effects": {
+            "enhanced": "{@b Enhanced.} Apply one option from the Level 4 Spell Slot Effects list, and an additional option from either the Level 1 or Level 2 Spell Slot Effects list.",
+            "stingingApplication": "{@b Stinging Application.} For 1 minute, once per turn, when you hit a creature with a poisoned item, the attack deals an extra {@damage 5d6} damage. The damage type is your choice of Acid, Necrotic, or Poison."
+          }
+        }
+      }
+    },
+    {
+      "name": "Green Reaper Spells",
+      "level": 3,
+      "source": "GHPg'24",
+      "description": "When you reach a Ranger level specified in the Green Reaper Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "rangerLevel": 3, "spells": ["{@spell Detect Poison and Disease|XPHB}"] },
+        { "rangerLevel": 5, "spells": ["{@spell Hold Person|XPHB}"] },
+        { "rangerLevel": 9, "spells": ["{@spell Bestow Curse|XPHB}"] },
+        { "rangerLevel": 13, "spells": ["{@spell Greater Invisibility|XPHB}"] },
+        { "rangerLevel": 17, "spells": ["{@spell Cloudkill|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Poison Control",
+      "level": 7,
+      "source": "GHPg'24",
+      "description": "You gain {@variantrule Resistance|XPHB} to Poison damage and have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Poisoned|XPHB} condition. In addition, you can cast the {@spell Protection from Poison|XPHB} spell without expending a spell slot. You can do so a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Variegated Vexations",
+      "level": 11,
+      "source": "GHPg'24",
+      "description": "Whenever you would deal Poison damage with a weapon attack, you can change that damage to be either Acid or Necrotic instead."
+    },
+    {
+      "name": "Pain Tolerance",
+      "level": 15,
+      "source": "GHPg'24",
+      "description": "You have learned to quickly inure yourself against harm. Immediately before you take damage from a creature you can see within 60 feet of yourself, you can take a {@action Reaction|XPHB} to gain {@variantrule Temporary Hit Points|XPHB} equal to the damage you take. If any of these Temporary Hit Points remain at the end of your next turn, they vanish."
+    }
+  ]
+}
