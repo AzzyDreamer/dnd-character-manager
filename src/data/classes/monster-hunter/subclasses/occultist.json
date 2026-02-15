@@ -1,0 +1,61 @@
+{
+  "id": "occultist",
+  "name": "Гильдия Оккультистов",
+  "classId": "monster-hunter",
+  "description": "In Etharis, there are those who fear magic, and those who seek to understand it. Monster Hunters from the Occultist Guild know folk from both sides are equally dangerous. An Occultist investigates the arcane, the supernatural, and the uncanny, while avoiding the influence of superstition or ideology. Despite their reputation as mage hunters, Occultists don't burn their enemies at the stake—Occultists put them to the sword, as that's what swords are for. Knowledge and magic give Occultists an edge over their mystical adversaries. Their spells are used to detect and defend against dangerous arcana, and, above all, magic is used to destroy monsters that can't be harmed by steel.",
+  "shortDescription": "Hunt Mages and Magical Adversaries",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Acolyte of the Occult",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You gain proficiency in the {@skill Arcana} skill."
+    },
+    {
+      "name": "Spellcasting",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your study of the occult gives you the ability to cast spells.",
+      "details": {
+        "cantrips": "You learn two cantrips of your choice from the {@filter Wizard spell list|spells|class=Wizard}. Whenever you gain a Monster Hunter level, you can replace one of these cantrips with another of your choice from the {@filter Wizard spell list|spells|class=Wizard}. When you reach Monster Hunter level 10, you learn another {@filter Wizard|spells|class=Wizard} cantrip of your choice.",
+        "spellSlots": "The Occultist Spellcasting table shows how many spell slots you have to cast your level 1+ spells. You regain all expended spell slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose three level 1 {@filter Wizard spells|spells|class=Wizard}. {@spell Burning Hands|XPHB}, {@spell Detect Magic|XPHB}, and {@spell Protection from Evil and Good|XPHB} are recommended. The number of spells on your list increases as you gain Monster Hunter levels, as shown in the Prepared Spells column of the Occultist Spellcasting table. Whenever that number increases, choose additional spells from the {@filter Wizard spell list|spells|class=Wizard} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots.",
+        "changingPreparedSpells": "Whenever you gain a Monster Hunter level, you can replace one spell on your list with another {@filter Wizard spell|spells|class=Wizard}.",
+        "spellcastingAbility": "Intelligence is your spellcasting ability for your {@filter Wizard|spells|class=Wizard} spells.",
+        "spellcastingFocus": "You can use an {@item Arcane Focus|XPHB} as a {@variantrule Spellcasting Focus|XPHB} for your {@filter Wizard|spells|class=Wizard} spells."
+      }
+    },
+    {
+      "name": "Arcane Interference",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You have {@status Advantage} on saving throws against spells cast by creature types in your Monster Grimoire. Additionally, when a creature you can see within 60 feet of you casts a spell or makes a spell attack, you can use Studied Response against that creature before the spell is cast."
+    },
+    {
+      "name": "Mage Hunter",
+      "level": 7,
+      "source": "GH:PG'24",
+      "description": "You consider Humanoids that can cast spells as being a creature type in your Monster Grimoire. Additionally, when you damage a creature type in your Monster Grimoire that is {@status Concentrating|XPHB}, it has {@status Disadvantage} on the saving throw it makes to maintain its {@status Concentration|XPHB}."
+    },
+    {
+      "name": "Occult Knowledge",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "Your knowledge of magic has increased so that you learn to cast Rituals. You can cast any spell as a Ritual if that spell has the Ritual tag and it's a spell you have prepared. In addition, you learn two spells of your choice. These spells can come from the {@filter Cleric|spells|class=Cleric}, {@filter Druid|spells|class=Druid}, or {@filter Wizard|spells|class=Wizard} spell list or any combination thereof. A spell you choose must have the Ritual tag. When you reach Monster Hunter level 14, you can replace one of the spells you know from this feature with another spell from any spell list. The new spell must have the Ritual tag."
+    },
+    {
+      "name": "Magical Aegis",
+      "level": 15,
+      "source": "GH:PG'24",
+      "description": "You gain the ability to extend a protective charm. You radiate an unsealable aura in a 20-foot {@variantrule Emanation|XPHB} that originates from you. The aura is inactive while you have the {@condition Incapacitated|XPHB} condition. You and allies in your aura have {@status Advantage} on saving throws against spells cast by creature types in your Monster Grimoire. Additionally, you always have the {@spell Counterspell|XPHB} spell prepared. You can cast {@spell Counterspell|XPHB} once without expending a spell slot. Once you cast the spell with this feature, you can't do so in this way again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Arcane Response",
+      "level": 18,
+      "source": "GH:PG'24",
+      "description": "You have learned to anticipate your enemies well enough to rapidly cast spells in response to their attacks. When you use Studied Response, you can cast a spell. The spell must have a casting time of an action and must target only that creature."
+    }
+  ]
+}

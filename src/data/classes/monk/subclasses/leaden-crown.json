@@ -1,0 +1,41 @@
+{
+  "id": "leaden-crown",
+  "name": "Воин Свинцовой Короны",
+  "classId": "monk",
+  "description": "In contrast to the esoteric ideals of other orders, Warriors of the Leaden Crown have practical aims: the self-governance of all people. These Monks see history as a series of clashes between groups of powerful beings where Humanoids are at best collateral damage and at worst disposable pawns. To break this cycle of dependence and destruction, Warriors of the Leaden Crown master mental abilities to fight against the otherworldly powers of the multiverse and protect Humanoid sovereignty. One component of this plan involves training to do battle with powerful planar foes. The other equally important component is ensuring that Humanoid societies are prepared to overthrow those already dominating them. To that end, these Monks seek political positions that place them in or near decision-making roles where they can influence others to fight back against Arch Seraphs, Arch Daemons, and Primordials.",
+  "shortDescription": "Harness the Will to Resist",
+  "source": "GHPG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Subtle Hand",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Your martial arts are enhanced by a capacity for telekinetic strikes. During your turn, your reach is 5 feet greater with {@variantrule Unarmed Strikes|XPHB}. In addition, when you hit a creature with an {@variantrule Unarmed Strike|XPHB} as part of the {@action Attack|XPHB} action on your turn, you can choose to have it deal your choice of Psychic damage or its normal damage type."
+    },
+    {
+      "name": "Psionic Prowess",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Your psychic powers have manifested in the ability to cast certain spells. You know the {@spell Mage Hand|XPHB} cantrip. You can cast it without Verbal or Somatic components, and you can make the spectral hand {@condition Invisible|XPHB}. In addition, you can cast certain spells by expending Focus Points. You can take a {@action Magic|XPHB} action and expend 1 Focus Point to cast {@spell Detect Evil and Good|XPHB} or {@spell Protection from Evil and Good|XPHB}. You can also take a {@action Magic|XPHB} action and expend 2 Focus Points to cast {@spell Hold Person|XPHB}, {@spell Levitate|XPHB}, or {@spell Shatter|XPHB}. Wisdom is your spellcasting ability for these spells, and you can cast them without Material components."
+    },
+    {
+      "name": "Unsubtle Strike",
+      "level": 6,
+      "source": "GHPG'24",
+      "description": "Once on each of your turns when you hit a creature with your {@variantrule Unarmed Strike|XPHB} or Monk weapon, you can force it to make a Strength saving throw against your Focus Point save DC. On a failed save, you can move the target up to 10 feet toward or away from you."
+    },
+    {
+      "name": "Psychic Crush",
+      "level": 11,
+      "source": "GHPG'24",
+      "description": "Each time you hit a creature with an {@variantrule Unarmed Strike|XPHB}, it gains a Pressure Point. A creature loses all Pressure Points if you cause a different creature to gain a Pressure Point or after 1 minute, whichever comes first. As a {@action Bonus Action|XPHB}, you can expend 1 Focus Point to telekinetically crush a creature with 1 or more of your Pressure Points. The creature loses all Pressure Points and must make a Strength saving throw against your Focus Point save DC. On a failed save, the creature takes {@damage 1d8} Force damage per Pressure Point, and it has the {@condition Restrained|XPHB} condition until the end of your next turn. On a successful save, the creature takes half as much damage only."
+    },
+    {
+      "name": "Psionic Mastery",
+      "level": 17,
+      "source": "GHPG'24",
+      "description": "After much training, you have mastered the psionic disciplines necessary to defend mortals from planar threats. As a {@action Magic|XPHB} action, you can spend 5 Focus Points to cast {@spell Dispel Evil and Good|XPHB}, {@spell Hold Monster|XPHB}, {@spell Telekinesis|XPHB}, or {@spell Wall of Force|XPHB}. Wisdom is your spellcasting ability for these spells, and you can cast them without Material components."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "noble-genie",
+  "name": "Клятва Благородных Джиннов",
+  "classId": "paladin",
+  "description": "Paladins sworn to the Oath of the Noble Genies revere the forces of the Elemental Planes. Through taking this oath, Paladins draw power from the four different types of genies—dao, masters of earth, djinn, masters of air, efreet, masters of fire, and marids, masters of water. In Faerûn, many Paladins who swear this oath hail from Calimshan, a land teeming with genies.",
+  "shortDescription": "Draw Power from Elemental Genies",
+  "source": "FRHoF",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of the Noble Genies Spells",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of the Noble Genies Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Chromatic Orb}", "{@spell Elementalism}", "{@spell Thunderous Smite}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Mirror Image}", "{@spell Phantasmal Force}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Fly}", "{@spell Gaseous Form}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Conjure Minor Elementals}", "{@spell Summon Elemental}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Banishing Smite}", "{@spell Contact Other Plane}"] }
+      ]
+    },
+    {
+      "name": "Elemental Smite",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "Immediately after you cast {@spell Divine Smite|XPHB}, you can expend one use of your Channel Divinity and invoke one of the following effects.",
+      "details": {
+        "daosCrush": "{@b Dao's Crush.} Earth rises up around the target of your {@spell Divine Smite|XPHB}. The target has the {@condition Grappled|XPHB} condition (escape DC equal to your spell save DC). While {@condition Grappled|XPHB}, the target has the {@condition Restrained|XPHB} condition.",
+        "djinnisEscape": "{@b Djinni's Escape.} You teleport to an unoccupied space you can see within 30 feet of yourself and take on a semi-incorporeal form, which lasts until the end of your next turn. While in this form, you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage, and you have Immunity to the {@condition Grappled|XPHB}, {@condition Prone|XPHB}, and {@condition Restrained|XPHB} conditions.",
+        "efreetisFury": "{@b Efreeti's Fury.} The target of your {@spell Divine Smite|XPHB} takes an extra {@damage 2d4} Fire damage, and fire jumps from the target to another creature you can see within 30 feet of yourself. The second creature also takes {@damage 2d4} Fire damage.",
+        "maridsSurge": "{@b Marid's Surge.} The target of your {@spell Divine Smite|XPHB} and each creature of your choice in a 10-foot {@variantrule Emanation|XPHB} originating from you make a Strength saving throw against your spell save DC. On a failed save, a creature is pushed 15 feet straight away from you and has the {@condition Prone|XPHB} condition."
+      }
+    },
+    {
+      "name": "Genie's Splendor",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "When you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Charisma modifiers. You can use a {@item Shield|XPHB} and still gain this benefit. You also gain proficiency in one of the following skills of your choice: {@skill Acrobatics}, {@skill Intimidation}, {@skill Performance}, or {@skill Persuasion}."
+    },
+    {
+      "name": "Aura of Elemental Shielding",
+      "level": 7,
+      "source": "FRHoF",
+      "description": "Choose one of the following damage types: Acid, Cold, Fire, Lightning, or Thunder. You and your allies have {@variantrule Resistance|XPHB} to that damage type while in your Aura of Protection. At the start of each of your turns, you can change the damage type affected by this feature to one of the other listed options (no action required)."
+    },
+    {
+      "name": "Elemental Rebuke",
+      "level": 15,
+      "source": "FRHoF",
+      "description": "When you are hit by an attack roll, you can take a {@variantrule Reaction|XPHB} to halve the attack's damage against yourself (round down) and force the attacker to make a Dexterity saving throw against your spell save DC. On a failed save, the attacker takes damage equal to {@damage 2d10} plus your Charisma modifier of one of the following types (your choice): Acid, Cold, Fire, Lightning, or Thunder. On a successful save, the attacker takes half as much damage. You can use this feature a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Noble Scion",
+      "level": 20,
+      "source": "FRHoF",
+      "description": "As a {@action Bonus Action|XPHB}, you gain the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5 spell slot (no action required). {@b Flight.} You have a {@variantrule Fly Speed|XPHB} of 60 feet and can hover. {@b Minor Wish.} When you or an ally in your Aura of Protection fails a {@variantrule D20 Test|XPHB}, you can take a {@variantrule Reaction|XPHB} to make the {@variantrule D20 Test|XPHB} succeed instead."
+    }
+  ]
+}

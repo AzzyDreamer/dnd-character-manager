@@ -1,0 +1,45 @@
+{
+  "id": "regret",
+  "name": "Воин Сожаления",
+  "classId": "monk",
+  "description": "No one is born intent on bringing evil into this world, yet many lives are transformed by the suffering inflicted upon them. Warriors of Regret are haunted by the shadows of evil deeds done. Through training and reflection, Warriors of Regret accept their past can't be erased. Instead, they focus on forging remorse and grief into a weapon against their foes. Though their misdeeds follow their every step, Warriors of Regret are not powerless to atone for them.",
+  "shortDescription": "Atone for Past Mistakes",
+  "source": "GHPG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Shade of Regret",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "Once per turn, on your turn, you can expend 1 Focus Point (no action required) to create a shade of yourself in an unoccupied space you can see within 10 feet of yourself. The shade is intangible and doesn't occupy its space. It lasts until the end of your next turn, but it ends early if you dismiss it (no action required) or have the {@condition Incapacitated|XPHB} condition. While it persists, you gain the following benefits.",
+      "details": {
+        "shadeStrike": "{@b Shade Strike.} When you use Flurry of Blows, you can have the attacks originate from the shade instead of from yourself. Attacks originating from the shade deal Necrotic or Force damage (your choice) rather than their normal damage type.",
+        "move": "{@b Move.} As a {@action Bonus Action|XPHB}, you can move the shade up to 60 feet to an unoccupied space you can see that is within 60 feet of yourself."
+      }
+    },
+    {
+      "name": "The Road Not Traveled",
+      "level": 3,
+      "source": "GHPG'24",
+      "description": "When you take the {@action Dash|XPHB} action, instead of moving, you can teleport yourself or an ally within 60 feet of you to the location of your shade."
+    },
+    {
+      "name": "Aid Not Given",
+      "level": 6,
+      "source": "GHPG'24",
+      "description": "You can take a {@action Bonus Action|XPHB} to take the Help action or touch a creature and restore a number of {@variantrule Hit Points|XPHB} equal to a roll of your Martial Arts die plus your Wisdom modifier. You can use this feature as though you were in the shade's space."
+    },
+    {
+      "name": "Crushing Guilt",
+      "level": 11,
+      "source": "GHPG'24",
+      "description": "You can expend 3 Focus Points to release your pent-up guilt in a crushing wave that drops your foes to their knees. Creatures of your choice in a 20-foot {@variantrule Emanation|XPHB} originating from you or your shade must make a Wisdom saving throw against your Focus Point save DC. On a failed save, a creature takes Psychic damage equal to three rolls of your Martial Arts die and has the {@condition Prone|XPHB} condition. On a successful save, a creature takes half as much damage only."
+    },
+    {
+      "name": "Relive the Past",
+      "level": 17,
+      "source": "GHPG'24",
+      "description": "Your Shade of Regret now lasts for 10 minutes. After using Flurry of Blows, your Shade can make one additional {@variantrule Unarmed Strike|XPHB} as per Shade Strike. You can also use the Stunning Strike feature through the Shade Strike."
+    }
+  ]
+}

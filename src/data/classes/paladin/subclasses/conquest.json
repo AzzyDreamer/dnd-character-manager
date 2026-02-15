@@ -1,0 +1,54 @@
+{
+  "id": "conquest",
+  "name": "Клятва Завоевания",
+  "classId": "paladin",
+  "description": "The Oath of Conquest calls to Paladins who seek glory in battle and the subjugation of their enemies. It isn't enough for these Paladins to establish order. They must crush the forces of chaos. These Paladins are often combatants in military orders, and their tenets emphasize discipline, courage, and ruthlessness.",
+  "shortDescription": "Crush Chaos through Domination",
+  "source": "XGE",
+  "level": 3,
+  "features": [
+    {
+      "name": "Oath of Conquest Spells",
+      "level": 3,
+      "source": "XGE",
+      "description": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Conquest Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "paladinLevel": 3, "spells": ["{@spell Armor of Agathys}", "{@spell Command}"] },
+        { "paladinLevel": 5, "spells": ["{@spell Hold Person}", "{@spell Spiritual Weapon}"] },
+        { "paladinLevel": 9, "spells": ["{@spell Bestow Curse}", "{@spell Fear}"] },
+        { "paladinLevel": 13, "spells": ["{@spell Dominate Beast}", "{@spell Stoneskin}"] },
+        { "paladinLevel": 17, "spells": ["{@spell Cloudkill}", "{@spell Dominate Person}"] }
+      ]
+    },
+    {
+      "name": "Conquering Presence",
+      "level": 3,
+      "source": "XGE",
+      "description": "You can use your Channel Divinity to exude a terrifying presence. As an action, you force each creature of your choice that you can see within 30 feet of you to make a Wisdom saving throw. On a failed save, a creature becomes {@condition Frightened|XPHB} of you for 1 minute. The {@condition Frightened|XPHB} creature can repeat this saving throw at the end of each of its turns, ending the effect on itself on a success."
+    },
+    {
+      "name": "Guided Strike",
+      "level": 3,
+      "source": "XGE",
+      "description": "You can use your Channel Divinity to strike with supernatural accuracy. When you make an attack roll, you can use your Channel Divinity to gain a +10 bonus to the roll. You make this choice after you see the roll, but before the DM says whether the attack hits or misses."
+    },
+    {
+      "name": "Aura of Conquest",
+      "level": 7,
+      "source": "XGE",
+      "description": "You emanate a menacing aura while you're not {@condition Incapacitated|XPHB}. The aura extends 10 feet from you in every direction but not through Total Cover. If a creature is {@condition Frightened|XPHB} of you, its {@variantrule Speed|XPHB} is reduced to 0 while in the aura, and that creature takes Psychic damage equal to half your Paladin level if it starts its turn there. At 18th level, the range of this aura increases to 30 feet."
+    },
+    {
+      "name": "Scornful Rebuke",
+      "level": 15,
+      "source": "XGE",
+      "description": "Those who dare to strike you are psychically punished for their audacity. Whenever a creature hits you with an attack, that creature takes Psychic damage equal to your Charisma modifier (minimum of 1) if you're not {@condition Incapacitated|XPHB}."
+    },
+    {
+      "name": "Invincible Conqueror",
+      "level": 20,
+      "source": "XGE",
+      "description": "You gain the ability to harness extraordinary martial prowess. As an action, you can magically become an avatar of conquest, gaining the benefits below for 1 minute. Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5 spell slot (no action required). {@b Resistance.} You have {@variantrule Resistance|XPHB} to all damage. {@b Additional Attack.} When you take the {@action Attack|XPHB} action on your turn, you can make one additional attack as part of that action. {@b Critical Strike.} Your melee weapon attacks score a {@variantrule Critical Hit|XPHB} on a roll of 19 or 20 on the {@dice d20}."
+    }
+  ]
+}

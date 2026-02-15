@@ -1,0 +1,40 @@
+{
+  "id": "open-hand",
+  "name": "Воин Открытой Ладони",
+  "classId": "monk",
+  "description": "Warriors of the Open Hand are masters of unarmed combat. They learn techniques to push and trip their opponents and channel their own energy to protect themselves from harm.",
+  "shortDescription": "Master Unarmed Combat Techniques",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Open Hand Technique",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Whenever you hit a creature with an attack granted by your Flurry of Blows, you can impose one of the following effects on that target.",
+      "details": {
+        "addle": "{@b Addle.} The target can't make {@variantrule Opportunity Attacks|XPHB} until the start of its next turn.",
+        "push": "{@b Push.} The target must succeed on a Strength saving throw or be pushed up to 15 feet away from you.",
+        "topple": "{@b Topple.} The target must succeed on a Dexterity saving throw or have the {@condition Prone|XPHB} condition."
+      }
+    },
+    {
+      "name": "Wholeness of Body",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain the ability to heal yourself. As a {@action Bonus Action|XPHB}, you can roll your Martial Arts die. You regain a number of {@variantrule Hit Points|XPHB} equal to the number rolled plus your Wisdom modifier (minimum of 1 {@variantrule Hit Point|XPHB}). You can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Fleet Step",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "When you take a {@action Bonus Action|XPHB} other than Step of the Wind, you can also use Step of the Wind immediately after that {@action Bonus Action|XPHB}."
+    },
+    {
+      "name": "Quivering Palm",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You gain the ability to set up lethal vibrations in someone's body. When you hit a creature with an {@variantrule Unarmed Strike|XPHB}, you can expend 4 Focus Points to start these imperceptible vibrations, which last for a number of days equal to your Monk level. The vibrations are harmless unless you take an action to end them. Alternatively, when you take the {@action Attack|XPHB} action on your turn, you can replace one of the attacks with this action. To use this action, you and the target must be on the same plane of existence. When you use this action, the target must make a Constitution saving throw, taking {@damage 10d12} Force damage on a failed save or half as much damage on a successful one. You can have only one creature under the effect of this feature at a time. You can end the vibrations harmlessly (no action required)."
+    }
+  ]
+}
