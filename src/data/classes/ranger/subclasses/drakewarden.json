@@ -1,0 +1,40 @@
+{
+  "id": "drakewarden",
+  "name": "Хранитель Дрейков",
+  "classId": "ranger",
+  "description": "Your connection to the natural world takes the form of a draconic spirit, which can manifest as a drake companion. As your powers grow, your drake companion grows as well, blossoming from a small creature into a majestic winged drake large enough to ride.",
+  "shortDescription": "Channel the Power of Dragons",
+  "source": "FToD",
+  "level": 3,
+  "drakewardenOrigin": [
+    { "d6": 1, "origin": "You studied a dragon's scale or claw, or a trinket from a dragon's hoard, creating your bond through that token's lingering draconic magic." },
+    { "d6": 2, "origin": "A secret order of rangers who collect and protect dragon eggs recruited you, and your drake hatched from an egg in your care." },
+    { "d6": 3, "origin": "A dragon gave you a gift of power in thanks for a service you provided." },
+    { "d6": 4, "origin": "You drank a few drops of dragon blood, forever linking yourself to a dragon's power." },
+    { "d6": 5, "origin": "An ancient Draconic ritual was performed on you, binding dragon magic to your soul." },
+    { "d6": 6, "origin": "You have a latent draconic heritage that manifested as your drake companion." }
+  ],
+  "features": [
+    {
+      "name": "Draconic Gift",
+      "level": 3,
+      "source": "FToD",
+      "description": "The bond you share with your drake creates a connection to dragonkind, granting you understanding and empowering your presence. You gain the following benefits.",
+      "details": {
+        "thaumaturgy": "{@b Thaumaturgy.} You learn the {@spell Thaumaturgy|XPHB} cantrip. Wisdom is your spellcasting ability for it.",
+        "tongueOfDragons": "{@b Tongue of Dragons.} You learn to speak, read, and write {@language Draconic|XPHB} or one other language of your choice."
+      }
+    },
+    {
+      "name": "Drake Companion",
+      "level": 3,
+      "source": "FToD",
+      "description": "As a {@action Bonus Action|XPHB}, you can magically summon the drake that is bound to you. It appears in an unoccupied space of your choice within 30 feet of you. The drake is friendly to you and your companions and obeys your commands. See its game statistics in the {@creature Drake Companion} stat block, which uses your {@variantrule Proficiency Bonus|XPHB} (PB) in several places. When you summon the drake, choose a damage type: Acid, Cold, Fire, Lightning, or Poison. The chosen type determines the drake's Damage Immunity and the damage of its Infused Strikes trait.",
+      "details": {
+        "combat": "In combat, the drake shares your {@variantrule Initiative|XPHB} count, but it takes its turn immediately after yours. It can move and use its {@action Reaction|XPHB} on its own, but the only action it takes on its turn is the {@action Dodge|XPHB} action, unless you take a {@action Bonus Action|XPHB} on your turn to command it to take another action. That action can be one in its stat block or some other action. If you have the {@condition Incapacitated|XPHB} condition, the drake can take any action of its choice, not just {@action Dodge|XPHB}.",
+        "duration": "The drake remains until it is reduced to 0 {@variantrule Hit Points|XPHB}, until you use this feature to summon the drake again, or until you die. Anything the drake was wearing or carrying is left behind when the drake vanishes.",
+        "resummon": "Once you summon the drake, you can't do so again until you finish a {@variantrule Long Rest|XPHB}, unless you expend a spell slot of any level to summon it again."
+      }
+    }
+  ]
+}

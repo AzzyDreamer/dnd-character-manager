@@ -1,0 +1,44 @@
+{
+  "id": "fey-wanderer",
+  "name": "Странник Фей",
+  "classId": "ranger",
+  "description": "A Fey Wanderer Ranger's mystical wanderings in the Feywild have transformed them, granting the beguiling charm and dreadful power of that enchanted plane. Your weapons and magic carry the power of the Feywild, allowing you to guard the mortal realm against threats from beyond the veil.",
+  "shortDescription": "Wield Fey Mirth and Fury",
+  "source": "PHB'24",
+  "level": 3,
+  "feywildGifts": [
+    { "d6": 1, "gift": "Illusory butterflies flutter around you." },
+    { "d6": 2, "gift": "Fresh flowers sprout from your hair each dawn." },
+    { "d6": 3, "gift": "You faintly smell of cinnamon, lavender, nutmeg, or another comforting herb or spice." },
+    { "d6": 4, "gift": "Your shadow dances while no one is looking directly at it." },
+    { "d6": 5, "gift": "Horns or antlers sprout from your head." },
+    { "d6": 6, "gift": "Your skin and hair change color to match the season at each dawn." }
+  ],
+  "features": [
+    {
+      "name": "Dreadful Strikes",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can augment your weapon strikes with mind-scarring magic drawn from the gloomy hollows of the Feywild. When you hit a creature with a weapon, you can deal an extra {@damage 1d4} Psychic damage to the target, which can take this extra damage only once per turn. The extra damage increases to {@damage 1d6} when you reach Ranger level 11."
+    },
+    {
+      "name": "Fey Wanderer Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Ranger level specified in the Fey Wanderer Spells table, you thereafter always have the listed spells prepared.",
+      "spellList": [
+        { "rangerLevel": 3, "spells": ["{@spell Charm Person|XPHB}"] },
+        { "rangerLevel": 5, "spells": ["{@spell Misty Step|XPHB}"] },
+        { "rangerLevel": 9, "spells": ["{@spell Summon Fey|XPHB}"] },
+        { "rangerLevel": 13, "spells": ["{@spell Dimension Door|XPHB}"] },
+        { "rangerLevel": 17, "spells": ["{@spell Mislead|XPHB}"] }
+      ]
+    },
+    {
+      "name": "Otherworldly Glamour",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Whenever you make a Charisma check, you gain a bonus to the check equal to your Wisdom modifier (minimum bonus of +1). You also gain proficiency in one of these skills of your choice: {@skill Deception}, {@skill Performance}, or {@skill Persuasion}."
+    }
+  ]
+}

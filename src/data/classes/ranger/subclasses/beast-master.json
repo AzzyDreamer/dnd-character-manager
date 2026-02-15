@@ -1,0 +1,22 @@
+{
+  "id": "beast-master",
+  "name": "Повелитель Зверей",
+  "classId": "ranger",
+  "description": "A Beast Master forms a mystical bond with a special animal, drawing on primal magic to strengthen both warrior and beast alike. These Rangers are adept at fighting alongside their bonded companion, and the primal beast grows in power alongside the Ranger.",
+  "shortDescription": "Bond with a Primal Beast",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Primal Companion",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You magically summon a primal beast, which draws strength from your bond with nature. The beast is friendly to you and your companions and obeys your commands. Choose its stat block—{@creature Beast of the Land|XPHB}, {@creature Beast of the Sea|XPHB}, or {@creature Beast of the Sky|XPHB}—which uses your {@variantrule Proficiency Bonus|XPHB} (PB) in several places. You also determine the kind of animal the beast is, choosing a kind appropriate for the stat block. Whatever kind you choose, the beast bears primal markings indicating its supernatural origin.",
+      "details": {
+        "combat": "In combat, the beast acts during your turn. It can move and use its {@action Reaction|XPHB} on its own, but the only action it takes is the {@action Dodge|XPHB} action unless you take a {@action Bonus Action|XPHB} to command it to take a different action. That action can be one in its stat block or some other action. You can also sacrifice one of your attacks when you take the {@action Attack|XPHB} action to command the beast to take the {@action Attack|XPHB} action. If you have the {@condition Incapacitated|XPHB} condition, the beast acts on its own.",
+        "restoring": "If the beast has died within the last hour, you can take a {@action Magic|XPHB} action to touch it and expend a spell slot. The beast returns to life after 1 minute with all its {@variantrule Hit Points|XPHB} restored.",
+        "replacing": "When you finish a {@variantrule Long Rest|XPHB}, you can summon a different primal beast, which appears in an unoccupied space within 5 feet of you. You choose its stat block and appearance. If you already have a beast from this feature, the old one vanishes when the new one appears."
+      }
+    }
+  ]
+}
