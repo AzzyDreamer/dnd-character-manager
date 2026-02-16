@@ -1,0 +1,30 @@
+{
+  "id": "highway-rider",
+  "name": "Дорожный Всадник",
+  "classId": "rogue",
+  "description": "A Highway Rider is a Rogue who has learned that a steed makes the best partner in crime. Whether raiding caravans on the open road or making daring getaways through crowded streets, these rogues combine mounted prowess with cunning strikes.",
+  "shortDescription": "A Steed Makes the Best Partner in Crime",
+  "source": "GH:PG'24",
+  "page": 8,
+  "level": 3,
+  "features": [
+    {
+      "name": "Hair Trigger",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    },
+    {
+      "name": "Trusty Mount",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    },
+    {
+      "name": "Ride Them Down",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    }
+  ]
+}

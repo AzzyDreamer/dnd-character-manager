@@ -1,0 +1,24 @@
+{
+  "id": "phantom",
+  "name": "Фантом",
+  "classId": "rogue",
+  "description": "Many Rogues walk a fine line between life and death, risking their own lives and taking the lives of others. While adventuring on that line, some Rogues discover a mystical connection to death itself. These Rogues take knowledge from the dead and become combatants imbued with the power of death.",
+  "shortDescription": "Channel the Power of Death",
+  "source": "TCE",
+  "page": 62,
+  "level": 3,
+  "features": [
+    {
+      "name": "Whispers of the Dead",
+      "level": 3,
+      "source": "TCE",
+      "description": "Echoes of those who have died cling to you. Whenever you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}, you can choose one skill or tool proficiency that you lack and gain it, as a ghostly presence shares its knowledge with you. You lose this proficiency when you use this feature to choose a different proficiency that you lack."
+    },
+    {
+      "name": "Wails from the Grave",
+      "level": 3,
+      "source": "TCE",
+      "description": "As you nudge someone closer to the grave, you can channel the power of death to harm someone else as well. Immediately after you deal your Sneak Attack damage to a creature on your turn, you can target a second creature that you can see within 30 feet of the first creature. Roll half the number of Sneak Attack dice for your level (round up), and the second creature takes necrotic damage equal to the roll's total, as wails of the dead sound for a moment. You can use this feature a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

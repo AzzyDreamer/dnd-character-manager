@@ -1,0 +1,30 @@
+{
+  "id": "inquisitive",
+  "name": "Сыщик",
+  "classId": "rogue",
+  "description": "As an Inquisitive, you excel at rooting out secrets and unraveling mysteries. You rely on your sharp eye for detail and your finely honed ability to read the words and deeds of other creatures to determine their true intent. You excel at defeating creatures that hide among and prey upon ordinary folk, and your mastery of lore and your keen deductions make you well equipped to expose and end hidden evils.",
+  "shortDescription": "Root Out Secrets and Unravel Mysteries",
+  "source": "XGE",
+  "page": 41,
+  "level": 3,
+  "features": [
+    {
+      "name": "Ear for Deceit",
+      "level": 3,
+      "source": "XGE",
+      "description": "Whenever you make a Wisdom ({@skill Insight}) check to determine whether a creature is lying to you, treat a roll of 7 or lower on the {@dice d20} as an 8."
+    },
+    {
+      "name": "Eye for Detail",
+      "level": 3,
+      "source": "XGE",
+      "description": "You can use a {@action Bonus Action|XPHB} to make a Wisdom ({@skill Perception}) check to spot a hidden creature or object or to make an Intelligence ({@skill Investigation}) check to uncover or decipher clues."
+    },
+    {
+      "name": "Insightful Fighting",
+      "level": 3,
+      "source": "XGE",
+      "description": "As a {@action Bonus Action|XPHB}, you can make a Wisdom ({@skill Insight}) check against a creature you can see that isn't {@condition Incapacitated}, contested by the target's Charisma ({@skill Deception}) check. If you succeed, you can use your Sneak Attack against that target even if you don't have {@variantrule Advantage|XPHB} on the attack roll, but not if you have {@variantrule Disadvantage|XPHB} on it. This benefit lasts for 1 minute or until you successfully use this feature against a different target."
+    }
+  ]
+}

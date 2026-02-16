@@ -1,0 +1,24 @@
+{
+  "id": "mastermind",
+  "name": "Интриган",
+  "classId": "rogue",
+  "description": "Your focus is on people and on the influence and secrets they have. Many spies, courtiers, and schemers follow this archetype, leading lives of intrigue. Words are your weapons as often as knives or poison, and secrets and favors are some of your favorite treasures.",
+  "shortDescription": "Master of Intrigue and Manipulation",
+  "source": "XGE",
+  "page": 46,
+  "level": 3,
+  "features": [
+    {
+      "name": "Master of Intrigue",
+      "level": 3,
+      "source": "XGE",
+      "description": "You gain proficiency with the {@item Disguise Kit|XPHB}, the {@item Forgery Kit|XPHB}, and one {@filter Gaming Set|items|type=gaming set} of your choice. You also learn two languages of your choice. Additionally, you can unerringly mimic the speech patterns and accent of a creature that you hear speak for at least 1 minute, enabling you to pass yourself off as a native speaker of a particular land, provided that you know the language."
+    },
+    {
+      "name": "Master of Tactics",
+      "level": 3,
+      "source": "XGE",
+      "description": "You can use the {@action Help|XPHB} action as a {@action Bonus Action|XPHB}. Additionally, when you use the Help action to aid an ally in attacking a creature, the target of that attack can be within 30 feet of you, rather than within 5 feet of you, if the target can see or hear you."
+    }
+  ]
+}

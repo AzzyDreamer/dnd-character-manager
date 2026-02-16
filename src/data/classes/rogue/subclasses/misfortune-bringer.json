@@ -1,0 +1,24 @@
+{
+  "id": "misfortune-bringer",
+  "name": "Вестник Несчастья",
+  "classId": "rogue",
+  "description": "A Misfortune Bringer is a Rogue who has learned to curse those they are about to strike, weaving ill luck into their attacks and exploiting the misery of their foes.",
+  "shortDescription": "Curse Those You're About to Strike",
+  "source": "GH:PG'24",
+  "page": 6,
+  "level": 3,
+  "features": [
+    {
+      "name": "Evil Eye",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    },
+    {
+      "name": "Misfortunist",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    }
+  ]
+}

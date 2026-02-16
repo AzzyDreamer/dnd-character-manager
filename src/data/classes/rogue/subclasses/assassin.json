@@ -1,0 +1,28 @@
+{
+  "id": "assassin",
+  "name": "Убийца",
+  "classId": "rogue",
+  "description": "An Assassin's training focuses on the grim art of death, using stealth, poison, and disguise to eliminate foes with deadly efficiency. While some Assassins are hired killers, espionage agents, or bounty hunters, many serve as the hidden blade of a righteous cause.",
+  "shortDescription": "Practice the Grim Art of Death",
+  "source": "PHB'24",
+  "page": 134,
+  "level": 3,
+  "features": [
+    {
+      "name": "Assassinate",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You are at your deadliest when you get the drop on your enemies. You have the following benefits.",
+      "details": {
+        "initiativeAdvantage": "{@b Initiative.} You have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls.",
+        "surprisingStrikes": "{@b Surprising Strikes.} During the first turn of each combat, you deal extra damage to any creature you hit with an attack roll against a creature that hasn't taken a turn yet. The extra damage equals your Sneak Attack damage."
+      }
+    },
+    {
+      "name": "Assassin's Tools",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain a proficiency you don't already have with the {@item Disguise Kit|XPHB} and the {@item Poisoner's Kit|XPHB}."
+    }
+  ]
+}

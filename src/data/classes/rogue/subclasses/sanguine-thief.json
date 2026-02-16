@@ -1,0 +1,29 @@
+{
+  "id": "sanguine-thief",
+  "name": "Кровавый Вор",
+  "classId": "rogue",
+  "description": "A Sanguine Thief is a Rogue who has learned to eliminate prey using blood magic, stealing the life force of their victims to fuel dark powers.",
+  "shortDescription": "Eliminate Your Prey with Blood Magic",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Spellcasting",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    },
+    {
+      "name": "Stolen Power",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    },
+    {
+      "name": "Steal Blood",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "..."
+    }
+  ]
+}
