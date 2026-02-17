@@ -1,0 +1,19 @@
+{
+	"name": "Born Healer",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"When others suffer, you are there to help. You have proficiency in the {@skill Medicine|XPHB} skill.",
+		{
+			"type": "entries",
+			"name": "Combat Doctor",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Medicine|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

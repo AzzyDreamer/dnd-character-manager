@@ -1,0 +1,14 @@
+{
+    "name": "Weretrap",
+    "source": "GrimHollowPG24",
+    "page": 59,
+    "featureType": [
+        "TG:TG"
+    ],
+    "entries": [
+        "A Weretrap detonates when its fragile exterior is broken. You can take a {@action Utilize|XPHB} action to set the Weretrap in an unoccupied space within 5 feet of you. A creature within 30 feet must succeed on a Wisdom ({@skill Perception|XPHB}) check against your Trapper Gadget DC to spot the trap. Creatures have {@variantrule Disadvantage|XPHB} on this check.",
+        "A creature that steps into a space containing a Weretrap triggers the trap and makes a Dexterity saving throw. On a failed save, the creature takes {@damage 3d10} Bludgeoning damage and has the {@condition Prone|XPHB} condition. On a successful save, the creature takes half as much damage only.",
+        "The Weretrap can also be used as a Light Ranged weapon with the Finesse and Thrown property. It has a normal range of 20 feet and a long range of 60 feet. On a hit, the Weretrap deals {@damage 3d10} Bludgeoning damage and the target has the {@condition Prone|XPHB} condition.",
+        "The Weretrap is destroyed after it is triggered or thrown, regardless of whether it hits or misses."
+    ]
+}

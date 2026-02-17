@@ -1,0 +1,23 @@
+{
+	"name": "Elemental Imbalance",
+	"source": "GrimHollowPG24",
+	"page": 162,
+	"featureType": [
+		"P:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"entries": [
+		"Your body reacts in strange ways to the application of severe elemental damage. When you take Acid, Cold, Fire, Lightning, or Thunder damage, roll {@dice 1d6}. On a 1, your Primordial form reacts in a volatile manner, and the following effects occur:",
+		{
+			"type": "list",
+			"items": [
+				"You gain {@variantrule Vulnerability|XPHB} to the instance of damage you just took, even if you had {@variantrule Resistance|XPHB} or {@variantrule Immunity|XPHB} to that damage.",
+				"Creatures within 5 feet of you take the original amount of damage that you took. A DC 15 Constitution saving throw halves this damage."
+			]
+		}
+	]
+}

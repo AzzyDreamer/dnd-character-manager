@@ -1,0 +1,16 @@
+{
+    "name": "Untethered from Life",
+    "source": "GrimHollowPG24",
+    "page": 175,
+    "featureType": [
+        "Spec:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+        }
+    ],
+    "entries": [
+        "Your life force is weaker than other creatures. When you would regain {@variantrule Hit Points|XPHB}, you regain half as many {@variantrule Hit Points|XPHB} as normal (rounded down)."
+    ]
+}

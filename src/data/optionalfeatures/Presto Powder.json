@@ -1,0 +1,11 @@
+{
+    "name": "Presto Powder",
+    "source": "GrimHollowPG24",
+    "page": 76,
+    "featureType": [
+        "LC:CO"
+    ],
+    "entries": [
+        "For 10 minutes, you have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls and you can take the {@action Dash|XPHB} or {@action Disengage|XPHB} action as a {@variantrule Bonus Action|XPHB}."
+    ]
+}

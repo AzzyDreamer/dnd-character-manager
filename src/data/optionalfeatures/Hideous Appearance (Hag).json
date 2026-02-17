@@ -1,0 +1,39 @@
+{
+	"name": "Hideous Appearance (Hag)",
+	"source": "GrimHollowPG24",
+	"page": 147,
+	"featureType": [
+		"H:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+		}
+	],
+	"entries": [
+		"Your appearance is grotesquely transformed. Your body, hair, and eyes change in ways mortals find abhorrent. Most creatures witnessing your true form become {@variantrule Hostile [Attitude]|XPHB|Hostile} and no one is likely to trust you, unless the GM decides otherwise. You have {@variantrule Disadvantage|XPHB} on Charisma ({@skill Persuasion|XPHB}) checks.",
+		"You cannot stand to look upon your own reflection. The first time you see your reflection after a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you must succeed on a DC 18 Wisdom saving throw or gain 1 {@condition Exhaustion|XPHB} level.",
+		"Your appearance changes based on your Stage 1 Sisterhood Boon:",
+		{
+			"type": "entries",
+			"name": "Green Sisterhood",
+			"entries": [
+				"You wither or bloat as your body struggles to deal with the ravages of age. Your hair becomes white and several feet in length. Your skin becomes green and covered in warts and boils."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Red Sisterhood",
+			"entries": [
+				"Your eyes have turned entirely red, and your pupils are narrow like a cat's. Your skin becomes blood red."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Sea Sisterhood",
+			"entries": [
+				"You have slimy scales and the pallid skin of a dead fish that sags from your emaciated body. Your hair resembles seaweed, and your eyes are glassy."
+			]
+		}
+	]
+}

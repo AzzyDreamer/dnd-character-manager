@@ -1,0 +1,17 @@
+{
+	"name": "Fiendish Soul",
+	"source": "GrimHollowPG24",
+	"page": 143,
+	"featureType": [
+		"Fi:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"entries": [
+		"You become a Fiend in addition to any other creature type(s) you have. You have {@variantrule Advantage|XPHB} on Charisma ({@skill Deception|XPHB}) checks.",
+		"Additionally, choose one of the following damage types and gain {@variantrule Resistance|XPHB} to it: Acid, Cold, or Fire."
+	]
+}

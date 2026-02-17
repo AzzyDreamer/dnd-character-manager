@@ -1,0 +1,20 @@
+{
+	"name": "Artificial Form",
+	"source": "GrimHollowPG24",
+	"page": 32,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"You were made, not born, and your unnatural origin forever marks you as different. You are a Construct, but your enchanted form still benefits from healing spells. You can also heal yourself by spending {@variantrule Hit Point Dice|XPHB|Hit Dice} during {@variantrule Short Rest|XPHB|Short Rests} and {@variantrule Long Rest|XPHB|Long Rests}, as normal.",
+		"You don't need to eat, drink, sleep, or breathe. You must still be inactive for 8 hours during a {@variantrule Long Rest|XPHB} to gain its benefits.",
+		{
+			"type": "entries",
+			"name": "Self-Repair",
+			"entries": [
+				"If you take this trait twice, when the {@spell Mending|XPHB} cantrip is cast on you, you can spend a {@variantrule Hit Point Dice|XPHB|Hit Die} to regain a number of {@variantrule Hit Points|XPHB} equal to the roll of the die plus your Constitution modifier (minimum 1 {@variantrule Hit Points|XPHB|Hit Point}). You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

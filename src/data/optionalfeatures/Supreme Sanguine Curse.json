@@ -1,0 +1,61 @@
+{
+    "name": "Supreme Sanguine Curse",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "Your curse continues to transform you, bringing about further debilitations. You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "If you start your turn in sunlight, you take {@damage 1d10} Radiant damage. You cannot have {@variantrule Immunity|XPHB} or {@variantrule Resistance|XPHB} to this Radiant Damage.",
+                "Your appearance begins to resemble that of a true vampire. In stressful conditions, as determined by you or the GM, your appearance changes outside of your control. When you do, anyone observing you knows your true nature.",
+                "You must feed every 2 days."
+            ]
+        },
+        "You can hide your true appearance and disguise yourself as the humanoid you once were by {@status Concentration|XPHB|Concentrating} on your composure. However, moments of bloodlust or stress are likely to reveal your true nature, including the following situations:",
+        {
+            "type": "list",
+            "items": [
+                "Becoming {@condition Bloodied|XPHB}",
+                "{@status Concentration|XPHB|Concentrating} on a spell",
+                "Taking Radiant damage from sunlight",
+                "Entering a feeding frenzy",
+                "Having the {@condition Unconscious|XPHB} condition",
+                "Entering hallowed ground",
+                "Choosing to reveal yourself"
+            ]
+        },
+        "In these events, or times of other extreme emotional or physical stress, a GM can call or a Constitution saving throw with a DC based on your current Transformation Stage.  If you fail this save, your Sanguine Curse is revealed.",
+        {
+            "type": "table",
+            "caption": "Supreme Sanguine Curse Save DC",
+            "colLabels": [
+                "Stage",
+                "Constitution Save DC"
+            ],
+            "colStyles": [
+                "col-6 text-center",
+                "col-6 text-center"
+            ],
+            "rows": [
+                [
+                    "3",
+                    "16"
+                ],
+                [
+                    "4",
+                    "20"
+                ]
+            ]
+        },
+        "Non-evil creatures that witness your true form become instantly {@variantrule Hostile [Attitude]|XPHB|Hostile} to you, unless the GM decides otherwise."
+    ]
+}

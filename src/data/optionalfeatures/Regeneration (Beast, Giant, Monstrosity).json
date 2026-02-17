@@ -1,0 +1,11 @@
+{
+    "name": "Regeneration (Beast, Giant, Monstrosity)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "You regain {@variantrule Hit Points|XPHB} equal to {@dice 2d8} plus your Monster Hunter level."
+    ]
+}

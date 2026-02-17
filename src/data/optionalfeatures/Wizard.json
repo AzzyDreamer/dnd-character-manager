@@ -1,0 +1,12 @@
+{
+    "name": "Wizard",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "You prepare any two spells from the {@filter Wizard spell list|spells|class=Wizard} that are of a level you can cast. These count as Bard spells for you but do not count against your number of Prepared Spells.",
+        "When you gain a level in this class, you can choose one of the Wizard spells you have prepared and replace it with another spell from the Wizard spell list of a level you can cast."
+    ]
+}

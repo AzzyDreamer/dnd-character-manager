@@ -1,0 +1,19 @@
+{
+	"name": "Commanding Insight",
+	"source": "GrimHollowPG24",
+	"page": 35,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"Those who attempt to deceive you do so in vain. You have proficiency in the {@skill Insight|XPHB} skill.",
+		{
+			"type": "entries",
+			"name": "Exceptional Insight",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on Insight checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

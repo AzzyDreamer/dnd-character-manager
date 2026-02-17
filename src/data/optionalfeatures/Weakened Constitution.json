@@ -1,0 +1,17 @@
+{
+    "name": "Weakened Constitution",
+    "source": "GrimHollowPG24",
+    "page": 141,
+    "featureType": [
+        "F:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "Your connection to the Fey Courts has granted you tremendous power but also an inherent fragility. When you become {@condition Bloodied|XPHB} for the first time after you roll {@variantrule Initiative|XPHB}, you must succeed on a DC 20 Constitution saving throw. On a failed save, you gain a level of {@condition Exhaustion|XPHB}.",
+        "As a {@action Magic|XPHB} action, you can expend a number of {@variantrule Hit Point Dice|XPHB} equal to your Transformation Stage to remove one level of {@condition Exhaustion|XPHB} gained in this manner. You gain no other benefit from those expended {@variantrule Hit Point Dice|XPHB}."
+    ]
+}

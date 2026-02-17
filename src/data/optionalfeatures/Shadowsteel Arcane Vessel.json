@@ -1,0 +1,20 @@
+{
+    "name": "Shadowsteel Arcane Vessel",
+    "source": "GrimHollowPG24",
+    "page": 172,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}",
+            "optionalfeature": [
+                "shadowsteel caster|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "When you cast a spell using a spell slot, the power of your Shadowsteel infection emanates from you. One creature targeted by the spell within 60 feet of you has {@variantrule Disadvantage|XPHB} on the saving throw to resist the spell, or you have {@variantrule Advantage|XPHB} on the spell attack roll.",
+        "You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses after you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

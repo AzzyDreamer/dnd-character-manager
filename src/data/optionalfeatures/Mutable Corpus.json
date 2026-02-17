@@ -1,0 +1,24 @@
+{
+    "name": "Mutable Corpus",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "You have abundant control over your Ooze Form. Each time you manifest your Ooze Form, choose one of the following augmentations:",
+        {
+            "type": "list",
+            "items": [
+                "{@i Breathless}. You do not need to breathe.",
+                "{@i Disguise}. You remold your features to look different. You can change your apparent species, seem 1 foot shorter or taller, and appear heavier or lighter (you must keep the same basic arrangement of limbs). To discern the disguise, a creature must take the {@action Study|XPHB} action and succeed on an Intelligence ({@skill Investigation|XPHB}) check against DC 10 + your Constitution modifier + your Transformation Stage.",
+                "{@i Transparent}. Your body becomes transparent. You have {@variantrule Advantage|XPHB} on Dexterity ({@skill Stealth|XPHB}) checks."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Draught of Owl's Wisdom",
+	"source": "GrimHollowPG24",
+	"page": 76,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 10 minutes, you have {@variantrule Advantage|XPHB} on Wisdom checks and Wisdom saving throws."
+	]
+}

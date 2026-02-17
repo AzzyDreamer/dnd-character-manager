@@ -1,0 +1,11 @@
+{
+    "name": "Telepathy (Aberration, Fiend, Plant)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "For 1 hour, you can speak telepathically to any creature you can see within 60 feet of yourself. Your telepathic utterances are in a language you know, and the creature understands you only if it knows that language. Additionally, you have {@variantrule Resistance|XPHB} to Psychic damage."
+    ]
+}

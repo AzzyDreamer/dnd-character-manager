@@ -1,0 +1,16 @@
+{
+	"name": "Frayed Thoughts",
+	"source": "GrimHollowPG24",
+	"page": 157,
+	"featureType": [
+		"Ly:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"entries": [
+		"You suffer the effects of sharing a mind with two personalities. Memories of less practical significance are lost to new ones of midnight hunts. You have {@variantrule Disadvantage|XPHB} on Intelligence ability checks and saving throws."
+	]
+}

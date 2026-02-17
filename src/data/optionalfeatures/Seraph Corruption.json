@@ -1,0 +1,26 @@
+{
+    "name": "Seraph Corruption",
+    "source": "GrimHollowPG24",
+    "page": 168,
+    "featureType": [
+        "Ser:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+        }
+    ],
+    "entries": [
+        "The weight of evil in the world encumbers you more and more heavily as the days pass. Sometimes it becomes too much, and your celestial form is wracked with pain and doubt.",
+        "Whenever you roll a natural 1 on a saving throw, you suffer the following effects for 1 minute:",
+        {
+            "type": "list",
+            "items": [
+                "At the start of each of your turns, you take {@damage 1d10} Psychic damage. This damage cannot be reduced in any way.",
+                "You cannot regain {@variantrule Hit Points|XPHB} or have {@variantrule Temporary Hit Points|XPHB}.",
+                "You have {@variantrule Disadvantage|XPHB} on the first attack you make every round.",
+                "Once per round, the first creature you force to make a saving throw against your spell has {@variantrule Advantage|XPHB} on the saving throw."
+            ]
+        }
+    ]
+}

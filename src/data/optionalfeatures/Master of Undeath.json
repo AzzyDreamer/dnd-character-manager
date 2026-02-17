@@ -1,0 +1,20 @@
+{
+    "name": "Master of Undeath",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}",
+            "optionalfeature": [
+                "acolyte of undeath|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "Undead creatures under your control from a Lich Transformation Boon have {@variantrule Advantage|XPHB} on attack rolls when they are within 5 feet of you.",
+        "Additionally, whenever an Undead creature you control due to a Lich Transformation Boon is reduced to 0 {@variantrule Hit Points|XPHB}, you can spend the charge of your soul vessel as a {@variantrule Reaction|XPHB}. If you do, that Undead creature is at 1 hit point instead and may immediately move up to its full speed and make an {@action Attack|XPHB} action with {@variantrule Advantage|XPHB}. This feature has no effect if the creature has been reduced to 0 {@variantrule Hit Points|XPHB} by Radiant damage."
+    ]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Gift of Unbridled Power",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"Upon finishing a {@variantrule Short Rest|XPHB}, you can spend 2 {@variantrule Hit Point Dice|XPHB} and regain a number of spell slot levels equal to the highest number rolled. However, you take Psychic damage equal to twice the total that you rolled. You regain the reuse of this gift when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

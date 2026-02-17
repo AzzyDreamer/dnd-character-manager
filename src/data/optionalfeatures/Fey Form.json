@@ -1,0 +1,17 @@
+{
+	"name": "Fey Form",
+	"source": "GrimHollowPG24",
+	"page": 139,
+	"featureType": [
+		"F:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+		}
+	],
+	"entries": [
+		"Your creature type becomes Fey in addition to any other creature type(s) you have.",
+		"Also, after you finish a {@variantrule Long Rest|XPHB}, pick a damage type from the following list: Acid, Cold, Fire, Lightning, Psychic, or Thunder. You gain {@variantrule Resistance|XPHB} to that damage type until you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

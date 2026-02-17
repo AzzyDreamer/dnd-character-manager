@@ -1,0 +1,19 @@
+{
+	"name": "Driver",
+	"source": "GrimHollowPG24",
+	"page": 36,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"The roads and waterways of Etharis are often no less dangerous than the open wilderness, and you dedicate yourself to moving others safely on those routes. You have proficiency with {@item Navigator's Tools|XPHB}, and you have {@variantrule Advantage|XPHB} on ability checks made to drive a vehicle.",
+		{
+			"type": "entries",
+			"name": "Remarkable Driver",
+			"entries": [
+				"If you take this trait twice, you can make checks involving driving a vehicle that require an action without having to use your action. You can only get this free use once per round."
+			]
+		}
+	]
+}

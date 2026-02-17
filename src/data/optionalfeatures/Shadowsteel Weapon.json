@@ -1,0 +1,18 @@
+{
+    "name": "Shadowsteel Weapon",
+    "source": "GrimHollowPG24",
+    "page": 171,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "During a {@variantrule Long Rest|XPHB}, you focus upon a Melee weapon within your reach, imbuing it with a fragment of your Shadowsteel corruption. This Shadowsteel weapon is considered magical.",
+        "When you reduce a creature to 0 {@variantrule Hit Points|XPHB} with a melee attack made with your Shadowsteel weapon, you gain {@dice 1d8} {@variantrule Temporary Hit Points|XPHB} for 1 hour.",
+        "You can repeat the process described above to imbue a different weapon with Shadowsteel. This removes the effect from your existing Shadowsteel weapon."
+    ]
+}

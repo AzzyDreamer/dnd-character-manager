@@ -1,0 +1,19 @@
+{
+	"name": "Focused Mind",
+	"source": "GrimHollowPG24",
+	"page": 37,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"Your strength of will protects you from magic that would corrupt your mind. You have {@variantrule Advantage|XPHB} on saving throws against being {@condition Charmed|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Immutable Mind",
+			"entries": [
+				"If you take this trait twice, when you fail a saving throw against being {@condition Charmed|XPHB}, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

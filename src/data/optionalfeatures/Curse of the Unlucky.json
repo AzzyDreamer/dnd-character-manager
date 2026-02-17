@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Unlucky",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 3 Jinx Points",
+		"As a {@variantrule Bonus Action|XPHB}, you can spend 3 Jinx Points to put a pox on a creature cursed by your Evil Eye. Whenever the creature is about to make an attack roll or saving throw, you can roll {@dice 1d4} and subtract the number rolled from the total.",
+		"This Misfortune ends when the creature is no longer cursed by your Evil Eye."
+	]
+}

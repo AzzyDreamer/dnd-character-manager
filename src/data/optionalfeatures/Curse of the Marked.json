@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Marked",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 2 Jinx Points",
+		"As a {@variantrule Bonus Action|XPHB}, you can spend 2 Jinx Points to increase the duration of your Evil Eye to 1 hour or until you mark a different creature with your Evil Eye, whichever comes first.",
+		"Additionally, while a creature is affected by this curse, you always know the direction and distance to the creature while the two of you are on the same plane of existence."
+	]
+}

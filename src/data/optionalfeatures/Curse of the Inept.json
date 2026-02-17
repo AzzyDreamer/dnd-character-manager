@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Inept",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 1 Jinx Point",
+		"After a creature you can see that is cursed by your Evil Eye makes a {@variantrule D20 Test|XPHB}, you can take a {@variantrule Reaction|XPHB} and spend 1 Jinx Point to make the target reroll, and it must use the new roll.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

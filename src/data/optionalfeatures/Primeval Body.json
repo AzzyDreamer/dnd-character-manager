@@ -1,0 +1,17 @@
+{
+    "name": "Primeval Body",
+    "source": "GrimHollowPG24",
+    "page": 162,
+    "featureType": [
+        "P:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+    ],
+    "entries": [
+        "Your transformation to an Elemental creature has changed your body entirely. You no longer need to sleep, breathe, or eat. Also, you no longer age normally and suffer no effects of aging.",
+        "Additionally, choose one damage type from Bludgeoning, Cold, Fire, and Lightning damage. You gain {@variantrule Resistance|XPHB} to that damage type. If you already have {@variantrule Resistance|XPHB}, you gain {@variantrule Immunity|XPHB} to it."
+    ]
+}

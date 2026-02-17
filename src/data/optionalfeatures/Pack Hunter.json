@@ -1,0 +1,19 @@
+{
+    "name": "Pack Hunter",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Fighting in the thick of battle lets you aid your allies when it counts. When an ally within 10 feet of you is about to make an attack roll or a saving throw, you can use a {@variantrule Reaction|XPHB} to grant that ally {@variantrule Advantage|XPHB} on the attack or save. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Pack Leader",
+            "entries": [
+                "If you take this trait twice, Pack Hunter can be triggered by any ally within 30 feet of you. Additionally, if the attack roll misses or the saving throw fails, you don't lose that usage of Pack Hunter."
+            ]
+        }
+    ]
+}

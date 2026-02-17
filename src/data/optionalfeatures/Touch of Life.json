@@ -1,0 +1,19 @@
+{
+    "name": "Touch of Life",
+    "source": "GrimHollowPG24",
+    "page": 47,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Effects that corrupt the essence of other living creatures are of little concern to you. You have {@variantrule Resistance|XPHB} to Necrotic damage.",
+        {
+            "type": "entries",
+            "name": "Strength of Life",
+            "entries": [
+                "If you take this trait twice, when you fail a saving throw against an effect that deals Necrotic damage, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Shroud of the Wild",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "With any degree of obscuration, your instinctive ability to conceal yourself lets you avoid your enemies' notice. You can take the {@action Hide|XPHB} action even when you are only {@variantrule Lightly Obscured|XPHB} by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
+        {
+            "type": "entries",
+            "name": "Faultless Shroud",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Stealth|XPHB} checks using the {@action Hide|XPHB} action while using Shroud of the Wild."
+            ]
+        }
+    ]
+}

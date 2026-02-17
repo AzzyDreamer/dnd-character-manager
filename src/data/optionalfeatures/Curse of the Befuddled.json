@@ -1,0 +1,14 @@
+{
+	"name": "Curse of the Befuddled",
+	"source": "GrimHollowPG24",
+	"page": 90,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 2 Jinx Points",
+		"As a {@action Magic|XPHB} action, choose a creature that you can see within 60 feet of yourself that is cursed by your Evil Eye and spend 2 Jinx Points. The target must make a Wisdom saving throw.",
+		"On a failed save, the creature has the {@condition Charmed|XPHB} condition for 10 minutes or until you or your allies damage it. When the effect ends, the target knows it was {@condition Charmed|XPHB} by you.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

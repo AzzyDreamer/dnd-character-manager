@@ -1,0 +1,38 @@
+{
+    "name": "Soul Vessel",
+    "source": "GrimHollowPG24",
+    "page": 151,
+    "featureType": [
+        "L:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "You have successfully torn your soul from your body and trapped it in a suitable object. The object must be a trinket or item no larger than 1 cubic foot in size. This item becomes your soul vessel.",
+        {
+            "type": "entries",
+            "name": "Soul Vessel",
+            "entries": [
+                "A soul vessel is an enchanted vessel containing a Lich's soul. Additionally, a soul vessel is a conduit for the lich to feed on captured souls. A soul vessel has the following statistics:",
+                {
+                    "type": "list",
+                    "items": [
+                        "{@variantrule Armor Class|XPHB}: 18",
+                        "{@variantrule Hit Points|XPHB}: 10 x your Character Level",
+                        "{@variantrule Speed|XPHB}: 0",
+                        "{@variantrule Immunity|XPHB|Damage Immunities}: Poison, Psychic; Bludgeoning, Piercing, and Slashing from non-magical sources",
+                        "{@variantrule Resistance|XPHB|Damage Resistances}: Cold, Fire, Lightning, Necrotic, Thunder; Bludgeoning, Piercing, and Slashing from magical sources"
+                    ]
+                },
+                "While a soul is stored in your soul vessel, the soul vessel is considered charged. The soul contained within the soul vessel must be from a creature whose {@variantrule Challenge Rating|XPHB} is equal to or higher than half your Character Level. The soul vessel can only contain one soul at a time.",
+                "You can add a soul to the soul vessel 2 times for each of your Transformation Stages. You regain this ability when you complete a {@variantrule Long Rest|XPHB}.",
+                "To store a soul within the soul vessel, the lich must use a {@action Magic|XPHB} action within 1 minute of a creature's death, or a {@variantrule Reaction|XPHB} triggered by the creature's death, while holding the vessel to capture the soul, and the dead creature'sbody must be within 60 feet of the vessel when the capture occurs. The creature cannot be returned to life until its soul is removed from your soul vessel.",
+                "If your soul vessel is reduced to 0 hit points, you must create a new one. Doing so takes a {@variantrule Long Rest|XPHB}. Until you do, you do not gain any of the benefits of having the soul vessel. Also, until you have a soul vessel, you have {@variantrule Disadvantage|XPHB} on the first {@variantrule D20 Test|XPHB} you make after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+                "If you are killed while you control a charged soul vessel on the same plane of existence, your soul vessel's charge is consumed. You are brought back to life as per the {@spell Resurrection|XPHB} spell within 5 feet of your soul vessel 1 day later. If you are killed and your soul vessel is not charged, you are resurrected 7 days later instead."
+            ]
+        }
+    ]
+}

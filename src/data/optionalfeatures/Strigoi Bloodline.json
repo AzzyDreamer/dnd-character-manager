@@ -1,0 +1,25 @@
+{
+    "name": "Strigoi Bloodline",
+    "source": "GrimHollowPG24",
+    "page": 179,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "Your vampirism follows the Strigoi bloodline. Your speed and guile almost match your ferocity. You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "Your Dexterity score increases by 2. Your Dexterity score cannot exceed 20 with this feature.",
+                "If you make your {@optfeature Fanged Bite|GrimHollowPG24} attack with {@variantrule Advantage|XPHB}, the Piercing damage increases to {@dice 2d4} plus your Strength or Dexterity modifier.",
+                "You can take the {@action Hide|XPHB} action as a {@variantrule Bonus Action|XPHB}, and you can use the {@action Hide|XPHB} action anywhere that is not in sunlight.",
+                "You have proficiency with the {@skill Stealth|XPHB} skill. If you are already proficient in {@skill Stealth|XPHB}, you gain {@variantrule Expertise|XPHB} in Stealth instead."
+            ]
+        }
+    ]
+}

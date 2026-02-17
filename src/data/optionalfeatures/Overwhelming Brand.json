@@ -1,0 +1,26 @@
+{
+    "name": "Overwhelming Brand",
+    "source": "GrimHollowPG24",
+    "page": 144,
+    "featureType": [
+        "Fi:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}",
+            "optionalfeature": [
+                "daemonic brand|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You can apply one of the following additional effects to a creature under the effect of your {@optfeature Daemonic Brand|GrimHollowPG24}.",
+        {
+            "type": "list",
+            "items": [
+                "The creature's {@variantrule Speed|GrimHollowPG24} is halved, and you can move the creature up to 10 feet horizontally on your turn (no action required).",
+                "The creature has the {@condition Blinded|XPHB} condition. On your turn, you can choose to remove this condition (no action required)."
+            ]
+        }
+    ]
+}

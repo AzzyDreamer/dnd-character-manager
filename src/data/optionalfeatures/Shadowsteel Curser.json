@@ -1,0 +1,17 @@
+{
+    "name": "Shadowsteel Curser",
+    "source": "GrimHollowPG24",
+    "page": 171,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "If you do not already have it, you gain the {@feat Shadowsteel Adept|GrimHollowPG24} feat.",
+        "Additionally, when you cast a Shadowsteel curse, the casting time is reduced by half, and the saving throw DC increases by 1."
+    ]
+}

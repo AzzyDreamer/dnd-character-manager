@@ -1,0 +1,19 @@
+{
+    "name": "Slippery",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Any enemy that tries to grab you is in for a surprise. You have {@variantrule Advantage|XPHB} on {@skill Athletics|XPHB} and {@skill Acrobatics|XPHB} checks to escape a grapple.",
+        {
+            "type": "entries",
+            "name": "Supreme Slip",
+            "entries": [
+                "If you take this trait twice, when you fail an {@skill Athletics|XPHB} or {@skill Acrobatics|XPHB} check to escape a grapple, you can use your {@variantrule Reaction|XPHB} to succeed instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

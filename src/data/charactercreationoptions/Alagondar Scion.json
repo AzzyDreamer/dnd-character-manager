@@ -1,0 +1,27 @@
+{
+	"name": "Alagondar Scion",
+	"source": "IDRotF",
+	"page": 264,
+	"prerequisite": [
+		{
+			"race": [
+				{
+					"name": "human"
+				},
+				{
+					"name": "half-elf"
+				},
+				{
+					"name": "half-orc"
+				}
+			],
+			"note": "If you don't meet this prerequisite, draw a different card."
+		}
+	],
+	"optionType": [
+		"CS"
+	],
+	"entries": [
+		"I'm a scion of the Alagondar bloodline and the only known heir to the crown of Neverwinter. If Dagult Neverember, the city's lord-regent, learns that I'm alive, he'll send assassins to kill me."
+	]
+}

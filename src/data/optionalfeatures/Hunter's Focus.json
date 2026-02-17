@@ -1,0 +1,24 @@
+{
+	"name": "Hunter's Focus",
+	"source": "GrimHollowPG24",
+	"page": 156,
+	"featureType": [
+		"Ly:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"entries": [
+		"While in hybrid form, you can use a {@variantrule Bonus Action|XPHB} to mark one creature within 60 feet as your prey. A creature remains marked this way for 1 hour, or until it dies. You may only have 1 creature marked at a time.",
+		"While a creature is marked as your prey, you gain the following benefits:",
+		{
+			"type": "list",
+			"items": [
+				"Whenever you hit the marked creature with a melee attack, you deal an additional {@damage 1d6} damage of that attack's type.",
+				"You have {@variantrule Advantage|XPHB} on any Wisdom ({@skill Perception|XPHB} or {@skill Survival|XPHB}) check you make to find it."
+			]
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Awakened Mind",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"The dangers of Etharis have given you a focus that allows you to shrug off debilitating magical effects. You automatically succeed on saving throws against magical effects that would give you the {@condition Incapacitated|XPHB}, {@condition Stunned|XPHB}, or {@condition Unconscious|XPHB} conditions. This does not include effects that leave you {@condition Unconscious|XPHB} because you are reduced to 0 {@variantrule Hit Points|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Reawakened",
+			"entries": [
+				"If you take this trait twice, you also have {@variantrule Advantage|XPHB} on Intelligence, Wisdom, and Charisma saving throws."
+			]
+		}
+	]
+}

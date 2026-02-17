@@ -1,0 +1,19 @@
+{
+    "name": "Stalwart Reserves",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Each time you lay into a foe, their state of peril lends you vigor. When you hit a creature with a melee attack, you can use your {@variantrule Reaction|XPHB} to roll a number of d4s equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} and gain {@variantrule Temporary Hit Points|XPHB} equal to the total rolled. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Stalwart Edge",
+            "entries": [
+                "If you take this trait twice, you can take the maximum number of {@variantrule Temporary Hit Points|XPHB} rather than rolling."
+            ]
+        }
+    ]
+}

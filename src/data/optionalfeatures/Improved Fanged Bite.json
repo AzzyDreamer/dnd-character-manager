@@ -1,0 +1,16 @@
+{
+    "name": "Improved Fanged Bite",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "As an {@action Attack|XPHB} action, you can make 2 {@optfeature Fanged Bite|GrimHollowPG24} attacks. Additionally, you can make a {@optfeature Fanged Bite|GrimHollowPG24} attack as a {@variantrule Bonus Action|XPHB} if you don't make a {@optfeature Fanged Bite|GrimHollowPG24} attack as part of an {@action Attack|XPHB} action on the same turn."
+    ]
+}

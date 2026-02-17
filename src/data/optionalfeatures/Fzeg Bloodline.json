@@ -1,0 +1,25 @@
+{
+	"name": "Fzeg Bloodline",
+	"source": "GrimHollowPG24",
+	"page": 179,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"Your vampirism follows the Fzeg bloodline, a line of vampires that combines the affliction with lycanthropy. You gain the following features:",
+		{
+			"type": "list",
+			"items": [
+				"Your Strength score increases by 2. Your Strength score cannot exceed 20 with this feature.",
+				"You gain a Claw attack. This attack deals {@dice 1d8} plus your Strength modifier Slashing damage, using your Strength modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus} on attack rolls. This Claw attack is not a weapon or an {@variantrule Unarmed Strike|XPHB}.",
+				"When you take the {@action Attack|XPHB} action to make the Claw attack, you may use a {@variantrule Bonus Action|XPHB} to make a Bite attack from {@optfeature Fanged Bite|GrimHollowPG24}.",
+				"Your {@variantrule Speed|XPHB} increases by 10 feet."
+			]
+		}
+	]
+}

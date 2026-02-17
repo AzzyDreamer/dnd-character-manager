@@ -1,0 +1,18 @@
+{
+	"name": "Engulf",
+	"source": "GrimHollowPG24",
+	"page": 160,
+	"featureType": [
+		"O:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+		}
+	],
+	"entries": [
+		"When you manifest your Ooze Form, it lasts for 10 minutes.",
+		"While manifesting your Ooze Form, you can envelop your foes in your gooey body. As a {@action Magic|XPHB} action, you can try to engulf a creature of your size category or smaller that is within 5 feet of you. The target makes a Strength saving throw, with a DC equal to 10 plus your Strength modifier plus your Transformation Stage. On a failure, the creature is engulfed.",
+		"While engulfed, a target has {@variantrule Cover|XPHB|Total Cover} against attacks and other effects outside of you, and when you move, the engulfed target moves with you. While engulfed, a creature takes {@damage 4d6} Acid damage at the start of each of its turns, is suffocating, has the {@condition Restrained|XPHB} condition, and repeats the save at the end of each of its turns, ending the effect on a success. An engulfed creature that is reduced to 0 {@variantrule Hit Points|XPHB} is fully digested, leaving no body or nonmagical equipment behind."
+	]
+}

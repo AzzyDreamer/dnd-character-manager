@@ -1,0 +1,24 @@
+{
+    "name": "Sangromancy Specialist",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}, Spellcaster who can cast cantrips"
+        }
+    ],
+    "entries": [
+        "Your magic is tinged with the blood that you crave. You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "You gain an extra {@dice 1d12} Sangromancy {@variantrule Hit Point Dice|XPHB} per Vampire Transformation. You can use those dice on Sangromancy spells. You regain all spent Sangromancy Dice when you finish a {@variantrule Long Rest|XPHB}.",
+                "When you successfully restore {@variantrule Hit Points|XPHB} using {@optfeature Fanged Bite|GrimHollowPG24}, you regain one spent Sangromancy Die.",
+                "Any cantrip you cast that does Necrotic damage can be enhanced by your Sangromancy Dice. You can spend up to 2 {@variantrule Hit Point Dice|XPHB} (including your Sangromancy Dice) to deal extra Necrotic damage with those cantrips. You can decide to spend these {@variantrule Hit Point Dice|XPHB} after you know if the cantrip affects the target(s)."
+            ]
+        }
+    ]
+}

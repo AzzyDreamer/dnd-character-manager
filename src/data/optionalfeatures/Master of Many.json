@@ -1,0 +1,19 @@
+{
+    "name": "Master of Many",
+    "source": "GrimHollowPG24",
+    "page": 162,
+    "featureType": [
+        "P:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}",
+            "optionalfeature": [
+                "dual nature|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You add a third elemental to your {@optfeature Elemental Affinity|GrimHollowPG24|Elemental Affinity Boon}. When you do so, you gain the associated benefits of your new element."
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "name": "Melted Appearance",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body is now a hideous lump of dripping flesh excreting foul smelling slime. While your form remains roughly humanoid, the horror of what you are is clear to anyone that looks upon your molten face. You have {@variantrule Disadvantage|XPHB} when you use the {@action Influence|XPHB} action to make Charisma-based ability checks made against creatures that are not Aberrations or Oozes.",
+        "In addition, your Transformation to an Ooze has liquefied many of your organs and dimmed your senses. Your eyes melt and run down your face and there is nothing but flesh where your ears once were. You permanently have the {@condition Blinded|XPHB} condition beyond the range of your {@sense Blindsight|XPHB}."
+    ]
+}

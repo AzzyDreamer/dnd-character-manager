@@ -1,0 +1,20 @@
+{
+    "name": "Toughness",
+    "source": "GrimHollowPG24",
+    "page": 47,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "An intrinsic hardiness marks you as one born for battle. Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by 1, and it increases by 1 each time you gain a level.",
+        {
+            "type": "entries",
+            "name": "Extra Tough",
+            "entries": [
+                "If you take this trait twice, your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by 2 instead of 1, and it increases by 2 each time you gain a level.",
+                "Additionally, when you make a saving throw against an effect that would decrease your {@variantrule Hit Points|XPHB|Hit Point} maximum, you have {@variantrule Advantage|XPHB} on the save. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

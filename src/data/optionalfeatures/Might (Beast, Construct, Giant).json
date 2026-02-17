@@ -1,0 +1,11 @@
+{
+    "name": "Might (Beast, Construct, Giant)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "For 1 minute, you have {@variantrule Advantage|XPHB} on Strength checks and saving throws. You also have {@variantrule Advantage|XPHB} on attack rolls using Strength, and you deal {@damage 1d6} extra damage to targets you hit with a Strength-based attack. The damage is the same type dealt by the attack."
+    ]
+}

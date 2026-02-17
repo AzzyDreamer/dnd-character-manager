@@ -1,0 +1,12 @@
+{
+    "name": "Reduce",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 1 Mutation Point}",
+        "Your size decreases by one category (from Medium to Small, for example). You can spend an additional 2 Mutation Points to decrease your size by two categories instead (from Medium to Tiny, for example). See the {@spell Enlarge/Reduce|XPHB} spell to determine the benefits gained from this ability."
+    ]
+}

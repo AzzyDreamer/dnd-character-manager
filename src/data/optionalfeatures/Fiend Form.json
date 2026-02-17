@@ -1,0 +1,55 @@
+{
+	"name": "Fiend Form",
+	"source": "GrimHollowPG24",
+	"page": 144,
+	"featureType": [
+		"Fi:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"entries": [
+		"Your appearance has grotesquely transformed. Your skin becomes red and leathery, and vicious horns, teeth and nails erupt through the surface of your skin. You can suppress this form and present the appearance of the humanoid you once were, but this is taxing and requires effort. Moments of stress are likely to reveal your true nature. In the following situations your true form may be revealed:",
+		{
+			"type": "list",
+			"items": [
+				"Becoming {@condition Bloodied|XPHB}.",
+				"{@status Concentration|XPHB|Concentrating} on a spell.",
+				"Gaining the {@condition Unconscious|XPHB} condition.",
+				"Entering hallowed ground.",
+				"Entering the presence of Celestials or other Fiends.",
+				"Choosing to reveal yourself."
+			]
+		},
+		"In these events, or times of other extreme emotional or physical stress, a GM can call for a Constitution saving throw with a DC based on your current Transformation Stage. If you fail this save, your Horrific Appearance is revealed.",
+		{
+			"type": "table",
+			"caption": "Fiend Form Save DC",
+			"colLabels": [
+				"Stage",
+				"Constitution Save DC"
+			],
+			"colStyles": [
+				"col-6 text-center",
+				"col-6 text-center"
+			],
+			"rows": [
+				[
+					"2",
+					"13"
+				],
+				[
+					"3",
+					"16"
+				],
+				[
+					"4",
+					"20"
+				]
+			]
+		},
+		"Non-evil creatures will typically be instantly {@variantrule Hostile [Attitude]|XPHB|Hostile} to you, unless the GM decides otherwise."
+	]
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Unstable Form",
+    "source": "GrimHollowPG24",
+    "page": 135,
+    "featureType": [
+        "AH:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body becomes malleable and struggles to maintain any one physical shape. Upon completing a {@variantrule Long Rest|XPHB} after an adventuring day in which you took damage, you must roll {@dice 1d100} on the {@table Unstable Form|GrimHollowPG24|Unstable Form table} and apply the corresponding mutation based on current your Transformation Stage. This mutation lasts until you finish another {@variantrule Long Rest|XPHB}."
+    ]
+}

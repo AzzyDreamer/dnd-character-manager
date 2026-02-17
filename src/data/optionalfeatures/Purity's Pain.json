@@ -1,0 +1,17 @@
+{
+    "name": "Purity's Pain",
+    "source": "GrimHollowPG24",
+    "page": 149,
+    "featureType": [
+        "H:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+        }
+    ],
+    "entries": [
+        "Unspoiled, pure things cause you physical pain to witness. A child hugging their parent, a loyal dog laying its head upon a sick man's lap, a work of religious art devoted to an Arch Seraph, a baby's laughter: these things make you physically ill.",
+        "When you are in the presence of a pure act or object (GM's discretion) you are wracked with pain. At the start of each of your turns while you can see the cause of your pain, you suffer {@dice 3d6} plus your Charisma modifier Psychic damage, and cannot use a Hag Transformation boons until the start of your next turn. The first time you take Psychic damage from this flaw after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you must make a DC 18 Wisdom saving throw. If you fail, you have the {@condition Frightened|XPHB} condition as long as you can see the source of your pain."
+    ]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Draught of Bear's Endurance",
+	"source": "GrimHollowPG24",
+	"page": 75,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 10 minutes, you have {@variantrule Advantage|XPHB} on Constitution checks and Constitution saving throws."
+	]
+}

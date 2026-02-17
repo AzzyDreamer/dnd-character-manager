@@ -1,0 +1,19 @@
+{
+    "name": "Out of Phase",
+    "source": "GrimHollowPG24",
+    "page": 42,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your corporeal presence shifts and fades, softening your enemies' ability to harm you. As a {@variantrule Bonus Action|XPHB}, for 1 minute, all creatures have {@variantrule Disadvantage|XPHB} on attack rolls against you, and you can move through other creature's spaces without treating them as {@variantrule Difficult Terrain|XPHB}. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Phase Shift",
+            "entries": [
+                "If you take this trait twice, when you use Out of Phase, you can extend its benefit to any ally within 10 feet of you."
+            ]
+        }
+    ]
+}

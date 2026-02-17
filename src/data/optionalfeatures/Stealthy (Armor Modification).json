@@ -1,0 +1,11 @@
+{
+    "name": "Stealthy (Armor Modification)",
+    "source": "GrimHollowPG24",
+    "page": 59,
+    "featureType": [
+        "TG:AM"
+    ],
+    "entries": [
+        "Your armor is draped with a shadowy cloak or made from hide as light as a feather. Your armor doesn't impose {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Stealth|XPHB}) checks, even if it would normally. While wearing your armor, creatures have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks to see you, and you have {@variantrule Advantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks to notice creatures."
+    ]
+}

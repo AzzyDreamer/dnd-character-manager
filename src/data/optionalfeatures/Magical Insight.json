@@ -1,0 +1,19 @@
+{
+    "name": "Magical Insight",
+    "source": "GrimHollowPG24",
+    "page": 39,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "Magic is power in the right hands, and those hands are yours. You have proficiency in the {@skill Arcana|XPHB} skill.",
+        {
+            "type": "entries",
+            "name": "Magical Historian",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Arcana|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

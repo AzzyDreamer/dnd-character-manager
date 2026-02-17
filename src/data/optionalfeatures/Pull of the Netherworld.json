@@ -1,0 +1,16 @@
+{
+    "name": "Pull of the Netherworld",
+    "source": "GrimHollowPG24",
+    "page": 144,
+    "featureType": [
+        "Fi:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+        }
+    ],
+    "entries": [
+        "Your new native plane attempts to pull you to it, laying claim to your form. Whenever you roll a natural 1 on a {@variantrule D20 Test|XPHB}, you take {@damage 6d6} Psychic damage as the denizens of the fiendish plane attempt to unbind your soul from the Material Plane. This damage can only be taken once per {@variantrule Short Rest|XPHB|Short}, and it ignores all {@variantrule Resistance|XPHB|Resistances} and {@variantrule Immunity|XPHB|Immunities}. If this damage reduces your {@variantrule Hit Points|XPHB} to 0, you die and your soul is immediately taken to the Netherworld. You can only be returned to life by spells of 7th level or higher."
+    ]
+}

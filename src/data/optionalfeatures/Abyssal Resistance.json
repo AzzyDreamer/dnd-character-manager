@@ -1,0 +1,16 @@
+{
+	"name": "Abyssal Resistance",
+	"source": "GrimHollowPG24",
+	"page": 144,
+	"featureType": [
+		"Fi:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"entries": [
+		"You gain {@variantrule Immunity|XPHB} to the damage type chosen for {@optfeature Fiendish Soul|GrimHollowPG24}, and you gain {@variantrule Resistance|XPHB} to the other two damage types. Additionally, you have {@variantrule Resistance|XPHB} to damage from nonmagical weapon attacks or {@variantrule Unarmed Strikes|XPHB}."
+	]
+}

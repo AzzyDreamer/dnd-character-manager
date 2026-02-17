@@ -1,0 +1,12 @@
+{
+    "name": "Scorpion Anchor",
+    "source": "GrimHollowPG24",
+    "page": 58,
+    "featureType": [
+        "TG:TG"
+    ],
+    "entries": [
+        "This weapon is intended to keep flying foes anchored to the ground or stop monsters from fleeing. The Scorpion Anchor can be fired from a Longbow, Shortbow, or Crossbow as part of an {@action Attack|XPHB} action. When you hit a creature with an attack roll using a Scorpion Anchor, it has the {@condition Restrained|XPHB} condition. A creature {@condition Restrained|XPHB} by the Scorpion Anchor can take an action to make a Strength ({@skill Athletics|XPHB}) check against your Trapper Gadget save DC. If it succeeds, it is no longer {@condition Restrained|XPHB}.",
+        "A Scorpion Anchor is destroyed after the {@condition Restrained|XPHB} creature escapes or dies."
+    ]
+}

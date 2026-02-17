@@ -1,0 +1,19 @@
+{
+	"name": "Amphibious",
+	"source": "GrimHollowPG24",
+	"page": 32,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"Surviving underwater is second nature to you. You can breathe air and water.",
+		{
+			"type": "entries",
+			"name": "Water Born",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on ability checks or saving throws made while submerged in water. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

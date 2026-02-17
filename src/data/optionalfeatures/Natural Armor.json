@@ -1,0 +1,19 @@
+{
+    "name": "Natural Armor",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 2 Mutation Points}",
+        "You gain a +1 bonus to {@variantrule Armor Class|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Repeatable",
+            "entries": [
+                "You can gain this Mutation more than once, but no more than three times."
+            ]
+        }
+    ]
+}

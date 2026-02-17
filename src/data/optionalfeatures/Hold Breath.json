@@ -1,0 +1,19 @@
+{
+	"name": "Hold Breath",
+	"source": "GrimHollowPG24",
+	"page": 38,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"Whether trapped under black water or resisting poisonous fumes, you refuse to give in. You can hold your breath for up to 1 hour.",
+		{
+			"type": "entries",
+			"name": "Endless Breath",
+			"entries": [
+				"If you take this trait twice, you can hold your breath for up to 8 hours."
+			]
+		}
+	]
+}

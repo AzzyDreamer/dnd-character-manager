@@ -1,0 +1,18 @@
+{
+	"name": "Beacon to Darkness",
+	"source": "GrimHollowPG24",
+	"page": 168,
+	"featureType": [
+		"Ser:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"You are now a Seraph of noted virtue and divinity, becoming a target for the world's evil. Whenever you or an ally within 30 feet commits an evil act, such as murdering innocents, you acquire a trace of darkness and you are Corrupted. GMs determine what constitutes an evil act.",
+		"While you are Corrupted, whenever you make an attack roll against an evil creature or a saving throw against a spell or effect from an evil creature, you have {@variantrule Disadvantage|XPHB} on the check. Also, if an ally is the one who caused your Corruption, they cannot be considered your ally or you theirs until the Corruption is removed.",
+		"You can remove the Corrupted condition by finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, during which you must pray for at least 1 hour and burn holy incense or donate wealth to a local good cause worth at least 100 GP times your Transformation Stage."
+	]
+}

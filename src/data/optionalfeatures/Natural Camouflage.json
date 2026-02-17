@@ -1,0 +1,20 @@
+{
+    "name": "Natural Camouflage",
+    "source": "GrimHollowPG24",
+    "page": 41,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "Your ability to fade into the background of familiar territory helps keep you safe from threats. Choose an environment:  arctic, coastal, desert, forest, grassland, hill and mountain, swamp, subterranean, or underwater. You have {@variantrule Advantage|XPHB} on Stealth checks made with the {@action Hide|XPHB} action while in that environment.",
+        {
+            "type": "entries",
+            "name": "Shared Camouflage",
+            "entries": [
+                "If you take this trait multiple times, you gain its benefits for a new environment each time.",
+                "Additionally, when you take the {@action Hide|XPHB} action, you can forgo making a {@skill Stealth|XPHB} check while in any environment chosen with Natural Camouflage, instead treating the check as if you had rolled a 15. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

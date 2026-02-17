@@ -1,0 +1,17 @@
+{
+	"name": "Elastic Limbs",
+	"source": "GrimHollowPG24",
+	"page": 159,
+	"featureType": [
+		"O:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+		}
+	],
+	"entries": [
+		"Your limbs have become elastic and tacky, allowing you to reach distant enemies and climb walls.",
+		"Your reach increases by 5 feet and you gain a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}. You can move up, down, and across vertical surfaces and along ceilings, while leaving your hands free. Creatures you are grappling have {@variantrule Disadvantage|XPHB} on Strength ({@skill Athletics|XPHB}) and Dexterity ({@skill Acrobatics|XPHB}) checks to escape."
+	]
+}

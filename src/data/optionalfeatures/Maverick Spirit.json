@@ -1,0 +1,11 @@
+{
+	"name": "Maverick Spirit",
+	"source": "ValdaGunslinger",
+	"featureType": [
+		"MV:G"
+	],
+	"entries": [
+		"When you fail an Intelligence, Wisdom, or Charisma ability check or saving throw, you can expend one {@classFeature Risk|Gunslinger|ValdaGunslinger|2|ValdaGunslinger|Risk Die} to add it to the roll, potentially turning it into a success. You can only use this maneuver once per turn."
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-002.the-gunslinger.webp"
+}

@@ -1,0 +1,12 @@
+{
+	"name": "Cleric",
+	"source": "GrimHollowPG24",
+	"page": 64,
+	"featureType": [
+		"CA:AT"
+	],
+	"entries": [
+		"You've gained the ability to channel divine energy directly from the gods, emboldening allies and sanctifying their attacks. As a {@variantrule Bonus Action|XPHB}, choose a creature within 30 feet of you. For 10 minutes, the target gains {@variantrule Temporary Hit Points|XPHB} equal to half your Bard level plus your Charisma modifier. While a creature has {@variantrule Temporary Hit Points|XPHB} granted by this talent, it can choose to lose all remaining {@variantrule Temporary Hit Points|XPHB} when it hits a creature with an attack made with a weapon or {@variantrule Unarmed Strike|XPHB}, dealing extra Radiant damage equal to the number of {@variantrule Temporary Hit Points|XPHB} lost.",
+		"Once you use this talent, you can't use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

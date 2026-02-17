@@ -1,0 +1,17 @@
+{
+	"name": "Hag Form",
+	"source": "GrimHollowPG24",
+	"page": 147,
+	"featureType": [
+		"H:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+		}
+	],
+	"entries": [
+		"Your {@variantrule Creature Type|XPHB} becomes Fey in addition to any other creature type(s) you have.",
+		"Additionally, your connection with the magic of the natural world provides you with increased defenses. When you are not wearing armor, your {@variantrule Armor Class|XPHB} is 13 plus your Dexterity modifier. Additionally, choose Strength, Intelligence, or Charisma: you are proficient with Saving Throws using that ability score."
+	]
+}

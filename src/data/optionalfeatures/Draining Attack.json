@@ -1,0 +1,19 @@
+{
+	"name": "Draining Attack",
+	"source": "GrimHollowPG24",
+	"page": 35,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"As your enemy's life force ebbs, you grow ever stronger. If you have the {@optfeature Natural Attack|GrimHollowPG24} trait, each time you hit with an {@variantrule Unarmed Strike|XPHB}, you gain {@variantrule Temporary Hit Points|XPHB} equal to the damage dealt by the attack.",
+		{
+			"type": "entries",
+			"name": "To the Dregs",
+			"entries": [
+				"If you take this trait twice, when you use Draining Attack, the target also takes a penalty to their {@variantrule Hit Points|XPHB|Hit Point} maximum equal to the damage dealt by the attack. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

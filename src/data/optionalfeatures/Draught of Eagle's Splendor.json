@@ -1,0 +1,11 @@
+{
+	"name": "Draught of Eagle's Splendor",
+	"source": "GrimHollowPG24",
+	"page": 76,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 10 minutes, you have {@variantrule Advantage|XPHB} on Charisma checks and Charisma saving throws."
+	]
+}

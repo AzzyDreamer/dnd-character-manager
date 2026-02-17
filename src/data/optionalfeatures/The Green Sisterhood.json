@@ -1,0 +1,25 @@
+{
+    "name": "The Green Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 147,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+        }
+    ],
+    "entries": [
+        "Green Hags are skilled deceivers who collect corrupting magic and secret curses. They use their magic to twist pure into foul, poking at the weaknesses of their foes. Green Hags embrace magical deceptions and are known for their vile recipes. There are no worse cooks in Etharis.",
+        {
+            "type": "list",
+            "items": [
+                "You have {@sense Darkvision|XPHB} with a range of 60 feet. If you already have {@sense Darkvision|XPHB}, its range increases by 60 feet.",
+                "You become Amphibious and can breathe both air and water.",
+                "You can mimic animal sounds and humanoid voices."
+            ]
+        },
+        "A creature that hears the sounds can tell they are imitations with a {@action Study|XPHB} action and a successful Wisdom ({@skill Insight|XPHB}) check with a DC equal to 8 plus your Charisma modifier plus your Transformation Stage."
+    ]
+}

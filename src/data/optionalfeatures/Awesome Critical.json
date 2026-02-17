@@ -1,0 +1,19 @@
+{
+	"name": "Awesome Critical",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"When fortune favors your blade, you know how to make it count. When you score a {@variantrule Critical Hit|XPHB} with a melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB}, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the {@variantrule Critical Hit|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Maximum Critical",
+			"entries": [
+				"If you take this trait twice, when you use Awesome Critical, you can add the maximum of the weapon's original damage dice and the extra Awesome Critical die to the extra damage of the {@variantrule Critical Hit|XPHB}, rather than rolling them. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Terrain Cloak",
+    "source": "GrimHollowPG24",
+    "page": 59,
+    "featureType": [
+        "TG:TG"
+    ],
+    "entries": [
+        "Composed of local materials, a Terrain Cloak allows wearers to conceal themselves within the environment. Terrain Cloaks can be worn over Light or Medium armor and are donned and doffed with the speed of Light armor.",
+        "Creatures have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception|XPHB}) checks to see you.",
+        "The item lasts until you finish a {@variantrule Long Rest|XPHB}, at which point the item falls apart."
+    ]
+}

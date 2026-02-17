@@ -1,0 +1,16 @@
+{
+	"name": "Celestial Form",
+	"source": "GrimHollowPG24",
+	"page": 167,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"You become a Celestial in addition to any other creature type(s) you are. Additionally, you have {@variantrule Resistance|XPHB} to Radiant Damage."
+	]
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Legion of Slime",
+    "source": "GrimHollowPG24",
+    "page": 160,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "When you manifest your Ooze Form, it lasts until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+        "While you are manifesting your Ooze Form and you are hit by an attack that causes you to become {@condition Bloodied|XPHB}, you can use a {@variantrule Reaction|XPHB} to split into two identical Oozes. Each Ooze uses your game statistics, except that they are one size category smaller than your normal size, and your remaining {@variantrule Hit Points|XPHB} and {@variantrule Hit Points|XPHB|Hit Point} Maximum are divided evenly between the two Oozes (round down). Your equipment is not duplicated; all of it remains on one of the Oozes.",
+        "Each Ooze acts on your {@variantrule Initiative|XPHB}. They can each move independently, but they can only collectively take one action and {@variantrule Bonus Action|XPHB} on your turn and one {@variantrule Reaction|XPHB} per round.",
+        "After you use this feature, you cannot use it again until after you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

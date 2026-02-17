@@ -1,0 +1,17 @@
+{
+    "name": "Physical Deterioration",
+    "source": "GrimHollowPG24",
+    "page": 160,
+    "featureType": [
+        "O:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "Your skin sloughs away in thick, syrupy sheets and your bones become like melted wax. The sun itself burns you, and holy light becomes lethal. Now your reactions slow as much as your pace.",
+        "You are {@variantrule Vulnerability|XPHB|Vulnerable} to Radiant damage, and you have {@variantrule Disadvantage|XPHB} on Dexterity ability checks and saving throws."
+    ]
+}

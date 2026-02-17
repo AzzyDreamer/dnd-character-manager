@@ -1,0 +1,11 @@
+{
+    "name": "Phase Leap (Armor Modification)",
+    "source": "GrimHollowPG24",
+    "page": 59,
+    "featureType": [
+        "TG:AM"
+    ],
+    "entries": [
+        "You have powdered your armor with fey dust or sewn a pelt of a phase-shifting monstrosity into it. As a {@variantrule Bonus Action|XPHB}, you teleport up to 60 feet to an unoccupied space you can see."
+    ]
+}

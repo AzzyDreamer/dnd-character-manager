@@ -1,0 +1,12 @@
+{
+    "name": "Ranger",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "You always have the {@spell Hunter's Mark|XPHB} spell prepared. You can cast this spell using a 5th-level spell slot without expending a spell slot.",
+        "Once you cast the spell using this talent, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

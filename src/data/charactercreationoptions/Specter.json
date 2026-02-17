@@ -1,0 +1,146 @@
+{
+	"name": "Specter",
+	"source": "GrimHollowPG24",
+	"page": 174,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The young woman walks the cobblestone streets every evening. No one ever speaks with her. Few even dare to pass her by. She searches for her home, unaware that it's long demolished, and she is long dead. Her haunting image illuminates the dark streets. Her voice echoes in the dusk, \"Help me!\"}",
+						"{@i A blue figure shambles into town from the graveyard; their body is luminous and ghastly. Their soiled clothes are held together in tatters and their head is marked by twenty gashes. They raise a ghostly hand to point. Their eyes are haunted and filled with rage. The wraith unleashes a cry of the dead that would chill their murderer's blood to ice.}"
+					]
+				},
+				"A living person becomes a Specter through death, by contacting the realm of the dead, or through magic that breaks the body's ties to the material world. This Transformation tears at the substance of body and mind, until what is left is a spiritual shadow.",
+				"Specters have a tenuous grasp on reality, and some fade into oblivion while others become monsters that sow the same. Few cursed with this Transformation have the fortitude to remain whole.",
+				{
+					"type": "entries",
+					"name": "Becoming a Specter",
+					"entries": [
+						"Methods of becoming a Specter vary, and few find their way willingly. One that dies of an unjust or violent cause may find their spirit refusing to depart, despite their physical form fading. Contact with the forces of death can drain the soul of vitality—a would-be hero is corrupted by the force they wanted to fight. Sinister rituals can also infuse a body with the powers of unmaking from the realm of the Aether Kindred.",
+						"Alongside incorporeal beings and the magic of death stand entities that exist in a reality untethered from the material world as mortals understand it. These others and their minions, manifestations of otherworldly chaos, can infuse a person with that chaos, making the victim's ultimate home a dream of cosmic horror.",
+						{
+							"type": "inset",
+							"name": "Reversing Specter Traits",
+							"entries": [
+								"Once the character reaches Stage 1 of the Specter Transformation, typical magic like {@spell Remove Curse|XPHB} cannot remove the affliction. You cannot be revived or restored by any magic lesser than the {@spell Wish|XPHB} spell due to the ties that anchor your spirit to the corporeal world.",
+								"Once you die completely and your soul departs, you may be brought back to life by more conventional magic, free of the Transformation and its Boons and Flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Specter Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. Suggestions include:",
+								{
+									"type": "list",
+									"items": [
+										"Defeat a powerful, ghostly Undead and absorb its power.",
+										"Defeat an Aberration that has powers over space, time, or death.",
+										"Use a ritual that infuses your body with the forces of death or primordial chaos.",
+										"Survive a near-death experience caused by a ghostly Undead creature or an Aberration, especially one in which your {@variantrule Hit Points|XPHB|Hit Point} maximum is reduced, such as by a Wraith's Life Drain, or in which you drop to 0 {@variantrule Hit Points|XPHB}. ",
+										"Kill a significant foe with Necrotic or Psychic damage, or by using Necromancy.",
+										"Infuse other willing people with the power that corrupts you.",
+										"Interact with ghosts and similar spirits, or beings of other realities, perhaps as a conduit between them and other mortals.",
+										"Open a gate or path to places of the dead or the dreams of the Aether Kindred."
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Specter Stage 1",
+							"entries": [
+								"When you initially undergo the Specter Transformation, you gain the Spectral Form Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Spectral Form|GrimHollowPG24}",
+										"{@optfeature Ghastly Touch|GrimHollowPG24}",
+										"{@optfeature Incorporeal Movement|GrimHollowPG24}",
+										"{@optfeature Drawn to Darkness|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Specter Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Specter Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Ethereal Phasing|GrimHollowPG24}",
+										"{@optfeature Haunting Flight|GrimHollowPG24}",
+										"{@optfeature Untethered from Life|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Specter Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Specter Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Draining Flight|GrimHollowPG24}",
+										"{@optfeature Paralyzing Touch|GrimHollowPG24}",
+										"{@optfeature Fraying Reality|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Specter Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Specter Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Call of Unmaking|GrimHollowPG24}",
+										"{@optfeature Possession|GrimHollowPG24}",
+										"{@optfeature Pull of Oblivion|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Specter.webp"
+				},
+				"credit": "Nikola Matkovic",
+				"width": 850,
+				"height": 1409
+			}
+		]
+	}
+}

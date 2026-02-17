@@ -1,0 +1,13 @@
+{
+	"name": "Enlarge",
+	"source": "GrimHollowPG24",
+	"page": 72,
+	"featureType": [
+		"CM:MO"
+	],
+	"entries": [
+		"{@b Cost:} {@i 2 Mutation Points}",
+		"Your size increases by one category (from Medium to Large, for example). You can spend an additional 2 Mutation Points to increase your size by two categories instead (from Medium to Huge, for example), gaining the benefits of the spell again.",
+		"See the {@spell Enlarge/Reduce|XPHB} spell to determine the benefits gained from this ability."
+	]
+}

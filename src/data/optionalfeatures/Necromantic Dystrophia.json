@@ -1,0 +1,26 @@
+{
+    "name": "Necromantic Dystrophia",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "When your soul vessel is not charged, you suffer the following effects:",
+        {
+            "type": "list",
+            "items": [
+                "You cannot use the {@action Dash|XPHB}, {@action Dodge|XPHB}, or {@action Disengage|XPHB} actions.",
+                "You cannot use {@variantrule Reaction|XPHB|Reactions}.",
+                "You have {@variantrule Disadvantage|XPHB} on Constitution saving throws.",
+                "You cannot disguise your {@optfeature Hideous Appearance (Lich)|GrimHollowPG24|Hideous Appearance}."
+            ]
+        },
+        "Upon charging your soul vessel with an appropriate soul, you are no longer subject to these effects."
+    ]
+}

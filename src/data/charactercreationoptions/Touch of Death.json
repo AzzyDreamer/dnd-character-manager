@@ -1,0 +1,76 @@
+{
+	"name": "Touch of Death",
+	"source": "VRGR",
+	"page": 26,
+	"optionType": [
+		"DG"
+	],
+	"entries": [
+		"Your touch is pain, harming whoever you come in contact with. The deathly power within you is beyond your control, afflicting any who touch your bare skin. By the same token, you can deliver death to your enemies with your touch.",
+		"Roll on or choose an option from the Deadly Touch table to determine how this Dark Gift presents itself. Additionally, you gain the traits that follow.",
+		{
+			"type": "table",
+			"caption": "Deadly Touch",
+			"colLabels": [
+				"d6",
+				"Manifestation"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"Your body is alchemically or biologically altered, infusing you with deadly chemicals."
+				],
+				[
+					"2",
+					"The magic of a slighted druid or fey makes small plants wither and insects die in your presence."
+				],
+				[
+					"3",
+					"You're the harbinger of a grim prophecy. Any creature your touch damages is marked with a temporary scar of a group, fiend, deity, or other force that takes an interest in you."
+				],
+				[
+					"4",
+					"You survived a near-death experience—but shouldn't have. Ever since, death and ill omens follow you."
+				],
+				[
+					"5",
+					"You are out of sync with time or reality. Anything you touch is warped by the distortion."
+				],
+				[
+					"6",
+					"Every time you touch a creature, you hear the laughter of someone you once harmed."
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Death Touch",
+					"entries": [
+						"You can focus your deadly touch against your foes. As an action, make one unarmed strike. On a hit, the target takes an additional {@damage 1d10} necrotic damage. This damage increases by {@damage 1d10} when you reach 5th level ({@damage 2d10}), 11th level ({@damage 3d10}), and 17th level ({@damage 4d10})."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Inescapable Death",
+					"entries": [
+						"When you hit a target with an attack roll and deal necrotic damage, you ignore the target's resistance to that damage."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Withering Contact",
+					"entries": [
+						"When you start your turn grappling a creature or {@condition grappled} by it, the creature takes {@damage 1d10} necrotic damage."
+					]
+				}
+			]
+		}
+	]
+}

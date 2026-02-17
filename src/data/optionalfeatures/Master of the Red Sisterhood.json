@@ -1,0 +1,27 @@
+{
+    "name": "Master of the Red Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 148,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}",
+            "optionalfeature": [
+                "adept of the red sisterhood|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You come into your power as a Hag and enhance your abilities.",
+        {
+            "type": "list",
+            "items": [
+                "When you take the {@action Attack|XPHB} action on your turn, you may make an additional Claw attack. Your Claw attacks deal an additional {@damage 1d4} Psychic damage. You regain {@variantrule Hit Points|XPHB} equal to the Psychic damage dealt.",
+                "Your banter becomes supernaturally charming. A creature under your magical influence (such as being {@condition Charmed|XPHB} by you) who is able to hear you for 1 minute must must make a Charisma saving throw with a DC equal to 14 plus your Transformation Stage. On a failed save, when your mental influence ends, the target forgets magic was used to influence it. You regain use of this feature after you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+                "As a {@variantrule Bonus Action|XPHB}, you can expend a {@variantrule Hit Point Dice|XPHB|Hit Point Die} to cast the {@spell Charm Person|XPHB} spell."
+            ]
+        }
+    ]
+}

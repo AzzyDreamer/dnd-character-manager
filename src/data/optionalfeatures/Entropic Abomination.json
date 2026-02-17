@@ -1,0 +1,16 @@
+{
+	"name": "Entropic Abomination",
+	"source": "GrimHollowPG24",
+	"page": 137,
+	"featureType": [
+		"AH:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"entries": [
+		"This Flaw replacees the Stage 3 Flaw: Unstable Existence. The very essence of magic and the effect of stress aggravates the unstable nature of your aberrant body. Each time you fail a saving throw, or the first time you become {@condition Bloodied|XPHB} after finishing a {@variantrule Long Rest|XPHB}, you must roll on the {@table Unstable Form|GrimHollowPG24|Unstable Form table}. If the result is less than your current Unstable Form effect, replace it with the new result."
+	]
+}

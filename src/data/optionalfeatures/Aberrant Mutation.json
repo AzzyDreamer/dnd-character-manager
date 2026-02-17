@@ -1,0 +1,41 @@
+{
+	"name": "Aberrant Mutation",
+	"source": "GrimHollowPG24",
+	"page": 135,
+	"featureType": [
+		"AH:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"entries": [
+		"Your body can twist and reshape itself as you will it, changing body parts into dangerous or useful tools and regenerating after taking damage. These abilities are represented by Aberrant Mutations. You can manifest an Aberrant Mutation listed below a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your current Transformation Stage.",
+		"Each of these Aberrant Mutations last for 1 minute, and you can end them early by spending a {@variantrule Bonus Action|XPHB} to remove them or take on a different mutation. If you choose another Aberrant Mutation, you must spend another use of this feature.",
+		"You regain all uses of this ability when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Chitinous Shell",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you grow a hard, crustacean-like shell. While this mutation is active and are not wearing heavy armor, your {@variantrule Armor Class|XPHB} increases by 2. While you maintain this shell, your {@variantrule Speed|XPHB} is reduced by 10 feet."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Eldritch Limbs",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you transform one or both of your arms into thick muscle, scything claws, or sharpened bone. When you use the {@action Attack|XPHB} action, you can replace or or more attacks with melee attacks made with your eldritch limb. You are considered proficient with this attack, and it uses either Strength or Dexterity (your choice). On a hit, the attack deals {@damage 1d8} damage (either Bludgeoning, Piercing, or Slashing, chosen each time you manifest the mutation).",
+				"As a {@variantrule Bonus Action|XPHB}, you can make a melee attack with your eldritch limb.",
+				"Your eldritch limbs cannot hold weapons, shields, or other items. They are not considered weapons or {@variantrule Unarmed Strike|XPHB|Unarmed Strikes}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Slimy Form",
+			"entries": [
+				"As a {@variantrule Bonus Action|XPHB}, you cover yourself in a slippery slime. You have {@variantrule Advantage|XPHB} on ability checks to escape a grapple, and you can use the {@action Dash|XPHB} action as a {@variantrule Bonus Action|XPHB}. You also gain {@variantrule Resistance|XPHB} to Acid, Fire, and Cold damage while in this form."
+			]
+		}
+	]
+}

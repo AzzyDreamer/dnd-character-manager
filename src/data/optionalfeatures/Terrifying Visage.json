@@ -1,0 +1,17 @@
+{
+    "name": "Terrifying Visage",
+    "source": "GrimHollowPG24",
+    "page": 136,
+    "featureType": [
+        "AH:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+        }
+    ],
+    "entries": [
+        "Your mutations and unearthly appearance can unsettle even the bravest creatures. When you invoke your Aberrant Mutations or Writhing Tendrils, you choose one creature within 30 feet that can see you. That creature must succeed on a Wisdom saving throw or gain the {@condition Frightened|XPHB} condition for 1 minute. The DC for the saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+        "A creature that makes its saving throw is immune to this effect for 24 hours."
+    ]
+}

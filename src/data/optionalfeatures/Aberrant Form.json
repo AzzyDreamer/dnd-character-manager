@@ -1,0 +1,17 @@
+{
+	"name": "Aberrant Form",
+	"source": "GrimHollowPG24",
+	"page": 135,
+	"featureType": [
+		"AH:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"entries": [
+		"Your creature type becomes Aberration in addition to any other creature types you have.",
+		"Also, the first time you become {@condition Bloodied|XPHB} after a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you gain a number of {@variantrule Temporary Hit Points|XPHB} equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your current Transformation Stage."
+	]
+}

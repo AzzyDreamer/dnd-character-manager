@@ -1,0 +1,19 @@
+{
+    "name": "Instinctive Stealth",
+    "source": "GrimHollowPG24",
+    "page": 38,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "When trouble comes for you, you excel at making sure it can't find you. You have proficiency in the {@skill Stealth|XPHB} skill.",
+        {
+            "type": "entries",
+            "name": "Calculated Disappearance",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Stealth|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Magic Resistance",
+    "source": "GrimHollowPG24",
+    "page": 171,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "You have {@variantrule Advantage|XPHB} on saving throws against spells."
+    ]
+}

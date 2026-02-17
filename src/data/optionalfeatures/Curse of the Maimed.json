@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Maimed",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 2 Jinx Points",
+		"When you hit a creature cursed by your Evil Eye with an attack roll using a weapon or {@variantrule Unarmed Strike|XPHB} and roll a 19 or 20 on the {@dice d20}, you can take a {@variantrule Reaction|XPHB} and spend 2 Jinx Points to score a {@variantrule Critical Hit|XPHB}.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

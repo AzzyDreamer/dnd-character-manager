@@ -1,0 +1,12 @@
+{
+	"name": "Inheritor",
+	"source": "VRGR",
+	"page": 31,
+	"optionType": [
+		"RF:B"
+	],
+	"entries": [
+		"An ancestor or mentor's deeds earned them a place in legend. Now it's your turn. You are the clear inheritor of a famed legacy. You've inherited a token from your predecessor, something that marks you as their inheritor, such as a signet ring, signature piece of clothing, or notable weapon.",
+		"Additionally, any time you reveal your legacy, you swiftly learn the local opinion of your predecessor. If locals have never heard of your predecessor, nothing changes. If they have, rumors of your connection spread swiftly, and many locals consider you either a hero or a threat. Heroes are welcomed and might easily gain an audience with local leaders. Threats are encouraged to leave before they invite danger."
+	]
+}

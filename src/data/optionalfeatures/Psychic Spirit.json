@@ -1,0 +1,19 @@
+{
+    "name": "Psychic Spirit",
+    "source": "GrimHollowPG24",
+    "page": 44,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your strength of mind shields you from unnatural forces. You have {@variantrule Resistance|XPHB} to Psychic damage.",
+        {
+            "type": "entries",
+            "name": "Spirit's Strength",
+            "entries": [
+                "If you take this trait twice, when you fail a saving throw against an effect that deals Psychic damage, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

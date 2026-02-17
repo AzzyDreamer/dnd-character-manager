@@ -1,0 +1,16 @@
+{
+    "name": "Shadowsteel Absorption",
+    "source": "GrimHollowPG24",
+    "page": 171,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "As the Shadowsteel courses through you, it begins to harden your flesh. Your {@variantrule Armor Class|XPHB} increases by 1 when you aren't wearing armor."
+    ]
+}

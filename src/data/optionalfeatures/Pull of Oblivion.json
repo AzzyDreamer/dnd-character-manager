@@ -1,0 +1,17 @@
+{
+    "name": "Pull of Oblivion",
+    "source": "GrimHollowPG24",
+    "page": 177,
+    "featureType": [
+        "Spec:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+        }
+    ],
+    "entries": [
+        "Your connection to the material realm becomes gossamer thin. When you roll a natural 1 on a {@variantrule D20 Test|XPHB}, you take {@damage 4d6} Force damage, and this damage cannot be mitigated. If this damage reduces you to 0 {@variantrule Hit Points|XPHB}, you die.",
+        "When you die in this way or any other, you can only be brought back to life through magic equivalent to level 7 or higher spells."
+    ]
+}

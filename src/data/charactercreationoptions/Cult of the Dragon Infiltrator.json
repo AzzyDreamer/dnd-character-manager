@@ -1,0 +1,17 @@
+{
+	"name": "Cult of the Dragon Infiltrator",
+	"source": "HotDQ",
+	"page": 87,
+	"otherSources": [
+		{
+			"source": "ToD",
+			"page": 176
+		}
+	],
+	"optionType": [
+		"RF:B"
+	],
+	"entries": [
+		"You have infiltrated the ranks of the Cult of the Dragon. Having spied on the organization for quite some time, you are familiar with its inner workings and customs. You have a second identity as an initiate of the cult, enough of a facade to blend in as a simple grunt or servant."
+	]
+}

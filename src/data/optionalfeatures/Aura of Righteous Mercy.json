@@ -1,0 +1,16 @@
+{
+	"name": "Aura of Righteous Mercy",
+	"source": "GrimHollowPG24",
+	"page": 168,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"You emit an aura of peaceful resolution in a 20-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} centered on you, except when you have the {@condition Unconscious|XPHB} condition. When an ally within your aura would be reduced to 0 {@variantrule Hit Points|XPHB}, they can use their {@variantrule Reaction|XPHB} to drop to 1 {@variantrule Hit Points|XPHB|Hit Point} instead. If they do, you and the ally each gain a level of {@condition Exhaustion|XPHB}. After an ally uses this {@variantrule Reaction|XPHB}, that ally can't use it again until after they finish a {@variantrule Long Rest|XPHB}."
+	]
+}

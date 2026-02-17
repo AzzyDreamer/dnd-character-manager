@@ -1,0 +1,17 @@
+{
+	"name": "Creature of Earth",
+	"source": "GrimHollowPG24",
+	"page": 73,
+	"featureType": [
+		"CM:MO"
+	],
+	"prerequisite": [
+		{
+			"level": 10
+		}
+	],
+	"entries": [
+		"{@b Cost:} {@i 3 Mutation Points}",
+		"You have {@sense Tremorsense|XPHB} with a range of 30 feet. You can spend 2 additional Mutation Points to gain a {@variantrule Burrow Speed|XPHB} equal to your {@variantrule Speed|XPHB}."
+	]
+}

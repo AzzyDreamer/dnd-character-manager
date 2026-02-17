@@ -1,0 +1,21 @@
+{
+    "name": "Shadowsteel Caster",
+    "source": "GrimHollowPG24",
+    "page": 171,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}",
+            "optionalfeature": [
+                "shadowsteel curser|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "If you do not already have it, you gain the {@feat Shadowsteel Master|GrimHollowPG24} feat.",
+        "Additionally, when you use a Shadowsteel component to cast a spell using a spell slot, you can spend a Hit Die to regain that spell slot. The spell slot level cannot be greater than twice your Shadowsteel Ghoul Transformation Stage.",
+        "You can use this feature a number of times equal to your spellcasting ability modifier. You regain all uses of this feature after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

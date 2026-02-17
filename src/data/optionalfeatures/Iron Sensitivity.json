@@ -1,0 +1,16 @@
+{
+    "name": "Iron Sensitivity",
+    "source": "GrimHollowPG24",
+    "page": 148,
+    "featureType": [
+        "H:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body and soul connect back to the Realm of Faerie, and iron and steel weapons forged of the mortal realm cause you pain. After each {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, the first time you are damaged by an iron or steel weapon, you must succeed on a DC 15 Constitution saving throw or have the {@condition Stunned|XPHB} condition until the end of your next turn."
+    ]
+}

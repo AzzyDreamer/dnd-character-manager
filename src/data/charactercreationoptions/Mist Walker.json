@@ -1,0 +1,68 @@
+{
+	"name": "Mist Walker",
+	"source": "VRGR",
+	"page": 24,
+	"optionType": [
+		"DG"
+	],
+	"entries": [
+		"The Mists grip all who tread the Domains of Dread, but you know how to slip through their grasp. You can navigate the Mists successfully given enough time and a little luck, but this freedom comes with a price; if you remain in one area for too long, the Mists find you and drain your life force.",
+		"Roll on or choose an option from the Misty Travels table to determine how you developed this Dark Gift. Additionally, you gain the traits that follow.",
+		{
+			"type": "table",
+			"caption": "Misty Travels",
+			"colLabels": [
+				"d4",
+				"Origin"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"You learned a secret about the nature of the Mists. Ever since, you can manipulate them, but the lands you walk have turned against you."
+				],
+				[
+					"2",
+					"You fled into the Mists to escape someone or something that's hunting you. You can never rest for long, knowing you're still being pursued."
+				],
+				[
+					"3",
+					"You're part of an organization, a family, or an itinerant community with experience traveling the Mists. They taught you how to do the same."
+				],
+				[
+					"4",
+					"The Mists stole you from your home and fractured your memories of where you're from. You've been on a quest to find your way back ever since."
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Misty Step",
+					"entries": [
+						"You can cast the {@spell misty step} spell, requiring no spell slot, and you must finish a long rest before you can cast it this way again. Your spellcasting ability for this spell is Intelligence, Wisdom, or Charisma (your choice when you gain this Dark Gift). If you have spell slots of 2nd level or higher, you can cast this spell with them."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Mist Traveler",
+					"entries": [
+						"When you enter the Mists intent on reaching a specific domain, you are treated as if you possess a Mist talisman keyed to that domain. To use this trait, you must know the name of the domain you have chosen as your destination, but you don't need to have previously visited that land. This trait doesn't allow you to bypass domain borders closed by a Darklord's will."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Poisoned Roots",
+					"entries": [
+						"When you finish a long rest, the world around you in a 10-mile radius becomes a siphon that will eventually leech away your vitality. You can remain in the area safely for a number of weeks equal to your Constitution modifier (minimum of 1 week). Thereafter, each time you finish a long rest in the area, you must succeed on a {@dc 15} Constitution saving throw or gain 1 level of {@condition exhaustion} that can't be removed while you remain in the area."
+					]
+				}
+			]
+		}
+	]
+}

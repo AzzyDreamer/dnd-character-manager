@@ -1,0 +1,20 @@
+{
+    "name": "Standing Leap",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "Threats on the ground are of little concern as you leap over them with ease. You can make a {@variantrule Long Jump|XPHB} of up to 20 feet and a {@variantrule High Jump|XPHB} of up to 10 feet, with or without a running start. If your {@variantrule Speed|XPHB} is less than the distance you can {@variantrule Long Jump|XPHB}, you can leap only a distance equal to your {@variantrule Speed|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Incredible Leap",
+            "entries": [
+                "If you take this trait twice, you can make a {@variantrule Long Jump|XPHB} of up to 30 feet and a {@variantrule High Jump|XPHB} of up to 15 feet, as limited by your speed.",
+                "Additionally, when you jump out of another creature's reach, the movement of the jump does not provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} from that creature. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

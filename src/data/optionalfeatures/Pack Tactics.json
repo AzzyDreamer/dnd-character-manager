@@ -1,0 +1,19 @@
+{
+    "name": "Pack Tactics",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Staying close to your allies in combat makes you even more dangerous. When you start your turn with at least one ally who isn't {@condition Incapacitated|XPHB} within 5 feet of another creature you can see, you can use your {@variantrule Reaction|XPHB} to have {@variantrule Advantage|XPHB} on attack rolls against that creature until the end of your turn.",
+        {
+            "type": "entries",
+            "name": "Pack Instinct",
+            "entries": [
+                "If you take this trait twice, gaining {@variantrule Advantage|XPHB} from Pack Tactics requires no action."
+            ]
+        }
+    ]
+}

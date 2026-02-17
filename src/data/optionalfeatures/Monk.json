@@ -1,0 +1,11 @@
+{
+    "name": "Monk",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "While you aren't wearing armor or wielding a {@item Shield|XPHB}, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity and Charisma modifiers. You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your {@variantrule Unarmed Strike|XPHB|Unarmed Strikes}, and you can roll {@dice 1d6} in place of the normal damage of your {@variantrule Unarmed Strike|XPHB}. In addition, after you cast a spell that has a casting time of an action or take the {@action Attack|XPHB} action, you can make one attack with an {@variantrule Unarmed Strike|XPHB} as a {@variantrule Bonus Action|XPHB}."
+    ]
+}

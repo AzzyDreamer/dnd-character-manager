@@ -1,0 +1,19 @@
+{
+    "name": "Meditative Rest",
+    "source": "GrimHollowPG24",
+    "page": 41,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "Sleep is a luxury you've never needed to afford. When you rest, you meditate deeply for 4 hours, dreaming but remaining conscious. After resting in this way, you gain the same benefit that other humanoids do from 8 hours of sleep.",
+        {
+            "type": "entries",
+            "name": "Restorative Rest",
+            "entries": [
+                "If you take this trait twice, you need to spend only 2 hours in your meditation to gain the benefit of 8 hours of sleep, and you gain a {@dice d6} at the end of each {@variantrule Long Rest|XPHB}. Before the end of your next {@variantrule Long Rest|XPHB}, you can roll the {@dice d6} and add it to any {@dice d20} Test you make. You can decide to roll the {@dice d6} after the {@dice d20} Test is made, but you must do so before the outcome of the roll is known."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "name": "True Name",
+    "source": "GrimHollowPG24",
+    "page": 144,
+    "featureType": [
+        "Fi:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+        }
+    ],
+    "entries": [
+        "Your Fiend transformation is complete, and you are reborn. You are assigned a new name by the denizens of the Netherworld, which becomes your True Name. You receive a talisman of brimstone and brass with your true name inscribed in Infernal on it.",
+        "A creature with a {@variantrule Challenge Rating|XPHB} of 10 or higher within 10 feet of you that knows your True Name can use a {@action Magic|XPHB} action and speak your True Name. You must succeed on a DC 20 Charisma saving throw or suffer the following effects for 1 minute. You may attempt a Charisma saving throw at the end of each of your turns to end the effects.",
+        {
+            "type": "list",
+            "items": [
+                "You have the {@condition Charmed|XPHB} condition, even if you are {@variantrule Immunity|XPHB|Immune} to being {@condition Charmed|XPHB}.",
+                "As a {@variantrule Bonus Action|XPHB}, the entity that has spoken your True Name can force you to move up to your {@variantrule Speed|XPHB} and use your action to attack with a weapon, use your {@variantrule Unarmed Strike|XPHB}, or cast a cantrip against a target of their choice.",
+                "All attacks against you have {@variantrule Advantage|XPHB}, and you have {@variantrule Disadvantage|XPHB} on saving throws.",
+                "You cannot regain {@variantrule Hit Points|XPHB} or have {@variantrule Temporary Hit Points|XPHB}. You immediately lose any {@variantrule Temporary Hit Points|XPHB} you have."
+            ]
+        }
+    ]
+}

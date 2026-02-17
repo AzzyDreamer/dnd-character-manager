@@ -1,0 +1,19 @@
+{
+	"name": "Dreams and Nightmares",
+	"source": "GrimHollowPG24",
+	"page": 140,
+	"featureType": [
+		"F:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+		}
+	],
+	"entries": [
+		"You gain the ability to manipulate the mind of mortal beings. As a {@variantrule Bonus Action|XPHB}, choose a Humanoid you can see within 30 feet of you. That creature must succeed on a Wisdom saving throw. The DC is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+		"On a failed saving throw, the creature has the {@condition Paralyzed|XPHB} condition, as it is stuck in a blissful dream or a terrifying nightmare. The condition lasts for 1 minute. The target can attempt the Constitution saving throw at the end of each of its turns and each time it takes damage.",
+		"You can choose to concentrate on the effect as you would a spell. If you are {@status Concentration|XPHB|Concentrating} on the effect when the target attempts its saving throw, the target has {@variantrule Disadvantage|XPHB} on the saving throw.",
+		"You can use this ability a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses of this ability when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

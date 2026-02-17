@@ -1,0 +1,11 @@
+{
+	"name": "Mist Wanderer",
+	"source": "VRGR",
+	"page": 31,
+	"optionType": [
+		"RF:B"
+	],
+	"entries": [
+		"The Mists whisper to you and guide you through their mysterious eddies. You immediately know if an object you're touching is a Mist talisman (detailed in {@book chapter 3|VRGR|3|Mist Talismans}). You recognize where the talisman originates from if you have been to its domain of origin."
+	]
+}

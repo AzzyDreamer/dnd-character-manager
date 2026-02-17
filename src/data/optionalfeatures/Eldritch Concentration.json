@@ -1,0 +1,18 @@
+{
+	"name": "Eldritch Concentration",
+	"source": "GrimHollowPG24",
+	"page": 153,
+	"featureType": [
+		"L:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"entries": [
+		"Your supernatural ability with magic manifests in new ways. When you cast a spell that requires {@status Concentration|XPHB}, if you are already {@status Concentration|XPHB|Concentrating} on one such spell, you can spend the charge of your soul vessel. If you do this, you do not lose {@status Concentration|XPHB} on the original spell. Instead, you gain 1 {@condition Exhaustion|XPHB} level.",
+		"If you cast a third {@status Concentration|XPHB} spell during this time, or lose {@status Concentration|XPHB} for any other reason, you lose {@status Concentration|XPHB} on both current spells you are {@status Concentration|XPHB|Concentrating} on.",
+		"Once you use this feature you cannot use it again until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

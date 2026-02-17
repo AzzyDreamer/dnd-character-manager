@@ -1,0 +1,11 @@
+{
+	"name": "Awareness (All)",
+	"source": "GrimHollowPG24",
+	"page": 56,
+	"featureType": [
+		"DG:M"
+	],
+	"entries": [
+		"For 10 minutes, you know the location of creatures that are the same type as the creature you consumed within 60 feet of you that are not behind {@variantrule Cover|XPHB|Total Cover}."
+	]
+}

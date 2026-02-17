@@ -1,0 +1,19 @@
+{
+    "name": "Light Armor Training",
+    "source": "GrimHollowPG24",
+    "page": 39,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Dealing with the threats you face requires the right combination of protection and movement. You have training with Light armor.",
+        {
+            "type": "entries",
+            "name": "Light Armor Expertise",
+            "entries": [
+                "If you take this trait twice, your AC increases by 1 while wearing Light armor."
+            ]
+        }
+    ]
+}

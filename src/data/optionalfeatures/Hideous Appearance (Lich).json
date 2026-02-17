@@ -1,0 +1,55 @@
+{
+	"name": "Hideous Appearance (Lich)",
+	"source": "GrimHollowPG24",
+	"page": 152,
+	"featureType": [
+		"L:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"entries": [
+		"Your appearance has grotesquely transformed. Your flesh withers and contracts around your bones, your eyes become sunken, and you reek of death. Regardless of your true form, you're horrific to behold.",
+		"You can suspend this form and manifest the appearance of the humanoid you once were, but this is taxing and requires effort. This form is not permanent, and moments of stress are likely to reveal your true nature. Your true form may be revealed in the following situations:",
+		{
+			"type": "list",
+			"items": [
+				"Becoming {@condition Bloodied|XPHB}",
+				"{@status Concentration|XPHB|Concentrating} on a spell",
+				"Having the {@condition Unconscious|XPHB} condition",
+				"Entering hallowed ground",
+				"Choosing to reveal yourself"
+			]
+		},
+		"In these events, or times of other extreme emotional or physical stress, a GM can call or a Constitution saving throw with a DC based on your current Transformation Stage. If you fail this save, your Horrific Appearance is revealed.",
+		{
+			"type": "table",
+			"caption": "Hideous Appearance Save DC",
+			"colLabels": [
+				"Stage",
+				"Constitution Save DC"
+			],
+			"colStyles": [
+				"col-6 text-center",
+				"col-6 text-center"
+			],
+			"rows": [
+				[
+					"2",
+					"13"
+				],
+				[
+					"3",
+					"16"
+				],
+				[
+					"4",
+					"20"
+				]
+			]
+		},
+		"Non-evil creatures that witness your true form become instantly {@variantrule Hostile [Attitude]|XPHB|Hostile} to you, unless the GM decides otherwise."
+	]
+}

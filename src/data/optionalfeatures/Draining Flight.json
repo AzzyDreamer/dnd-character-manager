@@ -1,0 +1,18 @@
+{
+	"name": "Draining Flight",
+	"source": "GrimHollowPG24",
+	"page": 176,
+	"featureType": [
+		"Spec:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}, {@optfeature Incorporeal Movement|GrimHollowPG24} & {@optfeature Haunting Flight|GrimHollowPG24}"
+		}
+	],
+	"entries": [
+		"You can now use your {@optfeature Incorporeal Movement|GrimHollowPG24} feature as a {@variantrule Bonus Action|XPHB}. Additionally, your {@variantrule Fly Speed|XPHB} while using {@optfeature Haunting Flight|GrimHollowPG24} becomes double your {@variantrule Speed|XPHB}.",
+		"Additionally, while you are using {@optfeature Incorporeal Movement|GrimHollowPG24}, your movement does not provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} and you can damage creatures that you move through. Once per turn, when you enter a space occupied by a creature, you can choose to force that creature to succeed on a Constitution saving throw or take {@damage 6d6} Psychic damage and have the {@condition Frightened|XPHB} condition until the end of your next turn. A creature takes half damage on a successful save and is not {@condition Frightened|XPHB}. The DC of the Constitution saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+		"Once you use this feature, you must finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB} before you can use it again."
+	]
+}

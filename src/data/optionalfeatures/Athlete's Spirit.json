@@ -1,0 +1,19 @@
+{
+	"name": "Athlete's Spirit",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"Your reserves of physical power have kept you alive on more than one occasion. You have proficiency in the {@skill Athletics|XPHB} skill.",
+		{
+			"type": "entries",
+			"name": "Athlete's Resolve",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on Athletics checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Focused Reserves",
+	"source": "GrimHollowPG24",
+	"page": 37,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"No matter how badly beaten down you are, you find the will to keep fighting when you most need it. As a {@variantrule Reaction|XPHB} after you take damage, you can roll a number of d6s equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} and gain {@variantrule Temporary Hit Points|XPHB} equal to the total. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Focused Edge",
+			"entries": [
+				"If you take this trait twice, you can reroll 1s and 2s when you use Focused Reserves, but you must use the new rolls."
+			]
+		}
+	]
+}

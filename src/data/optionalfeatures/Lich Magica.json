@@ -1,0 +1,26 @@
+{
+    "name": "Lich Magica",
+    "source": "GrimHollowPG24",
+    "page": 151,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "You can trade the soul in your soul vessel for increased magical power.",
+        "On your turn, as a {@variantrule Bonus Action|XPHB}, you can spend the charge in your soul vessel to gain one of the following effects:",
+        {
+            "type": "list",
+            "items": [
+                "Regain a spell slot equal to or lower than your current Lich Transformation Stage.",
+                "The next saving throw made before the end of your next turn against one of your spells has {@variantrule Disadvantage|XPHB}.",
+                "The next time you cast a spell before the end of your next turn, deal an extra {@dice 1d6} Necrotic damage per Lich Transformation Stage to one creature damaged by that spell.",
+                "The next time you cast a spell before the end of your next turn that restores {@variantrule Hit Points|XPHB}, that spell restores an additional {@dice 1d6} {@variantrule Hit Points|XPHB} per Lich Transformation Stage."
+            ]
+        }
+    ]
+}

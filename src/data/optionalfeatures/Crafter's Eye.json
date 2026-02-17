@@ -1,0 +1,19 @@
+{
+	"name": "Crafter's Eye",
+	"source": "GrimHollowPG24",
+	"page": 35,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"The history of Etharis is written in relics, and you read that history better than most. When you make a {@skill History|XPHB} check related to any object (an item, device, building, or material) and you have proficiency in an {@item Artisan's Tools|XPHB} associated with creating that object, you are considered proficient in {@skill History|XPHB} and you add double your {@variantrule Proficiency|XPHB|Proficiency Bonus} to the check instead of your normal bonus.",
+		{
+			"type": "entries",
+			"name": "Crafter's Cunning",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on the {@skill History|XPHB} checks you make with Crafter's Eye. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

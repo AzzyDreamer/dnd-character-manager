@@ -1,0 +1,12 @@
+{
+	"name": "Owlbear Whisperer",
+	"source": "IDRotF",
+	"page": 264,
+	"optionType": [
+		"CS"
+	],
+	"entries": [
+		"Owlbears are predisposed to like me.",
+		"If I am within 10 feet of an owlbear, I can use an action to make a {@dc 10} Charisma ({@skill Animal Handling}) check. On a success, I change the owlbear's attitude toward me from hostile to indifferent or from indifferent to friendly."
+	]
+}

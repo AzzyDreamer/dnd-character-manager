@@ -1,0 +1,11 @@
+{
+	"name": "Gift of Joyous Life",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"At the beginning of your turn, if you are {@condition Bloodied|XPHB}, you can choose to roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die} (no action required) and regain a number of {@variantrule Hit Points|XPHB} equal to the roll. If you roll a 1 on this die, you regain no {@variantrule Hit Points|XPHB} and take 1 point of Force damage instead. You regain this ability when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

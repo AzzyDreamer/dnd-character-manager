@@ -1,0 +1,17 @@
+{
+    "name": "Shadowsteel Fury",
+    "source": "GrimHollowPG24",
+    "page": 172,
+    "featureType": [
+        "SG:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "When you use the {@action Attack|XPHB} action to attack with your {@optfeature Shadowsteel Weapon|GrimHollowPG24|Shadowsteel weapon} or {@optfeature Cursed Claw|GrimHollowPG24}, you can use a {@variantrule Bonus Action|XPHB} to make an additional attack with the same weapon or Claw. This extra attack carries with it the power of the Shadowsteel infection.",
+        "When you hit with this attack, the target must succeed on a Constitution saving throw or gain a 1 {@condition Exhaustion|XPHB} level. The saving throw DC is 8 plus the ability modifier used in the attack plus your Transformation Stage."
+    ]
+}

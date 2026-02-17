@@ -1,0 +1,16 @@
+{
+	"name": "Fraying Reality",
+	"source": "GrimHollowPG24",
+	"page": 176,
+	"featureType": [
+		"Spec:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"Your mind begins to slip into the dark places where the world of life and world of death intersect. When you become {@condition Bloodied|XPHB} for the first time after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you must make a DC 15 Charisma saving throw. On a failed save, you act as though under the effects of a {@spell Confusion|XPHB} spell for 1 minute."
+	]
+}

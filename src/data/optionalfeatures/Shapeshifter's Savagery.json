@@ -1,0 +1,23 @@
+{
+    "name": "Shapeshifter's Savagery",
+    "source": "GrimHollowPG24",
+    "page": 157,
+    "featureType": [
+        "Ly:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "You have embraced the animalistic side of your transformation. While in your hybrid form, you gain the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "Your Claw and Bite attacks deal an additional {@damage 1d8} Slashing damage.",
+                "You have {@variantrule Immunity|XPHB} to the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions."
+            ]
+        }
+    ]
+}

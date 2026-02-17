@@ -1,0 +1,27 @@
+{
+    "name": "Master of the Green Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 148,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}",
+            "optionalfeature": [
+                "adept of the green sisterhood|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You come into your power as a Hag and enhance your abilities.",
+        {
+            "type": "list",
+            "items": [
+                "When you take the {@action Attack|XPHB} action on your turn, you may make an additional Claw attack. Your Claw attacks deal an additional {@damage 1d6} Poison damage.",
+                "You learn a corrupt ritual to create a Hag Eye or a {@creature Gasdra|GrimHollowPG24} companion. The ritual takes four hours and 200 GP to complete. You choose which ritual you know when you select this boon. You can only have one Hag Eye or Gasdra companion at a time, and you cannot have both.",
+                "As a {@action Magic|XPHB} action, you can recover an expended spell slot by spending {@variantrule Hit Point Dice|XPHB} equal to the spell slot's level. The spell slot can have a level equal to no more than one third your character level (round up). Once you use this boon, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

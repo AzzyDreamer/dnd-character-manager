@@ -1,0 +1,17 @@
+{
+	"name": "Binding Curse",
+	"source": "GrimHollowPG24",
+	"page": 152,
+	"featureType": [
+		"L:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"entries": [
+		"You can compel a creature with a binding curse. As a {@variantrule Bonus Action|XPHB}, choose a creature within 30 feet who can see you. That creature makes a Charisma saving throw against a DC of 12 plus your Transformation Stage. On a failed save it cannot move more than 30 feet away from you for 1 minute. Also, during that time, your weapon attacks and {@variantrule Unarmed Strikes|XPHB} against the creature deal an additional {@dice 2d6} Necrotic damage.",
+		"You can use this feature three times, regaining all uses after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

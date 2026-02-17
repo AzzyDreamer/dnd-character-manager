@@ -1,0 +1,17 @@
+{
+	"name": "Dragon Scholar",
+	"source": "HotDQ",
+	"page": 87,
+	"otherSources": [
+		{
+			"source": "ToD",
+			"page": 176
+		}
+	],
+	"optionType": [
+		"RF:B"
+	],
+	"entries": [
+		"You have studied dragons and their lore for many years. You can automatically identify locations built or used by dragons and can identify dragon eggs and scales by sight. If you fail an Intelligence check to recall lore relating to dragons, you know someone or some book you can consult for the answer unless the DM rules that the lore is unknown."
+	]
+}

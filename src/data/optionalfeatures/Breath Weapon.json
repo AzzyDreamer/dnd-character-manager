@@ -1,0 +1,21 @@
+{
+	"name": "Breath Weapon",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"A connection to draconic or elemental fury lets you unleash a blast of destructive energy. When you select this trait, choose a damage type: Acid, Cold, Fire, Lightning, Poison, or Thunder. Then choose an area of effect: a {@variantrule Line [Area of Effect]|XPHB|Line} that is 5 feet wide and 30 feet long, or a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone}.",
+		"When you use a {@action Magic|XPHB} action to expel your Breath Weapon, each creature in the area of effect must make a Dexterity saving throw (DC = 8 + your Constitution modifier + your {@variantrule Proficiency|XPHB|Proficiency Bonus}). A target creature takes {@damage 1d8} damage of the chosen type on a failed save, or half as much damage on a successful one. This damage increases by {@dice 1d8} when you reach character levels 5 ({@dice 2d8}), 11 ({@dice 3d8}), and 17 ({@dice 4d8}).",
+		"You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Potent Breath",
+			"entries": [
+				"If you take this trait multiple times, you gain an additional breath weapon each time, with its own number of uses, damage type, and area of effect. Additionally, when you use any of your Breath Weapons, one target of your choice has {@variantrule Disadvantage|XPHB} on the saving throw. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Burst of Speed",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"The many things that want to kill you must catch you first. On your turn, you can increase your {@variantrule Speed|XPHB} by 30 feet until the end of your turn. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Furious Speed",
+			"entries": [
+				"If you take this trait twice, on a turn when you use Burst of Speed, you don't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks}."
+			]
+		}
+	]
+}

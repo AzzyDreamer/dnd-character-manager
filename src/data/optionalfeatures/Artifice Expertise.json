@@ -1,0 +1,48 @@
+{
+	"name": "Artifice Expertise",
+	"source": "GrimHollowPG24",
+	"page": 32,
+	"featureType": [
+		"C",
+		"E",
+		"HT"
+	],
+	"entries": [
+		"Working with detritus and shattered objects has granted you an affinity for repairing and remaking things. You have proficiency with {@item Tinker's Tools|XPHB}. (This is an Exploration trait.) Additionally, you can use your {@item Tinker's Tools|XPHB} and 10 GP worth of appropriate materials to spend 10 minutes creating a small clockwork device. The device must fit in the palm of your hand, and can serve one of the following functions:",
+		{
+			"type": "entries",
+			"name": "{@style Smoker|small}",
+			"entries": [
+				"The device exudes smoke in a 5-foot {@variantrule Cube [Area of Effect]|XPHB|Cube} for 1 minute. Any objects or creatures within this {@variantrule Cube [Area of Effect]|XPHB|Cube} are considered {@variantrule Lightly Obscured|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "{@style Lighter|small}",
+			"entries": [
+				"The device emits a small flame the size of a candle's that can light flammable objects."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "{@style Compass|small}",
+			"entries": [
+				"The device always points north, or in a cardinal direction of the GM's determination on another plane."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Expert Gadgeteer",
+			"entries": [
+				"If you take this trait twice, you can make a device in 1 minute instead of 10 minutes. In addition, you can choose to imbue a device with the following extra function: (This is a Combat trait.)",
+				{
+					"type": "entries",
+					"name": "{@style Distractor|small}",
+					"entries": [
+						"This device is set with blinking lights that can captivate other creatures. As a {@variantrule Bonus Action|XPHB}, you place or toss the device into a space within 30 feet of you. A creature sharing a space with the device must succeed on a DC 10 Intelligence saving throw. On a failure, attacks against that creature have {@variantrule Advantage|XPHB} until the start of your next turn. A creature can use an action to destroy the device. You can give up to three of your devices the Distractor feature. You regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

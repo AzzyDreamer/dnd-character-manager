@@ -1,0 +1,18 @@
+{
+    "name": "Queen's Command",
+    "source": "GrimHollowPG24",
+    "page": 140,
+    "featureType": [
+        "F:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "The Fey court lends you its power, and in exchange you must pay regular tribute to maintain your freedom. Twice a year, at times relevant to the Fey Court that you serve—such as the solstices or the equinoxes—you must deliver a treasure or other significant tribute to your ruling Fey Queen.",
+        "If your queen considers the tribute lacking, you are immediately notified of your failure and are given detailed instructions on how to atone. You have {@variantrule Disadvantage|XPHB} on all {@variantrule D20 Test|XPHB|D20 Tests} until you rectify the situation. If you do not satisfy your queen's demand in one week's time, your queen transports you immediately to her Fey Court, where you must answer for your insolence. Once transported in this way, you must remain in the Realm of Faerie for 100 years, or until you strike a bargain with your queen to let you return to the Material Plane.",
+        "Your GM will tell you what constitutes an appropriate tribute to the court. Some Fey Queens prefer magic items while others wish for long-kept secrets, the capture of Fey criminals, or Humanoid servants."
+    ]
+}

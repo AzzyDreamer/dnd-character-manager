@@ -1,0 +1,14 @@
+{
+	"name": "Curse of the Insensate",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 3 Jinx Points",
+		"As a {@action Magic|XPHB} action, choose a creature that you can see that is cursed by your Evil Eye and spend 3 Jinx Points. The target must make a Wisdom saving throw.",
+		"On a failed save, the creature has the {@condition Blinded|XPHB} and {@condition Deafened|XPHB} conditions for 1 minute. At the end of each of its turns, the target repeats the save, ending the Misfortune on itself on a success.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

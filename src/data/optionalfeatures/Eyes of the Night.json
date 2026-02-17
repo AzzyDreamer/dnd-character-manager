@@ -1,0 +1,16 @@
+{
+	"name": "Eyes of the Night",
+	"source": "GrimHollowPG24",
+	"page": 180,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"You gain {@sense Darkvision|XPHB} out to 60 feet. If you already have {@sense Darkvision|XPHB}, the range increases by 60 feet."
+	]
+}

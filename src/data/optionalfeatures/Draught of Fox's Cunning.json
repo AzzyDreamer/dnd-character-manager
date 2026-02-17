@@ -1,0 +1,11 @@
+{
+	"name": "Draught of Fox's Cunning",
+	"source": "GrimHollowPG24",
+	"page": 75,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 10 minutes, you have {@variantrule Advantage|XPHB} on Intelligence checks and Intelligence saving throws."
+	]
+}

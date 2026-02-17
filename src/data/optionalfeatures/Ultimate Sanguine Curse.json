@@ -1,0 +1,23 @@
+{
+    "name": "Ultimate Sanguine Curse",
+    "source": "GrimHollowPG24",
+    "page": 181,
+    "featureType": [
+        "V:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "Your transformation into a creature of the night is complete. And with that transformation comes susceptibilities. You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "One strike may end your existence forever. When you are {@condition Incapacitated|XPHB}, {@condition Stunned|XPHB}, or {@condition Unconscious|XPHB}, and you are struck by a {@variantrule Critical Hit|XPHB} with a Piercing Weapon made of wood or silver, you must succeed on a DC 20 Constitution saving throw. On a failed save, you die and are reduced to ash. Only a {@spell True Resurrection|XPHB} or {@spell Wish|XPHB} spell can resurrect you.",
+                "You must feed every day."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "name": "The Sanguine Curse",
+    "source": "GrimHollowPG24",
+    "page": 179,
+    "featureType": [
+        "V:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "The Sanguine Curse has taken hold of you. As a result, you gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "You cannot enter a private residence that you do not own without one of the occupants inviting you. Once invited, you can enter without penalty as long as the inviter resides there. If you do enter uninvited, you have {@variantrule Disadvantage|XPHB} on all {@variantrule D20 Test|XPHB|D20 Tests} while in the residence. Additionally, you take {@damage 1d4} Psychic damage at the start of each of your turns. You cannot be {@variantrule Resistance|XPHB|Resistant} or {@variantrule Immunity|XPHB|Immune} to Psychic damage while inside such a residence uninvited.",
+                "You must feed at least once within seven days of your last feeding. See the Feeding sidebar for more information."
+            ]
+        },
+        {
+            "type": "inset",
+            "name": "Feeding",
+            "entries": [
+                "As a Vampire transforms further and further from its mortal form, its metabolic requirements change. The first change is a need for mortal blood. This need is approximately 1 pint of blood from a Humanoid, Beast, or other creature with mortal blood.",
+                "As an action, you can bite a living creature within 5 feet that is {@condition Charmed|XPHB} by you, or that has the {@condition Incapacitated|XPHB}, {@condition Paralyzed|XPHB}, {@condition Restrained|XPHB}, or {@condition Unconscious|XPHB} condition. You drain the target of one pint of blood (or similar life-giving substance), leaving a visible bite mark on that creature. The bitten creature gains one {@condition Exhaustion|XPHB} level.",
+                "A Vampire that does not feed within the required time enters a rabid feeding frenzy under the GM's control. They attack the nearest creature they could feed from. A Vampire remains in this state until they have drained a creature completely (killing them), at which point the Vampire falls {@condition Unconscious|XPHB} for 4 hours."
+            ]
+        }
+    ]
+}

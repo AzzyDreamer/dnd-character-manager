@@ -1,0 +1,17 @@
+{
+    "name": "Twilight Glamour",
+    "source": "GrimHollowPG24",
+    "page": 141,
+    "featureType": [
+        "F:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "As a {@action Magic|XPHB} action, you gain the {@condition Invisible|XPHB} condition for 1 hour or until you end it as a {@variantrule Bonus Action|XPHB}. If you make an attack roll, deal damage, or cast a spell that causes the target to make a saving throw, the remaining duration changes to 1 minute.",
+        "You can use this ability twice, and you regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

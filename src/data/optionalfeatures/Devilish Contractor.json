@@ -1,0 +1,21 @@
+{
+	"name": "Devilish Contractor",
+	"source": "GrimHollowPG24",
+	"page": 143,
+	"featureType": [
+		"Fi:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"entries": [
+		"You have acquired the ability to bind mortal creatures to your will. You can create a contract to bind a mortal Humanoid's soul to you, feeding on its power. The mortal gains a gift asked for in the contract, and you gain a Gift of Damnation of your choice (see Gifts of Damnation).",
+		"To bind a mortal's soul to you, you must first create a contract for their desired gift. A contract requires magical ink and paper worth 10 GP for each Transformation Stage you have acquired.",
+		"You and the mortal must both sign the contract willingly, fully aware of the costs involved. Once signed, daemonic entities give you a Gift of Damnation, and the mortal receives their desired wishes within 7 days. You do not have to provide this boon yourself.",
+		"For example, upon signing a contract for a {@optfeature Gift of Unfettered Glory|GrimHollowPG24}, you receive the benefits listed for that gift. The mortal who signs receives their stated desire, provided by the dubious powers of the Netherworld. You cannot benefit directly from the mortal's desired gift, nor can an ally. No ally of yours can ever sign a contract with you.",
+		"You may take a Gift of Damnation of the Stage that you have attained or lower. For example, if you are at Stage 2 of the Transformation, you may only take a Stage 1 or Stage 2 Gift of Damnation.",
+		"There is no limit to the number of contracts you can execute, but you can only have one active Gift of Damnation at a time. When you would gain a second Gift of Damnation, you may replace your active gift with the new one. Also, when you finish a {@variantrule Long Rest|XPHB} you may swap your active Gift of Damnation for any other gift associated with a signed contract."
+	]
+}

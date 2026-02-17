@@ -1,0 +1,11 @@
+{
+	"name": "Fighter",
+	"source": "GrimHollowPG24",
+	"page": 65,
+	"featureType": [
+		"CA:AT"
+	],
+	"entries": [
+		"You gain proficiency with {@filter martial weapons|items|type=martial weapon} and training with {@item Shield|XPHB|Shields}. In addition, you gain a {@filter Fighting Style feat|feats|category=FS} of your choice."
+	]
+}

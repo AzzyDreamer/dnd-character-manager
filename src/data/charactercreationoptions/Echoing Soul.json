@@ -1,0 +1,114 @@
+{
+	"name": "Echoing Soul",
+	"source": "VRGR",
+	"page": 22,
+	"optionType": [
+		"DG"
+	],
+	"entries": [
+		"Your soul isn't your own or, at least, it wasn't always yours. Whether you've lived past lives, your soul was swapped into a different body, or you have a link connecting you to another being, you experience echoes from another life. These echoes grant you knowledge, talents, or even languages you can't always explain, but they also intrude on your perceptions and beliefs unexpectedly.",
+		"Roll on or choose an option from the Soul Echoes table to determine the nature of this Dark Gift. Additionally, you gain the traits that follow.",
+		{
+			"type": "table",
+			"caption": "Soul Echoes",
+			"colLabels": [
+				"d6",
+				"Echo"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"My soul is linked with that of a person elsewhere, perhaps another domain, world, or plane."
+				],
+				[
+					"2",
+					"I have lived many times before, my soul reincarnating each time I die rather than passing on."
+				],
+				[
+					"3",
+					"My consciousness was removed from my original body and implanted in this one."
+				],
+				[
+					"4",
+					"I was physically and spiritually merged with another being."
+				],
+				[
+					"5",
+					"I share my body with an intangible, otherworldly force."
+				],
+				[
+					"6",
+					"Time fractures around me, and I sometimes collide with my own past or future."
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Channeled Prowess",
+					"entries": [
+						"You gain proficiency in two skills of your choice."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Inherent Tongue",
+					"entries": [
+						"You can speak, read, and write one additional language of your choice."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Intrusive Echoes",
+					"entries": [
+						"Immediately after you make an attack roll, an ability check, or a saving throw and roll a 1 on the {@dice d20}, your soul's memories emerge and overtake your perceptions and experiences. You might see people around you as someone other than who they are, or you become disoriented by a double-experience of the world around you. Roll on the Intrusive Echoes table to determine the effect of these vivid memories and perceptions. Once one of effects occur, these intrusive echoes can't manifest again until you finish a short or long rest.",
+						{
+							"type": "table",
+							"caption": "Intrusive Echoes",
+							"colLabels": [
+								"d6",
+								"Effect"
+							],
+							"colStyles": [
+								"col-2 text-center",
+								"col-10"
+							],
+							"rows": [
+								[
+									"1",
+									"You are {@condition charmed} by a creature you can see (of the DM's choice) for 1 minute or until the creature damages you."
+								],
+								[
+									"2",
+									"You are {@condition frightened} by a creature you can see (of the DM's choice) for 1 minute, or until the creature damages you."
+								],
+								[
+									"3",
+									"You perceive another time or place around you until the end of your next turn. During this time, you are {@condition blinded} to your actual surroundings."
+								],
+								[
+									"4",
+									"You perceive a different time or place overlapping your surroundings. Your speed is halved until the end of your next turn."
+								],
+								[
+									"5",
+									"Memories and sensations overwhelm you. You are {@condition incapacitated} until the start of your next turn."
+								],
+								[
+									"6",
+									"Your memory is one of triumph. You can reroll the ability check, attack roll, or saving throw that you just made. You must use the new roll."
+								]
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

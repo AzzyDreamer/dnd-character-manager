@@ -1,0 +1,12 @@
+{
+    "name": "Runic Bomb",
+    "source": "GrimHollowPG24",
+    "page": 58,
+    "featureType": [
+        "TG:TG"
+    ],
+    "entries": [
+        "Runic Bombs are used to hunt creatures resilient to mundane weapons. As a {@variantrule Bonus Action|XPHB}, you can throw the runic bomb at a point  within 60 feet that you can see, creating a 20-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} centered on that point. The {@variantrule Sphere [Area of Effect]|XPHB|Sphere} spreads around corners, and its area is {@variantrule Lightly Obscured|XPHB}. It lasts for 1 minute or until a strong wind (such as one created by Gust of Wind) disperses it. Whenever Bludgeoning, Piercing, and Slashing damage is dealt to a creature inside the sphere, that damage is Force damage instead of its normal damage type.",
+        "A Runic Bomb is destroyed after a single use."
+    ]
+}

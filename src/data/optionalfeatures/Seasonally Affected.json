@@ -1,0 +1,45 @@
+{
+    "name": "Seasonally Affected",
+    "source": "GrimHollowPG24",
+    "page": 141,
+    "featureType": [
+        "F:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "Your connection to the Realm of Fey has a stronger pull on you. You have {@variantrule Disadvantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws} as the Fey Court attempts to claim your soul as their own.",
+        "Additionally, you gain {@variantrule Vulnerability|XPHB} to a certain damage type based on the Fey Court that you are pledged to. You cannot benefit from {@variantrule Resistance|XPHB} or {@variantrule Immunity|XPHB} to that damage.",
+        {
+            "type": "entries",
+            "name": "Spring",
+            "entries": [
+                "You are {@variantrule Vulnerability|XPHB|Vulnerable} to Necrotic damage."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Summer",
+            "entries": [
+                "You are {@variantrule Vulnerability|XPHB|Vulnerable} to Cold damage."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Autumn",
+            "entries": [
+                "You are {@variantrule Vulnerability|XPHB|Vulnerable} to Radiant damage."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Winter",
+            "entries": [
+                "You are {@variantrule Vulnerability|XPHB|Vulnerable} to Fire damage."
+            ]
+        }
+    ]
+}

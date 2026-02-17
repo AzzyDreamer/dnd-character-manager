@@ -1,0 +1,13 @@
+{
+	"name": "Barbarian",
+	"source": "GrimHollowPG24",
+	"page": 64,
+	"featureType": [
+		"CA:AT"
+	],
+	"entries": [
+		"You've learned to fight with primal ferocity.",
+		"As a {@variantrule Bonus Action|XPHB} while you aren't wearing Heavy armor, you can enter a rampage for 1 minute. During this time, you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage, and you can't maintain {@status Concentration|XPHB}. Your rampage ends early if you use a {@variantrule Bonus Action|XPHB} or have the {@condition Incapacitated|XPHB} condition.",
+		"Once you use this talent, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

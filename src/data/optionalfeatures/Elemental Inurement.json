@@ -1,0 +1,24 @@
+{
+	"name": "Elemental Inurement",
+	"source": "GrimHollowPG24",
+	"page": 73,
+	"featureType": [
+		"CM:MO"
+	],
+	"prerequisite": [
+		{
+			"level": 10
+		}
+	],
+	"entries": [
+		"{@b Cost:} {@i 2 Mutation Points}",
+		"You gain {@variantrule Resistance|XPHB} to one of the following damage types of your choice: Acid, Cold, Fire, Lightning, Poison, or Thunder.",
+		{
+			"type": "entries",
+			"name": "Repeatable",
+			"entries": [
+				"You can gain this Mutation more than once, but you must choose a different {@variantrule Resistance|XPHB} each time."
+			]
+		}
+	]
+}

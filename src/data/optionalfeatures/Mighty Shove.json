@@ -1,0 +1,19 @@
+{
+    "name": "Mighty Shove",
+    "source": "GrimHollowPG24",
+    "page": 41,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your powerful blows send your targets reeling. When you hit a creature no more than one size larger than you with a melee attack, you can use a {@variantrule Bonus Action|XPHB} to attempt to shove that creature. The target must succeed on a Strength or Dexterity saving throw (DC = 8 + your Strength modifier + your {@variantrule Proficiency|XPHB|Proficiency Bonus}) or be pushed up to 10 feet away from you.",
+        {
+            "type": "entries",
+            "name": "Overwhelming Shove",
+            "entries": [
+                "If you take this trait twice, when you use Mighty Shove, the target creature has {@variantrule Disadvantage|XPHB} on the saving throw."
+            ]
+        }
+    ]
+}

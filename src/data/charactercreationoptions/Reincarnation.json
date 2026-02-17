@@ -1,0 +1,11 @@
+{
+	"name": "Reincarnation",
+	"source": "IDRotF",
+	"page": 264,
+	"optionType": [
+		"CS"
+	],
+	"entries": [
+		"I died and was brought back to life by a friendly human druid using the {@spell reincarnate} spell. I have no idea what became of the druid, whose name I don't know. I retain the memories of my previous life, some or all of which was spent in Icewind Dale. (Roll on the table in the spell's description to determine your character's previous race, or choose a race from the table that you like, then flesh out the story of your previous life.)"
+	]
+}

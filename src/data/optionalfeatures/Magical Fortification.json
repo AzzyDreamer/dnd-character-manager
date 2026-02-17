@@ -1,0 +1,20 @@
+{
+    "name": "Magical Fortification",
+    "source": "GrimHollowPG24",
+    "page": 39,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "The more that magic threatens you, the more your resilience to it increases. Choose an ability score: Strength, Dexterity, Constitution, Intelligence, Wisdom, or Charisma. You have {@variantrule Advantage|XPHB} on saving throws using that ability score against spells and other magical effects.",
+        {
+            "type": "entries",
+            "name": "Extended Fortification",
+            "entries": [
+                "If you take this trait multiple times, you have {@variantrule Advantage|XPHB} on saving throws using a new ability score each time.",
+                "Additionally, if you fail a saving throw against a spell or other magical effect and you do not have proficiency with that saving throw, you can use your {@variantrule Reaction|XPHB} to reroll the save. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

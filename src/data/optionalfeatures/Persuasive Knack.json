@@ -1,0 +1,19 @@
+{
+    "name": "Persuasive Knack",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "You have learned that the best way to deal with certain threats is to keep those threats from escalating. You have proficiency in the {@skill Persuasion|XPHB} skill.",
+        {
+            "type": "entries",
+            "name": "Tongue of Gold",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Persuasion|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

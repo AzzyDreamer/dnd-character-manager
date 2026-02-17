@@ -1,0 +1,148 @@
+{
+	"name": "Hag",
+	"source": "GrimHollowPG24",
+	"page": 146,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i In the heart of a forbidden forest, a lost hunter sees a modest cottage nestled among the trees. A bewitching maiden greets the hunter, offering him a bowl of stew to stave off both hunger and the chill night air. Seconds after eating the first spoonful, the hunter begins to feel unnaturally drowsy.}",
+						"{@i In the dark alleyways of the city, a woman hurries home from a long day at the marketplace selling her bread. A feeble man in filthy clothes asks her if she can spare a crust for a down-on-his-luck traveler. She scoffs at the request, spitting a curse toward the vagrant. Before she can round the next corner, she feels a cold shiver wrack her body. She is unable to take another step.}"
+					]
+				},
+				"Hags of Grim Hollow take many shapes and forms, and their powers and goals are as diverse as any other creature who has connections to the Realm of Faerie. What is true of them all, however, is that they are as fickle as they are dangerous, and they often serve a special form of justice based on their own strange and sometimes contradictory codes of behavior. Hags revel in despoiling purity, whether it resides in nature or a mortal's soul. While those that do not respect a Hag can find themselves in a stew or forced into service, Hags can be persuaded to forge dark bargains with those who offer polite deference.",
+				"Hags often have knowledge, power, and skills that are much sought after in Grim Hollow. Dealing with them to gain their help, however, often comes at the steepest of prices. Many have lost body, mind, and soul to a Hag's deal. Others become Hags as payment for a curse or a bargain.",
+				{
+					"type": "entries",
+					"name": "Becoming a Hag",
+					"entries": [
+						"Few creatures are born as Hags. Humanoids can become a Hag as a result of a trial or a curse. Sometimes the offspring of a cursed individual becomes a Hag after reaching the age of maturity. Hags have ways of spawning fully mature Hags, but only the most depraved individuals would consider that any sort of birth.",
+						"Other Fey creatures see Hags as pitiful, revolting creatures who can never enjoy the blessing of an existence in the Realm of Faerie, so cursing a mortal to become a Hag is a particular harsh consequence for angering a Fey. Hags themselves are fond of creating other Hags to join them and form a coven. Very few people are twisted enough to seek to transform themselves into a Hag. The power it provides is not worth the pain and anguish that comes with it. Yet that power is attractive to some, who seek out the rituals to make the change or entreat Hags to twist them as part of a bargain.",
+						{
+							"type": "inset",
+							"name": "Reversing Hag Traits",
+							"entries": [
+								"The Hag Transformation is one of the few that can be reversed, especially when it is bestowed via a curse rather than sought, but only in its first two stages. Once the creature travels too far down the path of maddening power, the grip has become too strong.",
+								"Reversing this Transformation, even in its early stages, is an elaborate process that may take months or years, and often only with the assistance of a benevolent fey creature willing to donate some of their magic to the process.",
+								"The last step of the reversal process requires a powerful fey creature to participate in a ritual to remove all remnants of the transformative magic. As with most Fey, this participation almost always comes at a steep cost."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Hag Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Striking a bargain with a powerful Hag",
+										"Cursing or killing an innocent being under the new moon",
+										"Drinking a poisonous draught from a dead Hag's cauldron",
+										"Becoming the victim of multiple curses at the same time",
+										"Consuming the flesh of the innocent",
+										"Crafting a Hag's Eye or creating a {@creature Gasdra|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Hag Stage 1",
+							"entries": [
+								"When you initially undergo the Hag Transformation, you gain the Hag Form Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Hag Form|GrimHollowPG24}",
+										"{@optfeature The Green Sisterhood|GrimHollowPG24}",
+										"{@optfeature The Red Sisterhood|GrimHollowPG24}",
+										"{@optfeature The Sea Sisterhood|GrimHollowPG24}",
+										"{@optfeature Hideous Appearance (Hag)|GrimHollowPG24|Hideous Appearance}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Hag Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Hag Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Adept of the Green Sisterhood|GrimHollowPG24}",
+										"{@optfeature Adept of the Red Sisterhood|GrimHollowPG24}",
+										"{@optfeature Adept of the Sea Sisterhood|GrimHollowPG24}",
+										"{@optfeature Iron Sensitivity|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Hag Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Hag Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Master of the Green Sisterhood|GrimHollowPG24}",
+										"{@optfeature Master of the Red Sisterhood|GrimHollowPG24}",
+										"{@optfeature Master of the Sea Sisterhood|GrimHollowPG24}",
+										"{@optfeature Purity's Pain|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Hag Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Hag Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Evil Eye|GrimHollowPG24}",
+										"{@optfeature Grandmother's Curse|GrimHollowPG24}",
+										"{@optfeature Arch-Crone's Hunger|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Hag.webp"
+				},
+				"credit": "Lucy Lisett",
+				"width": 850,
+				"height": 1045
+			}
+		]
+	}
+}

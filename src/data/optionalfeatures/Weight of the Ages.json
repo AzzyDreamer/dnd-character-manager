@@ -1,0 +1,16 @@
+{
+    "name": "Weight of the Ages",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "The weight of time is degrading for your form, and only the magic of your soul vessel holds it together. If your soul vessel is reduced to 0 {@variantrule Hit Points|XPHB}, your soul is lost; you are killed instantly and your body crumbles to dust."
+    ]
+}

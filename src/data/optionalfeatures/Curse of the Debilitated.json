@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Debilitated",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 1 Jinx Point",
+		"When a creature cursed by your Evil Eye takes damage, you can take a {@variantrule Reaction|XPHB} and spend 1 Jinx Point to roll {@dice 1d12}. The creature takes Necrotic damage equal to the roll.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

@@ -1,0 +1,12 @@
+{
+    "name": "Warlock",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "You learn one {@filter Eldritch Invocation|optionalfeatures|feature type=EI} of your choice. If an invocation has a level requirement, use your Bard level.",
+        "When you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation for which you qualify."
+    ]
+}

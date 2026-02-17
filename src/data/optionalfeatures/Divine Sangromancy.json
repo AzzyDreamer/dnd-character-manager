@@ -1,0 +1,19 @@
+{
+	"name": "Divine Sangromancy",
+	"source": "GrimHollowPG24",
+	"page": 35,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"A connection to the life force of others lets you shape that force to their benefit. Whenever an allied creature within 30 feet of you regains {@variantrule Hit Points|XPHB}, you can spend a {@variantrule Hit Point Dice|XPHB|Hit Die} and add the roll of the die to the number of {@variantrule Hit Points|XPHB} gained by the ally.",
+		{
+			"type": "entries",
+			"name": "Sangromancy Savant",
+			"entries": [
+				"If you take this trait twice, when you use Divine Sangromancy, you also regain {@variantrule Hit Points|XPHB} equal to your {@variantrule Hit Point Dice|XPHB|Hit Die} roll."
+			]
+		}
+	]
+}

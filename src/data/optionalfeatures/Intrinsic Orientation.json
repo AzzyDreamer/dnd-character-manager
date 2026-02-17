@@ -1,0 +1,19 @@
+{
+    "name": "Intrinsic Orientation",
+    "source": "GrimHollowPG24",
+    "page": 39,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "A single misstep can lead to ruin, but your instincts for direction keep you from going astray. You always know which way is north, and you can reckon a cardinal direction of the GM's determination while on other planes. Additionally, you have {@variantrule Advantage|XPHB} on ability checks made to avoid becoming lost, to navigate, or to track.",
+        {
+            "type": "entries",
+            "name": "Expert Orientation",
+            "entries": [
+                "If you take this trait twice, when you fail an ability check made to avoid becoming lost, to navigate, or to track, you can choose to succeed instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Fanged Bite",
+	"source": "GrimHollowPG24",
+	"page": 179,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"As an {@action Attack|XPHB} action, you can make a Bite attack. You are considered proficient with this attack, and you can use Strength or Dexterity as the ability. This attack deals Piercing damage equal to {@dice 1d6} plus your Strength or Dexterity modifier. This Bite attack is not a weapon or an {@variantrule Unarmed Strike|XPHB}.",
+		"If the attack hits a creature that has blood, the target must succeed on a Constitution saving throw or take an additional {@damage 1d6} Necrotic damage. You regain {@variantrule Hit Points|XPHB} equal to the Necrotic damage dealt this way. The DC is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage."
+	]
+}

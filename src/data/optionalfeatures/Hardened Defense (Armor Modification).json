@@ -1,0 +1,11 @@
+{
+	"name": "Hardened Defense (Armor Modification)",
+	"source": "GrimHollowPG24",
+	"page": 59,
+	"featureType": [
+		"TG:AM"
+	],
+	"entries": [
+		"Hardened scales or magical pelts make your armor difficult to pierce. While wearing your crafted armor, you gain a +2 bonus to {@variantrule Armor Class|XPHB}."
+	]
+}

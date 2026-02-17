@@ -1,0 +1,19 @@
+{
+    "name": "Quick Initiative",
+    "source": "GrimHollowPG24",
+    "page": 44,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Danger is never far away from you, and you are always ready for it. You add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to your {@variantrule Initiative|XPHB} rolls.",
+        {
+            "type": "entries",
+            "name": "Focused Initiative",
+            "entries": [
+                "If you take this trait twice, when you roll {@variantrule Initiative|XPHB}, you can treat a roll of 9 or lower as if you rolled a 10."
+            ]
+        }
+    ]
+}

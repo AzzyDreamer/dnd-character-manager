@@ -1,0 +1,27 @@
+{
+    "name": "Protective Wings",
+    "source": "GrimHollowPG24",
+    "page": 168,
+    "featureType": [
+        "Ser:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}",
+            "optionalfeature": [
+                "angelic wings|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "While you are manifesting your Angelic Wings, you gain the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "As a {@variantrule Reaction|XPHB}, when you or an ally within 5 feet of you is targeted by a weapon attack, you can impose {@variantrule Disadvantage|XPHB} on that attack. If the attack hits the ally, you take half the attack's damage (rounded up) and the original target takes the other half.",
+                "You have {@variantrule Advantage|XPHB} on saving throws or ability checks to avoid having the {@condition Grappled|XPHB} condition or to escape a Grapple.",
+                "Your {@variantrule Fly Speed|XPHB} is increased by 10 feet."
+            ]
+        }
+    ]
+}

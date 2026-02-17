@@ -1,0 +1,17 @@
+{
+	"name": "Illusionary Cloak",
+	"source": "GrimHollowPG24",
+	"page": 140,
+	"featureType": [
+		"F:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+		}
+	],
+	"entries": [
+		"You can use a {@action Magic|XPHB} action to wrap yourself in an illusionary cloak for up to 1 hour. During this time, you can make yourself look like another creature of your general size and humanoid shape. This illusion ends when you use a {@variantrule Bonus Action|XPHB} to end it, or if you die or gain the {@condition Unconscious|XPHB} condition.",
+		"A creature can pierce the illusion by taking the {@action Study|XPHB} action and succeeding on a DC 20 Intelligence ({@skill Investigation|XPHB}) check, thus seeing your true form."
+	]
+}

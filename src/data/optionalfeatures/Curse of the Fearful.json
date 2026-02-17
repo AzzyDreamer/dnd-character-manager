@@ -1,0 +1,14 @@
+{
+	"name": "Curse of the Fearful",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 2 Jinx Points",
+		"As a {@action Magic|XPHB} action, choose a creature that you can see within 60 feet of yourself that is cursed by your Evil Eye and spend 2 Jinx Points. The target must make a Wisdom saving throw.",
+		"On a failed save, the creature has the {@condition Frightened|XPHB} condition for 1 minute. At the end of each of its turns, the {@condition Frightened|XPHB} target repeats the save, ending the Misfortune on itself on a success.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

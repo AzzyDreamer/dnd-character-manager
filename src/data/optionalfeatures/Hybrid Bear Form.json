@@ -1,0 +1,29 @@
+{
+	"name": "Hybrid Bear Form",
+	"source": "GrimHollowPG24",
+	"page": 155,
+	"featureType": [
+		"Ly:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"entries": [
+		"You become a Monstrosity in addition to any other creature type(s).",
+		"As a {@action Magic|XPHB} action, you may voluntarily transform into a hybrid half-bear creature. While in your hybrid bear form, the following rules apply:",
+		{
+			"type": "list",
+			"items": [
+				"Your Strength score becomes 20 unless it was higher.",
+				"You gain a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+				"You can't cast spells or concentrate on spells. Your ability to speak is reduced to short, basic, guttural responses.",
+				"While transformed, you can use weapons and equipment as normal, unless specified elsewhere.",
+				"You gain a Claw attack that you may use in place of any weapon attack. This attack deals {@dice 1d8} plus your Strength or Dexterity modifier Slashing damage. You are proficient with this attack, and you add either your Strength or Dexterity modifier to attack and damage rolls. This attack is not an {@variantrule Unarmed Strike|XPHB}, nor can it be used in place of an {@variantrule Unarmed Strike|XPHB}.",
+				"Immediately after hitting a target with a Claw attack, you can take a {@variantrule Bonus Action|XPHB} to grab the creature with that hand, as long as it is no more than one size category larger than you. The grabbed target has the {@condition Grappled|XPHB} condition. The escape DC is 8 plus your Strength modifier plus your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+			]
+		},
+		"Your hybrid bear form lasts 1 hour per Transformation Stage. If you entered your hybrid form voluntarily, you can revert to your normal form by using a {@action Magic|XPHB} action on your turn. ({@filter Flaws listed below|optionalfeatures|source=grimhollowpg24|feature type=ly:tf|miscellaneous=} may override this rule.)"
+	]
+}

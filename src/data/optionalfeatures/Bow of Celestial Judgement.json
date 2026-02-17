@@ -1,0 +1,25 @@
+{
+	"name": "Bow of Celestial Judgement",
+	"source": "GrimHollowPG24",
+	"page": 168,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"You can use a {@variantrule Bonus Action|XPHB} to manifest a powerful bow made of divine light. The Bow of Celestial Judgement lasts for 1 minute and grants you the following abilities while manifested:",
+		{
+			"type": "list",
+			"items": [
+				"You can use a {@action Magic|XPHB} action to target a creature you can see within 120 feet with your bow. The creature must succeed on a Dexterity saving throw against a DC equal to 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. On a failed save, the creature takes {@damage 6d6} Radiant damage, or {@dice 10d6} if it is a Fey, Fiend, or Undead. On a success, the creature takes half damage.",
+				"You have {@variantrule Resistance|XPHB} to Necrotic damage.",
+				"You gain 5 {@variantrule Temporary Hit Points|XPHB} at the start of each of your turns."
+			]
+		},
+		"You can use this feature a number of times equal to your Transformation Stage, and you regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+	]
+}

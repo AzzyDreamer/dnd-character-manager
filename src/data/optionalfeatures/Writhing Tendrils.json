@@ -1,0 +1,26 @@
+{
+    "name": "Writhing Tendrils",
+    "source": "GrimHollowPG24",
+    "page": 136,
+    "featureType": [
+        "AH:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+        }
+    ],
+    "entries": [
+        "You gain the ability to grow long, tendril-like appendages out of your body. As a {@variantrule Bonus Action|XPHB}, these tendrils sprout from you. While you maintain these tendrils, you gain the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "When a creature moves to within 5 feet of you, you can try to push it back as a {@variantrule Reaction|XPHB}. Unless the creature succeeds on a Strength saving throw, it is pushed 5 feet away from you and its {@variantrule Speed|XPHB} is reduced to 0 until the start of your next turn. The DC of the saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+                "Your tendrils can protect you if you move. You can use a {@variantrule Bonus Action|XPHB} to Disengage.",
+                "As a {@variantrule Reaction|XPHB} to being targeted with a melee attack, you can cause that creature to have {@variantrule Disadvantage|XPHB} on all melee attacks it makes that turn."
+            ]
+        },
+        "The tendrils last for 1 minute. You can use a {@variantrule Bonus Action|XPHB} to retract your tendrils.",
+        "You can use this ability a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Undead Resilience",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "You become supernaturally tough to kill. When you are reduced to 0 {@variantrule Hit Points|XPHB} by any type of damage except Radiant, you can choose to be reduced to 1 {@variantrule Hit Points|XPHB|Hit Point} instead. Once you use this feature, you cannot use it again until you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

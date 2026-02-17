@@ -1,0 +1,19 @@
+{
+    "name": "Ultimate Brand",
+    "source": "GrimHollowPG24",
+    "page": 144,
+    "featureType": [
+        "Fi:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}",
+            "optionalfeature": [
+                "overwhelming brand|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "When a creature affected by your {@optfeature Daemonic Brand|GrimHollowPG24} starts its turn, you can use a {@variantrule Reaction|XPHB} to dictate its move and the action it takes. If you do, the creature repeats the initial Wisdom saving throw at the end of its turn. On a success, you can't use this {@action Reaction|XPHB} again while your brand lasts."
+    ]
+}

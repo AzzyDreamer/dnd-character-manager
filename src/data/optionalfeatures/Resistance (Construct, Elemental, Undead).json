@@ -1,0 +1,11 @@
+{
+    "name": "Resistance (Construct, Elemental, Undead)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "For 1 minute, you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage."
+    ]
+}
