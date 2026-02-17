@@ -1,0 +1,57 @@
+{
+  "id": "scion-of-the-three",
+  "name": "Наследник Троих",
+  "classId": "rogue",
+  "description": "A Scion of the Three draws power from a group of malevolent gods known as the Dead Three: Bane, deity of tyranny; Bhaal, deity of violence and murder; and Myrkul, deity of death. While some Rogues of this subclass pledge themselves ardently to those three macabre gods, others find themselves thrust on this path by a curse. Either way, a scion's power manifests as various occult gifts, as well as an uncanny talent for striking and terrifying foes.",
+  "shortDescription": "Channel the Power of the Dead Three",
+  "source": "FRHoF",
+  "level": 3,
+  "features": [
+    {
+      "name": "Dread Allegiance",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "You forge a dark pact with one of the Dead Three, gaining occult gifts. Choose one of the following allegiances. When you finish a {@variantrule Long Rest|XPHB}, you can change your choice. Intelligence is your spellcasting ability for the cantrip you gain from this feature.",
+      "details": {
+        "bane": "{@b Bane.} You gain Resistance to Psychic damage and learn the {@spell Minor Illusion|XPHB} cantrip.",
+        "bhaal": "{@b Bhaal.} You gain Resistance to Poison damage and learn the {@spell Blade Ward|XPHB} cantrip.",
+        "myrkul": "{@b Myrkul.} You gain Resistance to Necrotic damage and learn the {@spell Chill Touch|XPHB} cantrip."
+      }
+    },
+    {
+      "name": "Bloodthirst",
+      "level": 3,
+      "source": "FRHoF",
+      "description": "The Dead Three grant you the power to cull the weak, giving you the following benefits.",
+      "details": {
+        "bonusDamage": "{@b Bonus Damage.} When your Sneak Attack hits a {@status Bloodied|XPHB} creature, the target takes extra damage of the weapon's type equal to half your Rogue level (round up).",
+        "teleportStrike": "{@b Teleport Strike.} When a creature you can see within 60 feet of you takes damage and is {@status Bloodied|XPHB} after taking that damage, you can take a {@variantrule Reaction|XPHB} to teleport to an unoccupied space within 5 feet of that creature and make one melee attack against it. You can use this {@variantrule Reaction|XPHB} a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Strike Fear",
+      "level": 9,
+      "source": "FRHoF",
+      "description": "Your Cunning Strike gains the following additional option.",
+      "details": {
+        "terrify": "{@b Terrify (Cost: 1d6).} The target must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition for 1 minute. While {@condition Frightened|XPHB} in this way, you have {@variantrule Advantage|XPHB} on attack rolls against the target. The target repeats the save at the end of each of its turns, ending the effect on itself on a success."
+      }
+    },
+    {
+      "name": "Aura of Malevolence",
+      "level": 13,
+      "source": "FRHoF",
+      "description": "Your Bloodthirst's Teleport Strike now radiates deadly energy. When you teleport using Teleport Strike, each creature of your choice within 10 feet of the space you left or the space you arrive in takes damage equal to your Intelligence modifier. The damage type is determined by your current Dread Allegiance: Psychic for Bane, Poison for Bhaal, or Necrotic for Myrkul. This damage ignores Resistance."
+    },
+    {
+      "name": "Dread Incarnate",
+      "level": 17,
+      "source": "FRHoF",
+      "description": "You become a living avatar of the Dead Three, gaining the following benefits.",
+      "details": {
+        "cutthroat": "{@b Cutthroat.} When you finish a {@variantrule Short Rest|XPHB}, you regain one expended use of Bloodthirst's Teleport Strike.",
+        "murderousIntent": "{@b Murderous Intent.} When you roll a Sneak Attack damage die and get a 1 or 2, you can treat the die as a 3."
+      }
+    }
+  ]
+}
