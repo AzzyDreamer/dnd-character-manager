@@ -26,6 +26,18 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "You are obsessed with documenting your visions. You gain proficiency with {@item Calligrapher's Supplies|XPHB} and you can create {@item Spell Scroll|XPHB|Spell Scrolls} in half the time and at half the cost in GP. In addition, when you create a {@item Spell Scroll|XPHB}, you can ensorcell it. When you ensorcell a {@item Spell Scroll|XPHB}, you must expend a spell slot equal to or greater than the spell's level and you can spend Sorcery Points to apply one of your Metamagic options. Any creature that knows at least one language can use your ensorcelled {@item Spell Scroll|XPHB}, which casts the spell with the benefit of the Metamagic option you chose. The {@item Spell Scroll|XPHB} remains ensorcelled until it is used or you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Bear Witness",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You have prepared your entire life for the end of the world. While your Innate Sorcery feature is active, you gain the following benefits:\n\n**Apocalyptic Inurement.** You have Resistance to Force damage.\n\n**Recite Scripture.** Once per active Innate Sorcery, as a {@action Bonus Action|XPHB} you can use a {@item Spell Scroll|XPHB} that has a spell with a casting time of {@action Magic|XPHB} action.\n\n**Unflappable.** You are Immune to the {@condition Frightened|XPHB} condition."
+    },
+    {
+      "name": "Arcane Apocrypha",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Your obsessive reflections on the end of existence inspire your writing. Whenever you finish a {@variantrule Long Rest|XPHB}, you can create one {@item Spell Scroll|XPHB} at no cost. It must be a spell of level 5 or lower that you can cast. This {@item Spell Scroll|XPHB} disintegrates when you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

@@ -32,6 +32,18 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "You learn the {@spell Find Familiar|XPHB} spell and can cast it as a {@action Magic|XPHB} action without expending a spell slot. The familiar takes the form of a {@creature Specter}, though it is an Undead instead of a Celestial, Fey, or Fiend. As a {@action Magic|XPHB} action, you can command your phantom companion to gain the {@condition Invisible|XPHB} condition until it attacks or you cast a spell through it. While {@condition Invisible|XPHB}, it leaves no physical evidence of its passage and can be tracked only by magic. Any equipment or objects it is holding remains visible. Additionally, when you take the {@action Attack|XPHB} action, you can forgo one of your own attacks to allow your familiar to make its Life Drain attack with its {@variantrule Reaction|XPHB}."
+    },
+    {
+      "name": "Strength of Spirit",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Your bond with your phantom companion empowers it. You gain the following benefits:\n\n- Your familiar's Hit Point maximum increases by four times your Sorcerer level.\n- You can cast spells as if you were in the familiar's space.\n- When you use your action to cast a spell, you can use a {@action Bonus Action|XPHB} to command your phantom companion to use its Life Drain attack with its {@variantrule Reaction|XPHB}."
+    },
+    {
+      "name": "Deathly Pallor",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You have Resistance to Necrotic damage, and when you cast a Sorcerer spell that deals damage, it can deal your choice of Necrotic damage or its normal damage type."
     }
   ]
 }

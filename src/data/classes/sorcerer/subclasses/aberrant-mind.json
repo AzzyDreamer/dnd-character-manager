@@ -26,6 +26,18 @@
       "level": 3,
       "source": "PHB'24",
       "description": "You can form a telepathic connection between your mind and the mind of another. As a {@action Bonus Action|XPHB}, choose one creature you can see within 30 feet of yourself. You and the chosen creature can communicate telepathically with each other while the two of you are within a number of miles of each other equal to your Charisma modifier (minimum of 1 mile). To understand each other, you each must mentally use a language the other knows. The telepathic connection lasts for a number of minutes equal to your Sorcerer level. It ends early if you use this ability to form a connection with a different creature."
+    },
+    {
+      "name": "Psionic Sorcery",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "When you cast any level 1+ spell from your Psionic Spells feature, you can cast it by expending a spell slot as normal or by spending a number of Sorcery Points equal to the spell's level. If you cast the spell using Sorcery Points, it requires no Verbal or Somatic components, and it requires no Material components unless they are consumed by the spell or have a cost specified in it."
+    },
+    {
+      "name": "Psychic Defenses",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You have Resistance to Psychic damage, and you have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition."
     }
   ]
 }
