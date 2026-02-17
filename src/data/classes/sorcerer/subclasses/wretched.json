@@ -2,9 +2,33 @@
   "id": "wretched",
   "name": "Отверженный",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "With every promise whispered to a fairy, every contract signed with a devil, and every pact made with the dead, there's a chance someone doesn't keep their end of the bargain. The vengeance of immortal beings lasts much longer than one lifetime, and the lingering magic of these curses can affect the mortal's descendants. These inherited magical afflictions may manifest as a plague, deformity, or aversion to the sun. In such families, children may be born who learn to master the latent magic within their inherited curses, turning their banes into boons—these sorcerers are known collectively as the Wretched.",
+  "shortDescription": "Wield Your Curse Like a Weapon",
   "source": "GH:PG'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Bad Luck Charm",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You have the ability to cast a sliver of your curse onto another temporarily. As a {@action Bonus Action|XPHB}, choose a creature you can see within 30 feet of yourself. The chosen creature has {@variantrule Disadvantage|XPHB} on the next {@variantrule D20 Test|XPHB} it makes before the start of your next turn. Once you use this feature, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} unless you spend 1 Sorcery Point (no action required) to restore your use of it."
+    },
+    {
+      "name": "Blood Ties",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your senses easily attune to the supernatural forces that caused your inherited affliction. You always have the {@spell Detect Evil and Good|XPHB} spell prepared and can cast it without expending a spell slot. In addition, choose one of the following types of creatures as the being that cursed your ancestor: Fey, Fiend, or Undead. On each of your turns while you maintain {@status Concentration|XPHB} on {@spell Detect Evil and Good|XPHB}, including the turn when you cast it, creatures of the chosen type have {@variantrule Disadvantage|XPHB} on attack rolls against you, and you can't be possessed, {@condition Charmed|XPHB}, or {@condition Frightened|XPHB} by such creatures. Once you cast the spell with this feature, you can't do so in this way again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Wretched Curse",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You suffer from a curse inherited from an ancestor who failed to uphold their end of a bargain with an otherworldly power. Choose one of the following curses that was passed down to you.",
+      "details": {
+        "hulking": "{@b Hulking.} Your ancestor was cursed with a hulking frame. You have {@variantrule Disadvantage|XPHB} on Dexterity ({@skill Stealth}) checks to escape notice by moving quietly. In addition, your {@variantrule Hit Point|XPHB} maximum increases by 1, and it increases by 1 whenever you gain another Sorcerer level. Finally, you count as one size larger when determining your carrying capacity.",
+        "nocturnal": "{@b Nocturnal.} Your ancestor was cursed to shun the light of day. You have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception}) checks that rely on sight while you are in sunlight. In addition, you can see normally in {@variantrule Dim Light|XPHB} and {@variantrule Darkness|XPHB}—both magical and nonmagical—within 120 feet of yourself.",
+        "plaguebearer": "{@b Plaguebearer.} Your ancestor was cursed with physical symptoms of a plague. You have {@variantrule Disadvantage|XPHB} on Charisma ({@skill Persuasion}) checks made to influence an Indifferent Humanoid within 5 feet of yourself. In addition, you are immune to the {@condition Poisoned|XPHB} condition and have {@variantrule Resistance|XPHB} to Necrotic damage."
+      }
+    }
+  ]
 }

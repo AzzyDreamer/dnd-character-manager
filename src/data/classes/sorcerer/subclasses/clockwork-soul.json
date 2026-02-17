@@ -2,9 +2,30 @@
   "id": "clockwork-soul",
   "name": "Заводная Душа",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "The cosmic force of order has suffused you with magic. That power arises from Mechanus or a realm like it—a plane of existence shaped entirely by clockwork efficiency. You or someone from your lineage might have become entangled in the machinations of Modrons. Or perhaps you were exposed to the realm's raw clockwork while at a young age. Whatever its origin, the power simmers in you, and your spells emerge in spectral gear wheels and tiny cogs in the air.",
+  "shortDescription": "Harness Cosmic Forces of Order",
   "source": "PHB'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Clockwork Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Sorcerer level specified in the Clockwork Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Aid|XPHB}", "{@spell Alarm|XPHB}", "{@spell Lesser Restoration|XPHB}", "{@spell Protection from Evil and Good|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Dispel Magic|XPHB}", "{@spell Protection from Energy|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Freedom of Movement|XPHB}", "{@spell Summon Construct|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Greater Restoration|XPHB}", "{@spell Wall of Force|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Restore Balance",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your connection to the plane of absolute order allows you to equalize chaotic moments. When a creature you can see within 60 feet of yourself is about to roll a {@dice d20} with {@variantrule Advantage|XPHB} or {@variantrule Disadvantage|XPHB}, you can take a {@variantrule Reaction|XPHB} to prevent the roll from being affected by {@variantrule Advantage|XPHB} and {@variantrule Disadvantage|XPHB}. You can use this feature a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }
