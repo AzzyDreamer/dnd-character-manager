@@ -2,9 +2,30 @@
   "id": "apocalypse",
   "name": "Апокалипсис",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "Apocalypse Sorcerers have seen the shape of things to come. They may have visions of the Great Beast ushering in the end of Etharis or dreams of Gormadraug waking and devouring the land. These prophecies besiege Apocalypse Sorcerers, plaguing and empowering in equal measure. Some find relief in putting these revelations into writing, producing texts that read as incoherent but slowly seep into the mind as sensible, even inevitable. When the apocalypse-bringer is freed to travel across Etharis unburdened, undoing the works of gods and men, magic will swell and pool, ripe for the taking. This sign of the end is also their gift.",
+  "shortDescription": "Hasten or Stall the End of the World",
   "source": "GH:PG'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Apocalyptic Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "When you reach a Sorcerer level specified in the Apocalyptic Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Augury|XPHB}", "{@spell Comprehend Languages|XPHB}", "{@spell Hellish Rebuke|XPHB}", "{@spell Ray of Enfeeblement|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Bestow Curse|XPHB}", "{@spell Revivify|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Banishment|XPHB}", "{@spell Divination|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Contagion|XPHB}", "{@spell Insect Plague|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Unhinged Asseverations",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You are obsessed with documenting your visions. You gain proficiency with {@item Calligrapher's Supplies|XPHB} and you can create {@item Spell Scroll|XPHB|Spell Scrolls} in half the time and at half the cost in GP. In addition, when you create a {@item Spell Scroll|XPHB}, you can ensorcell it. When you ensorcell a {@item Spell Scroll|XPHB}, you must expend a spell slot equal to or greater than the spell's level and you can spend Sorcery Points to apply one of your Metamagic options. Any creature that knows at least one language can use your ensorcelled {@item Spell Scroll|XPHB}, which casts the spell with the benefit of the Metamagic option you chose. The {@item Spell Scroll|XPHB} remains ensorcelled until it is used or you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }
