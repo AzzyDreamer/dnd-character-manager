@@ -1,0 +1,30 @@
+{
+  "id": "arcane-trickster",
+  "name": "Мистический Ловкач",
+  "classId": "rogue",
+  "description": "Some Rogues enhance their fine-honed skills of stealth and agility with Arcane spells, learning tricks of enchantment and illusion. These Rogues include pickpockets and burglars, but also pranksters and a significant number of adventurers.",
+  "shortDescription": "Enhance Stealth with Arcane Spells",
+  "source": "PHB'24",
+  "page": 131,
+  "level": 3,
+  "features": [
+    {
+      "name": "Spellcasting",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You have learned to cast spells. The information below details how you use those rules with Wizard spells, which appear in the Wizard spell list.",
+      "details": {
+        "cantrips": "You know three cantrips: {@spell Mage Hand|XPHB} and two other cantrips of your choice from the {@filter Wizard spell list|spells|class=Wizard}. Whenever you gain a Rogue level, you can replace one of your cantrips, except {@spell Mage Hand|XPHB}, with another Wizard cantrip of your choice.",
+        "preparedSpells": "The Arcane Trickster Spellcasting table shows how many spell slots you have to cast your spells of level 1 and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a Long Rest. You prepare the list of Wizard spells that are available for you to cast, choosing from the {@filter Wizard spell list|spells|class=Wizard}. The number of spells you can prepare is shown in the Prepared Spells column of the table. Whenever you gain a Rogue level, you can replace one spell on your list with another Wizard spell for which you have spell slots.",
+        "spellcastingAbility": "Intelligence is your spellcasting ability for your Wizard spells.",
+        "spellcastingFocus": "You can use an {@item Arcane Focus|XPHB} as a Spellcasting Focus for your Wizard spells."
+      }
+    },
+    {
+      "name": "Mage Hand Legerdemain",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you cast {@spell Mage Hand|XPHB}, you can make the spectral hand invisible. You can perform the following additional tasks with it: you can stow one object the hand is holding in a container worn or carried by another creature; you can retrieve an object in a container worn or carried by another creature; you can use {@item Thieves' Tools|XPHB} to pick locks and disarm traps at range."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "highway-rider",
+  "name": "Дорожный Всадник",
+  "classId": "rogue",
+  "description": "Stalking the backroads, the Highway Rider strikes fear into the heart of every traveler and penny-pinching merchant. They run down their prize astride a swift and loyal steed—and then make a quick getaway.",
+  "shortDescription": "A Steed Makes the Best Partner in Crime",
+  "source": "GH:PG'24",
+  "page": 8,
+  "level": 3,
+  "features": [
+    {
+      "name": "Hair Trigger",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You gain proficiency with Blackpowder Pistols. In addition, when you roll {@variantrule Initiative|XPHB} and don't have {@variantrule Disadvantage|XPHB} on that roll, you can immediately take a Reaction for one of the following options: make one attack with a weapon or {@variantrule Unarmed Strike|XPHB}; move up to your {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}; a controlled mount moves up to its {@variantrule Speed|XPHB} without provoking {@variantrule Opportunity Attacks|XPHB}; or take the {@action Dodge|XPHB} or {@action Utilize|XPHB} action."
+    },
+    {
+      "name": "Trusty Mount",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You always have the {@spell Find Steed|XPHB} spell prepared. With this feature, you can cast it without a spell slot or components, and your spellcasting ability for it is Intelligence. Once you cast the spell with this feature, you can't do so in this way again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Ride Them Down",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You don't need {@variantrule Advantage|XPHB} on the attack roll to use your Sneak Attack if you or a controlled mount you ride moves at least 20 feet, and you don't have {@variantrule Disadvantage|XPHB} on the attack roll."
+    }
+  ]
+}

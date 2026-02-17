@@ -1,0 +1,200 @@
+{
+  "id": "rogue",
+  "name": "Плут",
+  "source": "PHB'24",
+  "page": 128,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d8",
+  "hitPointsAtFirstLevel": "8 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d8 (or 5) + your Constitution modifier per Rogue level after 1st",
+  "primaryAbility": ["dexterity"],
+  "savingThrows": ["dexterity", "intelligence"],
+  "spellcaster": false,
+  "description": "Ловкий специалист, полагающийся на хитрость и точные удары. Мастер скрытности и обмана.",
+  "proficiencies": {
+    "armor": ["Light armor"],
+    "weapons": ["Simple weapons", "Martial weapons that have the Finesse or Light property"],
+    "tools": ["Thieves' Tools"],
+    "skillChoices": {
+      "count": 4,
+      "from": ["acrobatics", "athletics", "deception", "insight", "intimidation", "investigation", "perception", "performance", "persuasion", "sleightOfHand", "stealth"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "{@item Shortsword|XPHB}", "{@item Shortbow|XPHB}", "20 {@item Arrows|XPHB}", "{@item Quiver|XPHB}", "{@item Thieves' Tools|XPHB}", "{@item Burglar's Pack|XPHB}", "8 GP"],
+    "optionB": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "{@item Shortsword|XPHB}", "{@item Shortbow|XPHB}", "20 {@item Arrows|XPHB}", "{@item Quiver|XPHB}", "{@item Thieves' Tools|XPHB}", "{@item Explorer's Pack|XPHB}", "8 GP"],
+    "optionC": ["110 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Dexterity 13",
+    "armorTraining": ["Light armor"]
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Expertise", "Sneak Attack", "Thieves' Cant", "Weapon Mastery"], "sneakAttack": "1d6" },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Cunning Action"],                                              "sneakAttack": "1d6" },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Rogue Subclass", "Steady Aim"],                                "sneakAttack": "2d6" },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                                    "sneakAttack": "2d6" },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Cunning Strike", "Uncanny Dodge"],                              "sneakAttack": "3d6" },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Expertise"],                                                    "sneakAttack": "3d6" },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Evasion", "Reliable Talent"],                                   "sneakAttack": "4d6" },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                                    "sneakAttack": "4d6" },
+    { "level": 9,  "proficiencyBonus": 4, "features": ["Subclass Feature"],                                             "sneakAttack": "5d6" },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                                    "sneakAttack": "5d6" },
+    { "level": 11, "proficiencyBonus": 4, "features": ["Improved Cunning Strike"],                                      "sneakAttack": "6d6" },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                                    "sneakAttack": "6d6" },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Subclass Feature", "Subtle Strikes"],                           "sneakAttack": "7d6" },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Devious Strikes"],                                              "sneakAttack": "7d6" },
+    { "level": 15, "proficiencyBonus": 5, "features": ["Slippery Mind"],                                                "sneakAttack": "8d6" },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                                    "sneakAttack": "8d6" },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Subclass Feature"],                                             "sneakAttack": "9d6" },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Elusive"],                                                      "sneakAttack": "9d6" },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                                    "sneakAttack": "10d6" },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Stroke of Luck"],                                               "sneakAttack": "10d6" }
+  ],
+  "classFeatures": [
+    {
+      "name": "Expertise",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Sneak Attack",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Thieves' Cant",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Weapon Mastery",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Cunning Action",
+      "level": 2,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Rogue Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain a Rogue subclass of your choice. A subclass is a specialization that grants you features at certain Rogue levels. For the rest of your career, you gain each of your subclass's features that are of your Rogue level or lower."
+    },
+    {
+      "name": "Steady Aim",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Rogue levels 8, 10, 12, and 16."
+    },
+    {
+      "name": "Cunning Strike",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Uncanny Dodge",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Expertise",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Evasion",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Reliable Talent",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 9,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Rogue subclass."
+    },
+    {
+      "name": "Improved Cunning Strike",
+      "level": 11,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 13,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Rogue subclass."
+    },
+    {
+      "name": "Subtle Strikes",
+      "level": 13,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Devious Strikes",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Slippery Mind",
+      "level": 15,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Rogue subclass."
+    },
+    {
+      "name": "Elusive",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "..."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an {@variantrule Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of the Night Spirit|XPHB} is recommended."
+    },
+    {
+      "name": "Stroke of Luck",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "..."
+    }
+  ],
+  "subclassIds": [
+    "arcane-trickster", "assassin", "highway-rider", "inquisitive",
+    "mastermind", "misfortune-bringer", "phantom", "sanguine-thief",
+    "soulknife", "swashbuckler", "thief"
+  ]
+}

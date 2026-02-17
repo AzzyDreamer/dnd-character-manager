@@ -1,0 +1,42 @@
+{
+  "id": "scout",
+  "name": "Разведчик",
+  "classId": "rogue",
+  "description": "You are skilled in stealth and surviving far from the streets of a city, allowing you to scout ahead of your companions during expeditions. Rogues who embrace this archetype are at home in the wilderness and among barbarians and rangers, and many Scouts serve as the eyes and ears of war bands. Ambusher, spy, bounty hunter—these are just a few of the roles that Scouts assume as they range the world.",
+  "shortDescription": "Scout Ahead with Wilderness Expertise",
+  "source": "XGE",
+  "page": 47,
+  "level": 3,
+  "features": [
+    {
+      "name": "Skirmisher",
+      "level": 3,
+      "source": "XGE",
+      "description": "You are difficult to pin down during a fight. You can move up to half your {@variantrule Speed|XPHB} as a {@variantrule Reaction|XPHB} when an enemy ends its turn within 5 feet of you. This movement doesn't provoke {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Survivalist",
+      "level": 3,
+      "source": "XGE",
+      "description": "You gain proficiency in the {@skill Nature} and {@skill Survival} skills if you don't already have it. Your proficiency bonus is doubled for any ability check you make that uses either of those proficiencies."
+    },
+    {
+      "name": "Superior Mobility",
+      "level": 9,
+      "source": "XGE",
+      "description": "Your walking {@variantrule Speed|XPHB} increases by 10 feet. If you have a Climb or Swim Speed, this increase applies to that {@variantrule Speed|XPHB} as well."
+    },
+    {
+      "name": "Ambush Master",
+      "level": 13,
+      "source": "XGE",
+      "description": "You excel at leading ambushes and acting first in a fight. You have {@variantrule Advantage|XPHB} on {@variantrule Initiative|XPHB} rolls. In addition, the first creature you hit during the first round of a combat becomes easier for you and others to strike; attack rolls against that target have {@variantrule Advantage|XPHB} until the start of your next turn."
+    },
+    {
+      "name": "Sudden Strike",
+      "level": 17,
+      "source": "XGE",
+      "description": "You can strike with deadly speed. If you take the {@action Attack|XPHB} action on your turn, you can make one additional attack as a {@action Bonus Action|XPHB}. This attack can benefit from your Sneak Attack even if you have already used it this turn, but you can't use your Sneak Attack against the same target more than once in a turn."
+    }
+  ]
+}

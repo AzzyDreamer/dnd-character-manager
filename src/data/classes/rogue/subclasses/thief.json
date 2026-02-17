@@ -1,0 +1,55 @@
+{
+  "id": "thief",
+  "name": "Вор",
+  "classId": "rogue",
+  "description": "A mix of burglar, pickpocket, and explorer, a Thief is a Rogue who tends to use stealth and dexterity over brute force. You are adept at quickly taking items and getting into places others can't reach, drawing on skills of infiltration and quick reflexes.",
+  "shortDescription": "Use Nimbleness and Stealth to Steal Anything",
+  "source": "PHB'24",
+  "page": 136,
+  "level": 3,
+  "features": [
+    {
+      "name": "Fast Hands",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can do one of the following.",
+      "details": {
+        "sleightOfHand": "{@b Sleight of Hand.} Make a Dexterity ({@skill Sleight of Hand}) check to pick a lock or disarm a trap with {@item Thieves' Tools|XPHB} or to pick a pocket.",
+        "useAnObject": "{@b Use an Object.} Take the {@action Utilize|XPHB} action, or take the {@action Magic|XPHB} action to use a magic item that requires that action."
+      }
+    },
+    {
+      "name": "Second-Story Work",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You have gained the following movement abilities.",
+      "details": {
+        "climber": "{@b Climber.} You gain a Climb Speed equal to your {@variantrule Speed|XPHB}.",
+        "jumpDistance": "{@b Jump's Distance.} When you take the {@action Jump|XPHB} action, the distance you cover increases by a number of feet equal to your Dexterity modifier."
+      }
+    },
+    {
+      "name": "Supreme Sneak",
+      "level": 9,
+      "source": "PHB'24",
+      "description": "You have {@variantrule Advantage|XPHB} on every Dexterity ({@skill Stealth}) check you make, provided you aren't wearing Medium or Heavy armor."
+    },
+    {
+      "name": "Use Magic Device",
+      "level": 13,
+      "source": "PHB'24",
+      "description": "In your treasure hunting, you have learned how to maximize use of magic items, giving you the following benefits.",
+      "details": {
+        "attunement": "{@b Attunement.} You can attune to up to four magic items at once.",
+        "charges": "{@b Charges.} Whenever you use a magic item property that expends charges, roll a {@dice d6}. On a roll of 6, you use the property without expending the charges.",
+        "scrolls": "{@b Scrolls.} You can use any {@item Spell Scroll|XPHB}, using Intelligence as your spellcasting ability for the spell. If the spell is a cantrip or a level 1 spell, you can cast it reliably. If the spell is level 2 or higher, you must succeed on an Intelligence check with a DC of 10 plus the spell's level. On a failed check, the spell disappears from the scroll with no other effect."
+      }
+    },
+    {
+      "name": "Thief's Reflexes",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "You have become adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal {@variantrule Initiative|XPHB} and your second turn at your {@variantrule Initiative|XPHB} minus 10."
+    }
+  ]
+}

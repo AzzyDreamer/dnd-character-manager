@@ -1,0 +1,46 @@
+{
+  "id": "swashbuckler",
+  "name": "Дуэлянт",
+  "classId": "rogue",
+  "description": "You focus your training on the art of the blade, relying on speed, elegance, and charm in equal parts. While some warriors are brutes clad in heavy armor, your method of fighting looks almost like a performance. Duelists and pirates typically belong to this archetype. A Swashbuckler excels in single combat, and can fight with two weapons while safely darting away from an opponent.",
+  "shortDescription": "Fight with Speed, Elegance, and Charm",
+  "source": "XGE",
+  "page": 47,
+  "level": 3,
+  "features": [
+    {
+      "name": "Fancy Footwork",
+      "level": 3,
+      "source": "XGE",
+      "description": "During your turn, if you make a melee attack against a creature, that creature can't make {@variantrule Opportunity Attacks|XPHB} against you for the rest of your turn."
+    },
+    {
+      "name": "Rakish Audacity",
+      "level": 3,
+      "source": "XGE",
+      "description": "Your confidence propels you into battle. You can give yourself a bonus to your {@variantrule Initiative|XPHB} rolls equal to your Charisma modifier. You also gain an additional way to use your Sneak Attack; you don't need {@variantrule Advantage|XPHB} on the attack roll to use your Sneak Attack against a creature if you are within 5 feet of it, no other creature is within 5 feet of you, and you don't have {@variantrule Disadvantage|XPHB} on the attack roll. All the other rules for Sneak Attack still apply to you."
+    },
+    {
+      "name": "Panache",
+      "level": 9,
+      "source": "XGE",
+      "description": "Your charm becomes extraordinarily beguiling. As an action, you can make a Charisma ({@skill Persuasion}) check contested by a creature's Wisdom ({@skill Insight}) check. The creature must be able to hear you, and the two of you must share a language.",
+      "details": {
+        "hostileCreature": "{@b Hostile Creature.} If you succeed against a Hostile creature, it has {@variantrule Disadvantage|XPHB} on attack rolls against targets other than you and can't make {@variantrule Opportunity Attacks|XPHB} against targets other than you. This effect lasts for 1 minute, until one of your companions attacks the target or affects it with a spell, or until you and the target are more than 60 feet apart.",
+        "nonHostileCreature": "{@b Other Creatures.} If you succeed against a creature that isn't Hostile to you, it is {@condition Charmed|XPHB} by you for 1 minute. While {@condition Charmed|XPHB}, the creature regards you as a friendly acquaintance. This effect ends immediately if you or your companions do anything harmful to it."
+      }
+    },
+    {
+      "name": "Elegant Maneuver",
+      "level": 13,
+      "source": "XGE",
+      "description": "You can use a {@action Bonus Action|XPHB} on your turn to gain {@variantrule Advantage|XPHB} on the next Dexterity ({@skill Acrobatics}) or Strength ({@skill Athletics}) check you make during the same turn."
+    },
+    {
+      "name": "Master Duelist",
+      "level": 17,
+      "source": "XGE",
+      "description": "Your mastery of the blade lets you turn failure into success in combat. If you miss with an attack roll, you can roll it again with {@variantrule Advantage|XPHB}. Once you do so, you can't use this feature again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}
