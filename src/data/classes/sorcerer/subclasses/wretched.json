@@ -29,6 +29,12 @@
         "nocturnal": "{@b Nocturnal.} Your ancestor was cursed to shun the light of day. You have {@variantrule Disadvantage|XPHB} on Wisdom ({@skill Perception}) checks that rely on sight while you are in sunlight. In addition, you can see normally in {@variantrule Dim Light|XPHB} and {@variantrule Darkness|XPHB}—both magical and nonmagical—within 120 feet of yourself.",
         "plaguebearer": "{@b Plaguebearer.} Your ancestor was cursed with physical symptoms of a plague. You have {@variantrule Disadvantage|XPHB} on Charisma ({@skill Persuasion}) checks made to influence an Indifferent Humanoid within 5 feet of yourself. In addition, you are immune to the {@condition Poisoned|XPHB} condition and have {@variantrule Resistance|XPHB} to Necrotic damage."
       }
+    },
+    {
+      "name": "Share the Burden",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You always have the {@spell Bestow Curse|XPHB} spell prepared. You can cast the spell by spending 3 Sorcery Points instead of a spell slot. When you cast the spell in this way, the spell doesn't require {@status Concentration|XPHB}, and its range changes to 60 feet for that casting."
     }
   ]
 }

@@ -19,6 +19,18 @@
       "level": 1,
       "source": "XGE",
       "description": "Starting at 1st level, you can use a {@action Bonus Action|XPHB} on your turn to cause whirling gusts of elemental air to briefly surround you, immediately before or after you cast a spell of 1st level or higher. Doing so allows you to fly up to 10 feet without provoking {@variantrule Opportunity Attacks|XPHB}."
+    },
+    {
+      "name": "Heart of the Storm",
+      "level": 6,
+      "source": "XGE",
+      "description": "You gain Resistance to Lightning and Thunder damage. In addition, whenever you start casting a spell of 1st level or higher that deals Lightning or Thunder damage, stormy magic erupts from you. This eruption causes creatures of your choice that you can see within 10 feet of you to take Lightning or Thunder damage (choose each time this ability activates) equal to half your Sorcerer level."
+    },
+    {
+      "name": "Storm Guide",
+      "level": 6,
+      "source": "XGE",
+      "description": "You gain the ability to subtly control the weather around you.\n\nIf it is raining, you can use an action to cause the rain to stop falling in a 20-foot-radius sphere centered on you. You can end this effect as a {@action Bonus Action|XPHB}.\n\nIf it is windy, you can use a {@action Bonus Action|XPHB} each round to choose the direction that the wind blows in a 100-foot-radius sphere centered on you. The wind blows in that direction until the end of your next turn. This feature doesn't alter the speed of the wind."
     }
   ]
 }
