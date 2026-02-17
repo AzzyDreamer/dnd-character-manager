@@ -1,0 +1,10 @@
+{
+  "id": "storm",
+  "name": "Штормовая Магия",
+  "classId": "sorcerer",
+  "description": "",
+  "shortDescription": "",
+  "source": "XGE",
+  "level": 3,
+  "features": []
+}

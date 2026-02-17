@@ -1,0 +1,10 @@
+{
+  "id": "shadow",
+  "name": "Теневая Магия",
+  "classId": "sorcerer",
+  "description": "",
+  "shortDescription": "",
+  "source": "XGE",
+  "level": 3,
+  "features": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "spellfire",
+  "name": "Магический Огонь",
+  "classId": "sorcerer",
+  "description": "",
+  "shortDescription": "",
+  "source": "FRHoF",
+  "level": 3,
+  "features": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "apocalypse",
+  "name": "Апокалипсис",
+  "classId": "sorcerer",
+  "description": "",
+  "shortDescription": "",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": []
+}
