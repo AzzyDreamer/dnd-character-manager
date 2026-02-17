@@ -2,9 +2,36 @@
   "id": "haunted",
   "name": "Преследуемый",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "Unlike other Sorcerers, the circumstances of your birth were mundane and you have no arcane inheritance passed down from strange ancestors. Instead, you gained your sorcerous powers after you survived an experience that left you near death. Since that experience, you've had a preternatural sense for danger and a ghostly companion that either can't, or won't, leave you alone. Some Haunted, as Sorcerers who share your origin are called, develop cordial relationships with their phantom, while others find their spectral companion to be a relentless nuisance.",
+  "shortDescription": "Commune with the Dead",
   "source": "GH:PG'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Haunted Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "When you reach a Sorcerer level specified in the Haunted Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Bane|XPHB}", "{@spell Chill Touch|XPHB}", "{@spell Invisibility|XPHB}", "{@spell See Invisibility|XPHB}", "{@spell Unseen Servant|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Fly|XPHB}", "{@spell Speak with Dead|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Death Ward|XPHB}", "{@spell Greater Invisibility|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Little Death}", "{@spell Telekinesis|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Sixth Sense",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "When you roll {@variantrule Initiative|XPHB}, you can add your Charisma modifier to the roll."
+    },
+    {
+      "name": "Phantom Companion",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You learn the {@spell Find Familiar|XPHB} spell and can cast it as a {@action Magic|XPHB} action without expending a spell slot. The familiar takes the form of a {@creature Specter}, though it is an Undead instead of a Celestial, Fey, or Fiend. As a {@action Magic|XPHB} action, you can command your phantom companion to gain the {@condition Invisible|XPHB} condition until it attacks or you cast a spell through it. While {@condition Invisible|XPHB}, it leaves no physical evidence of its passage and can be tracked only by magic. Any equipment or objects it is holding remains visible. Additionally, when you take the {@action Attack|XPHB} action, you can forgo one of your own attacks to allow your familiar to make its Life Drain attack with its {@variantrule Reaction|XPHB}."
+    }
+  ]
 }

@@ -2,9 +2,31 @@
   "id": "lunar",
   "name": "Лунная Магия",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "On many worlds, the moon is a revered celestial body with magical properties. On Krynn, the gods of magic are associated with the world's three moons. On the world of Toril, the god Selûne uses the light of the moon to battle darkness. On Eberron, scholars of the Draconic Prophecy decipher ancient secrets from the waxing and waning of that world's twelve moons. You or someone from your lineage has been exposed to the concentrated magic of the moon (or moons) of your world, imbuing you with lunar magic. Perhaps your ancestor was involved in a druidic ritual involving an eclipse, or maybe a mystical fragment of a moon crashed near you. However you came to have your magic, your connection to the moon is obvious when you cast sorcerer spells—perhaps making your pupils glow with the color of a moon from your world, causing spectral manifestations of lunar phases to orbit you, or some other effect.",
+  "shortDescription": "Channel the Magic of the Moon",
   "source": "DSotDQ",
-  "level": 3,
-  "features": []
+  "level": 1,
+  "features": [
+    {
+      "name": "Lunar Embodiment",
+      "level": 1,
+      "source": "DSotDQ",
+      "description": "You learn additional spells when you reach certain levels in this class, as shown on the Lunar Spells table. Each of these spells counts as a sorcerer spell for you, but it doesn't count against the number of sorcerer spells you know. Whenever you finish a {@variantrule Long Rest|XPHB}, you can choose what lunar phase manifests its power through your magic: Full Moon, New Moon, or Crescent Moon. While in the chosen phase, you can cast one 1st-level spell of the associated phase in the Lunar Spells table once without expending a spell slot. Once you cast a spell in this way, you can't do so again until you finish a {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 1, "fullMoon": "{@spell Shield|XPHB}",                    "newMoon": "{@spell Ray of Sickness|XPHB}",      "crescentMoon": "{@spell Color Spray|XPHB}" },
+          { "sorcererLevel": 3, "fullMoon": "{@spell Lesser Restoration|XPHB}",         "newMoon": "{@spell Blindness/Deafness|XPHB}",   "crescentMoon": "{@spell Alter Self|XPHB}" },
+          { "sorcererLevel": 5, "fullMoon": "{@spell Dispel Magic|XPHB}",               "newMoon": "{@spell Vampiric Touch|XPHB}",       "crescentMoon": "{@spell Phantom Steed|XPHB}" },
+          { "sorcererLevel": 7, "fullMoon": "{@spell Death Ward|XPHB}",                 "newMoon": "{@spell Confusion|XPHB}",            "crescentMoon": "{@spell Hallucinatory Terrain|XPHB}" },
+          { "sorcererLevel": 9, "fullMoon": "{@spell Rary's Telepathic Bond|XPHB}",     "newMoon": "{@spell Hold Monster|XPHB}",         "crescentMoon": "{@spell Mislead|XPHB}" }
+        ]
+      }
+    },
+    {
+      "name": "Moon Fire",
+      "level": 1,
+      "source": "DSotDQ",
+      "description": "You can call down the radiant light of the moon on command. You learn the {@spell Sacred Flame|XPHB} spell, which doesn't count against the number of sorcerer cantrips you know. When you cast the spell, you can target one creature as normal or target two creatures within range that are within 5 feet of each other."
+    }
+  ]
 }

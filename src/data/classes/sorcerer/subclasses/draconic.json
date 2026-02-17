@@ -2,9 +2,30 @@
   "id": "draconic",
   "name": "Драконья Кровь",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "Your innate magic comes from the gift of a dragon. Perhaps an ancient dragon facing death bequeathed some of its magical power to you or your ancestor. You might have absorbed magic from a site infused with dragons' power. Or perhaps you handled a treasure taken from a dragon's hoard that was steeped in draconic power. Or you might have a dragon for an ancestor.",
+  "shortDescription": "Breathe the Magic of Dragons",
   "source": "PHB'24",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Draconic Resilience",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic in your body manifests physical traits of your draconic gift. Your Hit Point maximum increases by 3, and it increases by 1 whenever you gain another Sorcerer level. Parts of you are also covered by dragon-like scales. While you aren't wearing armor, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity modifier and Charisma modifier."
+    },
+    {
+      "name": "Draconic Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Sorcerer level specified in the Draconic Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Alter Self|XPHB}", "{@spell Chromatic Orb|XPHB}", "{@spell Command|XPHB}", "{@spell Dragon's Breath|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Fear|XPHB}", "{@spell Fly|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Arcane Eye|XPHB}", "{@spell Charm Monster|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Legend Lore|XPHB}", "{@spell Summon Dragon|XPHB}"] }
+        ]
+      }
+    }
+  ]
 }
