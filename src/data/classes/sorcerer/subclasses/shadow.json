@@ -2,9 +2,23 @@
   "id": "shadow",
   "name": "Теневая Магия",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "You are a creature of shadow, for your innate magic comes from the Shadowfell itself. You might trace your lineage to an entity from that place, or perhaps you were exposed to its fell energy and transformed by it. The power of shadow magic casts a strange pall over your physical presence. The spark of life that sustains you is muffled, as if it struggles to remain viable against the dark energy that imbues your soul.",
+  "shortDescription": "Draw Power from the Shadowfell",
   "source": "XGE",
-  "level": 3,
-  "features": []
+  "level": 1,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Eyes of the Dark",
+      "level": 1,
+      "source": "XGE",
+      "description": "You have {@sense Darkvision|XPHB} with a range of 120 feet. When you reach 3rd level in this class, you learn the {@spell Darkness|XPHB} spell, which doesn't count against your number of sorcerer spells known. In addition, you can cast it by spending 2 Sorcery Points or by expending a spell slot. If you cast it with Sorcery Points, you can see through the {@spell Darkness|XPHB} created by the spell."
+    },
+    {
+      "name": "Strength of the Grave",
+      "level": 1,
+      "source": "XGE",
+      "description": "Your existence in a twilight state between life and death makes you difficult to defeat. When damage reduces you to 0 {@variantrule Hit Points|XPHB}, you can make a Charisma saving throw (DC 5 + the damage taken). On a success, you instead drop to 1 Hit Point. You can't use this feature if you are reduced to 0 Hit Points by Radiant damage or by a critical hit. After the saving throw succeeds, you can't use this feature again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }

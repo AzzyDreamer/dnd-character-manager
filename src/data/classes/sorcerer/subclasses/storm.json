@@ -2,9 +2,23 @@
   "id": "storm",
   "name": "Штормовая Магия",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "Your innate magic comes from the power of elemental air. Many with this power can trace their magic back to a near-death experience caused by the Great Rain, but perhaps you were born during a howling gale so powerful that folk still tell stories of it, or your lineage might include the influence of potent air creatures such as djinn. Whatever the case, the magic of the storm permeates your being. Storm sorcerers are invaluable members of a ship's crew. Their magic allows them to exert control over wind and weather in their immediate area. Their abilities also prove useful in repelling attacks by sahuagin, pirates, and other waterborne threats.",
+  "shortDescription": "Command the Power of the Storm",
   "source": "XGE",
-  "level": 3,
-  "features": []
+  "level": 1,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Wind Speaker",
+      "level": 1,
+      "source": "XGE",
+      "description": "The arcane magic you command is infused with elemental air. You can speak, read, and write Primordial. Knowing this language allows you to understand and be understood by those who speak its dialects: Aquan, Auran, Ignan, and Terran."
+    },
+    {
+      "name": "Tempestuous Magic",
+      "level": 1,
+      "source": "XGE",
+      "description": "Starting at 1st level, you can use a {@action Bonus Action|XPHB} on your turn to cause whirling gusts of elemental air to briefly surround you, immediately before or after you cast a spell of 1st level or higher. Doing so allows you to fly up to 10 feet without provoking {@variantrule Opportunity Attacks|XPHB}."
+    }
+  ]
 }
