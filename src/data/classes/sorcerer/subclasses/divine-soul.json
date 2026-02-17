@@ -2,9 +2,35 @@
   "id": "divine-soul",
   "name": "Божественная Душа",
   "classId": "sorcerer",
-  "description": "",
-  "shortDescription": "",
+  "description": "Sometimes the spark of magic that fuels a sorcerer comes from a divine source that glimmers within the soul. Having such a blessed soul is a sign that your innate magic might come from a distant but powerful familial connection to a divine being. Perhaps your ancestor was an angel, transformed into a mortal and sent to fight in a god's name. Or your birth might align with an ancient prophecy, marking you as a servant of the gods or a chosen vessel of divine magic. A Divine Soul, with a natural magnetism, is seen as a threat by some religious hierarchies. As an outsider who commands sacred power, a Divine Soul can undermine an existing order by claiming a direct tie to the divine. In some cultures, only those who can claim the power of a Divine Soul may command religious power. In these lands, ecclesiastical positions are dominated by a few bloodlines and preserved over generations.",
+  "shortDescription": "Channel Divine Power Through Your Soul",
   "source": "XGE",
-  "level": 3,
-  "features": []
+  "page": 50,
+  "level": 1,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Divine Magic",
+      "level": 1,
+      "source": "XGE",
+      "page": 50,
+      "description": "Your link to the divine allows you to learn spells from the cleric class. When your Spellcasting feature lets you learn or replace a sorcerer cantrip or a sorcerer spell of 1st level or higher, you can choose the new spell from the {@filter Cleric spell list} or the {@filter Sorcerer spell list}. You must otherwise obey all the restrictions for selecting the spell, and it becomes a sorcerer spell for you. In addition, choose an affinity for the source of your divine power: good, evil, law, chaos, or neutrality. You learn an additional spell based on that affinity, as shown below. It is a sorcerer spell for you, but it doesn't count against your number of sorcerer spells known. If you later replace this spell, you must replace it with a spell from the {@filter Cleric spell list}.",
+      "details": {
+        "affinitySpells": [
+          { "affinity": "Good",       "spell": "{@spell Cure Wounds|XPHB}" },
+          { "affinity": "Evil",       "spell": "{@spell Inflict Wounds|XPHB}" },
+          { "affinity": "Law",        "spell": "{@spell Bless|XPHB}" },
+          { "affinity": "Chaos",      "spell": "{@spell Bane|XPHB}" },
+          { "affinity": "Neutrality", "spell": "{@spell Protection from Evil and Good|XPHB}" }
+        ]
+      }
+    },
+    {
+      "name": "Favored by the Gods",
+      "level": 1,
+      "source": "XGE",
+      "page": 50,
+      "description": "Divine power guards your destiny. If you fail a saving throw or miss with an attack roll, you can roll {@dice 2d4} and add it to the total, possibly changing the outcome. Once you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }
