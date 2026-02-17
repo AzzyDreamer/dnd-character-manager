@@ -38,6 +38,13 @@
       "source": "XGE",
       "page": 50,
       "description": "The divine energy coursing through you can empower healing spells. Whenever you or an ally within 5 feet of you rolls dice to determine the number of hit points a spell restores, you can spend 1 sorcery point to reroll any number of those dice once, provided you aren't {@condition Incapacitated|XPHB}. You can use this feature only once per turn."
+    },
+    {
+      "name": "Otherworldly Wings",
+      "level": 14,
+      "source": "XGE",
+      "page": 50,
+      "description": "You can use a {@action Bonus Action|XPHB} to manifest a pair of spectral wings from your back. While the wings are present, you have a flying speed of 30 feet. The wings last until you have the {@condition Incapacitated|XPHB} condition, you die, or you dismiss them as a {@action Bonus Action|XPHB}.\n\nThe affinity you chose for your Divine Magic feature determines the appearance of the spectral wings: eagle wings for good or law, bat wings for evil or chaos, and dragonfly wings for neutrality."
     }
   ]
 }

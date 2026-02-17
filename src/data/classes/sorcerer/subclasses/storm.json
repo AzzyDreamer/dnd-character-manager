@@ -31,6 +31,12 @@
       "level": 6,
       "source": "XGE",
       "description": "You gain the ability to subtly control the weather around you.\n\nIf it is raining, you can use an action to cause the rain to stop falling in a 20-foot-radius sphere centered on you. You can end this effect as a {@action Bonus Action|XPHB}.\n\nIf it is windy, you can use a {@action Bonus Action|XPHB} each round to choose the direction that the wind blows in a 100-foot-radius sphere centered on you. The wind blows in that direction until the end of your next turn. This feature doesn't alter the speed of the wind."
+    },
+    {
+      "name": "Storm's Fury",
+      "level": 14,
+      "source": "XGE",
+      "description": "When you are hit by a melee attack, you can use your {@variantrule Reaction|XPHB} to deal Lightning damage to the attacker. The damage equals your Sorcerer level. The attacker must also make a Strength saving throw against your sorcerer spell save DC. On a failed save, the attacker is pushed in a straight line up to 20 feet away from you."
     }
   ]
 }

@@ -32,6 +32,12 @@
       "level": 6,
       "source": "PHB'24",
       "description": "You can tap into the grand equation of existence to imbue a creature with a shimmering shield of order. As a {@action Magic|XPHB} action, you can expend 1 to 5 Sorcery Points to create a magical ward around yourself or another creature you can see within 30 feet of yourself. The ward is represented by a number of {@dice d8}s equal to the number of Sorcery Points spent to create it. When the warded creature takes damage, it can expend a number of those dice, roll them, and reduce the damage taken by the total rolled on those dice. The ward lasts until you finish a {@variantrule Long Rest|XPHB} or until you use this feature again."
+    },
+    {
+      "name": "Trance of Order",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain the ability to align your consciousness with the endless calculations of Mechanus. As a {@action Bonus Action|XPHB}, you can enter this state for 1 minute. For the duration, attack rolls against you can't benefit from {@variantrule Advantage|XPHB}, and whenever you make a {@variantrule D20 Test|XPHB}, you can treat a roll of 9 or lower on the {@dice d20} as a 10.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 5 Sorcery Points (no action required) to restore your use of it."
     }
   ]
 }

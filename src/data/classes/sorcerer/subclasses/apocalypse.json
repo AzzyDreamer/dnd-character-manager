@@ -38,6 +38,12 @@
       "level": 6,
       "source": "GH:PG'24",
       "description": "Your obsessive reflections on the end of existence inspire your writing. Whenever you finish a {@variantrule Long Rest|XPHB}, you can create one {@item Spell Scroll|XPHB} at no cost. It must be a spell of level 5 or lower that you can cast. This {@item Spell Scroll|XPHB} disintegrates when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Forbidden Magic",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "The end of Etharis is a time when magic is unbound and magical powers long hidden are unearthed. When you cast a Sorcerer spell using a spell slot, you can choose one option below.\n\n{@b Excessive.} If the spell requires a Material component with a cost, you can cast the spell without the Material component. You take Force damage equal to four times the level of the spell slot immediately after you cast it. This damage ignores Resistance and Immunity.\n\n{@b Inexorable.} Taking damage can't break your {@status Concentration|XPHB} on the spell. When the spell ends, you gain 1 {@condition Exhaustion|XPHB} level.\n\n{@b Pyrrhic.} If the spell requires an attack roll, the spell automatically hits and the attack roll is a Critical Hit. Your {@variantrule Hit Point|XPHB} maximum is reduced by an amount equal to four times the level of the spell slot immediately after you cast it. When you finish a {@variantrule Long Rest|XPHB}, your Hit Point maximum returns to normal."
     }
   ]
 }

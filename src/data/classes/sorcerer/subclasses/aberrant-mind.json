@@ -38,6 +38,12 @@
       "level": 6,
       "source": "PHB'24",
       "description": "You have Resistance to Psychic damage, and you have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} condition."
+    },
+    {
+      "name": "Revelation in Flesh",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You can unleash the aberrant truth hidden within yourself. As a {@action Bonus Action|XPHB}, you can spend 1 Sorcery Point or more to magically alter your body for 10 minutes. For each Sorcery Point you spend, you gain one of the following benefits of your choice, the effects of which last until the alteration ends.\n\n{@b Aquatic Adaptation.} You gain a Swim Speed equal to twice your Speed, and you can breathe underwater. Gills grow from your neck or flare behind your ears, and your fingers become webbed or you grow wriggling cilia.\n\n{@b Glistening Flight.} You gain a Fly Speed equal to your Speed, and you can hover. As you fly, your skin glistens with mucus or otherworldly light.\n\n{@b See the Invisible.} You can see any {@condition Invisible|XPHB} creature within 60 feet of yourself that isn't behind Total Cover. Your eyes also turn black or become writhing sensory tendrils.\n\n{@b Wormlike Movement.} Your body, along with any equipment you are wearing or carrying, becomes slimy and pliable. You can move through any space as narrow as 1 inch, and you can spend 5 feet of movement to escape from nonmagical restraints or the {@condition Grappled|XPHB} condition."
     }
   ]
 }

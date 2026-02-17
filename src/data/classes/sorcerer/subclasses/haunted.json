@@ -44,6 +44,12 @@
       "level": 6,
       "source": "GH:PG'24",
       "description": "You have Resistance to Necrotic damage, and when you cast a Sorcerer spell that deals damage, it can deal your choice of Necrotic damage or its normal damage type."
+    },
+    {
+      "name": "Phantom Possession",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "As a {@action Magic|XPHB} action, you can direct your phantom companion to possess a creature of your choice within 5 feet of your phantom. The target makes a Charisma saving throw against your spell save DC. On a failed save, your phantom companion enters the target's body for 1 minute. On a successful save, the target resists the efforts to possess it, and your familiar can't possess it again for 24 hours.\n\nOnce the phantom companion possesses a creature's body, it controls that creature. The familiar's Hit Points, Hit Point Dice, Strength, Dexterity, Constitution, Speed, and senses are replaced by the creature's. The phantom companion otherwise keeps its game statistics.\n\nWhile the target is possessed, you have a telepathic link with your phantom companion as long as the two of you are within 100 feet. You can use this telepathic link to issue commands to your phantom companion (no action required) unless you have the {@condition Incapacitated|XPHB} condition. Your phantom companion does its best to obey on its turn. If it completes an order and doesn't receive further direction from you, the phantom companion acts and moves as it likes, focusing on protecting itself.\n\nYou can command the target to take a {@variantrule Reaction|XPHB} but must take your own {@variantrule Reaction|XPHB} to do so.\n\nWhenever the target takes damage, it repeats the save, ending the possession on itself on a success, and your phantom companion reappears in the closest unoccupied space.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }

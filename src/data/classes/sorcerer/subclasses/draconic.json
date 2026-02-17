@@ -32,6 +32,12 @@
       "level": 6,
       "source": "PHB'24",
       "description": "Your draconic magic has an affinity with a damage type associated with dragons. Choose one of those types: Acid, Cold, Fire, Lightning, or Poison. You have Resistance to that damage type, and when you cast a spell that deals damage of that type, you can add your Charisma modifier to one damage roll of that spell."
+    },
+    {
+      "name": "Dragon Wings",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can cause draconic wings to appear on your back. The wings last for 1 hour or until you dismiss them (no action required). For the duration, you have a Fly Speed of 60 feet.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 3 Sorcery Points (no action required) to restore your use of it."
     }
   ]
 }

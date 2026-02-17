@@ -36,6 +36,12 @@
       "level": 6,
       "source": "FRHoF",
       "description": "You always have {@spell Counterspell|XPHB} prepared.\n\nAdditionally, whenever a target fails the saving throw against a {@spell Counterspell|XPHB} you cast, you regain {@dice 1d4} Sorcery Points."
+    },
+    {
+      "name": "Honed Spellfire",
+      "level": 14,
+      "source": "FRHoF",
+      "description": "Your Spellfire Burst improves. You add your Sorcerer level to the {@variantrule Temporary Hit Points|XPHB} gained from Bolstering Flames, and the damage of Radiant Fire increases to {@dice 1d8}."
     }
   ]
 }

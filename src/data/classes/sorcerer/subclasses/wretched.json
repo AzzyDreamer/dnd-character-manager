@@ -35,6 +35,12 @@
       "level": 6,
       "source": "GH:PG'24",
       "description": "You always have the {@spell Bestow Curse|XPHB} spell prepared. You can cast the spell by spending 3 Sorcery Points instead of a spell slot. When you cast the spell in this way, the spell doesn't require {@status Concentration|XPHB}, and its range changes to 60 feet for that casting."
+    },
+    {
+      "name": "Terrifying Visage",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can adopt the terrifying visage of the being that cursed your ancestor for 10 minutes. During this time, you can take a {@action Magic|XPHB} action to cause creatures of your choice you can see within 30 feet of yourself to make a Wisdom saving throw. On a failed save, the target has the {@condition Frightened|XPHB} condition until the end of your next turn. In addition, while your Terrifying Visage feature is active, you gain the following benefit based on the creature type chosen with your Blood Ties feature.\n\n{@b Fey.} As a {@action Bonus Action|XPHB}, you teleport up to 30 feet to an unoccupied space you can see.\n\n{@b Fiend.} You have Resistance to Cold and Fire damage.\n\n{@b Undead.} When you take damage of any type other than Radiant, you can take a {@variantrule Reaction|XPHB} to reduce the damage by half your Sorcerer level.\n\nOnce you use Terrifying Visage, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }
