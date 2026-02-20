@@ -37,6 +37,12 @@
       "level": 14,
       "source": "XGE",
       "description": "When you are hit by a melee attack, you can use your {@variantrule Reaction|XPHB} to deal Lightning damage to the attacker. The damage equals your Sorcerer level. The attacker must also make a Strength saving throw against your sorcerer spell save DC. On a failed save, the attacker is pushed in a straight line up to 20 feet away from you."
+    },
+    {
+      "name": "Wind Soul",
+      "level": 18,
+      "source": "XGE",
+      "description": "You gain Immunity to Lightning and Thunder damage.\n\nYou also gain a magical flying speed of 60 feet. As a {@action Magic|XPHB} action, you can reduce your flying speed to 30 feet for 1 hour and choose a number of creatures within 30 feet of you equal to 3 + your Charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }

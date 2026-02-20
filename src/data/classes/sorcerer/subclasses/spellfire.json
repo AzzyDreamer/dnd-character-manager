@@ -42,6 +42,12 @@
       "level": 14,
       "source": "FRHoF",
       "description": "Your Spellfire Burst improves. You add your Sorcerer level to the {@variantrule Temporary Hit Points|XPHB} gained from Bolstering Flames, and the damage of Radiant Fire increases to {@dice 1d8}."
+    },
+    {
+      "name": "Crown of Spellfire",
+      "level": 18,
+      "source": "FRHoF",
+      "description": "When you use Innate Sorcery, you can alter it and infuse yourself with the essence of spellfire, gaining the following benefits while this use of Innate Sorcery is active. Once you use this feature to alter Innate Sorcery, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 5 Sorcery Points (no action required) to restore your use of it.\n\n{@b Burning Life Force.} Once per turn when you are hit by an attack roll, you can expend a number of Hit Point Dice, up to a maximum equal to your Charisma modifier (minimum of one). Roll the expended dice, and reduce the amount of damage from that attack equal to the total rolled.\n\n{@b Flight.} You gain a Fly Speed of 60 feet and can hover.\n\n{@b Spell Avoidance.} When you're subjected to a spell or magical effect that allows you to make a saving throw to take only half damage, you instead take no damage if you succeed on the saving throw and only half damage if you fail. You can't use this benefit if you have the {@condition Incapacitated|XPHB} condition."
     }
   ]
 }

@@ -38,6 +38,12 @@
       "level": 14,
       "source": "PHB'24",
       "description": "You gain the ability to align your consciousness with the endless calculations of Mechanus. As a {@action Bonus Action|XPHB}, you can enter this state for 1 minute. For the duration, attack rolls against you can't benefit from {@variantrule Advantage|XPHB}, and whenever you make a {@variantrule D20 Test|XPHB}, you can treat a roll of 9 or lower on the {@dice d20} as a 10.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 5 Sorcery Points (no action required) to restore your use of it."
+    },
+    {
+      "name": "Clockwork Cavalcade",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You momentarily summon spirits of order to expunge disorder around you. As a {@action Magic|XPHB} action, you summon the spirits in a 30-foot Cube originating from you. The spirits look like {@creature Modron|MM|Modrons} or other Constructs of your choice. The spirits are intangible and invulnerable, and they create the effects below within the Cube before vanishing. Once you use this action, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 7 Sorcery Points (no action required) to restore your use of it.\n\n{@b Heal.} The spirits restore up to 100 {@variantrule Hit Points|XPHB}, divided as you choose among any number of creatures of your choice in the Cube.\n\n{@b Repair.} Any damaged objects entirely in the Cube are repaired instantly.\n\n{@b Dispel.} Every spell of level 6 and lower ends on creatures and objects of your choice in the Cube."
     }
   ]
 }

@@ -44,6 +44,12 @@
       "level": 14,
       "source": "GH:PG'24",
       "description": "The end of Etharis is a time when magic is unbound and magical powers long hidden are unearthed. When you cast a Sorcerer spell using a spell slot, you can choose one option below.\n\n{@b Excessive.} If the spell requires a Material component with a cost, you can cast the spell without the Material component. You take Force damage equal to four times the level of the spell slot immediately after you cast it. This damage ignores Resistance and Immunity.\n\n{@b Inexorable.} Taking damage can't break your {@status Concentration|XPHB} on the spell. When the spell ends, you gain 1 {@condition Exhaustion|XPHB} level.\n\n{@b Pyrrhic.} If the spell requires an attack roll, the spell automatically hits and the attack roll is a Critical Hit. Your {@variantrule Hit Point|XPHB} maximum is reduced by an amount equal to four times the level of the spell slot immediately after you cast it. When you finish a {@variantrule Long Rest|XPHB}, your Hit Point maximum returns to normal."
+    },
+    {
+      "name": "The End is Nigh",
+      "level": 18,
+      "source": "GH:PG'24",
+      "description": "You loudly proclaim what will come to pass when the world ends. As a {@action Magic|XPHB} action, you describe the end of days. When you do so, each creature of your choice in a 30-foot {@variantrule Emanation|XPHB} originating from you must make a Wisdom saving throw against your spell save DC. On a failed save, a creature takes {@dice 6d6} Psychic damage and {@dice 6d6} Force damage and has the {@condition Frightened|XPHB} condition for 1 minute. On a successful save, the creature takes half as much damage only. A {@condition Frightened|XPHB} creature can repeat the saving throw at the end of each of its turns, ending the {@condition Frightened|XPHB} condition on a successful save. If this damage reduces a creature to 0 {@variantrule Hit Points|XPHB}, the creature can be revived only by a {@spell True Resurrection|XPHB} or a {@spell Wish|XPHB} spell.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB} unless you spend 6 Sorcery Points (no action required) to restore your use of it."
     }
   ]
 }

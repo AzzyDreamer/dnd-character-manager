@@ -31,6 +31,12 @@
       "level": 14,
       "source": "XGE",
       "description": "You gain the ability to step from one shadow into another. When you are in {@variantrule Dim Light|XPHB} or darkness, as a {@action Bonus Action|XPHB}, you can magically teleport up to 120 feet to an unoccupied space you can see that is also in {@variantrule Dim Light|XPHB} or darkness."
+    },
+    {
+      "name": "Umbral Form",
+      "level": 18,
+      "source": "XGE",
+      "description": "You can spend 6 Sorcery Points as a {@action Bonus Action|XPHB} to magically transform yourself into a shadowy form. In this form, you have Resistance to all damage except Force and Radiant damage, and you can move through other creatures and objects as if they were {@variantrule Difficult Terrain|XPHB}. You take 5 Force damage if you end your turn inside an object.\n\nYou remain in this form for 1 minute. It ends early if you have the {@condition Incapacitated|XPHB} condition, if you die, or if you dismiss it as a {@action Bonus Action|XPHB}."
     }
   ]
 }
