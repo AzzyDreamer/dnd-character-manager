@@ -1,0 +1,49 @@
+{
+  "id": "draconic",
+  "name": "Драконья Кровь",
+  "classId": "sorcerer",
+  "description": "Your innate magic comes from the gift of a dragon. Perhaps an ancient dragon facing death bequeathed some of its magical power to you or your ancestor. You might have absorbed magic from a site infused with dragons' power. Or perhaps you handled a treasure taken from a dragon's hoard that was steeped in draconic power. Or you might have a dragon for an ancestor.",
+  "shortDescription": "Breathe the Magic of Dragons",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Draconic Resilience",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic in your body manifests physical traits of your draconic gift. Your Hit Point maximum increases by 3, and it increases by 1 whenever you gain another Sorcerer level. Parts of you are also covered by dragon-like scales. While you aren't wearing armor, your base {@variantrule Armor Class|XPHB} equals 10 plus your Dexterity modifier and Charisma modifier."
+    },
+    {
+      "name": "Draconic Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Sorcerer level specified in the Draconic Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Alter Self|XPHB}", "{@spell Chromatic Orb|XPHB}", "{@spell Command|XPHB}", "{@spell Dragon's Breath|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Fear|XPHB}", "{@spell Fly|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Arcane Eye|XPHB}", "{@spell Charm Monster|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Legend Lore|XPHB}", "{@spell Summon Dragon|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Elemental Affinity",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Your draconic magic has an affinity with a damage type associated with dragons. Choose one of those types: Acid, Cold, Fire, Lightning, or Poison. You have Resistance to that damage type, and when you cast a spell that deals damage of that type, you can add your Charisma modifier to one damage roll of that spell."
+    },
+    {
+      "name": "Dragon Wings",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "As a {@action Bonus Action|XPHB}, you can cause draconic wings to appear on your back. The wings last for 1 hour or until you dismiss them (no action required). For the duration, you have a Fly Speed of 60 feet.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 3 Sorcery Points (no action required) to restore your use of it."
+    },
+    {
+      "name": "Dragon Companion",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You can cast {@spell Summon Dragon|XPHB} without a Material component. You can also cast it once without a spell slot, and you regain the ability to cast it in this way when you finish a {@variantrule Long Rest|XPHB}.\n\nWhenever you start casting the spell, you can modify it so that it doesn't require {@status Concentration|XPHB}. If you do so, the spell's duration becomes 1 minute for that casting."
+    }
+  ]
+}

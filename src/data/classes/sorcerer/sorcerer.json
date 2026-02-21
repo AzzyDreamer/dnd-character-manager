@@ -1,0 +1,209 @@
+{
+  "id": "sorcerer",
+  "name": "Чародей",
+  "source": "PHB'24",
+  "page": 192,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d6",
+  "hitPointsAtFirstLevel": "6 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d6 (or 4) + your Constitution modifier per Sorcerer level after 1st",
+  "primaryAbility": ["charisma"],
+  "savingThrows": ["constitution", "charisma"],
+  "spellcaster": true,
+  "spellcastingAbility": "charisma",
+  "description": "Врождённый маг, чья сила проистекает из крови или судьбы. Управляет сырой магической энергией.",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["arcana", "deception", "insight", "intimidation", "persuasion", "religion"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["{@item Spear|XPHB}", "2 {@item Daggers|XPHB}", "{@item Arcane Focus (Crystal)|XPHB}", "{@item Dungeoneer's Pack|XPHB}", "28 GP"],
+    "optionB": ["50 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Charisma 13"
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Innate Sorcery", "Spellcasting"],     "sorceryPoints": 2,  "cantrips": 4, "preparedSpells": 2,  "spellSlots": [2,0,0,0,0,0,0,0,0] },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Font of Magic", "Metamagic"],          "sorceryPoints": 2,  "cantrips": 4, "preparedSpells": 4,  "spellSlots": [3,0,0,0,0,0,0,0,0] },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Sorcerer Subclass"],                   "sorceryPoints": 3,  "cantrips": 4, "preparedSpells": 6,  "spellSlots": [4,2,0,0,0,0,0,0,0] },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],           "sorceryPoints": 4,  "cantrips": 5, "preparedSpells": 7,  "spellSlots": [4,3,0,0,0,0,0,0,0] },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Sorcery Restoration"],                 "sorceryPoints": 5,  "cantrips": 5, "preparedSpells": 9,  "spellSlots": [4,3,2,0,0,0,0,0,0] },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                    "sorceryPoints": 6,  "cantrips": 5, "preparedSpells": 10, "spellSlots": [4,3,3,0,0,0,0,0,0] },
+    { "level": 7,  "proficiencyBonus": 3, "features": ["Sorcery Incarnate"],                   "sorceryPoints": 7,  "cantrips": 5, "preparedSpells": 11, "spellSlots": [4,3,3,1,0,0,0,0,0] },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],           "sorceryPoints": 8,  "cantrips": 5, "preparedSpells": 12, "spellSlots": [4,3,3,2,0,0,0,0,0] },
+    { "level": 9,  "proficiencyBonus": 4, "features": [],                                      "sorceryPoints": 9,  "cantrips": 5, "preparedSpells": 14, "spellSlots": [4,3,3,3,1,0,0,0,0] },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Metamagic"],                           "sorceryPoints": 10, "cantrips": 6, "preparedSpells": 15, "spellSlots": [4,3,3,3,2,0,0,0,0] },
+    { "level": 11, "proficiencyBonus": 4, "features": [],                                      "sorceryPoints": 11, "cantrips": 6, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],           "sorceryPoints": 12, "cantrips": 6, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 13, "proficiencyBonus": 5, "features": [],                                      "sorceryPoints": 13, "cantrips": 6, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Subclass Feature"],                    "sorceryPoints": 14, "cantrips": 6, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 15, "proficiencyBonus": 5, "features": [],                                      "sorceryPoints": 15, "cantrips": 6, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],           "sorceryPoints": 16, "cantrips": 6, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 17, "proficiencyBonus": 6, "features": ["Metamagic"],                           "sorceryPoints": 17, "cantrips": 6, "preparedSpells": 19, "spellSlots": [4,3,3,3,2,1,1,1,1] },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Subclass Feature"],                    "sorceryPoints": 18, "cantrips": 6, "preparedSpells": 20, "spellSlots": [4,3,3,3,3,1,1,1,1] },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                           "sorceryPoints": 19, "cantrips": 6, "preparedSpells": 21, "spellSlots": [4,3,3,3,3,2,1,1,1] },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Arcane Apotheosis"],                   "sorceryPoints": 20, "cantrips": 6, "preparedSpells": 22, "spellSlots": [4,3,3,3,3,2,2,1,1] }
+  ],
+  "classFeatures": [
+    {
+      "name": "Innate Sorcery",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "An event in your past left an indelible mark on you, infusing you with simmering magic. As a {@action Bonus Action|XPHB}, you can unleash that magic for 1 minute, during which you gain the following benefits.",
+      "details": {
+        "spellSaveDC": "The spell save DC of your Sorcerer spells increases by 1.",
+        "advantage": "You have {@variantrule Advantage|XPHB} on the attack rolls of Sorcerer spells you cast."
+      }
+    },
+    {
+      "name": "Innate Sorcery: Uses",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "You can use this feature twice, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Spellcasting",
+      "level": 1,
+      "source": "PHB'24",
+      "description": "You have learned to cast spells through innate magical talent. See {@variantrule chapter 7|XPHB} for the rules on spellcasting. The information below details how you use those rules with Sorcerer spells, which appear on the {@filter Sorcerer spell list}.",
+      "details": {
+        "cantrips": "You know four cantrips of your choice from the {@filter Sorcerer spell list}. {@spell Light|XPHB}, {@spell Prestidigitation|XPHB}, {@spell Shocking Grasp|XPHB}, and {@spell Sorcerous Burst|XPHB} are recommended. Whenever you gain a Sorcerer level, you can replace one of your cantrips with another cantrip of your choice from the {@filter Sorcerer spell list}. When you reach Sorcerer levels 4 and 10, you learn another cantrip of your choice from the {@filter Sorcerer spell list}, as shown in the Cantrips column of the Sorcerer Features table.",
+        "spellSlots": "The Sorcerer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended spell slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the {@filter Sorcerer spell list}. {@spell Burning Hands|XPHB} and {@spell Detect Magic|XPHB} are recommended. The number of spells on your list increases as you gain Sorcerer levels, as shown in the Prepared Spells column of the Sorcerer Features table. Whenever that number increases, choose additional spells from the {@filter Sorcerer spell list} until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. If another Sorcerer feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Sorcerer spells for you.",
+        "changingPreparedSpells": "Whenever you gain a Sorcerer level, you can replace one spell on your list with another Sorcerer spell for which you have spell slots.",
+        "spellcastingAbility": "Charisma is your spellcasting ability for your Sorcerer spells.",
+        "spellcastingFocus": "You can use an {@item Arcane Focus|XPHB} as a {@variantrule Spellcasting Focus|XPHB} for your Sorcerer spells."
+      }
+    },
+    {
+      "name": "Font of Magic",
+      "level": 2,
+      "source": "PHB'24",
+      "description": "You can tap into the wellspring of magic within yourself. This wellspring is represented by Sorcery Points, which allow you to create a variety of magical effects.",
+      "details": {
+        "sorceryPoints": "You have a number of Sorcery Points equal to your Sorcerer level, as shown in the Sorcery Points column of the Sorcerer Features table. You can spend Sorcery Points on various abilities. You regain all expended Sorcery Points when you finish a {@variantrule Long Rest|XPHB}.",
+        "convertingSpellSlotToSorceryPoints": "{@b Converting a Spell Slot to Sorcery Points.} You can expend a spell slot as a {@action Bonus Action|XPHB} to gain a number of Sorcery Points equal to the slot's level.",
+        "creatingSpellSlots": "{@b Creating Spell Slots.} You can transform unexpended Sorcery Points into one spell slot as a {@action Bonus Action|XPHB}. The Creating Spell Slots table shows the cost of creating a spell slot of a given level, and you can't create a slot above level 5. Any spell slot you create with this feature vanishes when you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Creating Spell Slots",
+      "level": 2,
+      "source": "PHB'24",
+      "description": "The cost of creating a spell slot: Level 1 = 2 Sorcery Points, Level 2 = 3 Sorcery Points, Level 3 = 5 Sorcery Points, Level 4 = 6 Sorcery Points, Level 5 = 7 Sorcery Points."
+    },
+    {
+      "name": "Metamagic",
+      "level": 2,
+      "source": "PHB'24",
+      "description": "Because your magic flows from within, you can alter your spells to suit your needs; you gain two Metamagic options of your choice from the \"Metamagic Options\" section later in this class's description. You gain two more at Sorcerer levels 10 and 17. If a Metamagic option requires a saving throw, the DC equals your spell save DC. You can use only one Metamagic option on a spell when you cast it, unless otherwise noted.",
+      "details": {
+        "carefulSpell": "{@b Careful Spell.} When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell's full force. To do so, spend 1 Sorcery Point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell, and it takes no damage if it would normally take half damage on a successful save.",
+        "distantSpell": "{@b Distant Spell.} When you cast a spell that has a range of at least 5 feet, you can spend 1 Sorcery Point to double the range of the spell. Or when you cast a spell that has a range of Touch, you can spend 1 Sorcery Point to make the range of the spell 30 feet.",
+        "empoweredSpell": "{@b Empowered Spell.} When you roll damage for a spell, you can spend 1 Sorcery Point to reroll a number of the damage dice up to your Charisma modifier (minimum of one), and you must use the new rolls. You can use Empowered Spell even if you've already used a different Metamagic option during the casting of the spell.",
+        "extendedSpell": "{@b Extended Spell.} When you cast a spell that has a duration of 1 minute or longer, you can spend 1 Sorcery Point to double its duration to a maximum duration of 24 hours. If the affected spell requires {@status Concentration|XPHB}, you have {@variantrule Advantage|XPHB} on any saving throw you make to maintain that {@status Concentration|XPHB}.",
+        "heightenedSpell": "{@b Heightened Spell.} When you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell {@variantrule Disadvantage|XPHB} on saves against the spell.",
+        "quickenedSpell": "{@b Quickened Spell.} When you cast a spell that has a casting time of an action, you can spend 2 Sorcery Points to change the casting time to a {@action Bonus Action|XPHB} for this casting. You can't modify a spell in this way if you've already cast a level 1+ spell on the current turn, nor can you cast a level 1+ spell on this turn after modifying a spell in this way.",
+        "seekingSpell": "{@b Seeking Spell.} If you make an attack roll for a spell and miss, you can spend 1 Sorcery Point to reroll the {@dice d20}, and you must use the new roll. You can use Seeking Spell even if you've already used a different Metamagic option during the casting of the spell.",
+        "subtleSpell": "{@b Subtle Spell.} When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.",
+        "transmutedSpell": "{@b Transmuted Spell.} When you cast a spell that deals a type of damage from the following list, you can spend 1 Sorcery Point to change that damage type to one of the other listed types: Acid, Cold, Fire, Lightning, Poison, Thunder.",
+        "twinnedSpell": "{@b Twinned Spell.} When you cast a spell, such as {@spell Charm Person|XPHB}, that can be cast with a higher-level spell slot to target an additional creature, you can spend 1 Sorcery Point to increase the spell's effective level by 1."
+      }
+    },
+    {
+      "name": "Sorcerer Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain a Sorcerer subclass of your choice. A subclass is a specialization that grants you features at certain Sorcerer levels. For the rest of your career, you gain each of your subclass's features that are of your Sorcerer level or lower."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16."
+    },
+    {
+      "name": "Sorcery Restoration",
+      "level": 5,
+      "source": "PHB'24",
+      "description": "When you finish a {@variantrule Short Rest|XPHB}, you can regain expended Sorcery Points, but no more than a number equal to half your Sorcerer level (round down). Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Sorcerer subclass."
+    },
+    {
+      "name": "Sorcery Incarnate",
+      "level": 7,
+      "source": "PHB'24",
+      "description": "If you have no uses of Innate Sorcery left, you can use it if you spend 2 Sorcery Points when you take the {@action Bonus Action|XPHB} to activate it. In addition, while your Innate Sorcery feature is active, you can use up to two of your Metamagic options on each spell you cast."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 8,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Metamagic",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Because your magic flows from within, you can alter your spells to suit your needs; you gain two Metamagic options of your choice from the \"Metamagic Options\" section later in this class's description. You can use only one Metamagic option on a spell when you cast it, unless otherwise noted in one of those options. Whenever you gain a Sorcerer level, you can replace one of your Metamagic options with one you don't know."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 12,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Sorcerer subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 16,
+      "source": "PHB'24",
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Metamagic",
+      "level": 17,
+      "source": "PHB'24",
+      "description": "Because your magic flows from within, you can alter your spells to suit your needs; you gain two Metamagic options of your choice from the \"Metamagic Options\" section later in this class's description. You can use only one Metamagic option on a spell when you cast it, unless otherwise noted in one of those options. Whenever you gain a Sorcerer level, you can replace one of your Metamagic options with one you don't know."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You gain a feature from your Sorcerer subclass."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "description": "You gain an Epic Boon feat or another feat of your choice for which you qualify. {@feat Boon of Dimensional Travel|XPHB} is recommended."
+    },
+    {
+      "name": "Arcane Apotheosis",
+      "level": 20,
+      "source": "PHB'24",
+      "description": "While your Innate Sorcery feature is active, you can use one Metamagic option on each of your turns without spending Sorcery Points on it."
+    }
+  ],
+  "subclassIds": [
+    "aberrant-mind", "apocalypse", "clockwork-soul", "divine-soul", "draconic",
+    "haunted", "lunar", "shadow", "spellfire", "storm", "wild-magic", "wretched"
+  ]
+}

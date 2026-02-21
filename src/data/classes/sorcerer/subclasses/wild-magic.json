@@ -1,0 +1,70 @@
+{
+  "id": "wild-magic",
+  "name": "Дикая Магия",
+  "classId": "sorcerer",
+  "description": "Your innate magic stems from the forces of chaos that underlie the order of creation. You or an ancestor might have endured exposure to raw magic, perhaps through a planar portal leading to Limbo or the Elemental Planes. Perhaps you were blessed by a fey being or marked by a demon. Or your magic could be a fluke with no apparent cause. Whatever its source, this magic churns within you, waiting for any outlet.",
+  "shortDescription": "Unleash Chaotic Magic",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Wild Magic Surge",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your spellcasting can unleash surges of untamed magic. Once per turn, you can roll {@dice 1d20} immediately after you cast a Sorcerer spell with a spell slot. If you roll a 20, roll on the Wild Magic Surge table to create a magical effect. If the magical effect is a spell, it is too wild to be affected by your Metamagic.",
+      "details": {
+        "wildMagicSurgeTable": [
+          { "d100": "01-04", "effect": "Roll on this table at the start of each of your turns for the next minute, ignoring this result on subsequent rolls." },
+          { "d100": "05-08", "effect": "A creature that is Friendly toward you appears in a random unoccupied space within 60 feet of you. The creature is under the DM's control and disappears 1 minute later. Roll {@dice 1d4} to determine the creature: on a 1, a {@creature Modron Duodrone} appears; on a 2, a {@creature Flumph} appears; on a 3, a {@creature Modron Monodrone} appears; on a 4, a {@creature Unicorn} appears." },
+          { "d100": "09-12", "effect": "For the next minute, you regain 5 {@variantrule Hit Points|XPHB} at the start of each of your turns." },
+          { "d100": "13-16", "effect": "Creatures have {@variantrule Disadvantage|XPHB} on saving throws against the next spell you cast in the next minute that involves a saving throw." },
+          { "d100": "17-20", "effect": "You are subjected to an effect that lasts for 1 minute unless its description says otherwise. Roll {@dice 1d8} to determine the effect: on a 1, you're surrounded by faint, ethereal music only you and creatures within 5 feet of you can hear; on a 2, your size increases by one size category; on a 3, you grow a long beard made of feathers that remains until you sneeze, at which point the feathers explode from your face and vanish; on a 4, you must shout when you speak; on a 5, illusory butterflies flutter in the air within 10 feet of you; on a 6, an eye appears on your forehead, granting you {@variantrule Advantage|XPHB} on Wisdom ({@skill Perception}) checks; on a 7, pink bubbles float out of your mouth whenever you speak; on an 8, your skin turns a vibrant shade of blue for 24 hours or until the effect is ended by a {@spell Remove Curse|XPHB} spell." },
+          { "d100": "21-24", "effect": "For the next minute, all your spells with a casting time of an action have a casting time of a {@action Bonus Action|XPHB}." },
+          { "d100": "25-28", "effect": "You are transported to the Astral Plane until the end of your next turn. You then return to the space you previously occupied or the nearest unoccupied space if that space is occupied." },
+          { "d100": "29-32", "effect": "The next time you cast a spell that deals damage within the next minute, don't roll the spell's damage dice for the damage. Instead use the highest number possible for each damage die." },
+          { "d100": "33-36", "effect": "You have {@variantrule Resistance|XPHB} to all damage for the next minute." },
+          { "d100": "37-40", "effect": "You turn into a potted plant until the start of your next turn. While you're a plant, you have the {@condition Incapacitated|XPHB} condition and have Vulnerability to all damage. If you drop to 0 {@variantrule Hit Points|XPHB}, your pot breaks, and your form reverts." },
+          { "d100": "41-44", "effect": "For the next minute, you can teleport up to 20 feet as a {@action Bonus Action|XPHB} on each of your turns." },
+          { "d100": "45-48", "effect": "You and up to three creatures you choose within 30 feet of you have the {@condition Invisible|XPHB} condition for 1 minute. This invisibility ends on a creature immediately after it makes an attack roll, deals damage, or casts a spell." },
+          { "d100": "49-52", "effect": "A spectral shield hovers near you for the next minute, granting you a +2 bonus to AC and immunity to {@spell Magic Missile|XPHB}." },
+          { "d100": "53-56", "effect": "You can take one extra action on this turn." },
+          { "d100": "57-60", "effect": "You cast a random spell. If the spell normally requires {@status Concentration|XPHB}, it doesn't require {@status Concentration|XPHB} in this case; the spell lasts for its full duration. Roll {@dice 1d10} to determine the spell: on a 1, {@spell Confusion|XPHB}; on a 2, {@spell Fireball|XPHB}; on a 3, {@spell Fog Cloud|XPHB}; on a 4, {@spell Fly|XPHB} (cast on a random creature within 60 feet of you); on a 5, {@spell Grease|XPHB}; on a 6, {@spell Levitate|XPHB} (cast on yourself); on a 7, {@spell Magic Missile|XPHB} (cast as a level 5 spell); on an 8, {@spell Mirror Image|XPHB}; on a 9, {@spell Polymorph|XPHB} (cast on yourself), and if you fail the saving throw, you turn into a {@creature Goat}; on a 10, {@spell See Invisibility|XPHB}." },
+          { "d100": "61-64", "effect": "For the next minute, any flammable, nonmagical object you touch that isn't being worn or carried by another creature bursts into flame, takes {@dice 1d4} Fire damage, and is {@status Burning|XPHB}." },
+          { "d100": "65-68", "effect": "If you die within the next hour, you immediately revive as if by the {@spell Reincarnate|XPHB} spell." },
+          { "d100": "69-72", "effect": "You have the {@condition Frightened|XPHB} condition until the end of your next turn. The DM determines the source of your fear." },
+          { "d100": "73-76", "effect": "You teleport up to 60 feet to an unoccupied space you can see." },
+          { "d100": "77-80", "effect": "A random creature within 60 feet of you has the {@condition Poisoned|XPHB} condition for {@dice 1d4} hours." },
+          { "d100": "81-84", "effect": "You radiate Bright Light in a 30-foot radius for the next minute. Any creature that ends its turn within 5 feet of you has the {@condition Blinded|XPHB} condition until the end of its next turn." },
+          { "d100": "85-88", "effect": "Up to three creatures of your choice that you can see within 30 feet of you take {@dice 1d10} Necrotic damage. You regain {@variantrule Hit Points|XPHB} equal to the sum of the Necrotic damage dealt." },
+          { "d100": "89-92", "effect": "Up to three creatures of your choice that you can see within 30 feet of you take {@dice 4d10} Lightning damage." },
+          { "d100": "93-96", "effect": "You and all creatures within 30 feet of you have Vulnerability to Piercing damage for the next minute." },
+          { "d100": "97-00", "effect": "Roll {@dice 1d6}. On a 1, you regain {@dice 2d10} Hit Points; on a 2, one ally of your choice within 300 feet of you regains {@dice 2d10} Hit Points; on a 3, you regain your lowest-level expended spell slot; on a 4, one ally of your choice within 300 feet of you regains their lowest-level expended spell slot; on a 5, you regain all your expended Sorcery Points; on a 6, all the effects of row 17-20 affect you simultaneously." }
+        ]
+      }
+    },
+    {
+      "name": "Tides of Chaos",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can manipulate the forces of chance and chaos to give yourself {@variantrule Advantage|XPHB} on one {@variantrule D20 Test|XPHB} before you roll the {@dice d20}. Once you do so, you must cast a Sorcerer spell with a spell slot or finish a {@variantrule Long Rest|XPHB} before you can use this feature again. If you do cast a Sorcerer spell with a spell slot before you finish a {@variantrule Long Rest|XPHB}, you automatically roll on the Wild Magic Surge table."
+    },
+    {
+      "name": "Bend Luck",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You have the ability to twist fate using your wild magic. Immediately after another creature you can see rolls the {@dice d20} for a {@variantrule D20 Test|XPHB}, you can take a {@variantrule Reaction|XPHB} and spend 1 Sorcery Point to roll {@dice 1d4} and apply the number rolled as a bonus or penalty (your choice) to the {@dice d20} roll."
+    },
+    {
+      "name": "Controlled Chaos",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain a modicum of control over the surges of your wild magic. Whenever you roll on the Wild Magic Surge table, you can roll twice and use either number."
+    },
+    {
+      "name": "Tamed Surge",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "Immediately after you cast a Sorcerer spell with a spell slot, you can create an effect of your choice from the Wild Magic Surge table instead of rolling on that table. You can choose any effect in the table except for the final row, and if the chosen effect involves a roll, you must make it.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

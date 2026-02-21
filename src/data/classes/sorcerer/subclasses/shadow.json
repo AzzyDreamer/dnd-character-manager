@@ -1,0 +1,42 @@
+{
+  "id": "shadow",
+  "name": "Теневая Магия",
+  "classId": "sorcerer",
+  "description": "You are a creature of shadow, for your innate magic comes from the Shadowfell itself. You might trace your lineage to an entity from that place, or perhaps you were exposed to its fell energy and transformed by it. The power of shadow magic casts a strange pall over your physical presence. The spark of life that sustains you is muffled, as if it struggles to remain viable against the dark energy that imbues your soul.",
+  "shortDescription": "Draw Power from the Shadowfell",
+  "source": "XGE",
+  "level": 1,
+  "note": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "features": [
+    {
+      "name": "Eyes of the Dark",
+      "level": 1,
+      "source": "XGE",
+      "description": "You have {@sense Darkvision|XPHB} with a range of 120 feet. When you reach 3rd level in this class, you learn the {@spell Darkness|XPHB} spell, which doesn't count against your number of sorcerer spells known. In addition, you can cast it by spending 2 Sorcery Points or by expending a spell slot. If you cast it with Sorcery Points, you can see through the {@spell Darkness|XPHB} created by the spell."
+    },
+    {
+      "name": "Strength of the Grave",
+      "level": 1,
+      "source": "XGE",
+      "description": "Your existence in a twilight state between life and death makes you difficult to defeat. When damage reduces you to 0 {@variantrule Hit Points|XPHB}, you can make a Charisma saving throw (DC 5 + the damage taken). On a success, you instead drop to 1 Hit Point. You can't use this feature if you are reduced to 0 Hit Points by Radiant damage or by a critical hit. After the saving throw succeeds, you can't use this feature again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Hound of Ill Omen",
+      "level": 6,
+      "source": "XGE",
+      "description": "You gain the ability to call forth a howling creature of darkness to harass your foes. As a {@action Bonus Action|XPHB}, you can spend 3 Sorcery Points to magically summon a hound of ill omen to target one creature you can see within 120 feet of you. The hound uses the {@creature Dire Wolf}'s statistics, with the following changes:\n\n- The hound is size Medium, not Large, and it counts as a Monstrosity, not a Beast.\n- It appears with a number of {@variantrule Temporary Hit Points|XPHB} equal to half your Sorcerer level.\n- It can move through other creatures and objects as if they were {@variantrule Difficult Terrain|XPHB}. The hound takes 5 Force damage if it ends its turn inside an object.\n- At the start of its turn, the hound automatically knows its target's location. If the target was hidden, it is no longer hidden from the hound.\n\nThe hound appears in an unoccupied space of your choice within 30 feet of the target. Roll {@variantrule Initiative|XPHB} for the hound. On its turn, it can move only toward its target by the most direct route, and it can use its action only to attack its target. The hound can make {@variantrule Opportunity Attacks|XPHB}, but only against its target. Additionally, while the hound is within 5 feet of the target, the target has {@variantrule Disadvantage|XPHB} on saving throws against any spell you cast. The hound disappears if it is reduced to 0 {@variantrule Hit Points|XPHB}, if its target is reduced to 0 Hit Points, or after 5 minutes."
+    },
+    {
+      "name": "Shadow Walk",
+      "level": 14,
+      "source": "XGE",
+      "description": "You gain the ability to step from one shadow into another. When you are in {@variantrule Dim Light|XPHB} or darkness, as a {@action Bonus Action|XPHB}, you can magically teleport up to 120 feet to an unoccupied space you can see that is also in {@variantrule Dim Light|XPHB} or darkness."
+    },
+    {
+      "name": "Umbral Form",
+      "level": 18,
+      "source": "XGE",
+      "description": "You can spend 6 Sorcery Points as a {@action Bonus Action|XPHB} to magically transform yourself into a shadowy form. In this form, you have Resistance to all damage except Force and Radiant damage, and you can move through other creatures and objects as if they were {@variantrule Difficult Terrain|XPHB}. You take 5 Force damage if you end your turn inside an object.\n\nYou remain in this form for 1 minute. It ends early if you have the {@condition Incapacitated|XPHB} condition, if you die, or if you dismiss it as a {@action Bonus Action|XPHB}."
+    }
+  ]
+}

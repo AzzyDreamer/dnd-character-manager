@@ -1,0 +1,49 @@
+{
+  "id": "clockwork-soul",
+  "name": "Заводная Душа",
+  "classId": "sorcerer",
+  "description": "The cosmic force of order has suffused you with magic. That power arises from Mechanus or a realm like it—a plane of existence shaped entirely by clockwork efficiency. You or someone from your lineage might have become entangled in the machinations of Modrons. Or perhaps you were exposed to the realm's raw clockwork while at a young age. Whatever its origin, the power simmers in you, and your spells emerge in spectral gear wheels and tiny cogs in the air.",
+  "shortDescription": "Harness Cosmic Forces of Order",
+  "source": "PHB'24",
+  "level": 3,
+  "features": [
+    {
+      "name": "Clockwork Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reach a Sorcerer level specified in the Clockwork Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "sorcererLevel": 3,  "spells": ["{@spell Aid|XPHB}", "{@spell Alarm|XPHB}", "{@spell Lesser Restoration|XPHB}", "{@spell Protection from Evil and Good|XPHB}"] },
+          { "sorcererLevel": 5,  "spells": ["{@spell Dispel Magic|XPHB}", "{@spell Protection from Energy|XPHB}"] },
+          { "sorcererLevel": 7,  "spells": ["{@spell Freedom of Movement|XPHB}", "{@spell Summon Construct|XPHB}"] },
+          { "sorcererLevel": 9,  "spells": ["{@spell Greater Restoration|XPHB}", "{@spell Wall of Force|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Restore Balance",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your connection to the plane of absolute order allows you to equalize chaotic moments. When a creature you can see within 60 feet of yourself is about to roll a {@dice d20} with {@variantrule Advantage|XPHB} or {@variantrule Disadvantage|XPHB}, you can take a {@variantrule Reaction|XPHB} to prevent the roll from being affected by {@variantrule Advantage|XPHB} and {@variantrule Disadvantage|XPHB}. You can use this feature a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Bastion of Law",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can tap into the grand equation of existence to imbue a creature with a shimmering shield of order. As a {@action Magic|XPHB} action, you can expend 1 to 5 Sorcery Points to create a magical ward around yourself or another creature you can see within 30 feet of yourself. The ward is represented by a number of {@dice d8}s equal to the number of Sorcery Points spent to create it. When the warded creature takes damage, it can expend a number of those dice, roll them, and reduce the damage taken by the total rolled on those dice. The ward lasts until you finish a {@variantrule Long Rest|XPHB} or until you use this feature again."
+    },
+    {
+      "name": "Trance of Order",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "You gain the ability to align your consciousness with the endless calculations of Mechanus. As a {@action Bonus Action|XPHB}, you can enter this state for 1 minute. For the duration, attack rolls against you can't benefit from {@variantrule Advantage|XPHB}, and whenever you make a {@variantrule D20 Test|XPHB}, you can treat a roll of 9 or lower on the {@dice d20} as a 10.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 5 Sorcery Points (no action required) to restore your use of it."
+    },
+    {
+      "name": "Clockwork Cavalcade",
+      "level": 18,
+      "source": "PHB'24",
+      "description": "You momentarily summon spirits of order to expunge disorder around you. As a {@action Magic|XPHB} action, you summon the spirits in a 30-foot Cube originating from you. The spirits look like {@creature Modron|MM|Modrons} or other Constructs of your choice. The spirits are intangible and invulnerable, and they create the effects below within the Cube before vanishing. Once you use this action, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you spend 7 Sorcery Points (no action required) to restore your use of it.\n\n{@b Heal.} The spirits restore up to 100 {@variantrule Hit Points|XPHB}, divided as you choose among any number of creatures of your choice in the Cube.\n\n{@b Repair.} Any damaged objects entirely in the Cube are repaired instantly.\n\n{@b Dispel.} Every spell of level 6 and lower ends on creatures and objects of your choice in the Cube."
+    }
+  ]
+}
