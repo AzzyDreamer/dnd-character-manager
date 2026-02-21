@@ -1,0 +1,16 @@
+{
+	"name": "Drawn to Darkness",
+	"source": "GrimHollowPG24",
+	"page": 175,
+	"featureType": [
+		"Spec:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"Your body and soul are bound to the cold darkness of the realms of death. You have {@variantrule Disadvantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws} as your life force is drawn to oblivion."
+	]
+}

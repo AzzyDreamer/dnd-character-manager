@@ -1,0 +1,20 @@
+{
+	"name": "Climber",
+	"source": "GrimHollowPG24",
+	"page": 34,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"Sometimes staying away from what threatens you means getting clear of those threats. You have a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Wall Walker",
+			"entries": [
+				"If you take this trait twice, you can use your {@variantrule Climb Speed|XPHB} to move up, down, and across vertical surfaces and upside down along ceilings, while leaving your hands free.",
+				"Additionally, while using climbing movement, you can use the {@action Dash|XPHB} action as a {@variantrule Bonus Action|XPHB}. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

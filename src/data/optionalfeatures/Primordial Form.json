@@ -1,0 +1,17 @@
+{
+    "name": "Primordial Form",
+    "source": "GrimHollowPG24",
+    "page": 161,
+    "featureType": [
+        "P:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+    ],
+    "entries": [
+        "You become an Elemental in addition to any other creature type(s).",
+        "Your Constitution score increases by 1, but cannot increase above 20 in this way."
+    ]
+}

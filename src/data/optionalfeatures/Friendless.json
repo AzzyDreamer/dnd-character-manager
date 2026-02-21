@@ -1,0 +1,18 @@
+{
+	"name": "Friendless",
+	"source": "GrimHollowPG24",
+	"page": 171,
+	"featureType": [
+		"SG:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+		}
+	],
+	"entries": [
+		"You are no longer able to connect with other creatures on a social level. You prefer isolation and twisted contemplation to friendship and camaraderie.",
+		"You cannot be considered an ally to any Humanoids or Beasts, and no living creature can be {@variantrule Friendly [Attitude]|XPHB|Friendly} toward you.",
+		"You also have {@variantrule Disadvantage|XPHB} on all Charisma ability checks."
+	]
+}

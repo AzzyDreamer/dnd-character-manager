@@ -1,0 +1,16 @@
+{
+	"name": "Grandmother's Curse",
+	"source": "GrimHollowPG24",
+	"page": 149,
+	"featureType": [
+		"H:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+		}
+	],
+	"entries": [
+		"You learn one Shadowsteel curse of your choice. You always have it prepared, and it doesn't count against the number of spells you can prepare each day. You can cast it once per day without using a spell slot or needing spell components."
+	]
+}

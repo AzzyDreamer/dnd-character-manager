@@ -1,0 +1,25 @@
+{
+    "name": "Incorporeal Movement",
+    "source": "GrimHollowPG24",
+    "page": 175,
+    "featureType": [
+        "Spec:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+        }
+    ],
+    "entries": [
+        "You are able to loosen the binds that tie you to the material world to move through solid objects and creatures. As a {@action Magic|XPHB} action, you can make yourself incorporeal until the start of your next turn. While in this form, you gain the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "You can move through solid objects at your full {@variantrule Speed|XPHB}. You take {@damage 1d10} Force damage if you end your turn inside a solid object and are moved to the nearest open space.",
+                "You have {@variantrule Resistance|XPHB} to all damage types except Force damage.",
+                "You are {@variantrule Lightly Obscured|XPHB}."
+            ]
+        },
+        "You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

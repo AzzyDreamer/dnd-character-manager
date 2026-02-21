@@ -1,0 +1,27 @@
+{
+	"name": "Bow of Celestial Domination",
+	"source": "GrimHollowPG24",
+	"page": 168,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}",
+			"optionalfeature": [
+				"bow of celestial judgement|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"While your Bow of Celestial Judgement is manifested, you gain these additional benefits:",
+		{
+			"type": "list",
+			"items": [
+				"When you use a {@action Magic|XPHB} action to target a creature you can see within 120 feet, you can also affect one other creature with 10 feet of the original target.",
+				"You have {@variantrule Immunity|XPHB} to Necrotic damage instead of {@variantrule Resistance|XPHB}.",
+				"You gain 15 {@variantrule Temporary Hit Points|XPHB} at the start of each of your turns instead of 5."
+			]
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"name": "Dual Nature",
+	"source": "GrimHollowPG24",
+	"page": 161,
+	"featureType": [
+		"P:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"entries": [
+		"You add a second element to your {@optfeature Elemental Affinity|GrimHollowPG24|Elemental Affinity Boon}. When you do so, you gain the associated benefits of your new element."
+	]
+}

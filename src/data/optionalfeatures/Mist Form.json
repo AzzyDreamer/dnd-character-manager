@@ -1,0 +1,17 @@
+{
+    "name": "Mist Form",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "You can cast the {@spell Gaseous Form|XPHB} spell a number of times equal to your Vampire Transformation Stage without using a spell slot or needing to use Verbal, Somatic, or Material components. You regain all uses of this feature when you finish a {@variantrule Long Rest|XPHB}.",
+        "You can cast this spell as an {@variantrule Action|XPHB} on your turn, or as a {@variantrule Reaction|XPHB} when you would take Bludgeoning, Piercing, or Slashing damage. You cast the spell before taking the damage."
+    ]
+}

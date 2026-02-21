@@ -1,0 +1,12 @@
+{
+	"name": "Gift of Unconditional Love",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"When a creature you can see within 30 feet of you fails a saving throw, you can use your {@variantrule Reaction|XPHB} to gain {@variantrule Temporary Hit Points|XPHB} equal to {@dice 1d10} plus your Transformation Stage. You regain the use of this gift when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+		"If you roll a 1 on the die, you gain no {@variantrule Temporary Hit Points|XPHB} and instead have the {@condition Prone|XPHB} condition."
+	]
+}

@@ -1,0 +1,28 @@
+{
+    "name": "Lust for the Hunt",
+    "source": "GrimHollowPG24",
+    "page": 156,
+    "featureType": [
+        "Ly:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "The savage nature of your curse sometimes causes you to lose control. These ferocious tendencies are a constant struggle between you and the beast within.",
+        "The first time you become {@condition Bloodied|XPHB} after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you must succeed on a DC 10 Wisdom saving throw. If you are in the light of a full moon, you automatically fail this saving throw.",
+        "If you fail this saving throw, you are subjected to the following rules until you can end the hybrid form:",
+        {
+            "type": "list",
+            "items": [
+                "You immediately enter your hybrid form. You go completely feral, and you cannot use any of your equipment or class features.",
+                "On your turn while in hybrid form, you must move toward the closest creature you can see, smell, or hear, prioritizing {@condition Bloodied|XPHB} creatures. If you end your movement and no creature is within 5 feet of you, you must use the {@action Dash|XPHB} action to move toward the closest one.",
+                "If there is a creature within 5 feet of you and you have not used your action, you must make an {@action Attack|XPHB} action using your Claw attack.",
+                "When you damage a creature on your turn and it is not reduced to 0 {@variantrule Hit Points|XPHB}, you must use further attacks that turn against that creature."
+            ]
+        },
+        "If you are at full {@variantrule Hit Points|XPHB} at the start of your turn, you can make a DC 10 Wisdom saving throw. On a success, you return to your normal form. You also return to your normal form if {@spell Remove Curse|XPHB} is cast on you, or after 1 hour passes."
+    ]
+}

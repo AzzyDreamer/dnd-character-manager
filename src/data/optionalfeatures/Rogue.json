@@ -1,0 +1,11 @@
+{
+    "name": "Rogue",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "You've adopted the quick thinking of heroes who have outsmarted their foes. On your turn, you can take one of the following actions as a {@variantrule Bonus Action|XPHB}: {@action Dash|XPHB}, {@action Disengage|XPHB}, or {@action Hide|XPHB}."
+    ]
+}

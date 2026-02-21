@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Plagued",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 1 Jinx Point",
+		"When a creature you can see that is cursed by your Evil Eye would regain {@variantrule Hit Points|XPHB}, you can take a {@variantrule Reaction|XPHB} and spend 1 Jinx Point to halve the number of {@variantrule Hit Points|XPHB} regained. Afterward, the creature can't regain {@variantrule Hit Points|XPHB} until the start of your next turn.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

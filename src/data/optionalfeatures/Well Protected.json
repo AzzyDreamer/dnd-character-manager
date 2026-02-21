@@ -1,0 +1,19 @@
+{
+    "name": "Well Protected",
+    "source": "GrimHollowPG24",
+    "page": 47,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your ability to roll with even the worst attacks means that armor would only slow you down. When you are not wearing armor, your AC is equal to 13 + your Dexterity modifier.",
+        {
+            "type": "entries",
+            "name": "Protective Cover",
+            "entries": [
+                "If you take this trait twice, when you make a Dexterity saving throw or are targeted by a ranged attack, you can use a {@variantrule Reaction|XPHB} to have {@variantrule Advantage|XPHB} on the saving throw or impose {@variantrule Disadvantage|XPHB} on the ranged attack roll. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

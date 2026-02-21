@@ -1,0 +1,20 @@
+{
+    "name": "Paralyzing Touch",
+    "source": "GrimHollowPG24",
+    "page": 176,
+    "featureType": [
+        "Spec:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}",
+            "optionalfeature": [
+                "ghastly touch|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "Your Ghastly Touch feature takes on a spirit-freezing quality. The damage from your {@optfeature Ghastly Touch|GrimHollowPG24} increases to {@damage 2d6} Necrotic damage. Additionally, you can force any creature you damage with {@optfeature Ghastly Touch|GrimHollowPG24} to make a Constitution saving throw. The DC for this saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+        "On a failed save, the creature has the {@condition Paralyzed|XPHB} condition until the start of your next turn. On a successful save, they have the {@condition Prone|XPHB} condition instead. You can use this feature a number of times equal to your Transformation Stage. You regain all uses of this feature when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+    ]
+}

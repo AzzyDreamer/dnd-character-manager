@@ -1,0 +1,18 @@
+{
+    "name": "Spectral Form",
+    "source": "GrimHollowPG24",
+    "page": 175,
+    "featureType": [
+        "Spec:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+        }
+    ],
+    "entries": [
+        "You are considered to be Undead in addition to your existing creature type(s). You cannot be excluded from Turn Undead.",
+        "Additionally, you have {@variantrule Resistance|XPHB} to Necrotic damage. If you have {@variantrule Resistance|XPHB} to Necrotic damage from another source, you have {@variantrule Immunity|XPHB} instead.",
+        "Finally, you stop aging. You are immune to any effect that would age you, and you cannot die from old age."
+    ]
+}

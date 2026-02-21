@@ -1,0 +1,19 @@
+{
+    "name": "Menacing Roar",
+    "source": "GrimHollowPG24",
+    "page": 41,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your battle cry can cause even the most formidable foes to quail before you. As a {@variantrule Bonus Action|XPHB}, you emit a roar, shout, or other loud vocal outburst. Each creature of your choice within 10 feet of you that can hear you must succeed on a Wisdom saving throw (DC = 8 + your {@variantrule Proficiency|XPHB|Proficiency Bonus} + your Constitution modifier) or have the {@condition Frightened|XPHB} condtion until the end of your next turn. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Incomparable Roar",
+            "entries": [
+                "If you take this trait twice, when you use Menacing Roar, one target of your choice has {@variantrule Disadvantage|XPHB} on the saving throw."
+            ]
+        }
+    ]
+}

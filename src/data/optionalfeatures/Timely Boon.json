@@ -1,0 +1,19 @@
+{
+    "name": "Timely Boon",
+    "source": "GrimHollowPG24",
+    "page": 46,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Fortune favors you at times when a threat might send you down. When you fail a saving throw, you can use your {@variantrule Reaction|XPHB} to roll a {@dice d4} and add it to the save, potentially turning it into a success. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Born Lucky",
+            "entries": [
+                "If you take this trait twice, you roll a {@dice d8} instead of a {@dice d4} when you use Timely Boon."
+            ]
+        }
+    ]
+}

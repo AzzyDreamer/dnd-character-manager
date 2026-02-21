@@ -1,0 +1,16 @@
+{
+    "name": "Primordial Chaos",
+    "source": "GrimHollowPG24",
+    "page": 163,
+    "featureType": [
+        "P:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+    ],
+    "entries": [
+        "The plane of Primordial energy that you're tied to strengthens its pull on you. Whenever you roll a natural 1 on a saving throw against a spell, you take {@damage 8d6} Force damage, which ignores {@variantrule Resistance|XPHB|Resistances} and {@variantrule Immunity|XPHB|Immunities}. This damage is in addition to any normal damage from the effect."
+    ]
+}

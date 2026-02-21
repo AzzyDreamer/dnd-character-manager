@@ -1,0 +1,12 @@
+{
+	"name": "Creature of the Sky",
+	"source": "GrimHollowPG24",
+	"page": 72,
+	"featureType": [
+		"CM:MO"
+	],
+	"entries": [
+		"{@b Cost:} {@i 3 Mutation Points}",
+		"You gain a {@variantrule Fly Speed|XPHB} of 30 feet. For an additional 2 Mutation Points, your {@variantrule Fly Speed|XPHB} increases to 60 feet."
+	]
+}

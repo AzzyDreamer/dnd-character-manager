@@ -1,0 +1,17 @@
+{
+	"name": "Ghastly Touch",
+	"source": "GrimHollowPG24",
+	"page": 175,
+	"featureType": [
+		"Spec:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"You can deliver a soul-chilling jolt through your attacks. Once per turn, when you hit a target with a melee attack when you are within 5 feet of the target, you can deal an additional {@damage 1d6} Necrotic damage.",
+		"You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. You regain all uses of this feature when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

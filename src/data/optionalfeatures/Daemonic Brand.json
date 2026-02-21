@@ -1,0 +1,26 @@
+{
+	"name": "Daemonic Brand",
+	"source": "GrimHollowPG24",
+	"page": 143,
+	"featureType": [
+		"Fi:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+		}
+	],
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB} on your turn, you can brand a creature within 60 feet of you that you can see with a fiery mark that remains on them for 1 minute. If the target succeeds on a Wisdom saving throw, they are not branded. The DC of the saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+		"If the creature fails the saving throw, you choose one of the following effects that lasts for the duration:",
+		{
+			"type": "list",
+			"items": [
+				"The creature takes a -2 penalty on all saving throws.",
+				"The first attack against the creature on each turn is made with {@variantrule Advantage|XPHB}.",
+				"The creature cannot regain {@variantrule Hit Points|XPHB}. "
+			]
+		},
+		"You can use this ability a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

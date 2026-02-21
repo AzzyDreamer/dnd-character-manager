@@ -1,0 +1,141 @@
+{
+	"name": "Primordial",
+	"source": "GrimHollowPG24",
+	"page": 162,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i Her skin turns black and peels away. But underneath, her bones are made of rock and her blood is fire. \"What's happening?\" the girl cries. Heat radiates from behind her eyes. \"I can't control it!\" She walks away from the ashes of her village sometime later.}",
+						"{@i The city dwellers raise their eyes to the thundering sky. Lightning strikes the cobblestones, then takes the shape of a man. Cries ring out as the figure, sparks scintillating from his body, clenches a fist. The earth trembles violently. Buildings crack and begin to crumble. Commoners flee whilst others throw themselves at the mercy of the elemental manifestation. Its voice booms, \"I have heard it. I heard the song of creation!\"}"
+					]
+				},
+				"Primordials are created when a creature absorbs a spark of primordial chaos. Primordial forces are the purest building blocks of creation, and a fostered spark quickly grows to an all-consuming flame. Mastering the elements requires unlearning the limitations of mortality, a process that sparks rapid transformation.",
+				{
+					"type": "entries",
+					"name": "Becoming a Primordial",
+					"entries": [
+						"There are several ways for a mortal to consume a primordial spark. They might be born with one due to some sorcery or gifted one by accident in the dreams of a slumbering Primordial. A mortal may consume the power of an Elemental through arcane rituals. Or a body could become infused with primal energy after surviving a calamity caused by an Elemental creature or rift to an Elemental Plane.",
+						"Once acquired, one must spend a great deal of time contemplating and understanding the spark to unlock its full potential. The process of attaining elemental mastery is dangerous. The slightest slip in control can cause devastation on a massive scale. Such facts are why isolated individuals like Druids, Monks, or Rangers are most likely to see the Transformation through to its end.",
+						{
+							"type": "inset",
+							"name": "Reversing Primordial Traits",
+							"entries": [
+								"Once a primordial spark has taken hold, your mortal body will continue to deteriorate from the roiling elements it now tries to contain. You will inevitably become one with the elements, your soul pulled into the Elemental Plane. Only magic on the level of the {@spell Wish|XPHB} spell can then revive you, with or without your Transformation and its Boons and Flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Primordial Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Defeat and absorb the power of a greater Elemental",
+										"Come into contact with an elemental node",
+										"Make an alliance with a being from one of the Elemental Planes",
+										"Use your powers to defeat an encroaching civilization",
+										"Free an imprisoned or indentured Elemental creature"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Primordial Stage 1",
+							"entries": [
+								"When you initially undergo the Primordial Transformation, you gain both Stage 1 Boons and the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Primordial Form|GrimHollowPG24}",
+										"{@optfeature Elemental Affinity|GrimHollowPG24}",
+										"{@optfeature Planar Binding (Primordial)|GrimHollowPG24|Planar Binding}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Primordial Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Primordial Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Dual Nature|GrimHollowPG24}",
+										"{@optfeature Elemental Surge|GrimHollowPG24}",
+										"{@optfeature Roiling Elements|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Primordial Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Primordial Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Aura of Awakening|GrimHollowPG24}",
+										"{@optfeature Primeval Body|GrimHollowPG24}",
+										"{@optfeature Master of Many|GrimHollowPG24}",
+										"{@optfeature Elemental Imbalance|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Primordial Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Primordial Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Primordial Aura|GrimHollowPG24}",
+										"{@optfeature Elemental Mastery|GrimHollowPG24}",
+										"{@optfeature Primordial Chaos|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Primordial.webp"
+				},
+				"credit": "Josh Chia",
+				"width": 850,
+				"height": 1853
+			}
+		]
+	}
+}

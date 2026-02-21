@@ -1,0 +1,16 @@
+{
+    "name": "Planar Binding (Primordial)",
+    "source": "GrimHollowPG24",
+    "page": 161,
+    "featureType": [
+        "P:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body and soul are connected to the Elemental Plane. You have {@variantrule Disadvantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws} as the plane attempts to pull you into it."
+    ]
+}

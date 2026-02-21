@@ -1,0 +1,50 @@
+{
+	"name": "Elemental Affinity",
+	"source": "GrimHollowPG24",
+	"page": 161,
+	"featureType": [
+		"P:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"entries": [
+		"Though you have sway over all the elements, your Primordial change was sparked by one particular element: your Elemental Affinity. This element infuses your form and dictates your powers. You must choose one element below and gain all the benefits of that element:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Air",
+					"entries": [
+						"You have {@variantrule Resistance|XPHB} to Lightning damage. In addition, you can channel the air currents around you to guide a ranged attack. Once on each of your turns, when you make an attack with a Ranged weapon or ranged spell, you can make that attack with {@variantrule Advantage|XPHB}. If you are in a location without air—such as underwater or in a vacuum—this feature has no effect."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Earth",
+					"entries": [
+						"You have {@variantrule Resistance|XPHB} to Bludgeoning damage. In addition, whenever you gain {@variantrule Temporary Hit Points|XPHB}, you gain additional {@variantrule Temporary Hit Points|XPHB} equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Fire",
+					"entries": [
+						"You have {@variantrule Resistance|XPHB} to Fire damage. In addition, whenever you deal Fire damage, you can add your Constitution modifier to the damage dealt."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Water",
+					"entries": [
+						"You have {@variantrule Resistance|XPHB} to Cold damage. In addition, whenever a creature within 30 feet regains {@variantrule Hit Points|XPHB}, you can use a {@variantrule Reaction|XPHB} to imbue them with healing elemental energy. The creature regains an additional {@dice 1d6} {@variantrule Hit Points|XPHB}."
+					]
+				}
+			]
+		}
+	]
+}

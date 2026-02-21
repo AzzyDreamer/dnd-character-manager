@@ -1,0 +1,24 @@
+{
+    "name": "Slimy Mien",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "While manifesting your Ooze Form, you gain the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "You are {@variantrule Immunity|XPHB|Immune} to the {@condition Charmed|XPHB} condition.",
+                "Your {@sense Blindsight|XPHB} range increases by 30 feet.",
+                "You can communicate with Oozes within 30 feet as if you shared a language. Oozes are not automatically {@variantrule Friendly [Attitude]|XPHB|Friendly} to you, but they do not regard you as food and may respond to simple questions if they are not {@variantrule Hostile [Attitude]|XPHB|Hostile}."
+            ]
+        }
+    ]
+}

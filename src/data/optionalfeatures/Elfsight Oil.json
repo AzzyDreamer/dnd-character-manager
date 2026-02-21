@@ -1,0 +1,11 @@
+{
+	"name": "Elfsight Oil",
+	"source": "GrimHollowPG24",
+	"page": 76,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 8 hours, you have {@sense Darkvision|XPHB} with a range of 120 feet."
+	]
+}

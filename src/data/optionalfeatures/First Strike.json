@@ -1,0 +1,19 @@
+{
+	"name": "First Strike",
+	"source": "GrimHollowPG24",
+	"page": 37,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"Hesitation in others is a weakness you've learned to take deadly advantage of. When you hit a creature that hasn't taken a turn in the combat yet, your attack deals an extra {@damage 2d6} damage. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Strong Strike",
+			"entries": [
+				"If you take this trait twice, you can use the maximum value of the extra damage dice from First Strike, rather than rolling. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

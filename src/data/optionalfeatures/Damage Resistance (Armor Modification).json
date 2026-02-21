@@ -1,0 +1,11 @@
+{
+	"name": "Damage Resistance (Armor Modification)",
+	"source": "GrimHollowPG24",
+	"page": 59,
+	"featureType": [
+		"TG:AM"
+	],
+	"entries": [
+		"The monster hide used to craft your armor grants some resistances. You gain {@variantrule Resistance|XPHB} to two of the following damage types of your choice: Acid, Cold, Fire, Lightning, Poison, or Thunder."
+	]
+}

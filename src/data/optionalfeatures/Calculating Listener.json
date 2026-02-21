@@ -1,0 +1,19 @@
+{
+	"name": "Calculating Listener",
+	"source": "GrimHollowPG24",
+	"page": 34,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"The weak-willed around you are easy targets for your manipulation. By conversing with a nonhostile creature for at least 1 minute, you can attempt to charm them. The creature must succeed on a Wisdom saving throw (DC = 8 + your Charisma modifier + your {@variantrule Proficiency|XPHB|Proficiency Bonus}) or have the {@condition Charmed|XPHB} condition for 1 hour. At the GM's discretion, you also learn one piece of information that the target knows that relates to the topic of conversation while you speak to them. Regardless of whether or not the target succeeds on the saving throw, they remain unaware of your attempt. You regain use of this feature when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Master Manipulator",
+			"entries": [
+				"If you take this trait twice, a creature has {@variantrule Disadvantage|XPHB} on the saving throw, and it has the {@condition Charmed|XPHB} condition for 8 hours on a failed save."
+			]
+		}
+	]
+}

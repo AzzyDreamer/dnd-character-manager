@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Doomed",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 1 Jinx Point",
+		"When you miss with an attack roll against a creature cursed by your Evil Eye, you can take a {@variantrule Reaction|XPHB} and spend 1 Jinx Point to reroll the attack. You must use the new roll.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

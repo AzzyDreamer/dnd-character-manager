@@ -1,0 +1,24 @@
+{
+    "name": "The Red Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 147,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+        }
+    ],
+    "entries": [
+        "Red Hags are sometimes called the \"nice\" hags due to their ability to pretend to be helpful, but their kindness is a mask. While they are more subtle than other Hags and may choose to do good deeds, their motives are selfish. They delight in using honeyed words and offering deals that are just too good to pass up.",
+        {
+            "type": "list",
+            "items": [
+                "You have {@sense Darkvision|XPHB} with a range of 60 feet.",
+                "You gain proficiency in {@skill Deception|XPHB} and {@skill Persuasion|XPHB}. If you are already proficient, you gain {@variantrule Expertise|XPHB} instead.",
+                "You are immutable. No effect can change your form, and an illusion can disguise you only if the illusion gives you the {@condition Invisible|XPHB} condition."
+            ]
+        }
+    ]
+}

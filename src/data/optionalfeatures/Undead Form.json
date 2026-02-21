@@ -1,0 +1,17 @@
+{
+    "name": "Undead Form",
+    "source": "GrimHollowPG24",
+    "page": 151,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "You become an Undead in addition to any other creature type(s). You cannot be excluded from Turn Undead.",
+        "You also stop aging. You are immune to any effect that would age you, and you cannot die from old age. You do not require air, food, drink, or sleep."
+    ]
+}

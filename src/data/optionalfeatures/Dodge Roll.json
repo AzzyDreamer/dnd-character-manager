@@ -1,0 +1,11 @@
+{
+	"name": "Dodge Roll",
+	"source": "ValdaGunslinger",
+	"featureType": [
+		"MV:G"
+	],
+	"entries": [
+		"You can expend one {@classFeature Risk|Gunslinger|ValdaGunslinger|2|ValdaGunslinger|Risk Die} as a {@variantrule Bonus Action|XPHB} to move up to 15 feet and reload any Ranged weapon you are holding. This movement doesn't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} and is unaffected by {@variantrule Difficult Terrain|XPHB}."
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-002.the-gunslinger.webp"
+}

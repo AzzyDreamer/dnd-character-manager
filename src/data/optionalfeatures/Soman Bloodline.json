@@ -1,0 +1,25 @@
+{
+    "name": "Soman Bloodline",
+    "source": "GrimHollowPG24",
+    "page": 179,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "Your vampirism follows the Soman bloodline, the most prevalent in Etharis. You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "Your Strength and Dexterity scores increase by 1. Neither score can exceed 19 with this feature.",
+                "You have {@variantrule Advantage|XPHB} on attack rolls with {@optfeature Fanged Bite|GrimHollowPG24}.",
+                "The Necrotic damage dealt by {@optfeature Fanged Bite|GrimHollowPG24} increases to {@dice 1d8}.",
+                "You gain a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}."
+            ]
+        }
+    ]
+}

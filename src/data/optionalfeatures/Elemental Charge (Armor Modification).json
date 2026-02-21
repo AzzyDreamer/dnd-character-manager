@@ -1,0 +1,11 @@
+{
+	"name": "Elemental Charge (Armor Modification)",
+	"source": "GrimHollowPG24",
+	"page": 59,
+	"featureType": [
+		"TG:AM"
+	],
+	"entries": [
+		"You embed your armor with a Construct's gemstone or infuse it with the power of an Elemental. Choose one of the following damage types: Acid, Cold, Fire, Lightning, Poison, or Thunder. When you hit a creature with an attack, you can cause it to deal the chosen damage type rather than its normal damage type, and the attack deals an extra {@dice 1d6} of that type."
+	]
+}

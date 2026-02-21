@@ -1,0 +1,11 @@
+{
+    "name": "Liquid Courage",
+    "source": "GrimHollowPG24",
+    "page": 76,
+    "featureType": [
+        "LC:CO"
+    ],
+    "entries": [
+        "You gain {@variantrule Temporary Hit Points|XPHB} equal to twice your Fighter level plus your Constitution modifier. If any of these {@variantrule Temporary Hit Points|XPHB} remain after 1 minute, they vanish."
+    ]
+}

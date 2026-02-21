@@ -1,0 +1,19 @@
+{
+	"name": "Call of Unmaking",
+	"source": "GrimHollowPG24",
+	"page": 177,
+	"featureType": [
+		"Spec:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can give a mournful wail or otherwise set up a wracking vibration. This sound has no effect on Constructs and Undead.",
+		"All other creatures of your choice within 30 feet of you must make a Constitution saving throw. The DC of the Constitution saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. Creatures that can't hear you have {@variantrule Advantage|XPHB} on the saving throw.",
+		"On a failed save, the creature bears the Mark of Unmaking for 1 minute. While bearing this mark, a creature takes an additional {@damage 1d6} Necrotic damage each time it takes damage.",
+		"Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

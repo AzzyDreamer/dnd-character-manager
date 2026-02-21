@@ -1,0 +1,11 @@
+{
+	"name": "Draught of Cat's Grace",
+	"source": "GrimHollowPG24",
+	"page": 75,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 10 minutes, you have {@variantrule Advantage|XPHB} on Dexterity checks and Dexterity saving throws."
+	]
+}

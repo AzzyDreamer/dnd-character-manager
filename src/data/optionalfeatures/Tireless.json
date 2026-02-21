@@ -1,0 +1,19 @@
+{
+    "name": "Tireless",
+    "source": "GrimHollowPG24",
+    "page": 46,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "An innate resilience lets you shake off conditions that would take others down. You have {@variantrule Advantage|XPHB} on saving throws connected to gaining or removing {@condition Exhaustion|XPHB} levels.",
+        {
+            "type": "entries",
+            "name": "Vigorous",
+            "entries": [
+                "If you take this trait twice, when you fail a saving throw against {@condition Exhaustion|XPHB}, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

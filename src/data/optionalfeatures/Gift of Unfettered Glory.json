@@ -1,0 +1,12 @@
+{
+	"name": "Gift of Unfettered Glory",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"Each time you damage a creature with a melee attack, an {@variantrule Unarmed Strike|XPHB}, or a cantrip, you can do an additional 2 points Force Damage per Transformation Stage.",
+		"Each time you roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die} to regain {@variantrule Hit Points|XPHB} during a {@variantrule Short Rest|XPHB}, you regain 2 {@variantrule Hit Points|XPHB} fewer per Hit Die."
+	]
+}

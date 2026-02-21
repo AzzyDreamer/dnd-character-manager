@@ -1,0 +1,16 @@
+{
+    "name": "Silver Sensitivity",
+    "source": "GrimHollowPG24",
+    "page": 156,
+    "featureType": [
+        "Ly:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "You have developed a debilitating sensitivity to silver. In all forms, you have {@variantrule Vulnerability|XPHB} to Bludgeoning, Piercing, or Slashing damage from silvered weapons. In addition, you cannot have {@variantrule Resistance|XPHB} to damage inflicted by silvered weapons."
+    ]
+}

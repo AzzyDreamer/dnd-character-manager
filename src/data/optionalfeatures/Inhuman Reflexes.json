@@ -1,0 +1,16 @@
+{
+    "name": "Inhuman Reflexes",
+    "source": "GrimHollowPG24",
+    "page": 180,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "You have {@variantrule Advantage|XPHB} on Dexterity saving throws."
+    ]
+}

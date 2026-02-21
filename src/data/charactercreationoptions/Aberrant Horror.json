@@ -1,0 +1,139 @@
+{
+	"name": "Aberrant Horror",
+	"source": "GrimHollowPG24",
+	"page": 134,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i A cloaked figure flees through the dimly lit city streets. The guards appear to have the upper hand, until she turns to greet them—a hulking mass of spines, claws, and gnashing maws.}",
+						"{@i Lightning cracks. A mad doctor bellows in triumph as a fresh corpse rises. With three fleshy tentacles sprouting from her back, the doctor's newest creation is complete. Thunder booms as the woman approaches the doctor menacingly, tendrils extended. Not all successful experiments end well.}"
+					]
+				},
+				"Aberrant Horrors are the result of a Humanoid becoming an Aberration. Able to break free from the physical restrictions imposed upon them by the natural laws of the world, they shift the components of their form at a whim. This makes Aberrant Horrors terrifying to behold, especially in battle. Many adversaries are caught off-guard when a seemingly defenseless opponent suddenly sprouts rows of gruesome spines.",
+				{
+					"type": "entries",
+					"name": "Becoming an Aberrant Horror",
+					"entries": [
+						"Every Aberrant Horror begins with a defining question: what happened to them? Some individuals make pacts with ancient entities for powers that have unforeseen effects. Others awaken after defeating an unnatural monster, surprised that they survived, only to feel something writhing in their stomach. Many tropes of body horror can be used as inspiration for an Aberrant Horror's creation.",
+						"Once you've established your origin, consider your character's motivations regarding their Transformation. As their power grows and manifests, they may feel they have lost what makes them fundamentally themselves. Perhaps they decide to take revenge on the entity responsible for their Transformation, or perhaps they perceive their mutation as a gift.",
+						{
+							"type": "inset",
+							"name": "Reversing Aberrant Horror Traits",
+							"entries": [
+								"Once the character reaches Stage 1 of the Aberrant Horror Transformation, the Boons and Flaws they've received cannot be removed by normal or even typical magical means. Some magic might slow or halt the mutations that the character endures, but magic on the level of the {@spell Wish|XPHB} spell is needed to completely remove the Transformation and its Boons and Flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Aberrant Horror Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Become exposed to magic of an unearthly or transformational nature",
+										"Rest in the vicinity of a cursed item or site",
+										"Offer prayers to an Aether Kindred and fulfil the quest they show you in your dreams",
+										"Drink the blood or other fluids of an Aberration that is still alive"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Aberrant Horror Stage 1",
+							"entries": [
+								"When you initially undergo the Aberrant Horror Transformation, you gain both Stage 1 Boons and the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Aberrant Form|GrimHollowPG24}",
+										"{@optfeature Aberrant Mutation|GrimHollowPG24}",
+										"{@optfeature Unstable Form|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Aberrant Horror Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Aberrant Horror Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Efficient Killer|GrimHollowPG24}",
+										"{@optfeature Writhing Tendrils|GrimHollowPG24}",
+										"{@optfeature Hideous Appearance (Aberrant Horror)|GrimHollowPG24|Hideous Appearance}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Aberrant Horror Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Aberrant Horror Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Terrifying Visage|GrimHollowPG24}",
+										"{@optfeature Constricting Tendrils|GrimHollowPG24}",
+										"{@optfeature Unstable Existence|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Aberrant Horror Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Aberrant Horror Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Eldritch Aberration|GrimHollowPG24}",
+										"{@optfeature Poison Tendrils|GrimHollowPG24}",
+										"{@optfeature Entropic Abomination|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Aberrant%20Horror.webp"
+				},
+				"credit": "Matt DeMino",
+				"width": 850,
+				"height": 1290
+			}
+		]
+	}
+}

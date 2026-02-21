@@ -1,0 +1,118 @@
+{
+	"name": "Symbiotic Being",
+	"source": "VRGR",
+	"page": 26,
+	"optionType": [
+		"DG"
+	],
+	"entries": [
+		"A second being resides within your body along with you. It manifests physically somewhere on you and relies on you for its survival. At the same time, it offers you knowledge and other assistance, either of its own volition or because of your intertwined nature. The symbiote has its own personality and agenda, which might be at odds with yours. If you ignore the symbiote's desires, it might strive to interfere with you. There is no way to be rid of the symbiote while you have this Dark Gift. Even if you go to drastic lengths, such as severing the part of your body where the symbiote resides, it reappears on your body in another location at the next midnight.",
+		"Roll on or choose an option from the Symbiotic Nature table to determine what sort of symbiotic being shares your body. Additionally, you gain the traits that follow.",
+		{
+			"type": "table",
+			"caption": "Symbiotic Nature",
+			"colLabels": [
+				"d6",
+				"Symbiote"
+			],
+			"colStyles": [
+				"col-2 text-center",
+				"col-10"
+			],
+			"rows": [
+				[
+					"1",
+					"Tiny humanoid facial features protruding from your torso, palm, or the back of your head"
+				],
+				[
+					"2",
+					"An alien appendage inside an unhealing wound"
+				],
+				[
+					"3",
+					"A burrowing, worm-like being"
+				],
+				[
+					"4",
+					"An intrusive thought that inhabits your mind"
+				],
+				[
+					"5",
+					"A living tattoo"
+				],
+				[
+					"6",
+					"Crystal growths that replace a portion of your body"
+				]
+			]
+		},
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Entwined Existence",
+					"entries": [
+						"Your symbiote is a separate entity with its own physical form bound to yours. It isn't a separate creature and relies on you to survive. It has Intelligence, Wisdom, and Charisma scores. The DM sets the symbiote's abilities or determines them randomly (roll {@dice 4d6} for each score, ignoring the lowest roll and totaling the rest). The symbiote can see and hear using your senses.",
+						"The symbiote speaks, reads, and understands two languages; one that you speak, as well as one appropriate to its nature. Choose one of the following skills: {@skill Arcana}, {@skill Deception}, {@skill History}, {@skill Intimidation}, {@skill Insight}, {@skill Investigation}, {@skill Nature}, {@skill Religion}, {@skill Perception}, or {@skill Persuasion}. You gain proficiency in that skill if you don't already have it, representing the symbiote's counsel and guidance.",
+						"If you die, so does your symbiote. If you are subsequently returned to life, your symbiote revives as well."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Sustained Symbiosis",
+					"entries": [
+						"Your symbiote has a vested interest in your survival and takes steps to ensure it. When you fail a saving throw, you can choose to have your symbiote expend one of your Hit Dice to roll it and add the number rolled to the saving throw, potentially turning the failure into a success. If it uses this feature on a death saving throw, you succeed on the save and regain 1 hit point regardless of the number rolled on the {@dice d20}.",
+						"Once you succeed on a saving throw due to this trait, the symbiote can't use it again until you finish a long rest."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Symbiotic Agenda",
+					"entries": [
+						"Your symbiote has an agenda that drives it, and it expects you to assist it in achieving those goals. How permissive or patient it is in resolving its agenda depends on its personality (work with your DM to determine these details). If you have an opportunity to advance its agenda and don't act on it, the symbiote can try to force your hand. You must succeed on a Charisma saving throw ({@dc 12} + the symbiote's Charisma modifier) or be {@condition charmed} by the symbiote for {@dice 1d12} hours. While {@condition charmed}, you must try to follow the symbiote's commands. If you take damage that is not self-inflicted, you can repeat the saving throw, ending the effect on a success.",
+						"Roll or choose from the Symbiotic Agenda table to determine the symbiote's goal, working with your DM to detail the specifics or create another agenda.",
+						{
+							"type": "table",
+							"caption": "Symbiotic Agenda",
+							"colLabels": [
+								"d6",
+								"Agenda"
+							],
+							"colStyles": [
+								"col-2 text-center",
+								"col-10"
+							],
+							"rows": [
+								[
+									"1",
+									"The symbiote seeks to destroy a specific type of being, such as fiends, trolls, or paladins."
+								],
+								[
+									"2",
+									"The symbiote craves knowledge and is determined to solve a mystery or learn a secret."
+								],
+								[
+									"3",
+									"The symbiote wants to bring a prophecy to fruition or to thwart one."
+								],
+								[
+									"4",
+									"The symbiote seeks to defend the servants and interests of a powerful being or organization."
+								],
+								[
+									"5",
+									"The symbiote wants to keep you from harm at all costs and believes it knows what's best for you."
+								],
+								[
+									"6",
+									"The symbiote seeks to experience new sensations, the more bizarre the better."
+								]
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+    "name": "Ultimate Predator",
+    "source": "GrimHollowPG24",
+    "page": 157,
+    "featureType": [
+        "Ly:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "You realize the true cost of your transformation. The beast within has gained more control of your body than you have. While you can control it at times, you know it cannot be contained forever—and when it breaks free, it delights in any slaughter it can find.",
+        "You gain the following features:",
+        {
+            "type": "list",
+            "items": [
+                "If you can see, hear or smell a {@condition Bloodied|XPHB} creature, you have {@variantrule Disadvantage|XPHB} on Wisdom saving throws.",
+                "At the start of your turn, if you can see, hear or smell a creature with the {@condition Unconscious|XPHB} condition, you must make a DC 15 Wisdom saving throw. On a failure, you transform into your hybrid form, or, if already in hybrid form you go feral as described under Lust for Hunt, above. On a success, you are immune to this effect until you finish a {@variantrule Long Rest|XPHB}.",
+                "Whenever you kill a creature while in your hybrid form, you cannot transform back into your normal form until dawn the next day."
+            ]
+        }
+    ]
+}

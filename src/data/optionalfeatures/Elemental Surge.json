@@ -1,0 +1,53 @@
+{
+	"name": "Elemental Surge",
+	"source": "GrimHollowPG24",
+	"page": 161,
+	"featureType": [
+		"P:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"entries": [
+		"You can channel pure elemental energy into a concentrated bolt of an element of your choice. As a {@action Magic|XPHB} action, you can use any of the following options:",
+		{
+			"type": "list",
+			"style": "list-hang-notitle",
+			"items": [
+				{
+					"type": "item",
+					"name": "Lightning Strike",
+					"entries": [
+						"You can make a ranged attack targeting a creature within 60 feet. You are proficient with this attack, which uses your Constitution modifier. On a hit, this attack deals {@dice 3d8} plus your Constitution modifier Lightning damage. You can then use a {@variantrule Bonus Action|XPHB} to target another creature within 30 feet of the first target with the same attack.",
+						"Increase the damage of these attacks by {@dice 1d8} for each Transformation Stage above 2."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Earth Shard",
+					"entries": [
+						"You can force a creature within 30 feet to make a Constitution saving throw. On a failed save, the creature takes Bludgeoning damage equal to {@dice 3d6} plus your Constitution modifier, or half as much on a successful save. Increase the damage by {@dice 1d6} for each Transformation Stage above 2.",
+						"You also gain {@variantrule Temporary Hit Points|XPHB} equal to half the damage dealt."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Flame Wave",
+					"entries": [
+						"Each creature in a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} originating from you makes a Dexterity saving throw against a DC equal to 8 plus your Constitution modifier plus your Transformation Stage. On a failed save, creatures in the area take Fire damage equal to {@dice 2d8} plus your Constitution modifier. Increase the damage by {@dice 1d8} for each Transformation Stage above 2."
+					]
+				},
+				{
+					"type": "item",
+					"name": "Aquatic Rejuvenation",
+					"entries": [
+						"Choose a creature you can see within 60 feet of you. The creature regains a number of {@variantrule Hit Points|XPHB} equal to {@dice 2d8} plus your Constitution modifier. Increase the number of {@variantrule Hit Points|XPHB} regained by {@dice 1d8} for each Transformation Stage above 2."
+					]
+				},
+				"You can use Elemental Surge a number of times equal to your Constitution modifier, regaining all expended uses upon finishing a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

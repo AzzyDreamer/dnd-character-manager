@@ -1,0 +1,12 @@
+{
+    "name": "Multiattack",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 2 Mutation Points}",
+        "You can attack twice with a Wild Shape form's attack instead of once whenever you take the {@action Attack|XPHB} action on your turn."
+    ]
+}

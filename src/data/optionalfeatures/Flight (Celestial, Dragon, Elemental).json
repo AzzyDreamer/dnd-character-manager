@@ -1,0 +1,11 @@
+{
+	"name": "Flight (Celestial, Dragon, Elemental)",
+	"source": "GrimHollowPG24",
+	"page": 56,
+	"featureType": [
+		"DG:M"
+	],
+	"entries": [
+		"For 10 minutes, you grow feathery, feathery, or spectral wings from your back. You gain a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB}. You can't benefit from this mutation while wearing Heavy Armor."
+	]
+}

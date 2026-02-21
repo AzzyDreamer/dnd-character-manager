@@ -1,0 +1,19 @@
+{
+    "name": "Inborn Perception",
+    "source": "GrimHollowPG24",
+    "page": 38,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "The best way to avoid danger is to make sure you're the first person to notice it. You have proficiency in the {@skill Perception|XPHB} skill.",
+        {
+            "type": "entries",
+            "name": "Piercing Perception",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on Perception checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

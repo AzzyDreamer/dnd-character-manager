@@ -1,0 +1,19 @@
+{
+    "name": "Skirmish Tactics",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your brutal strike leaves your foe reeling as you slip away. When you hit a hostile creature with an attack with a weapon or an {@variantrule Unarmed Strike|XPHB}, {@action Opportunity Attack|XPHB|Opportunity Attacks} against you by that creature have {@variantrule Disadvantage|XPHB} until the end of your turn.",
+        {
+            "type": "entries",
+            "name": "Supreme Skirmisher",
+            "entries": [
+                "If you take this trait twice, when you hit a hostile creature with an attack with a weapon attack or an {@variantrule Unarmed Strike|XPHB}, you can take the {@action Disengage|XPHB} action as a {@variantrule Bonus Action|XPHB} until the end of your turn."
+            ]
+        }
+    ]
+}

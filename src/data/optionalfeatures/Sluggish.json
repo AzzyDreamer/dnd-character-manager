@@ -1,0 +1,17 @@
+{
+    "name": "Sluggish",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body frequently shifts and melts without control, making you sluggish. Your {@variantrule Speed|XPHB} decreases by 5 feet for every Transformation Stage you achieve.",
+        "In addition, your skin glistens with oozy droplets leaving a trail anywhere you go. Ability checks made to follow your tracks are made with {@variantrule Advantage|XPHB}."
+    ]
+}

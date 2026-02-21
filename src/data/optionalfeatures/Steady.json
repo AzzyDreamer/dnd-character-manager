@@ -1,0 +1,20 @@
+{
+    "name": "Steady",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "No matter what kind of upheaval surrounds you, you stand your ground. You have {@variantrule Advantage|XPHB} on saving throws against having the {@condition Prone|XPHB} condition.",
+        {
+            "type": "entries",
+            "name": "Stand Fast",
+            "entries": [
+                "If you take this trait twice, standing from {@condition Prone|XPHB} takes only five feet of movement instead of half your movement.",
+                "Additionally, when you fail a saving throw against being knocked {@condition Prone|XPHB}, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

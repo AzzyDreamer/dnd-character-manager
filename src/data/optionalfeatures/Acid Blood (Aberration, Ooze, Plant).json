@@ -1,0 +1,11 @@
+{
+	"name": "Acid Blood (Aberration, Ooze, Plant)",
+	"source": "GrimHollowPG24",
+	"page": 56,
+	"featureType": [
+		"DG:M"
+	],
+	"entries": [
+		"For 1 minute, your blood becomes acidic. Each time a creature hits you with an attack while within 5 feet of you, it takes {@damage 2d6} Acid damage."
+	]
+}

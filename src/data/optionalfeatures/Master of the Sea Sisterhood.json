@@ -1,0 +1,27 @@
+{
+    "name": "Master of the Sea Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 149,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}",
+            "optionalfeature": [
+                "adept of the sea sisterhood|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You come into your power as a Hag and enhance your abilities.",
+        {
+            "type": "list",
+            "items": [
+                "When you take the {@action Attack|XPHB} action on your turn, you may make an additional Claw attack. Your Claw attacks deal an additional {@damage 1d6} Slashing damage.",
+                "Your appearance becomes so vile that it terrifies mortal creatures. As a {@variantrule Bonus Action|XPHB}, you gaze upon a Beast or Humanoid within 30 feet that can see your true form. The creature must succeed on a Wisdom saving throw with a DC equal to 14 plus your Charisma modifier. On a failed save, the target has the {@condition Frightened|XPHB} condition until the start of its next turn. A target that succeeds is immune to this feature for 24 hours. You regain use of this feature after you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+                "As a {@action Magic|XPHB} action, you can expend and roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die} to touch a creature and allow the target to breathe water for a number of minutes equal to the amount rolled."
+            ]
+        }
+    ]
+}

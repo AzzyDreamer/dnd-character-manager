@@ -1,0 +1,17 @@
+{
+    "name": "Viscous Durability",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "Your mind and body become more Ooze-like. You have {@variantrule Immunity|XPHB} to the {@condition Frightened|XPHB} condition and Acid damage.",
+        "When you gain this Boon, choose Cold, Fire, or Lightning; you gain {@variantrule Resistance|XPHB} to the chosen damage type."
+    ]
+}

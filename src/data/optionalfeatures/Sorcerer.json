@@ -1,0 +1,13 @@
+{
+    "name": "Sorcerer",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "Choose one of the following Metamagic Options available to the Sorcerer class: {@optfeature Careful Spell|XPHB}, {@optfeature Distant Spell|XPHB}, {@optfeature Empowered Spell|XPHB}, {@optfeature Extended Spell|XPHB}, {@optfeature Seeking Spell|XPHB}, {@optfeature Subtle Spell|XPHB}, or {@optfeature Transmuted Spell|XPHB}.",
+        "When you cast a Bard spell, you can apply that Metamagic Option as if you had paid its Sorcery Point cost.",
+        "Once you use this talent, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    ]
+}

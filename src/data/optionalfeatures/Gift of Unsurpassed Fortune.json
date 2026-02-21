@@ -1,0 +1,11 @@
+{
+	"name": "Gift of Unsurpassed Fortune",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"When an enemy you can see within 10 feet succeeds on an attack roll or a saving throw, you can use your {@variantrule Reaction|XPHB} to roll {@dice d20}. On a 6 or higher, the triggering attack or save misses or fails, and you regain the use of your {@variantrule Reaction|XPHB}. Otherwise, you take {@damage 1d6} Psychic damage per Transformation Stage, which cannot be reduced. You regain your use of this ability when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

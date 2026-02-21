@@ -1,0 +1,210 @@
+{
+	"name": "Fiend",
+	"source": "GrimHollowPG24",
+	"page": 142,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The strange man sat back from the candle on the table. The small flame barely sputtered since he entered the room, yet its glint caught in the man's dark eyes. The commoner sitting opposite the stranger stared at a parchment on the table, admitting, \"I'd like to sign, sir, but I'm afraid I don't know my letters.\" The man's pale hand entered the candlelight, offering a small needle. \"That's alright,\" he spoke softly, \"a single drop will do.\"}",
+						"{@i A priest screams as the Fiend presses her thumbnail into his forehead. A blasphemous rune burns itself into his skin. She grins at the smell. The priest collapses, horror etched onto his face, his shaking hand reaching for the brand. \"Don't weep,\" the Fiend purrs, \"to whom did you think you prayed?\"}"
+					]
+				},
+				"Many tales are told in Etharis of the evil of fiends. Folks fear meeting a stranger at the crossroads, lest they be tempted towards the wickedness resting in their own heart. A champion rises from a battlefield of broken bodies, a blood tithe paid for their glory. Fiends are the brokers of bargains that reward only the ruthless, selfish, jealous, and cruel. The true horror is that many Fiends began as mortals who surrendered to that seed of evil nested in their heart.",
+				{
+					"type": "entries",
+					"name": "Becoming a Fiend",
+					"entries": [
+						"A mortal can become a Fiend in a variety of ways. Some forfeit their souls and become one upon death. Others undertake excruciating rituals to be granted forbidding power by an Arch Daemon. Some mortals may become Fiends unintentionally, as a reward or punishment for their life of cruelty and misdeeds. Yet it is rare for a creature to be chosen to join the legions of the Netherworld without first having made a bargain for such a gift.",
+						"Communicating with your GM about creating deals with mortals in their story is a great way to roleplay your influence within the game world. As a Fiend, you should consider your character's motivations and which NPCs might serve to achieve their goals.",
+						{
+							"type": "inset",
+							"name": "Reversing Fiend Traits",
+							"entries": [
+								"Transforming into a Fiend usually requires deeds of great evil. You may have performed blood sacrifices or made bargains that resulted in others suffering. Even magic on the level of the {@spell Wish|XPHB} spell could not atone for your actions or redeem your soul. Only once you perform a deed of incredible sacrifice or atonement could such magic remove your Transformation boons and flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Fiend Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event tied to the story of the character should take place. Suggestions include:",
+								{
+									"type": "list",
+									"items": [
+										"Defeating a greater rival Fiend and taking their place in the hierarchy.",
+										"Ensnaring a particularly powerful or influential soul with a contract.",
+										"Establishing a cult of worshipers who offer their strength to you.",
+										"Establishing a portal between the material plane and the Netherworld.",
+										"Killing or corrupting a Seraph."
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fiend Stage 1",
+							"entries": [
+								"When you initially undergo the Fiend Transformation, you gain the Fiendish Soul Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Fiendish Soul|GrimHollowPG24}",
+										"{@optfeature Infernal Smite|GrimHollowPG24}",
+										"{@optfeature Devilish Contractor|GrimHollowPG24}",
+										"{@optfeature Fiend Bound|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fiend Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Fiend Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Daemonic Brand|GrimHollowPG24}",
+										"{@optfeature Enhanced Contract|GrimHollowPG24}",
+										"{@optfeature Fiend Form|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fiend Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Fiend Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Devilish Subcontractor|GrimHollowPG24}",
+										"{@optfeature Overwhelming Brand|GrimHollowPG24}",
+										"{@optfeature Pull of the Netherworld|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fiend Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Fiend Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Abyssal Resistance|GrimHollowPG24}",
+										"{@optfeature Infernal Summons|GrimHollowPG24}",
+										"{@optfeature Ultimate Brand|GrimHollowPG24}",
+										"{@optfeature True Name|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Gifts of Damnation",
+					"entries": [
+						"Gifts of Damnation are benefits you gain after offering mortals infernal contracts via the {@optfeature Devilish Contractor|GrimHollowPG24} boon.",
+						{
+							"type": "entries",
+							"name": "Stage 1 Gifts",
+							"entries": [
+								"You can gain Stage 1 Gifts whenever you sign a victim to an infernal contract.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Gift of Joyous Life|GrimHollowPG24}",
+										"{@optfeature Gift of Prodigious Talent|GrimHollowPG24}",
+										"{@optfeature Gift of Unsurpassed Fortune|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Stage 2 Gifts",
+							"entries": [
+								"You can gain Stage 2 Gifts whenever you sign a victim to an infernal contract while at Stage 2 or higher of the Fiend Transformation.",
+								{
+									"type": "list",
+									"columns": 2,
+									"items": [
+										"{@optfeature Gift of Liberating Freedom|GrimHollowPG24}",
+										"{@optfeature Gift of Unfettered Glory|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Stage 3 Gifts",
+							"entries": [
+								"You can gain these Gifts whenever you sign a victim to an infernal contract while at Stage 3 or higher of the Fiend Transformation.",
+								{
+									"type": "list",
+									"columns": 2,
+									"items": [
+										"{@optfeature Gift of Second Chances|GrimHollowPG24}",
+										"{@optfeature Gift of Unconditional Love|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Stage 4 Gifts",
+							"entries": [
+								"You can gain these Gifts whenever you sign a victim to an infernal contract while at Stage 4 of the Fiend Transformation.",
+								{
+									"type": "list",
+									"columns": 2,
+									"items": [
+										"{@optfeature Gift of Martial Prowess|GrimHollowPG24}",
+										"{@optfeature Gift of Unbridled Power|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Fiend.webp"
+				},
+				"credit": "Guilherme Castro",
+				"width": 850,
+				"height": 1588
+			}
+		]
+	}
+}

@@ -1,0 +1,24 @@
+{
+    "name": "Memori Lichdom",
+    "source": "GrimHollowPG24",
+    "page": 151,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "While your soul vessel is charged, you gain the following benefits to your weapon attacks or {@variantrule Unarmed Strikes|XPHB}:",
+        {
+            "type": "list",
+            "items": [
+                "They count as magical.",
+                "They have {@variantrule Advantage|XPHB} if taken as a {@variantrule Reaction|XPHB}.",
+                "After you deal damage with a weapon attack or an {@variantrule Unarmed Strike|XPHB}, you can spend a {@variantrule Bonus Action|XPHB} later on that turn and expend one of your {@variantrule Hit Point Dice|XPHB}. Roll the die and deal Necrotic damage equal to the result to one target damaged by the triggering attack or {@variantrule Unarmed Strike|XPHB}."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Relentless Endurance",
+    "source": "GrimHollowPG24",
+    "page": 44,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "The battles you need yet to fight are many, and death is not an option. When you are reduced to 0 {@variantrule Hit Points|XPHB} but not killed outright, you can drop to 1 {@variantrule Hit Points|XPHB|Hit Point} instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Unparalleled Endurance",
+            "entries": [
+                "If you take this trait twice, when you use Relentless Endurance, you drop to {@dice 1d6} {@variantrule Hit Points|XPHB} + your {@variantrule Proficiency|XPHB|Proficiency Bonus}. Additionally, when you use Relentless Endurance, you can use a {@variantrule Reaction|XPHB} to spend up to five {@variantrule Hit Point Dice|XPHB|Hit Dice}, rolling them and gaining that number of {@variantrule Hit Points|XPHB}."
+            ]
+        }
+    ]
+}

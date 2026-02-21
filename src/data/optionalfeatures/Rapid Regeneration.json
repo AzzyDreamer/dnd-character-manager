@@ -1,0 +1,17 @@
+{
+    "name": "Rapid Regeneration",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "prerequisite": [
+        {
+            "level": 10
+        }
+    ],
+    "entries": [
+        "{@b Cost:} {@i 5 Mutation Points}",
+        "At the start of each of your turns, you regain {@variantrule Hit Points|XPHB} equal to your Wisdom modifier (minimum of 1 {@variantrule Hit Points|XPHB|Hit Point} regained)."
+    ]
+}

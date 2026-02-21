@@ -1,0 +1,19 @@
+{
+    "name": "Lord of Undeath",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}",
+            "optionalfeature": [
+                "master of undeath|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "When you use {@optfeature Acolyte of Undeath|GrimHollowPG24} you can choose to transform the target into a {@creature Ghoul|XMM} instead of a {@creature Zombie|XMM}."
+    ]
+}

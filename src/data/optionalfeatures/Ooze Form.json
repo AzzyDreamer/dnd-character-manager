@@ -1,0 +1,18 @@
+{
+    "name": "Ooze Form",
+    "source": "GrimHollowPG24",
+    "page": 159,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "You become an Ooze in addition to any other creature type(s) you are. You gain {@sense Blindsight|XPHB} with a range of 30 feet. If you already have {@sense Blindsight|XPHB}, your range increases by 30 feet.",
+        "You can will your body to melt and flow, becoming more fluid than solid. As a {@variantrule Bonus Action|XPHB}, you manifest your Ooze Form. You become amorphous, able to move through a space as narrow as 1 inch without expending extra movement, and you are {@variantrule Immunity|XPHB|Immune} to the {@condition Grappled|XPHB} and {@condition Restrained|XPHB} conditions. You remain in Ooze Form for 1 minute or until you use your {@variantrule Bonus Action|XPHB} to return to normal.",
+        "You can manifest your Ooze Form a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation stage. You regain all uses of this feature after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

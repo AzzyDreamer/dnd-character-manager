@@ -1,0 +1,20 @@
+{
+	"name": "Constricting Tendrils",
+	"source": "GrimHollowPG24",
+	"page": 137,
+	"featureType": [
+		"AH:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}",
+			"optionalfeature": [
+				"writhing tendrils|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You gain an additional option for your Writing Tendrils mutation.",
+		"As a {@variantrule Bonus Action|XPHB} while Writhing Tentacles is active, you can attempt to restrain a creature within 5 feet of you with your tendrils. The creature must succeed on a Strength or Dexterity saving throw or gain the {@condition Restrained|XPHB} condition. The DC is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. A {@condition Restrained|XPHB} creature can take an action to make a Strength ({@skill Athletics|XPHB}) check against this DC, ending the condition on itself on a success. The {@condition Restrained|XPHB} condition ends if you are {@condition Incapacitated|XPHB}, you move from your current position, if you retract your tendrils, or if you use your tendrils to perform another ability."
+	]
+}

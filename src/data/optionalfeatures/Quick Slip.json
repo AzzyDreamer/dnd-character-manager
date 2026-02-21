@@ -1,0 +1,19 @@
+{
+    "name": "Quick Slip",
+    "source": "GrimHollowPG24",
+    "page": 44,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Even in the thick of battle, anything that obscures your enemies' view of you gives you a chance to strike unseen. You can take the {@action Hide|XPHB} action as a {@variantrule Bonus Action|XPHB} on each of your turns. You must have appropriate cover to attempt to hide, as normal.",
+        {
+            "type": "entries",
+            "name": "Astute Slip",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on the Stealth checks you make with the {@action Hide|XPHB} action when you use Quick Slip."
+            ]
+        }
+    ]
+}

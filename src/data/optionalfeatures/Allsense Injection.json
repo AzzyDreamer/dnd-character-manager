@@ -1,0 +1,11 @@
+{
+	"name": "Allsense Injection",
+	"source": "GrimHollowPG24",
+	"page": 75,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 1 minute, you have {@sense Blindsight|XPHB} with a range of 30 feet."
+	]
+}

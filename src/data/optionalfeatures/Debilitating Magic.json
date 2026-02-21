@@ -1,0 +1,16 @@
+{
+	"name": "Debilitating Magic",
+	"source": "GrimHollowPG24",
+	"page": 171,
+	"featureType": [
+		"SG:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+		}
+	],
+	"entries": [
+		"Choose one ability score. You lose 2 points in that ability as the power of the Shadowsteel slowly eats away at your body, soul, or both."
+	]
+}

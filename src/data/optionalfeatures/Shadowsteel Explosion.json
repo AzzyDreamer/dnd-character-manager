@@ -1,0 +1,17 @@
+{
+    "name": "Shadowsteel Explosion",
+    "source": "GrimHollowPG24",
+    "page": 172,
+    "featureType": [
+        "SG:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+        }
+    ],
+    "entries": [
+        "The Shadowsteel that suffuses your flesh responds to stress, and you can do nothing to control it. The first time you are {@condition Bloodied|XPHB} or reduced to 0 {@variantrule Hit Points|XPHB} after you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you risk hurting everyone around you.",
+        "When these events occur, all living creatures within 60 feet of you must succeed on a DC 20 Constitution saving throw. On a failed save, creatures in the area suffer {@damage 4d10} Force damage and have the {@condition Stunned|XPHB} condition until the end of their next turn. On a successful save, a target takes half damage and is not {@condition Stunned|XPHB}."
+    ]
+}

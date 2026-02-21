@@ -1,0 +1,17 @@
+{
+	"name": "Beguiler's Charm",
+	"source": "GrimHollowPG24",
+	"page": 180,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"You gain the ability to manipulate the mind of a creature with your unearthly charm. As a {@action Magic|XPHB} action, you can choose a Humanoid or Beast within 30 feet of you that can see you. The creature must succeed on a Charisma saving throw with a DC of 8 plus your Charisma modifier plus your {@variantrule Proficiency|XPHB|Proficiency Bonus}.",
+		"On a failed save, the creature has the {@condition Charmed|XPHB} condition for 24 hours. At the end of the 24 hours, you can choose to automatically renew the {@condition Charmed|XPHB} condition on that creature with no saving throw. You may only have one creature {@condition Charmed|XPHB} in this manner at a time. If you use this feature on another creature, or you or an ally damages the creature, the {@condition Charmed|XPHB} condition ends on the previous creature immediately."
+	]
+}

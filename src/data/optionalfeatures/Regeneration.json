@@ -1,0 +1,16 @@
+{
+    "name": "Regeneration",
+    "source": "GrimHollowPG24",
+    "page": 181,
+    "featureType": [
+        "V:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+        }
+    ],
+    "entries": [
+        "The vampiric blood that flows in your veins gives you regenerative powers. You regain 15 {@variantrule Hit Points|XPHB} at the start of your turn if you have at least 1 {@variantrule Hit Points|XPHB|Hit Point} but less than 60 {@variantrule Hit Points|XPHB}. This feature has no effect if you are in sunlight or have taken Radiant damage since the end of your last turn."
+    ]
+}

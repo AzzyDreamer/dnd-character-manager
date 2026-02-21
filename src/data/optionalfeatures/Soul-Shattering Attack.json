@@ -1,0 +1,17 @@
+{
+    "name": "Soul-Shattering Attack",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "After you make a weapon attack or {@variantrule Unarmed Strike|XPHB}, you can spend the charge in your soul vessel to add the {@variantrule Challenge Rating|XPHB} of the soul within it to the attack roll and damage dealt with that attack. If the creature dies from that attack, you can instantly recharge your soul vessel with the soul that you just expended.",
+        "You can use this feature a number of times equal to 4 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus}. You regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

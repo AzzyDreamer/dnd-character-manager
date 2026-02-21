@@ -1,0 +1,16 @@
+{
+    "name": "Savage Instincts",
+    "source": "GrimHollowPG24",
+    "page": 157,
+    "featureType": [
+        "Ly:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "You have developed an unrelenting thirst for bloodshed and carnage. While in your hybrid form, if you hit a {@condition Bloodied|XPHB} creature with a Claw or Bite attack, the attack deals an additional {@damage 1d8} Slashing damage."
+    ]
+}

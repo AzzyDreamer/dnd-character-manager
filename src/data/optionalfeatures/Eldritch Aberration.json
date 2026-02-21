@@ -1,0 +1,16 @@
+{
+	"name": "Eldritch Aberration",
+	"source": "GrimHollowPG24",
+	"page": 137,
+	"featureType": [
+		"AH:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}, Has Spell Slots"
+		}
+	],
+	"entries": [
+		"You gain the ability to deliver jolts of magical energy with your eldritch limbs. Once per turn, when you hit a creature with an attack using your eldritch limbs, you can expend a spell slot to deal additional damage equal to {@dice 1d6} per spell level expended. You can choose for this additional damage to be of any of the following types: Acid, Cold, Fire, Force, Lightning, or Thunder. If any of these extra dice show a 6 when rolled, the target has the {@condition Prone|XPHB} condition."
+	]
+}

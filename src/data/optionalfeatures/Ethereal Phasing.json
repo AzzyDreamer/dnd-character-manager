@@ -1,0 +1,17 @@
+{
+	"name": "Ethereal Phasing",
+	"source": "GrimHollowPG24",
+	"page": 175,
+	"featureType": [
+		"Spec:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"You can cast the {@spell Blink|XPHB} spell without expending a spell slot. You can cast the spell using this Boon a number of times equal to your Transformation Stage, and you regain all uses after finishing a {@variantrule Long Rest|XPHB}.",
+		"While you are under the effects of Blink when cast in this way, you also gain {@variantrule Temporary Hit Points|XPHB} equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage at the start of each of your turns."
+	]
+}

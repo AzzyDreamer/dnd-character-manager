@@ -1,0 +1,146 @@
+{
+	"name": "Fey",
+	"source": "GrimHollowPG24",
+	"page": 138,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The soft strumming of a harp draws the children ever deeper into the dark wood. As they reach a moonlit clearing, they see a beautiful maid dressed in a gown of starlight. She turns her soft gaze upon them at the sounds of their gasps. \"Welcome, little ones. Be not afraid.\" She beckons them forward with a long, lithe hand. \"Step into the ring so we may dance and play.\"}",
+						"{@i An elfin man with pale blue skin leans his forehead against the dying tree. As he softly hums, the shriveled leaves turn green once again, and the ancient bow begins to straighten. The man lets out a sigh of relief, which momentarily chills the air.}"
+					]
+				},
+				"The Fey of Grim Hollow are mercurial and malleable beings of great power and even greater danger. No two Fey are quite alike, but their ties to the natural world and the Realm of Faerie are universal. Mortals cannot comprehend the level of true freedom the faerie people feel. To know such freedom is to change entirely—and to care not for the change such freedom brings to others.",
+				{
+					"type": "entries",
+					"name": "Becoming a Fey",
+					"entries": [
+						"Becoming a Fey requires a direct connection to the Realm of Faerie. Many mortals who become Fey are stolen from the mortal realm as children. These children, known as changelings, transform rapidly after a few days trapped in the Realm of Faerie. A changeling's transition is often painful or strange, for a child altered in this way does not have a say in what type of Fey creature they ultimately become.",
+						"Others might be born mortal but have the taint of Fey blood coursing through their veins. As they mature, their Fey features slowly manifest. More than a few innocent folks quickly learn of their Fey destinies immediately after a joyous birthday celebration.",
+						"A creature who voluntarily seeks to become a Fey can strike a deal with a Fey or beseech the court of a Faerie Queen. These pathways to transformation are as dangerous as the Realm of Faerie itself, and it requires a quick wit and sharp awareness to get the best of Feykind.",
+						{
+							"type": "inset",
+							"name": "Reversing Fey Traits",
+							"entries": [
+								"The hold of the Fey over a mortal being is strong, but it's even stronger when the mortal begins to show signs of Fey heritage. The rituals to reverse the Fey Transformation are dangerous and rarely successful."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Fey Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Striking a bargain with a greater Fey creature",
+										"Performing a great deed in the name of a Fey Queen",
+										"Establishing a new faerie ring or bridge to the Realm of Faerie",
+										"Defeating a powerful agent from your rival Fey Court",
+										"Earning a domain or title in the Realm of Faerie",
+										"Being born with Fey blood that starts manifesting Fey traits on the day of maturation"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fey Stage 1",
+							"entries": [
+								"When you initially undergo the Fey Transformation, you gain the Fey Form Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Fey Form|GrimHollowPG24}",
+										"{@optfeature Servant of the Spring Court|GrimHollowPG24}",
+										"{@optfeature Servant of the Summer Court|GrimHollowPG24}",
+										"{@optfeature Servant of the Autumn Court|GrimHollowPG24}",
+										"{@optfeature Servant of the Winter Court|GrimHollowPG24}",
+										"{@optfeature Planar Binding (Fey)|GrimHollowPG24|Planar Binding}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fey Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Fey Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Two-Faced|GrimHollowPG24}",
+										"{@optfeature Magic Tricks|GrimHollowPG24}",
+										"{@optfeature Queen's Command|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fey Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Fey Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Illusionary Cloak|GrimHollowPG24}",
+										"{@optfeature Tooth and Claw|GrimHollowPG24}",
+										"{@optfeature Dreams and Nightmares|GrimHollowPG24}",
+										"{@optfeature Weakened Constitution|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Fey Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Fey Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Greater Magic Tricks|GrimHollowPG24}",
+										"{@optfeature Twilight Glamour|GrimHollowPG24}",
+										"{@optfeature Seasonally Affected|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Fey.webp"
+				},
+				"credit": "Matt DeMino",
+				"width": 850,
+				"height": 1663
+			}
+		]
+	}
+}

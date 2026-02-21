@@ -1,0 +1,17 @@
+{
+    "name": "Servant of the Autumn Court",
+    "source": "GrimHollowPG24",
+    "page": 139,
+    "featureType": [
+        "F:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "The Autumn Court embodies the careful scheming and approaching rot of the harvesting season. The Fey creatures of Autumn tend to be devious, scheming, and full of secrets. This is the court most associated with treants and other plant fey. Creatures of the Autumn Court often appear beautiful and helpful, but in truth their forms are hideous and methods vile.",
+        "As a {@variantrule Bonus Action|XPHB}, you can magically teleport up to 30 feet to an unoccupied space you can see. One creature of your choice that you can see within 5 feet of your starting or ending space takes {@damage 1d6} Poison damage. You can use this ability a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses when you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

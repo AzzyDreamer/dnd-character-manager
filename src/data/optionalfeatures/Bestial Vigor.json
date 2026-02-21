@@ -1,0 +1,17 @@
+{
+	"name": "Bestial Vigor",
+	"source": "GrimHollowPG24",
+	"page": 157,
+	"featureType": [
+		"Ly:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"entries": [
+		"Your {@variantrule Hit Points|XPHB|Hit Point} Maximum increases by an amount equal to your character level, and it increases by 1 every time you gain a character level.",
+		"Additionally, when in your hybrid form, you gain 5 {@variantrule Temporary Hit Points|XPHB} at the start of each of your turns."
+	]
+}

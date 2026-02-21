@@ -1,0 +1,12 @@
+{
+    "name": "Manipulate Objects",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 1 Mutation Point}",
+        "As a {@variantrule Bonus Action|XPHB}, you can take the {@action Utilize|XPHB} action."
+    ]
+}

@@ -1,0 +1,28 @@
+{
+	"name": "Impromptu Artisan",
+	"source": "GrimHollowPG24",
+	"page": 38,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"You've never known the luxury of always having the  gear you need, but you have more than learned to make do. If you possess {@item Artisan's Tools|XPHB} with which you have proficiency, and if you have access to appropriate raw materials and any additional necessary equipment (as the GM determines), you can use a {@variantrule Short Rest|XPHB} to craft any one nonmagical item worth 10 GP or less, including:",
+		{
+			"type": "list",
+			"items": [
+				"{@filter Adventuring gear|items|type=adventuring gear}",
+				"{@filter A weapon or shield|items|type=simple weapon;martial weapon;shield|Cost=[&0;&1000]|miscellaneous=mundane;!reprinted}",
+				"A unique item that performs a simple function approved by the GM"
+			]
+		},
+		"The gear you create is workable but not high quality, and can't be sold except as the GM determines.",
+		{
+			"type": "entries",
+			"name": "Master Artisan",
+			"entries": [
+				"If you take this trait twice, you can use Impromptu Artisan during a {@variantrule Long Rest|XPHB}, during which you craft one nonmagical item worth 50 GP or less."
+			]
+		}
+	]
+}

@@ -1,0 +1,52 @@
+{
+	"name": "Aura of Awakening",
+	"source": "GrimHollowPG24",
+	"page": 162,
+	"featureType": [
+		"P:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+		}
+	],
+	"entries": [
+		"You emit an aura of power that awakens the elemental forces in your companions. When you first gain this feature, choose one of the options below. You may change the aura you emit upon finishing a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Light as Air",
+			"entries": [
+				"Whenever you or an ally you can see within 30 feet of you makes a Dexterity saving throw, the creature gains a bonus equal to your Constitution modifier."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Forged in Fire",
+			"entries": [
+				"When an ally within 10 feet of you deals damage with a melee attack, you can use a {@variantrule Reaction|XPHB} to make the attack deal Fire damage instead of the normal damage type, and add {@damage 2d6} Fire damage to the attack's damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Heart of Stone",
+			"entries": [
+				"You can choose to have {@variantrule Disadvantage|XPHB} on any {@variantrule Initiative|XPHB} check. If you do, as a {@variantrule Reaction|XPHB}, you and each creature of your choice within 30 feet of you gain {@variantrule Temporary Hit Points|XPHB} equal to your {@dice 1d10} plus your Constitution modifier. While a creature has {@variantrule Temporary Hit Points|XPHB} gained in this manner, they cannot have the {@condition Prone|XPHB} condition unless it is part of the {@condition Unconscious|XPHB} condition."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fluid Movement",
+			"entries": [
+				"When an ally within 30 feet moves or attempts to escape a Grapple, you can use a {@variantrule Reaction|XPHB} to give them the following benefits:",
+				{
+					"type": "list",
+					"items": [
+						"Their {@variantrule Speed|XPHB} increases by 10 feet until the end of their turn.",
+						"Their movement doesn't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks}.",
+						"They have {@variantrule Advantage|XPHB} on checks to escape the Grapple."
+					]
+				}
+			]
+		}
+	]
+}

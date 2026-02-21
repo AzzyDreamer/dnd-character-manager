@@ -1,0 +1,19 @@
+{
+	"name": "Embrace the Past",
+	"source": "GrimHollowPG24",
+	"page": 36,
+	"featureType": [
+		"HT",
+		"R"
+	],
+	"entries": [
+		"The lessons of the past are harsh, but learning those lessons might give you the best insight for navigating the future. You have proficiency in the {@skill History|XPHB} skill.",
+		{
+			"type": "entries",
+			"name": "Deep Lore",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill History|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

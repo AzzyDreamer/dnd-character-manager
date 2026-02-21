@@ -1,0 +1,23 @@
+{
+	"name": "Greater Sanguine Curse",
+	"source": "GrimHollowPG24",
+	"page": 180,
+	"featureType": [
+		"V:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"Your curse has taken a stronger hold onto you. You gain the following features:",
+		{
+			"type": "list",
+			"items": [
+				"You have {@variantrule Disadvantage|XPHB} on all {@variantrule D20 Test|XPHB|D20 Tests} when you are in sunlight.",
+				"You must feed every 4 days."
+			]
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Skill Prowess",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "Your ingenuity and inventiveness help keep you alive in a dangerous world. Before you make an ability check using a skill you are proficient with, you can add your {@variantrule Proficiency|XPHB|Proficiency Bonus} again. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Skill Mastery",
+            "entries": [
+                "If you take this trait twice, when you fail an ability check made using the {@variantrule Skill|XPHB} Prowess trait, you can reroll the check and must use the new roll."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "name": "Tooth and Claw",
+    "source": "GrimHollowPG24",
+    "page": 140,
+    "featureType": [
+        "F:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "You can manifest fangs, tusks, claws, or other means of harming your enemies. These manifestations also deliver a powerful magic jolt.",
+        "As a {@variantrule Bonus Action|XPHB}, you manifest some natural defense mechanism for 1 minute. This gives you the following benefits:",
+        {
+            "type": "list",
+            "items": [
+                "You manifest a Claw, Bite, or Gore attack that you may use in place of any weapon attack. This manifested attack deals {@dice 1d6} plus your Strength or Dexterity modifier Slashing damage. You are proficient with this attack, and you add either your Strength or Dexterity modifier to attack and damage rolls. This attack is not an {@variantrule Unarmed Strike|XPHB}, nor can it be used in place of an {@variantrule Unarmed Strike|XPHB}.",
+                "After taking an {@action Attack|XPHB} action that did not use your manifested attack, you may take a {@variantrule Bonus Action|XPHB} later in that turn to use your manifested attack once.",
+                "Once per round, when you hit a target with a manifested attack, you can choose to deal an additional {@damage 2d6} Psychic damage to the target. The creature must succeed on a Constitution saving throw or have the {@condition Stunned|XPHB} condition until the end of its next turn. The DC is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage."
+            ]
+        },
+        "You can use this ability a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. You regain all uses of this ability after completing a {@variantrule Long Rest|XPHB}."
+    ]
+}

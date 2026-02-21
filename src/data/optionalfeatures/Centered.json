@@ -1,0 +1,19 @@
+{
+	"name": "Centered",
+	"source": "GrimHollowPG24",
+	"page": 34,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"By focusing your inner strength, you gain a needed edge. As a {@variantrule Bonus Action|XPHB}, you grant yourself {@variantrule Advantage|XPHB} on an attack roll or ability check you make before the start of your next turn. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Centered Edge",
+			"entries": [
+				"If you take this trait twice, when you succeed on the attack roll or ability check made while using Centered, you can choose one creature within 30 feet of you. That creature has {@variantrule Advantage|XPHB} on the next attack roll or ability check they make before the start of your next turn."
+			]
+		}
+	]
+}

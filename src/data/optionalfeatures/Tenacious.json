@@ -1,0 +1,19 @@
+{
+    "name": "Tenacious",
+    "source": "GrimHollowPG24",
+    "page": 46,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "Your enemies might put you down, but you are never down for long. You have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws}.",
+        {
+            "type": "entries",
+            "name": "Hard to Kill",
+            "entries": [
+                "If you take this trait twice, when you drop to 0 {@variantrule Hit Points|XPHB} but don't die outright, you remain conscious. You must make {@variantrule Death Saving Throw|XPHB|Death Saving Throws} as normal while at 0 {@variantrule Hit Points|XPHB}, and you suffer a {@variantrule Death Saving Throw|XPHB} failure each time you take any damage, but you can otherwise act freely. You can't become {@variantrule Stable|XPHB} while you remain at 0 {@variantrule Hit Points|XPHB} in this way."
+            ]
+        }
+    ]
+}

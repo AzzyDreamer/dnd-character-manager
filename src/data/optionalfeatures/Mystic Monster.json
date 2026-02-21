@@ -1,0 +1,17 @@
+{
+    "name": "Mystic Monster",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "prerequisite": [
+        {
+            "level": 10
+        }
+    ],
+    "entries": [
+        "{@b Cost:} {@i 3 Mutation Points}",
+        "You can cast spells while you're in this Wild Shape form. If you have 18 or more Druid levels, creatures have {@variantrule Disadvantage|XPHB} on saving throws against spells you cast while this Mutation is active."
+    ]
+}

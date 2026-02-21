@@ -1,0 +1,19 @@
+{
+    "name": "Venomous Attacks",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 2 Mutation Points}",
+        "Once per turn, a creature you hit with a Wild Shape form's attack takes an extra {@damage 2d6} Poison damage, and you can force a creature you hit with a Wild Shape form's attack to make a Constitution saving throw against your spell save DC. On a failed save, the creature is {@condition Poisoned|XPHB} for 1 minute. It can repeat the saving throw at the end of each of its turns, ending the {@condition Poisoned|XPHB} condition on a success.",
+        {
+            "type": "entries",
+            "name": "Repeatable",
+            "entries": [
+                "You can gain this Mutation more than once, but no more than three times. For each additional 2 Mutation points, the attack does an additional {@damage 2d6} Poison damage."
+            ]
+        }
+    ]
+}

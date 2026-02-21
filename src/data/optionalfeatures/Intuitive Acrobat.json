@@ -1,0 +1,19 @@
+{
+    "name": "Intuitive Acrobat",
+    "source": "GrimHollowPG24",
+    "page": 39,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "Staying loose and limber means being able to get out of even the tightest spots when your life is on the line. You have proficiency in the {@skill Acrobatics|XPHB} skill.",
+        {
+            "type": "entries",
+            "name": "Stunt Expert",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@skill Acrobatics|XPHB} checks. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

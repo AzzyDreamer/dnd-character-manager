@@ -1,0 +1,17 @@
+{
+    "name": "Unholy Healing",
+    "source": "GrimHollowPG24",
+    "page": 153,
+    "featureType": [
+        "L:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+        }
+    ],
+    "entries": [
+        "Your magical connection to your soul vessel restores your vitality quickly. While your soul vessel is charged, you can use a {@action Magic|XPHB} action to draw healing power from it. At the start of each of your turns for 1 minute, you regain 10 {@variantrule Hit Points|XPHB}. The soul vessel does not lose its charge.",
+        "You can use this feature three times, and you regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+    ]
+}

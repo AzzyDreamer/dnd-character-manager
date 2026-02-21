@@ -1,0 +1,19 @@
+{
+    "name": "Weapon Aptitude",
+    "source": "GrimHollowPG24",
+    "page": 47,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "The weapons you wield might save your life one day, and you know their secrets. You have proficiency with three weapons of your choice.",
+        {
+            "type": "entries",
+            "name": "Weapon Specialist",
+            "entries": [
+                "If you take this trait multiple times, you gain proficiency with three new weapons each time. Additionally, choose one weapon with which you have proficiency. You have a +1 bonus to damage rolls with that weapon."
+            ]
+        }
+    ]
+}

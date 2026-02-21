@@ -1,0 +1,17 @@
+{
+	"name": "Divine Clemency",
+	"source": "GrimHollowPG24",
+	"page": 167,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"When an ally within 30 feet of you that you can see takes damage, you can use a {@variantrule Reaction|XPHB} to cast {@spell Healing Word|XPHB} at first level on that ally without using a spell slot.",
+		"You can do this a number of times equal to your Transformation Stage. You regain all uses of this feature after finishing a {@variantrule Long Rest|XPHB}."
+	]
+}

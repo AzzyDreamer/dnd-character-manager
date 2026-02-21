@@ -1,0 +1,15 @@
+{
+	"name": "Curse of the Somnolent",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 3 Jinx Points",
+		"As a {@action Magic|XPHB} action, choose a creature you can see that is cursed by your Evil Eye and spend 3 Jinx Points. The target must make a Wisdom saving throw.",
+		"On a failed save, the creature has the {@condition Unconscious|XPHB} condition for 1 minute. The condition ends on a target if it takes damage or someone within 5 feet of it takes an action to shake it out of the Misfortune's effect.",
+		"Creatures that don't sleep, such as elves, or that have {@variantrule Immunity|XPHB} to the {@condition Exhaustion|XPHB} condition automatically succeed on saves against this Misfortune.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

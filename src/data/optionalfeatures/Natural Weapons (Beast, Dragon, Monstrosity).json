@@ -1,0 +1,11 @@
+{
+    "name": "Natural Weapons (Beast, Dragon, Monstrosity)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "For 1 hour, you gain natural weapons. You can roll {@dice 1d6} in place of the normal damage of your {@variantrule Unarmed Strike|XPHB}. This damage can be Piercing or Slashing. You choose each time you make an attack. You can also make an {@variantrule Unarmed Strike|XPHB} as a {@variantrule Bonus Action|XPHB}. You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your Unarmed Strikes."
+    ]
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Efficient Killer",
+	"source": "GrimHollowPG24",
+	"page": 135,
+	"featureType": [
+		"AH:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"entries": [
+		"When you make an attack with your eldritch limbs, you can gain an added ability based on the damage type you have chosen.",
+		{
+			"type": "entries",
+			"name": "Piercing",
+			"entries": [
+				"You may replace any attack made with your eldritch limb with a razor-sharp barb hurled at the target. You are considered proficient with this barb, which has a Range of 20/60, has the {@itemProperty F|XPHB|Finesse} and {@itemProperty T|XPHB|Thrown} properties, and deals {@damage 2d6} Piercing damage on a hit."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Bludgeoning",
+			"entries": [
+				"You manifest a long tentacle, tipped with a hardened bone club. Your eldritch limb attack deals an additional {@damage 1d8} Bludgeoning damage. Also, the attack uses the {@itemMastery Slow|XPHB} Weapon Property, which you have Mastery with."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Slashing",
+			"entries": [
+				"Your arm forms a row of viciously hooked claws and talons. Your eldritch limb attack deals an additional {@damage 1d8} Slashing damage. Also, the attack uses the {@itemMastery Graze|XPHB} Weapon Property, which you have Mastery with."
+			]
+		}
+	]
+}

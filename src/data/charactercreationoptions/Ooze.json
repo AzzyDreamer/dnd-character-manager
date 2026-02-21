@@ -1,0 +1,144 @@
+{
+	"name": "Ooze",
+	"source": "GrimHollowPG24",
+	"page": 158,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The Weeping Pox eats away at the flesh of a suffering victim, their life force slowly draining day after day and hour after excruciating hour. Then, when all hope is gone, the victim's family notices gradual improvement until they're back on their feet. A day later, however, the newly cured person finds their body bending in strange ways, much to the horror of their loved ones.}",
+						"{@i A stooped figure in a plague mask mutters to herself as she hobbles around the figure strapped to a table. The physician applies several different ointments to the figure's flesh, ignoring the screams of pain that accompany each application. Finally, the doctor sighs in satisfaction as the patient's flesh turns translucent.}"
+					]
+				},
+				"An adventurer falls into a pit, causing his companions to rush forth. The slime at the bottom of the pit coalesces around the poor rogue, seeping past the edges of his armor. The allies pull the rogue out and burn away the corrosive slime, but the rogue faints. When he awakens, he feels better. And he is half the size he was.",
+				"The horror of the unknown in Grim Hollow is strong, and people perhaps know the least about the disgusting and mysterious Oozes. Only one thing might be as terrifying as being slowly killed by an Ooze: becoming one. You become the slime-covered monster of nightmares. And they want to kill you.",
+				{
+					"type": "entries",
+					"name": "Becoming an Ooze",
+					"entries": [
+						"It may seem like Oozes are monsters that only appear in the deepest, dankest recesses of dungeons and cave complexes that never see the light. While they certainly do haunt those places, Oozes in Etharis are never far away. Urban areas with poor sanitation are breeding ground for Oozes, as are pastoral locations with proximity to the Fey Realms.",
+						"And while some Ooze creatures may only devour and destroy, there are just as many—especially those who have been created or experimented on by the curious and the morbid—who seek to spread their oozy nature to others.",
+						"It is rumored by sage and peasant alike that the Filth Grazer, the force allegedly behind the creation and spread of the Weeping Pox, devours organic life by reducing it first into a putrescent sludge. Mortals are but food for aetheric horrors, and the Filth Grazer prefers their gurgling, gooey, and foul.",
+						"The truly mad might seek to gain the benefits of becoming an Ooze, thinking that being formless would provide power. Regardless of how it happens, people who become an Ooze find themselves in a terrible race: which will they lose first, their body or their mind?",
+						{
+							"type": "inset",
+							"name": "Reversing Ooze Traits",
+							"entries": [
+								"Ooze features are terrible and difficult to undo once they have taken hold. Excruciating experimental trials might be able to alleviate some of the symptoms for a while, but a complete cure would take decades of knowledge and wealth that few in Etharis possess. Even then, it would still require a great deal of luck."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Ooze Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Become {@condition Bloodied|XPHB} or {@condition Unconscious|XPHB} by the attacks of an Ooze",
+										"Undergo experimentation by an arcanist or diabolist",
+										"Suffer from the Weeping Pox or other disease",
+										"{@action Study|XPHB} an ancient tome from the time when Oozes first came to Etharis",
+										"Consume a recently slain Ooze"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Ooze Stage 1",
+							"entries": [
+								"When you initially undergo the Ooze Transformation, you gain the Ooze Form Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Ooze Form|GrimHollowPG24}",
+										"{@optfeature Mutable Corpus|GrimHollowPG24}",
+										"{@optfeature Slimy Mien|GrimHollowPG24}",
+										"{@optfeature Sluggish|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Ooze Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Ooze Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Elastic Limbs|GrimHollowPG24}",
+										"{@optfeature Viscous Durability|GrimHollowPG24}",
+										"{@optfeature Melted Appearance|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Ooze Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Ooze Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Corrosive Membrane|GrimHollowPG24}",
+										"{@optfeature Engulf|GrimHollowPG24}",
+										"{@optfeature Physical Deterioration|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Ooze Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Ooze Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Legion of Slime|GrimHollowPG24}",
+										"{@optfeature Mimic Object|GrimHollowPG24}",
+										"{@optfeature Slippery Ego|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Ooze.webp"
+				},
+				"credit": "George Stratulat",
+				"width": 850,
+				"height": 1159
+			}
+		]
+	}
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Power Nap",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "When you don't know how long it might be before your next full respite, you learn to take maximum advantage of any rest you can get. When taking a {@variantrule Short Rest|XPHB}, you can choose to sleep for 1 hour. If you do so, you reduce your {@condition Exhaustion|XPHB} by one level and regain a {@variantrule Hit Point Dice|XPHB|Hit Point Die} in addition to the other benefits of a {@variantrule Short Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Extreme Resilience",
+            "entries": [
+                "If you take this trait twice, when using Power Nap, you can choose to regain a single resource that would normally refresh on a {@variantrule Long Rest|XPHB}. For example, a Sorcerer could choose to regain a Sorcery Point on a {@variantrule Short Rest|XPHB}."
+            ]
+        }
+    ]
+}

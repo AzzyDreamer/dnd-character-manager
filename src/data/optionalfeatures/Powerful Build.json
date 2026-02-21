@@ -1,0 +1,20 @@
+{
+    "name": "Powerful Build",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "C",
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "Whether carrying well-earned loot or the body of a fallen companion, you shoulder that load with ease. You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift. A Small creature with this trait can use any weapon with {@itemProperty H|XPHB|Heavy} as long as they have proficiency with that weapon. (This is an Exploration trait.)",
+        {
+            "type": "entries",
+            "name": "Powerful Shove",
+            "entries": [
+                "If you take this trait twice, you can move or knock foes {@condition prone} with ease. When you use {@variantrule Unarmed Strike|XPHB} to shove a creature 5 feet or give it the {@condition Prone|XPHB} condition, the target has {@variantrule Disadvantage|XPHB} on the saving throw. (This is a Combat trait.)"
+            ]
+        }
+    ]
+}

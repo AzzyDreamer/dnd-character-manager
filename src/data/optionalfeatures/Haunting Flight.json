@@ -1,0 +1,17 @@
+{
+	"name": "Haunting Flight",
+	"source": "GrimHollowPG24",
+	"page": 175,
+	"featureType": [
+		"Spec:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Specter|GrimHollowPG24|Specter Transformation}"
+		}
+	],
+	"entries": [
+		"You gain a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+		"Also, while you are flying, you can use a {@variantrule Bonus Action|XPHB} to focus your terrifying presence on one creature you can see within 30 feet. That creature must succeed on a Wisdom saving throw or have the {@condition Frightened|XPHB} condition for 1 minute. The DC for the Wisdom saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage. Once you use this feature, you must finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB} before you can use it again."
+	]
+}

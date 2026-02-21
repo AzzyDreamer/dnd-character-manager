@@ -1,0 +1,11 @@
+{
+	"name": "Blindfire",
+	"source": "ValdaGunslinger",
+	"featureType": [
+		"MV:G"
+	],
+	"entries": [
+		"You can take a {@variantrule Bonus Action|XPHB} and expend one {@classFeature Risk|Gunslinger|ValdaGunslinger|2|ValdaGunslinger|Risk Die} to gain {@sense Blindsight|XPHB} with a range of 30 feet until the end of the current turn."
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-002.the-gunslinger.webp"
+}

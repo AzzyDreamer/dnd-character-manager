@@ -1,0 +1,54 @@
+{
+	"name": "Hideous Appearance (Aberrant Horror)",
+	"source": "GrimHollowPG24",
+	"page": 136,
+	"featureType": [
+		"AH:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+		}
+	],
+	"entries": [
+		"Your appearance has grotesquely transformed. You may have turned into a hulking mass of flesh adorned with countless eyes, or a bone-and-tusk-covered behemoth. Regardless of your true form, you're horrific to behold.",
+		"You can suspend this form and take on the appearance of the humanoid you once were, but this is taxing and requires effort. This form is not permanent, and moments of stress are likely to reveal your true nature. Your true form may be revealed in the following situations:",
+		{
+			"type": "list",
+			"items": [
+				"Becoming {@condition Bloodied|XPHB}",
+				"{@status Concentration|XPHB|Concentrating} on a spell",
+				"Gaining the {@condition Unconscious|XPHB} condition",
+				"Entering hallowed ground",
+				"Choosing to reveal yourself"
+			]
+		},
+		"In these events, or times of other extreme emotional or physical stress, a GM can call or a Constitution saving throw with a DC based on your current Transformation Stage. If you fail this save, your Horrific Appearance is revealed.",
+		{
+			"type": "table",
+			"colLabels": [
+				"Stage",
+				"Constitution Save DC"
+			],
+			"colStyles": [
+				"col-2",
+				"col-4"
+			],
+			"rows": [
+				[
+					"2",
+					"13"
+				],
+				[
+					"3",
+					"16"
+				],
+				[
+					"4",
+					"20"
+				]
+			]
+		},
+		"Non-evil creatures that witness your true form become instantly {@variantrule Hostile [Attitude]|XPHB|Hostile} to you, unless the GM decides otherwise."
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"name": "Acolyte of Undeath",
+	"source": "GrimHollowPG24",
+	"page": 152,
+	"featureType": [
+		"L:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"entries": [
+		"When you reduce a Humanoid to 0 {@variantrule Hit Points|XPHB} and it dies, you can use a {@variantrule Reaction|XPHB} to immediately transform it into a {@creature Zombie|XMM} under your control. You can have three such creatures under your control at once. These Zombies act on their own {@variantrule Initiative|XPHB} count, following your verbal commands to the best of their ability."
+	]
+}

@@ -1,0 +1,55 @@
+{
+    "name": "Roiling Elements",
+    "source": "GrimHollowPG24",
+    "page": 162,
+    "featureType": [
+        "P:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}"
+        }
+    ],
+    "entries": [
+        "Your physical vessel strains to contain the roiling elements trapped inside of you. In a moment of distraction your body may erupt momentarily to reveal your Primordial nature. Tongues of flame may lash out or arcs of lightning might burst from beneath your skin.",
+        "You can contain the elements and maintain the appearance of the humanoid you once were, but this is taxing and requires effort. Moments of stress are likely to unleash your true nature, which might occur under the following circumstances:",
+        {
+            "type": "list",
+            "items": [
+                "Becoming {@condition Bloodied|XPHB}",
+                "Having the {@condition Unconscious|XPHB} condition",
+                "Encountering Elemental creatures or powers",
+                "Having the {@condition Charmed|XPHB} or {@condition Frightened|XPHB} conditions",
+                "Using your Primordial Transformation powers"
+            ]
+        },
+        "In these events, or times of other extreme emotional or physical stress, the GM can call for a Constitution {@variantrule Saving Throw|XPHB} with a DC based on your current Transformation Stage:",
+        {
+            "type": "table",
+            "caption": "Rolling Elements Save DC",
+            "colLabels": [
+                "Stage",
+                "Constitution Save DC"
+            ],
+            "colStyles": [
+                "col-6 text-center",
+                "col-6 text-center"
+            ],
+            "rows": [
+                [
+                    "2",
+                    "13"
+                ],
+                [
+                    "3",
+                    "16"
+                ],
+                [
+                    "4",
+                    "20"
+                ]
+            ]
+        },
+        "When your Primordial nature is revealed, you have {@variantrule Disadvantage|XPHB} on every {@variantrule D20 Test|XPHB} you make for 1 minute as you fight to control the volatile elements within you."
+    ]
+}

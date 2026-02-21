@@ -1,0 +1,143 @@
+{
+	"name": "Lycanthrope",
+	"source": "GrimHollowPG24",
+	"page": 154,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i A howling call is heard across thatched rooftops, summoning the pack to assemble. Below, a man tears at his clothes as moonlight shines down on him. The hunched figure screams in pain, begging his family to run. With muscles bursting and razor-sharp claws forming, his transformation is underway.}",
+						"{@i Rain pours through the forest canopy as a woman falls to her knees in exhaustion. Unable to run further, she accepts her fate and awaits the monsters of the dark. Instead, she hears a thunderous roar as a hulking figure tears through the undergrowth with impossible strength. The hulking, bear-like figure then turns to the woman and grunts, \"Are you lost?\" offering a paw in aid.}"
+					]
+				},
+				"Lycanthropes may appear to be ordinary humanoids, but behind the veneer of humanity there is a pivotal struggle between beast and man. For most, it is a matter of time before they lose this fight and transform into a monstrous hybrid, half-animal and half-humanoid. Most Lycanthropes recall very little of their time transformed, often waking in a strange location, covered in blood and tattered clothes. However, as some Lycanthropes grow, they learn to balance both natures, using their curse as a gift.",
+				{
+					"type": "entries",
+					"name": "Becoming a Lycanthrope",
+					"entries": [
+						"In Etharis, there are two well-known methods of contracting the lycanthropic curse. The first is being bitten by a lycanthrope and not curing the curse before it takes hold.",
+						"The second is to complete a Druidic ritual known as the Lunar Sacrament. This violent and bloody rite, involving the sacrifice of an innocent person, underscores the ruthless and uncompromising nature of someone willing to do evil in exchange for power.",
+						"Other means of gaining lycanthropy are possible. The curse of a powerful being, a side effect of a powerful artifact, or eating the raw flesh of a lycanthropic creature: all of these are potential triggers for the Lycanthrope Transformation.",
+						"Once your character has become a Lycanthrope, consider how they feel about the curse. Do they wish to cure it before it progresses too far? Do they wish to understand it and make peace with the beast that resides within?",
+						{
+							"type": "inset",
+							"name": "Curing Lycanthropy",
+							"entries": [
+								"Once the character reaches Stage 1 of the Lycanthrope Transformation, no typical magic like {@spell Remove Curse|XPHB} can cure the character's lycanthropy. Magic on the level of the {@spell Wish|XPHB} spell is needed to completely remove the Transformation and its Boons and Flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Lycanthrope Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Making a further bargain with the Fey creature who gifted you with Lycanthropy originally",
+										"Killing a powerful creature under the light of a full moon in your hybrid form",
+										"Failing two {@variantrule Death Saving Throw|XPHB|Death Saving Throws}",
+										"Killing an innocent creature in your hybrid form after failing your saving throw against {@optfeature Lust for the Hunt|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lycanthrope Stage 1",
+							"entries": [
+								"When you initially contract lycanthropy, you select one Stage 1 Boon and gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Hybrid Wolf Form|GrimHollowPG24}",
+										"{@optfeature Hybrid Bear Form|GrimHollowPG24}",
+										"{@optfeature Hybrid Rat Form|GrimHollowPG24}",
+										"{@optfeature Lust for the Hunt|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lycanthrope Stage 2",
+							"entries": [
+								"When you reach Stage 2 of lycanthropy, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Hunter's Focus|GrimHollowPG24}",
+										"{@optfeature Iron Pelt|GrimHollowPG24}",
+										"{@optfeature Kindred Form|GrimHollowPG24}",
+										"{@optfeature Silver Sensitivity|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lycanthrope Stage 3",
+							"entries": [
+								"When you reach Stage 3 of lycanthropy, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Bestial Vigor|GrimHollowPG24}",
+										"{@optfeature Shapeshifter's Savagery|GrimHollowPG24}",
+										"{@optfeature Frayed Thoughts|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lycanthrope Stage 4",
+							"entries": [
+								"When you reach Stage 4 of lycanthropy, you select a Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Hybrid Form Affinity|GrimHollowPG24}",
+										"{@optfeature Savage Instincts|GrimHollowPG24}",
+										"{@optfeature Ultimate Predator|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Lycanthrope.webp"
+				},
+				"credit": "Mikhail Palamarchuck",
+				"width": 850,
+				"height": 1044
+			}
+		]
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Skin of Your Teeth",
+	"source": "ValdaGunslinger",
+	"featureType": [
+		"MV:G"
+	],
+	"entries": [
+		"When a creature you can see hits you with an attack roll, you can take a {@variantrule Reaction|XPHB} and expend one {@classFeature Risk|Gunslinger|ValdaGunslinger|2|ValdaGunslinger|Risk Die} to dodge out of harm's way. Roll the die and add the number rolled to your AC against this attack, potentially causing it to miss."
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-002.the-gunslinger.webp"
+}

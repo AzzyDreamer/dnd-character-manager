@@ -1,0 +1,26 @@
+{
+	"name": "Arch-Crone's Hunger",
+	"source": "GrimHollowPG24",
+	"page": 149,
+	"featureType": [
+		"H:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+		}
+	],
+	"entries": [
+		"You develop a taste for strange, cursed, or vile foods, and normal food no longer nourishes you. You must consume one of these unusual foods at least once every day or you gain 1 {@condition Exhaustion|XPHB} level, which cannot be removed until you feed your vile hunger. If you are forced to eat or drink normal food, you must succeed on a DC 18 Constitution saving throw or vomit it up and gain 1 {@condition Exhaustion|XPHB} level.",
+		"Examples of vile foods include the following:",
+		{
+			"type": "list",
+			"items": [
+				"The flesh of sapient creatures (Humanoids, Fey, or Celestials)",
+				"Magical ingredients (rare herbs, dragon's blood, etc.)",
+				"The pain and suffering of others",
+				"Pages of a cursed tome"
+			]
+		}
+	]
+}

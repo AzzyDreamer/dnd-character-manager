@@ -1,0 +1,13 @@
+{
+	"name": "Curse of the Clumsy",
+	"source": "GrimHollowPG24",
+	"page": 91,
+	"featureType": [
+		"MB:M"
+	],
+	"entries": [
+		"{@b Cost:} 3 Jinx Points",
+		"When a creature cursed by your Evil Eye moves at least 5 feet on its turn, you can take a {@variantrule Reaction|XPHB} and spend 3 Jinx Points to cause the creature to have the {@condition Prone|XPHB} condition and have its {@variantrule Speed|XPHB} reduced to 0 until the end of its turn.",
+		"After you use this Misfortune, the creature is no longer cursed by your Evil Eye."
+	]
+}

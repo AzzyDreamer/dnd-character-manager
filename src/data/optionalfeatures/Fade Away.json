@@ -1,0 +1,20 @@
+{
+	"name": "Fade Away",
+	"source": "GrimHollowPG24",
+	"page": 36,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"You have learned to avoid notice at all costs, letting you momentarily obscure yourself from observation. As a {@variantrule Bonus Action|XPHB}, you can take the {@action Hide|XPHB} action to conceal yourself without needing to be {@variantrule Heavily Obscured|XPHB} or behind {@variantrule Cover|XPHB|Three-Quarters Cover} or {@variantrule Cover|XPHB|Total Cover}. You need not be out of a creature's line of sight to use this ability.",
+		"You become visible at the start of your next turn unless you have moved into a position that allows you to use the {@action Hide|XPHB} action normally. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Long Fade",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on your ability check when you take the {@action Hide|XPHB} action from Fade Away, and you become visible at the end of your next turn instead of the start of your next turn."
+			]
+		}
+	]
+}

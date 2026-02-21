@@ -1,0 +1,16 @@
+{
+	"name": "Grave-Touched Soul",
+	"source": "GrimHollowPG24",
+	"page": 180,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}"
+		}
+	],
+	"entries": [
+		"You gain {@variantrule Resistance|XPHB} to Necrotic damage. If you already have {@variantrule Resistance|XPHB} to Necrotic damage, you gain {@variantrule Immunity|XPHB} instead."
+	]
+}

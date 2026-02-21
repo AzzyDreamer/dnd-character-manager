@@ -1,0 +1,27 @@
+{
+	"name": "Final Strigoi Bloodline",
+	"source": "GrimHollowPG24",
+	"page": 181,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}",
+			"optionalfeature": [
+				"strigoi bloodline|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You reach the full manifestation of your Strigoi Bloodline. You have the following features:",
+		{
+			"type": "list",
+			"items": [
+				"Your Dexterity score increases by 2 points to a maximum of 20.",
+				"You can summon {@dice 2d4} {@creature Swarms of Rats|XMM}, {@creature Swarms of Bats|XMM}, or {@creature Wolf|XMM|Wolves} as a {@variantrule Bonus Action|XPHB}. They appear at the start of your next turn within 60 feet of you. They follow your verbal or mental commands. They disperse after 1 hour, when you are reduced to 0 {@variantrule Hit Points|XPHB}, or when you dismiss them with a {@variantrule Bonus Action|XPHB}. You regain this ability after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+				"You can cast the {@spell Misty Step|XPHB} spell up to four times without using a spell slot. You can also cast a spell in this way as a {@variantrule Reaction|XPHB} when you are targeted with a weapon attack. You cast the spell before taking damage. You regain this ability after finishing a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

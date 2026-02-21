@@ -1,0 +1,19 @@
+{
+    "name": "Primordial Aura",
+    "source": "GrimHollowPG24",
+    "page": 163,
+    "featureType": [
+        "P:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}",
+            "optionalfeature": [
+                "aura of awakening|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "Creatures of your choice within 15 feet of you gain {@variantrule Resistance|XPHB} to Bludgeoning, Cold, Fire, or Lightning damage. You choose the damage type after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, and you can change the damage type as a {@variantrule Bonus Action|XPHB}. If they already have {@variantrule Resistance|XPHB} to any of these damage types, they gain {@variantrule Immunity|XPHB} to that damage type."
+    ]
+}

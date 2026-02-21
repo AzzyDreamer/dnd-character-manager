@@ -1,0 +1,19 @@
+{
+    "name": "Swimmer",
+    "source": "GrimHollowPG24",
+    "page": 46,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "You are in your element while in the water, moving with grace and ease. You have a {@variantrule Swim Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Quickened Swim",
+            "entries": [
+                "If you take this trait twice, you can use the {@action Dash|XPHB} action as a {@variantrule Bonus Action|XPHB} while swimming."
+            ]
+        }
+    ]
+}

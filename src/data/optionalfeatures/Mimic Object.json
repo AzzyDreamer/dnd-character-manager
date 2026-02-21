@@ -1,0 +1,18 @@
+{
+    "name": "Mimic Object",
+    "source": "GrimHollowPG24",
+    "page": 160,
+    "featureType": [
+        "O:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "When you manifest your Ooze Form, it lasts until you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.",
+        "While manifesting your Ooze Form, you can use a {@action Magic|XPHB} action to transform into an object of your size or up to two sizes smaller. Any equipment worn or carried is dropped in your space. While mimicking an object, you retain your statistics.",
+        "While mimicking an object, you are indistinguishable from the object and you can take a {@variantrule Reaction|XPHB} when you are touched to adhere to the creature that touches you. The creature has the {@condition Grappled|XPHB} condition. The DC to escape is equal to DC equal to 8 plus your Constitution modifier plus your Transformation Stage. Ability checks made to escape this grapple have {@variantrule Disadvantage|XPHB}."
+    ]
+}

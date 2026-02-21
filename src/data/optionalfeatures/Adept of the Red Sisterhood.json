@@ -1,0 +1,26 @@
+{
+	"name": "Adept of the Red Sisterhood",
+	"source": "GrimHollowPG24",
+	"page": 148,
+	"featureType": [
+		"H:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}",
+			"optionalfeature": [
+				"the red sisterhood|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"As your connection to your Red Sisterhood grows, your body and your magical skills strengthen.",
+		{
+			"type": "list",
+			"items": [
+				"You gain a Claw attack that deals {@dice 1d6} plus your Strength or Dexterity modifier Slashing Damage. You are proficient with this attack, and you add either your Strength or Dexterity modifier to attack and damage rolls. This attack is not an {@variantrule Unarmed Strike|XPHB}, nor can it be used in place of an {@variantrule Unarmed Strike|XPHB}.",
+				"You can sway others to your will. As a {@action Magic|XPHB} action, you can cast {@spell Charm Person|XPHB} without expending a spell slot. The spell save DC when cast in this way is 12 plus your Transformation Stage. You can use this feature a number of times equal to your Transformation Stage. You regain all uses after finishing a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

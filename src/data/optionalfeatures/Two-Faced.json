@@ -1,0 +1,45 @@
+{
+    "name": "Two-Faced",
+    "source": "GrimHollowPG24",
+    "page": 140,
+    "featureType": [
+        "F:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "You can transform your face into a vision of enchantment or horror that affects creatures around you, based on the Fey Court you serve. As a {@action Magic|XPHB} action, you take on this visage. Creatures within 30 feet who can see you must succeed on a Charisma saving throw with a DC equal to 8 plus your Charisma modifier plus your Transformation Stage or be affected for 1 minute.",
+        "You can do this a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all uses after finishing a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Spring",
+            "entries": [
+                "Any creature that fails the saving throw has the {@condition Stunned|XPHB} condition. The creature can attempt a Constitution saving throw at the end of each of their turns to end the condition. This effect ends early on a creature if you or an ally deal damage to it or take other harmful actions."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Summer",
+            "entries": [
+                "Any creature that fails the saving throw gains the {@condition Charmed|XPHB} condition. This effect ends early on a creature if you or an ally deal damage to it or take other harmful actions."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Autumn",
+            "entries": [
+                "Any creature that fails the saving throw gains the {@condition Poisoned|XPHB} condition. The creature can attempt a Constitution saving throw at the end of each of their turns to end the condition."
+            ]
+        },
+        {
+            "type": "entries",
+            "name": "Winter",
+            "entries": [
+                "Any creature that fails the saving throw becomes {@condition Frightened|XPHB} of you. This effect ends early if a creature affected by this ability ends its turn out of your line of sight."
+            ]
+        }
+    ]
+}

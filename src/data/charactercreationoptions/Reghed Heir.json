@@ -1,0 +1,27 @@
+{
+	"name": "Reghed Heir",
+	"source": "IDRotF",
+	"page": 264,
+	"prerequisite": [
+		{
+			"race": [
+				{
+					"name": "human"
+				},
+				{
+					"name": "half-elf"
+				},
+				{
+					"name": "half-orc"
+				}
+			],
+			"note": "If you don't meet this prerequisite, draw a different card."
+		}
+	],
+	"optionType": [
+		"CS"
+	],
+	"entries": [
+		"I am the offspring of Queen Bjornhild Solvigsdottir, leader of the Tiger Tribe. My mother cast me into the Sea of Moving Ice when I was a young child as a sacrifice to Auril the Frostmaiden. A polar bear pulled me from the water and spared me a freezing death. This bear then transformed into a goliath who bore me safely to Ten-Towns. I remember the goliath's name—Oyaminartok—but haven't seen her since. I owe her my life, just as I owe my mother a merciless death."
+	]
+}

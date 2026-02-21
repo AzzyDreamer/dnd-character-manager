@@ -1,0 +1,12 @@
+{
+	"name": "Gift of Martial Prowess",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"Once per turn, when you miss with a weapon attack or {@variantrule Unarmed Strike|XPHB}, you can reroll the attack roll. If the reroll hits, you must spend 3 {@variantrule Hit Point Dice|XPHB} and add the result to the attack's normal damage as Force damage. If the reroll misses, you must spend 3 {@variantrule Hit Point Dice|XPHB} and take Psychic damage equal to the result. If you have fewer than 3 {@variantrule Hit Point Dice|XPHB} available, you cannot use this gift.",
+		"Once you hit a target with an attack using a rerolled attack, you cannot use it again until you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Darkvision",
+	"source": "GrimHollowPG24",
+	"page": 35,
+	"featureType": [
+		"E",
+		"HT"
+	],
+	"entries": [
+		"A life spent in shadow has made you grow accustomed to the gloom. You can see in {@variantrule Dim Light|XPHB} within 60 feet of you as if it were {@variantrule Bright Light|XPHB}, and in {@variantrule Darkness|XPHB} within 60 feet of you as if it were {@variantrule Dim Light|XPHB}. You can't discern color in {@variantrule Darkness|XPHB}, only shades of gray.",
+		{
+			"type": "entries",
+			"name": "Improved Darkvision",
+			"entries": [
+				"If you take this trait twice, the range of your {@sense Darkvision|XPHB} increases to 120 feet."
+			]
+		}
+	]
+}

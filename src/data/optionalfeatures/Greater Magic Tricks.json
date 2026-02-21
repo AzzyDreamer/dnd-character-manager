@@ -1,0 +1,47 @@
+{
+	"name": "Greater Magic Tricks",
+	"source": "GrimHollowPG24",
+	"page": 141,
+	"featureType": [
+		"F:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}",
+			"optionalfeature": [
+				"magic tricks|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"Your Fey masters provide even further magical abilities. You gain the ability to cast one level 3 spell, one level 4 spell, and one level 5 spell. You can cast each of these once without using a spell slot or needing spell components. You regain the ability to cast these spells when you finish a {@variantrule Long Rest|XPHB}. The DC for these spells is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage.",
+		{
+			"type": "entries",
+			"name": "Spring",
+			"entries": [
+				"Your spells are {@spell Stinking Cloud|XPHB}, {@spell Vitriolic Sphere|XPHB}, and {@spell Cloudkill|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Summer",
+			"entries": [
+				"Your spells are {@spell Fireball|XPHB}, {@spell Fire Shield|XPHB}, and {@spell Dream|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Autumn",
+			"entries": [
+				"Your spells are {@spell Lightning Bolt|XPHB}, {@spell Blight|XPHB}, and {@spell Hold Monster|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Winter",
+			"entries": [
+				"Your spells are {@spell Vampiric Touch|XPHB}, {@spell Ice Storm|XPHB}, and {@spell Cone of Cold|XPHB}."
+			]
+		}
+	]
+}

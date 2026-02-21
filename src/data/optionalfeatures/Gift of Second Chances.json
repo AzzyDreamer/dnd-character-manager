@@ -1,0 +1,11 @@
+{
+	"name": "Gift of Second Chances",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"When you are reduced to 0 {@variantrule Hit Points|XPHB}, you can use your {@variantrule Reaction|XPHB} to roll a {@variantrule Hit Point Dice|XPHB|Hit Point Die}. If you roll a 2 or better, set your {@variantrule Hit Points|XPHB|Hit Point} total to the result of the roll. If not, you suffer a {@variantrule Death Saving Throw|XPHB} failure. You regain the use of this gift when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

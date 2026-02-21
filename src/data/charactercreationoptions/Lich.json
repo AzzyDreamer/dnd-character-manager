@@ -1,0 +1,155 @@
+{
+	"name": "Lich",
+	"source": "GrimHollowPG24",
+	"page": 150,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The screams of souls torn from their bodies echo over the crackling of forbidden magic. A skeletal form rapidly stitches flesh and muscle to its frame, creating a seemingly living man—a man from an age and kingdom long gone. A man who has conquered death and risen again to enact his insidious will from millennia ago. The screams stop and are replaced with murmurs, as the corpses of the fallen arise as undead.}"
+					]
+				},
+				"A Lich is to their domain what a king is to their kingdom: undisputed, absolute power. Resting upon a throne of raw, world-rending potential, a Lich comes as close to a god as any mortal could imagine. However, this awe-inspiring power comes at a dear price. Some Liches favor arcane or divine magic, becoming peerless Hierophants. Some are warriors, called Memori Liches, who steal the life force of their vanquished foes to make themselves nigh immortal.",
+				"Immune to the effects of age but not time, a Lich is destined to exist without living for eternity. While this drives some Liches mad and others to the extremes of pure evil, it also makes them more acute in some areas and weakened in others. Time itself takes their faculties from them until they are a mockery of their past selves.",
+				{
+					"type": "entries",
+					"name": "Becoming a Lich",
+					"entries": [
+						"There are many ways to become a Lich, each determining the type of Lich the mortal becomes. The Ritual of Dread is one of the main methods for arcanists of Etharis. The process of this ritual is a well-guarded secret, entrusted to only a handful of mortals at any one time. The process of the ritual involves several despicable acts including murder, the brewing of a vile concoction, and even one's own death.",
+						"For Memori Liches, warriors of great renown who hope to break the cycle of death, the process is less involved but no less gruesome. The skull of a powerful vanquished foe serves as the focus of power, tipping off new opponents they are in for a hellish battle.",
+						"For Hierophants, the call of the divine is equally strong to the call of mortality. Those who want to spend an eternity with power over both life and death in the name of a powerful divine source.",
+						"Regardless of the form of lichdom, the process of tearing one's soul from the body is most despised, for this process involves the sacrifice of something truly dear to a mortal, and no substitute will be accepted. For some, it is the death of a cherished loved one. For others it is a family legacy. Regardless of the sacrifice, unless the dread spirits deem it worthy, lichdom will not be granted.",
+						{
+							"type": "inset",
+							"name": "Reversing Lich Traits",
+							"entries": [
+								"The amount of raw magical energy that goes into becoming a Lich means that undoing it is impossible. The only stage beyond Lichdom is annihilation, and even that can only occur if both the physical form of the lich and its soul vessel are both destroyed."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Lich Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Discover ancient and dark arcane knowledge",
+										"Consume the soul of an exceptionally powerful spellcaster",
+										"Build a monument to your power to serve as a giant arcane focus",
+										"Create or lead an army of undead",
+										"Meditate in the glow of a powerful arcane item or location",
+										"Kill an Arch Daemon or Arch Seraph and absorb their power"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lich Stage 1",
+							"entries": [
+								"When you initially undergo the Lich Transformation, you gain the Undead Form Boon and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Undead Form|GrimHollowPG24}",
+										"{@optfeature Memori Lichdom|GrimHollowPG24}",
+										"{@optfeature Lich Magica|GrimHollowPG24}",
+										"{@optfeature Soul Vessel|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lich Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Lich Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Acolyte of Undeath|GrimHollowPG24}",
+										"{@optfeature Binding Curse|GrimHollowPG24}",
+										"{@optfeature Corrupting Magic|GrimHollowPG24}",
+										"{@optfeature Hideous Appearance (Lich)|GrimHollowPG24|Hideous Appearance}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lich Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Lich Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Eldritch Concentration|GrimHollowPG24}",
+										"{@optfeature Master of Undeath|GrimHollowPG24}",
+										"{@optfeature Unholy Healing|GrimHollowPG24}",
+										"{@optfeature Necromantic Dystrophia|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Lich Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Lich Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Eldritch Omniscience|GrimHollowPG24}",
+										"{@optfeature Soul-Shattering Attack|GrimHollowPG24}",
+										"{@optfeature Lord of Undeath|GrimHollowPG24}",
+										"{@optfeature Weight of the Ages|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "inset",
+					"name": "The Making of a Lich",
+					"entries": [
+						"In most fantasy stories, lichdom isn't just something that happens to an innocent person. Becoming a Lich takes years of research, countless sacrifices for yourself and others, and the incredibly low moral and ethical standards necessary to follow through. The years or even decades of meticulous planning and study are infused into the mythology of what lichdom means.",
+						"For the Lich Transformation, that mythology may need to be rewritten slightly. The power of Liches comes much more quickly, or perhaps even accidentally, or through a curse. Liches may not be the all-powerful geniuses they are thought to be. They might be tricked or forced to undergo a transition to lichdom. They may even think they are free agents, but the forces that turn them into Liches are using them for other purposes."
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Lich.webp"
+				},
+				"credit": "Guilherme Castro",
+				"width": 850,
+				"height": 1270
+			}
+		]
+	}
+}

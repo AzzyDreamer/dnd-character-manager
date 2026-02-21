@@ -1,0 +1,27 @@
+{
+	"name": "Cleanse Affliction",
+	"source": "GrimHollowPG24",
+	"page": 168,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}",
+			"optionalfeature": [
+				"divine clemency|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"When you use Divine Clemency on a creature, they gain the following additional benefits:",
+		{
+			"type": "list",
+			"items": [
+				"They gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of damage healed by {@variantrule Healing|XPHB} Word.",
+				"They have {@variantrule Advantage|XPHB} on their next {@variantrule D20 Test|XPHB} made within the next minute.",
+				"You end one of the following conditions on it: {@condition Blinded|XPHB}, {@condition Deafened|XPHB}, {@condition Paralyzed|XPHB}, or {@condition Poisoned|XPHB}."
+			]
+		}
+	]
+}

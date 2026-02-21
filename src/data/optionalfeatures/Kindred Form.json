@@ -1,0 +1,37 @@
+{
+    "name": "Kindred Form",
+    "source": "GrimHollowPG24",
+    "page": 156,
+    "featureType": [
+        "Ly:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "You gain the ability to transform into the animal form representative of your Lycanthropy type, known as your Kindred Form. Use the stat block of the creature your lycanthropy corresponds with and follow the rules of the {@spell Polymorph|XPHB} spell:",
+        {
+            "type": "list",
+            "items": [
+                {
+                    "type": "item",
+                    "name": "Werebear:",
+                    "entry": "{@creature Black Bear|XMM}"
+                },
+                {
+                    "type": "item",
+                    "name": "Wererat:",
+                    "entry": "{@creature Giant Rat|XMM}"
+                },
+                {
+                    "type": "item",
+                    "name": "Werewolf:",
+                    "entry": "{@creature Wolf|XMM}"
+                }
+            ]
+        },
+        "You are indistinguishable from other creatures of that type, and you can communicate with those creatures. You cannot speak, but you can understand languages you know. All equipment you wear and carry falls off you when transforming."
+    ]
+}

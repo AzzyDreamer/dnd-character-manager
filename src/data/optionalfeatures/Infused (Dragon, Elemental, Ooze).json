@@ -1,0 +1,11 @@
+{
+    "name": "Infused (Dragon, Elemental, Ooze)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "Choose one of the following damage types: Acid, Cold, Fire, Lightning, Poison, or Thunder. For 10 minutes, whenever you hit with an attack, you can cause it to deal the chosen type rather than its normal damage type."
+    ]
+}

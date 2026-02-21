@@ -1,0 +1,45 @@
+{
+	"name": "Hollow One",
+	"source": "EGW",
+	"page": 182,
+	"optionType": [
+		"SG"
+	],
+	"entries": [
+		"As a Hollow One, the void left behind by your departed soul is filled with the strange magic of Blightshore. Becoming a Hollow One is a supernatural gift that bestows upon you the following traits.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Ageless",
+					"entries": [
+						"You don't age, and effects that would cause you to age don't work on you."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Cling to Life",
+					"entries": [
+						"When you make a death saving throw and roll 16 or higher, you regain 1 hit point."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Revenance",
+					"entries": [
+						"You retain your creature type, yet you register as undead to spells and other effects that detect the presence of the undead creature type."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Unsettling Presence",
+					"entries": [
+						"As an action, you can unsettle a creature you can see within 15 feet of you. The target has disadvantage on the next saving throw it makes within the next minute. Constructs, undead, and creatures that can't be {@condition frightened} are immune to this feature. Once you use this feature, you can't use it again until you finish a long rest."
+					]
+				}
+			]
+		}
+	],
+	"hasFluffImages": true
+}

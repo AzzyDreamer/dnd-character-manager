@@ -1,0 +1,20 @@
+{
+    "name": "Instrumentalist",
+    "source": "GrimHollowPG24",
+    "page": 38,
+    "featureType": [
+        "HT",
+        "R"
+    ],
+    "entries": [
+        "In the quieter moments, music can help you forget the horrors you've seen. You have proficiency with {@item Musical Instrument|XPHB|two instruments} of your choice.",
+        {
+            "type": "entries",
+            "name": "Virtuoso",
+            "entries": [
+                "If you take this trait multiple times, you gain proficiency with two new instruments each time.",
+                "Additionally, you have {@variantrule Advantage|XPHB} on ability checks made using any instrument. You can use this feature a number of times equal to twice your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

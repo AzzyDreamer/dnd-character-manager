@@ -1,0 +1,19 @@
+{
+    "name": "Medium Armor Training",
+    "source": "GrimHollowPG24",
+    "page": 41,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "The pounding you routinely take in combat requires a formidable layer of defense. You have training with Medium armor and with Shields.",
+        {
+            "type": "entries",
+            "name": "Heavy Armor Training",
+            "entries": [
+                "If you take this trait twice, you have training with Heavy armor."
+            ]
+        }
+    ]
+}

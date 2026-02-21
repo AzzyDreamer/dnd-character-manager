@@ -1,0 +1,12 @@
+{
+    "name": "Regeneration (Armor Modification)",
+    "source": "GrimHollowPG24",
+    "page": 59,
+    "featureType": [
+        "TG:AM"
+    ],
+    "entries": [
+        "You reinforce the armor with troll hide or soak it in vampire blood. You have a pool of six d10s. As a {@variantrule Bonus Action|XPHB}, you can expend a die from the pool, roll that die and add your Constitution modifier, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll's total.",
+        "You regain all the expended dice when you finish a {@variantrule Long Rest|XPHB}."
+    ]
+}

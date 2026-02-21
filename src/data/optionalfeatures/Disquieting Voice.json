@@ -1,0 +1,12 @@
+{
+	"name": "Disquieting Voice",
+	"source": "GrimHollowPG24",
+	"page": 72,
+	"featureType": [
+		"CM:MO"
+	],
+	"entries": [
+		"{@b Cost:} {@i 1 Mutation Point}",
+		"You can comprehend and verbally communicate with Beasts, and you can use any of the {@action Influence|XPHB} action's skill options with them."
+	]
+}

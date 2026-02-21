@@ -1,0 +1,50 @@
+{
+	"name": "Elemental Mastery",
+	"source": "GrimHollowPG24",
+	"page": 163,
+	"featureType": [
+		"P:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Primordial|GrimHollowPG24|Primordial Transformation}",
+			"optionalfeature": [
+				"master of many|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You add the final element to you Elemental Affinity Boon. When you do so, you gain the associated benefits of your new element.",
+		"Additionally, you can summon the four elements to wreathe you in power. Whenever a creature hits you with a melee attack, you can use your {@variantrule Reaction|XPHB} to force it to make a Dexterity saving throw, dealing {@damage 6d6} damage of a type of your choice from Bludgeoning, Cold, Fire, or Lightning, or half as much on a successful save.",
+		"After you use this {@variantrule Reaction|XPHB}, your Elemental Affinity features gain the following benefits until the end of your next turn",
+		{
+			"type": "entries",
+			"name": "Air",
+			"entries": [
+				"You have {@variantrule Advantage|XPHB} on all Ranged weapon and ranged spell attacks."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Earth",
+			"entries": [
+				"At the beginning of your turn, you gain 20 {@variantrule Temporary Hit Points|XPHB}."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Fire",
+			"entries": [
+				"At the beginning of your turn, each creature of your choice within 5 feet of you takes {@damage 2d6} Fire damage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Water",
+			"entries": [
+				"Whenever a creature withing 60 feet that you can see regains {@variantrule Hit Points|XPHB} by spending {@variantrule Hit Point Dice|XPHB} or through a spell or magical ability, that creature regains an additional 20 {@variantrule Hit Points|XPHB}."
+			]
+		},
+		"You can use this feature a number of times equal to your Constitution modifier, regaining all uses upon completing a {@variantrule Long Rest|XPHB}."
+	]
+}

@@ -1,0 +1,24 @@
+{
+    "name": "The Sea Sisterhood",
+    "source": "GrimHollowPG24",
+    "page": 147,
+    "featureType": [
+        "H:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+        }
+    ],
+    "entries": [
+        "Sea Hags enjoy spreading chaos. They hate order and calm, creating elaborate deceptions that lead to despair when uncovered. Their appearances are especially hideous, and their gaze can cause fear, or even kill. You gain the following benefits.",
+        {
+            "type": "list",
+            "items": [
+                "You have {@sense Darkvision|XPHB} with a range of 60 feet.",
+                "You become Amphibious and can breathe both air and water. You gain a {@variantrule Swim Speed|XPHB} equal to your {@variantrule Speed|XPHB}. If you already have a {@variantrule Swim Speed|XPHB}, it increases by 10 feet.",
+                "As a {@action Magic|XPHB} action, you can gaze upon a creature you can see within 30 feet. If the creature fails a Wisdom saving throw with a DC equal to 8 plus your Charisma modifier plus your Transformation Stage, it takes {@damage 1d8} Psychic damage for each Transformation Stage you have."
+            ]
+        }
+    ]
+}

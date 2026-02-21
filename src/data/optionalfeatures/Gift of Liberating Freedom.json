@@ -1,0 +1,12 @@
+{
+	"name": "Gift of Liberating Freedom",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB} while aren't wearing Heavy armor, you can manifest a pair of leathery wings. You gain a {@variantrule Fly Speed|XPHB} equal to half your {@variantrule Speed|XPHB}. These wings recede if you dismiss them as a {@variantrule Bonus Action|XPHB} on your turn, if you have the {@condition Unconscious|XPHB} condition, or if you become {@condition Bloodied|XPHB} while they are manifested.",
+		"You can have your wing manifested for 1 hour total, including several shorter stints adding up to 1 hour. You regain your ability to use your wings for an hour after finishing a {@variantrule Long Rest|XPHB}."
+	]
+}

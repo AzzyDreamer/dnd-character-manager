@@ -1,0 +1,11 @@
+{
+	"name": "Bite the Bullet",
+	"source": "ValdaGunslinger",
+	"featureType": [
+		"MV:G"
+	],
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can expend one {@classFeature Risk|Gunslinger|ValdaGunslinger|2|ValdaGunslinger|Risk Die} to gain {@variantrule Temporary Hit Points|XPHB} equal to the number rolled on the die plus your Gunslinger level."
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-002.the-gunslinger.webp"
+}

@@ -1,0 +1,12 @@
+{
+	"name": "Creature of the Sea",
+	"source": "GrimHollowPG24",
+	"page": 72,
+	"featureType": [
+		"CM:MO"
+	],
+	"entries": [
+		"{@b Cost:} {@i 1 Mutation Point}",
+		"You gain a {@variantrule Swim Speed|XPHB} equal to your {@variantrule Speed|XPHB}, and you can breathe underwater. For an additional 1 Mutation Point, you gain a {@variantrule Swim Speed|XPHB} equal to twice your speed."
+	]
+}

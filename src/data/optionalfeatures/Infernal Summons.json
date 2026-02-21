@@ -1,0 +1,17 @@
+{
+    "name": "Infernal Summons",
+    "source": "GrimHollowPG24",
+    "page": 144,
+    "featureType": [
+        "Fi:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}"
+        }
+    ],
+    "entries": [
+        "As a {@action Magic|XPHB} action, you can tear open a portal to the Netherworld and summon up to four {@filter Fiends of CR 4|bestiary|source=|Challenge Rating=[&0;&4]|type=fiend} or lower within 30 feet of you. The Fiends remain for 1 minute (or less, if the GM decides what Fiends answer the summons).",
+        "The summoned Fiends are {@variantrule Friendly [Attitude]|XPHB|Friendly} to you and your companions. They act directly after you in the initiative order. They obey any verbal commands that you issue to them (no action required by you). If you don't issue any commands to them, they use the {@action Dodge|XPHB} action on their turn and take no other movement, {@variantrule Bonus Action|XPHB|Bonus Actions}, or {@variantrule Reaction|XPHB|Reactions} unless it is to protect themselves."
+    ]
+}

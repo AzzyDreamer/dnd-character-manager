@@ -1,0 +1,18 @@
+{
+    "name": "Slippery Ego",
+    "source": "GrimHollowPG24",
+    "page": 160,
+    "featureType": [
+        "O:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Ooze|GrimHollowPG24|Ooze Transformation}"
+        }
+    ],
+    "entries": [
+        "As your brain becomes just one more part of the gooey mass that is you, and your sense of self becomes ever more tentative, the slightest distraction can cause you to forget who you were.",
+        "The first time you become {@condition Bloodied|XPHB} after a {@variantrule Long Rest|XPHB}, or whenever you roll a 1 on a saving throw, the pain or surprise causes you lose your grip on your mind. You can't cast spells, activate magic items, understand language, or communicate in any intelligible way. You are overwhelmed with hunger and take the {@action Attack|XPHB} action on your next turn to make melee attacks against a random creature within reach. If there are no creatures within reach, you move until you are adjacent to the nearest creature, using the {@action Dash|XPHB} action if necessary.",
+        "You may attempt a DC 18 Wisdom saving throw at the end of each of your turns to regain your sense of self. This effect ends automatically when you finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+    ]
+}

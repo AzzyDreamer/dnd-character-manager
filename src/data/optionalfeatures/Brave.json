@@ -1,0 +1,19 @@
+{
+	"name": "Brave",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"The horrors you've lived through have hardened you. You have {@variantrule Advantage|XPHB} on saving throws to avoid being {@condition Frightened|XPHB}.",
+		{
+			"type": "entries",
+			"name": "Infectious Bravery",
+			"entries": [
+				"If you take this trait twice, you can use your {@variantrule Reaction|XPHB} to bolster the spirits of your allies, granting one ally who can see or hear you {@variantrule Advantage|XPHB} on a saving throw against being {@condition Frightened|XPHB}. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

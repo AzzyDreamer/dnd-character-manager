@@ -1,0 +1,28 @@
+{
+	"name": "Final Fzeg Bloodline",
+	"source": "GrimHollowPG24",
+	"page": 181,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}",
+			"optionalfeature": [
+				"fzeg bloodline|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You reach the full manifestation of your Fzeg Bloodline. You have the following features:",
+		{
+			"type": "list",
+			"items": [
+				"Your Strength score increases by 2 points to a maximum of 20.",
+				"The damage done by your Claw attack becomes {@dice 3d6} plus your Strength modifier Slashing damage, using your Strength modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus} on attack rolls. You can also make three Claw attacks with an {@action Attack|XPHB} action.",
+				"You are {@variantrule Resistance|XPHB|Resistant} to Bludgeoning, Piercing, and Slashing damage. Magic and silvered weapons ignore this {@variantrule Resistance|XPHB}.",
+				"Your {@variantrule Speed|XPHB} increases by 10 feet."
+			]
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"name": "Gift of Prodigious Talent",
+	"source": "GrimHollowPG24",
+	"page": 145,
+	"featureType": [
+		"GoD"
+	],
+	"entries": [
+		"Choose two Skills. Gain {@variantrule Expertise|XPHB} in the chosen skills.",
+		"If you roll a 1 or 2 on an {@variantrule Ability Check|XPHB} using one of the chosen skills, you immediately lose half your maximum number of {@variantrule Hit Point Dice|XPHB}, rounded down. You do not regain {@variantrule Hit Point Dice|XPHB} lost this way until you finish two {@variantrule Long Rest|XPHB|Long Rests}."
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Angelic Wings",
+	"source": "GrimHollowPG24",
+	"page": 167,
+	"featureType": [
+		"Ser:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 1 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"As a {@variantrule Bonus Action|XPHB}, you can manifest feathered wings for 1 hour. While they are manifested, you have a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB} when you are not wearing heavy armor.",
+		"You can manifest these wings a number of times equal to your Transformation Stage, and you regain all uses after finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

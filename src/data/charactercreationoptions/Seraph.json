@@ -1,0 +1,141 @@
+{
+	"name": "Seraph",
+	"source": "GrimHollowPG24",
+	"page": 166,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i Incense burns dimly as muffled coughs echo through the musty room. Loved ones hold each other as a bedridden woman exhales a final breath, her scarred face bearing the mortifying lesions of the Weeping Pox. Her family sobs, too lost in their sorrow to notice how the smoldering embers radiate and shine. A woman with flowing robes and platinum hair approaches from the shadows, radiant energy emanating from her folded, angelic wings. \"Hold on for but a moment, my child,\" she whispers. \"Mercy has been granted.\"}",
+						"{@i With a thunderous boom, a Seraph's hammer collides with a clot of writhing corpses. Scraps of bone and offal scatter across the dilapidated chapel floor as voices wail in pain. Gritting her teeth, the angelic figure proclaims, \"You foul spirits are dead. Begone! I condemn your cadavers to dust!\" Golden fire erupts from her hammer as she prepares for another strike.}"
+					]
+				},
+				"Seraphs are mortals transformed into Celestial representations of a virtue or ideal. Exalted by a higher power, Seraphs are selected by divine beings after long and patient observation, confirming that the mortal displays pure character. Seraphs are selected from noble martyrs, tireless crusaders, or other exemplary individuals prepared to become the physical manifestation of righteousness.",
+				{
+					"type": "entries",
+					"name": "Becoming a Seraph",
+					"entries": [
+						"To be chosen by an Arch Seraph is to become a vessel for the principles they uphold. This is a charge not to be taken lightly, and those who display righteousness with the intention of becoming a Seraph are usually overlooked for this reason. When becoming a Seraph, consider why your character was chosen. Do you display hidden merit? Are you devoted to a cause they will value?",
+						{
+							"type": "inset",
+							"name": "Relinquishing Divinity",
+							"entries": [
+								"Characters who reach Stage 1 of the Seraph Transformation do not typically seek power without righteous cause. The Transformation's Boons and Flaws can be removed at any time by relinquishing divinity, as a warrior retires their sword when the war is over. Regaining such power may not be so easy."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Seraph Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions for ones that might trigger a move to the next stage of the Transformation:",
+								{
+									"type": "list",
+									"items": [
+										"Defeat a powerful force of darkness",
+										"Create a hallowed landmark for pilgrims",
+										"Establish a parish of worshipers who uphold your virtue",
+										"Redeem a soul that was considered beyond redemption"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Seraph Stage 1",
+							"entries": [
+								"When you initially undergo the Seraph Transformation, you gain Celestial Form and one other Stage 1 Boon of your choice. You also gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Celestial Form|GrimHollowPG24}",
+										"{@optfeature Angelic Wings|GrimHollowPG24}",
+										"{@optfeature Holy Strikes|GrimHollowPG24}",
+										"{@optfeature Planar Binding (Seraph)|GrimHollowPG24|Planar Binding}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Seraph Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Seraph Transformation, you select one Stage 2 Boon and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Divine Clemency|GrimHollowPG24}",
+										"{@optfeature Sacred Retribution|GrimHollowPG24}",
+										"{@optfeature Blinding Radiance|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Seraph Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Seraph Transformation, you select one Stage 3 Boon and gain the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Cleanse Affliction|GrimHollowPG24}",
+										"{@optfeature Protective Wings|GrimHollowPG24}",
+										"{@optfeature Bow of Celestial Judgement|GrimHollowPG24}",
+										"{@optfeature Beacon to Darkness|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Seraph Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Seraph Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Aura of Holy Purge|GrimHollowPG24}",
+										"{@optfeature Aura of Righteous Mercy|GrimHollowPG24}",
+										"{@optfeature Bow of Celestial Domination|GrimHollowPG24}",
+										"{@optfeature Seraph Corruption|GrimHollowPG24}"
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Seraph.webp"
+				},
+				"credit": "Oriana Menendez",
+				"width": 1700,
+				"height": 1449
+			}
+		]
+	}
+}

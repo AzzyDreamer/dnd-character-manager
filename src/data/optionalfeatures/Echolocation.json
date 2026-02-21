@@ -1,0 +1,12 @@
+{
+	"name": "Echolocation",
+	"source": "GrimHollowPG24",
+	"page": 72,
+	"featureType": [
+		"CM:MO"
+	],
+	"entries": [
+		"{@b Cost:} {@i 3 Mutation Points}",
+		"You have {@variantrule Blindsight|XPHB} with a range of 30 feet while you don't have the {@condition Deafened|XPHB} condition."
+	]
+}

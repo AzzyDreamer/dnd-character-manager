@@ -1,0 +1,19 @@
+{
+	"name": "Battlefield Control",
+	"source": "GrimHollowPG24",
+	"page": 33,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"When foes attempt to press you in melee, they do so at their peril. Other creatures provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} from you whenever they move into your reach, in addition to when they move out of your reach.",
+		{
+			"type": "entries",
+			"name": "Battlefield Dominance",
+			"entries": [
+				"If you take this trait twice, you have {@variantrule Advantage|XPHB} on {@action Opportunity Attack|XPHB|Opportunity Attacks}. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

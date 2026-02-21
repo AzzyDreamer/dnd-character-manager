@@ -1,0 +1,19 @@
+{
+    "name": "Poison Resilience",
+    "source": "GrimHollowPG24",
+    "page": 43,
+    "featureType": [
+        "E",
+        "HT"
+    ],
+    "entries": [
+        "Your exceptional fortitude lets you shrug off the effects of even the worst toxins. You have {@variantrule Advantage|XPHB} on saving throws against being {@condition Poisoned|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Poison Indemnity",
+            "entries": [
+                "If you take this trait twice, when you fail a saving throw against being {@condition Poisoned|XPHB}, you can use your {@variantrule Reaction|XPHB} to succeed on the save instead. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+            ]
+        }
+    ]
+}

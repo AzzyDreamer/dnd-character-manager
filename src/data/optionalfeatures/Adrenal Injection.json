@@ -1,0 +1,11 @@
+{
+	"name": "Adrenal Injection",
+	"source": "GrimHollowPG24",
+	"page": 75,
+	"featureType": [
+		"LC:CO"
+	],
+	"entries": [
+		"For 1 minute, your {@variantrule Speed|XPHB} increases by 10 feet. In addition, once on each of your turns, you can jump up to 30 feet by spending 10 feet of movement."
+	]
+}

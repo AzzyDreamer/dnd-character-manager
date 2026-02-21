@@ -1,0 +1,27 @@
+{
+	"name": "Final Soman Bloodline",
+	"source": "GrimHollowPG24",
+	"page": 181,
+	"featureType": [
+		"V:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Vampire|GrimHollowPG24|Vampire Transformation}",
+			"optionalfeature": [
+				"soman bloodline|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You reach the full manifestation of your Soman Bloodline. You gain the following features:",
+		{
+			"type": "list",
+			"items": [
+				"Your Strength and Dexterity scores increase by 1 to a maximum of 20.",
+				"{@optfeature Fanged Bite|GrimHollowPG24|Fanged Bite's} Necrotic damage increases to {@dice 3d8}.",
+				"When a Humanoid creature is reduced to 0 {@variantrule Hit Points|XPHB} by your {@optfeature Fanged Bite|GrimHollowPG24} attack or through your feeding, it rises as a {@creature Vampire Spawn|XMM} 24 hours later unless the body is destroyed or undergoes rituals to prevent its rising. You can have two {@creature Vampire Spawn|XMM|Vampire Spawns} created this way under your control, and they follow your verbal commands to the best of their abilities. If you take control of a third {@creature Vampire Spawn|XMM}, you choose one of the other {@creature Vampire Spawn|XMM} you currently control to no longer follow your commands."
+			]
+		}
+	]
+}

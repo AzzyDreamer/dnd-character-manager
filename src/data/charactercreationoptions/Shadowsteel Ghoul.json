@@ -1,0 +1,149 @@
+{
+	"name": "Shadowsteel Ghoul",
+	"source": "GrimHollowPG24",
+	"page": 170,
+	"optionType": [
+		"Transformation"
+	],
+	"entries": [
+		{
+			"type": "section",
+			"entries": [
+				{
+					"type": "inset",
+					"entries": [
+						"{@i The cloaked figure hunches over a dusty tome, incanting words of power. At intervals, the figure caresses a dark rod with a sharp point, then jabs themself, causing a sharp gasp of pain. The victim of the figure's curse, sleeping across town, rolls over in his sleep. He will soon suffer the ravages of a Shadowsteel curse. But the curser has a much worse fate awaiting them.}"
+					]
+				},
+				"In Etharis, sometimes the metal of the earth itself carries an enormous, vile power. Such is the case with Shadowsteel, a material that has absorbed corrupt power. This makes this substance perfect for warping the magic that passes through it, making it perfect for cursing or enhancing spells.",
+				"Cursing an enemy, however, requires an enormous amount of work and personal power. These efforts, though enhanced when passing through Shadowsteel, take a toll upon the magic-wielders handling it. By using it, spellcasters and ritualists bind their soul, a bit at a time, to the energies of the fell metal. Those who use Shadowsteel often feel its effects as they move closer and closer to undeath.",
+				{
+					"type": "entries",
+					"name": "Becoming a Shadowsteel Ghoul",
+					"entries": [
+						"Curses are wrought from and woven with intense feelings of loathing, spite, and bitterness. Humanoids who choose to wield such deeply evil magic leave an indelible mark upon their own soul. When enough of these marks pollute a person, their spirit begins to rot.",
+						"A creature who uses a Spellcasting Focus made of Shadowsteel, particularly to cast curses, risks acquiring the Shadowsteel Ghoul curse. Being attuned to a Shadowsteel magic item or wielding a Shadowsteel weapon for a prolonged period also carries a similar danger.",
+						{
+							"type": "inset",
+							"name": "Curing Shadowsteel Ghoul Curses",
+							"entries": [
+								"Once the character reaches Stage 1 of the Shadowsteel Ghoul Transformation, no typical magic like {@spell Remove Curse|XPHB} can remove the affliction. Magic on the level of the {@spell wish} spell is needed to completely remove the Transformation and its Boons and Flaws."
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Shadowsteel Ghoul Stages",
+					"entries": [
+						"At each stage of this Transformation, follow the instructions provided for that stage.",
+						{
+							"type": "entries",
+							"name": "Achieving a New Stage",
+							"entries": [
+								"To move from one stage to the next higher one in this Transformation, an event or some other notable occurrence tied to the story of the character should take place. The following events are suggestions:",
+								{
+									"type": "list",
+									"items": [
+										"Casting a Shadowsteel curse on a powerful creature that later reaches culmination",
+										"Casting a ritual that consumes a Shadowsteel magic item, allowing you to absorb its power",
+										"Making a bargain with a Fiend who gifts you with a new object made of Shadowsteel",
+										"Casting a 7th-level or higher spell for the first time using a {@item Shadowsteel Focus|GrimHollowPG24}",
+										"Slaying a powerful foe with a weapon forged from Shadowsteel",
+										"Failing two {@variantrule Death Saving Throw|XPHB|Death Saving Throws}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Shadowsteel Ghoul Stage 1",
+							"entries": [
+								"When you initially contract the Shadowsteel Ghoul curse, you select one Stage 1 Boon and gain the Stage 1 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Shadowsteel Curser|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Weapon|GrimHollowPG24}",
+										"{@optfeature Debilitating Magic|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Shadowsteel Ghoul Stage 2",
+							"entries": [
+								"When you reach Stage 2 of the Shadowsteel Ghoul curse, you select two Stage 2 Boons and gain the Stage 2 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Magic Resistance|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Absorption|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Caster|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Weapon Master|GrimHollowPG24}",
+										"{@optfeature Friendless|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Shadowsteel Ghoul Stage 3",
+							"entries": [
+								"When you reach Stage 3 of the Shadowsteel Ghoul Transformation, you gain the Stage 3 Boon and the Stage 3 Flaw.",
+								{
+									"type": "list",
+									"columns": 2,
+									"items": [
+										"{@optfeature Cursed Claw|GrimHollowPG24}",
+										"{@optfeature Healing Resistance|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Shadowsteel Ghoul Stage 4",
+							"entries": [
+								"When you reach Stage 4 of the Shadowsteel Ghoul Transformation, you select one Stage 4 Boon and gain the Stage 4 Flaw.",
+								{
+									"type": "list",
+									"columns": 3,
+									"items": [
+										"{@optfeature Shadowsteel Arcane Vessel|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Fury|GrimHollowPG24}",
+										"{@optfeature Shadowsteel Explosion|GrimHollowPG24}"
+									]
+								}
+							]
+						},
+						{
+							"type": "inset",
+							"name": "Shadowsteel's Temptation",
+							"entries": [
+								"The Shadowsteel Ghoul Transformation might be the most likely change for characters to undertake. Each time a caster uses a {@item Shadowsteel Focus|GrimHollowPG24} to cast a spell, or a warrior wields a Shadowsteel weapon, they risk losing a bit of their soul to gain a bit of power. Players should know what is happening to their characters when they wield Shadowsteel's power. It's a boost to the power of a character, and the risk should be offsetting that power. The toll it takes on the character should be explained by the GM, and hopefully the player—in the spirit of a dark fantasy campaign—should be able to express and illustrate that toll through roleplaying."
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"fluff": {
+		"images": [
+			{
+				"type": "image",
+				"href": {
+					"type": "external",
+					"url": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main/img/GrimHollowPG24/Transformation/Shadowsteel%20Ghoul.webp"
+				},
+				"credit": "Konstantin Porubov",
+				"width": 850,
+				"height": 1157
+			}
+		]
+	}
+}

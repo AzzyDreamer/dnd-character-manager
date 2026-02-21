@@ -1,0 +1,19 @@
+{
+	"name": "Enhanced Contract",
+	"source": "GrimHollowPG24",
+	"page": 143,
+	"featureType": [
+		"Fi:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Fiend|GrimHollowPG24|Fiend Transformation}",
+			"optionalfeature": [
+				"devilish contractor|grimhollowpg24"
+			]
+		}
+	],
+	"entries": [
+		"You may switch between your active Gift of Damnation at the end of a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}. In addition, when you switch Gifts of Damnation, you gain {@variantrule Temporary Hit Points|XPHB} equal to 5 times your Transformation Stage."
+	]
+}

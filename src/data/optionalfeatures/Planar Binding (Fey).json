@@ -1,0 +1,17 @@
+{
+    "name": "Planar Binding (Fey)",
+    "source": "GrimHollowPG24",
+    "page": 139,
+    "featureType": [
+        "F:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 1 of the {@charoption Fey|GrimHollowPG24|Fey Transformation}"
+        }
+    ],
+    "entries": [
+        "Your body and soul have been saturated with the magical energy of the Realm of Faerie. Rather than inuring you to the essence of magic, it has made you more susceptible.",
+        "After finishing a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}, you have {@variantrule Disadvantage|XPHB} on the first saving throw you make against a spell originating from an enemy."
+    ]
+}

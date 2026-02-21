@@ -1,0 +1,11 @@
+{
+	"name": "Acumen (Celestial, Fiend, Fey)",
+	"source": "GrimHollowPG24",
+	"page": 56,
+	"featureType": [
+		"DG:M"
+	],
+	"entries": [
+		"For 1 hour, you have {@variantrule Advantage|XPHB} on Wisdom ({@skill Insight|XPHB}) checks. Additionally, choose either {@skill Intimidation|XPHB} or {@skill Persuasion|XPHB}. You have {@variantrule Advantage|XPHB} on ability checks using the chosen skill."
+	]
+}

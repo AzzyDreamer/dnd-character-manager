@@ -1,0 +1,19 @@
+{
+	"name": "Charging Attack",
+	"source": "GrimHollowPG24",
+	"page": 34,
+	"featureType": [
+		"C",
+		"HT"
+	],
+	"entries": [
+		"The fury with which you throw yourself into battle forces your foes to feel your wrath. If you move at least 20 feet straight toward a target and then hit it with a melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB} on the same turn, you can make another attack against the same target as a {@variantrule Bonus Action|XPHB} with the same weapon.",
+		{
+			"type": "entries",
+			"name": "Furious Charge",
+			"entries": [
+				"If you take this trait twice, when you use Charging Attack, you have {@variantrule Advantage|XPHB} on all attacks after the triggering movement until the end of your turn. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+			]
+		}
+	]
+}

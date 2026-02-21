@@ -1,0 +1,20 @@
+{
+    "name": "Poison Tendrils",
+    "source": "GrimHollowPG24",
+    "page": 137,
+    "featureType": [
+        "AH:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 4 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}",
+            "optionalfeature": [
+                "writhing tendrils|grimhollowpg24"
+            ]
+        }
+    ],
+    "entries": [
+        "You have {@variantrule Resistance|XPHB} to Poison damage and are {@variantrule Immunity|XPHB|Immune} to the {@condition Poisoned|XPHB} condition.",
+        "While your Writhing Tendrils are active, any creature you choose that starts its turn within 5 feet of you takes {@damage 3d6} Poison damage unless they succeed on a Constitution saving throw. The DC for this saving throw is 8 plus your {@variantrule Proficiency|XPHB|Proficiency Bonus} plus your Transformation Stage."
+    ]
+}

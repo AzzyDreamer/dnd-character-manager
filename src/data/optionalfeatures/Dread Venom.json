@@ -1,0 +1,11 @@
+{
+	"name": "Dread Venom",
+	"source": "GrimHollowPG24",
+	"page": 58,
+	"featureType": [
+		"TG:TG"
+	],
+	"entries": [
+		"A foul-smelling blade oil that causes wounds to hemorrhage and refuse healing. Dread Venom can coat one Slashing or Piercing weapon or up to 10 pieces of Slashing or Piercing ammunition. Applying the oil takes 1 minute and the oil lasts 8 hours once applied. When a creature takes damage from the {@condition poisoned} item, it can't regain {@variantrule Hit Points|XPHB} until it finishes a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}."
+	]
+}

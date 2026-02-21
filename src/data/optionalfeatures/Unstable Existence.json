@@ -1,0 +1,16 @@
+{
+    "name": "Unstable Existence",
+    "source": "GrimHollowPG24",
+    "page": 137,
+    "featureType": [
+        "AH:TF"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 3 of the {@charoption Aberrant Horror|GrimHollowPG24|Aberrant Horror Transformation}"
+        }
+    ],
+    "entries": [
+        "Magic causes your physical form to unravel. Whenever you roll a natural 1 or 2 on a saving throw against a spell, you reveal your {@optfeature Hideous Appearance (Aberrant Horror)|GrimHollowPG24|Hideous Appearance} and must roll again on the {@table Unstable Form|GrimHollowPG24|Unstable Form table}. If the result is less than your current Unstable Form effect, replace it with the new result."
+    ]
+}

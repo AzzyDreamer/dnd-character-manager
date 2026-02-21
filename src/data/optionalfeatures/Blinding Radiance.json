@@ -1,0 +1,55 @@
+{
+	"name": "Blinding Radiance",
+	"source": "GrimHollowPG24",
+	"page": 167,
+	"featureType": [
+		"Ser:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Seraph|GrimHollowPG24|Seraph Transformation}"
+		}
+	],
+	"entries": [
+		"Your Transformation into a Seraph brings with it changes to your physical features. Your body radiates a divine glow, your eyes may become hollow braziers of celestial light, or your many sets of wings may appear unsettling to mortal creatures.",
+		"You can suspend this form and manifest the appearance of the humanoid you once were, but this is taxing and requires effort. This form is not permanent, and moments of stress or wrath are likely to reveal your true nature. This might occur under the following circumstances:",
+		{
+			"type": "list",
+			"items": [
+				"Becoming {@condition Bloodied|XPHB}",
+				"Having the {@condition Unconscious|XPHB} condition",
+				"Witnessing an act of evil",
+				"Encountering Fiendish creatures or powers",
+				"Using your Seraph Transformation powers for the first time after a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}"
+			]
+		},
+		"In these events, or times of other extreme emotional or physical stress, a GM can call  or a Constitution saving throw with a DC based on your current Transformation Stage.  If you fail this save, your Blinding Radiance is revealed.",
+		{
+			"type": "table",
+			"caption": "Blinding Radiance Save DC",
+			"colLabels": [
+				"Stage",
+				"Constitution Save DC"
+			],
+			"colStyles": [
+				"col-6 text-center",
+				"col-6 text-center"
+			],
+			"rows": [
+				[
+					"2",
+					"13"
+				],
+				[
+					"3",
+					"16"
+				],
+				[
+					"4",
+					"20"
+				]
+			]
+		},
+		"When your true nature is revealed this way, all non-enemy creatures within 30 feet of you who can see you must succeed on a DC 15 Charisma saving throw or have the {@condition Blinded|XPHB} condition for 1 minute. Additionally, for the next minute, attacks against you have {@variantrule Advantage|XPHB}."
+	]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Invisibility (Fey, Fiend, Undead)",
+    "source": "GrimHollowPG24",
+    "page": 56,
+    "featureType": [
+        "DG:M"
+    ],
+    "entries": [
+        "For 10 minutes, you have the {@condition Invisible|XPHB} condition. This effect ends early if you dismiss it (no action required), or you attack or cast a spell."
+    ]
+}

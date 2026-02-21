@@ -1,0 +1,13 @@
+{
+    "name": "Paladin",
+    "source": "GrimHollowPG24",
+    "page": 65,
+    "featureType": [
+        "CA:AT"
+    ],
+    "entries": [
+        "Once per turn, when you hit a creature with a melee attack using a weapon or {@variantrule Unarmed Strike|XPHB}, you can expend a spell slot to deal an extra {@dice 1d6} Radiant damage to the target, plus another {@dice 1d6} per level of the spell slot.",
+        "The damage increases by {@dice 1d6} if the target is a Fiend or an Undead.",
+        "Once you use this talent, you must finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} before you can use it again."
+    ]
+}

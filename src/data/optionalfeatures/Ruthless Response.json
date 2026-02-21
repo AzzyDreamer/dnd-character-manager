@@ -1,0 +1,19 @@
+{
+    "name": "Ruthless Response",
+    "source": "GrimHollowPG24",
+    "page": 45,
+    "featureType": [
+        "C",
+        "HT"
+    ],
+    "entries": [
+        "A creature that gets the drop on you is met with a swift and brutal reply. When you take damage from a creature within your reach, you can use your {@variantrule Reaction|XPHB} to make a melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB} against that creature. You can use this feature a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, regaining all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
+        {
+            "type": "entries",
+            "name": "Focused Ruthlessness",
+            "entries": [
+                "If you take this trait twice, you have {@variantrule Advantage|XPHB} on attack rolls made using Ruthless Response."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Spellshine Ointment",
+    "source": "GrimHollowPG24",
+    "page": 76,
+    "featureType": [
+        "LC:CO"
+    ],
+    "entries": [
+        "For 1 minute, you have {@variantrule Resistance|XPHB} to Force, Necrotic, Psychic, and Radiant damage."
+    ]
+}

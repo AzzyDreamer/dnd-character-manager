@@ -1,0 +1,11 @@
+{
+	"name": "Underdark Experience",
+	"source": "OotA",
+	"page": 221,
+	"optionType": [
+		"RF:B"
+	],
+	"entries": [
+		"You are no casual visitor to the Underdark, but instead have spent considerable time there learning its ways. You are familiar with the various races, civilizations, and settlements of the Underdark, as well as its major routes for travel. If you fail an Intelligence check to recall some piece of Underdark lore, you know a source you can consult for the answer unless the DM rules that the lore is unknown."
+	]
+}

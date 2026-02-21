@@ -1,0 +1,16 @@
+{
+	"name": "Evil Eye",
+	"source": "GrimHollowPG24",
+	"page": 149,
+	"featureType": [
+		"H:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Hag|GrimHollowPG24|Hag Transformation}"
+		}
+	],
+	"entries": [
+		"Your visage is so horrifying that you can cause creatures to drop dead when your gaze falls upon them. As a {@action Magic|XPHB} action, you gaze upon a {@condition Bloodied|XPHB} Beast or Humanoid within 30 feet that can see your true form. The creature must succeed on a Wisdom saving throw with a DC equal to 14 plus your Charisma modifier. If the target fails the save, it drops to 0 {@variantrule Hit Points|XPHB}. On a successful save, the creature takes {@damage 6d8} Psychic damage. You regain the use of this feature when you finish a {@variantrule Long Rest|XPHB}."
+	]
+}

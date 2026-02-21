@@ -1,0 +1,24 @@
+{
+	"name": "Hybrid Form Affinity",
+	"source": "GrimHollowPG24",
+	"page": 157,
+	"featureType": [
+		"Ly:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 4 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+		}
+	],
+	"entries": [
+		"You have achieved a state of equilibrium that most Lycanthropes never find. You gain the following benefits while you are voluntarily in your hybrid form:",
+		{
+			"type": "list",
+			"items": [
+				"You can speak normally.",
+				"You can cast spells without needing to provide their Verbal or Somatic components. Additionally, you can cast spells without needing to provide material components, provided they do not have a GP value listed.",
+				"Allies within 20 feet of you have {@variantrule Advantage|XPHB} on Wisdom ability checks and saving throws."
+			]
+		}
+	]
+}

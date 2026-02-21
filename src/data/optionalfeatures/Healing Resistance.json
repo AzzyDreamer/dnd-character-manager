@@ -1,0 +1,16 @@
+{
+	"name": "Healing Resistance",
+	"source": "GrimHollowPG24",
+	"page": 172,
+	"featureType": [
+		"SG:TF"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 3 of the {@charoption Shadowsteel Ghoul|GrimHollowPG24|Shadowsteel Ghoul Transformation}"
+		}
+	],
+	"entries": [
+		"You heal at a slower rate than normal, whether that healing is magical or natural. Whenever you regain {@variantrule Hit Points|XPHB}, you regain half as many {@variantrule Hit Points|XPHB} as you should. You still recover all {@variantrule Hit Points|XPHB} at the end of a {@variantrule Long Rest|XPHB}."
+	]
+}

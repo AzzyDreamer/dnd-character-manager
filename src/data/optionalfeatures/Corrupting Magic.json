@@ -1,0 +1,38 @@
+{
+	"name": "Corrupting Magic",
+	"source": "GrimHollowPG24",
+	"page": 152,
+	"featureType": [
+		"L:TB"
+	],
+	"prerequisite": [
+		{
+			"other": "Stage 2 of the {@charoption Lich|GrimHollowPG24|Lich Transformation}"
+		}
+	],
+	"entries": [
+		"Whenever you kill any creature with a spell, you may apply an additional effect depending on the damage dealt. This ability cannot be used when you kill a Construct, Undead, or any creature without a soul.",
+		"Choose one of the following effects when you use this ability:",
+		{
+			"type": "entries",
+			"name": "Life Force",
+			"entries": [
+				"As the soul of your enemy leaves their body, you siphon off part of their life force. You regain {@dice 1d6} {@variantrule Hit Points|XPHB} per Transformation Stage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Poison",
+			"entries": [
+				"Choose a creature within 10 feet of the killed creature. That creature takes {@damage 1d6} Poison damage per Transformation Stage."
+			]
+		},
+		{
+			"type": "entries",
+			"name": "Exhaustion",
+			"entries": [
+				"Choose a creature within 10 feet of the killed creature. That creature gains one {@condition Exhaustion|XPHB} level. A creature may only have one {@condition Exhaustion|XPHB} level from this feature at a time."
+			]
+		}
+	]
+}

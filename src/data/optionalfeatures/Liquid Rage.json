@@ -1,0 +1,11 @@
+{
+    "name": "Liquid Rage",
+    "source": "GrimHollowPG24",
+    "page": 76,
+    "featureType": [
+        "LC:CO"
+    ],
+    "entries": [
+        "For 1 minute, your attacks with weapons and {@variantrule Unarmed Strike|XPHB|Unarmed Strikes} deal an extra {@damage 1d4} damage on hit."
+    ]
+}

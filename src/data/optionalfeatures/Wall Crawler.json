@@ -1,0 +1,12 @@
+{
+    "name": "Wall Crawler",
+    "source": "GrimHollowPG24",
+    "page": 73,
+    "featureType": [
+        "CM:MO"
+    ],
+    "entries": [
+        "{@b Cost:} {@i 1 Mutation Point}",
+        "You gain a {@variantrule Climb Speed|XPHB} equal to your speed. For an additional 1 Mutation Point, you gain a {@variantrule Climb Speed|XPHB} equal to twice your {@variantrule Speed|XPHB}."
+    ]
+}

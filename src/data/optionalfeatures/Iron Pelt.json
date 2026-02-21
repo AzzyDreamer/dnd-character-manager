@@ -1,0 +1,16 @@
+{
+    "name": "Iron Pelt",
+    "source": "GrimHollowPG24",
+    "page": 156,
+    "featureType": [
+        "Ly:TB"
+    ],
+    "prerequisite": [
+        {
+            "other": "Stage 2 of the {@charoption Lycanthrope|GrimHollowPG24|Lycanthrope Transformation}"
+        }
+    ],
+    "entries": [
+        "While in hybrid form, you have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage. Magical and silvered weapons ignore this {@variantrule Resistance|XPHB}."
+    ]
+}
