@@ -2,9 +2,39 @@
   "id": "fathomless",
   "name": "Бездонный",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "You have plunged into a pact with the deeps. An entity of the ocean, the Elemental Plane of Water, or another otherworldly sea now allows you to draw on its thalassic power. Is it merely using you to learn about terrestrial realms, or does it want you to open cosmic floodgates and drown the world?\n\nPerhaps you were born into a generational cult that venerates the Fathomless and its spawn. Or you might have been shipwrecked and on the brink of drowning when your patron's grasp offered you a chance at life. Whatever the reason for your pact, the sea and its unknown depths call to you.\n\nEntities of the deep that might empower a warlock include krakens, ancient water elementals, godlike hallucinations dreamed into being by kuo-toa, merfolk demigods, and sea hag covens.",
+  "shortDescription": "Plunge into a Pact with the Deeps",
   "source": "TCE",
+  "page": 72,
+  "editionNote": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Expanded Spell List",
+      "level": 3,
+      "source": "TCE",
+      "description": "The Fathomless lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.",
+      "details": {
+        "spellTable": [
+          { "spellLevel": "1st", "spells": ["{@spell Create or Destroy Water}", "{@spell Thunderwave}"] },
+          { "spellLevel": "2nd", "spells": ["{@spell Gust of Wind}", "{@spell Silence}"] },
+          { "spellLevel": "3rd", "spells": ["{@spell Lightning Bolt}", "{@spell Sleet Storm}"] },
+          { "spellLevel": "4th", "spells": ["{@spell Control Water}", "{@spell Summon Elemental} (water only)"] },
+          { "spellLevel": "5th", "spells": ["{@spell Bigby's Hand} (appears as a tentacle)", "{@spell Cone of Cold}"] }
+        ]
+      }
+    },
+    {
+      "name": "Tentacle of the Deeps",
+      "level": 3,
+      "source": "TCE",
+      "description": "You can magically summon a spectral tentacle that strikes at your foes. As a {@action Bonus Action|XPHB}, create a 10-foot-long tentacle at a point you can see within 60 feet of you. The tentacle lasts for 1 minute or until you use this feature to create another tentacle.\n\nWhen you create the tentacle, you can make a melee spell attack against one creature within 10 feet of it. On a hit, the target takes {@dice 1d8} cold damage, and its speed is reduced by 10 feet until the start of your next turn. When you reach 10th level in this class, the damage increases to {@dice 2d8}.\n\nAs a {@action Bonus Action|XPHB} on your turn, you can move the tentacle up to 30 feet and repeat the attack.\n\nYou can summon the tentacle a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Gift of the Sea",
+      "level": 3,
+      "source": "TCE",
+      "description": "You gain a swimming speed of 40 feet, and you can breathe underwater."
+    }
+  ]
 }

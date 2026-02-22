@@ -2,9 +2,37 @@
   "id": "first-vampire",
   "name": "Первый Вампир",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "You have made a pact with a powerful vampire cursed by the gods or born as a creature of the night. Hundreds of haunted beings serve this vampire, so why enter a pact with you? Because you can act in the light of day unhindered? To cull weaker vampires?",
+  "shortDescription": "Wield the Power of Undeath",
   "source": "GH:PG'24",
+  "page": 49,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Drain Life",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You gain an innate power to drain life from the living. After you take the {@action Attack|XPHB} or {@action Magic|XPHB} action, you can use a {@action Bonus Action|XPHB} to make an Unarmed Strike. On a hit, the Unarmed Strike deals Necrotic damage equal to {@dice 1d6} plus your Charisma modifier instead of its normal damage.\n\nWhen you hit a creature with Drain Life, you can expend a Pact Magic spell slot to deal an extra {@dice 1d8} Necrotic damage to the target, plus another {@dice 1d8} per level of the spell slot. When you expend a spell slot in this way, you regain Hit Points equal to the amount of damage dealt."
+    },
+    {
+      "name": "Nocturnal Predator",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "As a predator of the night, you have been blessed with enhanced vision in darkness. You have {@sense Darkvision} with a range of 60 feet. If you already have {@sense Darkvision}, its range increases by 60 feet."
+    },
+    {
+      "name": "First Vampire Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the First Vampire Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Bane|XPHB}", "{@spell Command|XPHB}", "{@spell False Life|XPHB}", "{@spell Fog Cloud|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Conjure Animals} (bats, rats, or wolves only)", "{@spell Gaseous Form}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Dominate Person|XPHB}", "{@spell Seeming|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Little Death}", "{@spell Telekinesis|XPHB}"] }
+        ]
+      }
+    }
+  ]
 }
