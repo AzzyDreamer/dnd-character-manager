@@ -1,0 +1,10 @@
+{
+  "id": "undead",
+  "name": "Нежить",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "VRGR",
+  "level": 3,
+  "features": []
+}

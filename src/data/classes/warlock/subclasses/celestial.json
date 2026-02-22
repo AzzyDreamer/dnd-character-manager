@@ -1,0 +1,10 @@
+{
+  "id": "celestial",
+  "name": "Небожитель",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "PHB'24",
+  "level": 3,
+  "features": []
+}

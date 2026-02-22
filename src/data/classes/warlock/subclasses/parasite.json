@@ -1,0 +1,10 @@
+{
+  "id": "parasite",
+  "name": "Паразит",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "hexblade",
+  "name": "Ведьмин Клинок",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "XGE",
+  "level": 3,
+  "features": []
+}

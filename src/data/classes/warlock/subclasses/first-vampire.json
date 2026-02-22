@@ -1,0 +1,10 @@
+{
+  "id": "first-vampire",
+  "name": "Первый Вампир",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": []
+}

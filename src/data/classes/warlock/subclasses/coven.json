@@ -1,0 +1,10 @@
+{
+  "id": "coven",
+  "name": "Ковен",
+  "classId": "warlock",
+  "description": "",
+  "shortDescription": "",
+  "source": "GH:PG'24",
+  "level": 3,
+  "features": []
+}
