@@ -35,6 +35,18 @@
       "level": 3,
       "source": "TCE",
       "description": "You gain a swimming speed of 40 feet, and you can breathe underwater."
+    },
+    {
+      "name": "Oceanic Soul",
+      "level": 6,
+      "source": "TCE",
+      "description": "You are now even more at home in the depths. You gain resistance to cold damage. In addition, when you are fully submerged, any creature that is also fully submerged can understand your speech, and you can understand theirs."
+    },
+    {
+      "name": "Guardian Coil",
+      "level": 6,
+      "source": "TCE",
+      "description": "Your Tentacle of the Deeps can defend you and others, interposing itself between them and harm. When you or a creature you can see takes damage while within 10 feet of the tentacle, you can use your reaction to choose one of those creatures and reduce the damage to that creature by {@dice 1d8}. When you reach 10th level in this class, the damage reduced by the tentacle increases to {@dice 2d8}."
     }
   ]
 }

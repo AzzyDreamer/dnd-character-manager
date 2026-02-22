@@ -33,6 +33,12 @@
           { "warlockLevel": 9, "spells": ["{@spell Little Death}", "{@spell Telekinesis|XPHB}"] }
         ]
       }
+    },
+    {
+      "name": "Creature of the Night",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "You always have the {@spell Polymorph} spell prepared. With this feature, you can cast it only on yourself without expending a spell slot and without Material components to transform into a {@creature Bat}, {@creature Rat}, or {@creature Wolf}.\n\nYour game statistics are replaced by the Beast's stat block, but you retain your creature type; {@variantrule Hit Points}; {@variantrule Hit Point Dice}; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. You also retain your skill and saving throw proficiencies and use your {@variantrule Proficiency Bonus} for them, in addition to gaining the proficiencies of the creature. If a skill or saving throw modifier in the Beast's stat block is higher than yours, use the one in the stat block.\n\nYou can use this feature a number of times equal to your Charisma modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

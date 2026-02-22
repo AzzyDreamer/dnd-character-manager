@@ -27,6 +27,12 @@
         "climbAndJump": "Your jump distance is tripled, and you gain a Climb Speed equal to your Speed.",
         "physicalProwess": "Add your Charisma modifier to your Strength ({@skill Athletics}) checks or Dexterity ({@skill Acrobatics}) checks."
       }
+    },
+    {
+      "name": "Symbiotic Sentinel",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Your patron remains alert to threats to its host at all times. You can't be {@status surprised} and you have {@variantrule Advantage|XPHB} on {@action Initiative} rolls. You also have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@status Charmed} and {@status Frightened} conditions."
     }
   ]
 }

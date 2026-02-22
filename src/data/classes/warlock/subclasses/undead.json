@@ -36,6 +36,12 @@
         "uses": "You can transform a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.",
         "appearance": "The appearance of your Form of Dread reflects some aspect of your patron. For example, your form could be a shroud of shadows forming the crown and robes of your lich patron, or your body might glow with glyphs from ancient funerary rites and be surrounded by desert winds, suggesting your mummy patron."
       }
+    },
+    {
+      "name": "Grave Touched",
+      "level": 6,
+      "source": "VRGR",
+      "description": "Your patron's powers have a profound effect on your body and magic. You don't need to eat, drink, or breathe.\n\nIn addition, once during each of your turns, when you hit a creature with an attack roll and roll damage against the creature, you can replace the damage type with necrotic damage. While you are using your Form of Dread, you can roll one additional damage die when determining the necrotic damage the target takes."
     }
   ]
 }

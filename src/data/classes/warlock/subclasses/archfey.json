@@ -31,6 +31,16 @@
         "refreshingStep": "{@b Refreshing Step.} Immediately after you teleport, you or one creature you can see within 10 feet of yourself gains {@dice 1d10} Temporary Hit Points.",
         "tauntingStep": "{@b Taunting Step.} Creatures within 5 feet of the space you left must succeed on a Wisdom saving throw against your spell save DC or have {@variantrule Disadvantage|XPHB} on attack rolls against creatures other than you until the start of your next turn."
       }
+    },
+    {
+      "name": "Misty Escape",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can cast {@spell Misty Step|XPHB} as a {@action Reaction|XPHB} in response to taking damage.\n\nIn addition, the following effects are now among your Steps of the Fey options.",
+      "details": {
+        "disappearingStep": "{@b Disappearing Step.} You have the {@status Invisible|XPHB} condition until the start of your next turn or until immediately after you make an attack roll, deal damage, or cast a spell.",
+        "dreadfulStep": "{@b Dreadful Step.} Creatures within 5 feet of the space you left or the space you appear in (your choice) must succeed on a Wisdom saving throw against your spell save DC or take {@dice 2d10} Psychic damage."
+      }
     }
   ]
 }

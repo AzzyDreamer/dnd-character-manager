@@ -29,6 +29,12 @@
       "level": 3,
       "source": "SCAG",
       "description": "You learn the {@spell Spare the Dying} cantrip, which counts as a warlock cantrip for you. You also have {@variantrule Advantage|XPHB} on saving throws against any disease.\n\nAdditionally, undead have difficulty harming you. If an undead targets you directly with an attack or a harmful spell, that creature must make a Wisdom saving throw against your spell save DC (an undead needn't make the save when it includes you in an area effect, such as the explosion of {@spell Fireball|XPHB}). On a failed save, the creature must choose a new target or forfeit targeting someone instead of you, potentially wasting the attack or spell. On a successful save, the creature is immune to this effect for 24 hours. An undead is also immune to this effect for 24 hours if you target it with an attack or a harmful spell."
+    },
+    {
+      "name": "Defy Death",
+      "level": 6,
+      "source": "SCAG",
+      "description": "Starting at 6th level, you can give yourself vitality when you cheat death or when you help someone else cheat it. You can regain hit points equal to {@dice 1d8} + your Constitution modifier (minimum of 1 hit point) when you succeed on a death saving throw or when you stabilize a creature with {@spell Spare the Dying}.\n\nOnce you use this feature, you can't use it again until you finish a long rest."
     }
   ]
 }

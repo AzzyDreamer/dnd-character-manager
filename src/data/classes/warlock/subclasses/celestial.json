@@ -27,6 +27,12 @@
       "level": 3,
       "source": "PHB'24",
       "description": "You gain the ability to channel celestial energy to heal wounds. You have a pool of {@dice d6}s to fuel this healing. The number of dice in the pool equals 1 plus your Warlock level.\n\nAs a {@action Bonus Action|XPHB}, you can heal yourself or one creature you can see within 60 feet of you, expending dice from the pool. The maximum number of dice you can expend at once equals your Charisma modifier (minimum of one die). Roll the dice you expend, and restore a number of Hit Points equal to the roll's total. Your pool regains all expended dice when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Radiant Soul",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Your link to your patron allows you to serve as a conduit for radiant energy. You have {@variantrule Resistance|XPHB} to Radiant damage.\n\nOnce per turn, when a spell you cast deals Radiant or Fire damage, you can add your Charisma modifier to that spell's damage against one of the spell's targets."
     }
   ]
 }

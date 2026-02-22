@@ -28,6 +28,12 @@
       "level": 3,
       "source": "GH:PG'24",
       "description": "As an agent of a Hag, you have been gifted with a magical item known as a Hag's Eye. Crafted from a real eye and fitted into a ring, pendant, or other accessory, this item can be used as an Arcane Focus for your Warlock spells. The Hag can see through the eye, and the destruction of the item can cause the Hag actual pain, so any pawn who loses this talisman often invokes the Hag's ire.\n\nWhile you possess the eye, you can cast {@spell Hex|XPHB} a number of times equal to your Charisma modifier (minimum of once) without expending a spell slot, and you regain all expended uses of this ability when you finish a {@variantrule Long Rest|XPHB}. In addition, when you reach Warlock level 10, you can use the eye to cast {@spell Bestow Curse|XPHB} once without expending a spell slot, and you regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Hag's Guile",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Hags delight in deceiving and manipulating others, and you gain some of their skill in doing so. You know the {@spell Minor Illusion} cantrip. If you already know it, you learn a different Warlock cantrip of your choice. The cantrip doesn't count against your number of cantrips known.\n\nAdditionally, if a creature takes a {@action Study} action to examine an illusion you have created, you can take a {@action Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on the check.\n\nAlso, the first time a creature takes a {@action Study} action to examine an illusion spell you have cast and succeeds on the Intelligence ({@skill Investigation}) check, you can cause the illusion to deal Psychic damage. The damage equals {@dice 1d6} plus {@dice 1d6} for each spell slot used to cast the spell.\n\nYou can deal damage this way a number of times equal to your Charisma modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }
