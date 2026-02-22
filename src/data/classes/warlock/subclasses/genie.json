@@ -52,6 +52,21 @@
         "geniesWrath": "{@b Genie's Wrath.} Once during each of your turns when you hit with an attack roll, you can deal extra damage to the target equal to your proficiency bonus. The type of this damage is determined by your patron: bludgeoning (dao), thunder (djinni), fire (efreeti), or cold (marid).",
         "vesselProperties": "The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.\n\nIf the vessel is destroyed or you lose it, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and the previous vessel is destroyed if it still exists. The vessel vanishes in a flare of elemental power when you die."
       }
+    },
+    {
+      "name": "Elemental Gift",
+      "level": 6,
+      "source": "TCE",
+      "description": "You begin to take on characteristics of your patron's kind. You now have {@variantrule Resistance|XPHB} to a damage type determined by your patron's kind: Bludgeoning (dao), Thunder (djinni), Fire (efreeti), or Cold (marid).",
+      "details": {
+        "resistanceTable": [
+          { "kind": "Dao", "damageType": "Bludgeoning" },
+          { "kind": "Djinni", "damageType": "Thunder" },
+          { "kind": "Efreeti", "damageType": "Fire" },
+          { "kind": "Marid", "damageType": "Cold" }
+        ],
+        "flyingSpeed": "As a {@action Bonus Action|XPHB}, you can give yourself a flying speed of 30 feet that lasts for 10 minutes, during which you can hover. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }
