@@ -2,9 +2,33 @@
   "id": "undying",
   "name": "Бессмертный",
   "classId": "warlock",
-  "description": "",
+  "description": "Death holds no sway over your patron, who has unlocked the secrets of everlasting life, although such a prize—like all power—comes at a price. Once mortal, the Undying has seen mortal lifetimes pass like the seasons, like the flicker of endless days and nights. It has the secrets of the ages to share, secrets of life and death. Beings of this sort include Vecna, Lord of the Hand and the Eye; the dread Iuz; the lich-queen Vol; the Undying Court of Aerenal; Vlaakith, lich-queen of the githyanki; and the deathless wizard Fistandantalus.\n\nIn the Realms, Undying patrons include Larloch the Shadow King, legendary master of Warlock's Crypt, and Gilgeam, the God-King of Unther.",
   "shortDescription": "",
   "source": "SCAG",
+  "page": 139,
+  "editionNote": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Expanded Spell List",
+      "level": 3,
+      "source": "SCAG",
+      "description": "The Undying lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.",
+      "details": {
+        "spellTable": [
+          { "spellLevel": "1st", "spells": ["{@spell False Life}", "{@spell Ray of Sickness}"] },
+          { "spellLevel": "2nd", "spells": ["{@spell Blindness/Deafness}", "{@spell Silence}"] },
+          { "spellLevel": "3rd", "spells": ["{@spell Feign Death}", "{@spell Speak with Dead}"] },
+          { "spellLevel": "4th", "spells": ["{@spell Aura of Life}", "{@spell Death Ward}"] },
+          { "spellLevel": "5th", "spells": ["{@spell Contagion}", "{@spell Legend Lore}"] }
+        ]
+      }
+    },
+    {
+      "name": "Among the Dead",
+      "level": 3,
+      "source": "SCAG",
+      "description": "You learn the {@spell Spare the Dying} cantrip, which counts as a warlock cantrip for you. You also have {@variantrule Advantage|XPHB} on saving throws against any disease.\n\nAdditionally, undead have difficulty harming you. If an undead targets you directly with an attack or a harmful spell, that creature must make a Wisdom saving throw against your spell save DC (an undead needn't make the save when it includes you in an area effect, such as the explosion of {@spell Fireball|XPHB}). On a failed save, the creature must choose a new target or forfeit targeting someone instead of you, potentially wasting the attack or spell. On a successful save, the creature is immune to this effect for 24 hours. An undead is also immune to this effect for 24 hours if you target it with an attack or a harmful spell."
+    }
+  ]
 }
