@@ -33,6 +33,12 @@
       "level": 6,
       "source": "PHB'24",
       "description": "Your link to your patron allows you to serve as a conduit for radiant energy. You have {@variantrule Resistance|XPHB} to Radiant damage.\n\nOnce per turn, when a spell you cast deals Radiant or Fire damage, you can add your Charisma modifier to that spell's damage against one of the spell's targets."
+    },
+    {
+      "name": "Celestial Resilience",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You gain Temporary Hit Points whenever you use your Magical Cunning feature or finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. These Temporary Hit Points equal your Warlock level plus your Charisma modifier. Additionally, choose up to five creatures you can see when you gain the points. Those creatures each gain Temporary Hit Points equal to half your Warlock level plus your Charisma modifier."
     }
   ]
 }

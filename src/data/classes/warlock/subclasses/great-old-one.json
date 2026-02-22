@@ -39,6 +39,18 @@
       "level": 6,
       "source": "PHB'24",
       "description": "When you form a telepathic bond with a creature using your Awakened Mind, you can force that creature to make a Wisdom saving throw against your spell save DC. On a failed save, the creature has {@variantrule Disadvantage|XPHB} on attack rolls against you, and you have {@variantrule Advantage|XPHB} on attack rolls against that creature for the duration of the bond.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} unless you expend a Pact Magic spell slot (no action required) to restore your use of it."
+    },
+    {
+      "name": "Eldritch Hex",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Your alien patron grants you a powerful curse. You always have the {@spell Hex|XPHB} spell prepared. When you cast {@spell Hex|XPHB} and choose an ability, the target also has {@variantrule Disadvantage|XPHB} on saving throws of the chosen ability for the duration of the spell."
+    },
+    {
+      "name": "Thought Shield",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Your thoughts can't be read by telepathy or other means unless you allow it. You also have {@variantrule Resistance|XPHB} to Psychic damage, and whenever a creature deals Psychic damage to you, that creature takes the same amount of damage that you take."
     }
   ]
 }

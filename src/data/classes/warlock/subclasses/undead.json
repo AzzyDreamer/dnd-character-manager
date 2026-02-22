@@ -42,6 +42,12 @@
       "level": 6,
       "source": "VRGR",
       "description": "Your patron's powers have a profound effect on your body and magic. You don't need to eat, drink, or breathe.\n\nIn addition, once during each of your turns, when you hit a creature with an attack roll and roll damage against the creature, you can replace the damage type with necrotic damage. While you are using your Form of Dread, you can roll one additional damage die when determining the necrotic damage the target takes."
+    },
+    {
+      "name": "Necrotic Husk",
+      "level": 10,
+      "source": "VRGR",
+      "description": "Your connection to undeath and necrotic energy now saturates your body. You have {@variantrule Resistance|XPHB} to Necrotic damage. If you are transformed using your Form of Dread, you instead become immune to Necrotic damage.\n\nIn addition, when you would be reduced to 0 hit points, you can use your {@action Reaction|XPHB} to drop to 1 hit point instead and cause your body to erupt with deathly energy. Each creature of your choice that is within 30 feet of you takes necrotic damage equal to {@dice 2d10} + your warlock level. You then gain 1 level of {@status exhaustion}. Once you use this reaction, you can't do so again until you finish {@dice 1d4} long rests."
     }
   ]
 }

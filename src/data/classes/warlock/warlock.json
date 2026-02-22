@@ -120,6 +120,13 @@
       "source": "PHB'24",
       "page": 155,
       "description": "In the past, you usually contacted your patron through intermediaries. Now you can communicate directly; you always have the {@spell Contact Other Plane|XPHB} spell prepared. With this feature, you can cast the spell without expending a spell slot to contact your patron, and you automatically succeed on the spell's saving throw.\n\nOnce you cast the spell with this feature, you can't do so in this way again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain a feature from your Warlock subclass."
     }
   ],
   "subclassIds": [

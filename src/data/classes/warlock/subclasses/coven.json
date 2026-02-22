@@ -34,6 +34,17 @@
       "level": 6,
       "source": "GH:PG'24",
       "description": "Hags delight in deceiving and manipulating others, and you gain some of their skill in doing so. You know the {@spell Minor Illusion} cantrip. If you already know it, you learn a different Warlock cantrip of your choice. The cantrip doesn't count against your number of cantrips known.\n\nAdditionally, if a creature takes a {@action Study} action to examine an illusion you have created, you can take a {@action Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on the check.\n\nAlso, the first time a creature takes a {@action Study} action to examine an illusion spell you have cast and succeeds on the Intelligence ({@skill Investigation}) check, you can cause the illusion to deal Psychic damage. The damage equals {@dice 1d6} plus {@dice 1d6} for each spell slot used to cast the spell.\n\nYou can deal damage this way a number of times equal to your Charisma modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Hag's Visage",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "As a {@action Magic|XPHB} action, you twist your face into a horrifying mask resembling your Hag patron. It lasts for 1 minute, but it ends early if you dismiss it (no action required) or have the {@status Incapacitated|XPHB} condition. While this effect lasts, you gain the benefits listed below.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "horrifyingGaze": "{@b Horrifying Gaze.} As a {@action Bonus Action|XPHB}, choose one Humanoid that you can see and that can see you within 30 feet of you. The creature must make a Wisdom saving throw against your spell save DC or have the {@status Frightened|XPHB} condition for 1 minute. The Frightened target repeats the save at the end of each of its turns, ending the effect on itself on a success. A creature that can see you has {@variantrule Disadvantage|XPHB} on this save.",
+        "paralyzingGaze": "{@b Paralyzing Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Frightened|XPHB} condition. The creature must make a Wisdom saving throw against your spell save DC or have the {@status Paralyzed|XPHB} condition.\n\nOn a successful save, the creature takes Necrotic damage equal to your Warlock level, it is no longer Frightened, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}.",
+        "deathGaze": "{@b Death Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Paralyzed|XPHB} condition. The creature must make a Wisdom saving throw with {@variantrule Advantage|XPHB} against your spell save DC or be reduced to 0 Hit Points.\n\nOn a successful save, the creature takes Necrotic damage equal to twice your Warlock level, it is no longer Paralyzed, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }
