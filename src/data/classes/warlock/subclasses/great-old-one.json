@@ -2,9 +2,37 @@
   "id": "great-old-one",
   "name": "Великий Древний",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "When you choose this subclass, you might bind yourself to an unspeakable being from the Far Realm or an elder god—a being such as Tharizdun, the Chained God; Zargon, the Returner; Hadar, the Dark Hunger; or Great Cthulhu. Or you might invoke several entities without yoking yourself to one. The motives of these beings are incomprehensible, and the Great Old One might be indifferent to your existence. But the secrets you've learned nevertheless allow you to draw strange magic from it.",
+  "shortDescription": "Unearth Forbidden Lore of Ineffable Beings",
   "source": "PHB'24",
+  "page": 155,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Great Old One Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Great Old One Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Detect Thoughts|XPHB}", "{@spell Dissonant Whispers|XPHB}", "{@spell Phantasmal Force|XPHB}", "{@spell Tasha's Hideous Laughter|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Clairvoyance|XPHB}", "{@spell Hunger of Hadar|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Confusion|XPHB}", "{@spell Summon Aberration|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Modify Memory|XPHB}", "{@spell Telekinesis|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Awakened Mind",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can form a telepathic connection between your mind and the mind of another. As a {@action Bonus Action|XPHB}, choose one creature you can see within 30 feet of yourself. You and the chosen creature can communicate telepathically with each other while the two of you are within a number of miles of each other equal to your Charisma modifier (minimum of 1 mile). To understand each other, you each must mentally use a language the other knows.\n\nThe telepathic connection lasts for a number of minutes equal to your Warlock level. It ends early if you use this feature to connect with a different creature."
+    },
+    {
+      "name": "Psychic Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you cast a Warlock spell that deals damage, you can change its damage type to Psychic. In addition, when you cast a Warlock spell that is an Enchantment or Illusion, you can do so without Verbal or Somatic components."
+    }
+  ]
 }

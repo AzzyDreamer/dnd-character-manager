@@ -2,9 +2,31 @@
   "id": "fiend",
   "name": "Исчадие",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "Your pact draws on the Lower Planes, the realms of perdition. You might forge a bargain with a demon lord such as Demogorgon or Orcus; an archdevil such as Asmodeus; or a pit fiend, balor, yugoloth, or night hag that is especially mighty. That patron's aims are evil—the corruption or destruction of all things, ultimately including you—and your path is defined by the extent to which you strive against those aims.",
+  "shortDescription": "Make a Deal with the Lower Planes",
   "source": "PHB'24",
+  "page": 155,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Fiend Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Fiend Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Burning Hands|XPHB}", "{@spell Command|XPHB}", "{@spell Scorching Ray|XPHB}", "{@spell Suggestion|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Fireball|XPHB}", "{@spell Stinking Cloud|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Fire Shield|XPHB}", "{@spell Wall of Fire|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Geas|XPHB}", "{@spell Insect Plague|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Dark One's Blessing",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reduce an enemy to 0 Hit Points, you gain Temporary Hit Points equal to your Charisma modifier plus your Warlock level (minimum of 1 Temporary Hit Point). You also gain this benefit if someone else reduces an enemy within 10 feet of you to 0 Hit Points."
+    }
+  ]
 }
