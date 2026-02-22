@@ -2,9 +2,35 @@
   "id": "archfey",
   "name": "Архифея",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "Your pact draws on the power of the Feywild. When you choose this subclass, you might make a deal with an archfey, such as the Prince of Frost; the Queen of Air and Darkness, ruler of the Gloaming Court; Titania of the Summer Court; or an ancient hag. Or you might call on a spectrum of Fey, weaving a web of favors and debts. Whoever they are, your patron is often inscrutable and whimsical.",
+  "shortDescription": "Bargain with Whimsical Fey",
   "source": "PHB'24",
+  "page": 154,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Archfey Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Archfey Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Calm Emotions|XPHB}", "{@spell Faerie Fire|XPHB}", "{@spell Misty Step|XPHB}", "{@spell Phantasmal Force|XPHB}", "{@spell Sleep|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Blink|XPHB}", "{@spell Plant Growth|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Dominate Beast|XPHB}", "{@spell Greater Invisibility|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Dominate Person|XPHB}", "{@spell Seeming|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Steps of the Fey",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Your patron grants you the ability to move between the boundaries of the planes. You can cast {@spell Misty Step|XPHB} without expending a spell slot a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\n\nIn addition, whenever you cast that spell, you can choose one of the following additional effects.",
+      "details": {
+        "refreshingStep": "{@b Refreshing Step.} Immediately after you teleport, you or one creature you can see within 10 feet of yourself gains {@dice 1d10} Temporary Hit Points.",
+        "tauntingStep": "{@b Taunting Step.} Creatures within 5 feet of the space you left must succeed on a Wisdom saving throw against your spell save DC or have {@variantrule Disadvantage|XPHB} on attack rolls against creatures other than you until the start of your next turn."
+      }
+    }
+  ]
 }

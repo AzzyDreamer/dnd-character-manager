@@ -2,9 +2,31 @@
   "id": "celestial",
   "name": "Небожитель",
   "classId": "warlock",
-  "description": "",
-  "shortDescription": "",
+  "description": "Your pact draws on the Upper Planes, the realms of everlasting bliss. You might enter an agreement with an empyrean, a couatl, a sphinx, a unicorn, or another heavenly entity. Or you might call on numerous such beings as you pursue goals aligned with theirs. Your pact allows you to experience a hint of the holy light that illuminates the multiverse.",
+  "shortDescription": "Call on the Power of the Heavens",
   "source": "PHB'24",
+  "page": 155,
   "level": 3,
-  "features": []
+  "features": [
+    {
+      "name": "Celestial Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Celestial Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Aid|XPHB}", "{@spell Cure Wounds|XPHB}", "{@spell Guiding Bolt|XPHB}", "{@spell Lesser Restoration|XPHB}", "{@spell Light|XPHB}", "{@spell Sacred Flame|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Daylight|XPHB}", "{@spell Revivify|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Guardian of Faith|XPHB}", "{@spell Wall of Fire|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Greater Restoration|XPHB}", "{@spell Summon Celestial|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Healing Light",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain the ability to channel celestial energy to heal wounds. You have a pool of {@dice d6}s to fuel this healing. The number of dice in the pool equals 1 plus your Warlock level.\n\nAs a {@action Bonus Action|XPHB}, you can heal yourself or one creature you can see within 60 feet of you, expending dice from the pool. The maximum number of dice you can expend at once equals your Charisma modifier (minimum of one die). Roll the dice you expend, and restore a number of Hit Points equal to the roll's total. Your pool regains all expended dice when you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
 }
