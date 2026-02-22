@@ -45,6 +45,16 @@
         "paralyzingGaze": "{@b Paralyzing Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Frightened|XPHB} condition. The creature must make a Wisdom saving throw against your spell save DC or have the {@status Paralyzed|XPHB} condition.\n\nOn a successful save, the creature takes Necrotic damage equal to your Warlock level, it is no longer Frightened, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}.",
         "deathGaze": "{@b Death Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Paralyzed|XPHB} condition. The creature must make a Wisdom saving throw with {@variantrule Advantage|XPHB} against your spell save DC or be reduced to 0 Hit Points.\n\nOn a successful save, the creature takes Necrotic damage equal to twice your Warlock level, it is no longer Paralyzed, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}."
       }
+    },
+    {
+      "name": "Hag's Craft",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "Your patron teaches you the secrets of Hag craft. When you finish a {@variantrule Long Rest|XPHB}, you can expend a Pact Magic spell slot to create one of the following items. The item retains its magical properties until you finish your next {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "hagsCauldron": "{@b Hag's Cauldron.} You spend 10 minutes creating a temporary Hag's Cauldron. For the next 8 hours, you can use the cauldron to brew potions as a {@action Magic|XPHB} action. You can brew up to three Common potions, two Uncommon potions, or one Rare potion. The potions lose their efficacy after 24 hours.",
+        "hearthstone": "{@b Hearthstone.} You imbue a gemstone worth at least 10 GP with magical power, creating a Minor Hearthstone. While holding this stone, a creature has Immunity to the {@status Poisoned|XPHB} condition and can cast {@spell Blink|XPHB} once without expending a spell slot. The stone crumbles to dust when its magic fades."
+      }
     }
   ]
 }

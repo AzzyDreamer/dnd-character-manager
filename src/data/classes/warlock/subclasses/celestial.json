@@ -39,6 +39,12 @@
       "level": 10,
       "source": "PHB'24",
       "description": "You gain Temporary Hit Points whenever you use your Magical Cunning feature or finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. These Temporary Hit Points equal your Warlock level plus your Charisma modifier. Additionally, choose up to five creatures you can see when you gain the points. Those creatures each gain Temporary Hit Points equal to half your Warlock level plus your Charisma modifier."
+    },
+    {
+      "name": "Searing Vengeance",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you or an ally within 60 feet of you is about to make a Death Saving Throw, you can use a {@action Reaction|XPHB} to unleash radiant energy to save that creature. The dying creature regains Hit Points equal to half its Hit Point maximum and can end the {@status Prone|XPHB} condition on itself. Each creature of your choice that is within 30 feet of the healed creature takes Radiant damage equal to {@dice 2d8} plus your Charisma modifier, and each has the {@status Blinded|XPHB} condition until the end of the current turn.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
     }
   ]
 }

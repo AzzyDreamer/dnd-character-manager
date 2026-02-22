@@ -41,6 +41,12 @@
       "level": 10,
       "source": "SCAG",
       "description": "You can hold your breath indefinitely, and you don't require food, water, or sleep, although you still require rest to reduce {@status exhaustion} and still benefit from finishing short and long rests.\n\nIn addition, you age at a slower rate. For every 10 years that pass, your body ages only 1 year, and you are immune to being magically aged."
+    },
+    {
+      "name": "Indestructible Life",
+      "level": 14,
+      "source": "SCAG",
+      "description": "You partake of some of the true secrets of the Undying. On your turn, you can use a {@action Bonus Action|XPHB} to regain hit points equal to {@dice 1d8} + your warlock level. Additionally, if you put a severed body part of yours back in place when you use this feature, the part reattaches.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }

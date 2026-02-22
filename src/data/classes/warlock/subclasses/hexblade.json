@@ -53,6 +53,12 @@
       "level": 10,
       "source": "XGE",
       "description": "Your hex grows more powerful. If the target cursed by your Hexblade's Curse hits you with an attack roll, you can use your {@action Reaction|XPHB} to roll a {@dice d6}. On a 4 or higher, the attack instead misses you, regardless of its roll."
+    },
+    {
+      "name": "Master of Hexes",
+      "level": 14,
+      "source": "XGE",
+      "description": "You can spread your Hexblade's Curse from a slain creature to another creature. When the creature cursed by your Hexblade's Curse dies, you can apply the curse to a different creature you can see within 30 feet of you, provided you aren't {@status Incapacitated|XPHB}. When you apply the curse in this way, you don't regain hit points from the death of the previously cursed creature."
     }
   ]
 }

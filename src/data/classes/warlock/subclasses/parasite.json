@@ -39,6 +39,17 @@
       "level": 10,
       "source": "GH:PG'24",
       "description": "You always have the {@spell Dominate Person|XPHB} spell prepared. You can also cast it once without a spell slot, and you regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}.\n\nIn addition, taking damage can't break your {@variantrule Concentration|XPHB} on {@spell Dominate Person|XPHB}. When a creature succeeds on its saving throw, it takes Psychic damage equal to your Warlock level."
+    },
+    {
+      "name": "Larval Regeneration",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "When you die, a larval parasite emerges from your body. You control the parasite. The parasite uses the {@creature Rat} stat block but retains your Hit Points; Hit Point Dice; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. It can't cast spells.",
+      "details": {
+        "burrowingPossession": "{@b Burrowing Possession.} As a {@action Magic|XPHB} action, the parasite can target a Humanoid within 5 feet of it, forcing the creature to make a Strength or Dexterity saving throw (your choice) against your Warlock spell save DC. On a failed save, the parasite burrows into the creature, dealing Piercing damage equal to your Warlock level. While burrowed inside a creature, the parasite can't take any action, {@action Bonus Action|XPHB}, or {@action Reaction|XPHB}, has Total Cover, and has Immunity to all damage except Psychic damage.\n\nOn each of the host creature's subsequent turns, it can use its action to make a Constitution saving throw against your Warlock spell save DC. On a success, the parasite is ejected into an unoccupied space of the creature's choice within 5 feet. If the parasite is still burrowed when the creature's turn ends, the creature takes Necrotic damage equal to twice your Warlock level. If this damage reduces the creature to 0 Hit Points, it immediately dies, the parasite disappears, and you take over the body as if targeted by {@spell Reincarnate} and rolled the species the Humanoid had been.",
+        "revival": "If you are returned to life by other means, such as by the {@spell Revivify|XPHB} spell, your parasite immediately disappears.",
+        "uses": "Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }

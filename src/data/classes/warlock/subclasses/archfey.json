@@ -47,6 +47,12 @@
       "level": 10,
       "source": "PHB'24",
       "description": "Your patron teaches you how to guard your mind and body. You are immune to the {@status Charmed|XPHB} condition.\n\nIn addition, immediately after a creature you can see hits you with an attack roll, you can take a {@action Reaction|XPHB} to reduce the damage you take by half (round down), and you can force the attacker to make a Wisdom saving throw against your spell save DC. On a failed save, the attacker takes Psychic damage equal to the damage you take. Once you use this Reaction, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you expend a Pact Magic spell slot (no action required) to restore your use of it."
+    },
+    {
+      "name": "Bewitching Magic",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "Your patron grants you the ability to weave your magic with teleportation. Immediately after you cast an Enchantment or Illusion spell using an action and a spell slot, you can cast {@spell Misty Step|XPHB} as part of the same action and without expending a spell slot."
     }
   ]
 }

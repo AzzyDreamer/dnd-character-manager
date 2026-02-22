@@ -73,6 +73,12 @@
       "level": 10,
       "source": "TCE",
       "description": "When you enter your Genie's Vessel via the Bottled Respite feature, you can now choose up to five willing creatures that you can see within 30 feet of you, and the chosen creatures are drawn into the vessel with you.\n\nAs a {@action Bonus Action|XPHB}, you can eject any number of creatures from the vessel, and everyone is ejected if you leave or die or if the vessel is destroyed.\n\nIn addition, anyone (including you) who remains within the vessel for at least 10 minutes gains the benefit of finishing a {@variantrule Short Rest|XPHB}, and anyone can add their proficiency bonus to the number of hit points they regain if they spend any Hit Dice as part of a short rest there."
+    },
+    {
+      "name": "Limited Wish",
+      "level": 14,
+      "source": "TCE",
+      "description": "You entreat your patron to grant you a small wish. As a {@action Magic|XPHB} action, you can speak your desire to your Genie's Vessel, requesting the effect of one spell that is level 6 or lower and has a casting time of 1 action. The spell can be from any class's spell list, and you don't need to meet the requirements in that spell, including costly components; the spell simply takes effect as part of this action.\n\nOnce you use this feature, you can't use it again until you finish {@dice 1d4} Long Rests."
     }
   ]
 }

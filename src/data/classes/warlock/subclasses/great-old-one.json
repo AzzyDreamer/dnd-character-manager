@@ -51,6 +51,12 @@
       "level": 10,
       "source": "PHB'24",
       "description": "Your thoughts can't be read by telepathy or other means unless you allow it. You also have {@variantrule Resistance|XPHB} to Psychic damage, and whenever a creature deals Psychic damage to you, that creature takes the same amount of damage that you take."
+    },
+    {
+      "name": "Create Thrall",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you cast {@spell Summon Aberration|XPHB}, you can modify it so that it doesn't require {@variantrule Concentration|XPHB}. If you do so, the spell's duration becomes 1 minute for that casting, and when summoned, the Aberration has a number of Temporary Hit Points equal to your Warlock level plus your Charisma modifier.\n\nIn addition, the first time each turn the Aberration hits a creature under the effect of your {@spell Hex|XPHB}, the Aberration deals extra Psychic damage to the target equal to the bonus damage of that spell."
     }
   ]
 }

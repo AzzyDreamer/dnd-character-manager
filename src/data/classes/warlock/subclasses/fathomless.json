@@ -53,6 +53,12 @@
       "level": 10,
       "source": "TCE",
       "description": "You learn the spell {@spell Evard's Black Tentacles}. It counts as a warlock spell for you, but it doesn't count against the number of spells you know. You can also cast it once without a spell slot, and you regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}.\n\nWhenever you cast this spell, your patron's magic bolsters you, granting you a number of temporary hit points equal to your warlock level. Moreover, damage can't break your {@variantrule Concentration|XPHB} on this spell."
+    },
+    {
+      "name": "Fathomless Plunge",
+      "level": 14,
+      "source": "TCE",
+      "description": "You can magically open temporary conduits to watery destinations. As a {@action Magic|XPHB} action, you can teleport yourself and up to five other willing creatures that you can see within 30 feet of you. Amid a whirl of tentacles, you all vanish and then reappear up to 1 mile away in a body of water you've seen (pond size or larger) or within 30 feet of it, each of you appearing in an unoccupied space within 30 feet of the others.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
     }
   ]
 }

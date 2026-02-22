@@ -48,6 +48,19 @@
       "level": 10,
       "source": "VRGR",
       "description": "Your connection to undeath and necrotic energy now saturates your body. You have {@variantrule Resistance|XPHB} to Necrotic damage. If you are transformed using your Form of Dread, you instead become immune to Necrotic damage.\n\nIn addition, when you would be reduced to 0 hit points, you can use your {@action Reaction|XPHB} to drop to 1 hit point instead and cause your body to erupt with deathly energy. Each creature of your choice that is within 30 feet of you takes necrotic damage equal to {@dice 2d10} + your warlock level. You then gain 1 level of {@status exhaustion}. Once you use this reaction, you can't do so again until you finish {@dice 1d4} long rests."
+    },
+    {
+      "name": "Spirit Projection",
+      "level": 14,
+      "source": "VRGR",
+      "description": "Your spirit can become untethered from your physical form. As an action, you can project your spirit from your body. The body you leave behind is {@status Unconscious|XPHB} and in a state of suspended animation.\n\nYour spirit resembles your mortal form in almost every way, replicating your game statistics but not your possessions. Any damage or other effects that apply to your spirit or physical body affects the other. Your spirit can remain outside your body for up to 1 hour or until your {@variantrule Concentration|XPHB} is broken (as if concentrating on a spell). When your projection ends, your spirit returns to your body or your body magically teleports to your spirit's space (your choice).\n\nWhile projecting your spirit, you gain the following benefits:",
+      "details": {
+        "resistance": "Your spirit and body gain {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage.",
+        "spellcasting": "When you cast a spell of the Conjuration or Necromancy school, the spell doesn't require Verbal or Somatic components or Material components that lack a gold cost.",
+        "flying": "You have a flying speed equal to your walking speed and can hover. You can move through creatures and objects as if they were {@variantrule Difficult Terrain|XPHB}, but you take {@dice 1d10} Force damage if you end your turn inside a creature or an object.",
+        "necroticHealing": "While you are using your Form of Dread, once during each of your turns when you deal Necrotic damage to a creature, you regain hit points equal to half the amount of Necrotic damage dealt.",
+        "uses": "Once you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }

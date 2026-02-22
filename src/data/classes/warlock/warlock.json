@@ -127,6 +127,72 @@
       "source": "PHB'24",
       "page": 155,
       "description": "You gain a feature from your Warlock subclass."
+    },
+    {
+      "name": "Mystic Arcanum (Level 6 Spell)",
+      "level": 11,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "Your patron grants you a magical secret called an arcanum. Choose one level 6 spell from the Warlock spell list as this arcanum. You can cast your arcanum spell once without expending a spell slot, and you must finish a {@variantrule Long Rest|XPHB} before you can cast it in this way again.\n\nAs shown in the Warlock Features table, you gain another Warlock arcanum of your choice when you reach Warlock levels 13 (level 7 spell), 15 (level 8 spell), and 17 (level 9 spell). You regain all uses of your Mystic Arcanum when you finish a {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "replacingArcanum": "Whenever you gain a Warlock level, you can replace one of your arcanum spells with another Warlock spell of the same level."
+      }
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 12,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Mystic Arcanum (Level 7 Spell)",
+      "level": 13,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain a level 7 Warlock spell of your choice."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain a feature from your Warlock subclass."
+    },
+    {
+      "name": "Mystic Arcanum (Level 8 Spell)",
+      "level": 15,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain a level 8 Warlock spell of your choice."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 16,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Mystic Arcanum (Level 9 Spell)",
+      "level": 17,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain a level 9 Warlock spell of your choice."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "You gain an {@feat Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Fate|XPHB} is recommended."
+    },
+    {
+      "name": "Eldritch Master",
+      "level": 20,
+      "source": "PHB'24",
+      "page": 155,
+      "description": "When you use your Magical Cunning feature, you regain all your expended Pact Magic spell slots."
     }
   ],
   "subclassIds": [

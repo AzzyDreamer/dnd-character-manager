@@ -45,6 +45,17 @@
       "level": 10,
       "source": "GH:PG'24",
       "description": "When you reduce an enemy to 0 Hit Points with your Drain Life feature, you can take a {@action Reaction|XPHB} to consume the last of its fleeting mortality. When you do so, you regain one of your expended Pact Magic spell slots.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Eternal Night",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "Your vampire patron grants you a taste of true immortality. You no longer age, and you gain {@variantrule Resistance|XPHB} to Necrotic damage.\n\nAs a {@action Bonus Action|XPHB}, you can gain the following benefits for 1 minute:",
+      "details": {
+        "regeneration": "At the start of each of your turns, you regain {@dice 1d6} Hit Points if you have at least 1 Hit Point and aren't in direct sunlight or running water. If you take Radiant damage, you don't regain Hit Points from this feature at the start of your next turn.",
+        "enhancedDrainLife": "When you use your Drain Life feature, you deal an extra {@dice 1d8} Necrotic damage without expending a spell slot.",
+        "uses": "Once you use this {@action Bonus Action|XPHB}, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
     }
   ]
 }
