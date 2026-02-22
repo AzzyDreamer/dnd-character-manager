@@ -1,0 +1,50 @@
+{
+  "id": "fiend",
+  "name": "Исчадие",
+  "classId": "warlock",
+  "description": "Your pact draws on the Lower Planes, the realms of perdition. You might forge a bargain with a demon lord such as Demogorgon or Orcus; an archdevil such as Asmodeus; or a pit fiend, balor, yugoloth, or night hag that is especially mighty. That patron's aims are evil—the corruption or destruction of all things, ultimately including you—and your path is defined by the extent to which you strive against those aims.",
+  "shortDescription": "Make a Deal with the Lower Planes",
+  "source": "PHB'24",
+  "page": 155,
+  "level": 3,
+  "features": [
+    {
+      "name": "Fiend Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Fiend Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Burning Hands|XPHB}", "{@spell Command|XPHB}", "{@spell Scorching Ray|XPHB}", "{@spell Suggestion|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Fireball|XPHB}", "{@spell Stinking Cloud|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Fire Shield|XPHB}", "{@spell Wall of Fire|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Geas|XPHB}", "{@spell Insect Plague|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Dark One's Blessing",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you reduce an enemy to 0 Hit Points, you gain Temporary Hit Points equal to your Charisma modifier plus your Warlock level (minimum of 1 Temporary Hit Point). You also gain this benefit if someone else reduces an enemy within 10 feet of you to 0 Hit Points."
+    },
+    {
+      "name": "Dark One's Own Luck",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "You can call on your fiendish patron to alter fate in your favor. When you make an ability check or a saving throw, you can use this feature to add {@dice 1d10} to your roll. You can do so after seeing the roll but before any of the roll's effects occur.\n\nYou can use this feature a number of times equal to your Charisma modifier (minimum of once), but you can use it no more than once per roll. You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Fiendish Resilience",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Choose one damage type, other than Force, whenever you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You have {@variantrule Resistance|XPHB} to that damage type until you choose a different one with this feature."
+    },
+    {
+      "name": "Hurl Through Hell",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "Once per turn when you hit a creature with an attack roll, you can try to instantly transport the target through the Lower Planes. The target must succeed on a Charisma saving throw against your spell save DC, or the target disappears and hurtles through a nightmare landscape. The target takes {@dice 8d10} Psychic damage if it isn't a Fiend, and it has the {@status Incapacitated|XPHB} condition until the end of your next turn, when it returns to the space it previously occupied or the nearest unoccupied space.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB} unless you expend a Pact Magic spell slot (no action required) to restore your use of it."
+    }
+  ]
+}

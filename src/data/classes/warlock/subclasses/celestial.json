@@ -1,0 +1,50 @@
+{
+  "id": "celestial",
+  "name": "Небожитель",
+  "classId": "warlock",
+  "description": "Your pact draws on the Upper Planes, the realms of everlasting bliss. You might enter an agreement with an empyrean, a couatl, a sphinx, a unicorn, or another heavenly entity. Or you might call on numerous such beings as you pursue goals aligned with theirs. Your pact allows you to experience a hint of the holy light that illuminates the multiverse.",
+  "shortDescription": "Call on the Power of the Heavens",
+  "source": "PHB'24",
+  "page": 155,
+  "level": 3,
+  "features": [
+    {
+      "name": "Celestial Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Celestial Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Aid|XPHB}", "{@spell Cure Wounds|XPHB}", "{@spell Guiding Bolt|XPHB}", "{@spell Lesser Restoration|XPHB}", "{@spell Light|XPHB}", "{@spell Sacred Flame|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Daylight|XPHB}", "{@spell Revivify|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Guardian of Faith|XPHB}", "{@spell Wall of Fire|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Greater Restoration|XPHB}", "{@spell Summon Celestial|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Healing Light",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You gain the ability to channel celestial energy to heal wounds. You have a pool of {@dice d6}s to fuel this healing. The number of dice in the pool equals 1 plus your Warlock level.\n\nAs a {@action Bonus Action|XPHB}, you can heal yourself or one creature you can see within 60 feet of you, expending dice from the pool. The maximum number of dice you can expend at once equals your Charisma modifier (minimum of one die). Roll the dice you expend, and restore a number of Hit Points equal to the roll's total. Your pool regains all expended dice when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Radiant Soul",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Your link to your patron allows you to serve as a conduit for radiant energy. You have {@variantrule Resistance|XPHB} to Radiant damage.\n\nOnce per turn, when a spell you cast deals Radiant or Fire damage, you can add your Charisma modifier to that spell's damage against one of the spell's targets."
+    },
+    {
+      "name": "Celestial Resilience",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You gain Temporary Hit Points whenever you use your Magical Cunning feature or finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. These Temporary Hit Points equal your Warlock level plus your Charisma modifier. Additionally, choose up to five creatures you can see when you gain the points. Those creatures each gain Temporary Hit Points equal to half your Warlock level plus your Charisma modifier."
+    },
+    {
+      "name": "Searing Vengeance",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you or an ally within 60 feet of you is about to make a Death Saving Throw, you can use a {@action Reaction|XPHB} to unleash radiant energy to save that creature. The dying creature regains Hit Points equal to half its Hit Point maximum and can end the {@status Prone|XPHB} condition on itself. Each creature of your choice that is within 30 feet of the healed creature takes Radiant damage equal to {@dice 2d8} plus your Charisma modifier, and each has the {@status Blinded|XPHB} condition until the end of the current turn.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

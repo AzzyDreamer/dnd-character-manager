@@ -1,0 +1,84 @@
+{
+  "id": "genie",
+  "name": "Джинн",
+  "classId": "warlock",
+  "description": "You have made a pact with one of the rarest kinds of genie, a noble genie. Such entities rule vast fiefs on the Elemental Planes and have great influence over lesser genies and elemental creatures. Noble genies are varied in their motivations, but most are arrogant and wield power that rivals that of lesser deities. They delight in turning the table on mortals, who often bind genies into servitude, and readily enter into pacts that expand their reach.\n\nYou choose your patron's kind or determine it randomly, using the Genie Kind table.",
+  "shortDescription": "Bargain with a Noble Genie",
+  "source": "TCE",
+  "page": 73,
+  "editionNote": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "level": 3,
+  "details": {
+    "genieKind": [
+      { "d4": 1, "kind": "Dao", "element": "Earth" },
+      { "d4": 2, "kind": "Djinni", "element": "Air" },
+      { "d4": 3, "kind": "Efreeti", "element": "Fire" },
+      { "d4": 4, "kind": "Marid", "element": "Water" }
+    ]
+  },
+  "features": [
+    {
+      "name": "Expanded Spell List",
+      "level": 3,
+      "source": "TCE",
+      "description": "The Genie lets you choose from an expanded list of spells when you learn a warlock spell. The Genie Expanded Spells table shows the genie spells that are added to the warlock spell list for you, along with the spells associated in the table with your patron's kind: dao, djinni, efreeti, or marid.",
+      "details": {
+        "spellTable": [
+          { "spellLevel": "1st", "genieSpells": ["{@spell Detect Evil and Good}"], "daoSpells": ["{@spell Sanctuary}"], "djinniSpells": ["{@spell Thunderwave}"], "freetiSpells": ["{@spell Burning Hands}"], "maridSpells": ["{@spell Fog Cloud}"] },
+          { "spellLevel": "2nd", "genieSpells": ["{@spell Phantasmal Force}"], "daoSpells": ["{@spell Spike Growth}"], "djinniSpells": ["{@spell Gust of Wind}"], "freetiSpells": ["{@spell Scorching Ray}"], "maridSpells": ["{@spell Blur}"] },
+          { "spellLevel": "3rd", "genieSpells": ["{@spell Create Food and Water}"], "daoSpells": ["{@spell Meld into Stone}"], "djinniSpells": ["{@spell Wind Wall}"], "freetiSpells": ["{@spell Fireball}"], "maridSpells": ["{@spell Sleet Storm}"] },
+          { "spellLevel": "4th", "genieSpells": ["{@spell Phantasmal Killer}"], "daoSpells": ["{@spell Stone Shape}"], "djinniSpells": ["{@spell Greater Invisibility}"], "freetiSpells": ["{@spell Fire Shield}"], "maridSpells": ["{@spell Control Water}"] },
+          { "spellLevel": "5th", "genieSpells": ["{@spell Creation}"], "daoSpells": ["{@spell Wall of Stone}"], "djinniSpells": ["{@spell Seeming}"], "freetiSpells": ["{@spell Flame Strike}"], "maridSpells": ["{@spell Cone of Cold}"] },
+          { "spellLevel": "9th", "genieSpells": ["{@spell Wish}"], "daoSpells": [], "djinniSpells": [], "freetiSpells": [], "maridSpells": [] }
+        ]
+      }
+    },
+    {
+      "name": "Genie's Vessel",
+      "level": 3,
+      "source": "TCE",
+      "description": "Your patron gifts you a magical vessel that grants you a measure of the genie's power. The vessel is a Tiny object, and you can use it as a spellcasting focus for your warlock spells. You decide what the object is, or you can determine what it is randomly by rolling on the Genie's Vessel table.",
+      "details": {
+        "vesselTable": [
+          { "d6": 1, "vessel": "Oil lamp" },
+          { "d6": 2, "vessel": "Urn" },
+          { "d6": 3, "vessel": "Ring with a compartment" },
+          { "d6": 4, "vessel": "Stoppered bottle" },
+          { "d6": 5, "vessel": "Hollow statuette" },
+          { "d6": 6, "vessel": "Ornate lantern" }
+        ],
+        "usage": "While you are touching the vessel, you can use it in the following ways:",
+        "bottledRespite": "{@b Bottled Respite.} As an action, you can magically vanish and enter your vessel, which remains in the space you left. The interior of the vessel is an extradimensional space in the shape of a 20-foot-radius cylinder, 20 feet high, and resembles your vessel. The interior is appointed with cushions and low tables and is a comfortable temperature. While inside, you can hear the area around your vessel as if you were in its space. You can remain inside the vessel up to a number of hours equal to twice your proficiency bonus. You exit the vessel early if you use a {@action Bonus Action|XPHB} to leave, if you die, or if the vessel is destroyed. When you exit the vessel, you appear in the unoccupied space closest to it. Any objects left in the vessel remain there until carried out, and if the vessel is destroyed, every object stored there harmlessly appears in the unoccupied spaces closest to the vessel's former space. Once you enter the vessel, you can't enter again until you finish a {@variantrule Long Rest|XPHB}.",
+        "geniesWrath": "{@b Genie's Wrath.} Once during each of your turns when you hit with an attack roll, you can deal extra damage to the target equal to your proficiency bonus. The type of this damage is determined by your patron: bludgeoning (dao), thunder (djinni), fire (efreeti), or cold (marid).",
+        "vesselProperties": "The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.\n\nIf the vessel is destroyed or you lose it, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and the previous vessel is destroyed if it still exists. The vessel vanishes in a flare of elemental power when you die."
+      }
+    },
+    {
+      "name": "Elemental Gift",
+      "level": 6,
+      "source": "TCE",
+      "description": "You begin to take on characteristics of your patron's kind. You now have {@variantrule Resistance|XPHB} to a damage type determined by your patron's kind: Bludgeoning (dao), Thunder (djinni), Fire (efreeti), or Cold (marid).",
+      "details": {
+        "resistanceTable": [
+          { "kind": "Dao", "damageType": "Bludgeoning" },
+          { "kind": "Djinni", "damageType": "Thunder" },
+          { "kind": "Efreeti", "damageType": "Fire" },
+          { "kind": "Marid", "damageType": "Cold" }
+        ],
+        "flyingSpeed": "As a {@action Bonus Action|XPHB}, you can give yourself a flying speed of 30 feet that lasts for 10 minutes, during which you can hover. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Sanctuary Vessel",
+      "level": 10,
+      "source": "TCE",
+      "description": "When you enter your Genie's Vessel via the Bottled Respite feature, you can now choose up to five willing creatures that you can see within 30 feet of you, and the chosen creatures are drawn into the vessel with you.\n\nAs a {@action Bonus Action|XPHB}, you can eject any number of creatures from the vessel, and everyone is ejected if you leave or die or if the vessel is destroyed.\n\nIn addition, anyone (including you) who remains within the vessel for at least 10 minutes gains the benefit of finishing a {@variantrule Short Rest|XPHB}, and anyone can add their proficiency bonus to the number of hit points they regain if they spend any Hit Dice as part of a short rest there."
+    },
+    {
+      "name": "Limited Wish",
+      "level": 14,
+      "source": "TCE",
+      "description": "You entreat your patron to grant you a small wish. As a {@action Magic|XPHB} action, you can speak your desire to your Genie's Vessel, requesting the effect of one spell that is level 6 or lower and has a casting time of 1 action. The spell can be from any class's spell list, and you don't need to meet the requirements in that spell, including costly components; the spell simply takes effect as part of this action.\n\nOnce you use this feature, you can't use it again until you finish {@dice 1d4} Long Rests."
+    }
+  ]
+}

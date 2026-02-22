@@ -1,0 +1,60 @@
+{
+  "id": "coven",
+  "name": "Ковен",
+  "classId": "warlock",
+  "description": "Hags dwell in the deep places of Etharis, from the primordial forests of Valika to the putrid streets of Liesech. These creatures, though rarely benevolent, are willing to bargain with mortals in exchange for furthering their own capricious goals. Warlocks often find themselves with a single Hag as a sponsor. Should this Hag have a coven, it can lead to the peculiar situation of Warlock agents acting against other Hags or their Warlocks within the coven. But such is the politics of the Realm of Faerie.",
+  "shortDescription": "Curse and Befuddle with Hag Magic",
+  "source": "GH:PG'24",
+  "page": 48,
+  "level": 3,
+  "features": [
+    {
+      "name": "Coven Spells",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Coven Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Hold Person|XPHB}", "{@spell Identify|XPHB}", "{@spell Locate Object|XPHB}", "{@spell Ray of Sickness|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Bestow Curse|XPHB}", "{@spell Counterspell|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Phantasmal Killer|XPHB}", "{@spell Polymorph|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Divination|XPHB}", "{@spell Locate Creature|XPHB}"] },
+          { "warlockLevel": 17, "spells": ["{@spell Contact Other Plane|XPHB}", "{@spell Scrying|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Hag's Eye",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "As an agent of a Hag, you have been gifted with a magical item known as a Hag's Eye. Crafted from a real eye and fitted into a ring, pendant, or other accessory, this item can be used as an Arcane Focus for your Warlock spells. The Hag can see through the eye, and the destruction of the item can cause the Hag actual pain, so any pawn who loses this talisman often invokes the Hag's ire.\n\nWhile you possess the eye, you can cast {@spell Hex|XPHB} a number of times equal to your Charisma modifier (minimum of once) without expending a spell slot, and you regain all expended uses of this ability when you finish a {@variantrule Long Rest|XPHB}. In addition, when you reach Warlock level 10, you can use the eye to cast {@spell Bestow Curse|XPHB} once without expending a spell slot, and you regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Hag's Guile",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Hags delight in deceiving and manipulating others, and you gain some of their skill in doing so. You know the {@spell Minor Illusion} cantrip. If you already know it, you learn a different Warlock cantrip of your choice. The cantrip doesn't count against your number of cantrips known.\n\nAdditionally, if a creature takes a {@action Study} action to examine an illusion you have created, you can take a {@action Reaction|XPHB} to impose {@variantrule Disadvantage|XPHB} on the check.\n\nAlso, the first time a creature takes a {@action Study} action to examine an illusion spell you have cast and succeeds on the Intelligence ({@skill Investigation}) check, you can cause the illusion to deal Psychic damage. The damage equals {@dice 1d6} plus {@dice 1d6} for each spell slot used to cast the spell.\n\nYou can deal damage this way a number of times equal to your Charisma modifier (minimum of once). You regain all expended uses when you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Hag's Visage",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "As a {@action Magic|XPHB} action, you twist your face into a horrifying mask resembling your Hag patron. It lasts for 1 minute, but it ends early if you dismiss it (no action required) or have the {@status Incapacitated|XPHB} condition. While this effect lasts, you gain the benefits listed below.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "horrifyingGaze": "{@b Horrifying Gaze.} As a {@action Bonus Action|XPHB}, choose one Humanoid that you can see and that can see you within 30 feet of you. The creature must make a Wisdom saving throw against your spell save DC or have the {@status Frightened|XPHB} condition for 1 minute. The Frightened target repeats the save at the end of each of its turns, ending the effect on itself on a success. A creature that can see you has {@variantrule Disadvantage|XPHB} on this save.",
+        "paralyzingGaze": "{@b Paralyzing Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Frightened|XPHB} condition. The creature must make a Wisdom saving throw against your spell save DC or have the {@status Paralyzed|XPHB} condition.\n\nOn a successful save, the creature takes Necrotic damage equal to your Warlock level, it is no longer Frightened, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}.",
+        "deathGaze": "{@b Death Gaze.} As a {@action Magic|XPHB} action, choose one Humanoid that you can see and that can see you within 30 feet of you that has the {@status Paralyzed|XPHB} condition. The creature must make a Wisdom saving throw with {@variantrule Advantage|XPHB} against your spell save DC or be reduced to 0 Hit Points.\n\nOn a successful save, the creature takes Necrotic damage equal to twice your Warlock level, it is no longer Paralyzed, and it can't be targeted by your Hag's Visage again until you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Hag's Craft",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "Your patron teaches you the secrets of Hag craft. When you finish a {@variantrule Long Rest|XPHB}, you can expend a Pact Magic spell slot to create one of the following items. The item retains its magical properties until you finish your next {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "hagsCauldron": "{@b Hag's Cauldron.} You spend 10 minutes creating a temporary Hag's Cauldron. For the next 8 hours, you can use the cauldron to brew potions as a {@action Magic|XPHB} action. You can brew up to three Common potions, two Uncommon potions, or one Rare potion. The potions lose their efficacy after 24 hours.",
+        "hearthstone": "{@b Hearthstone.} You imbue a gemstone worth at least 10 GP with magical power, creating a Minor Hearthstone. While holding this stone, a creature has Immunity to the {@status Poisoned|XPHB} condition and can cast {@spell Blink|XPHB} once without expending a spell slot. The stone crumbles to dust when its magic fades."
+      }
+    }
+  ]
+}

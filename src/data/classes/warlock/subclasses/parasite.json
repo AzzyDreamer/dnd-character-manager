@@ -1,0 +1,55 @@
+{
+  "id": "parasite",
+  "name": "Паразит",
+  "classId": "warlock",
+  "description": "Your patron is a cosmic parasite, draining the vitality of entire peoples and worlds. Upon forging a pact with such a patron, you become host to one of its nascent offspring. As you grow in power, the boundary between your identity and the parasitic larva within blurs.",
+  "shortDescription": "Become One with a Cosmic Being",
+  "source": "GH:PG'24",
+  "page": 50,
+  "level": 3,
+  "features": [
+    {
+      "name": "Spell Siphon",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your patron has taught you to siphon magic from your enemies and make it your own. Immediately after a creature you can see within 60 feet of you casts a spell, you can take a {@action Reaction|XPHB} to force the creature to make a Charisma saving throw. The DC equals your spell save DC. On a failed save, that creature can't cast a spell again until 8 hours have passed. While this effect lasts, if the spell was at least level 1 and of a level you can cast, you have that spell prepared.\n\nThe maximum number of spell levels you can have siphoned at once equals 1 plus your Charisma modifier (minimum of 1). If you have the {@status Incapacitated|XPHB} condition or die, you lose all siphoned spells. When you finish a {@variantrule Long Rest|XPHB}, you lose all siphoned spells."
+    },
+    {
+      "name": "Physical Specimen",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "Your patron has enhanced your physical form to improve your utility as a host and pawn. As a {@action Bonus Action|XPHB}, once per {@variantrule Long Rest|XPHB}, choose a number of the following benefits up to your Charisma modifier (minimum of one) that lasts until you finish a {@variantrule Long Rest|XPHB}. Whenever you finish a {@variantrule Short Rest|XPHB}, you can choose one of your selected benefits and replace it with another from this list.",
+      "details": {
+        "hpIncrease": "Your Hit Point maximum increases by an amount equal to your Warlock level.",
+        "darkvision": "You gain {@sense Darkvision} with a range of 60 feet. If you already have {@sense Darkvision}, its range increases by 60 feet.",
+        "speed": "Your Speed increases by 5 feet.",
+        "poisonResistance": "You have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@status Poisoned|XPHB} condition.",
+        "climbAndJump": "Your jump distance is tripled, and you gain a Climb Speed equal to your Speed.",
+        "physicalProwess": "Add your Charisma modifier to your Strength ({@skill Athletics}) checks or Dexterity ({@skill Acrobatics}) checks."
+      }
+    },
+    {
+      "name": "Symbiotic Sentinel",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Your patron remains alert to threats to its host at all times. You can't be {@status surprised} and you have {@variantrule Advantage|XPHB} on {@action Initiative} rolls. You also have {@variantrule Advantage|XPHB} on saving throws to avoid or end the {@status Charmed} and {@status Frightened} conditions."
+    },
+    {
+      "name": "Spawn Pawn",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "You always have the {@spell Dominate Person|XPHB} spell prepared. You can also cast it once without a spell slot, and you regain the ability to do so when you finish a {@variantrule Long Rest|XPHB}.\n\nIn addition, taking damage can't break your {@variantrule Concentration|XPHB} on {@spell Dominate Person|XPHB}. When a creature succeeds on its saving throw, it takes Psychic damage equal to your Warlock level."
+    },
+    {
+      "name": "Larval Regeneration",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "When you die, a larval parasite emerges from your body. You control the parasite. The parasite uses the {@creature Rat} stat block but retains your Hit Points; Hit Point Dice; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. It can't cast spells.",
+      "details": {
+        "burrowingPossession": "{@b Burrowing Possession.} As a {@action Magic|XPHB} action, the parasite can target a Humanoid within 5 feet of it, forcing the creature to make a Strength or Dexterity saving throw (your choice) against your Warlock spell save DC. On a failed save, the parasite burrows into the creature, dealing Piercing damage equal to your Warlock level. While burrowed inside a creature, the parasite can't take any action, {@action Bonus Action|XPHB}, or {@action Reaction|XPHB}, has Total Cover, and has Immunity to all damage except Psychic damage.\n\nOn each of the host creature's subsequent turns, it can use its action to make a Constitution saving throw against your Warlock spell save DC. On a success, the parasite is ejected into an unoccupied space of the creature's choice within 5 feet. If the parasite is still burrowed when the creature's turn ends, the creature takes Necrotic damage equal to twice your Warlock level. If this damage reduces the creature to 0 Hit Points, it immediately dies, the parasite disappears, and you take over the body as if targeted by {@spell Reincarnate} and rolled the species the Humanoid had been.",
+        "revival": "If you are returned to life by other means, such as by the {@spell Revivify|XPHB} spell, your parasite immediately disappears.",
+        "uses": "Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+      }
+    }
+  ]
+}

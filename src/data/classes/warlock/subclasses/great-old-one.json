@@ -1,0 +1,62 @@
+{
+  "id": "great-old-one",
+  "name": "Великий Древний",
+  "classId": "warlock",
+  "description": "When you choose this subclass, you might bind yourself to an unspeakable being from the Far Realm or an elder god—a being such as Tharizdun, the Chained God; Zargon, the Returner; Hadar, the Dark Hunger; or Great Cthulhu. Or you might invoke several entities without yoking yourself to one. The motives of these beings are incomprehensible, and the Great Old One might be indifferent to your existence. But the secrets you've learned nevertheless allow you to draw strange magic from it.",
+  "shortDescription": "Unearth Forbidden Lore of Ineffable Beings",
+  "source": "PHB'24",
+  "page": 155,
+  "level": 3,
+  "features": [
+    {
+      "name": "Great Old One Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Great Old One Spells table, you thereafter always have the listed spells prepared.",
+      "details": {
+        "spellTable": [
+          { "warlockLevel": 3, "spells": ["{@spell Detect Thoughts|XPHB}", "{@spell Dissonant Whispers|XPHB}", "{@spell Phantasmal Force|XPHB}", "{@spell Tasha's Hideous Laughter|XPHB}"] },
+          { "warlockLevel": 5, "spells": ["{@spell Clairvoyance|XPHB}", "{@spell Hunger of Hadar|XPHB}"] },
+          { "warlockLevel": 7, "spells": ["{@spell Confusion|XPHB}", "{@spell Summon Aberration|XPHB}"] },
+          { "warlockLevel": 9, "spells": ["{@spell Modify Memory|XPHB}", "{@spell Telekinesis|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Awakened Mind",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "You can form a telepathic connection between your mind and the mind of another. As a {@action Bonus Action|XPHB}, choose one creature you can see within 30 feet of yourself. You and the chosen creature can communicate telepathically with each other while the two of you are within a number of miles of each other equal to your Charisma modifier (minimum of 1 mile). To understand each other, you each must mentally use a language the other knows.\n\nThe telepathic connection lasts for a number of minutes equal to your Warlock level. It ends early if you use this feature to connect with a different creature."
+    },
+    {
+      "name": "Psychic Spells",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "When you cast a Warlock spell that deals damage, you can change its damage type to Psychic. In addition, when you cast a Warlock spell that is an Enchantment or Illusion, you can do so without Verbal or Somatic components."
+    },
+    {
+      "name": "Clairvoyant Combatant",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "When you form a telepathic bond with a creature using your Awakened Mind, you can force that creature to make a Wisdom saving throw against your spell save DC. On a failed save, the creature has {@variantrule Disadvantage|XPHB} on attack rolls against you, and you have {@variantrule Advantage|XPHB} on attack rolls against that creature for the duration of the bond.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} unless you expend a Pact Magic spell slot (no action required) to restore your use of it."
+    },
+    {
+      "name": "Eldritch Hex",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Your alien patron grants you a powerful curse. You always have the {@spell Hex|XPHB} spell prepared. When you cast {@spell Hex|XPHB} and choose an ability, the target also has {@variantrule Disadvantage|XPHB} on saving throws of the chosen ability for the duration of the spell."
+    },
+    {
+      "name": "Thought Shield",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "Your thoughts can't be read by telepathy or other means unless you allow it. You also have {@variantrule Resistance|XPHB} to Psychic damage, and whenever a creature deals Psychic damage to you, that creature takes the same amount of damage that you take."
+    },
+    {
+      "name": "Create Thrall",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "When you cast {@spell Summon Aberration|XPHB}, you can modify it so that it doesn't require {@variantrule Concentration|XPHB}. If you do so, the spell's duration becomes 1 minute for that casting, and when summoned, the Aberration has a number of Temporary Hit Points equal to your Warlock level plus your Charisma modifier.\n\nIn addition, the first time each turn the Aberration hits a creature under the effect of your {@spell Hex|XPHB}, the Aberration deals extra Psychic damage to the target equal to the bonus damage of that spell."
+    }
+  ]
+}
