@@ -1,0 +1,181 @@
+{
+  "id": "wizard",
+  "name": "Волшебник",
+  "source": "PHB'24",
+  "page": 164,
+  "srd": true,
+  "basicRules": true,
+  "hitDie": "d6",
+  "hitPointsAtFirstLevel": "6 + Constitution modifier",
+  "hitPointsAtHigherLevels": "d6 (or 4) + your Constitution modifier per Wizard level after 1st",
+  "primaryAbility": ["intelligence"],
+  "savingThrows": ["intelligence", "wisdom"],
+  "spellcaster": true,
+  "spellcastingAbility": "intelligence",
+  "description": "Учёный маг, постигающий тайны мироздания через изучение заклинаний. Самый универсальный заклинатель.",
+  "proficiencies": {
+    "armor": [],
+    "weapons": ["Simple weapons"],
+    "tools": [],
+    "skillChoices": {
+      "count": 2,
+      "from": ["arcana", "history", "insight", "investigation", "medicine", "nature", "religion"]
+    }
+  },
+  "startingEquipment": {
+    "optionA": ["2 {@item Daggers|XPHB}", "{@item Arcane Focus (Quarterstaff)|XPHB}", "{@item Robe|XPHB}", "{@item Spellbook|XPHB}", "{@item Scholar's Pack|XPHB}", "5 GP"],
+    "optionB": ["55 GP"]
+  },
+  "multiclassing": {
+    "prerequisite": "Intelligence 13"
+  },
+  "levelTable": [
+    { "level": 1,  "proficiencyBonus": 2, "features": ["Spellcasting", "Ritual Adept", "Arcane Recovery"], "cantrips": 3, "preparedSpells": 4,  "spellSlots": [2,0,0,0,0,0,0,0,0] },
+    { "level": 2,  "proficiencyBonus": 2, "features": ["Scholar"],                                        "cantrips": 3, "preparedSpells": 5,  "spellSlots": [3,0,0,0,0,0,0,0,0] },
+    { "level": 3,  "proficiencyBonus": 2, "features": ["Wizard Subclass"],                                 "cantrips": 3, "preparedSpells": 6,  "spellSlots": [4,2,0,0,0,0,0,0,0] },
+    { "level": 4,  "proficiencyBonus": 2, "features": ["Ability Score Improvement"],                       "cantrips": 4, "preparedSpells": 7,  "spellSlots": [4,3,0,0,0,0,0,0,0] },
+    { "level": 5,  "proficiencyBonus": 3, "features": ["Memorize Spell"],                                  "cantrips": 4, "preparedSpells": 9,  "spellSlots": [4,3,2,0,0,0,0,0,0] },
+    { "level": 6,  "proficiencyBonus": 3, "features": ["Subclass Feature"],                                "cantrips": 4, "preparedSpells": 10, "spellSlots": [4,3,3,0,0,0,0,0,0] },
+    { "level": 7,  "proficiencyBonus": 3, "features": [],                                                  "cantrips": 4, "preparedSpells": 11, "spellSlots": [4,3,3,1,0,0,0,0,0] },
+    { "level": 8,  "proficiencyBonus": 3, "features": ["Ability Score Improvement"],                       "cantrips": 4, "preparedSpells": 12, "spellSlots": [4,3,3,2,0,0,0,0,0] },
+    { "level": 9,  "proficiencyBonus": 4, "features": [],                                                  "cantrips": 4, "preparedSpells": 14, "spellSlots": [4,3,3,3,1,0,0,0,0] },
+    { "level": 10, "proficiencyBonus": 4, "features": ["Subclass Feature"],                                "cantrips": 5, "preparedSpells": 15, "spellSlots": [4,3,3,3,2,0,0,0,0] },
+    { "level": 11, "proficiencyBonus": 4, "features": [],                                                  "cantrips": 5, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                       "cantrips": 5, "preparedSpells": 16, "spellSlots": [4,3,3,3,2,1,0,0,0] },
+    { "level": 13, "proficiencyBonus": 5, "features": [],                                                  "cantrips": 5, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 14, "proficiencyBonus": 5, "features": ["Subclass Feature"],                                "cantrips": 5, "preparedSpells": 17, "spellSlots": [4,3,3,3,2,1,1,0,0] },
+    { "level": 15, "proficiencyBonus": 5, "features": [],                                                  "cantrips": 5, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                       "cantrips": 5, "preparedSpells": 18, "spellSlots": [4,3,3,3,2,1,1,1,0] },
+    { "level": 17, "proficiencyBonus": 6, "features": [],                                                  "cantrips": 5, "preparedSpells": 19, "spellSlots": [4,3,3,3,2,1,1,1,1] },
+    { "level": 18, "proficiencyBonus": 6, "features": ["Spell Mastery"],                                   "cantrips": 5, "preparedSpells": 20, "spellSlots": [4,3,3,3,3,1,1,1,1] },
+    { "level": 19, "proficiencyBonus": 6, "features": ["Epic Boon"],                                       "cantrips": 5, "preparedSpells": 21, "spellSlots": [4,3,3,3,3,2,1,1,1] },
+    { "level": 20, "proficiencyBonus": 6, "features": ["Signature Spells"],                                "cantrips": 5, "preparedSpells": 22, "spellSlots": [4,3,3,3,3,2,2,1,1] }
+  ],
+  "classFeatures": [
+    {
+      "name": "Spellcasting",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 167,
+      "description": "As a student of arcane magic, you have learned to cast spells. See {@variantrule chapter 7|XPHB} for the rules on spellcasting. The information below details how you use those rules with Wizard spells, which appear on the {@filter Wizard spell list}.",
+      "details": {
+        "cantrips": "You know three Wizard cantrips of your choice. {@spell Light|XPHB}, {@spell Mage Hand|XPHB}, and {@spell Ray of Frost|XPHB} are recommended. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace one of your cantrips from this feature with another Wizard cantrip of your choice. When you reach Wizard levels 4 and 10, you learn another Wizard cantrip of your choice, as shown in the Cantrips column of the Wizard Features table.",
+        "spellbook": "Your wizardly apprenticeship culminated in the creation of a unique book: your spellbook. It is a Tiny object that weighs 3 pounds, contains 100 pages, and can be read only by you or someone casting {@spell Identify|XPHB}. You determine the book's appearance and materials, such as a gilt-edged tome or a collection of vellum bound with twine.\n\nThe book contains the level 1+ spells you know. It starts with six level 1 Wizard spells of your choice. {@spell Detect Magic|XPHB}, {@spell Feather Fall|XPHB}, {@spell Mage Armor|XPHB}, {@spell Magic Missile|XPHB}, {@spell Sleep|XPHB}, and {@spell Thunderwave|XPHB} are recommended.\n\nWhenever you gain a Wizard level after 1, add two Wizard spells of your choice to your spellbook. Each of these spells must be of a level for which you have spell slots, as shown in the Wizard Features table. The spells are the culmination of arcane research you do regularly.",
+        "spellSlots": "The Wizard Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended spell slots when you finish a {@variantrule Long Rest|XPHB}.",
+        "preparedSpells": "You prepare the list of level 1+ spells that are available for you to cast with this feature. To do so, choose four spells from your spellbook. The chosen spells must be of a level for which you have spell slots.\n\nThe number of spells on your list increases as you gain Wizard levels, as shown in the Prepared Spells column of the Wizard Features table. Whenever that number increases, choose additional Wizard spells until the number of spells on your list matches the number in the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 3 Wizard, your list of prepared spells can include six spells of levels 1 and 2 in any combination, chosen from your spellbook.\n\nIf another Wizard feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Wizard spells for you.",
+        "changingPreparedSpells": "Whenever you finish a {@variantrule Long Rest|XPHB}, you can change your list of prepared spells, replacing any of the spells there with spells from your spellbook.",
+        "spellcastingAbility": "Intelligence is your spellcasting ability for your Wizard spells.",
+        "spellcastingFocus": "You can use an {@item Arcane Focus|XPHB} or your spellbook as a {@variantrule Spellcasting Focus|XPHB} for your Wizard spells.",
+        "expandingAndReplacingSpellbook": "The spells you add to your spellbook as you gain levels reflect your ongoing magical research, but you might find other spells during your adventures that you can add to the book. You could discover a Wizard spell on a {@item Spell Scroll|XPHB}, for example, and then copy it into your spellbook.",
+        "copyingSpellIntoBook": "{@b Copying a Spell into the Book.} When you find a level 1+ Wizard spell, you can copy it into your spellbook if it's of a level you can prepare and if you have time to copy it. For each level of the spell, the transcription takes 2 hours and costs 50 GP. Afterward you can prepare the spell like the other spells in your spellbook.",
+        "copyingTheBook": "{@b Copying the Book.} You can copy a spell from your spellbook into another book. This is like copying a new spell into your spellbook but faster, since you already know how to cast the spell. You need spend only 1 hour and 10 GP for each level of the copied spell. If you lose your spellbook, you can use the same procedure to transcribe the Wizard spells that you have prepared into a new spellbook. Filling out the remainder of the new book requires you to find new spells to do so. For this reason, many wizards keep a backup spellbook."
+      }
+    },
+    {
+      "name": "Ritual Adept",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You can cast any spell as a Ritual if that spell has the Ritual tag and the spell is in your spellbook. You needn't have the spell prepared, but you must read from the book to cast a spell in this way."
+    },
+    {
+      "name": "Arcane Recovery",
+      "level": 1,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You can regain some of your magical energy by studying your spellbook. When you finish a {@variantrule Short Rest|XPHB}, you can choose expended spell slots to recover. The spell slots can have a combined level equal to no more than half your Wizard level (round up), and none of the slots can be level 6 or higher. For example, if you're a level 4 Wizard, you can recover up to two levels' worth of spell slots, regaining either one level 2 spell slot or two level 1 spell slots.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Scholar",
+      "level": 2,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "While studying magic, you also specialized in another field of study. Choose one of the following skills in which you have proficiency: Arcana, History, Investigation, Medicine, Nature, or Religion. You have {@variantrule Expertise|XPHB} in the chosen skill."
+    },
+    {
+      "name": "Wizard Subclass",
+      "level": 3,
+      "source": "PHB'24",
+      "page": 167,
+      "description": "You gain a Wizard subclass of your choice. The Abjurer, Diviner, Evoker, and Illusionist subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Wizard levels. For the rest of your career, you gain each of your subclass's features that are unlocked or enhanced at the Wizard levels specified in the subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 4,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16."
+    },
+    {
+      "name": "Memorize Spell",
+      "level": 5,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "Whenever you finish a {@variantrule Short Rest|XPHB}, you can study your spellbook and replace one of the level 1+ Wizard spells you have prepared for your Spellcasting feature with another level 1+ spell from the book."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 6,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain a feature from your Wizard Subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 8,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 10,
+      "source": "PHB'24",
+      "page": 167,
+      "description": "You gain a feature from your Wizard Subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 12,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Subclass Feature",
+      "level": 14,
+      "source": "PHB'24",
+      "page": 167,
+      "description": "You gain a feature from your Wizard Subclass."
+    },
+    {
+      "name": "Ability Score Improvement",
+      "level": 16,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain the {@feat Ability Score Improvement|XPHB} feat or another feat of your choice for which you qualify."
+    },
+    {
+      "name": "Spell Mastery",
+      "level": 18,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You have achieved such mastery over certain spells that you can cast them at will. Choose a level 1 and a level 2 spell in your spellbook that have a casting time of an action. You always have those spells prepared, and you can cast them at their lowest level without expending a spell slot. To cast either spell at a higher level, you must expend a spell slot.\n\nWhenever you finish a {@variantrule Long Rest|XPHB}, you can study your spellbook and replace one of those spells with an eligible spell of the same level from the book."
+    },
+    {
+      "name": "Epic Boon",
+      "level": 19,
+      "source": "PHB'24",
+      "page": 168,
+      "description": "You gain an {@feat Epic Boon|XPHB} feat or another feat of your choice for which you qualify. {@feat Boon of Spell Recall|XPHB} is recommended."
+    },
+    {
+      "name": "Signature Spells",
+      "level": 20,
+      "source": "PHB'24",
+      "page": 167,
+      "description": "Choose two level 3 spells in your spellbook as your signature spells. You always have these spells prepared, and you can cast each of them once at level 3 without expending a spell slot. When you do so, you can't cast them in this way again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. To cast either spell at a higher level, you must expend a spell slot."
+    }
+  ],
+  "subclassIds": ["abjurer", "bladesinger", "chronurgy", "daemonologist", "diviner", "evoker", "graviturgy", "illusionist", "plague-doctor", "sangromancer", "scribes", "war"]
+}

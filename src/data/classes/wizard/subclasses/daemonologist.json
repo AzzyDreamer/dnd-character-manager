@@ -1,0 +1,72 @@
+{
+  "id": "daemonologist",
+  "name": "Демонолог",
+  "classId": "wizard",
+  "description": "Through theological study, or perhaps an induction into a secretive cabal, Daemonologists have learned to cast divine magic without the need for faith or bargains. Their spellbooks are scribed with prayer fragments and blasphemous hymns, enabling them to siphon scraps of power from both Arch Seraphs and Arch Daemons. From their heretical research, they've come to believe such otherworldly beings are two sides of the same divine kin.\n\nDaemonology is rarely practiced. If the nature of their abilities is discovered, they risk being persecuted not only by superstitious folk but also by celestial and infernal powers.",
+  "shortDescription": "Steal Scraps of Divine and Infernal Power",
+  "source": "GH:PG'24",
+  "page": 125,
+  "level": 3,
+  "features": [
+    {
+      "name": "Fair and Foul",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "The spells listed below can be added to your spellbook for no cost when you reach the associated level.\n\nEach time you finish a {@variantrule Long Rest|XPHB}, choose whether you are siphoning power from Arch Daemons or Arch Seraphs. You can prepare the spells listed for your Wizard level and lower, but not those from the opposite faction.",
+      "details": {
+        "archDaemonSpells": [
+          { "wizardLevel": 3, "spells": ["{@spell Bane|XPHB}", "{@spell Toll the Dead|XPHB}"] },
+          { "wizardLevel": 5, "spells": ["{@spell Fear|XPHB}"] },
+          { "wizardLevel": 7, "spells": ["{@spell Dark Sacrament}"] },
+          { "wizardLevel": 9, "spells": ["{@spell Geas|XPHB}"] }
+        ],
+        "archSeraphSpells": [
+          { "wizardLevel": 3, "spells": ["{@spell Aid|XPHB}", "{@spell Bless|XPHB}", "{@spell Word of Radiance|XPHB}"] },
+          { "wizardLevel": 5, "spells": ["{@spell Revivify|XPHB}"] },
+          { "wizardLevel": 7, "spells": ["{@spell Guardian of Faith|XPHB}"] },
+          { "wizardLevel": 9, "spells": ["{@spell Greater Restoration|XPHB}"] }
+        ]
+      }
+    },
+    {
+      "name": "Stolen Secrets",
+      "level": 3,
+      "source": "GH:PG'24",
+      "description": "You have uncovered or stolen secret power from agents of the Arch Daemons and Arch Seraphs. You gain one Eldritch Invocation of your choice.",
+      "details": {
+        "prerequisites": "If an invocation has a prerequisite, you must meet it to learn that invocation. If an invocation has a Warlock level prerequisite, you use your Wizard level instead. For example, if an invocation requires you to be a level 5+ Warlock, you can select the invocation once you reach Wizard level 5.",
+        "replacingAndGaining": "Whenever you gain a Wizard level, you can replace one of your invocations with another one for which you qualify. You can't replace an invocation if it's a prerequisite for another invocation that you have.\n\nYou gain an additional invocation when you reach Wizard levels 6 and 14.\n\nYou can't pick the same invocation more than once unless its description says otherwise.",
+        "intelligentInvocations": "You can use your Intelligence modifier instead of your Charisma modifier for your invocations."
+      }
+    },
+    {
+      "name": "Borrowed Tongues and Hides",
+      "level": 6,
+      "source": "GH:PG'24",
+      "description": "Your ability to siphon power from Celestials and Fiends is enhanced. You gain the following benefits.",
+      "details": {
+        "archDaemonBoon": "{@b Arch Daemon Boon.} While you are siphoning power from Arch Daemons, you have {@variantrule Resistance|XPHB} to Necrotic damage. In addition, Fiends that know languages can understand your speech and you can understand theirs, even if you do not share a language.",
+        "archSeraphBoon": "{@b Arch Seraph Boon.} While you are siphoning power from Arch Seraphs, you have {@variantrule Resistance|XPHB} to Radiant damage. In addition, Celestials that know languages can understand your speech and you can understand theirs, even if you do not share a language.",
+        "switchSides": "{@b Switch Sides.} As a {@action Bonus Action|XPHB}, you can change which power you are siphoning from. Once you switch, you can't do so again until you finish a {@variantrule Long Rest|XPHB}."
+      }
+    },
+    {
+      "name": "Unearthly Countenance",
+      "level": 10,
+      "source": "GH:PG'24",
+      "description": "As a {@action Bonus Action|XPHB}, you adopt an infernal or celestial countenance for 10 minutes. For the duration, your appearance gains aspects of the power you choose. You gain the following benefits.",
+      "details": {
+        "commandingPresence": "{@b Commanding Presence.} You have {@variantrule Advantage|XPHB} on Charisma checks.",
+        "improvedSpells": "{@b Improved Spells.} When you expend a spell slot to cast a spell from the Arch Daemon or Arch Seraph table, the spell is cast as if you had spent a spell slot of one level higher.",
+        "unearthlyWings": "{@b Unearthly Wings.} You gain a Fly Speed of 60 feet.",
+        "usage": "Once you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}. You can also restore your use of it by expending a level 5+ spell slot (no action required)."
+      }
+    },
+    {
+      "name": "Eternal War Eruption",
+      "level": 14,
+      "source": "GH:PG'24",
+      "description": "You use the powers at your command to call forth warring celestials and infernals. As a {@action Magic|XPHB} action, you summon a manifestation of the war between Arch Daemons and Arch Seraphs in a 30-foot-radius Sphere centered on a point within 120 feet of yourself. Each creature in the Sphere must make a Charisma saving throw against your spell save DC. On a failed save, a creature takes {@dice 4d10} Necrotic damage, {@dice 4d10} Radiant damage, and has the {@status Blinded|XPHB} condition until the end of its next turn. On a successful save, a creature takes half as much damage only.\n\nAs part of the same action, you can change the power you are siphoning from, and you also regain 1 Wizard spell slot of your choice of 5th level or lower.\n\nOnce you use this feature, you can't use it again until you finish a {@variantrule Long Rest|XPHB}."
+    }
+  ]
+}

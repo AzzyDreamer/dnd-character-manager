@@ -1,0 +1,40 @@
+{
+  "id": "graviturgy",
+  "name": "Гравитургия",
+  "classId": "wizard",
+  "description": "Understanding and mastering the forces that draw bodies of matter together or drive them apart, the students of the Graviturgy arcane tradition learn to further bend and manipulate the violent energy of gravity to their benefit, and the terrible detriment of their enemies.",
+  "shortDescription": "Bend and Manipulate Gravity",
+  "source": "EGW",
+  "page": 185,
+  "editionNote": "This subclass is from a different game edition. For a given subclass feature, you may gain that feature at a different level from the one specified in the subclass feature.",
+  "level": 3,
+  "details": {
+    "note": "This subclass has access to Dunamancy Spells."
+  },
+  "features": [
+    {
+      "name": "Adjust Density",
+      "level": 2,
+      "source": "EGW",
+      "description": "{@i 2nd-level Graviturgy Magic feature}\n\nAs an {@action Action|XPHB}, you can magically alter the weight of one object or creature you can see within 30 feet of you. The object or creature must be Large or smaller. The target's weight is halved or doubled for up to 1 minute or until your {@status Concentration|XPHB} ends (as if you were concentrating on a spell).\n\nWhile the weight of a creature is halved by this effect, the creature's speed increases by 10 feet, it can jump twice as far as normal, and it has {@variantrule Disadvantage|XPHB} on Strength checks and Strength saving throws. While the weight of a creature is doubled by this effect, the creature's speed is reduced by 10 feet, and it has {@variantrule Advantage|XPHB} on Strength checks and Strength saving throws.\n\nUpon reaching 10th level in this class, you can target an object or a creature that is Huge or smaller."
+    },
+    {
+      "name": "Gravity Well",
+      "level": 6,
+      "source": "EGW",
+      "description": "{@i 6th-level Graviturgy Magic feature}\n\nYou've learned how to manipulate gravity around a living being: whenever you cast a spell on a creature, you can move the target 5 feet to an unoccupied space of your choice if the target is willing to move, the spell hits it with an attack, or it fails a saving throw against the spell."
+    },
+    {
+      "name": "Violent Attraction",
+      "level": 10,
+      "source": "EGW",
+      "description": "{@i 10th-level Graviturgy Magic feature}\n\nWhen another creature that you can see within 60 feet of you hits with a weapon attack, you can use your {@action Reaction|XPHB} to increase the attack's velocity, causing the attack's target to take an extra {@dice 1d10} damage of the weapon's type.\n\nAlternatively, if a creature within 60 feet of you takes damage from a fall, you can use your {@action Reaction|XPHB} to increase the fall's damage by {@dice 2d10}.\n\nYou can use this feature a number of times equal to your Intelligence modifier (a minimum of once). You regain all expended uses when you finish a {@variantrule Long Rest|XPHB}."
+    },
+    {
+      "name": "Event Horizon",
+      "level": 14,
+      "source": "EGW",
+      "description": "{@i 14th-level Graviturgy Magic feature}\n\nAs an {@action Action|XPHB}, you can magically emit a powerful field of gravitational energy that tugs at other creatures for up to 1 minute or until your {@status Concentration|XPHB} ends (as if you were concentrating on a spell). For the duration, whenever a creature hostile to you starts its turn within 30 feet of you, it must make a Strength saving throw against your spell save DC. On a failed save, it takes {@dice 2d10} Force damage, and its speed is reduced to 0 until the start of its next turn. On a successful save, it takes half as much damage, and every foot it moves this turn costs 2 extra feet of movement.\n\nOnce you use this feature, you can't do so again until you finish a {@variantrule Long Rest|XPHB} or until you expend a spell slot of 3rd level or higher on it."
+    }
+  ]
+}

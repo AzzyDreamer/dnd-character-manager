@@ -1,0 +1,47 @@
+{
+  "id": "diviner",
+  "name": "Прорицатель",
+  "classId": "wizard",
+  "description": "The counsel of a Diviner is sought by those who want a clearer understanding of the past, present, and future. As a Diviner, you strive to part the veils of space, time, and consciousness. You work to master spells of discernment, remote viewing, supernatural knowledge, and foresight.",
+  "shortDescription": "Learn the Secrets of the Multiverse",
+  "source": "PHB'24",
+  "page": 173,
+  "level": 3,
+  "features": [
+    {
+      "name": "Divination Savant",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Choose two Wizard spells from the Divination school, each of which must be no higher than level 2, and add them to your spellbook for free.\n\nIn addition, whenever you gain access to a new level of spell slots in this class, you can add one Wizard spell from the Divination school to your spellbook for free. The chosen spell must be of a level for which you have spell slots."
+    },
+    {
+      "name": "Portent",
+      "level": 3,
+      "source": "PHB'24",
+      "description": "Glimpses of the future begin to press on your awareness. Whenever you finish a {@variantrule Long Rest|XPHB}, roll two {@dice d20}s and record the numbers rolled. You can replace any {@dice D20 Test} made by you or a creature that you can see with one of these foretelling rolls. You must choose to do so before the roll, and you can replace a roll in this way only once per turn.\n\nEach foretelling roll can be used only once. When you finish a {@variantrule Long Rest|XPHB}, you lose any unused foretelling rolls."
+    },
+    {
+      "name": "Expert Divination",
+      "level": 6,
+      "source": "PHB'24",
+      "description": "Casting Divination spells comes so easily to you that it expends only a fraction of your spellcasting efforts. When you cast a Divination spell using a level 2+ spell slot, you regain one expended spell slot. The slot you regain must be of a level lower than the slot you expended and can't be higher than level 5."
+    },
+    {
+      "name": "The Third Eye",
+      "level": 10,
+      "source": "PHB'24",
+      "description": "You can increase your powers of perception. As a {@action Bonus Action|XPHB}, choose one of the following benefits, which lasts until you start a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}. You can't use this feature again until you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB}.",
+      "details": {
+        "darkvision": "{@b Darkvision.} You gain {@sense Darkvision} with a range of 120 feet.",
+        "greaterComprehension": "{@b Greater Comprehension.} You can read any language.",
+        "seeInvisibility": "{@b See Invisibility.} You can cast {@spell See Invisibility|XPHB} without expending a spell slot."
+      }
+    },
+    {
+      "name": "Greater Portent",
+      "level": 14,
+      "source": "PHB'24",
+      "description": "The visions in your dreams intensify and paint a more accurate picture in your mind of what is to come. Roll three {@dice d20}s for your Portent feature rather than two."
+    }
+  ]
+}
