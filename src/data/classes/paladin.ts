@@ -17,6 +17,13 @@ export const paladin: ClassDefinition = {
     { id: 'conquest', name: 'Клятва Завоевания', description: 'Воин, подавляющий врагов страхом и силой.', source: "Xanathar's Guide", level: 3 },
     { id: 'redemption', name: 'Клятва Искупления', description: 'Миротворец, стремящийся спасти даже злодеев.', source: "Xanathar's Guide", level: 3 },
     { id: 'oathbreaker', name: 'Клятвопреступник', description: 'Падший паладин, черпающий силу из тьмы.', source: 'DMG', level: 3 },
+    { id: 'crown', name: 'Клятва Короны', description: 'Serve Law and Civilization', source: 'SCAG', level: 3 },
+    { id: 'glory', name: 'Клятва Славы', description: 'Strive for the Heights of Heroism', source: "PHB'24", level: 3 },
+    { id: 'noble-genie', name: 'Клятва Благородных Джиннов', description: 'Draw Power from Elemental Genies', source: 'FRHoF', level: 3 },
+    { id: 'pestilence', name: 'Клятва Чумы', description: 'Gain Strength Through Suffering', source: "GH:PG'24", level: 3 },
+    { id: 'slaughter', name: 'Клятва Бойни', description: 'Revel in Unbridled Violence', source: "GH:PG'24", level: 3 },
+    { id: 'watchers', name: 'Клятва Стражей', description: 'Guard against Extraplanar Threats', source: 'TCE', level: 3 },
+    { id: 'zeal', name: 'Клятва Рвения', description: 'Root Out Heresy and Corruption', source: "GH:PG'24", level: 3 },
   ],
   proficiencies: {
     armor: ['Все доспехи', 'Щиты'],

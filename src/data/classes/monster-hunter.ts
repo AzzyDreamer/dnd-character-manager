@@ -11,10 +11,10 @@ export const monsterHunter: ClassDefinition = {
   description: 'Закалённый охотник, посвятивший жизнь уничтожению сверхъестественных угроз. Использует знания о монстрах и древние техники для выслеживания и уничтожения порождений тьмы.',
   source: "Grim Hollow: Player's Guide (2024)",
   subclasses: [
-    { id: 'crimson-order', name: 'Кровавый Орден', description: 'Использует запретную кровавую магию, жертвуя собственной жизненной силой для уничтожения монстров.', source: "Grim Hollow", level: 3 },
-    { id: 'silver-order', name: 'Серебряный Орден', description: 'Мастер серебряного оружия и святых ритуалов, специализирующийся на охоте на нежить и оборотней.', source: "Grim Hollow", level: 3 },
-    { id: 'twilight-order', name: 'Сумеречный Орден', description: 'Охотник из теней, мастер засад и скрытных операций против тёмных тварей.', source: "Grim Hollow", level: 3 },
-    { id: 'pyre-order', name: 'Орден Костра', description: 'Повелевает очищающим пламенем, выжигая скверну и проклятия из мира.', source: "Grim Hollow", level: 3 },
+    { id: 'carver', name: 'Гильдия Живодёров', description: 'Slay Monsters Fearlessly and Recklessly', source: "GH:PG'24", level: 3 },
+    { id: 'devourer', name: 'Гильдия Пожирателей', description: 'Gain Power by Consuming Monster Flesh', source: "GH:PG'24", level: 3 },
+    { id: 'occultist', name: 'Гильдия Оккультистов', description: 'Hunt Mages and Magical Adversaries', source: "GH:PG'24", level: 3 },
+    { id: 'trapper', name: 'Гильдия Ловчих', description: 'Dispatch Monsters with Cunning Traps', source: "GH:PG'24", level: 3 },
   ],
   proficiencies: {
     armor: ['Лёгкие доспехи', 'Средние доспехи'],

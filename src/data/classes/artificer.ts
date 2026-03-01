@@ -15,6 +15,7 @@ export const artificer: ClassDefinition = {
     { id: 'armorer', name: 'Бронник', description: 'Превращает доспехи в мощный магический экзоскелет.', source: "Tasha's Cauldron", level: 3 },
     { id: 'artillerist', name: 'Артиллерист', description: 'Создаёт магические пушки-конструкты для огневой поддержки.', source: "Tasha's Cauldron", level: 3 },
     { id: 'battle-smith', name: 'Боевой Кузнец', description: 'Сражается вместе со стальным защитником-конструктом.', source: "Tasha's Cauldron", level: 3 },
+    { id: 'cartographer', name: 'Картограф', description: 'Chart Advantageous Courses through Turmoil', source: 'EFA', level: 3 },
   ],
   proficiencies: {
     armor: ['Лёгкие доспехи', 'Средние доспехи', 'Щиты'],
