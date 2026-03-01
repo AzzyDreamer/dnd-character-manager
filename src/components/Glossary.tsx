@@ -12,7 +12,8 @@ interface RegistryEntry {
 
 type GlossaryCategory =
   | 'spells' | 'feats' | 'species' | 'backgrounds' | 'conditions'
-  | 'senses' | 'skills' | 'rules' | 'optionalfeatures' | 'items';
+  | 'senses' | 'skills' | 'rules' | 'optionalfeatures' | 'items'
+  | 'classes' | 'subclasses' | 'charoptions';
 
 interface CategoryConfig {
   key: GlossaryCategory;
@@ -127,6 +128,27 @@ async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
       result = { items: allItems, constants: {} };
       break;
     }
+    case 'classes': {
+      const mod = await import('../data/classes/classJsonLoader');
+      await mod.init();
+      result = { items: mod.ALL_CLASS_DATA, constants: {} };
+      break;
+    }
+    case 'subclasses': {
+      const mod = await import('../data/classes/subclassJsonLoader');
+      await mod.init();
+      result = { items: mod.ALL_SUBCLASS_DATA, constants: {} };
+      break;
+    }
+    case 'charoptions': {
+      const mod = await import('../data/charactercreationoptions');
+      await mod.init();
+      result = {
+        items: mod.ALL_CHARACTER_CREATION_OPTIONS,
+        constants: { OPTION_TYPE_NAMES: mod.OPTION_TYPE_NAMES },
+      };
+      break;
+    }
     default:
       result = { items: [], constants: {} };
   }
@@ -157,6 +179,64 @@ async function loadEntryRenderer(): Promise<React.FC<any>> {
   return entryRendererCache.EntryRenderer;
 }
 
+// ─── Список подклассов внутри деталей класса ───
+const SubclassListForClass: React.FC<{
+  classId: string;
+  selectedSubclassId?: string | null;
+  onSelect: (sub: any) => void;
+}> = ({ classId, selectedSubclassId, onSelect }) => {
+  const [subclasses, setSubclasses] = React.useState<any[]>([]);
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    import('../data/classes/subclassJsonLoader').then(async mod => {
+      await mod.init();
+      if (!cancelled) {
+        setSubclasses(mod.getSubclassesByClass(classId));
+        setLoaded(true);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [classId]);
+
+  if (!loaded) {
+    return <div className="text-sm text-gray-500 animate-pulse py-2">Загрузка подклассов...</div>;
+  }
+  if (subclasses.length === 0) return null;
+
+  return (
+    <div className="space-y-3">
+      <h4 className="text-sm font-medium text-gray-300 flex items-center gap-2">
+        <Shield size={14} />
+        Подклассы ({subclasses.length})
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {subclasses.map(sub => {
+          const isActive = selectedSubclassId === sub.id;
+          return (
+            <button
+              key={sub.id}
+              onClick={() => onSelect(sub)}
+              className={`text-left p-3 rounded-lg border transition-colors ${
+                isActive
+                  ? 'border-dnd-secondary bg-dnd-secondary/10 ring-1 ring-dnd-secondary/30'
+                  : 'border-gray-700 bg-gray-800/50 hover:border-dnd-secondary hover:bg-dnd-secondary/5'
+              }`}
+            >
+              <div className={`text-sm font-medium ${isActive ? 'text-dnd-secondary' : 'text-gray-200'}`}>{sub.name}</div>
+              {sub.shortDescription && (
+                <div className="text-xs text-gray-400 mt-1 line-clamp-2">{sub.shortDescription}</div>
+              )}
+              <div className="text-xs text-gray-500 mt-1">ур. {sub.level} • {sub.source}</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 // ─── Конфигурация категорий ───
 const CATEGORIES: CategoryConfig[] = [
   { key: 'spells', label: 'Заклинания', icon: Wand2 },
@@ -169,6 +249,9 @@ const CATEGORIES: CategoryConfig[] = [
   { key: 'rules', label: 'Правила', icon: Scroll },
   { key: 'optionalfeatures', label: 'Способности', icon: Swords },
   { key: 'items', label: 'Предметы', icon: Shield },
+  { key: 'classes', label: 'Классы', icon: Swords },
+  { key: 'subclasses', label: 'Подклассы', icon: Shield },
+  { key: 'charoptions', label: 'Опции создания', icon: Sparkles },
 ];
 
 export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
@@ -179,12 +262,14 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntry, setSelectedEntry] = useState<{ type: string; data: any } | null>(null);
   const [EntryRenderer, setEntryRenderer] = useState<React.FC<any> | null>(null);
+  const [selectedSubclass, setSelectedSubclass] = useState<any | null>(null);
 
   // Загрузка категории при выборе
   const selectCategory = useCallback(async (category: GlossaryCategory) => {
     setActiveCategory(category);
     setSearchQuery('');
     setSelectedEntry(null);
+    setSelectedSubclass(null);
     setLoading(true);
     setLoadError(null);
 
@@ -209,6 +294,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     setCategoryData(null);
     setSearchQuery('');
     setSelectedEntry(null);
+    setSelectedSubclass(null);
     setLoadError(null);
   }, []);
 
@@ -246,6 +332,14 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
       case 'optionalfeatures': {
         const types = item.featureType?.map((t: string) => constants.FEATURE_TYPE_NAMES?.[t] || t).join(', ');
         return types || item.source || '';
+      }
+      case 'classes':
+        return `${item.hitDie || ''} • ${item.source || ''}`;
+      case 'subclasses':
+        return `${item.classId || ''} • ур. ${item.level || '?'} • ${item.source || ''}`;
+      case 'charoptions': {
+        const optTypes = item.optionType?.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ');
+        return optTypes || item.source || '';
       }
       default:
         return item.source || '';
@@ -447,6 +541,78 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     if (d.entries) entries = d.entries;
     else if (d.raw?.entries) entries = d.raw.entries;
     else if (d.entriesTemplate) entries = d.entriesTemplate;
+
+    // Для классов — показываем classFeatures как entries, с объединением подкласса если выбран
+    if (type === 'classes' && d.classFeatures && !entries.length) {
+      const isPlaceholder = (name: string) =>
+        name === 'Subclass Feature' || name.endsWith(' Subclass');
+
+      if (selectedSubclass) {
+        // Объединённый вид: заменяем плейсхолдеры реальными фичами подкласса
+        const subFeaturesByLevel = new Map<number, any[]>();
+        for (const f of selectedSubclass.features) {
+          const arr = subFeaturesByLevel.get(f.level) || [];
+          arr.push(f);
+          subFeaturesByLevel.set(f.level, arr);
+        }
+
+        entries = [];
+        for (const f of d.classFeatures) {
+          if (isPlaceholder(f.name)) {
+            const subFeats = subFeaturesByLevel.get(f.level) || [];
+            for (const sf of subFeats) {
+              entries.push({
+                type: 'entries',
+                name: `${sf.name} (ур. ${sf.level}) — ${selectedSubclass.name}`,
+                entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
+                _isSubclass: true,
+              });
+            }
+            subFeaturesByLevel.delete(f.level);
+          } else {
+            entries.push({
+              type: 'entries',
+              name: `${f.name} (ур. ${f.level})`,
+              entries: [f.description, ...(f.details ? Object.values(f.details) : [])],
+            });
+          }
+        }
+        // Добавить оставшиеся фичи подкласса, не попавшие в плейсхолдеры
+        for (const [, feats] of subFeaturesByLevel) {
+          for (const sf of feats) {
+            entries.push({
+              type: 'entries',
+              name: `${sf.name} (ур. ${sf.level}) — ${selectedSubclass.name}`,
+              entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
+              _isSubclass: true,
+            });
+          }
+        }
+        // Сортируем по уровню
+        entries.sort((a: any, b: any) => {
+          const lvlA = parseInt(a.name.match(/ур\. (\d+)/)?.[1] || '0');
+          const lvlB = parseInt(b.name.match(/ур\. (\d+)/)?.[1] || '0');
+          return lvlA - lvlB;
+        });
+      } else {
+        // Без подкласса — скрываем плейсхолдеры
+        entries = d.classFeatures
+          .filter((f: any) => !isPlaceholder(f.name))
+          .map((f: any) => ({
+            type: 'entries',
+            name: `${f.name} (ур. ${f.level})`,
+            entries: [f.description, ...(f.details ? Object.values(f.details) : [])],
+          }));
+      }
+    }
+
+    if (type === 'subclasses' && d.features && !entries.length) {
+      entries = d.features.map((f: any) => ({
+        type: 'entries',
+        name: `${f.name} (ур. ${f.level})`,
+        entries: [f.description, ...(f.details ? Object.values(f.details).filter(Boolean) : [])],
+      }));
+    }
 
     return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -652,10 +818,90 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               </div>
             )}
 
+            {/* ═══════════ КЛАССЫ ═══════════ */}
+            {type === 'classes' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.hitDie && (
+                  <div><span className="text-gray-400">Кость хитов: </span><span className="text-gray-200 font-bold">{d.hitDie}</span></div>
+                )}
+                {d.primaryAbility && (
+                  <div><span className="text-gray-400">Основная характеристика: </span><span className="text-gray-200">{d.primaryAbility.join(', ')}</span></div>
+                )}
+                {d.savingThrows && (
+                  <div><span className="text-gray-400">Спасброски: </span><span className="text-gray-200">{d.savingThrows.join(', ')}</span></div>
+                )}
+                {d.spellcaster !== undefined && (
+                  <div><span className="text-gray-400">Заклинатель: </span><span className="text-gray-200">{d.spellcaster ? 'Да' : 'Нет'}</span></div>
+                )}
+                {d.proficiencies && (
+                  <>
+                    {d.proficiencies.armor?.length > 0 && (
+                      <div><span className="text-gray-400">Доспехи: </span><span className="text-gray-200">{d.proficiencies.armor.join(', ')}</span></div>
+                    )}
+                    {d.proficiencies.weapons?.length > 0 && (
+                      <div><span className="text-gray-400">Оружие: </span><span className="text-gray-200">{d.proficiencies.weapons.join(', ')}</span></div>
+                    )}
+                    {d.proficiencies.tools?.length > 0 && (
+                      <div><span className="text-gray-400">Инструменты: </span><span className="text-gray-200">{d.proficiencies.tools.join(', ')}</span></div>
+                    )}
+                  </>
+                )}
+                {d.description && (
+                  <div className="pt-2 border-t border-gray-700 text-gray-300">{d.description}</div>
+                )}
+              </div>
+            )}
+
+            {/* Подклассы внутри деталей класса */}
+            {type === 'classes' && d.id && (
+              <SubclassListForClass
+                classId={d.id}
+                selectedSubclassId={selectedSubclass?.id}
+                onSelect={(sub) => setSelectedSubclass((prev: any) => prev?.id === sub.id ? null : sub)}
+              />
+            )}
+
+            {/* ═══════════ ПОДКЛАССЫ ═══════════ */}
+            {type === 'subclasses' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.classId && (
+                  <div><span className="text-gray-400">Класс: </span><span className="text-gray-200">{d.classId}</span></div>
+                )}
+                {d.level && (
+                  <div><span className="text-gray-400">Уровень получения: </span><span className="text-gray-200">{d.level}</span></div>
+                )}
+                {d.source && (
+                  <div><span className="text-gray-400">Источник: </span><span className="text-gray-200">{d.source}</span></div>
+                )}
+                {d.shortDescription && (
+                  <div className="text-gray-300 italic mt-2">{d.shortDescription}</div>
+                )}
+              </div>
+            )}
+
+            {/* ═══════════ ОПЦИИ СОЗДАНИЯ ═══════════ */}
+            {type === 'charoptions' && (
+              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+                {d.optionType && (
+                  <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">
+                    {d.optionType.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ')}
+                  </span></div>
+                )}
+              </div>
+            )}
+
             {/* ═══════════ ОСНОВНОЙ КОНТЕНТ ═══════════ */}
             {entries.length > 0 && (
               <div className="prose prose-invert prose-sm max-w-none">
-                <EntryRenderer entries={entries} context={d.name || ''} onNavigate={handleNavigate} />
+                {type === 'classes' && selectedSubclass ? (
+                  entries.map((entry: any, i: number) => (
+                    <div key={i} className={entry._isSubclass ? 'border-l-2 border-dnd-secondary pl-3 my-2' : ''}>
+                      <EntryRenderer entries={[entry]} context={d.name || ''} onNavigate={handleNavigate} />
+                    </div>
+                  ))
+                ) : (
+                  <EntryRenderer entries={entries} context={d.name || ''} onNavigate={handleNavigate} />
+                )}
               </div>
             )}
 
@@ -796,7 +1042,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             {filteredItems.map((item: any, index: number) => (
               <button
                 key={`${item.name}-${index}`}
-                onClick={() => setSelectedEntry({ type: activeCategory, data: item })}
+                onClick={() => { setSelectedEntry({ type: activeCategory, data: item }); setSelectedSubclass(null); }}
                 className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-800/40 hover:bg-gray-800 border border-transparent hover:border-gray-600 transition-all text-left group"
               >
                 <div className="min-w-0">

@@ -22,6 +22,7 @@ let _optfeatures: any = null;
 let _backgrounds: any = null;
 let _itemsBase: any = null;
 let _items: any = null;
+let _charCreationOptions: any = null;
 
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
@@ -67,6 +68,9 @@ export async function initRegistry(): Promise<void> {
 
       _items = await import('./items');
       // items не использует glob, так что init не нужен
+
+      _charCreationOptions = await import('./charactercreationoptions');
+      await _charCreationOptions.init();
 
       _initialized = true;
     } catch (e) {
@@ -153,6 +157,11 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (sp) return { type: 'species', name: sp.name, source: sp.source, entries: sp.entries, data: sp };
       break;
     }
+    case 'charoption': {
+      const charOpt = _charCreationOptions.getCharacterCreationOptionByName(entityName);
+      if (charOpt) return { type: 'charoption', name: charOpt.name, source: charOpt.source, entries: charOpt.entries, data: charOpt };
+      break;
+    }
     case 'action':
     case 'hazard':
     case 'quickref':
@@ -197,5 +206,6 @@ export function getLoadedModules() {
     backgrounds: _backgrounds,
     itemsBase: _itemsBase,
     items: _items,
+    charCreationOptions: _charCreationOptions,
   };
 }

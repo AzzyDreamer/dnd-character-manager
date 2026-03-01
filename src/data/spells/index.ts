@@ -99,10 +99,20 @@ export function getSpellsByLevel(level: number): SpellData[] {
   return ALL_SPELLS.filter(s => s.level === level);
 }
 
+// Маппинг русских имён классов на английские (JSON заклинаний хранит английские имена)
+const CLASS_NAME_EN: Record<string, string> = {
+  'Варвар': 'Barbarian', 'Бард': 'Bard', 'Жрец': 'Cleric',
+  'Друид': 'Druid', 'Воин': 'Fighter', 'Монах': 'Monk',
+  'Паладин': 'Paladin', 'Следопыт': 'Ranger', 'Плут': 'Rogue',
+  'Чародей': 'Sorcerer', 'Колдун': 'Warlock', 'Волшебник': 'Wizard',
+  'Изобретатель': 'Artificer', 'Стрелок': 'Gunslinger', 'Охотник на Монстров': 'Monster Hunter',
+};
+
 export function getSpellsByClass(className: string): SpellData[] {
+  const en = CLASS_NAME_EN[className] || className;
   return ALL_SPELLS.filter(s =>
-    s.classes?.fromClassList?.some(c => c.name.toLowerCase() === className.toLowerCase()) ||
-    s.classes?.fromSubclass?.some(sc => sc.class.name.toLowerCase() === className.toLowerCase())
+    s.classes?.fromClassList?.some(c => c.name.toLowerCase() === en.toLowerCase()) ||
+    s.classes?.fromSubclass?.some(sc => sc.class.name.toLowerCase() === en.toLowerCase())
   );
 }
 

@@ -16,9 +16,79 @@ import {
   canDecreasePointBuy,
 } from '../utils/dnd';
 import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
-import { RACE_REGISTRY, type RaceDefinition, type SubraceDefinition } from '../data/races';
-import { BACKGROUND_REGISTRY, type BackgroundDefinition } from '../data/backgrounds';
-import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search } from 'lucide-react';
+import type { SpeciesData } from '../data/species';
+import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
+import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
+import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2 } from 'lucide-react';
+
+// ─── Хелперы для SpeciesData ───
+function getSpeciesSpeed(sp: SpeciesData): number {
+  if (typeof sp.speed === 'number') return sp.speed;
+  if (sp.speed && typeof sp.speed === 'object') return sp.speed.walk || 30;
+  return 30;
+}
+
+const SPECIES_SIZE_NAMES: Record<string, string> = {
+  T: 'Крошечный', S: 'Маленький', M: 'Средний', L: 'Большой', H: 'Огромный', G: 'Гигантский',
+};
+
+function getSpeciesSize(sp: SpeciesData): string {
+  return sp.size?.map(s => SPECIES_SIZE_NAMES[s] || s).join('/') || 'Средний';
+}
+
+function getSpeciesLanguages(sp: SpeciesData): string[] {
+  if (!sp.languageProficiencies?.length) return ['Common'];
+  const langs: string[] = [];
+  for (const lp of sp.languageProficiencies) {
+    for (const [k, v] of Object.entries(lp)) {
+      if (k !== 'anyStandard' && k !== 'choose' && v) langs.push(k);
+    }
+  }
+  return langs.length ? langs : ['Common'];
+}
+
+// ─── Хелперы для JsonBackgroundData ───
+function getBgFeatName(bg: JsonBackgroundData): string {
+  if (!bg.feats?.length) return '';
+  return Object.keys(bg.feats[0])[0]?.split('|')[0] || '';
+}
+
+function getBgSkills(bg: JsonBackgroundData): string[] {
+  if (!bg.skillProficiencies?.length) return [];
+  return Object.keys(bg.skillProficiencies[0]).filter(k => k !== 'choose');
+}
+
+function getBgToolProficiency(bg: JsonBackgroundData): string {
+  if (!bg.toolProficiencies?.length) return '';
+  return Object.keys(bg.toolProficiencies[0]).filter(k => k !== 'choose').join(', ');
+}
+
+function getBgAbilityOptions(bg: JsonBackgroundData): (keyof AbilityScores)[] {
+  if (!bg.ability?.length) return [];
+  const result: (keyof AbilityScores)[] = [];
+  const ABILITY_MAP: Record<string, keyof AbilityScores> = {
+    str: 'strength', dex: 'dexterity', con: 'constitution',
+    int: 'intelligence', wis: 'wisdom', cha: 'charisma',
+  };
+  for (const ab of bg.ability) {
+    if (ab.choose?.from) {
+      for (const k of ab.choose.from) {
+        const mapped = ABILITY_MAP[k] || k as keyof AbilityScores;
+        if (!result.includes(mapped)) result.push(mapped);
+      }
+    }
+  }
+  return result;
+}
+
+// ─── OPTION_TYPE_NAMES для char creation options ───
+const OPTION_TYPE_NAMES: Record<string, string> = {
+  'SG': 'Сверхъестественный Дар',
+  'CS': 'Секрет Персонажа',
+  'DG': 'Тёмный Дар',
+  'RF:B': 'Региональная Особенность',
+  'Transformation': 'Трансформация',
+};
 
 // Типы заклинаний (без прямого импорта данных — данные загрузятся лениво)
 interface SpellData {
@@ -47,6 +117,7 @@ const STEPS = [
   { key: 'race', label: 'Раса', icon: Sparkles },
   { key: 'class', label: 'Класс', icon: Swords },
   { key: 'background', label: 'Предыстория', icon: BookOpen },
+  { key: 'charoptions', label: 'Опции', icon: Scroll },
   { key: 'abilities', label: 'Характеристики', icon: Dices },
   { key: 'spells', label: 'Заклинания', icon: Wand2 },
   { key: 'details', label: 'Детали', icon: User },
@@ -89,15 +160,77 @@ const EntityImage: React.FC<{
 export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCancel }) => {
   const [step, setStep] = useState(0);
 
-  // Race
-  const [selectedRace, setSelectedRace] = useState<RaceDefinition | null>(null);
-  const [selectedSubrace, setSelectedSubrace] = useState<SubraceDefinition | null>(null);
+  // Species (lazy loaded)
+  const [speciesLoaded, setSpeciesLoaded] = useState(false);
+  const [allSpecies, setAllSpecies] = useState<SpeciesData[]>([]);
+  const [selectedSpecies, setSelectedSpecies] = useState<SpeciesData | null>(null);
 
   // Class
   const [selectedClass, setSelectedClass] = useState<ClassDefinition | null>(null);
+  const [classLevelTable, setClassLevelTable] = useState<any[] | null>(null);
 
-  // Background
-  const [selectedBackground, setSelectedBackground] = useState<BackgroundDefinition | null>(null);
+  // Background (lazy loaded)
+  const [backgroundsLoaded, setBackgroundsLoaded] = useState(false);
+  const [allBackgrounds, setAllBackgrounds] = useState<JsonBackgroundData[]>([]);
+  const [selectedBackground, setSelectedBackground] = useState<JsonBackgroundData | null>(null);
+
+  // Character Creation Options (lazy loaded)
+  const [charOptionsLoaded, setCharOptionsLoaded] = useState(false);
+  const [allCharOptions, setAllCharOptions] = useState<CharacterCreationOptionData[]>([]);
+  const [selectedCharOption, setSelectedCharOption] = useState<CharacterCreationOptionData | null>(null);
+
+  // EntryRenderer for species/bg/charoptions detail
+  const [EntryRendererCmp, setEntryRendererCmp] = useState<React.FC<any> | null>(null);
+
+  // Lazy load species
+  React.useEffect(() => {
+    let cancelled = false;
+    import('../data/species').then(async mod => {
+      await mod.init();
+      if (!cancelled) { setAllSpecies([...mod.ALL_SPECIES]); setSpeciesLoaded(true); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Lazy load backgrounds
+  React.useEffect(() => {
+    let cancelled = false;
+    import('../data/backgrounds/jsonBackgrounds').then(async mod => {
+      await mod.init();
+      if (!cancelled) { setAllBackgrounds([...mod.ALL_JSON_BACKGROUNDS]); setBackgroundsLoaded(true); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Lazy load char creation options
+  React.useEffect(() => {
+    let cancelled = false;
+    import('../data/charactercreationoptions').then(async mod => {
+      await mod.init();
+      if (!cancelled) { setAllCharOptions([...mod.ALL_CHARACTER_CREATION_OPTIONS]); setCharOptionsLoaded(true); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Lazy load EntryRenderer
+  React.useEffect(() => {
+    import('../utils/entryRenderer').then(mod => {
+      setEntryRendererCmp(() => mod.EntryRenderer);
+    });
+  }, []);
+
+  // Lazy load class levelTable when class changes
+  React.useEffect(() => {
+    if (!selectedClass) { setClassLevelTable(null); return; }
+    let cancelled = false;
+    import('../data/classes/classJsonLoader').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      const data = mod.getClassDataByName(selectedClass.name);
+      setClassLevelTable(data?.levelTable ?? null);
+    });
+    return () => { cancelled = true; };
+  }, [selectedClass]);
 
   // Abilities
   const [abilityMethod, setAbilityMethod] = useState<AbilityMethod>('pointBuy');
@@ -157,24 +290,25 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   }, [selectedClass, spellsLoaded, loadedSpells]);
 
   const isSpellcaster = selectedClass?.spellcaster ?? false;
-  const maxCantrips = 2;
-  const maxSpells = isSpellcaster ? Math.max(1, 1 + (activeBonuses[selectedClass?.spellcastingAbility as keyof AbilityScores] || 0)) : 0;
+  // Берём лимиты заговоров и заклинаний из levelTable класса (уровень 1)
+  const level1Data = classLevelTable?.find((r: any) => r.level === 1);
+  const maxCantrips = level1Data?.cantrips ?? (isSpellcaster ? 2 : 0);
+  const maxSpells = level1Data?.preparedSpells ?? (isSpellcaster ? Math.max(1, 1 + (activeBonuses[selectedClass?.spellcastingAbility as keyof AbilityScores] || 0)) : 0);
 
-  // Navigation (7 шагов для заклинателя, 6 для остальных)
+  // Navigation (8 шагов для заклинателя, 7 для остальных — пропускаем spells)
+  // Steps: 0=race, 1=class, 2=background, 3=charoptions, 4=abilities, 5=spells, 6=details, 7=review
   const getEffectiveStep = (s: number): string => {
-    if (!isSpellcaster && s >= 4) {
-      // Пропускаем шаг заклинаний
-      return STEPS[s + 1]?.key ?? 'review';
-    }
+    // step variable directly maps to STEPS index; spells skip handled by nextStep/prevStep
     return STEPS[s]?.key ?? 'review';
   };
 
   const canProceed = (): boolean => {
     const effectiveKey = getEffectiveStep(step);
     switch (effectiveKey) {
-      case 'race': return selectedRace !== null;
+      case 'race': return selectedSpecies !== null;
       case 'class': return selectedClass !== null;
       case 'background': return selectedBackground !== null;
+      case 'charoptions': return true; // Информационный шаг
       case 'abilities': {
         if (abilityMethod === 'pointBuy' && getPointBuyRemaining(abilityScores) < 0) return false;
         if (backgroundBonusMode === 'background' && (!bgBonus2 || !bgBonus1)) return false;
@@ -187,13 +321,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     }
   };
 
-  const maxStep = isSpellcaster ? 6 : 5;
+  const maxStep = isSpellcaster ? 7 : 6;
   const nextStep = () => {
     if (canProceed()) {
       setStep(s => {
         let next = s + 1;
         // Пропускаем шаг заклинаний если не заклинатель
-        if (!isSpellcaster && next === 4) next = 5;
+        if (!isSpellcaster && next === 5) next = 6;
         return Math.min(next, maxStep);
       });
     }
@@ -201,7 +335,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const prevStep = () => {
     setStep(s => {
       let prev = s - 1;
-      if (!isSpellcaster && prev === 4) prev = 3;
+      if (!isSpellcaster && prev === 5) prev = 4;
       return Math.max(prev, 0);
     });
   };
@@ -252,7 +386,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // Submit
   const handleSubmit = () => {
-    if (!selectedRace || !selectedClass || !selectedBackground) return;
+    if (!selectedSpecies || !selectedClass || !selectedBackground) return;
 
     const level = 1;
     const finalScores: AbilityScores = {
@@ -268,15 +402,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const maxHP = calculateMaxHP(level, finalScores.constitution, selectedClass.hitDie);
 
     // Merge tool proficiencies from class and background
+    const bgTool = getBgToolProficiency(selectedBackground);
     const allTools = [...selectedClass.proficiencies.tools];
-    if (selectedBackground.toolProficiency && !allTools.includes(selectedBackground.toolProficiency)) {
-      allTools.push(selectedBackground.toolProficiency);
+    if (bgTool && !allTools.includes(bgTool)) {
+      allTools.push(bgTool);
     }
+
+    const bgFeat = getBgFeatName(selectedBackground);
 
     const character: Character = {
       id: crypto.randomUUID(),
       name,
-      race: selectedSubrace ? `${selectedRace.name} (${selectedSubrace.name})` : selectedRace.name,
+      race: selectedSpecies.name,
       class: selectedClass.name,
       classId: selectedClass.id,
       level,
@@ -297,16 +434,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         armor: selectedClass.proficiencies.armor,
         weapons: selectedClass.proficiencies.weapons,
         tools: allTools,
-        languages: selectedRace.languages,
+        languages: getSpeciesLanguages(selectedSpecies),
       },
       armorClass: 10 + getAbilityModifier(finalScores.dexterity),
       initiative: getAbilityModifier(finalScores.dexterity),
-      speed: selectedRace.speed,
+      speed: getSpeciesSpeed(selectedSpecies),
       proficiencyBonus,
       inventory: [],
       equipment: {},
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
-      features: selectedBackground.feat ? [{ id: 'bg-feat', name: selectedBackground.feat, description: `Черта от предыстории: ${selectedBackground.name}`, source: selectedBackground.source }] : [],
+      features: bgFeat ? [{ id: 'bg-feat', name: bgFeat, description: `Черта от предыстории: ${selectedBackground.name}`, source: selectedBackground.source }] : [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -336,6 +473,22 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         cantripsKnown: maxCantrips,
         spellsKnown: maxSpells,
       };
+
+      // Инициализировать spell slots из levelTable
+      if (level1Data?.spellSlots) {
+        const slots = level1Data.spellSlots as number[];
+        character.spellcasting.spellSlots = {
+          level1: { total: slots[0] || 0, used: 0 },
+          level2: { total: slots[1] || 0, used: 0 },
+          level3: { total: slots[2] || 0, used: 0 },
+          level4: { total: slots[3] || 0, used: 0 },
+          level5: { total: slots[4] || 0, used: 0 },
+          level6: { total: slots[5] || 0, used: 0 },
+          level7: { total: slots[6] || 0, used: 0 },
+          level8: { total: slots[7] || 0, used: 0 },
+          level9: { total: slots[8] || 0, used: 0 },
+        };
+      }
     }
 
     onSave(character);
@@ -343,6 +496,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Step Indicator ───
   const visibleSteps = isSpellcaster ? STEPS : STEPS.filter(s => s.key !== 'spells');
+  const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
+  const [bgSearchQuery, setBgSearchQuery] = useState('');
   const renderStepIndicator = () => (
     <div className="flex items-center justify-center gap-0 mb-4">
       {visibleSteps.map((s, vi) => {
@@ -384,110 +539,104 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     </div>
   );
 
-  // ─── Step 0: Race ───
+  // ─── Step 0: Race (Species) ───
+  const filteredSpecies = useMemo(() => {
+    const q = speciesSearchQuery.toLowerCase().trim();
+    if (!q) return allSpecies;
+    return allSpecies.filter(sp => sp.name.toLowerCase().includes(q));
+  }, [allSpecies, speciesSearchQuery]);
+
   const renderRaceStep = () => (
     <div className="flex flex-col lg:flex-row gap-6 h-full">
       <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-        <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите расу</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
-          {RACE_REGISTRY.map(race => (
-            <button
-              key={race.id}
-              onClick={() => {
-                setSelectedRace(race);
-                setSelectedSubrace(null);
-              }}
-              className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
-                selectedRace?.id === race.id
-                  ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
-                  : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
-              }`}
-            >
-              <EntityImage folder="races" id={race.id} name={race.name} className="w-full h-32 rounded-t-md" />
-              <div className="p-2">
-                <div className={`font-semibold text-sm ${selectedRace?.id === race.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                  {race.name}
-                </div>
-                <div className="text-xs text-gray-400 mt-0.5">{race.source}</div>
-              </div>
-            </button>
-          ))}
-        </div>
+        <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите вид</h3>
 
-        {selectedRace?.subraces && selectedRace.subraces.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-lg font-medieval text-dnd-secondary mb-3">Подраса</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
-              {selectedRace.subraces.map(sub => (
-                <button
-                  key={sub.id}
-                  onClick={() => setSelectedSubrace(sub)}
-                  className={`rounded-lg border-2 text-left transition-all overflow-hidden ${
-                    selectedSubrace?.id === sub.id
-                      ? 'border-dnd-secondary bg-dnd-secondary/10'
-                      : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
-                  }`}
-                >
-                  <EntityImage folder="subraces" id={sub.id} name={sub.name} className="w-full h-28 rounded-t-md" />
-                  <div className="p-2">
-                    <div className={`font-semibold text-sm ${selectedSubrace?.id === sub.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                      {sub.name}
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
+        {!speciesLoaded ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 size={32} className="animate-spin text-dnd-secondary" />
+            <span className="ml-3 text-gray-400">Загрузка видов...</span>
           </div>
+        ) : (
+          <>
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                type="text"
+                placeholder="Поиск видов..."
+                value={speciesSearchQuery}
+                onChange={e => setSpeciesSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
+              />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+              {filteredSpecies.map((sp, idx) => {
+                const spId = sp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                return (
+                  <button
+                    key={`${sp.name}-${idx}`}
+                    onClick={() => setSelectedSpecies(sp)}
+                    className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
+                      selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source
+                        ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
+                        : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
+                    }`}
+                  >
+                    <EntityImage folder="races" id={spId} name={sp.name} className="w-full h-32 rounded-t-md" />
+                    <div className="p-2">
+                      <div className={`font-semibold text-sm ${selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                        {sp.name}
+                      </div>
+                      <div className="text-xs text-gray-400 mt-0.5">{sp.source}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 
-      {selectedRace && (
+      {selectedSpecies && (
         <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto">
           <EntityImage
-            folder={selectedSubrace ? 'subraces' : 'races'}
-            id={selectedSubrace ? selectedSubrace.id : selectedRace.id}
-            name={selectedSubrace ? selectedSubrace.name : selectedRace.name}
+            folder="races"
+            id={selectedSpecies.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+            name={selectedSpecies.name}
             className="w-full h-52"
           />
           <div className="p-5 space-y-3">
-            <div>
-              <h3 className="text-xl font-medieval text-dnd-secondary">{selectedRace.name}</h3>
-              {selectedSubrace && <div className="text-sm text-dnd-secondary/80 mt-0.5">{selectedSubrace.name}</div>}
-            </div>
-            <p className="text-sm text-gray-300 leading-relaxed">{selectedRace.description}</p>
-            {selectedSubrace && <p className="text-sm text-gray-400 leading-relaxed">{selectedSubrace.description}</p>}
+            <h3 className="text-xl font-medieval text-dnd-secondary">{selectedSpecies.name}</h3>
+            <div className="text-xs text-gray-400">{selectedSpecies.source}</div>
 
             <div className="space-y-2 text-sm">
               <div className="flex gap-2">
                 <span className="text-gray-400 shrink-0">Скорость:</span>
-                <span className="text-white">{selectedRace.speed} фт.</span>
+                <span className="text-white">{getSpeciesSpeed(selectedSpecies)} фт.</span>
               </div>
               <div className="flex gap-2">
                 <span className="text-gray-400 shrink-0">Размер:</span>
-                <span className="text-white">{selectedRace.size}</span>
+                <span className="text-white">{getSpeciesSize(selectedSpecies)}</span>
               </div>
+              {selectedSpecies.darkvision && (
+                <div className="flex gap-2">
+                  <span className="text-gray-400 shrink-0">Тёмное зрение:</span>
+                  <span className="text-white">{selectedSpecies.darkvision} фт.</span>
+                </div>
+              )}
               <div className="flex gap-2">
                 <span className="text-gray-400 shrink-0">Языки:</span>
-                <span className="text-white">{selectedRace.languages.join(', ')}</span>
-              </div>
-              <div>
-                <span className="text-gray-400">Особенности:</span>
-                <div className="mt-2 space-y-2">
-                  {selectedRace.traits.map(t => (
-                    <div key={t.name} className="text-xs leading-relaxed">
-                      <span className="text-dnd-secondary font-medium">{t.name}:</span>
-                      <span className="text-gray-300 ml-1">{t.description}</span>
-                    </div>
-                  ))}
-                  {selectedSubrace?.traits.map(t => (
-                    <div key={t.name} className="text-xs leading-relaxed">
-                      <span className="text-dnd-secondary font-medium">{t.name}:</span>
-                      <span className="text-gray-300 ml-1">{t.description}</span>
-                    </div>
-                  ))}
-                </div>
+                <span className="text-white">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
               </div>
             </div>
+
+            {/* Entries через EntryRenderer */}
+            {selectedSpecies.entries && selectedSpecies.entries.length > 0 && EntryRendererCmp && (
+              <div className="pt-3 border-t border-gray-700">
+                <div className="prose prose-invert prose-sm max-w-none text-xs">
+                  <EntryRendererCmp entries={selectedSpecies.entries} context={selectedSpecies.name} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -763,7 +912,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div className="space-y-3">
                 <p className="text-sm text-gray-400">Выберите +2 к одной и +1 к другой из связанных характеристик:</p>
                 <div className="grid grid-cols-3 gap-3">
-                  {selectedBackground.abilityOptions.map(ability => {
+                  {getBgAbilityOptions(selectedBackground).map(ability => {
                     const is2 = bgBonus2 === ability;
                     const is1 = bgBonus1 === ability;
                     return (
@@ -857,68 +1006,107 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   };
 
   // ─── Step 2: Background ───
+  const filteredBackgrounds = useMemo(() => {
+    const q = bgSearchQuery.toLowerCase().trim();
+    if (!q) return allBackgrounds;
+    return allBackgrounds.filter(bg => bg.name.toLowerCase().includes(q));
+  }, [allBackgrounds, bgSearchQuery]);
+
   const renderBackgroundStep = () => (
     <div className="flex flex-col lg:flex-row gap-6 h-full">
       <div className="flex-1 min-h-0 overflow-y-auto pr-1">
         <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите предысторию</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
-          {BACKGROUND_REGISTRY.map(bg => (
-            <button
-              key={bg.id}
-              onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
-              className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] p-3 ${
-                selectedBackground?.id === bg.id
-                  ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
-                  : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
-              }`}
-            >
-              <div className={`font-semibold text-sm ${selectedBackground?.id === bg.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                {bg.name}
-              </div>
-              <div className="text-xs text-gray-400 mt-1">{bg.feat}</div>
-              <div className="text-xs text-gray-500 mt-1">{bg.skillProficiencies.join(', ')}</div>
-            </button>
-          ))}
-        </div>
+
+        {!backgroundsLoaded ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 size={32} className="animate-spin text-dnd-secondary" />
+            <span className="ml-3 text-gray-400">Загрузка предысторий...</span>
+          </div>
+        ) : (
+          <>
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                type="text"
+                placeholder="Поиск предысторий..."
+                value={bgSearchQuery}
+                onChange={e => setBgSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
+              />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+              {filteredBackgrounds.map((bg, idx) => (
+                <button
+                  key={`${bg.name}-${idx}`}
+                  onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
+                  className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] p-3 ${
+                    selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
+                      ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
+                      : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
+                  }`}
+                >
+                  <div className={`font-semibold text-sm ${selectedBackground?.name === bg.name && selectedBackground?.source === bg.source ? 'text-dnd-secondary' : 'text-gray-200'}`}>
+                    {bg.name}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">{getBgFeatName(bg)}</div>
+                  <div className="text-xs text-gray-500 mt-1">{getBgSkills(bg).join(', ')}</div>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {selectedBackground && (
         <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto p-5 space-y-3">
           <h3 className="text-xl font-medieval text-dnd-secondary">{selectedBackground.name}</h3>
-          <p className="text-sm text-gray-300 leading-relaxed">{selectedBackground.description}</p>
+          <div className="text-xs text-gray-400">{selectedBackground.source}</div>
 
           <div className="space-y-2 text-sm">
-            <div>
-              <span className="text-gray-400">Черта:</span>
-              <span className="text-purple-300 ml-2 font-medium">{selectedBackground.feat}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Навыки:</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {selectedBackground.skillProficiencies.map(s => (
-                  <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
-                ))}
+            {getBgFeatName(selectedBackground) && (
+              <div>
+                <span className="text-gray-400">Черта:</span>
+                <span className="text-purple-300 ml-2 font-medium">{getBgFeatName(selectedBackground)}</span>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <span className="text-gray-400 shrink-0">Инструменты:</span>
-              <span className="text-gray-200">{selectedBackground.toolProficiency}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Связанные характеристики:</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {selectedBackground.abilityOptions.map(a => (
-                  <span key={a} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
-                    {ABILITY_NAMES[a]}
-                  </span>
-                ))}
+            )}
+            {getBgSkills(selectedBackground).length > 0 && (
+              <div>
+                <span className="text-gray-400">Навыки:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {getBgSkills(selectedBackground).map(s => (
+                    <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <span className="text-gray-400">Снаряжение:</span>
-              <p className="text-xs text-gray-300 mt-1 leading-relaxed">{selectedBackground.equipment}</p>
-            </div>
+            )}
+            {getBgToolProficiency(selectedBackground) && (
+              <div className="flex gap-2">
+                <span className="text-gray-400 shrink-0">Инструменты:</span>
+                <span className="text-gray-200">{getBgToolProficiency(selectedBackground)}</span>
+              </div>
+            )}
+            {getBgAbilityOptions(selectedBackground).length > 0 && (
+              <div>
+                <span className="text-gray-400">Связанные характеристики:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {getBgAbilityOptions(selectedBackground).map(a => (
+                    <span key={a} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
+                      {ABILITY_NAMES[a]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Entries через EntryRenderer */}
+          {selectedBackground.entries && selectedBackground.entries.length > 0 && EntryRendererCmp && (
+            <div className="pt-3 border-t border-gray-700">
+              <div className="prose prose-invert prose-sm max-w-none text-xs">
+                <EntryRendererCmp entries={selectedBackground.entries} context={selectedBackground.name} />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -944,7 +1132,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
           <div className="text-sm text-gray-400 mb-1">Предыстория</div>
           <div className="text-lg text-dnd-secondary font-medieval">{selectedBackground.name}</div>
-          <div className="text-xs text-gray-400 mt-1">Черта: {selectedBackground.feat}</div>
+          <div className="text-xs text-gray-400 mt-1">Черта: {getBgFeatName(selectedBackground)}</div>
         </div>
       )}
 
@@ -956,9 +1144,86 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     </div>
   );
 
-  // ─── Step 5: Review ───
+  // ─── Step 3: Character Creation Options ───
+  const renderCharOptionsStep = () => {
+    if (!charOptionsLoaded) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 size={32} className="animate-spin text-dnd-secondary" />
+          <span className="ml-3 text-gray-400">Загрузка опций создания...</span>
+        </div>
+      );
+    }
+
+    // Группировка по типу опции
+    const grouped = new Map<string, CharacterCreationOptionData[]>();
+    for (const opt of allCharOptions) {
+      const typeKey = opt.optionType?.[0] || 'Other';
+      if (!grouped.has(typeKey)) grouped.set(typeKey, []);
+      grouped.get(typeKey)!.push(opt);
+    }
+
+    return (
+      <div className="space-y-6">
+        <div className="text-center">
+          <h3 className="text-xl font-medieval text-dnd-secondary">Опции создания персонажа</h3>
+          <p className="text-sm text-gray-400 mt-1">
+            Необязательный шаг — ознакомьтесь с дополнительными опциями для вашего персонажа
+          </p>
+        </div>
+
+        {selectedCharOption ? (
+          <div className="space-y-4">
+            <button
+              onClick={() => setSelectedCharOption(null)}
+              className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={14} />
+              Назад к списку
+            </button>
+            <div className="bg-gray-800/80 rounded-lg border border-dnd-secondary p-6">
+              <h3 className="text-2xl font-medieval text-white mb-1">{selectedCharOption.name}</h3>
+              <div className="text-sm text-dnd-secondary mb-4">
+                {selectedCharOption.optionType?.map(t => OPTION_TYPE_NAMES[t] || t).join(', ')}
+                {' • '}{selectedCharOption.source}
+              </div>
+              {EntryRendererCmp && selectedCharOption.entries && (
+                <div className="prose prose-invert max-w-none text-sm">
+                  <EntryRendererCmp entries={selectedCharOption.entries} />
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {Array.from(grouped.entries()).map(([typeKey, options]) => (
+              <div key={typeKey}>
+                <h4 className="text-lg font-medieval text-dnd-secondary mb-3">
+                  {OPTION_TYPE_NAMES[typeKey] || typeKey}
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {options.map(opt => (
+                    <button
+                      key={`${opt.name}-${opt.source}`}
+                      onClick={() => setSelectedCharOption(opt)}
+                      className="text-left p-3 bg-gray-800/80 rounded-lg border border-gray-600 hover:border-dnd-secondary transition-colors"
+                    >
+                      <div className="text-white font-medium text-sm">{opt.name}</div>
+                      <div className="text-xs text-gray-400 mt-1">{opt.source}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ─── Step 7: Review ───
   const renderReviewStep = () => {
-    if (!selectedRace || !selectedClass || !selectedBackground) return null;
+    if (!selectedSpecies || !selectedClass || !selectedBackground) return null;
     const level = 1;
     const profBonus = getProficiencyBonus(level);
     const finalScores: AbilityScores = {
@@ -978,7 +1243,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div className="bg-gray-800/80 rounded-lg border border-dnd-secondary p-6">
           <h2 className="text-3xl font-medieval text-white mb-1">{name || 'Без имени'}</h2>
           <p className="text-dnd-secondary text-lg">
-            {selectedSubrace ? `${selectedRace.name} (${selectedSubrace.name})` : selectedRace.name}
+            {selectedSpecies.name}
             {' • '}
             {selectedClass.name}
             {' • '}
@@ -1019,7 +1284,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-300">Скорость:</span>
-                <span className="text-white font-bold">{selectedRace.speed} фт.</span>
+                <span className="text-white font-bold">{getSpeciesSpeed(selectedSpecies)} фт.</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-300">Бонус мастерства:</span>
@@ -1078,7 +1343,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             )}
             <div>
               <span className="text-gray-400">Языки: </span>
-              <span className="text-gray-200">{selectedRace.languages.join(', ')}</span>
+              <span className="text-gray-200">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
             </div>
           </div>
         </div>
@@ -1238,10 +1503,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 0: return renderRaceStep();
       case 1: return renderClassStep();
       case 2: return renderBackgroundStep();
-      case 3: return renderAbilitiesStep();
-      case 4: return renderSpellsStep();
-      case 5: return renderDetailsStep();
-      case 6: return renderReviewStep();
+      case 3: return renderCharOptionsStep();
+      case 4: return renderAbilitiesStep();
+      case 5: return renderSpellsStep();
+      case 6: return renderDetailsStep();
+      case 7: return renderReviewStep();
     }
   };
 

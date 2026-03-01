@@ -13,6 +13,7 @@ import { sorcerer } from './sorcerer';
 import { warlock } from './warlock';
 import { wizard } from './wizard';
 import { artificer } from './artificer';
+import { gunslinger } from './gunslinger';
 import { monsterHunter } from './monster-hunter';
 
 import type { ClassDefinition } from './types';
@@ -23,6 +24,7 @@ export const CLASS_REGISTRY: ClassDefinition[] = [
   cleric,
   druid,
   fighter,
+  gunslinger,
   monk,
   paladin,
   ranger,

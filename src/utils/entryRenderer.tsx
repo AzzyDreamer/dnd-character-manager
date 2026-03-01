@@ -21,6 +21,9 @@ interface LoadedData {
   items?: any[];
   optionalfeatures?: any[];
   rules?: any[];
+  classes?: any[];
+  charoptions?: any[];
+  subclasses?: any[];
 }
 
 let _loadedData: LoadedData = {};
@@ -44,6 +47,9 @@ const TAG_TO_CATEGORY: Record<string, string> = {
   item: 'items',
   optfeature: 'optionalfeatures',
   variantrule: 'rules',
+  class: 'classes',
+  charoption: 'charoptions',
+  subclass: 'subclasses',
 };
 
 // Поиск по тегу в загруженных данных
@@ -90,7 +96,7 @@ const LINK_TAGS = new Set([
   'spell', 'item', 'condition', 'disease', 'skill', 'sense',
   'variantrule', 'optfeature', 'feat', 'action', 'background',
   'race', 'species', 'creature', 'hazard', 'quickref', 'itemProperty',
-  'card',
+  'card', 'class', 'charoption', 'subclass',
 ]);
 
 // Теги, которые просто отображают текст

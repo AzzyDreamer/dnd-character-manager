@@ -19,6 +19,13 @@ export const cleric: ClassDefinition = {
     { id: 'trickery', name: 'Домен Обмана', description: 'Агент хаоса, мастер иллюзий и хитрости.', source: 'PHB', level: 3 },
     { id: 'forge', name: 'Домен Кузни', description: 'Мастер огня и металла, создатель магических предметов.', source: "Xanathar's Guide", level: 3 },
     { id: 'grave', name: 'Домен Могилы', description: 'Страж границы между жизнью и смертью.', source: "Xanathar's Guide", level: 3 },
+    { id: 'arcana', name: 'Домен Арканы', description: 'Wield Arcane Magic Through Divine Power', source: 'SCAG', level: 3 },
+    { id: 'eldritch', name: 'Домен Древнего Ужаса', description: 'Wield the Power that Killed the Gods', source: "GHePG'24", level: 3 },
+    { id: 'inquisition', name: 'Домен Инквизиции', description: 'Cleanse the Heretics', source: "GHePG'24", level: 3 },
+    { id: 'order', name: 'Домен Порядка', description: 'Enforce Law and Discipline', source: 'TCE', level: 3 },
+    { id: 'peace', name: 'Домен Мира', description: 'Bond Allies and Resolve Conflict', source: 'TCE', level: 3 },
+    { id: 'purification', name: 'Домен Очищения', description: 'Purge Sickness with Suffering', source: "GHePG'24", level: 3 },
+    { id: 'twilight', name: 'Домен Сумерек', description: 'Guardian of the Twilight Between Light and Dark', source: 'TCE', level: 3 },
   ],
   proficiencies: {
     armor: ['Лёгкие доспехи', 'Средние доспехи', 'Щиты'],

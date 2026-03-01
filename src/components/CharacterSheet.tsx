@@ -1,9 +1,10 @@
 import React, { useState, Suspense, lazy } from 'react';
-import type { Character, AbilityScores } from '../types';
+import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
 import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X, ScrollText, Wand2 } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
+import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazySpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.SpellsTab })));
@@ -17,6 +18,13 @@ interface CharacterSheetProps {
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
   const [showSubclassModal, setShowSubclassModal] = useState(false);
+  const [showSpellLevelUp, setShowSpellLevelUp] = useState(false);
+  const [pendingLevelUp, setPendingLevelUp] = useState<{
+    newLevel: number;
+    updatedChar: Character;
+    oldData: LevelTableRow;
+    newData: LevelTableRow;
+  } | null>(null);
   const [activeTab, setActiveTab] = useState<SheetTab>('stats');
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
@@ -49,7 +57,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     applyLevelUp(newLevel);
   };
 
-  const applyLevelUp = (newLevel: number, subclass?: string) => {
+  const buildUpdatedChar = (newLevel: number, subclass?: string): Character => {
     const hitDieValue = parseInt(character.hitDice.type.replace('d', ''));
     const conMod = getAbilityModifier(character.abilityScores.constitution);
     const hpGain = Math.max(1, Math.ceil(hitDieValue / 2) + 1 + conMod);
@@ -86,8 +94,88 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       };
     }
 
+    return updated;
+  };
+
+  const applyLevelUp = async (newLevel: number, subclass?: string) => {
+    const updated = buildUpdatedChar(newLevel, subclass);
+
+    // Проверяем изменения в заклинаниях через levelTable
+    if (updated.spellcasting && classDef?.spellcaster) {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const classData = mod.getClassDataByName(character.class);
+        if (classData?.levelTable) {
+          const oldData = classData.levelTable.find((r: any) => r.level === character.level) as LevelTableRow | undefined;
+          const newData = classData.levelTable.find((r: any) => r.level === newLevel) as LevelTableRow | undefined;
+
+          if (oldData && newData) {
+            const cantripsGain = (newData.cantrips ?? 0) - (oldData.cantrips ?? 0);
+            const spellsGain = (newData.preparedSpells ?? 0) - (oldData.preparedSpells ?? 0);
+
+            if (cantripsGain > 0 || spellsGain > 0) {
+              // Нужно выбрать новые заклинания — показываем модал
+              setPendingLevelUp({ newLevel, updatedChar: updated, oldData, newData });
+              setShowSpellLevelUp(true);
+              setShowSubclassModal(false);
+              return;
+            }
+
+            // Нет новых заклинаний, но обновляем слоты
+            if (newData.spellSlots) {
+              const slots = newData.spellSlots as number[];
+              updated.spellcasting = {
+                ...updated.spellcasting!,
+                spellSlots: {
+                  level1: { total: slots[0] || 0, used: updated.spellcasting.spellSlots?.level1?.used || 0 },
+                  level2: { total: slots[1] || 0, used: updated.spellcasting.spellSlots?.level2?.used || 0 },
+                  level3: { total: slots[2] || 0, used: updated.spellcasting.spellSlots?.level3?.used || 0 },
+                  level4: { total: slots[3] || 0, used: updated.spellcasting.spellSlots?.level4?.used || 0 },
+                  level5: { total: slots[4] || 0, used: updated.spellcasting.spellSlots?.level5?.used || 0 },
+                  level6: { total: slots[5] || 0, used: updated.spellcasting.spellSlots?.level6?.used || 0 },
+                  level7: { total: slots[6] || 0, used: updated.spellcasting.spellSlots?.level7?.used || 0 },
+                  level8: { total: slots[7] || 0, used: updated.spellcasting.spellSlots?.level8?.used || 0 },
+                  level9: { total: slots[8] || 0, used: updated.spellcasting.spellSlots?.level9?.used || 0 },
+                },
+                cantripsKnown: newData.cantrips ?? updated.spellcasting.cantripsKnown,
+                spellsKnown: newData.preparedSpells ?? updated.spellcasting.spellsKnown,
+              };
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to load class level table:', e);
+      }
+    }
+
     onUpdate(updated);
     setShowSubclassModal(false);
+  };
+
+  const handleSpellLevelUpConfirm = (newSpells: CharacterSpell[], updatedSlots: SpellSlots) => {
+    if (!pendingLevelUp) return;
+    const { updatedChar, newData } = pendingLevelUp;
+
+    const final: Character = {
+      ...updatedChar,
+      spellcasting: {
+        ...updatedChar.spellcasting!,
+        spells: [...updatedChar.spellcasting!.spells, ...newSpells],
+        spellSlots: updatedSlots,
+        cantripsKnown: newData.cantrips ?? updatedChar.spellcasting!.cantripsKnown,
+        spellsKnown: newData.preparedSpells ?? updatedChar.spellcasting!.spellsKnown,
+      },
+    };
+
+    onUpdate(final);
+    setShowSpellLevelUp(false);
+    setPendingLevelUp(null);
+  };
+
+  const handleSpellLevelUpCancel = () => {
+    setShowSpellLevelUp(false);
+    setPendingLevelUp(null);
   };
 
   const handleSubclassSelect = (subclassName: string) => {
@@ -455,6 +543,18 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             </div>
           </div>
         </div>
+      )}
+
+      {/* Spell Level-Up Modal */}
+      {showSpellLevelUp && pendingLevelUp && (
+        <SpellLevelUpModal
+          character={character}
+          newLevel={pendingLevelUp.newLevel}
+          oldLevelData={pendingLevelUp.oldData}
+          newLevelData={pendingLevelUp.newData}
+          onConfirm={handleSpellLevelUpConfirm}
+          onCancel={handleSpellLevelUpCancel}
+        />
       )}
     </div>
   );
