@@ -131,7 +131,25 @@ export const SCHOOL_NAMES: Record<string, string> = {
   T: 'Преобразование',
 };
 
-export function getSpellImagePath(spell: SpellData): string {
-  const imageName = spell.name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/src/data/spells/images/${imageName}.webp`;
+// Eager import всех изображений заклинаний как URL (лёгкий — только пути, не бинарники)
+const spellImageModules = import.meta.glob<string>('./images/*.webp', { eager: true, query: '?url', import: 'default' });
+
+// Маппинг: нормализованное имя → resolved URL
+const _imageCache: Record<string, string> = {};
+let _imageCacheBuilt = false;
+
+function buildImageCache() {
+  if (_imageCacheBuilt) return;
+  for (const [path, url] of Object.entries(spellImageModules)) {
+    // path = "./images/Acid_Splash.webp" → key = "acid_splash"
+    const filename = path.split('/').pop()?.replace('.webp', '') ?? '';
+    _imageCache[filename.toLowerCase()] = url;
+  }
+  _imageCacheBuilt = true;
+}
+
+export function getSpellImageUrl(spellName: string): string | undefined {
+  buildImageCache();
+  const key = spellName.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+  return _imageCache[key] ?? _imageCache['placeholder'];
 }

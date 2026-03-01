@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2 } from 'lucide-react';
 
 // ─── Типы ───
@@ -23,6 +23,8 @@ interface CategoryConfig {
 
 interface GlossaryProps {
   onBack: () => void;
+  activeCategory?: string | null;
+  onCategoryChange?: (category: string) => void;
 }
 
 // ─── Кеш загруженных данных по категориям ───
@@ -201,13 +203,13 @@ const SubclassListForClass: React.FC<{
   }, [classId]);
 
   if (!loaded) {
-    return <div className="text-sm text-gray-500 animate-pulse py-2">Загрузка подклассов...</div>;
+    return <div className="text-sm text-text-muted animate-pulse py-2">Загрузка подклассов...</div>;
   }
   if (subclasses.length === 0) return null;
 
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-medium text-gray-300 flex items-center gap-2">
+      <h4 className="text-sm font-medium text-text-primary flex items-center gap-2">
         <Shield size={14} />
         Подклассы ({subclasses.length})
       </h4>
@@ -220,15 +222,15 @@ const SubclassListForClass: React.FC<{
               onClick={() => onSelect(sub)}
               className={`text-left p-3 rounded-lg border transition-colors ${
                 isActive
-                  ? 'border-dnd-secondary bg-dnd-secondary/10 ring-1 ring-dnd-secondary/30'
-                  : 'border-gray-700 bg-gray-800/50 hover:border-dnd-secondary hover:bg-dnd-secondary/5'
+                  ? 'border-gold bg-gold/5 ring-1 ring-gold/30'
+                  : 'border-border-default glass-panel hover:border-gold/50 hover:bg-gold/5'
               }`}
             >
-              <div className={`text-sm font-medium ${isActive ? 'text-dnd-secondary' : 'text-gray-200'}`}>{sub.name}</div>
+              <div className={`text-sm font-medium ${isActive ? 'text-gold' : 'text-text-primary'}`}>{sub.name}</div>
               {sub.shortDescription && (
-                <div className="text-xs text-gray-400 mt-1 line-clamp-2">{sub.shortDescription}</div>
+                <div className="text-xs text-text-secondary mt-1 line-clamp-2">{sub.shortDescription}</div>
               )}
-              <div className="text-xs text-gray-500 mt-1">ур. {sub.level} • {sub.source}</div>
+              <div className="text-xs text-text-muted mt-1">ур. {sub.level} • {sub.source}</div>
             </button>
           );
         })}
@@ -254,8 +256,9 @@ const CATEGORIES: CategoryConfig[] = [
   { key: 'charoptions', label: 'Опции создания', icon: Sparkles },
 ];
 
-export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
-  const [activeCategory, setActiveCategory] = useState<GlossaryCategory | null>(null);
+export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange }) => {
+  const [internalCategory, setInternalCategory] = useState<GlossaryCategory | null>(null);
+  const activeCategory = (externalCategory as GlossaryCategory | null) ?? internalCategory;
   const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -266,7 +269,8 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
   // Загрузка категории при выборе
   const selectCategory = useCallback(async (category: GlossaryCategory) => {
-    setActiveCategory(category);
+    setInternalCategory(category);
+    onCategoryChange?.(category);
     setSearchQuery('');
     setSelectedEntry(null);
     setSelectedSubclass(null);
@@ -286,17 +290,25 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [onCategoryChange]);
+
+  // React to external category changes from TopNavBar sub-tabs
+  useEffect(() => {
+    if (externalCategory && externalCategory !== internalCategory) {
+      selectCategory(externalCategory as GlossaryCategory);
+    }
+  }, [externalCategory]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Назад к списку категорий
   const goBackToCategories = useCallback(() => {
-    setActiveCategory(null);
+    setInternalCategory(null);
+    onCategoryChange?.(null as any);
     setCategoryData(null);
     setSearchQuery('');
     setSelectedEntry(null);
     setSelectedSubclass(null);
     setLoadError(null);
-  }, []);
+  }, [onCategoryChange]);
 
   // Фильтрованный список
   const filteredItems = useMemo(() => {
@@ -616,10 +628,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
     return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-        <div className="bg-gray-900 rounded-xl border-2 border-dnd-secondary max-w-3xl w-full max-h-[85vh] overflow-y-auto">
-          <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4 flex items-center justify-between z-10">
-            <h2 className="text-xl font-medieval text-dnd-secondary">{d.name || 'Запись'}</h2>
-            <button onClick={() => setSelectedEntry(null)} className="text-gray-400 hover:text-white">
+        <div className="bg-gray-900 rounded-xl border-2 border-gold max-w-3xl w-full max-h-[85vh] overflow-y-auto">
+          <div className="sticky top-0 bg-gray-900 border-b border-border-default p-4 flex items-center justify-between z-10">
+            <h2 className="text-xl font-medieval text-gold">{d.name || 'Запись'}</h2>
+            <button onClick={() => setSelectedEntry(null)} className="text-text-secondary hover:text-text-primary">
               <X size={24} />
             </button>
           </div>
@@ -627,7 +639,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
             {/* Мета-информация (теги) */}
             <div className="flex flex-wrap gap-2">
               {d.source && (
-                <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">{d.source}</span>
+                <span className="px-2 py-1 bg-bg-panel-solid text-text-primary rounded text-xs">{d.source}</span>
               )}
               {d.level !== undefined && type === 'spells' && (
                 <span className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs">
@@ -651,20 +663,20 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* ═══════════ ЗАКЛИНАНИЯ ═══════════ */}
             {type === 'spells' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                  <div><span className="text-gray-400">Время накладывания: </span><span className="text-gray-200">{formatSpellTime(d.time) || '—'}</span></div>
-                  <div><span className="text-gray-400">Дистанция: </span><span className="text-gray-200">{formatSpellRange(d.range)}</span></div>
-                  <div><span className="text-gray-400">Компоненты: </span><span className="text-gray-200">{formatSpellComponents(d.components) || '—'}</span></div>
-                  <div><span className="text-gray-400">Длительность: </span><span className="text-gray-200">{formatSpellDuration(d.duration) || '—'}</span></div>
+                  <div><span className="text-text-secondary">Время накладывания: </span><span className="text-text-primary">{formatSpellTime(d.time) || '—'}</span></div>
+                  <div><span className="text-text-secondary">Дистанция: </span><span className="text-text-primary">{formatSpellRange(d.range)}</span></div>
+                  <div><span className="text-text-secondary">Компоненты: </span><span className="text-text-primary">{formatSpellComponents(d.components) || '—'}</span></div>
+                  <div><span className="text-text-secondary">Длительность: </span><span className="text-text-primary">{formatSpellDuration(d.duration) || '—'}</span></div>
                 </div>
                 {(d.savingThrow || d.damageInflict) && (
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 pt-2 border-t border-gray-700">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 pt-2 border-t border-border-default">
                     {d.savingThrow && (
-                      <div><span className="text-gray-400">Спасбросок: </span><span className="text-gray-200">{d.savingThrow.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">Спасбросок: </span><span className="text-text-primary">{d.savingThrow.join(', ')}</span></div>
                     )}
                     {d.damageInflict && (
-                      <div><span className="text-gray-400">Тип урона: </span><span className="text-gray-200">{d.damageInflict.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">Тип урона: </span><span className="text-text-primary">{d.damageInflict.join(', ')}</span></div>
                     )}
                   </div>
                 )}
@@ -673,70 +685,70 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* ═══════════ ЧЕРТЫ ═══════════ */}
             {type === 'feats' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-gray-400">Требования: </span><span className="text-gray-200">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">Требования: </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
                 )}
                 {d.ability && d.ability.length > 0 && (
-                  <div><span className="text-gray-400">Бонус характеристики: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Бонус характеристики: </span><span className="text-text-primary">
                     {formatAbilityBonus(d.ability)}
                   </span></div>
                 )}
                 {d.additionalSpells && (
-                  <div><span className="text-gray-400">Заклинания: </span><span className="text-gray-200">Да</span></div>
+                  <div><span className="text-text-secondary">Заклинания: </span><span className="text-text-primary">Да</span></div>
                 )}
               </div>
             )}
 
             {/* ═══════════ ВИДЫ ═══════════ */}
             {type === 'species' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                   {d.size && (
-                    <div><span className="text-gray-400">Размер: </span><span className="text-gray-200">
+                    <div><span className="text-text-secondary">Размер: </span><span className="text-text-primary">
                       {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join(' или ')}
                     </span></div>
                   )}
                   {d.speed !== undefined && (
-                    <div><span className="text-gray-400">Скорость: </span><span className="text-gray-200">
+                    <div><span className="text-text-secondary">Скорость: </span><span className="text-text-primary">
                       {typeof d.speed === 'number' ? `${d.speed} фт.` :
                         Object.entries(d.speed).map(([k, v]) => k === 'walk' ? `${v} фт.` : `${k}: ${v} фт.`).join(', ')}
                     </span></div>
                   )}
                   {d.darkvision && (
-                    <div><span className="text-gray-400">Тёмное зрение: </span><span className="text-gray-200">{d.darkvision} фт.</span></div>
+                    <div><span className="text-text-secondary">Тёмное зрение: </span><span className="text-text-primary">{d.darkvision} фт.</span></div>
                   )}
                   {d.creatureTypes && (
-                    <div><span className="text-gray-400">Тип существа: </span><span className="text-gray-200">{d.creatureTypes.join(', ')}</span></div>
+                    <div><span className="text-text-secondary">Тип существа: </span><span className="text-text-primary">{d.creatureTypes.join(', ')}</span></div>
                   )}
                 </div>
                 {d.resist && (
-                  <div><span className="text-gray-400">Сопротивление: </span><span className="text-gray-200">{d.resist.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">Сопротивление: </span><span className="text-text-primary">{d.resist.join(', ')}</span></div>
                 )}
                 {d.traitTags && (
-                  <div><span className="text-gray-400">Особенности: </span><span className="text-gray-200">{d.traitTags.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">Особенности: </span><span className="text-text-primary">{d.traitTags.join(', ')}</span></div>
                 )}
               </div>
             )}
 
             {/* ═══════════ ПРЕДЫСТОРИИ ═══════════ */}
             {type === 'backgrounds' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.ability && d.ability.length > 0 && (
-                  <div><span className="text-gray-400">Характеристики: </span><span className="text-gray-200">{formatAbilityBonus(d.ability)}</span></div>
+                  <div><span className="text-text-secondary">Характеристики: </span><span className="text-text-primary">{formatAbilityBonus(d.ability)}</span></div>
                 )}
                 {d.skillProficiencies && d.skillProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Навыки: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Навыки: </span><span className="text-text-primary">
                     {d.skillProficiencies.map((sp: any) => Object.keys(sp).filter(k => k !== 'choose').join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.toolProficiencies && d.toolProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Инструменты: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Инструменты: </span><span className="text-text-primary">
                     {d.toolProficiencies.map((tp: any) => Object.keys(tp).filter(k => k !== 'choose').join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.languageProficiencies && d.languageProficiencies.length > 0 && (
-                  <div><span className="text-gray-400">Языки: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Языки: </span><span className="text-text-primary">
                     {d.languageProficiencies.map((lp: any) => {
                       const langs = Object.entries(lp).filter(([k]) => k !== 'anyStandard' && k !== 'choose');
                       const anyCount = lp.anyStandard || lp.choose?.count || 0;
@@ -747,14 +759,14 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
                   </span></div>
                 )}
                 {d.feats && d.feats.length > 0 && (
-                  <div><span className="text-gray-400">Черта: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Черта: </span><span className="text-text-primary">
                     {d.feats.map((f: any) => Object.keys(f)[0]?.split('|')[0]).join(', ')}
                   </span></div>
                 )}
                 {d.startingEquipment && d.startingEquipment.length > 0 && (
-                  <div className="pt-2 border-t border-gray-700">
-                    <span className="text-gray-400">Начальное снаряжение: </span>
-                    <span className="text-gray-200">
+                  <div className="pt-2 border-t border-border-default">
+                    <span className="text-text-secondary">Начальное снаряжение: </span>
+                    <span className="text-text-primary">
                       {d.startingEquipment.map((eq: any) => {
                         if (eq.A) {
                           return eq.A.map((item: any) => {
@@ -774,22 +786,22 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* ═══════════ ПРЕДМЕТЫ ═══════════ */}
             {type === 'items' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {/* Для шаблонов предметов (items) */}
                 {d._type === 'template' && d.raw && (
                   <>
-                    <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type}</span></div>
-                    {d.weight && <div><span className="text-gray-400">Вес: </span><span className="text-gray-200">{d.weight} фунт.</span></div>}
-                    {d.value && <div><span className="text-gray-400">Цена: </span><span className="text-gray-200">{d.value} зм</span></div>}
-                    {d.description && <div className="text-gray-200">{d.description}</div>}
+                    <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type}</span></div>
+                    {d.weight && <div><span className="text-text-secondary">Вес: </span><span className="text-text-primary">{d.weight} фунт.</span></div>}
+                    {d.value && <div><span className="text-text-secondary">Цена: </span><span className="text-text-primary">{d.value} зм</span></div>}
+                    {d.description && <div className="text-text-primary">{d.description}</div>}
                   </>
                 )}
                 {/* Для базовых предметов (items-base) */}
                 {d._type === 'base' && (
                   <>
-                    {d.type && <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type}</span></div>}
-                    {d.rarity && <div><span className="text-gray-400">Редкость: </span><span className="text-gray-200">{d.rarity}</span></div>}
-                    {d.reqAttune && <div><span className="text-gray-400">Настройка: </span><span className="text-gray-200">
+                    {d.type && <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type}</span></div>}
+                    {d.rarity && <div><span className="text-text-secondary">Редкость: </span><span className="text-text-primary">{d.rarity}</span></div>}
+                    {d.reqAttune && <div><span className="text-text-secondary">Настройка: </span><span className="text-text-primary">
                       {typeof d.reqAttune === 'string' ? d.reqAttune : 'Требуется'}
                     </span></div>}
                   </>
@@ -799,55 +811,55 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* ═══════════ СПОСОБНОСТИ (Optional Features) ═══════════ */}
             {type === 'optionalfeatures' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.featureType && (
-                  <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">
                     {d.featureType.map((t: string) => constants.FEATURE_TYPE_NAMES?.[t] || t).join(', ')}
                   </span></div>
                 )}
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-gray-400">Требования: </span><span className="text-gray-200">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">Требования: </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
                 )}
               </div>
             )}
 
             {/* ═══════════ СОСТОЯНИЯ ═══════════ */}
             {type === 'conditions' && d.type && (
-              <div className="bg-gray-800/50 rounded-lg p-4 text-sm">
-                <span className="text-gray-400">Тип: </span><span className="text-gray-200">{d.type === 'condition' ? 'Состояние' : 'Болезнь'}</span>
+              <div className="bg-bg-panel rounded-lg p-4 text-sm">
+                <span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type === 'condition' ? 'Состояние' : 'Болезнь'}</span>
               </div>
             )}
 
             {/* ═══════════ КЛАССЫ ═══════════ */}
             {type === 'classes' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.hitDie && (
-                  <div><span className="text-gray-400">Кость хитов: </span><span className="text-gray-200 font-bold">{d.hitDie}</span></div>
+                  <div><span className="text-text-secondary">Кость хитов: </span><span className="text-text-primary font-bold">{d.hitDie}</span></div>
                 )}
                 {d.primaryAbility && (
-                  <div><span className="text-gray-400">Основная характеристика: </span><span className="text-gray-200">{d.primaryAbility.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">Основная характеристика: </span><span className="text-text-primary">{d.primaryAbility.join(', ')}</span></div>
                 )}
                 {d.savingThrows && (
-                  <div><span className="text-gray-400">Спасброски: </span><span className="text-gray-200">{d.savingThrows.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">Спасброски: </span><span className="text-text-primary">{d.savingThrows.join(', ')}</span></div>
                 )}
                 {d.spellcaster !== undefined && (
-                  <div><span className="text-gray-400">Заклинатель: </span><span className="text-gray-200">{d.spellcaster ? 'Да' : 'Нет'}</span></div>
+                  <div><span className="text-text-secondary">Заклинатель: </span><span className="text-text-primary">{d.spellcaster ? 'Да' : 'Нет'}</span></div>
                 )}
                 {d.proficiencies && (
                   <>
                     {d.proficiencies.armor?.length > 0 && (
-                      <div><span className="text-gray-400">Доспехи: </span><span className="text-gray-200">{d.proficiencies.armor.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">Доспехи: </span><span className="text-text-primary">{d.proficiencies.armor.join(', ')}</span></div>
                     )}
                     {d.proficiencies.weapons?.length > 0 && (
-                      <div><span className="text-gray-400">Оружие: </span><span className="text-gray-200">{d.proficiencies.weapons.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">Оружие: </span><span className="text-text-primary">{d.proficiencies.weapons.join(', ')}</span></div>
                     )}
                     {d.proficiencies.tools?.length > 0 && (
-                      <div><span className="text-gray-400">Инструменты: </span><span className="text-gray-200">{d.proficiencies.tools.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">Инструменты: </span><span className="text-text-primary">{d.proficiencies.tools.join(', ')}</span></div>
                     )}
                   </>
                 )}
                 {d.description && (
-                  <div className="pt-2 border-t border-gray-700 text-gray-300">{d.description}</div>
+                  <div className="pt-2 border-t border-border-default text-text-primary">{d.description}</div>
                 )}
               </div>
             )}
@@ -863,27 +875,27 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* ═══════════ ПОДКЛАССЫ ═══════════ */}
             {type === 'subclasses' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.classId && (
-                  <div><span className="text-gray-400">Класс: </span><span className="text-gray-200">{d.classId}</span></div>
+                  <div><span className="text-text-secondary">Класс: </span><span className="text-text-primary">{d.classId}</span></div>
                 )}
                 {d.level && (
-                  <div><span className="text-gray-400">Уровень получения: </span><span className="text-gray-200">{d.level}</span></div>
+                  <div><span className="text-text-secondary">Уровень получения: </span><span className="text-text-primary">{d.level}</span></div>
                 )}
                 {d.source && (
-                  <div><span className="text-gray-400">Источник: </span><span className="text-gray-200">{d.source}</span></div>
+                  <div><span className="text-text-secondary">Источник: </span><span className="text-text-primary">{d.source}</span></div>
                 )}
                 {d.shortDescription && (
-                  <div className="text-gray-300 italic mt-2">{d.shortDescription}</div>
+                  <div className="text-text-primary italic mt-2">{d.shortDescription}</div>
                 )}
               </div>
             )}
 
             {/* ═══════════ ОПЦИИ СОЗДАНИЯ ═══════════ */}
             {type === 'charoptions' && (
-              <div className="bg-gray-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.optionType && (
-                  <div><span className="text-gray-400">Тип: </span><span className="text-gray-200">
+                  <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">
                     {d.optionType.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ')}
                   </span></div>
                 )}
@@ -895,7 +907,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               <div className="prose prose-invert prose-sm max-w-none">
                 {type === 'classes' && selectedSubclass ? (
                   entries.map((entry: any, i: number) => (
-                    <div key={i} className={entry._isSubclass ? 'border-l-2 border-dnd-secondary pl-3 my-2' : ''}>
+                    <div key={i} className={entry._isSubclass ? 'border-l-2 border-gold pl-3 my-2' : ''}>
                       <EntryRenderer entries={[entry]} context={d.name || ''} onNavigate={handleNavigate} />
                     </div>
                   ))
@@ -907,16 +919,16 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* EntriesHigherLevel для заклинаний */}
             {d.entriesHigherLevel?.length > 0 && (
-              <div className="pt-4 border-t border-gray-700">
-                <h4 className="text-sm font-medium text-gray-300 mb-2">На более высоких уровнях</h4>
+              <div className="pt-4 border-t border-border-default">
+                <h4 className="text-sm font-medium text-text-primary mb-2">На более высоких уровнях</h4>
                 <EntryRenderer entries={d.entriesHigherLevel} context={d.name || ''} onNavigate={handleNavigate} />
               </div>
             )}
 
             {/* Fluff текст */}
             {d.fluff && (
-              <div className="pt-4 border-t border-gray-700">
-                <div className="text-sm italic text-gray-400">
+              <div className="pt-4 border-t border-border-default">
+                <div className="text-sm italic text-text-secondary">
                   {Array.isArray(d.fluff) ? (
                     <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
                   ) : typeof d.fluff === 'object' && d.fluff.entries ? (
@@ -930,9 +942,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
 
             {/* Классы для заклинаний */}
             {type === 'spells' && d.classes?.fromClassList && (
-              <div className="pt-4 border-t border-gray-700 text-sm">
-                <span className="text-gray-400">Классы: </span>
-                <span className="text-gray-300">{d.classes.fromClassList.map((c: any) => c.name).join(', ')}</span>
+              <div className="pt-4 border-t border-border-default text-sm">
+                <span className="text-text-secondary">Классы: </span>
+                <span className="text-text-primary">{d.classes.fromClassList.map((c: any) => c.name).join(', ')}</span>
               </div>
             )}
           </div>
@@ -946,15 +958,15 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
     return (
       <div className="flex flex-col h-full">
         <div className="flex items-center justify-between mb-6">
-          <button onClick={onBack} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <button onClick={onBack} className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors">
             <ArrowLeft size={20} />
             <span>Назад</span>
           </button>
-          <h2 className="text-2xl font-medieval text-dnd-secondary">База знаний</h2>
+          <h2 className="text-2xl font-medieval text-gold">База знаний</h2>
           <div className="w-24" />
         </div>
 
-        <p className="text-gray-400 text-sm mb-4 text-center">
+        <p className="text-text-secondary text-sm mb-4 text-center">
           Выберите категорию для просмотра. Данные загружаются по запросу.
         </p>
 
@@ -966,17 +978,17 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               <button
                 key={cat.key}
                 onClick={() => selectCategory(cat.key)}
-                className="flex flex-col items-center gap-3 p-5 rounded-lg border-2 border-gray-600 bg-gray-800/50 hover:border-dnd-secondary hover:bg-dnd-secondary/10 transition-all group"
+                className="flex flex-col items-center gap-3 p-5 rounded-lg border-2 border-border-default glass-panel hover:border-gold/50 hover:bg-gold/5 transition-all group"
               >
-                <div className="w-14 h-14 rounded-full bg-gray-700/50 flex items-center justify-center group-hover:bg-dnd-secondary/20 transition-colors">
-                  <Icon size={28} className="text-gray-400 group-hover:text-dnd-secondary transition-colors" />
+                <div className="w-14 h-14 rounded-full bg-bg-panel flex items-center justify-center group-hover:bg-gold/10 transition-colors">
+                  <Icon size={28} className="text-text-secondary group-hover:text-gold transition-colors" />
                 </div>
                 <div className="text-center">
-                  <div className="font-semibold text-gray-200 group-hover:text-dnd-secondary text-sm transition-colors">
+                  <div className="font-semibold text-text-primary group-hover:text-gold text-sm transition-colors">
                     {cat.label}
                   </div>
                   {cached && (
-                    <div className="text-xs text-gray-500 mt-1">{cached.items.length} записей</div>
+                    <div className="text-xs text-text-muted mt-1">{cached.items.length} записей</div>
                   )}
                 </div>
               </button>
@@ -993,13 +1005,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={goBackToCategories} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+        <button onClick={goBackToCategories} className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors">
           <ArrowLeft size={20} />
           <span>Категории</span>
         </button>
-        <h2 className="text-xl font-medieval text-dnd-secondary">
+        <h2 className="text-xl font-medieval text-gold">
           {activeCat?.label || 'База знаний'}
-          {categoryData && <span className="text-sm font-normal text-gray-400 ml-2">({filteredItems.length})</span>}
+          {categoryData && <span className="text-sm font-normal text-text-secondary ml-2">({filteredItems.length})</span>}
         </h2>
         <div className="w-24" />
       </div>
@@ -1007,16 +1019,16 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
       {/* Состояние загрузки */}
       {loading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 size={32} className="animate-spin text-dnd-secondary" />
-          <span className="ml-3 text-gray-400">Загрузка данных...</span>
+          <Loader2 size={32} className="animate-spin text-gold" />
+          <span className="ml-3 text-text-secondary">Загрузка данных...</span>
         </div>
       )}
 
       {/* Ошибка */}
       {loadError && (
         <div className="flex flex-col items-center justify-center py-12 gap-4">
-          <div className="text-red-400">{loadError}</div>
-          <button onClick={() => selectCategory(activeCategory)} className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">
+          <div className="text-red-bright">{loadError}</div>
+          <button onClick={() => selectCategory(activeCategory)} className="px-4 py-2 bg-bg-panel-solid text-text-primary rounded hover:bg-gray-600">
             Повторить
           </button>
         </div>
@@ -1027,13 +1039,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
         <>
           {/* Поиск */}
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={18} />
             <input
               type="text"
               placeholder="Поиск..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-800 border-2 border-gray-600 rounded-lg text-white focus:outline-none focus:border-dnd-secondary transition-colors text-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary focus:outline-none focus:border-gold/50 transition-colors text-sm"
             />
           </div>
 
@@ -1043,19 +1055,19 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack }) => {
               <button
                 key={`${item.name}-${index}`}
                 onClick={() => { setSelectedEntry({ type: activeCategory, data: item }); setSelectedSubclass(null); }}
-                className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-800/40 hover:bg-gray-800 border border-transparent hover:border-gray-600 transition-all text-left group"
+                className="w-full flex items-center justify-between p-3 rounded-lg bg-bg-primary/40 hover:bg-bg-panel-solid border border-transparent hover:border-border-default transition-all text-left group"
               >
                 <div className="min-w-0">
-                  <div className="text-sm text-gray-200 group-hover:text-dnd-secondary font-medium truncate">
+                  <div className="text-sm text-text-primary group-hover:text-gold font-medium truncate">
                     {item.name || 'Без названия'}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{getItemSubtitle(item)}</div>
+                  <div className="text-xs text-text-muted truncate">{getItemSubtitle(item)}</div>
                 </div>
-                <ChevronRight size={16} className="text-gray-600 group-hover:text-dnd-secondary shrink-0" />
+                <ChevronRight size={16} className="text-gray-600 group-hover:text-gold shrink-0" />
               </button>
             ))}
             {filteredItems.length === 0 && (
-              <div className="text-center text-gray-500 py-8">
+              <div className="text-center text-text-muted py-8">
                 {searchQuery ? 'Ничего не найдено' : 'Нет записей'}
               </div>
             )}

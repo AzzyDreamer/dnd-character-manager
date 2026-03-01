@@ -11,7 +11,7 @@ import {
   canEquipInOffhand,
   type ItemTemplate,
 } from '../data/items';
-import { Backpack, Plus, X, Search, Package, Sword, Shield, FlaskConical } from 'lucide-react';
+import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins } from 'lucide-react';
 
 // ============================
 // Константы сетки (все предметы 1x1)
@@ -89,23 +89,23 @@ const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }
       <div
         className="rounded-lg shadow-2xl border-2 p-3"
         style={{
-          background: '#1a1a2e',
+          background: 'var(--color-bg-panel-solid)',
           borderColor: rarityColor,
         }}
       >
         <div className="font-semibold text-base mb-1" style={{ color: rarityColor }}>
           {item.name}
         </div>
-        <div className="text-xs text-gray-400 mb-1">{item.type}</div>
+        <div className="text-xs text-text-secondary mb-1">{item.type}</div>
         <div className="text-xs mb-2" style={{ color: rarityColor }}>
           {RARITY_NAMES[item.rarity]}
         </div>
         {item.description && (
-          <div className="text-sm text-gray-300 border-t border-gray-700 pt-2 mb-2">
+          <div className="text-sm text-text-primary border-t border-border-default pt-2 mb-2">
             {item.description}
           </div>
         )}
-        <div className="flex gap-3 text-xs text-gray-500">
+        <div className="flex gap-3 text-xs text-text-muted">
           {item.weight != null && <span>Вес: {item.weight} фнт.</span>}
           {item.quantity > 1 && <span>Кол-во: {item.quantity}</span>}
         </div>
@@ -164,7 +164,7 @@ const GridItem: React.FC<{
       </span>
       {item.quantity > 1 && (
         <span
-          className="absolute bottom-0 right-0.5 text-[10px] font-bold text-white"
+          className="absolute bottom-0 right-0.5 text-[10px] font-bold text-text-primary"
           style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
         >
           {item.quantity}
@@ -224,13 +224,13 @@ const EquipSlot: React.FC<{
             )}
           </span>
           <div className="absolute -bottom-4 left-0 right-0 text-center">
-            <span className="text-[8px] text-gray-400 truncate block px-0.5">{item.name}</span>
+            <span className="text-[8px] text-text-secondary truncate block px-0.5">{item.name}</span>
           </div>
         </>
       ) : (
         <>
           <span className="text-lg opacity-30">{EQUIPMENT_SLOT_ICONS[slot]}</span>
-          <span className="text-[8px] text-gray-600 mt-0.5">{EQUIPMENT_SLOT_NAMES[slot]}</span>
+          <span className="text-[8px] text-text-muted mt-0.5">{EQUIPMENT_SLOT_NAMES[slot]}</span>
         </>
       )}
     </div>
@@ -255,14 +255,14 @@ const ItemContextMenu: React.FC<{
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
-        className="fixed z-50 rounded-lg shadow-2xl border border-gray-700 py-1 min-w-[180px]"
+        className="fixed z-50 rounded-lg shadow-2xl border border-border-default py-1 min-w-[180px]"
         style={{
           left: x,
           top: y,
-          background: '#1a1a2e',
+          background: 'var(--color-bg-secondary)',
         }}
       >
-        <div className="px-3 py-1.5 border-b border-gray-700">
+        <div className="px-3 py-1.5 border-b border-border-default">
           <div className="text-sm font-semibold" style={{ color: RARITY_COLORS[item.rarity] }}>
             {item.name}
           </div>
@@ -270,7 +270,7 @@ const ItemContextMenu: React.FC<{
         {item.equipSlot && !item.equipped && (
           <button
             onClick={onEquip}
-            className="w-full text-left px-3 py-1.5 text-sm text-gray-300 hover:bg-white/10 transition-colors"
+            className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
             Экипировать
           </button>
@@ -278,7 +278,7 @@ const ItemContextMenu: React.FC<{
         {showOffhand && !item.equipped && (
           <button
             onClick={onEquipOffhand}
-            className="w-full text-left px-3 py-1.5 text-sm text-gray-300 hover:bg-white/10 transition-colors"
+            className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
             Во вторую руку
           </button>
@@ -286,7 +286,7 @@ const ItemContextMenu: React.FC<{
         {item.equipped && (
           <button
             onClick={onUnequip}
-            className="w-full text-left px-3 py-1.5 text-sm text-gray-300 hover:bg-white/10 transition-colors"
+            className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
             Снять
           </button>
@@ -336,32 +336,28 @@ const AddItemModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div
-        className="rounded-xl border-2 border-dnd-secondary w-full max-w-3xl max-h-[85vh] flex flex-col"
-        style={{ background: '#0f0f23' }}
-      >
+      <div className="rounded-xl border-2 border-gold/40 bg-bg-primary w-full max-w-3xl max-h-[85vh] flex flex-col">
         {/* Заголовок */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-medieval text-dnd-secondary flex items-center gap-2">
+        <div className="flex items-center justify-between p-4 border-b border-border-default">
+          <h2 className="text-xl font-medieval text-gold flex items-center gap-2">
             <Plus size={20} />
             Добавить предмет
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors">
             <X size={24} />
           </button>
         </div>
 
         {/* Поиск и фильтры */}
-        <div className="p-4 border-b border-gray-700 space-y-3">
+        <div className="p-4 border-b border-border-default space-y-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Поиск предметов..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-700 text-white placeholder-gray-500"
-              style={{ background: '#1a1a2e' }}
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-primary placeholder-text-muted"
               autoFocus
             />
           </div>
@@ -372,8 +368,8 @@ const AddItemModal: React.FC<{
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                   selectedCategory === cat
-                    ? 'bg-dnd-secondary text-white'
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-300'
+                    ? 'bg-gold text-text-primary'
+                    : 'bg-bg-panel-solid text-text-secondary hover:bg-bg-panel hover:text-text-primary'
                 }`}
               >
                 {cat === 'all' ? 'Все' : CATEGORY_NAMES[cat as keyof typeof CATEGORY_NAMES] || cat}
@@ -385,7 +381,7 @@ const AddItemModal: React.FC<{
         {/* Список предметов */}
         <div className="flex-1 overflow-y-auto p-4">
           {filtered.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">Предметы не найдены</div>
+            <div className="text-center text-text-muted py-8">Предметы не найдены</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {filtered.map((template) => {
@@ -399,8 +395,8 @@ const AddItemModal: React.FC<{
                     }}
                     className={`text-left p-3 rounded-lg border-2 transition-all ${
                       isSelected
-                        ? 'border-dnd-secondary bg-dnd-secondary/10'
-                        : 'border-gray-700 hover:border-gray-500 bg-gray-800/50'
+                        ? 'border-gold/40 bg-gold/10'
+                        : 'border-border-default hover:border-border-hover bg-bg-panel'
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -420,9 +416,9 @@ const AddItemModal: React.FC<{
                         >
                           {template.name}
                         </div>
-                        <div className="text-xs text-gray-500">{template.type}</div>
-                        <div className="text-xs text-gray-600 mt-0.5 line-clamp-2">{template.description}</div>
-                        <div className="text-[10px] text-gray-600 mt-1">
+                        <div className="text-xs text-text-muted">{template.type}</div>
+                        <div className="text-xs text-text-muted mt-0.5 line-clamp-2">{template.description}</div>
+                        <div className="text-[10px] text-text-muted mt-1">
                           {RARITY_NAMES[template.rarity]}
                           {template.weight ? ` | ${template.weight} фнт.` : ''}
                           {template.value ? ` | ${formatValue(template.value)}` : ''}
@@ -438,13 +434,13 @@ const AddItemModal: React.FC<{
 
         {/* Нижняя панель с кнопкой добавления */}
         {selectedItem && (
-          <div className="p-4 border-t border-gray-700 flex items-center justify-between">
+          <div className="p-4 border-t border-border-default flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-400">Количество:</span>
+              <span className="text-sm text-text-secondary">Количество:</span>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-7 h-7 rounded bg-gray-700 text-gray-300 hover:bg-gray-600 text-sm"
+                  className="w-7 h-7 rounded bg-bg-panel-solid text-text-primary hover:bg-bg-panel text-sm"
                 >
                   -
                 </button>
@@ -452,13 +448,12 @@ const AddItemModal: React.FC<{
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-12 text-center text-sm rounded border border-gray-700 text-white py-1"
-                  style={{ background: '#1a1a2e' }}
+                  className="w-12 text-center text-sm rounded border border-border-default bg-bg-secondary text-text-primary py-1"
                   min={1}
                 />
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-7 h-7 rounded bg-gray-700 text-gray-300 hover:bg-gray-600 text-sm"
+                  className="w-7 h-7 rounded bg-bg-panel-solid text-text-primary hover:bg-bg-panel text-sm"
                 >
                   +
                 </button>
@@ -470,7 +465,7 @@ const AddItemModal: React.FC<{
                 setSelectedItem(null);
                 setQuantity(1);
               }}
-              className="px-6 py-2 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 font-semibold shadow-lg transition-colors"
+              className="px-6 py-2 bg-gold text-text-primary rounded-lg hover:bg-gold/80 font-semibold shadow-lg transition-colors"
             >
               Добавить {selectedItem.name}
             </button>
@@ -759,36 +754,31 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
+    <div className="space-y-4">
       {/* Заголовок */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Backpack className="text-dnd-secondary" size={28} />
-          <h2 className="text-2xl font-medieval text-dnd-secondary">Инвентарь</h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-400">
-            Вес: <span className="text-white font-semibold">{totalWeight.toFixed(1)} фнт.</span>
+          <Backpack className="text-gold" size={24} />
+          <h2 className="text-xl font-medieval text-gold">Инвентарь</h2>
+          <span className="text-xs text-text-muted ml-1">
+            Вес: {totalWeight.toFixed(1)} фнт.
           </span>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg transition-colors text-sm"
-          >
-            <Plus size={16} />
-            Добавить предмет
-          </button>
         </div>
+        <button
+          onClick={() => setShowAddModal(true)}
+          className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 flex items-center gap-1.5 font-semibold transition-colors text-sm"
+        >
+          <Plus size={14} />
+          Добавить
+        </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* === Левая часть: Экипировка === */}
-        <div
-          className="rounded-xl border-2 border-gray-700 p-5 flex-shrink-0"
-          style={{ background: '#0f0f23' }}
-        >
+        <div className="glass-panel p-4 flex-shrink-0">
           <div className="flex items-center gap-2 mb-4">
-            <Shield className="text-gray-400" size={18} />
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Экипировка</h3>
+            <Shield className="text-text-secondary" size={18} />
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Экипировка</h3>
           </div>
 
           <div className="grid grid-cols-3 gap-3" style={{ width: (CELL_SIZE + 8) * 3 + 24 }}>
@@ -810,28 +800,21 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             ))}
           </div>
 
-          {/* Быстрые статы */}
-          <div className="mt-6 space-y-2 text-sm">
-            <div className="flex items-center gap-2 text-gray-400">
-              <Sword size={14} />
-              <span>КД: <span className="text-white font-semibold">{character.armorClass}</span></span>
+          {/* Зелья */}
+          {inventory.filter(i => i.category === 'potion').length > 0 && (
+            <div className="mt-4 pt-3 border-t border-border-default text-xs text-text-secondary flex items-center gap-2">
+              <FlaskConical size={12} />
+              <span>Зелий: <span className="text-text-primary font-semibold">{inventory.filter(i => i.category === 'potion').reduce((s, i) => s + i.quantity, 0)}</span></span>
             </div>
-            <div className="flex items-center gap-2 text-gray-400">
-              <FlaskConical size={14} />
-              <span>Зелий: <span className="text-white font-semibold">{inventory.filter(i => i.category === 'potion').reduce((s, i) => s + i.quantity, 0)}</span></span>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* === Правая часть: Сетка рюкзака === */}
-        <div
-          className="rounded-xl border-2 border-gray-700 p-5 flex-1 min-w-0"
-          style={{ background: '#0f0f23' }}
-        >
+        <div className="glass-panel p-4 flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-4">
-            <Package className="text-gray-400" size={18} />
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Рюкзак</h3>
-            <span className="text-xs text-gray-600 ml-auto">
+            <Package className="text-text-secondary" size={18} />
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Рюкзак</h3>
+            <span className="text-xs text-text-muted ml-auto">
               {backpackItems.length} / {GRID_COLS * GRID_ROWS} ячеек
             </span>
           </div>
@@ -888,9 +871,9 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
               {backpackItems.length === 0 && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
-                    <Backpack className="mx-auto text-gray-700 mb-2" size={48} />
-                    <div className="text-gray-600 text-sm">Рюкзак пуст</div>
-                    <div className="text-gray-700 text-xs mt-1">Нажмите «Добавить предмет»</div>
+                    <Backpack className="mx-auto text-text-muted/30 mb-2" size={48} />
+                    <div className="text-text-muted text-sm">Рюкзак пуст</div>
+                    <div className="text-text-muted/50 text-xs mt-1">Нажмите «Добавить предмет»</div>
                   </div>
                 </div>
               )}
@@ -900,29 +883,24 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       </div>
 
       {/* Валюта */}
-      <div
-        className="rounded-xl border-2 border-gray-700 p-5"
-        style={{ background: '#0f0f23' }}
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xl">💰</span>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Валюта</h3>
+      <div className="glass-panel p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Coins className="text-gold" size={16} />
+          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">Валюта</h3>
         </div>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-3">
           {([
-            { key: 'platinum' as const, label: 'ПП', color: '#e5e7eb', icon: '💎' },
-            { key: 'gold' as const, label: 'ЗМ', color: '#fbbf24', icon: '🪙' },
-            { key: 'electrum' as const, label: 'ЭМ', color: '#a3a3a3', icon: '🪙' },
-            { key: 'silver' as const, label: 'СМ', color: '#d1d5db', icon: '🪙' },
-            { key: 'copper' as const, label: 'ММ', color: '#d97706', icon: '🪙' },
-          ]).map(({ key, label, color, icon }) => (
+            { key: 'platinum' as const, label: 'ПП', color: '#e5e7eb' },
+            { key: 'gold' as const, label: 'ЗМ', color: '#fbbf24' },
+            { key: 'electrum' as const, label: 'ЭМ', color: '#a3a3a3' },
+            { key: 'silver' as const, label: 'СМ', color: '#d1d5db' },
+            { key: 'copper' as const, label: 'ММ', color: '#d97706' },
+          ]).map(({ key, label, color }) => (
             <div
               key={key}
-              className="flex items-center gap-2 rounded-lg border border-gray-700 px-3 py-2"
-              style={{ background: '#1a1a2e' }}
+              className="flex items-center gap-1.5 rounded-lg border border-border-default bg-bg-primary px-2.5 py-1.5"
             >
-              <span>{icon}</span>
-              <span className="text-xs text-gray-500">{label}</span>
+              <span className="text-xs text-text-muted">{label}</span>
               <input
                 type="number"
                 value={character.currency[key]}
@@ -936,8 +914,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                     updatedAt: new Date().toISOString(),
                   });
                 }}
-                className="w-16 text-center text-sm font-semibold rounded border border-gray-700 text-white py-0.5"
-                style={{ background: '#0f0f23', color }}
+                className="w-14 text-center text-sm font-semibold rounded border border-border-default bg-bg-secondary text-text-primary py-0.5"
+                style={{ color }}
                 min={0}
               />
             </div>

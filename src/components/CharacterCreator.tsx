@@ -20,6 +20,7 @@ import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
 import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2 } from 'lucide-react';
+import { TabBar, type Tab, CycleSelector, CharacterStatsSidebar, type CreationStats, StatBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
 function getSpeciesSpeed(sp: SpeciesData): number {
@@ -141,7 +142,7 @@ const EntityImage: React.FC<{
 
   if (failed) {
     return (
-      <div className={`flex items-center justify-center bg-gray-700/60 text-dnd-secondary font-medieval text-lg ${className}`}>
+      <div className={`flex items-center justify-center bg-bg-panel-solid/60 text-gold font-medieval text-lg ${className}`}>
         {name.charAt(0)}
       </div>
     );
@@ -494,48 +495,68 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     onSave(character);
   };
 
+  // ─── Creation Stats for Sidebar ───
+  const creationStats = useMemo<CreationStats>(() => ({
+    name: name || undefined,
+    race: selectedSpecies?.name,
+    className: selectedClass?.name,
+    level: 1,
+    abilityScores: {
+      strength: getFinalScore('strength'),
+      dexterity: getFinalScore('dexterity'),
+      constitution: getFinalScore('constitution'),
+      intelligence: getFinalScore('intelligence'),
+      wisdom: getFinalScore('wisdom'),
+      charisma: getFinalScore('charisma'),
+    },
+    proficiencies: selectedClass ? {
+      armor: selectedClass.proficiencies.armor,
+      weapons: selectedClass.proficiencies.weapons,
+      tools: selectedClass.proficiencies.tools,
+      languages: selectedSpecies ? getSpeciesLanguages(selectedSpecies) : [],
+    } : undefined,
+    spells: [
+      ...selectedCantrips.map(s => ({ name: s.name, level: 0 })),
+      ...selectedSpells.map(s => ({ name: s.name, level: s.level })),
+    ],
+    armorClass: 10 + getAbilityModifier(getFinalScore('dexterity')),
+    hitPoints: selectedClass
+      ? calculateMaxHP(1, getFinalScore('constitution'), selectedClass.hitDie)
+      : undefined,
+    speed: selectedSpecies ? getSpeciesSpeed(selectedSpecies) : undefined,
+    proficiencyBonus: getProficiencyBonus(1),
+  }), [name, selectedSpecies, selectedClass, selectedCantrips, selectedSpells, abilityScores, activeBonuses]);
+
   // ─── Step Indicator ───
   const visibleSteps = isSpellcaster ? STEPS : STEPS.filter(s => s.key !== 'spells');
   const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
   const [bgSearchQuery, setBgSearchQuery] = useState('');
+  const stepTabs: Tab[] = useMemo(() =>
+    visibleSteps.map((s) => {
+      const realIndex = STEPS.findIndex(st => st.key === s.key);
+      return {
+        key: s.key,
+        label: s.label,
+        icon: s.icon,
+        disabled: realIndex > step,
+      };
+    }),
+    [visibleSteps, step]
+  );
+
+  const handleStepTabChange = (key: string) => {
+    const realIndex = STEPS.findIndex(s => s.key === key);
+    if (realIndex >= 0 && realIndex <= step) setStep(realIndex);
+  };
+
   const renderStepIndicator = () => (
-    <div className="flex items-center justify-center gap-0 mb-4">
-      {visibleSteps.map((s, vi) => {
-        const Icon = s.icon;
-        // Найдём реальный индекс в STEPS
-        const realIndex = STEPS.findIndex(st => st.key === s.key);
-        const isActive = realIndex === step;
-        const isDone = realIndex < step;
-        return (
-          <React.Fragment key={s.key}>
-            {vi > 0 && (
-              <div className={`h-0.5 w-8 sm:w-12 ${isDone ? 'bg-dnd-secondary' : 'bg-gray-600'}`} />
-            )}
-            <button
-              onClick={() => { if (isDone) setStep(realIndex); }}
-              className={`flex flex-col items-center gap-1 px-2 py-1 rounded transition-all ${
-                isActive
-                  ? 'text-dnd-secondary scale-110'
-                  : isDone
-                    ? 'text-dnd-secondary/70 cursor-pointer hover:text-dnd-secondary'
-                    : 'text-gray-500 cursor-default'
-              }`}
-              disabled={!isDone && !isActive}
-            >
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-                isActive
-                  ? 'border-dnd-secondary bg-dnd-secondary/20'
-                  : isDone
-                    ? 'border-dnd-secondary bg-dnd-secondary text-dnd-dark'
-                    : 'border-gray-600 bg-transparent'
-              }`}>
-                {isDone ? <Check size={18} /> : <Icon size={18} />}
-              </div>
-              <span className="text-xs font-medium hidden sm:block">{s.label}</span>
-            </button>
-          </React.Fragment>
-        );
-      })}
+    <div className="mb-4">
+      <TabBar
+        tabs={stepTabs}
+        activeTab={STEPS[step].key}
+        onTabChange={handleStepTabChange}
+        size="sm"
+      />
     </div>
   );
 
@@ -546,221 +567,231 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return allSpecies.filter(sp => sp.name.toLowerCase().includes(q));
   }, [allSpecies, speciesSearchQuery]);
 
-  const renderRaceStep = () => (
-    <div className="flex flex-col lg:flex-row gap-6 h-full">
-      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-        <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите вид</h3>
+  const [showAllSpecies, setShowAllSpecies] = useState(false);
 
-        {!speciesLoaded ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 size={32} className="animate-spin text-dnd-secondary" />
-            <span className="ml-3 text-gray-400">Загрузка видов...</span>
-          </div>
-        ) : (
-          <>
-            <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input
-                type="text"
-                placeholder="Поиск видов..."
-                value={speciesSearchQuery}
-                onChange={e => setSpeciesSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
-              />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
-              {filteredSpecies.map((sp, idx) => {
-                const spId = sp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                return (
+  const speciesIndex = useMemo(() => {
+    if (!selectedSpecies) return 0;
+    return allSpecies.findIndex(sp => sp.name === selectedSpecies.name && sp.source === selectedSpecies.source);
+  }, [allSpecies, selectedSpecies]);
+
+  const renderRaceStep = () => (
+    <div className="space-y-4">
+      {!speciesLoaded ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 size={32} className="animate-spin text-gold" />
+          <span className="ml-3 text-text-secondary">Загрузка видов...</span>
+        </div>
+      ) : (
+        <>
+          {/* BG3-style Cycle Selector */}
+          <CycleSelector
+            items={allSpecies.map(sp => ({ id: sp.name, name: sp.name }))}
+            selectedIndex={speciesIndex >= 0 ? speciesIndex : 0}
+            onSelect={(i) => setSelectedSpecies(allSpecies[i])}
+          />
+
+          {/* Toggle grid view */}
+          <button
+            onClick={() => setShowAllSpecies(!showAllSpecies)}
+            className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
+          >
+            <Search size={12} />
+            {showAllSpecies ? 'Скрыть список' : 'Показать все виды'}
+          </button>
+
+          {/* Expandable grid for browsing */}
+          {showAllSpecies && (
+            <div className="space-y-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
+                <input
+                  type="text"
+                  placeholder="Поиск видов..."
+                  value={speciesSearchQuery}
+                  onChange={e => setSpeciesSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
+                />
+              </div>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+                {filteredSpecies.map((sp, idx) => (
                   <button
                     key={`${sp.name}-${idx}`}
-                    onClick={() => setSelectedSpecies(sp)}
-                    className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
+                    onClick={() => { setSelectedSpecies(sp); setShowAllSpecies(false); }}
+                    className={`rounded-lg border text-left p-2 text-xs transition-all ${
                       selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source
-                        ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
-                        : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
+                        ? 'border-gold/40 bg-gold/5 text-gold'
+                        : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
                     }`}
                   >
-                    <EntityImage folder="races" id={spId} name={sp.name} className="w-full h-32 rounded-t-md" />
-                    <div className="p-2">
-                      <div className={`font-semibold text-sm ${selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                        {sp.name}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-0.5">{sp.source}</div>
-                    </div>
+                    <div className="font-semibold truncate">{sp.name}</div>
+                    <div className="text-text-muted text-[10px] mt-0.5">{sp.source}</div>
                   </button>
-                );
-              })}
-            </div>
-          </>
-        )}
-      </div>
-
-      {selectedSpecies && (
-        <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto">
-          <EntityImage
-            folder="races"
-            id={selectedSpecies.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-            name={selectedSpecies.name}
-            className="w-full h-52"
-          />
-          <div className="p-5 space-y-3">
-            <h3 className="text-xl font-medieval text-dnd-secondary">{selectedSpecies.name}</h3>
-            <div className="text-xs text-gray-400">{selectedSpecies.source}</div>
-
-            <div className="space-y-2 text-sm">
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Скорость:</span>
-                <span className="text-white">{getSpeciesSpeed(selectedSpecies)} фт.</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Размер:</span>
-                <span className="text-white">{getSpeciesSize(selectedSpecies)}</span>
-              </div>
-              {selectedSpecies.darkvision && (
-                <div className="flex gap-2">
-                  <span className="text-gray-400 shrink-0">Тёмное зрение:</span>
-                  <span className="text-white">{selectedSpecies.darkvision} фт.</span>
-                </div>
-              )}
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Языки:</span>
-                <span className="text-white">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
+                ))}
               </div>
             </div>
+          )}
 
-            {/* Entries через EntryRenderer */}
-            {selectedSpecies.entries && selectedSpecies.entries.length > 0 && EntryRendererCmp && (
-              <div className="pt-3 border-t border-gray-700">
-                <div className="prose prose-invert prose-sm max-w-none text-xs">
-                  <EntryRendererCmp entries={selectedSpecies.entries} context={selectedSpecies.name} />
+          {/* Selected species detail panel */}
+          {selectedSpecies && (
+            <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default overflow-hidden">
+              <EntityImage
+                folder="races"
+                id={selectedSpecies.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+                name={selectedSpecies.name}
+                className="w-full h-44"
+              />
+              <div className="p-4 space-y-3">
+                <div className="space-y-2 text-sm">
+                  <div className="flex gap-2">
+                    <span className="text-text-secondary shrink-0">Скорость:</span>
+                    <span className="text-text-primary">{getSpeciesSpeed(selectedSpecies)} фт.</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-text-secondary shrink-0">Размер:</span>
+                    <span className="text-text-primary">{getSpeciesSize(selectedSpecies)}</span>
+                  </div>
+                  {selectedSpecies.darkvision && (
+                    <div className="flex gap-2">
+                      <span className="text-text-secondary shrink-0">Тёмное зрение:</span>
+                      <span className="text-text-primary">{selectedSpecies.darkvision} фт.</span>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <span className="text-text-secondary shrink-0">Языки:</span>
+                    <span className="text-text-primary">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
+                  </div>
                 </div>
+
+                {/* "Вы получите следующее:" — BG3 style features list */}
+                {selectedSpecies.entries && selectedSpecies.entries.length > 0 && EntryRendererCmp && (
+                  <div className="pt-3 border-t border-border-default">
+                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
+                    <div className="prose prose-invert prose-sm max-w-none text-xs">
+                      <EntryRendererCmp entries={selectedSpecies.entries} context={selectedSpecies.name} />
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 
   // ─── Step 1: Class ───
+  const classIndex = useMemo(() => {
+    if (!selectedClass) return 0;
+    return CLASS_REGISTRY.findIndex(c => c.id === selectedClass.id);
+  }, [selectedClass]);
+
+  const [showAllClasses, setShowAllClasses] = useState(false);
+
   const renderClassStep = () => (
-    <div className="flex flex-col lg:flex-row gap-6 h-full">
-      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-        <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите класс</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+    <div className="space-y-4">
+      {/* BG3-style Cycle Selector */}
+      <CycleSelector
+        items={CLASS_REGISTRY.map(cls => ({ id: cls.id, name: cls.name }))}
+        selectedIndex={classIndex >= 0 ? classIndex : 0}
+        onSelect={(i) => setSelectedClass(CLASS_REGISTRY[i])}
+      />
+
+      <button
+        onClick={() => setShowAllClasses(!showAllClasses)}
+        className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
+      >
+        <Search size={12} />
+        {showAllClasses ? 'Скрыть список' : 'Показать все классы'}
+      </button>
+
+      {showAllClasses && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
           {CLASS_REGISTRY.map(cls => (
             <button
               key={cls.id}
-              onClick={() => setSelectedClass(cls)}
-              className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] overflow-hidden ${
+              onClick={() => { setSelectedClass(cls); setShowAllClasses(false); }}
+              className={`rounded-lg border text-left p-2 text-xs transition-all ${
                 selectedClass?.id === cls.id
-                  ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
-                  : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
+                  ? 'border-gold/40 bg-gold/5 text-gold'
+                  : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
               }`}
             >
-              <EntityImage folder="classes" id={cls.id} name={cls.name} className="w-full h-32 rounded-t-md" />
-              <div className="p-2">
-                <div className={`font-semibold text-sm ${selectedClass?.id === cls.id ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                  {cls.name}
-                </div>
-                <div className="text-xs text-gray-400 mt-0.5">
-                  {cls.hitDie} • {cls.source}
-                </div>
-              </div>
+              <div className="font-semibold truncate">{cls.name}</div>
+              <div className="text-text-muted text-[10px] mt-0.5">{cls.hitDie} • {cls.source}</div>
             </button>
           ))}
         </div>
+      )}
 
-        {selectedClass && selectedClass.subclasses.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-lg font-medieval text-dnd-secondary mb-2">
-              Доступные подклассы <span className="text-sm font-normal text-gray-400">(выбор на 3 уровне)</span>
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {selectedClass.subclasses.map(sub => (
-                <div
-                  key={sub.id}
-                  className="rounded-lg border border-gray-600 bg-gray-800/30 overflow-hidden flex opacity-80"
-                >
-                  <EntityImage folder="subclasses" id={sub.id} name={sub.name} className="w-16 h-16 shrink-0" />
-                  <div className="p-2 min-w-0">
-                    <div className="font-semibold text-sm text-gray-300">{sub.name}</div>
-                    <div className="text-xs text-gray-500 mt-0.5 line-clamp-2">{sub.description}</div>
+      {/* Selected class detail */}
+      {selectedClass && (
+        <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default overflow-hidden">
+          <EntityImage folder="classes" id={selectedClass.id} name={selectedClass.name} className="w-full h-44" />
+          <div className="p-4 space-y-3">
+            <p className="text-sm text-text-primary leading-relaxed">{selectedClass.description}</p>
+
+            <div className="pt-3 border-t border-border-default">
+              <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex gap-2">
+                  <span className="text-text-secondary shrink-0">Кость хитов:</span>
+                  <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
+                </div>
+                <div>
+                  <span className="text-text-secondary">Основная характеристика:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {selectedClass.primaryAbility.map(a => (
+                      <span key={a} className="px-2 py-0.5 bg-red-accent/30 text-red-300 rounded text-xs">
+                        {ABILITY_NAMES[a]}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {selectedClass && (
-        <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto">
-          <EntityImage
-            folder="classes"
-            id={selectedClass.id}
-            name={selectedClass.name}
-            className="w-full h-52"
-          />
-          <div className="p-5 space-y-3">
-            <h3 className="text-xl font-medieval text-dnd-secondary">{selectedClass.name}</h3>
-            <p className="text-sm text-gray-300 leading-relaxed">{selectedClass.description}</p>
-
-            <div className="space-y-2 text-sm">
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Кость хитов:</span>
-                <span className="text-white font-bold">{selectedClass.hitDie}</span>
+                <div>
+                  <span className="text-text-secondary">Спасброски:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {selectedClass.savingThrows.map(a => (
+                      <span key={a} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">
+                        {ABILITY_NAMES[a]}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {selectedClass.spellcaster && (
+                  <div className="flex gap-2">
+                    <span className="text-text-secondary shrink-0">Заклинатель:</span>
+                    <span className="text-purple-300">{ABILITY_NAMES[selectedClass.spellcastingAbility!]}</span>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <span className="text-text-secondary shrink-0">Доспехи:</span>
+                  <span className="text-text-primary text-xs">
+                    {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-text-secondary shrink-0">Оружие:</span>
+                  <span className="text-text-primary text-xs">{selectedClass.proficiencies.weapons.join(', ')}</span>
+                </div>
               </div>
-              <div>
-                <span className="text-gray-400">Основная характеристика:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {selectedClass.primaryAbility.map(a => (
-                    <span key={a} className="px-2 py-0.5 bg-dnd-primary/30 text-red-300 rounded text-xs">
-                      {ABILITY_NAMES[a]}
-                    </span>
+            </div>
+
+            {/* Subclasses preview */}
+            {selectedClass.subclasses.length > 0 && (
+              <div className="pt-3 border-t border-border-default">
+                <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">
+                  Доступные подклассы (выбор на 3 уровне)
+                </h4>
+                <div className="space-y-1.5">
+                  {selectedClass.subclasses.map(sub => (
+                    <div key={sub.id} className="flex items-center gap-2 text-xs text-text-secondary">
+                      <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />
+                      <span>{sub.name}</span>
+                    </div>
                   ))}
                 </div>
               </div>
-              <div>
-                <span className="text-gray-400">Спасброски:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {selectedClass.savingThrows.map(a => (
-                    <span key={a} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">
-                      {ABILITY_NAMES[a]}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {selectedClass.spellcaster && (
-                <div className="flex gap-2">
-                  <span className="text-gray-400 shrink-0">Заклинатель:</span>
-                  <span className="text-purple-300">
-                    {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
-                  </span>
-                </div>
-              )}
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Доспехи:</span>
-                <span className="text-gray-200 text-xs">
-                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Оружие:</span>
-                <span className="text-gray-200 text-xs">
-                  {selectedClass.proficiencies.weapons.join(', ')}
-                </span>
-              </div>
-              {selectedClass.proficiencies.tools.length > 0 && (
-                <div className="flex gap-2">
-                  <span className="text-gray-400 shrink-0">Инструменты:</span>
-                  <span className="text-gray-200 text-xs">
-                    {selectedClass.proficiencies.tools.join(', ')}
-                  </span>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       )}
@@ -774,8 +805,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h3 className="text-xl font-medieval text-dnd-secondary">Характеристики</h3>
-          <div className="flex rounded-lg overflow-hidden border border-gray-600">
+          <h3 className="text-xl font-medieval text-gold">Характеристики</h3>
+          <div className="flex rounded-lg overflow-hidden border border-border-default">
             {([
               { key: 'pointBuy' as const, label: 'Покупка очков' },
               { key: 'roll' as const, label: 'Бросок кубиков' },
@@ -786,8 +817,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 onClick={() => switchAbilityMethod(m.key)}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   abilityMethod === m.key
-                    ? 'bg-dnd-secondary text-dnd-dark'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? 'bg-gold text-bg-primary'
+                    : 'bg-bg-panel-solid text-text-primary hover:bg-bg-panel-solid'
                 }`}
               >
                 {m.label}
@@ -797,9 +828,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         </div>
 
         {abilityMethod === 'pointBuy' && (
-          <div className="flex items-center gap-4 p-3 rounded-lg bg-gray-800/80 border border-gray-600">
-            <span className="text-gray-300 text-sm">Осталось очков:</span>
-            <span className={`text-2xl font-bold ${remaining! < 0 ? 'text-red-400' : remaining === 0 ? 'text-green-400' : 'text-dnd-secondary'}`}>
+          <div className="flex items-center gap-4 p-3 rounded-lg bg-bg-panel-solid/80 border border-border-default">
+            <span className="text-text-primary text-sm">Осталось очков:</span>
+            <span className={`text-2xl font-bold ${remaining! < 0 ? 'text-red-400' : remaining === 0 ? 'text-green-400' : 'text-gold'}`}>
               {remaining} / {POINT_BUY_TOTAL}
             </span>
           </div>
@@ -809,7 +840,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <div className="flex items-center gap-4">
             <button
               onClick={handleRollAbilities}
-              className="px-5 py-2 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 flex items-center gap-2 font-medium"
+              className="px-5 py-2 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 flex items-center gap-2 font-medium"
             >
               <Dices size={18} />
               Бросить заново (4d6 без наименьшего)
@@ -817,7 +848,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
         )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {/* BG3-style horizontal ability score row */}
+        <div className="flex flex-wrap justify-center gap-4">
           {(Object.keys(abilityScores) as Array<keyof AbilityScores>).map(ability => {
             const base = abilityScores[ability];
             const bonus = activeBonuses[ability] || 0;
@@ -825,29 +857,32 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             const mod = getAbilityModifier(final);
 
             return (
-              <div key={ability} className="bg-gray-800/80 rounded-lg border border-gray-600 p-4 text-center">
-                <div className="text-sm text-gray-400 mb-1">{ABILITY_NAMES[ability]}</div>
-                <div className="text-3xl font-bold text-white mb-1">{final}</div>
-                <div className={`text-sm font-semibold mb-3 ${mod >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {formatModifier(mod)}
-                </div>
+              <div key={ability} className="flex flex-col items-center gap-1.5">
+                <StatBadge
+                  label={ABILITY_NAMES[ability]}
+                  value={final}
+                  modifier={mod}
+                  variant="circle"
+                  size="lg"
+                  highlight={bonus > 0}
+                />
 
                 {abilityMethod === 'pointBuy' && (
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => handlePointBuyChange(ability, -1)}
                       disabled={!canDecreasePointBuy(abilityScores, ability)}
-                      className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-6 h-6 rounded bg-bg-panel-solid text-text-primary hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-xs"
                     >
-                      <ChevronDown size={16} />
+                      −
                     </button>
-                    <span className="text-sm text-gray-400 w-6">{base}</span>
+                    <span className="text-xs text-text-muted w-4 text-center">{base}</span>
                     <button
                       onClick={() => handlePointBuyChange(ability, 1)}
                       disabled={!canIncreasePointBuy(abilityScores, ability)}
-                      className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-6 h-6 rounded bg-bg-panel-solid text-text-primary hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-xs"
                     >
-                      <ChevronUp size={16} />
+                      +
                     </button>
                   </div>
                 )}
@@ -859,21 +894,21 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     max={20}
                     value={base}
                     onChange={e => handleManualChange(ability, parseInt(e.target.value))}
-                    className="w-16 text-center bg-gray-700 text-white rounded border border-gray-500 px-2 py-1"
+                    className="w-14 text-center bg-bg-panel-solid text-text-primary rounded border border-border-default px-1 py-0.5 text-xs"
                   />
                 )}
 
                 {abilityMethod === 'roll' && (
-                  <div className="text-xs text-gray-500">базовое: {base}</div>
+                  <div className="text-[10px] text-text-muted">баз: {base}</div>
                 )}
 
                 {bonus > 0 && (
-                  <div className="text-xs text-dnd-secondary mt-1">+{bonus} предыстория</div>
+                  <div className="text-[10px] text-gold">+{bonus}</div>
                 )}
 
                 {abilityMethod === 'pointBuy' && (
-                  <div className="text-xs text-gray-500 mt-1">
-                    стоимость: {POINT_BUY_COSTS[base]}
+                  <div className="text-[10px] text-text-muted">
+                    ({POINT_BUY_COSTS[base]})
                   </div>
                 )}
               </div>
@@ -883,15 +918,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
         {/* Background Bonus Mode (2024 rules) */}
         {selectedBackground && (
-          <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-lg font-medieval text-dnd-secondary mb-3">Бонусы предыстории</h4>
-            <div className="flex rounded-lg overflow-hidden border border-gray-600 mb-4 w-fit">
+          <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+            <h4 className="text-lg font-medieval text-gold mb-3">Бонусы предыстории</h4>
+            <div className="flex rounded-lg overflow-hidden border border-border-default mb-4 w-fit">
               <button
                 onClick={() => { setBackgroundBonusMode('background'); setCustomBonuses({}); }}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   backgroundBonusMode === 'background'
-                    ? 'bg-dnd-secondary text-dnd-dark'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? 'bg-gold text-bg-primary'
+                    : 'bg-bg-panel-solid text-text-primary hover:bg-bg-panel-solid'
                 }`}
               >
                 По предыстории ({selectedBackground.name})
@@ -900,8 +935,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 onClick={() => { setBackgroundBonusMode('custom'); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   backgroundBonusMode === 'custom'
-                    ? 'bg-dnd-secondary text-dnd-dark'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? 'bg-gold text-bg-primary'
+                    : 'bg-bg-panel-solid text-text-primary hover:bg-bg-panel-solid'
                 }`}
               >
                 Свободное распределение
@@ -910,14 +945,14 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
             {backgroundBonusMode === 'background' ? (
               <div className="space-y-3">
-                <p className="text-sm text-gray-400">Выберите +2 к одной и +1 к другой из связанных характеристик:</p>
+                <p className="text-sm text-text-secondary">Выберите +2 к одной и +1 к другой из связанных характеристик:</p>
                 <div className="grid grid-cols-3 gap-3">
                   {getBgAbilityOptions(selectedBackground).map(ability => {
                     const is2 = bgBonus2 === ability;
                     const is1 = bgBonus1 === ability;
                     return (
                       <div key={ability} className="text-center space-y-2">
-                        <div className="text-sm text-gray-300 font-medium">{ABILITY_NAMES[ability]}</div>
+                        <div className="text-sm text-text-primary font-medium">{ABILITY_NAMES[ability]}</div>
                         <div className="flex gap-2 justify-center">
                           <button
                             onClick={() => {
@@ -926,8 +961,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                             }}
                             className={`px-3 py-1.5 rounded text-sm font-bold transition-all ${
                               is2
-                                ? 'bg-dnd-secondary text-dnd-dark ring-2 ring-dnd-secondary/50'
-                                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                ? 'bg-gold text-bg-primary ring-2 ring-gold/50'
+                                : 'bg-bg-panel-solid text-text-primary hover:bg-white/10'
                             }`}
                           >
                             +2
@@ -939,8 +974,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                             }}
                             className={`px-3 py-1.5 rounded text-sm font-bold transition-all ${
                               is1
-                                ? 'bg-dnd-secondary/70 text-dnd-dark ring-2 ring-dnd-secondary/30'
-                                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                ? 'bg-gold/70 text-bg-primary ring-2 ring-gold/30'
+                                : 'bg-bg-panel-solid text-text-primary hover:bg-white/10'
                             }`}
                           >
                             +1
@@ -952,10 +987,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 </div>
                 {bgBonus2 && bgBonus1 && (
                   <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 bg-dnd-secondary/20 text-dnd-secondary rounded-lg text-sm">
+                    <span className="px-3 py-1 bg-gold/10 text-gold rounded-lg text-sm">
                       {ABILITY_NAMES[bgBonus2]} +2
                     </span>
-                    <span className="px-3 py-1 bg-dnd-secondary/20 text-dnd-secondary rounded-lg text-sm">
+                    <span className="px-3 py-1 bg-gold/10 text-gold rounded-lg text-sm">
                       {ABILITY_NAMES[bgBonus1]} +1
                     </span>
                   </div>
@@ -964,32 +999,32 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             ) : (
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-text-primary">
                     Распределите 3 очка (макс. +2 на характеристику)
                   </span>
-                  <span className={`font-bold ${customBonusSpent === 3 ? 'text-green-400' : 'text-dnd-secondary'}`}>
+                  <span className={`font-bold ${customBonusSpent === 3 ? 'text-green-400' : 'text-gold'}`}>
                     {customBonusSpent} / 3
                   </span>
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {(Object.keys(abilityScores) as Array<keyof AbilityScores>).map(ability => (
                     <div key={ability} className="text-center">
-                      <div className="text-xs text-gray-400 mb-1">{ABILITY_NAMES[ability]}</div>
+                      <div className="text-xs text-text-secondary mb-1">{ABILITY_NAMES[ability]}</div>
                       <div className="flex items-center justify-center gap-1">
                         <button
                           onClick={() => handleCustomBonusChange(ability, -1)}
                           disabled={(customBonuses[ability] || 0) <= 0}
-                          className="w-6 h-6 rounded bg-gray-700 text-white text-xs hover:bg-gray-600 disabled:opacity-30 flex items-center justify-center"
+                          className="w-6 h-6 rounded bg-bg-panel-solid text-text-primary text-xs hover:bg-white/10 disabled:opacity-30 flex items-center justify-center"
                         >
                           -
                         </button>
-                        <span className="text-dnd-secondary font-bold w-5 text-center">
+                        <span className="text-gold font-bold w-5 text-center">
                           +{customBonuses[ability] || 0}
                         </span>
                         <button
                           onClick={() => handleCustomBonusChange(ability, 1)}
                           disabled={(customBonuses[ability] || 0) >= 2 || customBonusSpent >= 3}
-                          className="w-6 h-6 rounded bg-gray-700 text-white text-xs hover:bg-gray-600 disabled:opacity-30 flex items-center justify-center"
+                          className="w-6 h-6 rounded bg-bg-panel-solid text-text-primary text-xs hover:bg-white/10 disabled:opacity-30 flex items-center justify-center"
                         >
                           +
                         </button>
@@ -1012,102 +1047,118 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return allBackgrounds.filter(bg => bg.name.toLowerCase().includes(q));
   }, [allBackgrounds, bgSearchQuery]);
 
+  const [showAllBgs, setShowAllBgs] = useState(false);
+
+  const bgIndex = useMemo(() => {
+    if (!selectedBackground) return 0;
+    return allBackgrounds.findIndex(bg => bg.name === selectedBackground.name && bg.source === selectedBackground.source);
+  }, [allBackgrounds, selectedBackground]);
+
   const renderBackgroundStep = () => (
-    <div className="flex flex-col lg:flex-row gap-6 h-full">
-      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-        <h3 className="text-xl font-medieval text-dnd-secondary mb-4">Выберите предысторию</h3>
+    <div className="space-y-4">
+      {!backgroundsLoaded ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 size={32} className="animate-spin text-gold" />
+          <span className="ml-3 text-text-secondary">Загрузка предысторий...</span>
+        </div>
+      ) : (
+        <>
+          <CycleSelector
+            items={allBackgrounds.map(bg => ({ id: bg.name, name: bg.name }))}
+            selectedIndex={bgIndex >= 0 ? bgIndex : 0}
+            onSelect={(i) => { setSelectedBackground(allBackgrounds[i]); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
+          />
 
-        {!backgroundsLoaded ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 size={32} className="animate-spin text-dnd-secondary" />
-            <span className="ml-3 text-gray-400">Загрузка предысторий...</span>
-          </div>
-        ) : (
-          <>
-            <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input
-                type="text"
-                placeholder="Поиск предысторий..."
-                value={bgSearchQuery}
-                onChange={e => setBgSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
-              />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
-              {filteredBackgrounds.map((bg, idx) => (
-                <button
-                  key={`${bg.name}-${idx}`}
-                  onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
-                  className={`rounded-lg border-2 text-left transition-all hover:scale-[1.02] p-3 ${
-                    selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
-                      ? 'border-dnd-secondary bg-dnd-secondary/10 shadow-lg shadow-dnd-secondary/20'
-                      : 'border-gray-600 bg-gray-800/50 hover:border-gray-400'
-                  }`}
-                >
-                  <div className={`font-semibold text-sm ${selectedBackground?.name === bg.name && selectedBackground?.source === bg.source ? 'text-dnd-secondary' : 'text-gray-200'}`}>
-                    {bg.name}
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">{getBgFeatName(bg)}</div>
-                  <div className="text-xs text-gray-500 mt-1">{getBgSkills(bg).join(', ')}</div>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+          <button
+            onClick={() => setShowAllBgs(!showAllBgs)}
+            className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
+          >
+            <Search size={12} />
+            {showAllBgs ? 'Скрыть список' : 'Показать все предыстории'}
+          </button>
 
-      {selectedBackground && (
-        <div className="w-full lg:w-96 shrink-0 bg-gray-800/80 rounded-lg border border-gray-600 overflow-y-auto p-5 space-y-3">
-          <h3 className="text-xl font-medieval text-dnd-secondary">{selectedBackground.name}</h3>
-          <div className="text-xs text-gray-400">{selectedBackground.source}</div>
-
-          <div className="space-y-2 text-sm">
-            {getBgFeatName(selectedBackground) && (
-              <div>
-                <span className="text-gray-400">Черта:</span>
-                <span className="text-purple-300 ml-2 font-medium">{getBgFeatName(selectedBackground)}</span>
+          {showAllBgs && (
+            <div className="space-y-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
+                <input
+                  type="text"
+                  placeholder="Поиск предысторий..."
+                  value={bgSearchQuery}
+                  onChange={e => setBgSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
+                />
               </div>
-            )}
-            {getBgSkills(selectedBackground).length > 0 && (
-              <div>
-                <span className="text-gray-400">Навыки:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {getBgSkills(selectedBackground).map(s => (
-                    <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-            {getBgToolProficiency(selectedBackground) && (
-              <div className="flex gap-2">
-                <span className="text-gray-400 shrink-0">Инструменты:</span>
-                <span className="text-gray-200">{getBgToolProficiency(selectedBackground)}</span>
-              </div>
-            )}
-            {getBgAbilityOptions(selectedBackground).length > 0 && (
-              <div>
-                <span className="text-gray-400">Связанные характеристики:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {getBgAbilityOptions(selectedBackground).map(a => (
-                    <span key={a} className="px-2 py-0.5 bg-dnd-secondary/20 text-dnd-secondary rounded text-xs">
-                      {ABILITY_NAMES[a]}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Entries через EntryRenderer */}
-          {selectedBackground.entries && selectedBackground.entries.length > 0 && EntryRendererCmp && (
-            <div className="pt-3 border-t border-gray-700">
-              <div className="prose prose-invert prose-sm max-w-none text-xs">
-                <EntryRendererCmp entries={selectedBackground.entries} context={selectedBackground.name} />
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+                {filteredBackgrounds.map((bg, idx) => (
+                  <button
+                    key={`${bg.name}-${idx}`}
+                    onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setShowAllBgs(false); }}
+                    className={`rounded-lg border text-left p-2 text-xs transition-all ${
+                      selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
+                        ? 'border-gold/40 bg-gold/5 text-gold'
+                        : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                    }`}
+                  >
+                    <div className="font-semibold truncate">{bg.name}</div>
+                    <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatName(bg)}</div>
+                  </button>
+                ))}
               </div>
             </div>
           )}
-        </div>
+
+          {/* Selected background detail */}
+          {selectedBackground && (
+            <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4 space-y-3">
+              <div className="pt-1">
+                <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
+                <div className="space-y-2 text-sm">
+                  {getBgFeatName(selectedBackground) && (
+                    <div>
+                      <span className="text-text-secondary">Черта:</span>
+                      <span className="text-purple-300 ml-2 font-medium">{getBgFeatName(selectedBackground)}</span>
+                    </div>
+                  )}
+                  {getBgSkills(selectedBackground).length > 0 && (
+                    <div>
+                      <span className="text-text-secondary">Навыки:</span>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {getBgSkills(selectedBackground).map(s => (
+                          <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {getBgToolProficiency(selectedBackground) && (
+                    <div className="flex gap-2">
+                      <span className="text-text-secondary shrink-0">Инструменты:</span>
+                      <span className="text-text-primary">{getBgToolProficiency(selectedBackground)}</span>
+                    </div>
+                  )}
+                  {getBgAbilityOptions(selectedBackground).length > 0 && (
+                    <div>
+                      <span className="text-text-secondary">Связанные характеристики:</span>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {getBgAbilityOptions(selectedBackground).map(a => (
+                          <span key={a} className="px-2 py-0.5 bg-gold/10 text-gold rounded text-xs">{ABILITY_NAMES[a]}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {selectedBackground.entries && selectedBackground.entries.length > 0 && EntryRendererCmp && (
+                <div className="pt-3 border-t border-border-default">
+                  <div className="prose prose-invert prose-sm max-w-none text-xs">
+                    <EntryRendererCmp entries={selectedBackground.entries} context={selectedBackground.name} />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -1115,31 +1166,31 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // ─── Step 4: Details ───
   const renderDetailsStep = () => (
     <div className="max-w-lg mx-auto space-y-6">
-      <h3 className="text-xl font-medieval text-dnd-secondary text-center">Детали персонажа</h3>
+      <h3 className="text-xl font-medieval text-gold text-center">Детали персонажа</h3>
 
       <div>
-        <label className="block text-sm text-gray-300 mb-2">Имя персонажа *</label>
+        <label className="block text-sm text-text-primary mb-2">Имя персонажа *</label>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder="Введите имя персонажа"
-          className="w-full px-4 py-3 bg-gray-800 border-2 border-gray-600 rounded-lg text-white focus:outline-none focus:border-dnd-secondary transition-colors"
+          className="w-full px-4 py-3 bg-bg-panel-solid border-2 border-border-default rounded-lg text-text-primary focus:outline-none focus:border-gold/50 transition-colors"
         />
       </div>
 
       {selectedBackground && (
-        <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-          <div className="text-sm text-gray-400 mb-1">Предыстория</div>
-          <div className="text-lg text-dnd-secondary font-medieval">{selectedBackground.name}</div>
-          <div className="text-xs text-gray-400 mt-1">Черта: {getBgFeatName(selectedBackground)}</div>
+        <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+          <div className="text-sm text-text-secondary mb-1">Предыстория</div>
+          <div className="text-lg text-gold font-medieval">{selectedBackground.name}</div>
+          <div className="text-xs text-text-secondary mt-1">Черта: {getBgFeatName(selectedBackground)}</div>
         </div>
       )}
 
-      <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-        <div className="text-sm text-gray-400 mb-1">Уровень</div>
-        <div className="text-lg text-white font-bold">1</div>
-        <div className="text-xs text-gray-500 mt-1">Повышение уровня доступно на странице персонажа</div>
+      <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+        <div className="text-sm text-text-secondary mb-1">Уровень</div>
+        <div className="text-lg text-text-primary font-bold">1</div>
+        <div className="text-xs text-text-muted mt-1">Повышение уровня доступно на странице персонажа</div>
       </div>
     </div>
   );
@@ -1149,8 +1200,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     if (!charOptionsLoaded) {
       return (
         <div className="flex items-center justify-center py-12">
-          <Loader2 size={32} className="animate-spin text-dnd-secondary" />
-          <span className="ml-3 text-gray-400">Загрузка опций создания...</span>
+          <Loader2 size={32} className="animate-spin text-gold" />
+          <span className="ml-3 text-text-secondary">Загрузка опций создания...</span>
         </div>
       );
     }
@@ -1166,8 +1217,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <h3 className="text-xl font-medieval text-dnd-secondary">Опции создания персонажа</h3>
-          <p className="text-sm text-gray-400 mt-1">
+          <h3 className="text-xl font-medieval text-gold">Опции создания персонажа</h3>
+          <p className="text-sm text-text-secondary mt-1">
             Необязательный шаг — ознакомьтесь с дополнительными опциями для вашего персонажа
           </p>
         </div>
@@ -1176,14 +1227,14 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <div className="space-y-4">
             <button
               onClick={() => setSelectedCharOption(null)}
-              className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               <ArrowLeft size={14} />
               Назад к списку
             </button>
-            <div className="bg-gray-800/80 rounded-lg border border-dnd-secondary p-6">
-              <h3 className="text-2xl font-medieval text-white mb-1">{selectedCharOption.name}</h3>
-              <div className="text-sm text-dnd-secondary mb-4">
+            <div className="bg-bg-panel-solid/80 rounded-lg border border-gold/40 p-6">
+              <h3 className="text-2xl font-medieval text-text-primary mb-1">{selectedCharOption.name}</h3>
+              <div className="text-sm text-gold mb-4">
                 {selectedCharOption.optionType?.map(t => OPTION_TYPE_NAMES[t] || t).join(', ')}
                 {' • '}{selectedCharOption.source}
               </div>
@@ -1198,7 +1249,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <div className="space-y-6">
             {Array.from(grouped.entries()).map(([typeKey, options]) => (
               <div key={typeKey}>
-                <h4 className="text-lg font-medieval text-dnd-secondary mb-3">
+                <h4 className="text-lg font-medieval text-gold mb-3">
                   {OPTION_TYPE_NAMES[typeKey] || typeKey}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1206,10 +1257,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     <button
                       key={`${opt.name}-${opt.source}`}
                       onClick={() => setSelectedCharOption(opt)}
-                      className="text-left p-3 bg-gray-800/80 rounded-lg border border-gray-600 hover:border-dnd-secondary transition-colors"
+                      className="text-left p-3 bg-bg-panel-solid/80 rounded-lg border border-border-default hover:border-gold/50 transition-colors"
                     >
-                      <div className="text-white font-medium text-sm">{opt.name}</div>
-                      <div className="text-xs text-gray-400 mt-1">{opt.source}</div>
+                      <div className="text-text-primary font-medium text-sm">{opt.name}</div>
+                      <div className="text-xs text-text-secondary mt-1">{opt.source}</div>
                     </button>
                   ))}
                 </div>
@@ -1238,28 +1289,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
     return (
       <div className="max-w-2xl mx-auto space-y-6">
-        <h3 className="text-xl font-medieval text-dnd-secondary text-center">Обзор персонажа</h3>
+        <h3 className="text-xl font-medieval text-gold text-center">Обзор персонажа</h3>
 
-        <div className="bg-gray-800/80 rounded-lg border border-dnd-secondary p-6">
-          <h2 className="text-3xl font-medieval text-white mb-1">{name || 'Без имени'}</h2>
-          <p className="text-dnd-secondary text-lg">
+        <div className="bg-bg-panel-solid/80 rounded-lg border border-gold/40 p-6">
+          <h2 className="text-3xl font-medieval text-text-primary mb-1">{name || 'Без имени'}</h2>
+          <p className="text-gold text-lg">
             {selectedSpecies.name}
             {' • '}
             {selectedClass.name}
             {' • '}
             1 уровень
           </p>
-          <p className="text-gray-400 mt-1">Предыстория: {selectedBackground.name}</p>
+          <p className="text-text-secondary mt-1">Предыстория: {selectedBackground.name}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-sm text-gray-400 mb-3">Характеристики</h4>
+          <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+            <h4 className="text-sm text-text-secondary mb-3">Характеристики</h4>
             <div className="grid grid-cols-2 gap-2">
               {(Object.keys(finalScores) as Array<keyof AbilityScores>).map(ability => (
                 <div key={ability} className="flex justify-between text-sm">
-                  <span className="text-gray-300">{ABILITY_NAMES[ability]}</span>
-                  <span className="text-white font-bold">
+                  <span className="text-text-primary">{ABILITY_NAMES[ability]}</span>
+                  <span className="text-text-primary font-bold">
                     {finalScores[ability]} ({formatModifier(getAbilityModifier(finalScores[ability]))})
                   </span>
                 </div>
@@ -1267,54 +1318,54 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             </div>
           </div>
 
-          <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-sm text-gray-400 mb-3">Боевые характеристики</h4>
+          <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+            <h4 className="text-sm text-text-secondary mb-3">Боевые характеристики</h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-300">Хиты:</span>
-                <span className="text-white font-bold">{maxHP}</span>
+                <span className="text-text-primary">Хиты:</span>
+                <span className="text-text-primary font-bold">{maxHP}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300">Класс брони:</span>
-                <span className="text-white font-bold">{10 + getAbilityModifier(finalScores.dexterity)}</span>
+                <span className="text-text-primary">Класс брони:</span>
+                <span className="text-text-primary font-bold">{10 + getAbilityModifier(finalScores.dexterity)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300">Инициатива:</span>
-                <span className="text-white font-bold">{formatModifier(getAbilityModifier(finalScores.dexterity))}</span>
+                <span className="text-text-primary">Инициатива:</span>
+                <span className="text-text-primary font-bold">{formatModifier(getAbilityModifier(finalScores.dexterity))}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300">Скорость:</span>
-                <span className="text-white font-bold">{getSpeciesSpeed(selectedSpecies)} фт.</span>
+                <span className="text-text-primary">Скорость:</span>
+                <span className="text-text-primary font-bold">{getSpeciesSpeed(selectedSpecies)} фт.</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300">Бонус мастерства:</span>
-                <span className="text-white font-bold">{formatModifier(profBonus)}</span>
+                <span className="text-text-primary">Бонус мастерства:</span>
+                <span className="text-text-primary font-bold">{formatModifier(profBonus)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300">Кость хитов:</span>
-                <span className="text-white font-bold">{selectedClass.hitDie}</span>
+                <span className="text-text-primary">Кость хитов:</span>
+                <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
               </div>
             </div>
           </div>
         </div>
 
         {selectedClass.spellcaster && selectedClass.spellcastingAbility && (
-          <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-sm text-gray-400 mb-3">Заклинания</h4>
+          <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+            <h4 className="text-sm text-text-secondary mb-3">Заклинания</h4>
             <div className="grid grid-cols-3 gap-4 text-sm text-center">
               <div>
-                <div className="text-gray-400">Характеристика</div>
+                <div className="text-text-secondary">Характеристика</div>
                 <div className="text-purple-300 font-bold">{ABILITY_NAMES[selectedClass.spellcastingAbility]}</div>
               </div>
               <div>
-                <div className="text-gray-400">Сл спасброска</div>
-                <div className="text-white font-bold">
+                <div className="text-text-secondary">Сл спасброска</div>
+                <div className="text-text-primary font-bold">
                   {8 + profBonus + getAbilityModifier(finalScores[selectedClass.spellcastingAbility])}
                 </div>
               </div>
               <div>
-                <div className="text-gray-400">Бонус атаки</div>
-                <div className="text-white font-bold">
+                <div className="text-text-secondary">Бонус атаки</div>
+                <div className="text-text-primary font-bold">
                   {formatModifier(profBonus + getAbilityModifier(finalScores[selectedClass.spellcastingAbility]))}
                 </div>
               </div>
@@ -1322,28 +1373,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
         )}
 
-        <div className="bg-gray-800/80 rounded-lg border border-gray-600 p-4">
-          <h4 className="text-sm text-gray-400 mb-3">Владения</h4>
+        <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
+          <h4 className="text-sm text-text-secondary mb-3">Владения</h4>
           <div className="space-y-2 text-sm">
             {selectedClass.proficiencies.armor.length > 0 && (
               <div>
-                <span className="text-gray-400">Доспехи: </span>
-                <span className="text-gray-200">{selectedClass.proficiencies.armor.join(', ')}</span>
+                <span className="text-text-secondary">Доспехи: </span>
+                <span className="text-text-primary">{selectedClass.proficiencies.armor.join(', ')}</span>
               </div>
             )}
             <div>
-              <span className="text-gray-400">Оружие: </span>
-              <span className="text-gray-200">{selectedClass.proficiencies.weapons.join(', ')}</span>
+              <span className="text-text-secondary">Оружие: </span>
+              <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
             </div>
             {selectedClass.proficiencies.tools.length > 0 && (
               <div>
-                <span className="text-gray-400">Инструменты: </span>
-                <span className="text-gray-200">{selectedClass.proficiencies.tools.join(', ')}</span>
+                <span className="text-text-secondary">Инструменты: </span>
+                <span className="text-text-primary">{selectedClass.proficiencies.tools.join(', ')}</span>
               </div>
             )}
             <div>
-              <span className="text-gray-400">Языки: </span>
-              <span className="text-gray-200">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
+              <span className="text-text-secondary">Языки: </span>
+              <span className="text-text-primary">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
             </div>
           </div>
         </div>
@@ -1383,21 +1434,21 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-medieval text-dnd-secondary">Выберите заклинания</h3>
-          <div className="text-sm text-gray-400">
+          <h3 className="text-xl font-medieval text-gold">Выберите заклинания</h3>
+          <div className="text-sm text-text-secondary">
             {selectedClass.name} • {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
           </div>
         </div>
 
         {/* Поиск */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
           <input
             type="text"
             placeholder="Поиск заклинаний..."
             value={spellSearchQuery}
             onChange={e => setSpellSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-dnd-secondary"
+            className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
           />
         </div>
 
@@ -1405,7 +1456,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div>
           <h4 className="text-lg font-medieval text-purple-300 mb-2">
             Заговоры
-            <span className="text-sm font-normal text-gray-400 ml-2">
+            <span className="text-sm font-normal text-text-secondary ml-2">
               ({selectedCantrips.length}/{maxCantrips})
             </span>
           </h4>
@@ -1420,16 +1471,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   className={`p-2 rounded-lg border text-left text-xs transition-all ${
                     isSelected
                       ? 'border-purple-500 bg-purple-900/30 text-purple-200'
-                      : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-400 disabled:opacity-40'
+                      : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover disabled:opacity-40'
                   }`}
                 >
                   <div className="font-semibold truncate">{spell.name}</div>
-                  <div className="text-gray-500 text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
+                  <div className="text-text-muted text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
                 </button>
               );
             })}
             {filteredCantrips.length === 0 && (
-              <div className="col-span-full text-center text-gray-500 py-4 text-sm">
+              <div className="col-span-full text-center text-text-muted py-4 text-sm">
                 {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заговоров'}
               </div>
             )}
@@ -1440,7 +1491,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div>
           <h4 className="text-lg font-medieval text-blue-300 mb-2">
             Заклинания 1 уровня
-            <span className="text-sm font-normal text-gray-400 ml-2">
+            <span className="text-sm font-normal text-text-secondary ml-2">
               (выбрано: {selectedSpells.length})
             </span>
           </h4>
@@ -1454,11 +1505,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   className={`p-2 rounded-lg border text-left text-xs transition-all ${
                     isSelected
                       ? 'border-blue-500 bg-blue-900/30 text-blue-200'
-                      : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-400'
+                      : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
                   }`}
                 >
                   <div className="font-semibold truncate">{spell.name}</div>
-                  <div className="text-gray-500 text-[10px]">
+                  <div className="text-text-muted text-[10px]">
                     {SCHOOL_NAMES[spell.school] || spell.school}
                     {spell.concentration && spell.duration?.[0]?.concentration ? ' • Концентрация' : ''}
                   </div>
@@ -1466,7 +1517,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               );
             })}
             {filteredLeveled.length === 0 && (
-              <div className="col-span-full text-center text-gray-500 py-4 text-sm">
+              <div className="col-span-full text-center text-text-muted py-4 text-sm">
                 {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
               </div>
             )}
@@ -1475,19 +1526,19 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
         {/* Выбранные */}
         {(selectedCantrips.length > 0 || selectedSpells.length > 0) && (
-          <div className="bg-gray-800/60 rounded-lg border border-gray-600 p-4">
-            <h4 className="text-sm text-gray-400 mb-2">Выбранные заклинания:</h4>
+          <div className="bg-bg-panel-solid/60 rounded-lg border border-border-default p-4">
+            <h4 className="text-sm text-text-secondary mb-2">Выбранные заклинания:</h4>
             <div className="flex flex-wrap gap-2">
               {selectedCantrips.map(s => (
                 <span key={s.name} className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs flex items-center gap-1">
                   {s.name}
-                  <button onClick={() => toggleCantrip(s)} className="text-purple-400 hover:text-white ml-1">&times;</button>
+                  <button onClick={() => toggleCantrip(s)} className="text-purple-400 hover:text-text-primary ml-1">&times;</button>
                 </span>
               ))}
               {selectedSpells.map(s => (
                 <span key={s.name} className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs flex items-center gap-1">
                   {s.name}
-                  <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-white ml-1">&times;</button>
+                  <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-text-primary ml-1">&times;</button>
                 </span>
               ))}
             </div>
@@ -1517,27 +1568,33 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={onCancel}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
         >
           <ArrowLeft size={20} />
           <span>Назад к списку</span>
         </button>
-        <h2 className="text-2xl font-medieval text-white">Создание персонажа</h2>
+        <h2 className="text-2xl font-medieval text-gold">Создание персонажа</h2>
         <div className="w-32" />
       </div>
 
       {renderStepIndicator()}
 
-      {/* Step content — fills remaining height */}
-      <div className="flex-1 min-h-0 overflow-y-auto">
-        {renderStep()}
+      {/* Step content + right sidebar */}
+      <div className="flex flex-1 min-h-0 gap-4">
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+          {renderStep()}
+        </div>
+        <CharacterStatsSidebar
+          creationStats={creationStats}
+          showCombatStats={step >= 4}
+        />
       </div>
 
       {/* Navigation buttons */}
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-700 shrink-0">
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-default shrink-0">
         <button
           onClick={step === 0 ? onCancel : prevStep}
-          className="flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 rounded-lg border border-border-default text-text-primary hover:text-text-primary hover:border-border-hover transition-colors"
         >
           <ArrowLeft size={18} />
           {step === 0 ? 'Отмена' : 'Назад'}
@@ -1547,7 +1604,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <button
             onClick={nextStep}
             disabled={!canProceed()}
-            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-dnd-secondary text-dnd-dark font-semibold hover:bg-dnd-secondary/80 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gold text-bg-primary font-semibold hover:bg-gold/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Далее
             <ArrowRight size={18} />
@@ -1556,7 +1613,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <button
             onClick={handleSubmit}
             disabled={!canProceed() || !name.trim()}
-            className="flex items-center gap-2 px-8 py-3 rounded-lg bg-dnd-primary text-white font-semibold hover:bg-dnd-primary/80 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-lg"
+            className="flex items-center gap-2 px-8 py-3 rounded-lg bg-gold text-bg-primary font-semibold hover:bg-gold/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-lg shadow-gold/20"
           >
             <Wand2 size={18} />
             Создать персонажа
