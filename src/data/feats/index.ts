@@ -77,7 +77,7 @@ export function getFeatsByCategory(category: string): FeatData[] {
 
 export const FEAT_CATEGORY_NAMES: Record<string, string> = {
   G: 'Общая черта',
-  OF: 'Черта происхождения',
-  EP: 'Эпическое благо',
+  O: 'Черта происхождения',
+  EB: 'Эпическое благо',
   FS: 'Боевой стиль',
 };

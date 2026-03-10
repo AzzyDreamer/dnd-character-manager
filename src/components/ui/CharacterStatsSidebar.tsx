@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import type { AbilityScores, Character, CharacterSpell } from '../../types';
-import { getAbilityModifier, ABILITY_SHORT } from '../../utils/dnd';
+import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES, ABILITY_NAMES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
 import { GoldDivider } from './GoldDivider';
-import { Shield, Heart, Footprints, Sparkles } from 'lucide-react';
+import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check } from 'lucide-react';
 
 /** Partial data for creation mode (not a full Character yet) */
 export interface CreationStats {
@@ -19,6 +20,7 @@ export interface CreationStats {
     languages?: string[];
   };
   spells?: { name: string; level: number }[];
+  skills?: string[]; // skill keys that are proficient
   armorClass?: number;
   hitPoints?: number;
   speed?: number;
@@ -40,6 +42,138 @@ const ABILITY_KEYS: (keyof AbilityScores)[] = [
   'intelligence', 'wisdom', 'charisma',
 ];
 
+const SIDEBAR_ABILITY_ORDER: (keyof AbilityScores)[] = [
+  'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',
+];
+
+function SkillsPanel({
+  abilityScores,
+  skillProficiencies,
+  character,
+  profBonus,
+}: {
+  abilityScores?: AbilityScores;
+  skillProficiencies: string[];
+  character?: Character;
+  profBonus: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  if (!abilityScores) {
+    // No scores yet — just show count if any
+    if (skillProficiencies.length === 0) return null;
+    return (
+      <div className="glass-panel p-3">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex items-center gap-1.5 w-full text-left"
+        >
+          <Target size={12} className="text-gold/70" />
+          <span className="text-[10px] text-text-muted uppercase tracking-wider flex-1">
+            Навыки ({skillProficiencies.length})
+          </span>
+          <ChevronDown
+            size={12}
+            className={`text-text-muted transition-transform ${expanded ? 'rotate-180' : ''}`}
+          />
+        </button>
+        {expanded && (
+          <div className="mt-2 space-y-0.5 text-xs">
+            {skillProficiencies.map(sk => (
+              <div key={sk} className="flex items-center gap-1.5 text-text-secondary">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
+                <span className="truncate">{SKILL_NAMES[sk] || sk}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Full panel — all 18 skills grouped by ability
+  return (
+    <div className="glass-panel p-3">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="flex items-center gap-1.5 w-full text-left"
+      >
+        <Target size={12} className="text-gold/70" />
+        <span className="text-[10px] text-text-muted uppercase tracking-wider flex-1">
+          Навыки
+          {skillProficiencies.length > 0 && (
+            <span className="text-gold ml-1">({skillProficiencies.length})</span>
+          )}
+        </span>
+        <ChevronDown
+          size={12}
+          className={`text-text-muted transition-transform ${expanded ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {expanded && (
+        <div className="mt-2 space-y-2">
+          {SIDEBAR_ABILITY_ORDER.map(ability => {
+            const skillsForAbility = Object.entries(SKILL_ABILITIES)
+              .filter(([, ab]) => ab === ability)
+              .map(([key]) => key);
+            if (skillsForAbility.length === 0) return null;
+
+            return (
+              <div key={ability}>
+                <div className="text-[9px] uppercase tracking-wider text-text-muted/60 font-bold mb-0.5">
+                  {ABILITY_SHORT[ability]}
+                </div>
+                <div className="space-y-px">
+                  {skillsForAbility.map(sk => {
+                    const isProficient = skillProficiencies.includes(sk);
+                    const hasExpertise = character?.skills?.[sk]?.expertise ?? false;
+                    const score = abilityScores[ability];
+                    const mod = getSkillBonus(score, isProficient, hasExpertise, profBonus);
+
+                    return (
+                      <div
+                        key={sk}
+                        className={`flex items-center gap-1.5 px-1 py-0.5 rounded text-[11px] ${
+                          isProficient ? 'bg-gold/5' : ''
+                        }`}
+                      >
+                        <div className={`w-3 h-3 rounded-full border flex items-center justify-center shrink-0 ${
+                          hasExpertise
+                            ? 'border-purple-400 bg-purple-900/40'
+                            : isProficient
+                              ? 'border-gold bg-gold/20'
+                              : 'border-border-default/50'
+                        }`}>
+                          {(isProficient || hasExpertise) && (
+                            <Check size={7} className={hasExpertise ? 'text-purple-300' : 'text-gold'} />
+                          )}
+                        </div>
+                        <span className={`flex-1 truncate ${
+                          isProficient ? 'text-text-primary' : 'text-text-muted'
+                        }`}>
+                          {SKILL_NAMES[sk]}
+                        </span>
+                        <span className={`font-bold tabular-nums text-[10px] ${
+                          isProficient
+                            ? mod >= 0 ? 'text-green-400' : 'text-red-bright'
+                            : 'text-text-muted/60'
+                        }`}>
+                          {mod >= 0 ? '+' : ''}{mod}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function CharacterStatsSidebar({
   character,
   creationStats,
@@ -57,6 +191,16 @@ export function CharacterStatsSidebar({
 
   const proficiencies = character?.proficiencies ?? creationStats?.proficiencies;
   const spells = character?.spellcasting?.spells ?? creationStats?.spells;
+
+  // Skills — from character.skills (full) or creationStats.skills (keys only)
+  const skillProficiencies: string[] = (() => {
+    if (character?.skills) {
+      return Object.entries(character.skills)
+        .filter(([, v]) => v.proficient)
+        .map(([k]) => k);
+    }
+    return creationStats?.skills ?? [];
+  })();
 
   const ac = character?.armorClass ?? creationStats?.armorClass;
   const hp = character ? character.hitPoints.current : creationStats?.hitPoints;
@@ -170,6 +314,14 @@ export function CharacterStatsSidebar({
           )}
         </div>
       )}
+
+      {/* Skills — expandable */}
+      <SkillsPanel
+        abilityScores={abilityScores}
+        skillProficiencies={skillProficiencies}
+        character={character}
+        profBonus={profBonus ?? 2}
+      />
 
       {/* Spells summary */}
       {spells && spells.length > 0 && (

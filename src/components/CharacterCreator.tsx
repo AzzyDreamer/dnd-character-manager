@@ -6,7 +6,11 @@ import {
   getProficiencyBonus,
   getAbilityModifier,
   formatModifier,
+  getSkillBonus,
   ABILITY_NAMES,
+  ABILITY_SHORT,
+  SKILL_ABILITIES,
+  SKILL_NAMES,
   POINT_BUY_TOTAL,
   POINT_BUY_MIN,
   POINT_BUY_MAX,
@@ -19,7 +23,7 @@ import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
-import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star } from 'lucide-react';
 import { TabBar, type Tab, CycleSelector, CharacterStatsSidebar, type CreationStats, StatBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
@@ -114,12 +118,14 @@ interface CharacterCreatorProps {
 type AbilityMethod = 'pointBuy' | 'roll' | 'manual';
 type BackgroundBonusMode = 'background' | 'custom';
 
-const STEPS = [
+const ALL_STEPS = [
   { key: 'race', label: 'Раса', icon: Sparkles },
   { key: 'class', label: 'Класс', icon: Swords },
   { key: 'background', label: 'Предыстория', icon: BookOpen },
+  { key: 'originfeat', label: 'Черта', icon: Star },
   { key: 'charoptions', label: 'Опции', icon: Scroll },
   { key: 'abilities', label: 'Характеристики', icon: Dices },
+  { key: 'skills', label: 'Навыки', icon: Target },
   { key: 'spells', label: 'Заклинания', icon: Wand2 },
   { key: 'details', label: 'Детали', icon: User },
   { key: 'review', label: 'Обзор', icon: Eye },
@@ -241,6 +247,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [bgBonus1, setBgBonus1] = useState<keyof AbilityScores | null>(null);
   const [customBonuses, setCustomBonuses] = useState<Partial<AbilityScores>>({});
 
+  // Origin Feat
+  const [selectedOriginFeat, setSelectedOriginFeat] = useState<any | null>(null);
+  const [originFeatsLoaded, setOriginFeatsLoaded] = useState(false);
+  const [allOriginFeats, setAllOriginFeats] = useState<any[]>([]);
+  const [originFeatSearch, setOriginFeatSearch] = useState('');
+
+  // Lazy load origin feats
+  React.useEffect(() => {
+    let cancelled = false;
+    import('../data/feats').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      setAllOriginFeats(mod.ALL_FEATS.filter(f => f.category === 'O'));
+      setOriginFeatsLoaded(true);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Skills (reset when class changes)
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  React.useEffect(() => { setSelectedSkills([]); }, [selectedClass]);
+
   // Spells
   const [selectedSpells, setSelectedSpells] = useState<SpellData[]>([]);
   const [selectedCantrips, setSelectedCantrips] = useState<SpellData[]>([]);
@@ -296,12 +324,32 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const maxCantrips = level1Data?.cantrips ?? (isSpellcaster ? 2 : 0);
   const maxSpells = level1Data?.preparedSpells ?? (isSpellcaster ? Math.max(1, 1 + (activeBonuses[selectedClass?.spellcastingAbility as keyof AbilityScores] || 0)) : 0);
 
-  // Navigation (8 шагов для заклинателя, 7 для остальных — пропускаем spells)
-  // Steps: 0=race, 1=class, 2=background, 3=charoptions, 4=abilities, 5=spells, 6=details, 7=review
+  // Origin feat needed when background doesn't provide one
+  const bgHasFeat = selectedBackground ? !!getBgFeatName(selectedBackground) : true;
+
+  // Build active steps list based on conditions
+  const STEPS = useMemo(() => {
+    return ALL_STEPS.filter(s => {
+      if (s.key === 'originfeat' && bgHasFeat) return false;
+      if (s.key === 'spells' && !isSpellcaster) return false;
+      return true;
+    });
+  }, [bgHasFeat, isSpellcaster]);
+
+  // Clamp step when STEPS length changes
+  React.useEffect(() => {
+    setStep(s => Math.min(s, STEPS.length - 1));
+  }, [STEPS]);
+
   const getEffectiveStep = (s: number): string => {
-    // step variable directly maps to STEPS index; spells skip handled by nextStep/prevStep
     return STEPS[s]?.key ?? 'review';
   };
+
+  // Background skills (auto-granted)
+  const backgroundSkillKeys = useMemo<string[]>(() => {
+    if (!selectedBackground) return [];
+    return getBgSkills(selectedBackground);
+  }, [selectedBackground]);
 
   const canProceed = (): boolean => {
     const effectiveKey = getEffectiveStep(step);
@@ -316,29 +364,25 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         if (backgroundBonusMode === 'custom' && customBonusSpent !== 3) return false;
         return true;
       }
+      case 'originfeat': return selectedOriginFeat !== null;
+      case 'skills': {
+        if (!selectedClass) return false;
+        return selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
+      }
       case 'spells': return true; // Заклинания опциональны
       case 'details': return name.trim().length > 0;
       default: return true;
     }
   };
 
-  const maxStep = isSpellcaster ? 7 : 6;
+  const maxStep = STEPS.length - 1;
   const nextStep = () => {
     if (canProceed()) {
-      setStep(s => {
-        let next = s + 1;
-        // Пропускаем шаг заклинаний если не заклинатель
-        if (!isSpellcaster && next === 5) next = 6;
-        return Math.min(next, maxStep);
-      });
+      setStep(s => Math.min(s + 1, maxStep));
     }
   };
   const prevStep = () => {
-    setStep(s => {
-      let prev = s - 1;
-      if (!isSpellcaster && prev === 5) prev = 4;
-      return Math.max(prev, 0);
-    });
+    setStep(s => Math.max(s - 1, 0));
   };
 
   // Ability methods
@@ -410,6 +454,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     }
 
     const bgFeat = getBgFeatName(selectedBackground);
+    // Determine which feat to use — background feat or selected origin feat
+    const featName = bgFeat || selectedOriginFeat?.name || '';
+    const featSource = bgFeat ? selectedBackground.source : (selectedOriginFeat?.source || '');
 
     const character: Character = {
       id: crypto.randomUUID(),
@@ -430,7 +477,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         wisdom: { proficient: selectedClass.savingThrows.includes('wisdom') },
         charisma: { proficient: selectedClass.savingThrows.includes('charisma') },
       },
-      skills: {},
+      skills: Object.fromEntries(
+        Object.keys(SKILL_ABILITIES).map(sk => [
+          sk,
+          {
+            proficient: selectedSkills.includes(sk) || backgroundSkillKeys.includes(sk),
+            expertise: false,
+          },
+        ])
+      ),
       proficiencies: {
         armor: selectedClass.proficiencies.armor,
         weapons: selectedClass.proficiencies.weapons,
@@ -444,7 +499,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       inventory: [],
       equipment: {},
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
-      features: bgFeat ? [{ id: 'bg-feat', name: bgFeat, description: `Черта от предыстории: ${selectedBackground.name}`, source: selectedBackground.source }] : [],
+      features: featName ? [{
+        id: bgFeat ? 'bg-feat' : 'origin-feat',
+        name: featName,
+        description: bgFeat
+          ? `Черта от предыстории: ${selectedBackground.name}`
+          : `Черта происхождения`,
+        source: featSource,
+      }] : [],
+      feats: featName ? [{
+        name: featName,
+        source: featSource,
+        category: 'O',
+        levelAcquired: 1,
+      }] : undefined,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -525,23 +593,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       : undefined,
     speed: selectedSpecies ? getSpeciesSpeed(selectedSpecies) : undefined,
     proficiencyBonus: getProficiencyBonus(1),
-  }), [name, selectedSpecies, selectedClass, selectedCantrips, selectedSpells, abilityScores, activeBonuses]);
+    skills: [...selectedSkills, ...backgroundSkillKeys.filter(s => !selectedSkills.includes(s))],
+  }), [name, selectedSpecies, selectedClass, selectedCantrips, selectedSpells, abilityScores, activeBonuses, selectedSkills, backgroundSkillKeys]);
 
   // ─── Step Indicator ───
-  const visibleSteps = isSpellcaster ? STEPS : STEPS.filter(s => s.key !== 'spells');
   const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
   const [bgSearchQuery, setBgSearchQuery] = useState('');
   const stepTabs: Tab[] = useMemo(() =>
-    visibleSteps.map((s) => {
-      const realIndex = STEPS.findIndex(st => st.key === s.key);
-      return {
-        key: s.key,
-        label: s.label,
-        icon: s.icon,
-        disabled: realIndex > step,
-      };
-    }),
-    [visibleSteps, step]
+    STEPS.map((s, i) => ({
+      key: s.key,
+      label: s.label,
+      icon: s.icon,
+      disabled: i > step,
+    })),
+    [STEPS, step]
   );
 
   const handleStepTabChange = (key: string) => {
@@ -1066,7 +1131,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <CycleSelector
             items={allBackgrounds.map(bg => ({ id: bg.name, name: bg.name }))}
             selectedIndex={bgIndex >= 0 ? bgIndex : 0}
-            onSelect={(i) => { setSelectedBackground(allBackgrounds[i]); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
+            onSelect={(i) => { setSelectedBackground(allBackgrounds[i]); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); }}
           />
 
           <button
@@ -1093,7 +1158,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 {filteredBackgrounds.map((bg, idx) => (
                   <button
                     key={`${bg.name}-${idx}`}
-                    onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setShowAllBgs(false); }}
+                    onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); setShowAllBgs(false); }}
                     className={`rounded-lg border text-left p-2 text-xs transition-all ${
                       selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
                         ? 'border-gold/40 bg-gold/5 text-gold'
@@ -1402,7 +1467,237 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     );
   };
 
-  // ─── Step 4: Spells (только для заклинателей) ───
+  // ─── Step: Origin Feat ───
+  const renderOriginFeatStep = () => {
+    if (!originFeatsLoaded) {
+      return (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 size={24} className="text-gold animate-spin" />
+          <span className="ml-2 text-text-muted">Загрузка черт...</span>
+        </div>
+      );
+    }
+
+    const filtered = originFeatSearch.trim()
+      ? allOriginFeats.filter(f => f.name.toLowerCase().includes(originFeatSearch.toLowerCase()))
+      : allOriginFeats;
+
+    return (
+      <div className="space-y-4">
+        <div className="glass-panel p-4">
+          <h3 className="text-lg font-medieval text-gold mb-1">Черта происхождения</h3>
+          <p className="text-xs text-text-muted mb-4">
+            Ваша предыстория не даёт черту. Выберите черту происхождения (Origin Feat).
+          </p>
+
+          {/* Search */}
+          <div className="relative mb-3">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input
+              type="text"
+              value={originFeatSearch}
+              onChange={e => setOriginFeatSearch(e.target.value)}
+              placeholder="Поиск черты..."
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
+                text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
+            />
+          </div>
+
+          {/* Feat grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
+            {filtered.map(feat => {
+              const isSelected = selectedOriginFeat?.name === feat.name;
+              return (
+                <button
+                  key={feat.name}
+                  onClick={() => setSelectedOriginFeat(isSelected ? null : feat)}
+                  className={`text-left rounded-lg border p-3 transition-all ${
+                    isSelected
+                      ? 'border-gold/50 bg-gold/10'
+                      : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    {isSelected && <Check size={14} className="text-gold shrink-0" />}
+                    <span className={`text-sm font-medium ${isSelected ? 'text-gold' : 'text-text-primary'}`}>
+                      {feat.name}
+                    </span>
+                  </div>
+                  {feat.entries?.[0] && typeof feat.entries[0] === 'string' && (
+                    <p className="text-[11px] text-text-muted mt-1 line-clamp-2">
+                      {feat.entries[0].replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1').slice(0, 120)}
+                    </p>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+          )}
+        </div>
+
+        {/* Selected feat detail */}
+        {selectedOriginFeat && (
+          <div className="glass-panel p-4">
+            <h4 className="text-base font-medieval text-gold mb-2">{selectedOriginFeat.name}</h4>
+            <div className="text-sm text-text-secondary leading-relaxed space-y-2">
+              {EntryRendererCmp ? (
+                <EntryRendererCmp entries={selectedOriginFeat.entries} />
+              ) : (
+                selectedOriginFeat.entries?.map((e: any, i: number) => (
+                  <p key={i}>{typeof e === 'string' ? e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1') : ''}</p>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ─── Step: Skills ───
+  const renderSkillsStep = () => {
+    if (!selectedClass) return null;
+    const { count, from } = selectedClass.proficiencies.skillChoices;
+
+    const toggleSkill = (skillKey: string) => {
+      // Don't toggle background skills
+      if (backgroundSkillKeys.includes(skillKey)) return;
+      setSelectedSkills(prev => {
+        if (prev.includes(skillKey)) return prev.filter(s => s !== skillKey);
+        if (prev.length >= count) return prev;
+        return [...prev, skillKey];
+      });
+    };
+
+    // Group skills by ability
+    const ABILITY_ORDER: (keyof typeof ABILITY_NAMES)[] = [
+      'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',
+    ];
+
+    return (
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-medieval text-gold">Выберите навыки</h3>
+          <div className="text-sm">
+            <span className={`font-bold ${selectedSkills.length === count ? 'text-green-400' : 'text-gold'}`}>
+              {selectedSkills.length}
+            </span>
+            <span className="text-text-secondary"> / {count}</span>
+          </div>
+        </div>
+
+        <p className="text-sm text-text-secondary">
+          Выберите {count} навык{count === 2 ? 'а' : count === 3 ? 'а' : 'ов'} из списка класса «{selectedClass.name}».
+          {backgroundSkillKeys.length > 0 && ' Навыки предыстории уже отмечены.'}
+        </p>
+
+        {/* All 18 skills grouped by ability */}
+        <div className="space-y-4">
+          {ABILITY_ORDER.map(ability => {
+            const skillsForAbility = Object.entries(SKILL_ABILITIES)
+              .filter(([, ab]) => ab === ability)
+              .map(([key]) => key);
+            if (skillsForAbility.length === 0) return null;
+
+            return (
+              <div key={ability}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
+                    {ABILITY_NAMES[ability]} ({ABILITY_SHORT[ability]})
+                  </span>
+                  <div className="flex-1 h-px bg-border-default" />
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {skillsForAbility.map(skillKey => {
+                    const isFromClass = from.includes(skillKey);
+                    const isFromBg = backgroundSkillKeys.includes(skillKey);
+                    const isSelected = selectedSkills.includes(skillKey);
+                    const isActive = isSelected || isFromBg;
+                    const isDisabled = !isFromClass && !isFromBg;
+                    const isFull = selectedSkills.length >= count && !isSelected;
+
+                    const abilityScore = getFinalScore(SKILL_ABILITIES[skillKey]);
+                    const mod = getSkillBonus(
+                      abilityScore,
+                      isActive,
+                      false,
+                      getProficiencyBonus(1)
+                    );
+
+                    return (
+                      <button
+                        key={skillKey}
+                        onClick={() => toggleSkill(skillKey)}
+                        disabled={isDisabled || isFromBg || (isFull && !isSelected)}
+                        className={`flex items-center gap-2.5 p-2.5 rounded-lg border text-left text-sm transition-all ${
+                          isFromBg
+                            ? 'border-blue-500/50 bg-blue-900/20 text-blue-300 cursor-default'
+                            : isSelected
+                              ? 'border-gold/70 bg-gold/10 text-gold'
+                              : isFromClass
+                                ? 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                                : 'border-border-default/30 bg-bg-panel/30 text-text-muted/50 cursor-not-allowed'
+                        }`}
+                      >
+                        {/* Placeholder icon — colored circle */}
+                        <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
+                          isActive
+                            ? isFromBg
+                              ? 'border-blue-400 bg-blue-900/40 text-blue-300'
+                              : 'border-gold bg-gold/20 text-gold'
+                            : 'border-border-default bg-bg-panel-solid text-text-muted'
+                        }`}>
+                          {isActive ? <Check size={14} /> : SKILL_NAMES[skillKey]?.charAt(0) || '?'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate text-xs">{SKILL_NAMES[skillKey]}</div>
+                          <div className="text-[10px] text-text-muted">
+                            {ABILITY_SHORT[SKILL_ABILITIES[skillKey]]}
+                            {isFromBg && ' • Предыстория'}
+                          </div>
+                        </div>
+                        <span className={`text-xs font-bold ${isActive ? 'text-green-400' : 'text-text-muted'}`}>
+                          {mod >= 0 ? '+' : ''}{mod}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Selected summary */}
+        {(selectedSkills.length > 0 || backgroundSkillKeys.length > 0) && (
+          <div className="bg-bg-panel-solid/60 rounded-lg border border-border-default p-3">
+            <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">Владение навыками:</h4>
+            <div className="flex flex-wrap gap-1.5">
+              {backgroundSkillKeys.map(sk => (
+                <span key={sk} className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs">
+                  {SKILL_NAMES[sk]} <span className="text-blue-400/60 text-[10px]">(Предыстория)</span>
+                </span>
+              ))}
+              {selectedSkills.map(sk => (
+                <span key={sk} className="px-2 py-1 bg-gold/10 text-gold rounded text-xs flex items-center gap-1">
+                  {SKILL_NAMES[sk]}
+                  <button
+                    onClick={() => setSelectedSkills(prev => prev.filter(s => s !== sk))}
+                    className="text-gold/50 hover:text-gold ml-0.5"
+                  >&times;</button>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ─── Step 6: Spells (только для заклинателей) ───
   const renderSpellsStep = () => {
     if (!selectedClass?.spellcaster) return null;
 
@@ -1550,15 +1845,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Main Render ───
   const renderStep = () => {
-    switch (step) {
-      case 0: return renderRaceStep();
-      case 1: return renderClassStep();
-      case 2: return renderBackgroundStep();
-      case 3: return renderCharOptionsStep();
-      case 4: return renderAbilitiesStep();
-      case 5: return renderSpellsStep();
-      case 6: return renderDetailsStep();
-      case 7: return renderReviewStep();
+    const key = getEffectiveStep(step);
+    switch (key) {
+      case 'race': return renderRaceStep();
+      case 'class': return renderClassStep();
+      case 'background': return renderBackgroundStep();
+      case 'originfeat': return renderOriginFeatStep();
+      case 'charoptions': return renderCharOptionsStep();
+      case 'abilities': return renderAbilitiesStep();
+      case 'skills': return renderSkillsStep();
+      case 'spells': return renderSpellsStep();
+      case 'details': return renderDetailsStep();
+      case 'review': return renderReviewStep();
     }
   };
 

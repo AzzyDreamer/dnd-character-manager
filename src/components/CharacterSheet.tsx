@@ -1,12 +1,14 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
-import { getAbilityModifier, formatModifier, getProficiencyBonus, ABILITY_NAMES, ABILITY_SHORT } from '../utils/dnd';
+import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X, ScrollText, Wand2, ChevronLeft, ChevronRight, Sparkles, BookOpen, Dices, Calculator } from 'lucide-react';
+import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X, ScrollText, Wand2, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
+import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 import type { SubclassJsonData } from '../data/classes/subclassJsonLoader';
+import { getRaceByName } from '../data/races';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazySpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.SpellsTab })));
@@ -33,6 +35,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     newData: LevelTableRow;
   } | null>(null);
   const [activeTab, setActiveTab] = useState<SheetTab>('stats');
+  const [showFeatPicker, setShowFeatPicker] = useState(false);
+  const [pendingFeatLevelUp, setPendingFeatLevelUp] = useState<{
+    updatedChar: Character;
+    mode: 'asi' | 'epicBoon';
+  } | null>(null);
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
 
@@ -168,7 +175,113 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
+    // Check if this level grants ASI or Epic Boon
+    if (checkAndShowFeatPicker(updated)) return;
+
     onUpdate(updated);
+    setShowSubclassModal(false);
+  };
+
+  /** Check if the character's current level grants ASI/EB and show picker if so. Returns true if picker shown. */
+  const checkAndShowFeatPicker = (updated: Character): boolean => {
+    // Load class data to check features at this level
+    const classData = classDef;
+    if (!classData) return false;
+
+    // We need to check the levelTable — but it's async. Let's do it inline.
+    // Actually, use the classLevelTable from classJsonLoader
+    (async () => {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const data = mod.getClassDataByName(updated.class);
+        if (!data?.levelTable) return;
+        const levelRow = data.levelTable.find((r: any) => r.level === updated.level);
+        const features: string[] = levelRow?.features ?? [];
+        const hasASI = features.includes('Ability Score Improvement');
+        const hasEB = features.includes('Epic Boon');
+        if (hasASI || hasEB) {
+          setPendingFeatLevelUp({
+            updatedChar: updated,
+            mode: hasEB ? 'epicBoon' : 'asi',
+          });
+          setShowFeatPicker(true);
+        } else {
+          onUpdate(updated);
+        }
+      } catch (e) {
+        console.warn('Failed to check ASI/EB:', e);
+        onUpdate(updated);
+      }
+    })();
+    return true; // Always return true to prevent immediate onUpdate — the async handler will call it
+  };
+
+  const handleFeatPickerConfirm = (result: FeatPickerResult) => {
+    if (!pendingFeatLevelUp) return;
+    let updated = { ...pendingFeatLevelUp.updatedChar };
+
+    if (result.type === 'asi' && result.asiChanges) {
+      // Apply ASI
+      const newScores = { ...updated.abilityScores };
+      for (const [key, delta] of Object.entries(result.asiChanges)) {
+        if (delta) {
+          newScores[key as keyof AbilityScores] += delta;
+        }
+      }
+      updated = { ...updated, abilityScores: newScores };
+      // Add to feats list
+      updated.feats = [
+        ...(updated.feats ?? []),
+        {
+          name: 'Ability Score Improvement',
+          source: 'XPHB',
+          category: pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
+          levelAcquired: updated.level,
+          abilityBonuses: result.asiChanges,
+        },
+      ];
+    } else if (result.type === 'feat' && result.feat) {
+      // Apply feat ability bonus
+      if (result.abilityChoice) {
+        const newScores = { ...updated.abilityScores };
+        for (const [key, delta] of Object.entries(result.abilityChoice)) {
+          if (delta) {
+            newScores[key as keyof AbilityScores] += delta;
+          }
+        }
+        updated = { ...updated, abilityScores: newScores };
+      }
+      // Add feat to features and feats
+      updated.features = [
+        ...updated.features,
+        {
+          id: `feat-${result.feat.name.toLowerCase().replace(/\s+/g, '-')}-${updated.level}`,
+          name: result.feat.name,
+          description: result.feat.entries?.map((e: any) =>
+            typeof e === 'string' ? e : ''
+          ).filter(Boolean).join('\n') || '',
+          source: result.feat.source,
+        },
+      ];
+      updated.feats = [
+        ...(updated.feats ?? []),
+        {
+          name: result.feat.name,
+          source: result.feat.source,
+          category: result.feat.category || pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
+          levelAcquired: updated.level,
+          abilityBonuses: result.abilityChoice,
+        },
+      ];
+    }
+
+    // Recalc derived stats (spell DC, attack bonus)
+    recalcDerivedStats(updated);
+
+    onUpdate(updated);
+    setShowFeatPicker(false);
+    setPendingFeatLevelUp(null);
     setShowSubclassModal(false);
   };
 
@@ -187,9 +300,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       },
     };
 
-    onUpdate(final);
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
+
+    // After spells, check for ASI/EB
+    checkAndShowFeatPicker(final);
   };
 
   const handleSpellLevelUpCancel = () => {
@@ -307,20 +422,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 </div>
               </div>
 
-              {/* Features */}
-              {character.features.length > 0 && (
-                <div className="glass-panel p-4">
-                  <h2 className="text-lg font-medieval mb-3 text-gold">Особенности и черты</h2>
-                  <div className="space-y-2">
-                    {character.features.map((feat) => (
-                      <div key={feat.id} className="p-3 bg-bg-primary/40 border border-border-default rounded-lg">
-                        <div className="font-semibold text-text-primary text-sm">{feat.name}</div>
-                        <div className="text-xs text-text-secondary mt-0.5">{feat.description}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Skills & Saving Throws */}
+              <SkillsSection character={character} />
+
+              {/* Features — BG3 style categorized list */}
+              <FeaturesSection character={character} />
 
               {/* Spells summary */}
               {character.spellcasting && character.spellcasting.spells.length > 0 && (
@@ -407,9 +513,370 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           onCancel={handleSpellLevelUpCancel}
         />
       )}
+
+      {/* Feat Picker Modal */}
+      {showFeatPicker && pendingFeatLevelUp && (
+        <FeatPickerModal
+          character={pendingFeatLevelUp.updatedChar}
+          mode={pendingFeatLevelUp.mode}
+          onConfirm={handleFeatPickerConfirm}
+          onCancel={() => {
+            // On cancel, still apply the level-up but without feat/ASI
+            onUpdate(pendingFeatLevelUp.updatedChar);
+            setShowFeatPicker(false);
+            setPendingFeatLevelUp(null);
+          }}
+        />
+      )}
     </div>
   );
 };
+
+// ==============================
+// Features Section — BG3 style categorized list
+// ==============================
+
+interface FeatureItem {
+  name: string;
+  description: string;
+  level?: number;
+  source?: string;
+}
+
+interface FeatureCategory {
+  label: string;
+  icon: React.ReactNode;
+  features: FeatureItem[];
+}
+
+// ─── Skills Section ───
+const ABILITY_ORDER: (keyof AbilityScores)[] = [
+  'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',
+];
+
+function SkillsSection({ character }: { character: Character }) {
+  const [collapsed, setCollapsed] = useState(false);
+
+  const profBonus = character.proficiencyBonus;
+
+  return (
+    <div className="glass-panel p-4">
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="flex items-center gap-2 w-full text-left mb-3"
+      >
+        <Target className="text-gold" size={20} />
+        <h2 className="text-lg font-medieval text-gold flex-1">Навыки</h2>
+        <ChevronDown
+          size={16}
+          className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`}
+        />
+      </button>
+
+      {!collapsed && (
+        <div className="space-y-4">
+          {ABILITY_ORDER.map(ability => {
+            const skillsForAbility = Object.entries(SKILL_ABILITIES)
+              .filter(([, ab]) => ab === ability)
+              .map(([key]) => key);
+            if (skillsForAbility.length === 0) return null;
+
+            return (
+              <div key={ability}>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
+                    {ABILITY_NAMES[ability]} ({ABILITY_SHORT[ability]})
+                  </span>
+                  <div className="flex-1 h-px bg-border-default/50" />
+                </div>
+                <div className="space-y-1">
+                  {skillsForAbility.map(skillKey => {
+                    const skillData = character.skills?.[skillKey];
+                    const isProficient = skillData?.proficient ?? false;
+                    const hasExpertise = skillData?.expertise ?? false;
+                    const abilityScore = character.abilityScores[ability];
+                    const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus);
+
+                    return (
+                      <div
+                        key={skillKey}
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-colors ${
+                          isProficient
+                            ? 'bg-gold/5'
+                            : 'hover:bg-bg-panel/50'
+                        }`}
+                      >
+                        {/* Proficiency indicator */}
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                          hasExpertise
+                            ? 'border-purple-400 bg-purple-900/40'
+                            : isProficient
+                              ? 'border-gold bg-gold/20'
+                              : 'border-border-default/60 bg-transparent'
+                        }`}>
+                          {(isProficient || hasExpertise) && (
+                            <Check size={10} className={hasExpertise ? 'text-purple-300' : 'text-gold'} />
+                          )}
+                        </div>
+
+                        {/* Placeholder icon */}
+                        <div className={`w-7 h-7 rounded border flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                          isProficient
+                            ? 'border-gold/30 bg-gold/10 text-gold'
+                            : 'border-border-default/40 bg-bg-panel-solid/40 text-text-muted'
+                        }`}>
+                          {SKILL_NAMES[skillKey]?.charAt(0) || '?'}
+                        </div>
+
+                        {/* Skill name */}
+                        <span className={`flex-1 text-sm ${
+                          isProficient ? 'text-text-primary font-medium' : 'text-text-secondary'
+                        }`}>
+                          {SKILL_NAMES[skillKey]}
+                        </span>
+
+                        {/* Modifier */}
+                        <span className={`text-sm font-bold tabular-nums ${
+                          isProficient
+                            ? mod >= 0 ? 'text-green-400' : 'text-red-bright'
+                            : 'text-text-muted'
+                        }`}>
+                          {mod >= 0 ? '+' : ''}{mod}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Saving Throws */}
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
+                Спасброски
+              </span>
+              <div className="flex-1 h-px bg-border-default/50" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              {ABILITY_ORDER.map(ability => {
+                const isProficient = character.savingThrows[ability]?.proficient ?? false;
+                const mod = getAbilityModifier(character.abilityScores[ability]) + (isProficient ? profBonus : 0);
+                return (
+                  <div
+                    key={ability}
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm ${
+                      isProficient ? 'bg-gold/5' : ''
+                    }`}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                      isProficient
+                        ? 'border-gold bg-gold/20'
+                        : 'border-border-default/60'
+                    }`}>
+                      {isProficient && <Check size={8} className="text-gold" />}
+                    </div>
+                    <span className={isProficient ? 'text-text-primary' : 'text-text-secondary'}>
+                      {ABILITY_SHORT[ability]}
+                    </span>
+                    <span className={`ml-auto font-bold tabular-nums ${
+                      isProficient ? 'text-green-400' : 'text-text-muted'
+                    }`}>
+                      {mod >= 0 ? '+' : ''}{mod}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FeaturesSection({ character }: { character: Character }) {
+  const [loaded, setLoaded] = useState(false);
+  const [classFeatures, setClassFeatures] = useState<FeatureItem[]>([]);
+  const [subclassFeatures, setSubclassFeatures] = useState<FeatureItem[]>([]);
+  const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const [collapsedCats, setCollapsedCats] = useState<Set<string>>(new Set());
+
+  const raceDef = getRaceByName(character.race);
+  const raceTraits: FeatureItem[] = (raceDef?.traits ?? []).map(t => ({
+    name: t.name,
+    description: t.description,
+  }));
+
+  // Background features from character.features
+  const bgFeatures: FeatureItem[] = character.features.map(f => ({
+    name: f.name,
+    description: f.description,
+    source: f.source,
+  }));
+
+  // Load class + subclass features lazily
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const classMod = await import('../data/classes/classJsonLoader');
+        await classMod.init();
+        if (cancelled) return;
+
+        const classData = classMod.getClassDataByName(character.class);
+        if (classData?.classFeatures) {
+          const cf = classData.classFeatures
+            .filter((f: any) => f.level <= character.level)
+            .map((f: any) => ({
+              name: f.name,
+              description: f.description || '',
+              level: f.level,
+              source: f.source,
+            }));
+          setClassFeatures(cf);
+        }
+
+        if (character.subclass) {
+          const subMod = await import('../data/classes/subclassJsonLoader');
+          await subMod.init();
+          if (cancelled) return;
+
+          const classDef = getClassById(character.classId || '') ?? CLASS_REGISTRY.find(c => c.name === character.class);
+          const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+          if (subDef) {
+            const subData = subMod.getSubclassById(classDef!.id, subDef.id);
+            if (subData?.features) {
+              const sf = subData.features
+                .filter(f => f.level <= character.level)
+                .map(f => ({
+                  name: f.name,
+                  description: f.description || '',
+                  level: f.level,
+                  source: f.source,
+                }));
+              setSubclassFeatures(sf);
+            }
+          }
+        }
+
+        setLoaded(true);
+      } catch (e) {
+        console.warn('Failed to load features:', e);
+        setLoaded(true);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [character.class, character.subclass, character.level, character.classId]);
+
+  const toggleCat = (key: string) => {
+    setCollapsedCats(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  };
+
+  const categories: FeatureCategory[] = [
+    ...(raceTraits.length > 0 ? [{
+      label: `Раса — ${character.race}`,
+      icon: <Sparkles size={14} className="text-purple-400" />,
+      features: raceTraits,
+    }] : []),
+    ...(classFeatures.length > 0 ? [{
+      label: `${character.class}`,
+      icon: <Shield size={14} className="text-gold" />,
+      features: classFeatures,
+    }] : []),
+    ...(subclassFeatures.length > 0 ? [{
+      label: `${character.subclass}`,
+      icon: <BookOpen size={14} className="text-blue-400" />,
+      features: subclassFeatures,
+    }] : []),
+    ...(bgFeatures.length > 0 ? [{
+      label: 'Предыстория',
+      icon: <ScrollText size={14} className="text-text-secondary" />,
+      features: bgFeatures,
+    }] : []),
+  ];
+
+  const totalCount = categories.reduce((s, c) => s + c.features.length, 0);
+
+  return (
+    <div className="glass-panel p-4">
+      <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
+        <BookOpen size={18} />
+        Особенности
+        <span className="text-xs font-normal text-text-muted ml-1">({totalCount})</span>
+      </h2>
+
+      {!loaded && categories.length === 0 && (
+        <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
+      )}
+
+      <div className="space-y-3">
+        {categories.map(cat => {
+          const key = cat.label;
+          const collapsed = collapsedCats.has(key);
+          return (
+            <div key={key}>
+              <button
+                onClick={() => toggleCat(key)}
+                className="flex items-center gap-2 w-full text-left mb-1.5"
+              >
+                {collapsed
+                  ? <ChevronRight size={14} className="text-text-muted" />
+                  : <ChevronDown size={14} className="text-text-muted" />}
+                {cat.icon}
+                <span className="text-sm font-semibold text-text-primary">{cat.label}</span>
+                <span className="text-xs text-text-muted ml-1">({cat.features.length})</span>
+              </button>
+              {!collapsed && (
+                <div className="space-y-1 ml-5">
+                  {cat.features.map((feat, i) => {
+                    const featureKey = `${key}-${feat.name}-${i}`;
+                    const isExpanded = expandedFeature === featureKey;
+                    return (
+                      <button
+                        key={featureKey}
+                        onClick={() => setExpandedFeature(isExpanded ? null : featureKey)}
+                        className={`w-full text-left rounded-lg border p-2.5 transition-all ${
+                          isExpanded
+                            ? 'border-gold/40 bg-gold/5'
+                            : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
+                          <span className="text-sm text-text-primary font-medium">{feat.name}</span>
+                          {feat.level && (
+                            <span className="text-[10px] text-text-muted ml-auto shrink-0">{feat.level} ур.</span>
+                          )}
+                        </div>
+                        {isExpanded && feat.description && (
+                          <div className="mt-2 pt-2 border-t border-border-default text-xs text-text-secondary leading-relaxed whitespace-pre-line ml-3.5">
+                            {cleanEntryRefs(feat.description)}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {loaded && totalCount === 0 && (
+        <div className="text-center text-text-muted text-sm py-2 italic">
+          Нет особенностей
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ==============================
 // HP Choice Modal — Average vs Roll
