@@ -1,10 +1,45 @@
 @import "tailwindcss";
 
 @theme {
+  /* ─── BG3/Dota-inspired dark + gold palette ─── */
+
+  /* Backgrounds */
+  --color-bg-primary: #0d0d12;
+  --color-bg-secondary: #13131a;
+  --color-bg-panel: rgba(15, 15, 30, 0.85);
+  --color-bg-panel-hover: rgba(25, 25, 45, 0.9);
+  --color-bg-panel-solid: #12121e;
+
+  /* Gold accent system (BG3-inspired) */
+  --color-gold: #c8a84e;
+  --color-gold-light: #e8d48b;
+  --color-gold-dark: #8a6d2b;
+  --color-gold-muted: rgba(200, 168, 78, 0.2);
+
+  /* Legacy compatibility */
   --color-dnd-primary: #8B0000;
-  --color-dnd-secondary: #DAA520;
-  --color-dnd-dark: #1a1a1a;
+  --color-dnd-secondary: #c8a84e;
+  --color-dnd-dark: #0d0d12;
   --color-dnd-parchment: #f4e8d0;
+
+  /* Text */
+  --color-text-primary: #e8e6e3;
+  --color-text-secondary: #9a9a9a;
+  --color-text-muted: #5a5a5a;
+
+  /* Borders */
+  --color-border-default: rgba(200, 168, 78, 0.15);
+  --color-border-hover: rgba(200, 168, 78, 0.4);
+  --color-border-active: rgba(200, 168, 78, 0.7);
+
+  /* Red accent (for danger, HP, damage) */
+  --color-red-accent: #8B0000;
+  --color-red-bright: #cc4444;
+
+  /* Green accent (for healing, success) */
+  --color-green-accent: #2d6b3f;
+  --color-green-bright: #34d399;
+
   --font-medieval: 'Cinzel', serif;
 }
 
@@ -20,6 +55,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 code {
@@ -27,34 +64,60 @@ code {
     monospace;
 }
 
-/* Custom scrollbar */
+/* ─── Custom scrollbar (dark + gold) ─── */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #0a0a10;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #8B0000;
-  border-radius: 5px;
+  background: rgba(200, 168, 78, 0.3);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6B0000;
+  background: rgba(200, 168, 78, 0.5);
+}
+
+/* ─── BG3-style utility classes ─── */
+
+/* Semi-transparent panel with gold border */
+.glass-panel {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+}
+
+.glass-panel:hover {
+  border-color: var(--color-border-hover);
+}
+
+/* Ornamental gold border for important panels */
+.ornate-border {
+  border: 1px solid rgba(200, 168, 78, 0.3);
+  box-shadow:
+    inset 0 0 0 1px rgba(200, 168, 78, 0.05),
+    0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Gold glow effect */
+.gold-glow {
+  box-shadow: 0 0 12px rgba(200, 168, 78, 0.15), 0 0 4px rgba(200, 168, 78, 0.1);
 }
 
 /* ─── Tag links (5etools @tag references) ─── */
 .tag-link {
-  color: #DAA520;
-  border-bottom: 1px dotted rgba(218, 165, 32, 0.4);
+  color: #c8a84e;
+  border-bottom: 1px dotted rgba(200, 168, 78, 0.4);
   transition: all 0.15s;
   position: relative;
 }
 .tag-link:hover {
-  color: #f0c040;
-  border-bottom-color: #f0c040;
+  color: #e8d48b;
+  border-bottom-color: #e8d48b;
 }
 
 .tag-external-link {
@@ -98,7 +161,7 @@ code {
 /* ─── Tag tooltip ─── */
 .tag-tooltip {
   background: #1e1e2e;
-  border: 1px solid #DAA520;
+  border: 1px solid #c8a84e;
   border-radius: 8px;
   padding: 10px 14px;
   max-width: 380px;
@@ -108,7 +171,7 @@ code {
 }
 
 .tag-tooltip-title {
-  color: #DAA520;
+  color: #c8a84e;
   font-weight: 700;
   font-size: 0.875rem;
   margin-bottom: 4px;
@@ -138,7 +201,7 @@ code {
 }
 
 .entry-section-title {
-  color: #DAA520;
+  color: #c8a84e;
   font-weight: 600;
   font-size: 0.9rem;
   margin-bottom: 0.25rem;
@@ -165,7 +228,7 @@ code {
 }
 
 .entry-item-name {
-  color: #DAA520;
+  color: #c8a84e;
   font-weight: 600;
   margin-right: 0.35rem;
 }
@@ -180,7 +243,7 @@ code {
 }
 
 .entry-table-caption {
-  color: #DAA520;
+  color: #c8a84e;
   font-weight: 600;
   margin-bottom: 0.35rem;
   font-size: 0.85rem;
@@ -193,46 +256,46 @@ code {
 }
 
 .entry-table th {
-  background: rgba(139, 0, 0, 0.3);
-  color: #DAA520;
+  background: rgba(200, 168, 78, 0.1);
+  color: #c8a84e;
   padding: 0.4rem 0.6rem;
   text-align: left;
-  border-bottom: 2px solid #DAA520;
+  border-bottom: 2px solid rgba(200, 168, 78, 0.4);
   font-weight: 600;
 }
 
 .entry-table td {
   padding: 0.35rem 0.6rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   color: #d1d5db;
 }
 
 .entry-table tr:hover td {
-  background: rgba(218, 165, 32, 0.05);
+  background: rgba(200, 168, 78, 0.05);
 }
 
 .entry-inset {
-  background: rgba(139, 0, 0, 0.1);
-  border-left: 3px solid #8B0000;
+  background: rgba(200, 168, 78, 0.05);
+  border-left: 3px solid rgba(200, 168, 78, 0.4);
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
   border-radius: 0 6px 6px 0;
 }
 
 .entry-inset-readaloud {
-  background: rgba(218, 165, 32, 0.08);
-  border-left-color: #DAA520;
+  background: rgba(200, 168, 78, 0.08);
+  border-left-color: #c8a84e;
 }
 
 .entry-inset-title {
-  color: #DAA520;
+  color: #c8a84e;
   font-weight: 700;
   margin-bottom: 0.35rem;
   font-family: 'Cinzel', serif;
 }
 
 .entry-quote {
-  border-left: 3px solid rgba(218, 165, 32, 0.4);
+  border-left: 3px solid rgba(200, 168, 78, 0.4);
   padding-left: 1rem;
   margin: 0.5rem 0;
   font-style: italic;
@@ -242,7 +305,7 @@ code {
 .entry-quote-by {
   margin-top: 0.35rem;
   font-style: normal;
-  color: #DAA520;
+  color: #c8a84e;
   font-size: 0.8rem;
 }
 
@@ -254,11 +317,11 @@ code {
 .entry-image-img {
   max-width: 100%;
   border-radius: 8px;
-  border: 1px solid rgba(218, 165, 32, 0.3);
+  border: 1px solid rgba(200, 168, 78, 0.3);
 }
 
 .entry-image-caption {
-  color: #DAA520;
+  color: #c8a84e;
   font-size: 0.75rem;
   margin-top: 0.25rem;
 }

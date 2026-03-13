@@ -327,7 +327,16 @@ export interface Character {
     description: string;
     source: string;
   }[];
-  
+
+  // Черты (feats) — ASI, Origin, Epic Boon
+  feats?: {
+    name: string;
+    source: string;
+    category: string;
+    levelAcquired: number;
+    abilityBonuses?: Partial<AbilityScores>;
+  }[];
+
   // Заметки
   notes?: string;
   

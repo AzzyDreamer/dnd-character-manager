@@ -1,4 +1,4 @@
-import type { AbilityScores } from '../types';
+import type { AbilityScores, Character } from '../types';
 
 // Вычислить модификатор характеристики
 export const getAbilityModifier = (score: number): number => {
@@ -188,3 +188,25 @@ export const calculateMaxHP = (
   
   return firstLevelHP + additionalHP;
 };
+
+// Маппинг коротких ключей характеристик к полным (для feat пререквизитов)
+export const ABILITY_SHORT_TO_LONG: Record<string, keyof AbilityScores> = {
+  str: 'strength',
+  dex: 'dexterity',
+  con: 'constitution',
+  int: 'intelligence',
+  wis: 'wisdom',
+  cha: 'charisma',
+};
+
+// Пересчёт производных статов после изменения характеристик (ASI/feat)
+export function recalcDerivedStats(char: Character): void {
+  if (char.spellcasting) {
+    const abilityMod = getAbilityModifier(char.abilityScores[char.spellcasting.ability]);
+    char.spellcasting = {
+      ...char.spellcasting,
+      spellSaveDC: 8 + char.proficiencyBonus + abilityMod,
+      spellAttackBonus: char.proficiencyBonus + abilityMod,
+    };
+  }
+}

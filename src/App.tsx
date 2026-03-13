@@ -5,8 +5,10 @@ import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
 import { CharacterList } from './components/CharacterList';
 import { Glossary } from './components/Glossary';
+import { TopNavBar } from './components/ui';
+import type { NavTab } from './components/ui';
 import { importCharacter } from './utils/storage';
-import { PlusCircle, BookOpen, ArrowLeft, Library } from 'lucide-react';
+import { PlusCircle, Users, Scroll, Library } from 'lucide-react';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -29,8 +31,8 @@ class ErrorBoundary extends Component<
     if (this.state.hasError) {
       return (
         <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-          <h1 style={{ color: 'red', fontSize: '24px' }}>Ошибка рендеринга приложения</h1>
-          <pre style={{ marginTop: '16px', padding: '16px', background: '#f5f5f5', borderRadius: '8px', whiteSpace: 'pre-wrap' }}>
+          <h1 style={{ color: '#cc4444', fontSize: '24px' }}>Ошибка рендеринга приложения</h1>
+          <pre style={{ marginTop: '16px', padding: '16px', background: '#1a1a24', color: '#e8e6e3', borderRadius: '8px', whiteSpace: 'pre-wrap' }}>
             {this.state.error?.message}
             {'\n\n'}
             {this.state.error?.stack}
@@ -43,6 +45,28 @@ class ErrorBoundary extends Component<
 }
 
 type AppView = 'main' | 'creator' | 'glossary';
+
+const MAIN_TABS: NavTab[] = [
+  { key: 'main', label: 'Персонажи', icon: Users },
+  { key: 'creator', label: 'Создание', icon: Scroll },
+  { key: 'glossary', label: 'База знаний', icon: Library },
+];
+
+const GLOSSARY_SUB_TABS: NavTab[] = [
+  { key: 'spells', label: 'Заклинания' },
+  { key: 'classes', label: 'Классы' },
+  { key: 'subclasses', label: 'Подклассы' },
+  { key: 'species', label: 'Виды' },
+  { key: 'backgrounds', label: 'Предыстории' },
+  { key: 'feats', label: 'Черты' },
+  { key: 'items', label: 'Предметы' },
+  { key: 'optionalfeatures', label: 'Способности' },
+  { key: 'conditions', label: 'Состояния' },
+  { key: 'senses', label: 'Чувства' },
+  { key: 'skills', label: 'Навыки' },
+  { key: 'rules', label: 'Правила' },
+  { key: 'charoptions', label: 'Опции создания' },
+];
 
 function AppContent() {
   const {
@@ -57,6 +81,7 @@ function AppContent() {
   } = useCharacters();
 
   const [currentView, setCurrentView] = useState<AppView>('main');
+  const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
 
   const handleImportCharacter = async (file: File) => {
     try {
@@ -68,72 +93,50 @@ function AppContent() {
     }
   };
 
+  const handleTabChange = (key: string) => {
+    setCurrentView(key as AppView);
+    if (key === 'glossary' && !glossaryCategory) {
+      setGlossaryCategory('spells');
+    }
+  };
+
+  const handleGlossarySubTab = (key: string) => {
+    setGlossaryCategory(key);
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-dnd-dark to-gray-800 flex items-center justify-center">
-        <div className="text-white text-2xl font-medieval">Загрузка...</div>
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
+        <div className="text-text-primary text-2xl font-medieval">Загрузка...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-dnd-dark to-gray-800">
-      {/* Заголовок */}
-      <header className="bg-dnd-primary shadow-lg border-b-4 border-dnd-secondary">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-center relative">
-            {/* Back button - shows when viewing a character */}
-            {currentView === 'main' && activeCharacter && (
-              <button
-                onClick={() => setActiveCharacter('')}
-                className="absolute left-0 flex items-center gap-2 text-white/70 hover:text-white transition-colors sm:flex hidden"
-              >
-                <ArrowLeft size={18} />
-                <span className="text-sm">Список</span>
-              </button>
-            )}
+    <div className="flex flex-col h-screen bg-bg-primary">
+      <TopNavBar
+        tabs={MAIN_TABS}
+        activeTab={currentView}
+        onTabChange={handleTabChange}
+        subTabs={currentView === 'glossary' ? GLOSSARY_SUB_TABS : undefined}
+        activeSubTab={glossaryCategory ?? undefined}
+        onSubTabChange={handleGlossarySubTab}
+        rightContent={
+          currentView === 'main' ? (
+            <button
+              onClick={() => setCurrentView('creator')}
+              className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-md hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-all"
+            >
+              <PlusCircle size={16} />
+              <span className="hidden sm:inline">Создать</span>
+            </button>
+          ) : undefined
+        }
+      />
 
-            <div className="flex items-center gap-3">
-              <BookOpen className="text-dnd-secondary" size={36} />
-              <h1
-                className="text-2xl sm:text-3xl font-medieval text-white cursor-pointer hover:text-dnd-secondary transition-colors"
-                onClick={() => { setCurrentView('main'); }}
-              >
-                D&D 5e Character Manager
-              </h1>
-            </div>
-
-            <div className="absolute right-0 flex items-center gap-2">
-              {/* Кнопка глоссария */}
-              {currentView !== 'glossary' && (
-                <button
-                  onClick={() => setCurrentView('glossary')}
-                  className="px-3 py-2 sm:px-4 sm:py-3 bg-gray-800/60 text-white rounded-lg hover:bg-gray-700 flex items-center gap-2 font-semibold shadow-lg text-sm border border-gray-600 hover:border-dnd-secondary transition-all"
-                >
-                  <Library size={18} />
-                  <span className="hidden sm:inline">База знаний</span>
-                </button>
-              )}
-
-              {/* Кнопка создания */}
-              {currentView === 'main' && (
-                <button
-                  onClick={() => setCurrentView('creator')}
-                  className="px-3 py-2 sm:px-5 sm:py-3 bg-dnd-secondary text-white rounded-lg hover:bg-dnd-secondary/80 flex items-center gap-2 font-semibold shadow-lg text-sm sm:text-base"
-                >
-                  <PlusCircle size={18} />
-                  <span className="hidden sm:inline">Создать персонажа</span>
-                  <span className="sm:hidden">Создать</span>
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Основной контент */}
+      {/* Main content */}
       <main className="flex-1 min-h-0 overflow-y-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 h-full">
+        <div className="h-full px-4 sm:px-6 py-4">
           {currentView === 'creator' ? (
             <CharacterCreator
               onSave={(character) => {
@@ -143,10 +146,14 @@ function AppContent() {
               onCancel={() => setCurrentView('main')}
             />
           ) : currentView === 'glossary' ? (
-            <Glossary onBack={() => setCurrentView('main')} />
+            <Glossary
+              onBack={() => setCurrentView('main')}
+              activeCategory={glossaryCategory}
+              onCategoryChange={setGlossaryCategory}
+            />
           ) : (
-            <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
-              {/* Боковая панель со списком персонажей */}
+            <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4 h-full">
+              {/* Sidebar */}
               <div className="lg:col-span-1">
                 <CharacterList
                   characters={characters}
@@ -157,31 +164,31 @@ function AppContent() {
                 />
               </div>
 
-              {/* Основная область - лист персонажа */}
-              <div className="lg:col-span-3">
+              {/* Main area */}
+              <div className="lg:col-span-4">
                 {activeCharacter ? (
                   <CharacterSheet
                     character={activeCharacter}
                     onUpdate={updateCharacter}
                   />
                 ) : (
-                  <div className="bg-dnd-parchment p-8 sm:p-12 rounded-lg shadow-lg border-4 border-dnd-secondary text-center max-w-2xl mx-auto">
-                    <h2 className="text-2xl font-medieval text-dnd-primary mb-4">
+                  <div className="glass-panel ornate-border p-8 sm:p-12 text-center max-w-2xl mx-auto mt-8">
+                    <h2 className="text-2xl font-medieval text-gold mb-4">
                       Добро пожаловать в D&D Character Manager!
                     </h2>
-                    <p className="text-gray-700 mb-6">
+                    <p className="text-text-secondary mb-6">
                       Создайте своего первого персонажа или выберите существующего из списка.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <button
                         onClick={() => setCurrentView('creator')}
-                        className="px-8 py-4 bg-dnd-primary text-white rounded-lg hover:bg-dnd-primary/80 font-semibold text-lg shadow-lg"
+                        className="px-8 py-4 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold text-lg transition-all"
                       >
                         Создать первого персонажа
                       </button>
                       <button
                         onClick={() => setCurrentView('glossary')}
-                        className="px-8 py-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 font-semibold text-lg shadow-lg flex items-center gap-2 justify-center"
+                        className="px-8 py-4 bg-white/5 text-text-secondary border border-border-default rounded-lg hover:bg-white/10 hover:text-text-primary font-semibold text-lg transition-all flex items-center gap-2 justify-center"
                       >
                         <Library size={20} />
                         База знаний
@@ -194,18 +201,6 @@ function AppContent() {
           )}
         </div>
       </main>
-
-      {/* Подвал */}
-      <footer className="py-4 bg-dnd-primary border-t-4 border-dnd-secondary">
-        <div className="max-w-7xl mx-auto px-6 text-center text-white">
-          <p className="text-sm">
-            D&D 5e Character Manager | Работает локально в вашем браузере
-          </p>
-          <p className="text-xs mt-1 text-gray-300">
-            Все данные сохраняются в localStorage вашего браузера
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
