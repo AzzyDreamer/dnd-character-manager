@@ -40,6 +40,18 @@ export function getSkillByName(name: string): SkillData | undefined {
   return ALL_SKILLS.find(s => s.name.toLowerCase() === name.toLowerCase());
 }
 
+// Конвертирует "Animal Handling" → "animalHandling" (camelCase, как в файлах изображений)
+function toCamelCase(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((word, i) => i === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+}
+
+export function getSkillImageUrl(name: string): string {
+  return `/images/skills/${toCamelCase(name)}.webp`;
+}
+
 export const ABILITY_ABBR_NAMES: Record<string, string> = {
   str: 'Сила',
   dex: 'Ловкость',

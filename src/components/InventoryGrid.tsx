@@ -401,13 +401,25 @@ const AddItemModal: React.FC<{
                   >
                     <div className="flex items-start gap-3">
                       <span
-                        className="text-2xl flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center"
+                        className="text-2xl flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center overflow-hidden"
                         style={{
                           border: `1px solid ${RARITY_COLORS[template.rarity]}`,
                           background: RARITY_BG_COLORS[template.rarity],
                         }}
                       >
-                        {template.iconPlaceholder}
+                        {template.icon ? (
+                          <img
+                            src={template.icon}
+                            alt=""
+                            className="w-8 h-8 object-contain"
+                            onError={e => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                              (e.target as HTMLImageElement).parentElement!.textContent = template.iconPlaceholder;
+                            }}
+                          />
+                        ) : (
+                          template.iconPlaceholder
+                        )}
                       </span>
                       <div className="flex-1 min-w-0">
                         <div
@@ -531,6 +543,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         gridY: pos.y,
         equipSlot: template.equipSlot,
         rarity: template.rarity,
+        icon: template.icon,
         iconPlaceholder: template.iconPlaceholder,
       };
 

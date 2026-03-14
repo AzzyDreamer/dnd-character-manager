@@ -71,3 +71,8 @@ export async function init(): Promise<void> {
 export function getItemBaseByName(name: string): ItemBaseData | undefined {
   return ALL_ITEMS_BASE.find(i => i.name.toLowerCase() === name.toLowerCase());
 }
+
+export function getItemBaseImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/items-base/${filename}.webp`;
+}

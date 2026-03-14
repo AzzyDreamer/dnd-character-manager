@@ -75,3 +75,7 @@ export async function init(): Promise<void> {
 export function getClassDataByName(name: string): ClassJsonData | undefined {
   return ALL_CLASS_DATA.find(c => c.name.toLowerCase() === name.toLowerCase());
 }
+
+export function getClassImageUrl(id: string): string {
+  return `/images/classes/${id}.webp`;
+}

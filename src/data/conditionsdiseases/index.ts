@@ -38,3 +38,8 @@ export async function init(): Promise<void> {
 export function getConditionByName(name: string): ConditionDiseaseData | undefined {
   return ALL_CONDITIONS.find(c => c.name.toLowerCase() === name.toLowerCase());
 }
+
+export function getConditionImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/conditionsdiseases/${filename}.webp`;
+}

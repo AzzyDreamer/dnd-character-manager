@@ -71,6 +71,11 @@ export function getFeatByName(name: string): FeatData | undefined {
   return ALL_FEATS.find(f => f.name.toLowerCase() === name.toLowerCase());
 }
 
+export function getFeatImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/feats/${filename}.webp`;
+}
+
 export function getFeatsByCategory(category: string): FeatData[] {
   return ALL_FEATS.filter(f => f.category === category);
 }

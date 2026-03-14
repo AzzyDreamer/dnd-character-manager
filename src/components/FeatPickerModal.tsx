@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Character, AbilityScores } from '../types';
-import type { FeatData } from '../data/feats';
+import { type FeatData, getFeatImageUrl } from '../data/feats';
 import { getAbilityModifier, ABILITY_NAMES, ABILITY_SHORT, ABILITY_SHORT_TO_LONG } from '../utils/dnd';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
@@ -509,6 +509,12 @@ function FeatTab({
               >
                 <div className="flex items-center gap-2">
                   {isSelected && <Check size={14} className="text-gold shrink-0" />}
+                  <img
+                    src={getFeatImageUrl(feat.name)}
+                    alt=""
+                    className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel"
+                    onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
                   <span className={`truncate ${
                     isSelected ? 'text-gold font-medium'
                     : isIneligible ? 'text-red-400/70'
@@ -542,11 +548,19 @@ function FeatTab({
       <div className="flex-1 min-h-0 overflow-y-auto">
         {selectedFeat ? (
           <div className="glass-panel p-4 space-y-4">
-            <div>
-              <h3 className="text-lg font-medieval text-gold">{selectedFeat.name}</h3>
-              {selectedFeat.source && (
-                <div className="text-[10px] text-text-muted mt-0.5">{selectedFeat.source}</div>
-              )}
+            <div className="flex items-center gap-3">
+              <img
+                src={getFeatImageUrl(selectedFeat.name)}
+                alt=""
+                className="w-12 h-12 rounded-lg object-cover bg-bg-panel shrink-0"
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+              <div>
+                <h3 className="text-lg font-medieval text-gold">{selectedFeat.name}</h3>
+                {selectedFeat.source && (
+                  <div className="text-[10px] text-text-muted mt-0.5">{selectedFeat.source}</div>
+                )}
+              </div>
             </div>
 
             {/* Entries */}
