@@ -220,6 +220,22 @@ export interface Equipment {
   offhand?: string;
 }
 
+// Кастомная атака
+export interface CustomAttack {
+  id: string;
+  name: string;
+  attackBonus: number;
+  damage: string;
+  damageType?: string;
+  notes?: string;
+}
+
+// Трекер ресурса класса
+export interface ResourceTracker {
+  current: number;
+  max: number;
+}
+
 // Заклинание персонажа
 export interface CharacterSpell {
   spellId: string;
@@ -343,6 +359,17 @@ export interface Character {
     name: string;
     source: string;
   };
+
+  // Портрет персонажа (base64 data URL)
+  portraitDataUrl?: string;
+  // Позиция обрезки портрета {x: 0-100, y: 0-100, zoom: 1-3} или число (legacy, только Y)
+  portraitPosition?: number | { x: number; y: number; zoom?: number };
+
+  // Трекеры ресурсов класса (Channel Divinity, Second Wind, и т.д.)
+  resourceTrackers?: Record<string, ResourceTracker>;
+
+  // Кастомные атаки
+  customAttacks?: CustomAttack[];
 
   // Заметки
   notes?: string;

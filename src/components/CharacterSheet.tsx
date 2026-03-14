@@ -2,18 +2,19 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Coins, Backpack, ArrowUp, ScrollText, Scroll, Wand2, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
+import { Heart, Shield, Coins, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 import type { SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
+import { PortraitCropModal } from './PortraitCropModal';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
-const LazySpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.SpellsTab })));
+const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'spells' | 'proficiencies';
+type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies';
 
 interface CharacterSheetProps {
   character: Character;
@@ -41,7 +42,41 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     mode: 'asi' | 'epicBoon';
   } | null>(null);
 
+  const [showCropModal, setShowCropModal] = useState(false);
+  const [pendingPortraitUrl, setPendingPortraitUrl] = useState<string | null>(null);
+
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
+  const portraitInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        // Resize to max QHD (2560) for quality portraits in localStorage
+        const MAX = 2560;
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          const scale = MAX / Math.max(w, h);
+          w = Math.round(w * scale);
+          h = Math.round(h * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        setPendingPortraitUrl(dataUrl);
+        setShowCropModal(true);
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
 
   const updateHP = (current: number) => {
     onUpdate({
@@ -322,9 +357,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const sheetTabs: Tab[] = [
     { key: 'stats', label: 'Характеристики', icon: ScrollText },
     { key: 'inventory', label: 'Инвентарь', icon: Backpack },
-    ...(character.spellcasting
-      ? [{ key: 'spells', label: 'Заклинания', icon: Wand2 } as Tab]
-      : []),
+    { key: 'actions', label: 'Действия и заклинания', icon: Swords },
     { key: 'proficiencies', label: 'Владения', icon: ScrollText },
   ];
 
@@ -332,11 +365,20 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     <div className="flex flex-col h-full">
       {/* Compact Header */}
       <div className="shrink-0 px-4 py-3 flex items-center justify-between border-b border-border-default">
-        <div>
-          <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
-          <p className="text-sm text-text-secondary">
-            {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} ур.
-          </p>
+        <div className="flex items-center gap-3">
+          <input
+            ref={portraitInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handlePortraitUpload}
+            className="hidden"
+          />
+          <div>
+            <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
+            <p className="text-sm text-text-secondary">
+              {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} ур.
+            </p>
+          </div>
         </div>
         {canLevelUp && (
           <button
@@ -368,10 +410,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             <InventoryGrid character={character} onUpdate={onUpdate} />
           )}
 
-          {/* Tab: Spells */}
-          {activeTab === 'spells' && character.spellcasting && (
-            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка заклинаний...</div>}>
-              <LazySpellsTab character={character} />
+          {/* Tab: Actions & Spells */}
+          {activeTab === 'actions' && (
+            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+              <LazyActionsSpellsTab character={character} onUpdate={onUpdate} />
             </Suspense>
           )}
 
@@ -452,7 +494,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                       </span>
                     ))}
                   </div>
-                  <p className="text-xs text-text-muted mt-2 italic">Подробности во вкладке «Заклинания»</p>
+                  <p className="text-xs text-text-muted mt-2 italic">Подробности во вкладке «Действия и заклинания»</p>
                 </div>
               )}
 
@@ -482,7 +524,22 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         </div>
 
         {/* Right Sidebar — always visible (BG3 pattern) */}
-        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={`/images/classes/${character.classId}.webp`} />
+        <CharacterStatsSidebar
+          character={character}
+          showCombatStats
+          classIconSrc={`/images/classes/${character.classId}.webp`}
+          hideSections={['proficiencies', 'skills', 'spells']}
+          portraitUrl={character.portraitDataUrl}
+          portraitPosition={character.portraitPosition}
+          onPortraitClick={() => {
+            if (character.portraitDataUrl) {
+              setPendingPortraitUrl(character.portraitDataUrl);
+              setShowCropModal(true);
+            } else {
+              portraitInputRef.current?.click();
+            }
+          }}
+        />
       </div>
 
       {/* HP Choice Modal */}
@@ -531,6 +588,33 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             onUpdate(pendingFeatLevelUp.updatedChar);
             setShowFeatPicker(false);
             setPendingFeatLevelUp(null);
+          }}
+        />
+      )}
+
+      {/* Portrait Crop Modal */}
+      {showCropModal && pendingPortraitUrl && (
+        <PortraitCropModal
+          imageDataUrl={pendingPortraitUrl}
+          initialPosition={character.portraitPosition}
+          onSave={(pos) => {
+            onUpdate({
+              ...character,
+              portraitDataUrl: pendingPortraitUrl,
+              portraitPosition: pos,
+              updatedAt: new Date().toISOString(),
+            });
+            setShowCropModal(false);
+            setPendingPortraitUrl(null);
+          }}
+          onCancel={() => {
+            setShowCropModal(false);
+            setPendingPortraitUrl(null);
+          }}
+          onChangeImage={() => {
+            setShowCropModal(false);
+            setPendingPortraitUrl(null);
+            portraitInputRef.current?.click();
           }}
         />
       )}
@@ -627,14 +711,12 @@ function SkillsSection({ character }: { character: Character }) {
                           )}
                         </div>
 
-                        {/* Placeholder icon */}
-                        <div className={`w-7 h-7 rounded border flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                          isProficient
-                            ? 'border-gold/30 bg-gold/10 text-gold'
-                            : 'border-border-default/40 bg-bg-panel-solid/40 text-text-muted'
-                        }`}>
-                          {SKILL_NAMES[skillKey]?.charAt(0) || '?'}
-                        </div>
+                        {/* Skill icon */}
+                        <img
+                          src={`/images/skills/${skillKey}.webp`}
+                          alt=""
+                          className={`w-7 h-7 object-contain shrink-0 ${isProficient ? 'opacity-90' : 'opacity-30 grayscale'}`}
+                        />
 
                         {/* Skill name */}
                         <span className={`flex-1 text-sm ${

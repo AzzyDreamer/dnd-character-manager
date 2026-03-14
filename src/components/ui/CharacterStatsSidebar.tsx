@@ -2,7 +2,8 @@ import { useState } from 'react';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
-import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check } from 'lucide-react';
+import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus } from 'lucide-react';
+import { PortraitImage } from './PortraitImage';
 
 /** Partial data for creation mode (not a full Character yet) */
 export interface CreationStats {
@@ -40,6 +41,14 @@ interface CharacterStatsSidebarProps {
   /** Class icon URL shown next to class name */
   classIconSrc?: string;
   className?: string;
+  /** Sections to hide (already shown elsewhere) */
+  hideSections?: ('proficiencies' | 'skills' | 'spells')[];
+  /** Portrait data URL for top of sidebar */
+  portraitUrl?: string;
+  /** Portrait crop position */
+  portraitPosition?: number | { x: number; y: number; zoom?: number };
+  /** Click handler for portrait (upload/crop) */
+  onPortraitClick?: () => void;
 }
 
 const ABILITY_KEYS: (keyof AbilityScores)[] = [
@@ -86,7 +95,11 @@ function SkillsPanel({
           <div className="mt-2 space-y-0.5 text-xs">
             {skillProficiencies.map(sk => (
               <div key={sk} className="flex items-center gap-1.5 text-text-secondary">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
+                <img
+                  src={`/images/skills/${sk}.webp`}
+                  alt=""
+                  className="w-4 h-4 object-contain opacity-80 shrink-0"
+                />
                 <span className="truncate">{SKILL_NAMES[sk] || sk}</span>
               </div>
             ))}
@@ -143,15 +156,18 @@ function SkillsPanel({
                           isProficient ? 'bg-gold/5' : ''
                         }`}
                       >
-                        <div className={`w-3 h-3 rounded-full border flex items-center justify-center shrink-0 ${
-                          hasExpertise
-                            ? 'border-purple-400 bg-purple-900/40'
-                            : isProficient
-                              ? 'border-gold bg-gold/20'
-                              : 'border-border-default/50'
-                        }`}>
+                        <div className="relative w-4 h-4 shrink-0">
+                          <img
+                            src={`/images/skills/${sk}.webp`}
+                            alt=""
+                            className={`w-4 h-4 object-contain ${isProficient ? 'opacity-90' : 'opacity-30 grayscale'}`}
+                          />
                           {(isProficient || hasExpertise) && (
-                            <Check size={7} className={hasExpertise ? 'text-purple-300' : 'text-gold'} />
+                            <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full flex items-center justify-center ${
+                              hasExpertise ? 'bg-purple-500' : 'bg-gold'
+                            }`}>
+                              <Check size={6} className="text-black" />
+                            </div>
                           )}
                         </div>
                         <span className={`flex-1 truncate ${
@@ -187,6 +203,10 @@ export function CharacterStatsSidebar({
   imageAlt,
   classIconSrc,
   className = '',
+  hideSections = [],
+  portraitUrl,
+  portraitPosition,
+  onPortraitClick,
 }: CharacterStatsSidebarProps) {
   // Unify data from either character or creationStats
   const name = character?.name ?? creationStats?.name ?? '';
@@ -218,8 +238,37 @@ export function CharacterStatsSidebar({
 
   return (
     <aside className={`w-72 shrink-0 hidden lg:flex flex-col gap-3 overflow-y-auto ${className}`}>
-      {/* Character image */}
-      {imageSrc && (
+      {/* Character portrait — clickable for upload/crop */}
+      {onPortraitClick ? (
+        <button
+          onClick={onPortraitClick}
+          className="glass-panel overflow-hidden rounded-lg relative group cursor-pointer w-full"
+          title={portraitUrl ? 'Настроить портрет' : 'Загрузить портрет'}
+        >
+          {portraitUrl ? (
+            <PortraitImage
+              src={portraitUrl}
+              pos={portraitPosition}
+              className="aspect-[9/21] w-full"
+            />
+          ) : (
+            <div className="aspect-[9/21] w-full flex items-center justify-center bg-bg-secondary">
+              <ImagePlus size={32} className="text-text-muted/30" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <Camera size={20} className="text-white" />
+          </div>
+        </button>
+      ) : portraitUrl ? (
+        <div className="glass-panel overflow-hidden rounded-lg">
+          <PortraitImage
+            src={portraitUrl}
+            pos={portraitPosition}
+            className="aspect-[9/21] w-full"
+          />
+        </div>
+      ) : imageSrc ? (
         <div className="glass-panel overflow-hidden">
           <img
             src={imageSrc}
@@ -228,7 +277,7 @@ export function CharacterStatsSidebar({
             loading="lazy"
           />
         </div>
-      )}
+      ) : null}
 
       {/* Identity */}
       <div className="glass-panel p-3">
@@ -318,7 +367,7 @@ export function CharacterStatsSidebar({
       )}
 
       {/* Proficiencies */}
-      {proficiencies && (
+      {proficiencies && !hideSections.includes('proficiencies') && (
         <div className="glass-panel p-3 space-y-2 text-xs">
           {proficiencies.languages && proficiencies.languages.length > 0 && (
             <div>
@@ -348,15 +397,17 @@ export function CharacterStatsSidebar({
       )}
 
       {/* Skills — expandable */}
-      <SkillsPanel
-        abilityScores={abilityScores}
-        skillProficiencies={skillProficiencies}
-        character={character}
-        profBonus={profBonus ?? 2}
-      />
+      {!hideSections.includes('skills') && (
+        <SkillsPanel
+          abilityScores={abilityScores}
+          skillProficiencies={skillProficiencies}
+          character={character}
+          profBonus={profBonus ?? 2}
+        />
+      )}
 
       {/* Spells summary */}
-      {spells && spells.length > 0 && (
+      {spells && spells.length > 0 && !hideSections.includes('spells') && (
         <div className="glass-panel p-3 space-y-1.5">
           <div className="flex items-center gap-1.5 text-[10px] text-text-muted uppercase tracking-wider">
             <Sparkles size={12} />
