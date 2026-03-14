@@ -44,7 +44,7 @@ class ErrorBoundary extends Component<
   }
 }
 
-type AppView = 'main' | 'creator' | 'glossary';
+type AppView = 'main' | 'sheet' | 'creator' | 'glossary';
 
 const MAIN_TABS: NavTab[] = [
   { key: 'main', label: 'Персонажи', icon: Users },
@@ -93,7 +93,13 @@ function AppContent() {
     }
   };
 
+  const handleSelectCharacter = (id: string) => {
+    setActiveCharacter(id);
+    setCurrentView('sheet');
+  };
+
   const handleTabChange = (key: string) => {
+    if (key === 'sheet') return; // не переключаемся на sheet через таб
     setCurrentView(key as AppView);
     if (key === 'glossary' && !glossaryCategory) {
       setGlossaryCategory('spells');
@@ -116,13 +122,13 @@ function AppContent() {
     <div className="flex flex-col h-screen bg-bg-primary">
       <TopNavBar
         tabs={MAIN_TABS}
-        activeTab={currentView}
+        activeTab={currentView === 'sheet' ? 'main' : currentView}
         onTabChange={handleTabChange}
         subTabs={currentView === 'glossary' ? GLOSSARY_SUB_TABS : undefined}
         activeSubTab={glossaryCategory ?? undefined}
         onSubTabChange={handleGlossarySubTab}
         rightContent={
-          currentView === 'main' ? (
+          currentView === 'main' || currentView === 'sheet' ? (
             <button
               onClick={() => setCurrentView('creator')}
               className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-md hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-all"
@@ -135,43 +141,43 @@ function AppContent() {
       />
 
       {/* Main content */}
-      <main className="flex-1 min-h-0 overflow-y-auto">
-        <div className="h-full px-4 sm:px-6 py-4">
-          {currentView === 'creator' ? (
-            <CharacterCreator
-              onSave={(character) => {
-                addCharacter(character);
-                setCurrentView('main');
-              }}
-              onCancel={() => setCurrentView('main')}
+      <main className="flex-1 min-h-0">
+        {currentView === 'sheet' && activeCharacter ? (
+          /* Character Sheet — full screen, no padding */
+          <div className="h-full">
+            <CharacterSheet
+              character={activeCharacter}
+              onUpdate={updateCharacter}
             />
-          ) : currentView === 'glossary' ? (
-            <Glossary
-              onBack={() => setCurrentView('main')}
-              activeCategory={glossaryCategory}
-              onCategoryChange={setGlossaryCategory}
-            />
-          ) : (
-            <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4 h-full">
-              {/* Sidebar */}
-              <div className="lg:col-span-1">
+          </div>
+        ) : (
+          <div className="h-full overflow-y-auto px-4 sm:px-6 py-4">
+            {currentView === 'creator' ? (
+              <CharacterCreator
+                onSave={(character) => {
+                  addCharacter(character);
+                  setCurrentView('main');
+                }}
+                onCancel={() => setCurrentView('main')}
+              />
+            ) : currentView === 'glossary' ? (
+              <Glossary
+                onBack={() => setCurrentView('main')}
+                activeCategory={glossaryCategory}
+                onCategoryChange={setGlossaryCategory}
+              />
+            ) : (
+              /* Character selection screen — Dota 2 style */
+              <div className="w-full h-full flex flex-col">
                 <CharacterList
                   characters={characters}
                   activeCharacterId={activeCharacterId}
-                  onSelectCharacter={setActiveCharacter}
+                  onSelectCharacter={handleSelectCharacter}
                   onDeleteCharacter={removeCharacter}
                   onImportCharacter={handleImportCharacter}
                 />
-              </div>
 
-              {/* Main area */}
-              <div className="lg:col-span-4">
-                {activeCharacter ? (
-                  <CharacterSheet
-                    character={activeCharacter}
-                    onUpdate={updateCharacter}
-                  />
-                ) : (
+                {characters.length === 0 && (
                   <div className="glass-panel ornate-border p-8 sm:p-12 text-center max-w-2xl mx-auto mt-8">
                     <h2 className="text-2xl font-medieval text-gold mb-4">
                       Добро пожаловать в D&D Character Manager!
@@ -197,9 +203,9 @@ function AppContent() {
                   </div>
                 )}
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
