@@ -11,6 +11,7 @@ interface TopNavBarProps {
   tabs: NavTab[];
   activeTab: string;
   onTabChange: (key: string) => void;
+  onLogoClick?: () => void;
   subTabs?: NavTab[];
   activeSubTab?: string;
   onSubTabChange?: (key: string) => void;
@@ -21,6 +22,7 @@ export function TopNavBar({
   tabs,
   activeTab,
   onTabChange,
+  onLogoClick,
   subTabs,
   activeSubTab,
   onSubTabChange,
@@ -33,7 +35,7 @@ export function TopNavBar({
         <div className="flex items-center h-14 px-4 sm:px-6">
           {/* Logo */}
           <button
-            onClick={() => onTabChange(tabs[0]?.key ?? '')}
+            onClick={() => onLogoClick ? onLogoClick() : onTabChange(tabs[0]?.key ?? '')}
             className="flex items-center gap-2.5 mr-8 shrink-0"
           >
             <BookOpen className="text-gold" size={26} />

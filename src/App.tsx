@@ -4,6 +4,7 @@ import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
 import { CharacterList } from './components/CharacterList';
+import { HomePage } from './components/HomePage';
 import { Glossary } from './components/Glossary';
 import { TopNavBar } from './components/ui';
 import type { NavTab } from './components/ui';
@@ -44,7 +45,7 @@ class ErrorBoundary extends Component<
   }
 }
 
-type AppView = 'main' | 'sheet' | 'creator' | 'glossary';
+type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary';
 
 const MAIN_TABS: NavTab[] = [
   { key: 'main', label: 'Персонажи', icon: Users },
@@ -80,7 +81,7 @@ function AppContent() {
     setActiveCharacter,
   } = useCharacters();
 
-  const [currentView, setCurrentView] = useState<AppView>('main');
+  const [currentView, setCurrentView] = useState<AppView>('home');
   const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
 
   const handleImportCharacter = async (file: File) => {
@@ -122,8 +123,9 @@ function AppContent() {
     <div className="flex flex-col h-screen bg-bg-primary">
       <TopNavBar
         tabs={MAIN_TABS}
-        activeTab={currentView === 'sheet' ? 'main' : currentView}
+        activeTab={currentView === 'sheet' ? 'main' : currentView === 'home' ? '' : currentView}
         onTabChange={handleTabChange}
+        onLogoClick={() => setCurrentView('home')}
         subTabs={currentView === 'glossary' ? GLOSSARY_SUB_TABS : undefined}
         activeSubTab={glossaryCategory ?? undefined}
         onSubTabChange={handleGlossarySubTab}
@@ -148,6 +150,14 @@ function AppContent() {
             <CharacterSheet
               character={activeCharacter}
               onUpdate={updateCharacter}
+            />
+          </div>
+        ) : currentView === 'home' ? (
+          <div className="h-full overflow-y-auto px-4 sm:px-6 py-4 grid place-items-center">
+            <HomePage
+              characters={characters}
+              onNavigate={handleTabChange}
+              onSelectCharacter={handleSelectCharacter}
             />
           </div>
         ) : (
@@ -176,32 +186,6 @@ function AppContent() {
                   onDeleteCharacter={removeCharacter}
                   onImportCharacter={handleImportCharacter}
                 />
-
-                {characters.length === 0 && (
-                  <div className="glass-panel ornate-border p-8 sm:p-12 text-center max-w-2xl mx-auto mt-8">
-                    <h2 className="text-2xl font-medieval text-gold mb-4">
-                      Добро пожаловать в D&D Character Manager!
-                    </h2>
-                    <p className="text-text-secondary mb-6">
-                      Создайте своего первого персонажа или выберите существующего из списка.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <button
-                        onClick={() => setCurrentView('creator')}
-                        className="px-8 py-4 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold text-lg transition-all"
-                      >
-                        Создать первого персонажа
-                      </button>
-                      <button
-                        onClick={() => setCurrentView('glossary')}
-                        className="px-8 py-4 bg-white/5 text-text-secondary border border-border-default rounded-lg hover:bg-white/10 hover:text-text-primary font-semibold text-lg transition-all flex items-center gap-2 justify-center"
-                      >
-                        <Library size={20} />
-                        База знаний
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
