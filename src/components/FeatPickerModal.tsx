@@ -3,7 +3,7 @@ import type { Character, AbilityScores } from '../types';
 import type { FeatData } from '../data/feats';
 import { getAbilityModifier, ABILITY_NAMES, ABILITY_SHORT, ABILITY_SHORT_TO_LONG } from '../utils/dnd';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
-import { Search, Check, X, Loader2, ChevronDown, Sparkles, BookOpen } from 'lucide-react';
+import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 
 // ── Types ──
@@ -95,24 +95,40 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
     );
   }, [character]);
 
-  // Filter eligible feats
-  const eligibleFeats = useMemo(() => {
+  // All category feats (excluding ASI)
+  const categoryFeats = useMemo(() => {
     return allFeats.filter(feat => {
       if (feat.category !== category) return false;
-      // Filter out ASI itself from the feat list (ASI tab covers it)
       if (feat.name === 'Ability Score Improvement') return false;
-      // Check prerequisites
-      if (!checkFeatPrerequisite(featCtx, feat)) return false;
       return true;
     });
-  }, [allFeats, category, featCtx]);
+  }, [allFeats, category]);
 
-  // Search filter
+  // Set of eligible feat names
+  const eligibleFeatNames = useMemo(() => {
+    const names = new Set<string>();
+    for (const feat of categoryFeats) {
+      if (checkFeatPrerequisite(featCtx, feat)) {
+        names.add(feat.name);
+      }
+    }
+    return names;
+  }, [categoryFeats, featCtx]);
+
+  // Search filter + sort: eligible first, then ineligible
   const filteredFeats = useMemo(() => {
-    if (!searchQuery.trim()) return eligibleFeats;
-    const q = searchQuery.toLowerCase();
-    return eligibleFeats.filter(f => f.name.toLowerCase().includes(q));
-  }, [eligibleFeats, searchQuery]);
+    let feats = categoryFeats;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      feats = feats.filter(f => f.name.toLowerCase().includes(q));
+    }
+    return feats.sort((a, b) => {
+      const aEligible = eligibleFeatNames.has(a.name) ? 0 : 1;
+      const bEligible = eligibleFeatNames.has(b.name) ? 0 : 1;
+      if (aEligible !== bEligible) return aEligible - bEligible;
+      return a.name.localeCompare(b.name);
+    });
+  }, [categoryFeats, eligibleFeatNames, searchQuery]);
 
   // Already taken feats (non-repeatable check)
   const takenFeatNames = useMemo(() => {
@@ -266,6 +282,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               takenFeatNames={takenFeatNames}
+              eligibleFeatNames={eligibleFeatNames}
               entryReady={entryReady}
               featAbilityOptions={featAbilityOptions}
               featAbilityChoice={featAbilityChoice}
@@ -278,7 +295,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         </div>
 
         {/* Right Sidebar */}
-        <CharacterStatsSidebar character={character} showCombatStats />
+        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={`/images/classes/${character.classId}.webp`} />
       </div>
 
       {/* Footer */}
@@ -415,6 +432,7 @@ function FeatTab({
   searchQuery,
   onSearchChange,
   takenFeatNames,
+  eligibleFeatNames,
   entryReady,
   featAbilityOptions,
   featAbilityChoice,
@@ -430,6 +448,7 @@ function FeatTab({
   searchQuery: string;
   onSearchChange: (q: string) => void;
   takenFeatNames: Set<string>;
+  eligibleFeatNames: Set<string>;
   entryReady: boolean;
   featAbilityOptions: string[];
   featAbilityChoice: Partial<AbilityScores>;
@@ -473,30 +492,39 @@ function FeatTab({
           ) : feats.map(feat => {
             const isSelected = selectedFeat?.name === feat.name;
             const isTaken = !feat.repeatable && takenFeatNames.has(feat.name.toLowerCase());
+            const isIneligible = !eligibleFeatNames.has(feat.name);
+            const isDisabled = isTaken || isIneligible;
             return (
               <button
                 key={feat.name}
-                onClick={() => !isTaken && onSelectFeat(feat)}
-                disabled={isTaken}
+                onClick={() => !isDisabled && onSelectFeat(feat)}
+                disabled={isDisabled}
                 className={`w-full text-left rounded-lg border p-2.5 transition-all text-sm ${
                   isSelected
                     ? 'border-gold/50 bg-gold/10'
-                    : isTaken
-                      ? 'border-border-default/50 bg-bg-primary/20 opacity-50 cursor-not-allowed'
+                    : isDisabled
+                      ? 'border-border-default/50 bg-bg-primary/20 opacity-40 cursor-not-allowed'
                       : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
                 }`}
               >
                 <div className="flex items-center gap-2">
                   {isSelected && <Check size={14} className="text-gold shrink-0" />}
-                  <span className={`truncate ${isSelected ? 'text-gold font-medium' : 'text-text-primary'}`}>
+                  <span className={`truncate ${
+                    isSelected ? 'text-gold font-medium'
+                    : isIneligible ? 'text-red-400/70'
+                    : 'text-text-primary'
+                  }`}>
                     {feat.name}
                   </span>
                   {isTaken && (
                     <span className="text-[10px] text-text-muted ml-auto shrink-0">уже есть</span>
                   )}
+                  {isIneligible && !isTaken && (
+                    <span className="text-[10px] text-red-400/60 ml-auto shrink-0">недоступно</span>
+                  )}
                 </div>
                 {feat.prerequisite && feat.prerequisite.length > 0 && (
-                  <div className="text-[10px] text-text-muted mt-0.5 truncate">
+                  <div className={`text-[10px] mt-0.5 truncate ${isIneligible ? 'text-red-400/50' : 'text-text-muted'}`}>
                     {formatPrerequisite(feat.prerequisite[0])}
                   </div>
                 )}
@@ -506,7 +534,7 @@ function FeatTab({
         </div>
 
         <div className="mt-2 text-xs text-text-muted text-center">
-          {feats.length} {feats.length === 1 ? 'черта' : feats.length < 5 ? 'черты' : 'черт'}
+          {feats.filter(f => eligibleFeatNames.has(f.name)).length} из {feats.length} {feats.length === 1 ? 'черта' : feats.length < 5 ? 'черты' : 'черт'} доступно
         </div>
       </div>
 

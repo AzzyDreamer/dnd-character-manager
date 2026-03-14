@@ -247,6 +247,7 @@ export interface Character {
   id: string;
   name: string;
   race: string;
+  raceSource?: string;
   class: string;
   classId: string;
   subclass?: string;
@@ -336,6 +337,12 @@ export interface Character {
     levelAcquired: number;
     abilityBonuses?: Partial<AbilityScores>;
   }[];
+
+  // Опция создания персонажа (Transformation, Supernatural Gift, etc.)
+  charCreationOption?: {
+    name: string;
+    source: string;
+  };
 
   // Заметки
   notes?: string;

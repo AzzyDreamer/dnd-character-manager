@@ -79,8 +79,16 @@ export async function init(): Promise<void> {
   return _initializing;
 }
 
-export function getSpeciesByName(name: string): SpeciesData | undefined {
-  return ALL_SPECIES.find(s => s.name.toLowerCase() === name.toLowerCase());
+const PREFERRED_SOURCES = ['XPHB', 'PHB'];
+
+export function getSpeciesByName(name: string, source?: string): SpeciesData | undefined {
+  if (source) {
+    return ALL_SPECIES.find(s => s.name.toLowerCase() === name.toLowerCase() && s.source === source);
+  }
+  // Without source, prefer XPHB/PHB variants to avoid returning homebrew/3rd-party first
+  const matches = ALL_SPECIES.filter(s => s.name.toLowerCase() === name.toLowerCase());
+  if (matches.length <= 1) return matches[0];
+  return matches.find(s => PREFERRED_SOURCES.includes(s.source)) ?? matches[0];
 }
 
 export function getSpeciesBySource(source: string): SpeciesData[] {
