@@ -168,6 +168,7 @@ export interface ItemTemplate {
   value?: number;
   equipSlot?: EquipmentSlot;
   rarity: ItemRarity;
+  icon?: string;
   iconPlaceholder: string;
   // Сырые данные для деталей
   raw: RawItemData;
@@ -329,6 +330,11 @@ function resolveCategory(raw: RawItemData): ItemCategory {
 
 // === Конвертация JSON → ItemTemplate ===
 
+function getItemImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/items-base/${filename}.webp`;
+}
+
 function toItemTemplate(raw: RawItemData): ItemTemplate {
   const name = raw.name;
   const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -343,6 +349,7 @@ function toItemTemplate(raw: RawItemData): ItemTemplate {
     value: raw.value,
     equipSlot: resolveEquipSlot(raw),
     rarity: RARITY_MAP[raw.rarity ?? 'none'] ?? 'common',
+    icon: getItemImageUrl(name),
     iconPlaceholder: getIconPlaceholder(raw),
     raw,
   };

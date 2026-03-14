@@ -38,3 +38,7 @@ export async function init(): Promise<void> {
 export function getSenseByName(name: string): SenseData | undefined {
   return ALL_SENSES.find(s => s.name.toLowerCase() === name.toLowerCase());
 }
+
+export function getSenseImageUrl(name: string): string {
+  return `/images/senses/${name}.webp`;
+}
