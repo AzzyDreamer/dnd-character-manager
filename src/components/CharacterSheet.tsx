@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Zap, Coins, Backpack, ArrowUp, X, ScrollText, Wand2, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check } from 'lucide-react';
+import { Heart, Shield, Coins, Backpack, ArrowUp, ScrollText, Scroll, Wand2, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -13,7 +13,7 @@ import { getRaceByName } from '../data/races';
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazySpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.SpellsTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'spells';
+type SheetTab = 'stats' | 'inventory' | 'spells' | 'proficiencies';
 
 interface CharacterSheetProps {
   character: Character;
@@ -325,6 +325,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     ...(character.spellcasting
       ? [{ key: 'spells', label: 'Заклинания', icon: Wand2 } as Tab]
       : []),
+    { key: 'proficiencies', label: 'Владения', icon: ScrollText },
   ];
 
   return (
@@ -372,6 +373,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка заклинаний...</div>}>
               <LazySpellsTab character={character} />
             </Suspense>
+          )}
+
+          {/* Tab: Proficiencies */}
+          {activeTab === 'proficiencies' && (
+            <ProficienciesSection character={character} />
           )}
 
           {/* Tab: Stats */}
@@ -476,7 +482,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         </div>
 
         {/* Right Sidebar — always visible (BG3 pattern) */}
-        <CharacterStatsSidebar character={character} showCombatStats />
+        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={`/images/classes/${character.classId}.webp`} />
       </div>
 
       {/* HP Choice Modal */}
@@ -539,6 +545,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 interface FeatureItem {
   name: string;
   description: string;
+  rawEntries?: any[];
   level?: number;
   source?: string;
 }
@@ -547,6 +554,7 @@ interface FeatureCategory {
   label: string;
   icon: React.ReactNode;
   features: FeatureItem[];
+  subcategories?: { label: string; icon: React.ReactNode; features: FeatureItem[] }[];
 }
 
 // ─── Skills Section ───
@@ -700,31 +708,71 @@ function FeaturesSection({ character }: { character: Character }) {
   const [loaded, setLoaded] = useState(false);
   const [classFeatures, setClassFeatures] = useState<FeatureItem[]>([]);
   const [subclassFeatures, setSubclassFeatures] = useState<FeatureItem[]>([]);
+  const [raceTraits, setRaceTraits] = useState<FeatureItem[]>([]);
+  const [featItems, setFeatItems] = useState<FeatureItem[]>([]);
+  const [charOptionTraits, setCharOptionTraits] = useState<FeatureItem[]>([]);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [collapsedCats, setCollapsedCats] = useState<Set<string>>(new Set());
+  const [EntryRendererCmp, setEntryRendererCmp] = useState<React.FC<any> | null>(null);
 
-  const raceDef = getRaceByName(character.race);
-  const raceTraits: FeatureItem[] = (raceDef?.traits ?? []).map(t => ({
-    name: t.name,
-    description: t.description,
-  }));
+  // Lazy load EntryRenderer
+  useEffect(() => {
+    import('../utils/entryRenderer').then(mod => {
+      setEntryRendererCmp(() => mod.EntryRenderer);
+    });
+  }, []);
 
-  // Background features from character.features
-  const bgFeatures: FeatureItem[] = character.features.map(f => ({
-    name: f.name,
-    description: f.description,
-    source: f.source,
-  }));
+  // Background features (exclude feat-related ones — those go to Feats section)
+  const bgFeatures: FeatureItem[] = character.features
+    .filter(f => f.id !== 'bg-feat' && f.id !== 'origin-feat' && !f.id?.startsWith('feat-'))
+    .map(f => ({
+      name: f.name,
+      description: f.description,
+      source: f.source,
+    }));
 
-  // Load class + subclass features lazily
+  // Background feat name (for feats subcategory)
+  const bgFeatEntry = character.features.find(f => f.id === 'bg-feat' || f.id === 'origin-feat');
+
+  // Load race + class + subclass features + feats lazily; reset on character switch
   useEffect(() => {
     let cancelled = false;
+    setLoaded(false);
+    setClassFeatures([]);
+    setSubclassFeatures([]);
+    setRaceTraits([]);
+    setFeatItems([]);
+    setCharOptionTraits([]);
+
     (async () => {
       try {
-        const classMod = await import('../data/classes/classJsonLoader');
-        await classMod.init();
+        // Load species + class data in parallel
+        const [speciesMod, classMod] = await Promise.all([
+          import('../data/species').then(async m => { await m.init(); return m; }),
+          import('../data/classes/classJsonLoader').then(async m => { await m.init(); return m; }),
+        ]);
         if (cancelled) return;
 
+        // Species traits (with raw entries for EntryRenderer)
+        const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
+        if (speciesData?.entries) {
+          const traits = speciesData.entries
+            .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
+            .map((e: any) => ({
+              name: e.name,
+              description: '',
+              rawEntries: e.entries,
+            }));
+          setRaceTraits(traits);
+        } else {
+          // Fallback to hardcoded race registry
+          const raceDef = getRaceByName(character.race);
+          if (raceDef?.traits) {
+            setRaceTraits(raceDef.traits.map(t => ({ name: t.name, description: t.description })));
+          }
+        }
+
+        // Class features — wrap description in rawEntries so EntryRenderer processes tags
         const classData = classMod.getClassDataByName(character.class);
         if (classData?.classFeatures) {
           const cf = classData.classFeatures
@@ -732,12 +780,15 @@ function FeaturesSection({ character }: { character: Character }) {
             .map((f: any) => ({
               name: f.name,
               description: f.description || '',
+              rawEntries: f.description ? [f.description] : [],
               level: f.level,
               source: f.source,
             }));
           setClassFeatures(cf);
         }
+        if (cancelled) return;
 
+        // Subclass features — same: wrap description in rawEntries
         if (character.subclass) {
           const subMod = await import('../data/classes/subclassJsonLoader');
           await subMod.init();
@@ -753,6 +804,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 .map(f => ({
                   name: f.name,
                   description: f.description || '',
+                  rawEntries: f.description ? [f.description] : [],
                   level: f.level,
                   source: f.source,
                 }));
@@ -761,14 +813,75 @@ function FeaturesSection({ character }: { character: Character }) {
           }
         }
 
-        setLoaded(true);
+        // Load feat details (from character.feats)
+        const featsMod = await import('../data/feats');
+        await featsMod.init();
+        if (cancelled) return;
+
+        if (character.feats?.length) {
+          const items: FeatureItem[] = character.feats.map(cf => {
+            const featData = featsMod.getFeatByName(cf.name);
+            return {
+              name: cf.name,
+              description: '',
+              rawEntries: featData?.entries ?? [],
+              level: cf.levelAcquired,
+              source: cf.source,
+            };
+          });
+          if (!cancelled) setFeatItems(items);
+        } else if (bgFeatEntry) {
+          // Character has bg feat in features but no feats array — load it
+          const featData = featsMod.getFeatByName(bgFeatEntry.name);
+          if (featData && !cancelled) {
+            setFeatItems([{
+              name: bgFeatEntry.name,
+              description: '',
+              rawEntries: featData.entries ?? [],
+              level: 1,
+              source: bgFeatEntry.source,
+            }]);
+          }
+        }
+
+        // Load character creation option traits
+        if (character.charCreationOption) {
+          try {
+            const ccoMod = await import('../data/charactercreationoptions');
+            await ccoMod.init();
+            if (cancelled) return;
+            const optData = ccoMod.getCharacterCreationOptionByName(character.charCreationOption.name);
+            if (optData?.entries) {
+              const traits = optData.entries
+                .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
+                .map((e: any) => ({
+                  name: e.name,
+                  description: '',
+                  rawEntries: e.entries,
+                }));
+              // Also include entries nested inside section > entries
+              for (const e of optData.entries) {
+                if (e?.type === 'section' && Array.isArray(e.entries)) {
+                  for (const sub of e.entries) {
+                    if (sub && typeof sub === 'object' && sub.name && Array.isArray(sub.entries) && sub.type === 'entries') {
+                      traits.push({ name: sub.name, description: '', rawEntries: sub.entries });
+                    }
+                  }
+                }
+              }
+              if (!cancelled) setCharOptionTraits(traits);
+            }
+          } catch (e) { console.warn('Failed to load char creation option:', e); }
+        }
+
+        if (!cancelled) setLoaded(true);
       } catch (e) {
         console.warn('Failed to load features:', e);
-        setLoaded(true);
+        if (!cancelled) setLoaded(true);
       }
     })();
     return () => { cancelled = true; };
-  }, [character.class, character.subclass, character.level, character.classId]);
+  }, [character.class, character.subclass, character.level, character.classId, character.race, character.raceSource, character.name, character.charCreationOption]);
 
   const toggleCat = (key: string) => {
     setCollapsedCats(prev => {
@@ -778,7 +891,8 @@ function FeaturesSection({ character }: { character: Character }) {
     });
   };
 
-  const categories: FeatureCategory[] = [
+  // --- Особенности categories ---
+  const featureCategories: FeatureCategory[] = [
     ...(raceTraits.length > 0 ? [{
       label: `Раса — ${character.race}`,
       icon: <Sparkles size={14} className="text-purple-400" />,
@@ -789,89 +903,232 @@ function FeaturesSection({ character }: { character: Character }) {
       icon: <Shield size={14} className="text-gold" />,
       features: classFeatures,
     }] : []),
-    ...(subclassFeatures.length > 0 ? [{
-      label: `${character.subclass}`,
+    ...(subclassFeatures.length > 0 && character.subclass ? [{
+      label: character.subclass,
       icon: <BookOpen size={14} className="text-blue-400" />,
       features: subclassFeatures,
     }] : []),
-    ...(bgFeatures.length > 0 ? [{
-      label: 'Предыстория',
-      icon: <ScrollText size={14} className="text-text-secondary" />,
-      features: bgFeatures,
+    ...(charOptionTraits.length > 0 ? [{
+      label: character.charCreationOption?.name ?? 'Опция создания',
+      icon: <Scroll size={14} className="text-emerald-400" />,
+      features: charOptionTraits,
     }] : []),
   ];
 
-  const totalCount = categories.reduce((s, c) => s + c.features.length, 0);
+  const featureTotalCount = featureCategories.reduce((s, c) => s + c.features.length, 0);
+
+  // --- Черты categories (with background as subcategory) ---
+  // Origin feat from background goes into a subcategory named after the background
+  const originFeatItems = featItems.filter((_, i) => {
+    const cf = character.feats?.[i];
+    return cf?.category === 'O' && cf?.levelAcquired === 1;
+  });
+  const otherFeatItems = featItems.filter((_, i) => {
+    const cf = character.feats?.[i];
+    return !(cf?.category === 'O' && cf?.levelAcquired === 1);
+  });
+
+  const featCategories: FeatureCategory[] = [];
+
+  // If there are non-origin feats, show them at top level
+  if (otherFeatItems.length > 0) {
+    featCategories.push({
+      label: 'Общие',
+      icon: <Star size={14} className="text-amber-400" />,
+      features: otherFeatItems,
+    });
+  }
+
+  // Background subcategory with origin feat + other bg features
+  const bgSubFeatures = [...originFeatItems, ...bgFeatures];
+  if (bgSubFeatures.length > 0) {
+    featCategories.push({
+      label: character.background || 'Предыстория',
+      icon: <ScrollText size={14} className="text-text-secondary" />,
+      features: bgSubFeatures,
+    });
+  }
+
+  const featTotalCount = featCategories.reduce((s, c) => s + c.features.length, 0);
+
+  const renderFeatureContent = (feat: FeatureItem) => {
+    if (feat.rawEntries && feat.rawEntries.length > 0 && EntryRendererCmp) {
+      return (
+        <div className="mt-2 pt-2 border-t border-border-default text-xs text-text-secondary leading-relaxed ml-3.5 prose prose-invert prose-sm max-w-none">
+          <EntryRendererCmp entries={feat.rawEntries} context={feat.name} />
+        </div>
+      );
+    }
+    if (feat.description) {
+      return (
+        <div className="mt-2 pt-2 border-t border-border-default text-xs text-text-secondary leading-relaxed whitespace-pre-line ml-3.5">
+          {cleanEntryRefs(feat.description)}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderCategoryList = (cats: FeatureCategory[]) => (
+    <div className="space-y-3">
+      {cats.map(cat => {
+        const key = cat.label;
+        const collapsed = collapsedCats.has(key);
+        return (
+          <div key={key}>
+            <button
+              onClick={() => toggleCat(key)}
+              className="flex items-center gap-2 w-full text-left mb-1.5"
+            >
+              {collapsed
+                ? <ChevronRight size={14} className="text-text-muted" />
+                : <ChevronDown size={14} className="text-text-muted" />}
+              {cat.icon}
+              <span className="text-sm font-semibold text-text-primary">{cat.label}</span>
+              <span className="text-xs text-text-muted ml-1">({cat.features.length})</span>
+            </button>
+            {!collapsed && (
+              <div className="space-y-1 ml-5">
+                {cat.features.map((feat, i) => {
+                  const featureKey = `${key}-${feat.name}-${i}`;
+                  const isExpanded = expandedFeature === featureKey;
+                  return (
+                    <button
+                      key={featureKey}
+                      onClick={() => setExpandedFeature(isExpanded ? null : featureKey)}
+                      className={`w-full text-left rounded-lg border p-2.5 transition-all ${
+                        isExpanded
+                          ? 'border-gold/40 bg-gold/5'
+                          : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
+                        <span className="text-sm text-text-primary font-medium">{feat.name}</span>
+                        {feat.level && (
+                          <span className="text-[10px] text-text-muted ml-auto shrink-0">{feat.level} ур.</span>
+                        )}
+                      </div>
+                      {isExpanded && renderFeatureContent(feat)}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 
   return (
-    <div className="glass-panel p-4">
-      <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
-        <BookOpen size={18} />
-        Особенности
-        <span className="text-xs font-normal text-text-muted ml-1">({totalCount})</span>
-      </h2>
+    <>
+      {/* Особенности */}
+      <div className="glass-panel p-4">
+        <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
+          <BookOpen size={18} />
+          Особенности
+          <span className="text-xs font-normal text-text-muted ml-1">({featureTotalCount})</span>
+        </h2>
 
-      {!loaded && categories.length === 0 && (
-        <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
-      )}
+        {!loaded && featureCategories.length === 0 && (
+          <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
+        )}
 
-      <div className="space-y-3">
-        {categories.map(cat => {
-          const key = cat.label;
-          const collapsed = collapsedCats.has(key);
-          return (
-            <div key={key}>
-              <button
-                onClick={() => toggleCat(key)}
-                className="flex items-center gap-2 w-full text-left mb-1.5"
-              >
-                {collapsed
-                  ? <ChevronRight size={14} className="text-text-muted" />
-                  : <ChevronDown size={14} className="text-text-muted" />}
-                {cat.icon}
-                <span className="text-sm font-semibold text-text-primary">{cat.label}</span>
-                <span className="text-xs text-text-muted ml-1">({cat.features.length})</span>
-              </button>
-              {!collapsed && (
-                <div className="space-y-1 ml-5">
-                  {cat.features.map((feat, i) => {
-                    const featureKey = `${key}-${feat.name}-${i}`;
-                    const isExpanded = expandedFeature === featureKey;
-                    return (
-                      <button
-                        key={featureKey}
-                        onClick={() => setExpandedFeature(isExpanded ? null : featureKey)}
-                        className={`w-full text-left rounded-lg border p-2.5 transition-all ${
-                          isExpanded
-                            ? 'border-gold/40 bg-gold/5'
-                            : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
-                          <span className="text-sm text-text-primary font-medium">{feat.name}</span>
-                          {feat.level && (
-                            <span className="text-[10px] text-text-muted ml-auto shrink-0">{feat.level} ур.</span>
-                          )}
-                        </div>
-                        {isExpanded && feat.description && (
-                          <div className="mt-2 pt-2 border-t border-border-default text-xs text-text-secondary leading-relaxed whitespace-pre-line ml-3.5">
-                            {cleanEntryRefs(feat.description)}
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {renderCategoryList(featureCategories)}
+
+        {loaded && featureTotalCount === 0 && (
+          <div className="text-center text-text-muted text-sm py-2 italic">
+            Нет особенностей
+          </div>
+        )}
       </div>
 
-      {loaded && totalCount === 0 && (
-        <div className="text-center text-text-muted text-sm py-2 italic">
-          Нет особенностей
+      {/* Черты */}
+      <div className="glass-panel p-4">
+        <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
+          <Star size={18} />
+          Черты
+          <span className="text-xs font-normal text-text-muted ml-1">({featTotalCount})</span>
+        </h2>
+
+        {!loaded && featCategories.length === 0 && (
+          <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
+        )}
+
+        {renderCategoryList(featCategories)}
+
+        {loaded && featTotalCount === 0 && (
+          <div className="text-center text-text-muted text-sm py-2 italic">
+            Нет черт
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+// ==============================
+// Proficiencies Section (Владения tab)
+// ==============================
+
+function ProficienciesSection({ character }: { character: Character }) {
+  const { proficiencies } = character;
+
+  const categories = [
+    {
+      key: 'languages',
+      label: 'Языки',
+      icon: <Languages size={16} className="text-blue-400" />,
+      items: proficiencies.languages,
+    },
+    {
+      key: 'weapons',
+      label: 'Оружие',
+      icon: <Swords size={16} className="text-red-400" />,
+      items: proficiencies.weapons,
+    },
+    {
+      key: 'armor',
+      label: 'Броня',
+      icon: <Shield size={16} className="text-amber-400" />,
+      items: proficiencies.armor,
+    },
+    {
+      key: 'tools',
+      label: 'Инструменты',
+      icon: <Dices size={16} className="text-emerald-400" />,
+      items: proficiencies.tools,
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      {categories.map(cat => (
+        cat.items && cat.items.length > 0 && (
+          <div key={cat.key} className="glass-panel p-4">
+            <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
+              {cat.icon}
+              {cat.label}
+              <span className="text-xs font-normal text-text-muted ml-1">({cat.items.length})</span>
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {cat.items.map((item, i) => (
+                <span
+                  key={`${item}-${i}`}
+                  className="px-3 py-1.5 rounded-lg bg-bg-primary/60 border border-border-default text-sm text-text-primary"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        )
+      ))}
+
+      {categories.every(c => !c.items?.length) && (
+        <div className="text-center text-text-muted text-sm py-8 italic">
+          Нет владений
         </div>
       )}
     </div>

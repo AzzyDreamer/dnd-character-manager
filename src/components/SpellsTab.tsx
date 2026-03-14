@@ -18,7 +18,7 @@ interface SpellDataLocal {
 
 interface LoadedModules {
   getSpellByName: (name: string) => SpellDataLocal | undefined;
-  getSpellImageUrl: (name: string) => string | undefined;
+  getSpellImageUrl: (name: string) => string;
   SCHOOL_NAMES: Record<string, string>;
   EntryRenderer: React.FC<any>;
 }
@@ -54,18 +54,39 @@ function getSpellMeta(spellData: SpellDataLocal | undefined) {
   return { castingTime, range, components, duration };
 }
 
+// Strip {@spell X|Src}, {@variantrule X|Src|Display}, etc. → just the display name or first arg
+function cleanTagRefs(text: string): string {
+  return text.replace(/\{@\w+\s+([^|}]+)(?:\|[^|}]*)*(?:\|([^}]*))?\}/g, (_, first, last) => last || first);
+}
+
 function getFirstEntryText(entries: any[]): string {
   for (const e of entries) {
-    if (typeof e === 'string') return e;
+    if (typeof e === 'string') return cleanTagRefs(e);
     if (e?.entries) return getFirstEntryText(e.entries);
   }
   return '';
+}
+
+// Extract spell name from "{@spell Name}" or "{@spell Name|Source}" tags
+function parseSpellTag(tag: string): string {
+  const m = tag.match(/\{@spell\s+([^|}]+)/);
+  return m ? m[1].trim() : tag.replace(/[{}@spell]/g, '').split('|')[0].trim();
+}
+
+// Extract spell name from "name|source#c" format (racial spells)
+function parseRacialSpellName(raw: string): { name: string; isCantrip: boolean } {
+  const isCantrip = raw.endsWith('#c');
+  const clean = raw.replace(/#c$/, '').split('|')[0].trim();
+  // Capitalize first letter of each word
+  const name = clean.replace(/\b\w/g, c => c.toUpperCase());
+  return { name, isCantrip };
 }
 
 export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => {
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+  const [autoSpells, setAutoSpells] = useState<{ spellId: string; name: string; level: number; prepared: boolean; alwaysPrepared: boolean; source?: string }[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,9 +102,123 @@ export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => 
         SCHOOL_NAMES: spells.SCHOOL_NAMES,
         EntryRenderer: entryRenderer.EntryRenderer,
       });
+
+      // Load auto-prepared spells from subclass and race
+      const auto: typeof autoSpells = [];
+      const existingNames = new Set(character.spellcasting?.spells.map(s => s.name.toLowerCase()) ?? []);
+
+      // Subclass spells
+      if (character.subclass && character.classId) {
+        try {
+          const [subMod, { getClassById, CLASS_REGISTRY }] = await Promise.all([
+            import('../data/classes/subclassJsonLoader').then(async m => { await m.init(); return m; }),
+            import('../data/classes'),
+          ]);
+          if (cancelled) return;
+
+          const classDef = getClassById(character.classId) ?? CLASS_REGISTRY.find(c => c.name === character.class);
+          const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+          if (subDef && classDef) {
+            const subData = subMod.getSubclassById(classDef.id, subDef.id);
+            if (subData?.features) {
+              for (const feat of subData.features) {
+                const spellEntries = feat.spellList ?? feat.spells ?? [];
+                for (const entry of spellEntries) {
+                  // Find the level key (paladinLevel, clericLevel, etc.)
+                  const levelKey = Object.keys(entry).find(k => k.endsWith('Level'));
+                  const requiredLevel = levelKey ? entry[levelKey] : entry.level;
+                  if (requiredLevel != null && requiredLevel <= character.level) {
+                    for (const spellTag of (entry.spells ?? [])) {
+                      const name = parseSpellTag(spellTag);
+                      if (!existingNames.has(name.toLowerCase())) {
+                        const spellData = spells.getSpellByName(name);
+                        auto.push({
+                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                          name,
+                          level: spellData?.level ?? 1,
+                          prepared: true,
+                          alwaysPrepared: true,
+                          source: character.subclass,
+                        });
+                        existingNames.add(name.toLowerCase());
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } catch (e) { console.warn('Failed to load subclass spells:', e); }
+      }
+
+      // Racial spells
+      if (character.race) {
+        try {
+          const speciesMod = await import('../data/species');
+          await speciesMod.init();
+          if (cancelled) return;
+
+          const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
+          if (speciesData?.additionalSpells) {
+            for (const group of speciesData.additionalSpells) {
+              // Known spells (cantrips and others)
+              if (group.known) {
+                for (const [lvlStr, spellsOrObj] of Object.entries(group.known)) {
+                  if (parseInt(lvlStr) <= character.level && Array.isArray(spellsOrObj)) {
+                    for (const raw of spellsOrObj) {
+                      if (typeof raw !== 'string') continue;
+                      const { name, isCantrip } = parseRacialSpellName(raw);
+                      if (!existingNames.has(name.toLowerCase())) {
+                        const spellData = spells.getSpellByName(name);
+                        auto.push({
+                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                          name,
+                          level: isCantrip ? 0 : (spellData?.level ?? 1),
+                          prepared: true,
+                          alwaysPrepared: true,
+                          source: character.race,
+                        });
+                        existingNames.add(name.toLowerCase());
+                      }
+                    }
+                  }
+                }
+              }
+              // Innate spells (granted at certain character levels)
+              if (group.innate) {
+                for (const [lvlStr, innateObj] of Object.entries(group.innate as Record<string, any>)) {
+                  if (parseInt(lvlStr) <= character.level && innateObj?.daily) {
+                    for (const spellArr of Object.values(innateObj.daily as Record<string, string[]>)) {
+                      if (!Array.isArray(spellArr)) continue;
+                      for (const raw of spellArr) {
+                        if (typeof raw !== 'string') continue;
+                        const { name } = parseRacialSpellName(raw);
+                        if (!existingNames.has(name.toLowerCase())) {
+                          const spellData = spells.getSpellByName(name);
+                          auto.push({
+                            spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                            name,
+                            level: spellData?.level ?? 1,
+                            prepared: true,
+                            alwaysPrepared: true,
+                            source: character.race,
+                          });
+                          existingNames.add(name.toLowerCase());
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } catch (e) { console.warn('Failed to load racial spells:', e); }
+      }
+
+      if (!cancelled) setAutoSpells(auto);
     })();
     return () => { cancelled = true; };
-  }, []);
+  }, [character.class, character.classId, character.subclass, character.level, character.race, character.raceSource]);
 
   const spellcasting = character.spellcasting;
   if (!spellcasting) return null;
@@ -98,8 +233,10 @@ export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => 
 
   const { getSpellByName, getSpellImageUrl, SCHOOL_NAMES, EntryRenderer } = modules;
 
-  const cantrips = spellcasting.spells.filter(s => s.level === 0);
-  const leveledSpells = spellcasting.spells.filter(s => s.level > 0);
+  // Merge character spells with auto-prepared spells
+  const allSpells = [...spellcasting.spells, ...autoSpells];
+  const cantrips = allSpells.filter(s => s.level === 0);
+  const leveledSpells = allSpells.filter(s => s.level > 0);
   const groupedByLevel = leveledSpells.reduce<Record<number, typeof leveledSpells>>((acc, s) => {
     (acc[s.level] = acc[s.level] || []).push(s);
     return acc;
@@ -117,14 +254,14 @@ export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => 
   // Expanded spell detail panel
   const expandedData = expandedSpell
     ? (() => {
-        const charSpell = spellcasting.spells.find(s => s.spellId === expandedSpell);
+        const charSpell = allSpells.find(s => s.spellId === expandedSpell);
         if (!charSpell) return null;
         const data = getSpellByName(charSpell.name);
         return data ? { charSpell, data } : null;
       })()
     : null;
 
-  const preparedCount = spellcasting.spells.filter(s => s.level > 0 && s.prepared).length;
+  const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared).length;
   const maxPrepared = spellcasting.spellsKnown ?? 0;
 
   return (
@@ -286,7 +423,7 @@ export const SpellsTab: React.FC<{ character: Character }> = ({ character }) => 
         </div>
       )}
 
-      {spellcasting.spells.length === 0 && (
+      {allSpells.length === 0 && (
         <div className="text-center text-text-muted py-8 italic">
           Заклинания не выбраны
         </div>

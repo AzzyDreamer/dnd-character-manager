@@ -67,7 +67,7 @@ export async function initRegistry(): Promise<void> {
       await _itemsBase.init();
 
       _items = await import('./items');
-      // items не использует glob, так что init не нужен
+      await _items.init();
 
       _charCreationOptions = await import('./charactercreationoptions');
       await _charCreationOptions.init();
@@ -93,6 +93,7 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
 
   const parts = name.split('|');
   const entityName = parts[0].trim();
+  const entitySource = parts[1]?.trim();
 
   switch (tagType) {
     case 'spell': {
@@ -139,6 +140,10 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       break;
     }
     case 'item': {
+      // Try full item database first (has descriptions)
+      const fullItem = _items.getItemByName(entityName, entitySource);
+      if (fullItem) return { type: 'item', name: fullItem.name, source: fullItem.source, entries: fullItem.entries, data: fullItem };
+      // Fallback to inventory templates
       const itemId = entityName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       const item = _items.getItemTemplate(itemId);
       if (item) return { type: 'item', name: item.name, source: item.raw.source, entries: item.raw.entries, data: item };

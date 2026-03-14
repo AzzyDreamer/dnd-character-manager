@@ -161,8 +161,25 @@ const TagTooltip: React.FC<{
   useEffect(() => {
     if (show && ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top;
+      let x = rect.left + rect.width / 2;
+      let y = rect.top;
+
+      // Clamp after tooltip renders
+      requestAnimationFrame(() => {
+        if (!tooltipRef.current) return;
+        const tt = tooltipRef.current.getBoundingClientRect();
+        const pad = 8;
+
+        // Horizontal: keep tooltip within viewport
+        if (x - tt.width / 2 < pad) x = tt.width / 2 + pad;
+        else if (x + tt.width / 2 > window.innerWidth - pad) x = window.innerWidth - tt.width / 2 - pad;
+
+        // Vertical: if not enough space above, show below
+        if (y - tt.height - pad < 0) y = rect.bottom + tt.height + pad;
+
+        setPos({ x, y });
+      });
+
       setPos({ x, y });
     }
   }, [show]);

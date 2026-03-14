@@ -122,11 +122,32 @@ async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
         import('../data/items-base'),
         import('../data/items'),
       ]);
-      await itemsBase.init();
-      const allItems = [
-        ...items.ITEM_TEMPLATES.map((t: any) => ({ ...t, _type: 'template' })),
-        ...itemsBase.ALL_ITEMS_BASE.map((b: any) => ({ ...b, _type: 'base' })),
-      ];
+      await Promise.all([itemsBase.init(), items.init()]);
+      // Merge priority: ALL_ITEMS (root, with descriptions) > ITEM_TEMPLATES (subfolder, with generated stats) > ALL_ITEMS_BASE
+      const seen = new Set<string>();
+      const allItems: any[] = [];
+      for (const item of items.ALL_ITEMS) {
+        const key = item.name.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          allItems.push(item);
+        }
+      }
+      for (const t of items.ITEM_TEMPLATES) {
+        const key = t.name.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          // Convert template back to raw-like format so Glossary can display it uniformly
+          allItems.push({ ...t.raw, _description: t.description });
+        }
+      }
+      for (const item of itemsBase.ALL_ITEMS_BASE) {
+        const key = item.name.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          allItems.push(item);
+        }
+      }
       result = { items: allItems, constants: {} };
       break;
     }
@@ -785,29 +806,26 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             )}
 
             {/* ═══════════ ПРЕДМЕТЫ ═══════════ */}
-            {type === 'items' && (
-              <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
-                {/* Для шаблонов предметов (items) */}
-                {d._type === 'template' && d.raw && (
-                  <>
-                    <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type}</span></div>
-                    {d.weight && <div><span className="text-text-secondary">Вес: </span><span className="text-text-primary">{d.weight} фунт.</span></div>}
-                    {d.value && <div><span className="text-text-secondary">Цена: </span><span className="text-text-primary">{d.value} зм</span></div>}
-                    {d.description && <div className="text-text-primary">{d.description}</div>}
-                  </>
-                )}
-                {/* Для базовых предметов (items-base) */}
-                {d._type === 'base' && (
-                  <>
-                    {d.type && <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type}</span></div>}
-                    {d.rarity && <div><span className="text-text-secondary">Редкость: </span><span className="text-text-primary">{d.rarity}</span></div>}
-                    {d.reqAttune && <div><span className="text-text-secondary">Настройка: </span><span className="text-text-primary">
-                      {typeof d.reqAttune === 'string' ? d.reqAttune : 'Требуется'}
-                    </span></div>}
-                  </>
-                )}
-              </div>
-            )}
+            {type === 'items' && (() => {
+              const typeCode = (d.type || '').split('|')[0];
+              const rarityLabel = d.rarity && d.rarity !== 'none' ? d.rarity : null;
+              const dmgTypes: Record<string, string> = { S: 'рубящий', P: 'колющий', B: 'дробящий', F: 'огонь', C: 'холод', L: 'молния', T: 'яд', N: 'некротический', A: 'кислота', Y: 'психический', O: 'силовое поле' };
+              const propNames: Record<string, string> = { F: 'Фехтовальное', L: 'Лёгкое', H: 'Тяжёлое', '2H': 'Двуручное', V: 'Универсальное', T: 'Метательное', AM: 'Боеприпас', LD: 'Перезарядка', R: 'Досягаемость', S: 'Особое' };
+              return (
+                <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
+                  {typeCode && <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{typeCode}</span></div>}
+                  {rarityLabel && <div><span className="text-text-secondary">Редкость: </span><span className="text-text-primary">{rarityLabel}</span></div>}
+                  {d.weight != null && <div><span className="text-text-secondary">Вес: </span><span className="text-text-primary">{d.weight} фунт.</span></div>}
+                  {d.value != null && <div><span className="text-text-secondary">Цена: </span><span className="text-text-primary">{d.value >= 100 ? `${d.value / 100} зм` : `${d.value} мм`}</span></div>}
+                  {d.dmg1 && <div><span className="text-text-secondary">Урон: </span><span className="text-text-primary">{d.dmg1} {dmgTypes[d.dmgType] || d.dmgType || ''}{d.dmg2 ? ` (универсальное ${d.dmg2})` : ''}</span></div>}
+                  {d.range && <div><span className="text-text-secondary">Дальность: </span><span className="text-text-primary">{d.range} фт.</span></div>}
+                  {d.ac != null && <div><span className="text-text-secondary">КД: </span><span className="text-text-primary">{d.ac}</span></div>}
+                  {d.property?.length > 0 && <div><span className="text-text-secondary">Свойства: </span><span className="text-text-primary">{d.property.map((p: string) => propNames[p.split('|')[0]] || p.split('|')[0]).join(', ')}</span></div>}
+                  {d.reqAttune && <div><span className="text-text-secondary">Настройка: </span><span className="text-text-primary">{typeof d.reqAttune === 'string' ? d.reqAttune : 'Требуется'}</span></div>}
+                  {d._description && !entries.length && <div className="text-text-primary pt-1">{d._description}</div>}
+                </div>
+              );
+            })()}
 
             {/* ═══════════ СПОСОБНОСТИ (Optional Features) ═══════════ */}
             {type === 'optionalfeatures' && (

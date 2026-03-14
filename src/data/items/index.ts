@@ -24,6 +24,77 @@ export {
   MASTERY_NAMES,
 } from './constants';
 
+// === Ленивая загрузка всех предметов из корневых JSON (1700+ файлов с описаниями) ===
+const itemModules = import.meta.glob('./*.json');
+
+export interface ItemData {
+  name: string;
+  source: string;
+  page?: number;
+  type?: string;
+  rarity?: string;
+  reqAttune?: boolean | string | any[];
+  weight?: number;
+  value?: number;
+  entries?: any[];
+  [key: string]: any;
+}
+
+export const ALL_ITEMS: ItemData[] = [];
+
+let _itemsInitialized = false;
+let _itemsInitializing: Promise<void> | null = null;
+
+const ITEMS_BATCH_SIZE = 50;
+const ITEMS_BATCH_DELAY_MS = 10;
+
+export async function init(): Promise<void> {
+  if (_itemsInitialized) return;
+  if (_itemsInitializing) return _itemsInitializing;
+
+  _itemsInitializing = (async () => {
+    const entries = Object.entries(itemModules);
+
+    for (let i = 0; i < entries.length; i += ITEMS_BATCH_SIZE) {
+      const batch = entries.slice(i, i + ITEMS_BATCH_SIZE);
+
+      const results = await Promise.all(
+        batch.map(async ([, loader]) => {
+          try {
+            const mod = await (loader as () => Promise<any>)();
+            return mod.default ?? mod;
+          } catch (e) {
+            console.warn('Failed to load item:', e);
+            return null;
+          }
+        })
+      );
+
+      for (const data of results) {
+        if (data && typeof data === 'object' && data.name) {
+          ALL_ITEMS.push(data as ItemData);
+        }
+      }
+
+      if (i + ITEMS_BATCH_SIZE < entries.length) {
+        await new Promise(r => setTimeout(r, ITEMS_BATCH_DELAY_MS));
+      }
+    }
+
+    ALL_ITEMS.sort((a, b) => a.name.localeCompare(b.name));
+    _itemsInitialized = true;
+  })();
+
+  return _itemsInitializing;
+}
+
+export function getItemByName(name: string, source?: string): ItemData | undefined {
+  if (source) {
+    return ALL_ITEMS.find(i => i.name.toLowerCase() === name.toLowerCase() && i.source === source);
+  }
+  return ALL_ITEMS.find(i => i.name.toLowerCase() === name.toLowerCase());
+}
+
 // === Import all JSON item files ===
 
 // Weapons

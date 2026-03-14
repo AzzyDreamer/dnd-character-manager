@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import type { AbilityScores, Character, CharacterSpell } from '../../types';
-import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES, ABILITY_NAMES } from '../../utils/dnd';
+import type { AbilityScores, Character } from '../../types';
+import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
-import { GoldDivider } from './GoldDivider';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check } from 'lucide-react';
 
 /** Partial data for creation mode (not a full Character yet) */
@@ -34,6 +33,12 @@ interface CharacterStatsSidebarProps {
   creationStats?: CreationStats;
   /** Show combat stats (HP, AC, Speed) */
   showCombatStats?: boolean;
+  /** Optional image URL to display at the top of the sidebar */
+  imageSrc?: string;
+  /** Alt text for the image */
+  imageAlt?: string;
+  /** Class icon URL shown next to class name */
+  classIconSrc?: string;
   className?: string;
 }
 
@@ -178,6 +183,9 @@ export function CharacterStatsSidebar({
   character,
   creationStats,
   showCombatStats = true,
+  imageSrc,
+  imageAlt,
+  classIconSrc,
   className = '',
 }: CharacterStatsSidebarProps) {
   // Unify data from either character or creationStats
@@ -210,18 +218,42 @@ export function CharacterStatsSidebar({
 
   return (
     <aside className={`w-72 shrink-0 hidden lg:flex flex-col gap-3 overflow-y-auto ${className}`}>
+      {/* Character image */}
+      {imageSrc && (
+        <div className="glass-panel overflow-hidden">
+          <img
+            src={imageSrc}
+            alt={imageAlt || name || 'Портрет'}
+            className="w-full max-h-72 object-contain"
+            loading="lazy"
+          />
+        </div>
+      )}
+
       {/* Identity */}
-      <div className="glass-panel p-3 space-y-1">
-        {name && (
-          <h3 className="font-medieval text-gold text-base truncate">{name}</h3>
-        )}
-        <div className="text-xs text-text-secondary space-y-0.5">
-          {race && <div>{race}</div>}
-          {cls && (
-            <div>
-              Уровень {level} {cls}
-              {subclass && ` \u2022 ${subclass}`}
+      <div className="glass-panel p-3">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 min-w-0 space-y-0.5">
+            {name && (
+              <h3 className="font-medieval text-gold text-base truncate">{name}</h3>
+            )}
+            <div className="text-xs text-text-secondary space-y-0.5">
+              {race && <div>{race}</div>}
+              {cls && (
+                <div>
+                  Уровень {level} {cls}
+                  {subclass && ` \u2022 ${subclass}`}
+                </div>
+              )}
             </div>
+          </div>
+          {classIconSrc && (
+            <img
+              src={classIconSrc}
+              alt={cls}
+              className="w-10 h-10 object-contain shrink-0 opacity-80"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Character, AbilityScores } from '../types';
 import {
   generateAbilityScores,
@@ -23,8 +23,8 @@ import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
-import { ArrowLeft, ArrowRight, Dices, ChevronDown, ChevronUp, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star } from 'lucide-react';
-import { TabBar, type Tab, CycleSelector, CharacterStatsSidebar, type CreationStats, StatBadge } from './ui';
+import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages } from 'lucide-react';
+import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
 function getSpeciesSpeed(sp: SpeciesData): number {
@@ -95,6 +95,48 @@ const OPTION_TYPE_NAMES: Record<string, string> = {
   'Transformation': 'Трансформация',
 };
 
+// ─── Языки D&D ───
+const STANDARD_LANGUAGES = [
+  'Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish',
+  'Goblin', 'Halfling', 'Orc',
+];
+const EXOTIC_LANGUAGES = [
+  'Abyssal', 'Celestial', 'Deep Speech', 'Draconic',
+  'Infernal', 'Primordial', 'Sylvan', 'Undercommon',
+];
+const ALL_CHOOSABLE_LANGUAGES = [...STANDARD_LANGUAGES.filter(l => l !== 'Common'), ...EXOTIC_LANGUAGES];
+
+/** Parse languageProficiencies from species/background JSON data.
+ *  Returns { fixed: string[], chooseCount: number, chooseFrom?: string[] }
+ */
+function parseLanguageProficiencies(langProfs: any[] | undefined): {
+  fixed: string[];
+  chooseCount: number;
+  chooseFrom?: string[];
+} {
+  if (!langProfs?.length) return { fixed: [], chooseCount: 0 };
+  const fixed: string[] = [];
+  let chooseCount = 0;
+  let chooseFrom: string[] | undefined;
+  for (const lp of langProfs) {
+    for (const [k, v] of Object.entries(lp)) {
+      if (k === 'anyStandard' && typeof v === 'number') {
+        chooseCount += v;
+      } else if (k === 'choose' && v && typeof v === 'object') {
+        const ch = v as any;
+        if (ch.from) {
+          chooseFrom = ch.from.filter((l: string) => l !== 'other');
+          chooseCount += ch.count || 1;
+        }
+      } else if (typeof v === 'boolean' && v && k !== 'anyStandard') {
+        // capitalize first letter
+        fixed.push(k.charAt(0).toUpperCase() + k.slice(1));
+      }
+    }
+  }
+  return { fixed, chooseCount, chooseFrom: chooseFrom?.length ? chooseFrom : undefined };
+}
+
 // Типы заклинаний (без прямого импорта данных — данные загрузятся лениво)
 interface SpellData {
   name: string;
@@ -122,6 +164,7 @@ const ALL_STEPS = [
   { key: 'race', label: 'Раса', icon: Sparkles },
   { key: 'class', label: 'Класс', icon: Swords },
   { key: 'background', label: 'Предыстория', icon: BookOpen },
+  { key: 'languages', label: 'Языки', icon: Languages },
   { key: 'originfeat', label: 'Черта', icon: Star },
   { key: 'charoptions', label: 'Опции', icon: Scroll },
   { key: 'abilities', label: 'Характеристики', icon: Dices },
@@ -144,7 +187,12 @@ const EntityImage: React.FC<{
   className?: string;
 }> = ({ folder, id, name, className = '' }) => {
   const [failed, setFailed] = useState(false);
-  const src = `/images/${folder}/${id}.webp`;
+  const src = `/images/${folder}/${encodeURIComponent(id)}.webp`;
+
+  // Сброс failed при смене изображения
+  useEffect(() => {
+    setFailed(false);
+  }, [folder, id]);
 
   if (failed) {
     return (
@@ -184,7 +232,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // Character Creation Options (lazy loaded)
   const [charOptionsLoaded, setCharOptionsLoaded] = useState(false);
   const [allCharOptions, setAllCharOptions] = useState<CharacterCreationOptionData[]>([]);
-  const [selectedCharOption, setSelectedCharOption] = useState<CharacterCreationOptionData | null>(null);
+  const [selectedCharOption, setSelectedCharOption] = useState<CharacterCreationOptionData | null>(null); // viewing
+  const [confirmedCharOption, setConfirmedCharOption] = useState<CharacterCreationOptionData | null>(null); // chosen
 
   // EntryRenderer for species/bg/charoptions detail
   const [EntryRendererCmp, setEntryRendererCmp] = useState<React.FC<any> | null>(null);
@@ -269,6 +318,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   React.useEffect(() => { setSelectedSkills([]); }, [selectedClass]);
 
+  // Languages
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  // Reset languages when species or background changes
+  React.useEffect(() => { setSelectedLanguages([]); }, [selectedSpecies, selectedBackground]);
+
   // Spells
   const [selectedSpells, setSelectedSpells] = useState<SpellData[]>([]);
   const [selectedCantrips, setSelectedCantrips] = useState<SpellData[]>([]);
@@ -293,6 +347,39 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const getFinalScore = (ability: keyof AbilityScores): number => {
     return abilityScores[ability] + (activeBonuses[ability] || 0);
   };
+
+  // Computed language slots from species + background
+  const languageInfo = useMemo(() => {
+    // Species languages
+    const speciesLang = selectedSpecies
+      ? parseLanguageProficiencies(selectedSpecies.languageProficiencies)
+      : { fixed: [], chooseCount: 0 };
+    // If XPHB species has no languageProficiencies → Common + 2 на выбор
+    if (selectedSpecies && !selectedSpecies.languageProficiencies?.length) {
+      speciesLang.fixed = ['Common'];
+      speciesLang.chooseCount = 2;
+    }
+    // Ensure Common is always in fixed
+    if (!speciesLang.fixed.includes('Common')) {
+      speciesLang.fixed = ['Common', ...speciesLang.fixed];
+    }
+
+    // Background languages
+    const bgLang = selectedBackground
+      ? parseLanguageProficiencies(selectedBackground.languageProficiencies)
+      : { fixed: [], chooseCount: 0 };
+
+    const totalChoose = speciesLang.chooseCount + bgLang.chooseCount;
+    const allFixed = [...new Set([...speciesLang.fixed, ...bgLang.fixed])];
+
+    return {
+      fixed: allFixed,
+      speciesChoose: speciesLang.chooseCount,
+      bgChoose: bgLang.chooseCount,
+      bgChooseFrom: bgLang.chooseFrom,
+      totalChoose,
+    };
+  }, [selectedSpecies, selectedBackground]);
 
   // Доступные заклинания для класса (загружаются лениво)
   const [spellsLoaded, setSpellsLoaded] = useState(false);
@@ -328,13 +415,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const bgHasFeat = selectedBackground ? !!getBgFeatName(selectedBackground) : true;
 
   // Build active steps list based on conditions
+  const needsLanguageStep = languageInfo.totalChoose > 0;
   const STEPS = useMemo(() => {
     return ALL_STEPS.filter(s => {
+      if (s.key === 'languages' && !needsLanguageStep) return false;
       if (s.key === 'originfeat' && bgHasFeat) return false;
       if (s.key === 'spells' && !isSpellcaster) return false;
       return true;
     });
-  }, [bgHasFeat, isSpellcaster]);
+  }, [bgHasFeat, isSpellcaster, needsLanguageStep]);
 
   // Clamp step when STEPS length changes
   React.useEffect(() => {
@@ -357,6 +446,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 'race': return selectedSpecies !== null;
       case 'class': return selectedClass !== null;
       case 'background': return selectedBackground !== null;
+      case 'languages': return selectedLanguages.length === languageInfo.totalChoose;
       case 'charoptions': return true; // Информационный шаг
       case 'abilities': {
         if (abilityMethod === 'pointBuy' && getPointBuyRemaining(abilityScores) < 0) return false;
@@ -462,6 +552,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       id: crypto.randomUUID(),
       name,
       race: selectedSpecies.name,
+      raceSource: selectedSpecies.source,
       class: selectedClass.name,
       classId: selectedClass.id,
       level,
@@ -490,7 +581,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         armor: selectedClass.proficiencies.armor,
         weapons: selectedClass.proficiencies.weapons,
         tools: allTools,
-        languages: getSpeciesLanguages(selectedSpecies),
+        languages: [...languageInfo.fixed, ...selectedLanguages.filter(Boolean)],
       },
       armorClass: 10 + getAbilityModifier(finalScores.dexterity),
       initiative: getAbilityModifier(finalScores.dexterity),
@@ -513,6 +604,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         category: 'O',
         levelAcquired: 1,
       }] : undefined,
+      ...(confirmedCharOption ? {
+        charCreationOption: {
+          name: confirmedCharOption.name,
+          source: confirmedCharOption.source,
+        },
+      } : {}),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -598,7 +695,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // ─── Step Indicator ───
   const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
+  const [speciesSourceFilter, setSpeciesSourceFilter] = useState<string | null>(null);
+  const [classSearchQuery, setClassSearchQuery] = useState('');
   const [bgSearchQuery, setBgSearchQuery] = useState('');
+  const [bgSourceFilter, setBgSourceFilter] = useState<string | null>(null);
   const stepTabs: Tab[] = useMemo(() =>
     STEPS.map((s, i) => ({
       key: s.key,
@@ -626,18 +726,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   );
 
   // ─── Step 0: Race (Species) ───
+  const speciesSources = useMemo(() => {
+    const set = new Set(allSpecies.map(sp => sp.source));
+    return Array.from(set).sort();
+  }, [allSpecies]);
+
   const filteredSpecies = useMemo(() => {
+    let list = allSpecies;
+    if (speciesSourceFilter) list = list.filter(sp => sp.source === speciesSourceFilter);
     const q = speciesSearchQuery.toLowerCase().trim();
-    if (!q) return allSpecies;
-    return allSpecies.filter(sp => sp.name.toLowerCase().includes(q));
-  }, [allSpecies, speciesSearchQuery]);
-
-  const [showAllSpecies, setShowAllSpecies] = useState(false);
-
-  const speciesIndex = useMemo(() => {
-    if (!selectedSpecies) return 0;
-    return allSpecies.findIndex(sp => sp.name === selectedSpecies.name && sp.source === selectedSpecies.source);
-  }, [allSpecies, selectedSpecies]);
+    if (q) list = list.filter(sp => sp.name.toLowerCase().includes(q));
+    return list;
+  }, [allSpecies, speciesSearchQuery, speciesSourceFilter]);
 
   const renderRaceStep = () => (
     <div className="space-y-4">
@@ -648,63 +748,65 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         </div>
       ) : (
         <>
-          {/* BG3-style Cycle Selector */}
-          <CycleSelector
-            items={allSpecies.map(sp => ({ id: sp.name, name: sp.name }))}
-            selectedIndex={speciesIndex >= 0 ? speciesIndex : 0}
-            onSelect={(i) => setSelectedSpecies(allSpecies[i])}
-          />
-
-          {/* Toggle grid view */}
-          <button
-            onClick={() => setShowAllSpecies(!showAllSpecies)}
-            className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
-          >
-            <Search size={12} />
-            {showAllSpecies ? 'Скрыть список' : 'Показать все виды'}
-          </button>
-
-          {/* Expandable grid for browsing */}
-          {showAllSpecies && (
-            <div className="space-y-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
-                <input
-                  type="text"
-                  placeholder="Поиск видов..."
-                  value={speciesSearchQuery}
-                  onChange={e => setSpeciesSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
-                />
-              </div>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                {filteredSpecies.map((sp, idx) => (
-                  <button
-                    key={`${sp.name}-${idx}`}
-                    onClick={() => { setSelectedSpecies(sp); setShowAllSpecies(false); }}
-                    className={`rounded-lg border text-left p-2 text-xs transition-all ${
-                      selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source
-                        ? 'border-gold/40 bg-gold/5 text-gold'
-                        : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
-                    }`}
-                  >
-                    <div className="font-semibold truncate">{sp.name}</div>
-                    <div className="text-text-muted text-[10px] mt-0.5">{sp.source}</div>
-                  </button>
-                ))}
-              </div>
+          {/* Search + source filters */}
+          <div className="space-y-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
+              <input
+                type="text"
+                placeholder="Поиск видов..."
+                value={speciesSearchQuery}
+                onChange={e => setSpeciesSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
+              />
             </div>
-          )}
+            <div className="flex gap-1.5 flex-wrap">
+              <button
+                onClick={() => setSpeciesSourceFilter(null)}
+                className={`px-2 py-0.5 rounded text-[11px] border transition-colors ${
+                  !speciesSourceFilter
+                    ? 'border-gold/50 bg-gold/10 text-gold'
+                    : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
+                }`}
+              >Все</button>
+              {speciesSources.map(src => (
+                <button
+                  key={src}
+                  onClick={() => setSpeciesSourceFilter(speciesSourceFilter === src ? null : src)}
+                  className={`px-2 py-0.5 rounded text-[11px] border transition-colors ${
+                    speciesSourceFilter === src
+                      ? 'border-gold/50 bg-gold/10 text-gold'
+                      : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
+                  }`}
+                >{src}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Species grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-56 overflow-y-auto">
+            {filteredSpecies.map((sp, idx) => (
+              <button
+                key={`${sp.name}-${sp.source}-${idx}`}
+                onClick={() => setSelectedSpecies(sp)}
+                className={`rounded-lg border text-left p-2 text-xs transition-all ${
+                  selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source
+                    ? 'border-gold/40 bg-gold/5 text-gold'
+                    : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                }`}
+              >
+                <div className="font-semibold truncate">{sp.name}</div>
+                <div className="text-text-muted text-[10px] mt-0.5">{sp.source}</div>
+              </button>
+            ))}
+            {filteredSpecies.length === 0 && (
+              <div className="col-span-full text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+            )}
+          </div>
 
           {/* Selected species detail panel */}
           {selectedSpecies && (
             <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default overflow-hidden">
-              <EntityImage
-                folder="races"
-                id={selectedSpecies.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-                name={selectedSpecies.name}
-                className="w-full h-44"
-              />
               <div className="p-4 space-y-3">
                 <div className="space-y-2 text-sm">
                   <div className="flex gap-2">
@@ -745,111 +847,72 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   );
 
   // ─── Step 1: Class ───
-  const classIndex = useMemo(() => {
-    if (!selectedClass) return 0;
-    return CLASS_REGISTRY.findIndex(c => c.id === selectedClass.id);
-  }, [selectedClass]);
-
-  const [showAllClasses, setShowAllClasses] = useState(false);
+  const filteredClasses = useMemo(() => {
+    const q = classSearchQuery.toLowerCase().trim();
+    if (!q) return CLASS_REGISTRY;
+    return CLASS_REGISTRY.filter(cls => cls.name.toLowerCase().includes(q));
+  }, [classSearchQuery]);
 
   const renderClassStep = () => (
-    <div className="space-y-4">
-      {/* BG3-style Cycle Selector */}
-      <CycleSelector
-        items={CLASS_REGISTRY.map(cls => ({ id: cls.id, name: cls.name }))}
-        selectedIndex={classIndex >= 0 ? classIndex : 0}
-        onSelect={(i) => setSelectedClass(CLASS_REGISTRY[i])}
-      />
+    <div className="flex gap-4 h-full">
+      {/* Left: class info */}
+      <div className="flex-1 min-w-0 overflow-y-auto">
+        {selectedClass ? (
+          <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-3 space-y-3">
+            <h3 className="font-medieval text-gold text-base">{selectedClass.name}</h3>
+            <p className="text-xs text-text-secondary leading-relaxed">{selectedClass.description}</p>
 
-      <button
-        onClick={() => setShowAllClasses(!showAllClasses)}
-        className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
-      >
-        <Search size={12} />
-        {showAllClasses ? 'Скрыть список' : 'Показать все классы'}
-      </button>
-
-      {showAllClasses && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-          {CLASS_REGISTRY.map(cls => (
-            <button
-              key={cls.id}
-              onClick={() => { setSelectedClass(cls); setShowAllClasses(false); }}
-              className={`rounded-lg border text-left p-2 text-xs transition-all ${
-                selectedClass?.id === cls.id
-                  ? 'border-gold/40 bg-gold/5 text-gold'
-                  : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
-              }`}
-            >
-              <div className="font-semibold truncate">{cls.name}</div>
-              <div className="text-text-muted text-[10px] mt-0.5">{cls.hitDie} • {cls.source}</div>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Selected class detail */}
-      {selectedClass && (
-        <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default overflow-hidden">
-          <EntityImage folder="classes" id={selectedClass.id} name={selectedClass.name} className="w-full h-44" />
-          <div className="p-4 space-y-3">
-            <p className="text-sm text-text-primary leading-relaxed">{selectedClass.description}</p>
-
-            <div className="pt-3 border-t border-border-default">
-              <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
-              <div className="space-y-2 text-sm">
+            <div className="pt-2 border-t border-border-default space-y-2 text-xs">
+              <div className="flex gap-2">
+                <span className="text-text-muted shrink-0">Кость хитов:</span>
+                <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
+              </div>
+              <div>
+                <span className="text-text-muted">Основная характеристика:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {selectedClass.primaryAbility.map(a => (
+                    <span key={a} className="px-1.5 py-0.5 bg-red-accent/30 text-red-300 rounded text-[10px]">
+                      {ABILITY_NAMES[a]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className="text-text-muted">Спасброски:</span>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {selectedClass.savingThrows.map(a => (
+                    <span key={a} className="px-1.5 py-0.5 bg-blue-900/40 text-blue-300 rounded text-[10px]">
+                      {ABILITY_NAMES[a]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {selectedClass.spellcaster && (
                 <div className="flex gap-2">
-                  <span className="text-text-secondary shrink-0">Кость хитов:</span>
-                  <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
+                  <span className="text-text-muted shrink-0">Заклинатель:</span>
+                  <span className="text-purple-300">{ABILITY_NAMES[selectedClass.spellcastingAbility!]}</span>
                 </div>
-                <div>
-                  <span className="text-text-secondary">Основная характеристика:</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {selectedClass.primaryAbility.map(a => (
-                      <span key={a} className="px-2 py-0.5 bg-red-accent/30 text-red-300 rounded text-xs">
-                        {ABILITY_NAMES[a]}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-text-secondary">Спасброски:</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {selectedClass.savingThrows.map(a => (
-                      <span key={a} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">
-                        {ABILITY_NAMES[a]}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {selectedClass.spellcaster && (
-                  <div className="flex gap-2">
-                    <span className="text-text-secondary shrink-0">Заклинатель:</span>
-                    <span className="text-purple-300">{ABILITY_NAMES[selectedClass.spellcastingAbility!]}</span>
-                  </div>
-                )}
-                <div className="flex gap-2">
-                  <span className="text-text-secondary shrink-0">Доспехи:</span>
-                  <span className="text-text-primary text-xs">
-                    {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
-                  </span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-text-secondary shrink-0">Оружие:</span>
-                  <span className="text-text-primary text-xs">{selectedClass.proficiencies.weapons.join(', ')}</span>
-                </div>
+              )}
+              <div className="flex gap-2">
+                <span className="text-text-muted shrink-0">Доспехи:</span>
+                <span className="text-text-primary">
+                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-text-muted shrink-0">Оружие:</span>
+                <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
               </div>
             </div>
 
-            {/* Subclasses preview */}
             {selectedClass.subclasses.length > 0 && (
-              <div className="pt-3 border-t border-border-default">
-                <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">
-                  Доступные подклассы (выбор на 3 уровне)
+              <div className="pt-2 border-t border-border-default">
+                <h4 className="text-[10px] text-text-muted uppercase tracking-wider mb-1.5">
+                  Подклассы (выбор на 3 ур.)
                 </h4>
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {selectedClass.subclasses.map(sub => (
-                    <div key={sub.id} className="flex items-center gap-2 text-xs text-text-secondary">
+                    <div key={sub.id} className="flex items-center gap-1.5 text-[11px] text-text-secondary">
                       <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />
                       <span>{sub.name}</span>
                     </div>
@@ -858,8 +921,55 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </div>
             )}
           </div>
+        ) : (
+          <div className="flex items-center justify-center h-full text-text-muted text-sm">
+            Выберите класс
+          </div>
+        )}
+      </div>
+
+      {/* Right: class grid 4 columns, last row centered */}
+      <div className="flex-1 min-w-0 flex items-center justify-center">
+        <div className="flex flex-wrap justify-center gap-2 max-w-[calc(4*5.5rem+3*0.5rem)]">
+          {filteredClasses.map(cls => {
+            const isSelected = selectedClass?.id === cls.id;
+            return (
+              <button
+                key={cls.id}
+                onClick={() => setSelectedClass(cls)}
+                className={`group w-[5.5rem] h-[5.5rem] rounded-lg border flex flex-col items-center justify-center gap-1.5 p-2 transition-all ${
+                  isSelected
+                    ? 'border-gold/60 bg-gold/10 shadow-[0_0_8px_rgba(212,175,55,0.15)]'
+                    : 'border-border-default bg-bg-panel hover:border-gold/30 hover:bg-gold/5'
+                }`}
+                title={cls.name}
+              >
+                <div className={`w-10 h-10 rounded overflow-hidden flex items-center justify-center shrink-0 ${
+                  isSelected ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'
+                } transition-opacity`}>
+                  <img
+                    src={`/images/classes/${cls.id}.webp`}
+                    alt={cls.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                      (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                    }}
+                  />
+                  <span className={`hidden text-xl font-medieval ${isSelected ? 'text-gold' : 'text-text-muted'}`}>
+                    {cls.name.charAt(0)}
+                  </span>
+                </div>
+                <span className={`text-[10px] leading-tight text-center w-full line-clamp-2 ${
+                  isSelected ? 'text-gold font-semibold' : 'text-text-secondary'
+                }`}>
+                  {cls.name}
+                </span>
+              </button>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 
@@ -1106,18 +1216,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   };
 
   // ─── Step 2: Background ───
+  const bgSources = useMemo(() => {
+    const set = new Set(allBackgrounds.map(bg => bg.source));
+    return Array.from(set).sort();
+  }, [allBackgrounds]);
+
   const filteredBackgrounds = useMemo(() => {
+    let list = allBackgrounds;
+    if (bgSourceFilter) list = list.filter(bg => bg.source === bgSourceFilter);
     const q = bgSearchQuery.toLowerCase().trim();
-    if (!q) return allBackgrounds;
-    return allBackgrounds.filter(bg => bg.name.toLowerCase().includes(q));
-  }, [allBackgrounds, bgSearchQuery]);
-
-  const [showAllBgs, setShowAllBgs] = useState(false);
-
-  const bgIndex = useMemo(() => {
-    if (!selectedBackground) return 0;
-    return allBackgrounds.findIndex(bg => bg.name === selectedBackground.name && bg.source === selectedBackground.source);
-  }, [allBackgrounds, selectedBackground]);
+    if (q) list = list.filter(bg => bg.name.toLowerCase().includes(q));
+    return list;
+  }, [allBackgrounds, bgSearchQuery, bgSourceFilter]);
 
   const renderBackgroundStep = () => (
     <div className="space-y-4">
@@ -1128,50 +1238,61 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         </div>
       ) : (
         <>
-          <CycleSelector
-            items={allBackgrounds.map(bg => ({ id: bg.name, name: bg.name }))}
-            selectedIndex={bgIndex >= 0 ? bgIndex : 0}
-            onSelect={(i) => { setSelectedBackground(allBackgrounds[i]); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); }}
-          />
-
-          <button
-            onClick={() => setShowAllBgs(!showAllBgs)}
-            className="text-xs text-text-muted hover:text-text-primary transition-colors flex items-center gap-1"
-          >
-            <Search size={12} />
-            {showAllBgs ? 'Скрыть список' : 'Показать все предыстории'}
-          </button>
-
-          {showAllBgs && (
-            <div className="space-y-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
-                <input
-                  type="text"
-                  placeholder="Поиск предысторий..."
-                  value={bgSearchQuery}
-                  onChange={e => setBgSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
-                />
-              </div>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                {filteredBackgrounds.map((bg, idx) => (
-                  <button
-                    key={`${bg.name}-${idx}`}
-                    onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); setShowAllBgs(false); }}
-                    className={`rounded-lg border text-left p-2 text-xs transition-all ${
-                      selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
-                        ? 'border-gold/40 bg-gold/5 text-gold'
-                        : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
-                    }`}
-                  >
-                    <div className="font-semibold truncate">{bg.name}</div>
-                    <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatName(bg)}</div>
-                  </button>
-                ))}
-              </div>
+          {/* Search + source filters */}
+          <div className="space-y-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
+              <input
+                type="text"
+                placeholder="Поиск предысторий..."
+                value={bgSearchQuery}
+                onChange={e => setBgSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
+              />
             </div>
-          )}
+            <div className="flex gap-1.5 flex-wrap">
+              <button
+                onClick={() => setBgSourceFilter(null)}
+                className={`px-2 py-0.5 rounded text-[11px] border transition-colors ${
+                  !bgSourceFilter
+                    ? 'border-gold/50 bg-gold/10 text-gold'
+                    : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
+                }`}
+              >Все</button>
+              {bgSources.map(src => (
+                <button
+                  key={src}
+                  onClick={() => setBgSourceFilter(bgSourceFilter === src ? null : src)}
+                  className={`px-2 py-0.5 rounded text-[11px] border transition-colors ${
+                    bgSourceFilter === src
+                      ? 'border-gold/50 bg-gold/10 text-gold'
+                      : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
+                  }`}
+                >{src}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Background grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-56 overflow-y-auto">
+            {filteredBackgrounds.map((bg, idx) => (
+              <button
+                key={`${bg.name}-${bg.source}-${idx}`}
+                onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); }}
+                className={`rounded-lg border text-left p-2 text-xs transition-all ${
+                  selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
+                    ? 'border-gold/40 bg-gold/5 text-gold'
+                    : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                }`}
+              >
+                <div className="font-semibold truncate">{bg.name}</div>
+                <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatName(bg)}</div>
+              </button>
+            ))}
+            {filteredBackgrounds.length === 0 && (
+              <div className="col-span-full text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+            )}
+          </div>
 
           {/* Selected background detail */}
           {selectedBackground && (
@@ -1227,6 +1348,191 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       )}
     </div>
   );
+
+  // ─── Step: Languages ───
+  const renderLanguagesStep = () => {
+    const { fixed, speciesChoose, bgChoose, bgChooseFrom, totalChoose } = languageInfo;
+
+    // Build list of available languages for each slot type
+    const alreadyChosen = new Set([...fixed.map(l => l.toLowerCase()), ...selectedLanguages.map(l => l.toLowerCase())]);
+
+    const speciesAvailable = ALL_CHOOSABLE_LANGUAGES.filter(l => !fixed.map(f => f.toLowerCase()).includes(l.toLowerCase()));
+    const bgAvailable = bgChooseFrom
+      ? bgChooseFrom.map(l => l.charAt(0).toUpperCase() + l.slice(1))
+      : ALL_CHOOSABLE_LANGUAGES;
+
+    const handleToggleLanguage = (lang: string, slotIndex: number) => {
+      setSelectedLanguages(prev => {
+        if (prev[slotIndex] === lang) {
+          // Remove
+          const next = [...prev];
+          next.splice(slotIndex, 1);
+          return next;
+        }
+        // Set at specific index
+        const next = [...prev];
+        next[slotIndex] = lang;
+        return next;
+      });
+    };
+
+    let slotIdx = 0;
+
+    return (
+      <div className="space-y-4">
+        <h3 className="text-xl font-medieval text-gold text-center">Языки</h3>
+
+        {/* Fixed languages */}
+        <div className="glass-panel p-4">
+          <h4 className="text-sm font-semibold text-text-primary mb-2">Известные языки</h4>
+          <div className="flex flex-wrap gap-2">
+            {fixed.map(lang => (
+              <span key={lang} className="px-3 py-1.5 rounded-lg bg-gold/10 text-gold border border-gold/30 text-sm font-medium">
+                {lang}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Species language choices */}
+        {speciesChoose > 0 && (
+          <div className="glass-panel p-4">
+            <h4 className="text-sm font-semibold text-text-primary mb-1">
+              Языки от расы
+              <span className="text-text-muted font-normal ml-2">
+                (выберите {speciesChoose})
+              </span>
+            </h4>
+            <p className="text-xs text-text-muted mb-3">
+              {selectedSpecies?.name ?? 'Раса'} — выберите дополнительные языки
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {speciesAvailable.map(lang => {
+                // Which species slots is this lang in?
+                const speciesSlots = Array.from({ length: speciesChoose }, (_, i) => i);
+                const isChosen = speciesSlots.some(i => selectedLanguages[i] === lang);
+                // Is it taken in another section?
+                const takenElsewhere = !isChosen && selectedLanguages.includes(lang);
+                const isFixed = fixed.map(f => f.toLowerCase()).includes(lang.toLowerCase());
+                const disabled = takenElsewhere || isFixed;
+
+                return (
+                  <button
+                    key={lang}
+                    disabled={disabled}
+                    onClick={() => {
+                      setSelectedLanguages(prev => {
+                        if (isChosen) {
+                          // Remove it
+                          const idx = prev.indexOf(lang);
+                          if (idx >= 0 && idx < speciesChoose) {
+                            const next = [...prev];
+                            next.splice(idx, 1);
+                            return next;
+                          }
+                          return prev;
+                        }
+                        // Find first empty species slot
+                        const next = [...prev];
+                        for (let i = 0; i < speciesChoose; i++) {
+                          if (!next[i]) { next[i] = lang; return next; }
+                        }
+                        // All full — replace last
+                        if (speciesChoose === 1) { next[0] = lang; return next; }
+                        return prev;
+                      });
+                    }}
+                    className={`px-2.5 py-1 rounded-lg border text-xs transition-all ${
+                      isChosen
+                        ? 'border-gold/50 bg-gold/10 text-gold'
+                        : disabled
+                          ? 'border-border-default/50 text-text-muted opacity-40 cursor-not-allowed'
+                          : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
+                    }`}
+                  >
+                    {lang}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-2 text-xs text-text-muted">
+              Выбрано: {selectedLanguages.slice(0, speciesChoose).filter(Boolean).length}/{speciesChoose}
+            </div>
+          </div>
+        )}
+
+        {/* Background language choices */}
+        {bgChoose > 0 && (
+          <div className="glass-panel p-4">
+            <h4 className="text-sm font-semibold text-text-primary mb-1">
+              Языки от предыстории
+              <span className="text-text-muted font-normal ml-2">
+                (выберите {bgChoose})
+              </span>
+            </h4>
+            <p className="text-xs text-text-muted mb-3">
+              {selectedBackground?.name ?? 'Предыстория'} — дополнительные языки
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {bgAvailable.map(lang => {
+                const bgSlotStart = speciesChoose;
+                const bgSlots = Array.from({ length: bgChoose }, (_, i) => bgSlotStart + i);
+                const isChosen = bgSlots.some(i => selectedLanguages[i] === lang);
+                const takenElsewhere = !isChosen && (
+                  selectedLanguages.includes(lang) ||
+                  fixed.map(f => f.toLowerCase()).includes(lang.toLowerCase())
+                );
+                const disabled = takenElsewhere;
+
+                return (
+                  <button
+                    key={lang}
+                    disabled={disabled}
+                    onClick={() => {
+                      setSelectedLanguages(prev => {
+                        if (isChosen) {
+                          const idx = prev.indexOf(lang);
+                          if (idx >= bgSlotStart) {
+                            const next = [...prev];
+                            next.splice(idx, 1);
+                            return next;
+                          }
+                          return prev;
+                        }
+                        const next = [...prev];
+                        for (let i = bgSlotStart; i < bgSlotStart + bgChoose; i++) {
+                          if (!next[i]) { next[i] = lang; return next; }
+                        }
+                        if (bgChoose === 1) { next[bgSlotStart] = lang; return next; }
+                        return prev;
+                      });
+                    }}
+                    className={`px-2.5 py-1 rounded-lg border text-xs transition-all ${
+                      isChosen
+                        ? 'border-gold/50 bg-gold/10 text-gold'
+                        : disabled
+                          ? 'border-border-default/50 text-text-muted opacity-40 cursor-not-allowed'
+                          : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
+                    }`}
+                  >
+                    {lang}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-2 text-xs text-text-muted">
+              Выбрано: {selectedLanguages.slice(speciesChoose, speciesChoose + bgChoose).filter(Boolean).length}/{bgChoose}
+            </div>
+          </div>
+        )}
+
+        {/* Summary */}
+        <div className="text-center text-sm text-text-muted">
+          Всего языков: {fixed.length + selectedLanguages.filter(Boolean).length} из {fixed.length + totalChoose}
+        </div>
+      </div>
+    );
+  };
 
   // ─── Step 4: Details ───
   const renderDetailsStep = () => (
@@ -1288,6 +1594,19 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </p>
         </div>
 
+        {/* Show confirmed option badge */}
+        {confirmedCharOption && !selectedCharOption && (
+          <div className="flex items-center gap-3 p-3 rounded-lg border border-gold/40 bg-gold/5">
+            <Check size={16} className="text-gold shrink-0" />
+            <span className="text-sm text-text-primary font-medium">{confirmedCharOption.name}</span>
+            <span className="text-xs text-text-muted">{confirmedCharOption.source}</span>
+            <button
+              onClick={() => setConfirmedCharOption(null)}
+              className="ml-auto text-xs text-red-400 hover:text-red-300 transition-colors"
+            >Убрать</button>
+          </div>
+        )}
+
         {selectedCharOption ? (
           <div className="space-y-4">
             <button
@@ -1303,6 +1622,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 {selectedCharOption.optionType?.map(t => OPTION_TYPE_NAMES[t] || t).join(', ')}
                 {' • '}{selectedCharOption.source}
               </div>
+
+              {/* Select / deselect button */}
+              {confirmedCharOption?.name === selectedCharOption.name && confirmedCharOption?.source === selectedCharOption.source ? (
+                <button
+                  onClick={() => { setConfirmedCharOption(null); setSelectedCharOption(null); }}
+                  className="mb-4 px-4 py-2 rounded-lg border border-red-500/40 bg-red-900/20 text-red-300 text-sm hover:bg-red-900/40 transition-colors"
+                >Убрать выбор</button>
+              ) : (
+                <button
+                  onClick={() => { setConfirmedCharOption(selectedCharOption); setSelectedCharOption(null); }}
+                  className="mb-4 px-4 py-2 rounded-lg border border-gold/40 bg-gold/10 text-gold text-sm hover:bg-gold/20 transition-colors"
+                >Выбрать</button>
+              )}
+
               {EntryRendererCmp && selectedCharOption.entries && (
                 <div className="prose prose-invert max-w-none text-sm">
                   <EntryRendererCmp entries={selectedCharOption.entries} />
@@ -1722,6 +2055,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       setSelectedSpells(prev => {
         const exists = prev.find(s => s.name === spell.name);
         if (exists) return prev.filter(s => s.name !== spell.name);
+        if (prev.length >= maxSpells) return prev;
         return [...prev, spell];
       });
     };
@@ -1787,20 +2121,24 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <h4 className="text-lg font-medieval text-blue-300 mb-2">
             Заклинания 1 уровня
             <span className="text-sm font-normal text-text-secondary ml-2">
-              (выбрано: {selectedSpells.length})
+              (выбрано: {selectedSpells.length}/{maxSpells})
             </span>
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
             {filteredLeveled.map(spell => {
               const isSelected = selectedSpells.some(s => s.name === spell.name);
+              const limitReached = !isSelected && selectedSpells.length >= maxSpells;
               return (
                 <button
                   key={spell.name}
                   onClick={() => toggleSpell(spell)}
+                  disabled={limitReached}
                   className={`p-2 rounded-lg border text-left text-xs transition-all ${
                     isSelected
                       ? 'border-blue-500 bg-blue-900/30 text-blue-200'
-                      : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
+                      : limitReached
+                        ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
+                        : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
                   }`}
                 >
                   <div className="font-semibold truncate">{spell.name}</div>
@@ -1850,6 +2188,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 'race': return renderRaceStep();
       case 'class': return renderClassStep();
       case 'background': return renderBackgroundStep();
+      case 'languages': return renderLanguagesStep();
       case 'originfeat': return renderOriginFeatStep();
       case 'charoptions': return renderCharOptionsStep();
       case 'abilities': return renderAbilitiesStep();
@@ -1885,6 +2224,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <CharacterStatsSidebar
           creationStats={creationStats}
           showCombatStats={step >= 4}
+          imageSrc={selectedSpecies ? `/images/species/${encodeURIComponent(selectedSpecies.name)}.webp` : undefined}
+          imageAlt={selectedSpecies?.name}
+          classIconSrc={selectedClass ? `/images/classes/${selectedClass.id}.webp` : undefined}
         />
       </div>
 

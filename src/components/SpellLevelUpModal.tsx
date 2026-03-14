@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Character, CharacterSpell, SpellSlots } from '../types';
-import { Search, Loader2, Check, Wand2, Sparkles, ChevronDown, ChevronRight, Heart, Zap, BookOpen } from 'lucide-react';
+import { Search, Loader2, Wand2, Sparkles, ChevronDown, ChevronRight, Zap, BookOpen } from 'lucide-react';
 import { CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 
 // Минимальный тип данных заклинания (без полного импорта)
@@ -18,7 +18,7 @@ interface SpellDataLocal {
 
 interface LoadedModules {
   spells: SpellDataLocal[];
-  getSpellImageUrl: (name: string) => string | undefined;
+  getSpellImageUrl: (name: string) => string;
   SCHOOL_NAMES: Record<string, string>;
   EntryRenderer: React.FC<any>;
 }
@@ -512,6 +512,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           <CharacterStatsSidebar
             character={character}
             showCombatStats
+            classIconSrc={`/images/classes/${character.classId}.webp`}
             className="!w-full !flex !flex-col"
           />
 
