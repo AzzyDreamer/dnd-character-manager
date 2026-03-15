@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
+import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -358,7 +358,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     { key: 'stats', label: 'Характеристики', icon: ScrollText },
     { key: 'inventory', label: 'Инвентарь', icon: Backpack },
     { key: 'actions', label: 'Действия и заклинания', icon: Swords },
-    { key: 'proficiencies', label: 'Владения', icon: ScrollText },
+    { key: 'proficiencies', label: 'Умения и Владения', icon: ScrollText },
   ];
 
   return (
@@ -372,6 +372,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             accept="image/*"
             onChange={handlePortraitUpload}
             className="hidden"
+          />
+          <img
+            src={`/images/classes/${character.classId}.webp`}
+            alt={character.class}
+            className="w-10 h-10 object-contain shrink-0 opacity-80"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
           <div>
             <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
@@ -417,9 +423,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             </Suspense>
           )}
 
-          {/* Tab: Proficiencies */}
+          {/* Tab: Skills & Proficiencies */}
           {activeTab === 'proficiencies' && (
-            <ProficienciesSection character={character} />
+            <>
+              <SkillsSection character={character} />
+              <ProficienciesSection character={character} />
+            </>
           )}
 
           {/* Tab: Stats */}
@@ -470,8 +479,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 </div>
               </div>
 
-              {/* Skills & Saving Throws */}
-              <SkillsSection character={character} />
+              {/* Conditions & Resistances */}
+              <ConditionsSection character={character} onUpdate={onUpdate} />
+              <ResistancesSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
@@ -485,7 +495,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           character={character}
           showCombatStats
           classIconSrc={`/images/classes/${character.classId}.webp`}
-          hideSections={['proficiencies', 'skills', 'spells']}
+          hideSections={['identity', 'proficiencies', 'skills', 'spells']}
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
           onPortraitClick={() => {
@@ -1104,6 +1114,599 @@ function FeaturesSection({ character }: { character: Character }) {
         )}
       </div>
     </>
+  );
+}
+
+// ==============================
+// Conditions & Resistances Section (Состояния и Устойчивости)
+// ==============================
+
+// Русские названия для известных состояний (fallback — английское имя из JSON)
+const CONDITION_NAMES: Record<string, string> = {
+  'Blinded': 'Ослеплён',
+  'Charmed': 'Очарован',
+  'Deafened': 'Оглушён',
+  'Exhaustion': 'Истощение',
+  'Frightened': 'Испуган',
+  'Grappled': 'Схвачен',
+  'Incapacitated': 'Недееспособен',
+  'Invisible': 'Невидимый',
+  'Paralyzed': 'Парализован',
+  'Petrified': 'Окаменевший',
+  'Poisoned': 'Отравлен',
+  'Prone': 'Сбит с ног',
+  'Restrained': 'Опутан',
+  'Stunned': 'Оглушён (стан)',
+  'Surprised': 'Застигнут врасплох',
+  'Unconscious': 'Без сознания',
+  'Concentration': 'Концентрация',
+  'Bloodied': 'Окровавлен',
+  'Arcane Blight': 'Тайная порча',
+  'Blinding Sickness': 'Слепящая хворь',
+  'Blue Mist Fever': 'Лихорадка синего тумана',
+  'Bluerot': 'Синяя гниль',
+  'Cackle Fever': 'Хохочущая лихорадка',
+  'Filth Fever': 'Грязная лихорадка',
+  'Flesh Rot': 'Гниение плоти',
+  'Frigid Woe': 'Ледяная скорбь',
+  'Ghoul Gut': 'Гулье брюхо',
+  'Grackle-Lung': 'Грэкл-лёгкие',
+  'Lichen Plague': 'Лишайная чума',
+  'Mindfire': 'Разумный огонь',
+  'Mudpox': 'Грязевая оспа',
+  'Redface': 'Красноликость',
+  'Saprophytic Plague': 'Сапрофитная чума',
+  'Seizure': 'Судорога',
+  'Sewer Plague': 'Канализационная чума',
+  'Shaking Plague': 'Трясучая чума',
+  'Shivering Sickness': 'Дрожащая хворь',
+  'Sight Rot': 'Гниение зрения',
+  'Slimy Doom': 'Слизистая погибель',
+  'Spider Eggs': 'Паучьи яйца',
+  'Super-Tetanus': 'Супер-столбняк',
+  'The Gnawing Plague': 'Грызущая чума',
+  'The Rusting': 'Ржавение',
+  'Throat Leeches': 'Горловые пиявки',
+};
+
+function getConditionDisplayName(name: string): string {
+  return CONDITION_NAMES[name] || name;
+}
+
+function getConditionImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/conditionsdiseases/${filename}.webp`;
+}
+
+// ── Condition Picker Modal ──
+function ConditionPickerModal({
+  onAdd,
+  onCancel,
+  activeConditions,
+}: {
+  onAdd: (name: string) => void;
+  onCancel: () => void;
+  activeConditions: string[];
+}) {
+  const [allConditions, setAllConditions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState<'all' | 'condition' | 'disease'>('all');
+
+  // Condition names that are "standard conditions" (no type field = condition)
+  // Diseases have a type field like "Magical Contagion", "Supernatural Contagion", etc.
+  const [conditionTypes, setConditionTypes] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    import('../data/conditionsdiseases').then(async (mod) => {
+      await mod.init();
+      const names = mod.ALL_CONDITIONS.map(c => c.name);
+      const types: Record<string, string> = {};
+      for (const c of mod.ALL_CONDITIONS) {
+        // If the item has a root-level "type" field it's a disease, otherwise it's a condition
+        types[c.name] = c.type ? 'disease' : 'condition';
+      }
+      setAllConditions(names);
+      setConditionTypes(types);
+      setLoading(false);
+    });
+  }, []);
+
+  const searchLower = search.toLowerCase();
+  const filtered = allConditions.filter(name => {
+    if (activeConditions.includes(name)) return false;
+    if (filter !== 'all' && conditionTypes[name] !== filter) return false;
+    if (search) {
+      const displayName = getConditionDisplayName(name).toLowerCase();
+      const englishName = name.toLowerCase();
+      return displayName.includes(searchLower) || englishName.includes(searchLower);
+    }
+    return true;
+  });
+
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={onCancel}>
+      <div
+        className="bg-bg-panel border border-gold/30 rounded-xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-default shrink-0">
+          <h3 className="text-base font-medieval text-gold">Добавить состояние</h3>
+          <button onClick={onCancel} className="p-1 rounded hover:bg-bg-primary/80 text-text-muted hover:text-text-primary transition-colors">
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* Search + Filter */}
+        <div className="px-4 pt-3 pb-2 space-y-2 shrink-0">
+          <input
+            type="text"
+            placeholder="Поиск..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full px-3 py-1.5 text-sm bg-bg-primary border border-border-default rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-gold/50"
+            autoFocus
+          />
+          <div className="flex gap-1.5">
+            {([['all', 'Все'], ['condition', 'Состояния'], ['disease', 'Болезни']] as const).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`px-2.5 py-1 text-xs rounded-md border transition-colors ${
+                  filter === key
+                    ? 'border-gold bg-gold/15 text-gold'
+                    : 'border-border-default/50 text-text-muted hover:text-text-primary'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Condition list */}
+        <div className="flex-1 overflow-y-auto px-4 pb-3 min-h-0">
+          {loading ? (
+            <p className="text-sm text-text-muted text-center py-4">Загрузка...</p>
+          ) : filtered.length === 0 ? (
+            <p className="text-sm text-text-muted text-center py-4 italic">Ничего не найдено</p>
+          ) : (
+            <div className="grid grid-cols-2 gap-1.5">
+              {filtered.map(name => (
+                <button
+                  key={name}
+                  onClick={() => onAdd(name)}
+                  className="flex items-center gap-2 px-2.5 py-2 rounded-lg border border-border-default/50 bg-bg-primary/40 text-left text-sm text-text-secondary hover:text-text-primary hover:border-red-700/50 hover:bg-red-900/20 transition-colors"
+                >
+                  <img
+                    src={getConditionImageUrl(name)}
+                    alt=""
+                    className="w-6 h-6 object-contain opacity-70 shrink-0"
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
+                  />
+                  <div className="min-w-0">
+                    <div className="truncate">{getConditionDisplayName(name)}</div>
+                    {getConditionDisplayName(name) !== name && (
+                      <div className="text-[9px] text-text-muted truncate">{name}</div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const DAMAGE_TYPE_NAMES: Record<string, string> = {
+  fire: 'Огонь',
+  cold: 'Холод',
+  lightning: 'Молния',
+  poison: 'Яд',
+  acid: 'Кислота',
+  necrotic: 'Некротический',
+  radiant: 'Излучение',
+  psychic: 'Психический',
+  force: 'Силовой',
+  thunder: 'Звук',
+  bludgeoning: 'Дробящий',
+  piercing: 'Колющий',
+  slashing: 'Рубящий',
+};
+
+const DAMAGE_TYPE_IMAGES: Record<string, string> = {
+  fire: '40px-Fire_Damage_Icon.png.webp',
+  cold: '39px-Cold_Damage_Icon.png.webp',
+  lightning: '40px-Lightning_Damage_Icon.png.webp',
+  poison: '40px-Poison_Damage_Icon.png.webp',
+  acid: '40px-Acid_Damage_Icon.png.webp',
+  necrotic: '40px-Necrotic_Damage_Icon.png.webp',
+  radiant: '40px-Radiant_Damage_Icon.png.webp',
+  psychic: '40px-Psychic_Damage_Icon.png.webp',
+  force: '40px-Force_Damage_Icon.png.webp',
+  thunder: '40px-Thunder_Damage_Icon.png.webp',
+  bludgeoning: '40px-Bludgeoning_Damage_Icon.png.webp',
+  piercing: '40px-Piercing_Damage_Icon.png.webp',
+  slashing: '40px-Slashing_Damage_Icon.png.webp',
+};
+
+function getDamageTypeImageUrl(type: string): string {
+  return `/images/resistances/${DAMAGE_TYPE_IMAGES[type] || type + '.webp'}`;
+}
+
+const ALL_DAMAGE_TYPES = Object.keys(DAMAGE_TYPE_NAMES);
+
+const MODIFIER_INFO: { key: DamageResistanceModifier; label: string; shortLabel: string; color: string }[] = [
+  { key: 'resistance',       label: 'Устойчивость',       shortLabel: 'Устойч.',    color: 'text-white' },
+  { key: 'resistance_magic', label: 'Маг. устойчивость',  shortLabel: 'Маг. уст.',  color: 'text-blue-400' },
+  { key: 'resistance_all',   label: 'Общая устойчивость', shortLabel: 'Общ. уст.',  color: 'text-emerald-400' },
+  { key: 'vulnerability',    label: 'Уязвимость',         shortLabel: 'Уязв.',      color: 'text-red-400' },
+  { key: 'immunity',         label: 'Иммунитет',          shortLabel: 'Иммун.',     color: 'text-white' },
+  { key: 'immunity_all',     label: 'Полный иммунитет',   shortLabel: 'Полн. имм.', color: 'text-blue-400' },
+];
+
+// ── Visual indicator overlay for resistance badges ──
+function ResistanceIndicator({ modifier }: { modifier: DamageResistanceModifier }) {
+  switch (modifier) {
+    case 'resistance':
+      return <span className="absolute -top-1 left-1/2 -translate-x-1/2 text-[9px] leading-none text-white drop-shadow-md">▲</span>;
+    case 'resistance_magic':
+      return <span className="absolute -top-1 left-1/2 -translate-x-1/2 text-[9px] leading-none text-blue-400 drop-shadow-md">▲</span>;
+    case 'resistance_all':
+      return (
+        <span className="absolute -top-1 left-1/2 -translate-x-1/2 flex gap-px leading-none drop-shadow-md">
+          <span className="text-[8px] text-white">▲</span>
+          <span className="text-[8px] text-blue-400">▲</span>
+        </span>
+      );
+    case 'vulnerability':
+      return <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[9px] leading-none text-red-400 drop-shadow-md">▼</span>;
+    case 'immunity':
+      return null; // handled via ring style on container
+    case 'immunity_all':
+      return null; // handled via ring style on container
+    default:
+      return null;
+  }
+}
+
+function getResistanceRingClass(modifier: DamageResistanceModifier): string {
+  if (modifier === 'immunity') return 'ring-2 ring-white/80';
+  if (modifier === 'immunity_all') return 'ring-2 ring-blue-400/80';
+  return '';
+}
+
+function getResistanceBadgeBg(modifier: DamageResistanceModifier): string {
+  if (modifier === 'vulnerability') return 'bg-red-900/30 border-red-700/40';
+  if (modifier === 'immunity' || modifier === 'immunity_all') return 'bg-amber-900/20 border-amber-700/30';
+  return 'bg-emerald-900/30 border-emerald-700/40';
+}
+
+function getResistanceBadgeTextColor(modifier: DamageResistanceModifier): string {
+  if (modifier === 'vulnerability') return 'text-red-300';
+  if (modifier === 'immunity' || modifier === 'immunity_all') return 'text-amber-200';
+  return 'text-emerald-300';
+}
+
+// ── Resistance Picker Modal ──
+function ResistancePickerModal({
+  onAdd,
+  onCancel,
+  existing,
+}: {
+  onAdd: (entry: DamageResistanceEntry) => void;
+  onCancel: () => void;
+  existing: DamageResistanceEntry[];
+}) {
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedModifier, setSelectedModifier] = useState<DamageResistanceModifier | null>(null);
+
+  const alreadyExists = selectedType && selectedModifier
+    ? existing.some(e => e.type === selectedType && e.modifier === selectedModifier)
+    : false;
+
+  const canAdd = selectedType && selectedModifier && !alreadyExists;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={onCancel}>
+      <div
+        className="bg-bg-panel border border-gold/30 rounded-xl shadow-2xl w-full max-w-sm"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-default">
+          <h3 className="text-base font-medieval text-gold">Добавить устойчивость</h3>
+          <button onClick={onCancel} className="p-1 rounded hover:bg-bg-primary/80 text-text-muted hover:text-text-primary transition-colors">
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className="p-4 space-y-4">
+          {/* Damage type grid */}
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">Тип урона</p>
+            <div className="grid grid-cols-5 gap-1.5">
+              {ALL_DAMAGE_TYPES.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border transition-colors ${
+                    selectedType === type
+                      ? 'border-gold bg-gold/15 text-gold'
+                      : 'border-border-default/50 bg-bg-primary/40 text-text-secondary hover:border-border-default hover:text-text-primary'
+                  }`}
+                  title={DAMAGE_TYPE_NAMES[type]}
+                >
+                  <img
+                    src={getDamageTypeImageUrl(type)}
+                    alt=""
+                    className="w-7 h-7 object-contain"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                  <span className="text-[9px] leading-tight text-center truncate w-full">
+                    {DAMAGE_TYPE_NAMES[type]}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Modifier selection */}
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">Тип модификатора</p>
+            <div className="grid grid-cols-2 gap-1.5">
+              {MODIFIER_INFO.map(info => (
+                <button
+                  key={info.key}
+                  onClick={() => setSelectedModifier(info.key)}
+                  className={`flex items-center gap-2 px-2.5 py-2 rounded-lg border transition-colors text-left ${
+                    selectedModifier === info.key
+                      ? 'border-gold bg-gold/15'
+                      : 'border-border-default/50 bg-bg-primary/40 hover:border-border-default'
+                  }`}
+                >
+                  {/* Visual preview */}
+                  <div className={`relative w-6 h-6 rounded shrink-0 ${
+                    info.key === 'immunity' ? 'ring-2 ring-white/80' :
+                    info.key === 'immunity_all' ? 'ring-2 ring-blue-400/80' : ''
+                  }`}>
+                    {selectedType ? (
+                      <img src={getDamageTypeImageUrl(selectedType)} alt="" className="w-6 h-6 object-contain" />
+                    ) : (
+                      <div className="w-6 h-6 rounded bg-border-default/30" />
+                    )}
+                    <ResistanceIndicator modifier={info.key} />
+                  </div>
+                  <span className={`text-xs ${selectedModifier === info.key ? 'text-gold' : 'text-text-secondary'}`}>
+                    {info.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-border-default">
+          {alreadyExists && (
+            <span className="text-xs text-red-400 mr-auto">Уже добавлено</span>
+          )}
+          <button
+            onClick={onCancel}
+            className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Отмена
+          </button>
+          <button
+            disabled={!canAdd}
+            onClick={() => {
+              if (selectedType && selectedModifier) {
+                onAdd({ type: selectedType, modifier: selectedModifier });
+              }
+            }}
+            className="px-4 py-1.5 text-sm font-semibold rounded-lg bg-gold/20 text-gold border border-gold/30 hover:bg-gold/30 transition-colors disabled:opacity-30 disabled:pointer-events-none"
+          >
+            Добавить
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Conditions Section ──
+function ConditionsSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (c: Character) => void;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [showConditionModal, setShowConditionModal] = useState(false);
+
+  const activeConditions = character.conditions ?? [];
+
+  const addCondition = (name: string) => {
+    if (!activeConditions.includes(name)) {
+      onUpdate({ ...character, conditions: [...activeConditions, name] });
+    }
+    setShowConditionModal(false);
+  };
+
+  const removeCondition = (key: string) => {
+    onUpdate({ ...character, conditions: activeConditions.filter(c => c !== key) });
+  };
+
+  return (
+    <div className="glass-panel p-5">
+      <div className="flex items-center gap-2 mb-3">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="flex items-center gap-2 flex-1 text-left"
+        >
+          <ShieldAlert className="text-gold" size={20} />
+          <h2 className="text-lg font-medieval text-gold">Состояния</h2>
+        </button>
+        <button
+          onClick={() => setShowConditionModal(true)}
+          className="p-1.5 rounded-lg border border-gold/30 bg-gold/10 text-gold hover:bg-gold/25 transition-colors shrink-0"
+          title="Добавить состояние"
+        >
+          <Plus size={18} />
+        </button>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="shrink-0"
+        >
+          <ChevronDown
+            size={16}
+            className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`}
+          />
+        </button>
+      </div>
+
+      {!collapsed && (
+        <>
+          {activeConditions.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {activeConditions.map(key => (
+                <span
+                  key={key}
+                  className="flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg bg-red-900/30 border border-red-700/40 text-sm text-red-300"
+                >
+                  <img
+                    src={getConditionImageUrl(key)}
+                    alt=""
+                    className="w-5 h-5 object-contain"
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
+                  />
+                  {getConditionDisplayName(key)}
+                  <button
+                    onClick={() => removeCondition(key)}
+                    className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
+                  >
+                    <X size={12} />
+                  </button>
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-text-muted italic">Нет активных состояний</p>
+          )}
+        </>
+      )}
+
+      {showConditionModal && (
+        <ConditionPickerModal
+          onAdd={addCondition}
+          onCancel={() => setShowConditionModal(false)}
+          activeConditions={activeConditions}
+        />
+      )}
+    </div>
+  );
+}
+
+// ── Resistances Section ──
+function ResistancesSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (c: Character) => void;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [showResistanceModal, setShowResistanceModal] = useState(false);
+
+  const resistances = character.damageResistances ?? [];
+
+  const addResistance = (entry: DamageResistanceEntry) => {
+    onUpdate({ ...character, damageResistances: [...resistances, entry] });
+    setShowResistanceModal(false);
+  };
+
+  const removeResistance = (idx: number) => {
+    onUpdate({ ...character, damageResistances: resistances.filter((_, i) => i !== idx) });
+  };
+
+  return (
+    <div className="glass-panel p-5">
+      <div className="flex items-center gap-2 mb-3">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="flex items-center gap-2 flex-1 text-left"
+        >
+          <Shield className="text-gold" size={20} />
+          <h2 className="text-lg font-medieval text-gold">Устойчивости</h2>
+        </button>
+        <button
+          onClick={() => setShowResistanceModal(true)}
+          className="p-1.5 rounded-lg border border-gold/30 bg-gold/10 text-gold hover:bg-gold/25 transition-colors shrink-0"
+          title="Добавить устойчивость"
+        >
+          <Plus size={18} />
+        </button>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="shrink-0"
+        >
+          <ChevronDown
+            size={16}
+            className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`}
+          />
+        </button>
+      </div>
+
+      {!collapsed && (
+        <>
+          {resistances.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {resistances.map((entry, idx) => {
+                const modInfo = MODIFIER_INFO.find(m => m.key === entry.modifier);
+                return (
+                  <span
+                    key={`${entry.type}-${entry.modifier}-${idx}`}
+                    className={`flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg border text-sm ${getResistanceBadgeBg(entry.modifier)} ${getResistanceBadgeTextColor(entry.modifier)}`}
+                  >
+                    <div className={`relative w-5 h-5 shrink-0 rounded ${getResistanceRingClass(entry.modifier)}`}>
+                      <img
+                        src={getDamageTypeImageUrl(entry.type)}
+                        alt=""
+                        className="w-5 h-5 object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                      <ResistanceIndicator modifier={entry.modifier} />
+                    </div>
+                    <span>{DAMAGE_TYPE_NAMES[entry.type] || entry.type}</span>
+                    <span className="text-[9px] opacity-60">({modInfo?.shortLabel})</span>
+                    <button
+                      onClick={() => removeResistance(idx)}
+                      className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
+                    >
+                      <X size={12} />
+                    </button>
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-xs text-text-muted italic">Нет устойчивостей</p>
+          )}
+        </>
+      )}
+
+      {showResistanceModal && (
+        <ResistancePickerModal
+          onAdd={addResistance}
+          onCancel={() => setShowResistanceModal(false)}
+          existing={resistances}
+        />
+      )}
+    </div>
   );
 }
 
