@@ -59,6 +59,89 @@ export function getClassResources(levelTableRow: Record<string, any> | undefined
   return resources;
 }
 
+// Subclass-specific trackable resources (not in levelTable, derived from subclass features)
+export interface SubclassResourceDef {
+  classId: string;
+  subclassId: string;
+  key: string;
+  label: string;
+  restoreOn: 'short' | 'long';
+  icon?: string;
+  /** Returns the max value based on character level */
+  getMax: (level: number) => number;
+  /** Min level to show this resource */
+  minLevel: number;
+}
+
+export const SUBCLASS_RESOURCES: SubclassResourceDef[] = [
+  {
+    classId: 'fighter',
+    subclassId: 'battle-master',
+    key: 'superiorityDice',
+    label: 'Кости превосходства',
+    restoreOn: 'short',
+    icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
+    minLevel: 3,
+    getMax: (level: number) => {
+      if (level >= 15) return 6;
+      if (level >= 7) return 5;
+      return 4;
+    },
+  },
+];
+
+export function getSubclassResources(classId: string, subclassId: string | undefined, level: number): ClassResource[] {
+  if (!subclassId) return [];
+  return SUBCLASS_RESOURCES
+    .filter(d => d.classId === classId && d.subclassId === subclassId && level >= d.minLevel)
+    .map(d => ({
+      key: d.key,
+      label: d.label,
+      max: d.getMax(level),
+      restoreOn: d.restoreOn,
+      icon: d.icon,
+    }));
+}
+
+// Subclass-specific passive stats
+interface SubclassPassiveStatDef {
+  classId: string;
+  subclassId: string;
+  key: string;
+  label: string;
+  icon?: string;
+  minLevel: number;
+  getValue: (level: number) => string;
+}
+
+const SUBCLASS_PASSIVE_STATS: SubclassPassiveStatDef[] = [
+  {
+    classId: 'fighter',
+    subclassId: 'battle-master',
+    key: 'superiorityDieType',
+    label: 'Кость превосходства',
+    icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
+    minLevel: 3,
+    getValue: (level: number) => {
+      if (level >= 18) return 'd12';
+      if (level >= 10) return 'd10';
+      return 'd8';
+    },
+  },
+];
+
+export function getSubclassPassiveStats(classId: string, subclassId: string | undefined, level: number): ClassPassiveStat[] {
+  if (!subclassId) return [];
+  return SUBCLASS_PASSIVE_STATS
+    .filter(d => d.classId === classId && d.subclassId === subclassId && level >= d.minLevel)
+    .map(d => ({
+      key: d.key,
+      label: d.label,
+      value: d.getValue(level),
+      icon: d.icon,
+    }));
+}
+
 export function getClassPassiveStats(levelTableRow: Record<string, any> | undefined): ClassPassiveStat[] {
   if (!levelTableRow) return [];
   const stats: ClassPassiveStat[] = [];

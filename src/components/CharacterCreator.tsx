@@ -358,6 +358,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [fightingStyleFeats, setFightingStyleFeats] = useState<any[]>([]);
   const [fightingStyleLoaded, setFightingStyleLoaded] = useState(false);
   const [fightingStyleSearch, setFightingStyleSearch] = useState('');
+  // Cantrips from Blessed Warrior / Druidic Warrior
+  const [fsCantrips, setFsCantrips] = useState<SpellData[]>([]);
+  const [fsCantripsAvailable, setFsCantripsAvailable] = useState<SpellData[]>([]);
+  const [fsCantripsLoaded, setFsCantripsLoaded] = useState(true);
+  const [fsCantripSearch, setFsCantripSearch] = useState('');
+  const [fsCantripDetail, setFsCantripDetail] = useState<SpellData | null>(null);
 
   // Detect if class needs fighting style at level 1
   const needsFightingStyle = useMemo(() => {
@@ -398,6 +404,44 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     });
     return () => { cancelled = true; };
   }, [selectedClass]);
+
+  // Load cantrips when a fighting style with additionalSpells is selected (Blessed/Druidic Warrior)
+  const FS_CLASS_MAP: Record<string, string> = { cleric: 'Жрец', druid: 'Друид' };
+  const fsRequiredCantrips = useMemo(() => {
+    const as = selectedFightingStyle?.additionalSpells?.[0];
+    if (!as) return 0;
+    return as.known?._?.[0]?.count ?? 0;
+  }, [selectedFightingStyle]);
+
+  const fsSourceClass = useMemo(() => {
+    const as = selectedFightingStyle?.additionalSpells?.[0];
+    if (!as) return '';
+    const choose: string = as.known?._?.[0]?.choose ?? '';
+    // format: "level=0|class=cleric"
+    const classMatch = choose.match(/class=(\w+)/);
+    return classMatch ? (FS_CLASS_MAP[classMatch[1]] || classMatch[1]) : '';
+  }, [selectedFightingStyle]);
+
+  React.useEffect(() => {
+    setFsCantrips([]);
+    setFsCantripSearch('');
+    if (!fsSourceClass || fsRequiredCantrips === 0) {
+      setFsCantripsAvailable([]);
+      setFsCantripsLoaded(true);
+      return;
+    }
+    let cancelled = false;
+    setFsCantripsLoaded(false);
+    import('../data/spells').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      spellsModRef.current = mod; // Store ref for getSpellImageUrl
+      const cantrips = mod.getSpellsByClass(fsSourceClass).filter((s: any) => s.level === 0);
+      setFsCantripsAvailable(cantrips as SpellData[]);
+      setFsCantripsLoaded(true);
+    }).catch(() => { if (!cancelled) setFsCantripsLoaded(true); });
+    return () => { cancelled = true; };
+  }, [fsSourceClass, fsRequiredCantrips]);
 
   // Skills (reset when class changes)
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
@@ -543,7 +587,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         return true;
       }
       case 'originfeat': return selectedOriginFeat !== null;
-      case 'fightingStyle': return selectedFightingStyle !== null;
+      case 'fightingStyle': return selectedFightingStyle !== null && (fsRequiredCantrips === 0 || fsCantrips.length === fsRequiredCantrips);
       case 'skills': {
         if (!selectedClass) return false;
         return selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
@@ -738,12 +782,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           prepared: true,
         })),
       ];
+      // Append cantrips from fighting style (Blessed Warrior / Druidic Warrior)
+      const fsCantripSpells = fsCantrips.map(s => ({
+        spellId: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name: s.name,
+        level: 0,
+        prepared: true,
+        alwaysPrepared: true,
+      }));
       character.spellcasting = {
         ability: selectedClass.spellcastingAbility,
         spellSaveDC: 8 + proficiencyBonus + abilityMod,
         spellAttackBonus: proficiencyBonus + abilityMod,
-        spells: allSelectedSpells,
-        cantripsKnown: maxCantrips,
+        spells: [...allSelectedSpells, ...fsCantripSpells],
+        cantripsKnown: maxCantrips + fsCantrips.length,
         spellsKnown: maxSpells,
       };
 
@@ -2081,6 +2133,121 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 ))
               )}
             </div>
+          </div>
+        )}
+
+        {/* Cantrip picker for Blessed Warrior / Druidic Warrior */}
+        {selectedFightingStyle && fsRequiredCantrips > 0 && (
+          <div className="glass-panel p-4 space-y-3">
+            <h4 className="text-base font-medieval text-purple-300 mb-1">
+              Выберите заговоры
+              <span className="text-sm font-normal text-text-secondary ml-2">
+                ({fsCantrips.length}/{fsRequiredCantrips}) — {fsSourceClass}
+              </span>
+            </h4>
+
+            {!fsCantripsLoaded ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 size={20} className="text-gold animate-spin" />
+                <span className="ml-2 text-text-muted text-sm">Загрузка заговоров...</span>
+              </div>
+            ) : (
+              <>
+                <div className="relative">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+                  <input
+                    type="text"
+                    value={fsCantripSearch}
+                    onChange={e => setFsCantripSearch(e.target.value)}
+                    placeholder="Поиск заговора..."
+                    className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
+                      text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {(fsCantripSearch.trim()
+                    ? fsCantripsAvailable.filter(s => s.name.toLowerCase().includes(fsCantripSearch.toLowerCase()))
+                    : fsCantripsAvailable
+                  ).map(spell => {
+                    const isSelected = fsCantrips.some(s => s.name === spell.name);
+                    const limitReached = !isSelected && fsCantrips.length >= fsRequiredCantrips;
+                    const meta = getSpellMeta(spell);
+                    const imgUrl = spellsModRef.current?.getSpellImageUrl?.(spell.name);
+                    return (
+                      <SpellTooltip
+                        key={spell.name}
+                        name={spell.name}
+                        level={0}
+                        school={spell.school}
+                        castingTime={meta.castingTime}
+                        range={meta.range}
+                        components={meta.components}
+                        duration={meta.duration}
+                        description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
+                      >
+                        <SpellIconBadge
+                          name={spell.name}
+                          school={spell.school}
+                          level={0}
+                          imageSrc={imgUrl}
+                          prepared={!limitReached || isSelected}
+                          selected={isSelected}
+                          onClick={() => {
+                            if (!limitReached || isSelected) {
+                              setFsCantripDetail(spell);
+                              setFsCantrips(prev => {
+                                if (prev.some(s => s.name === spell.name)) return prev.filter(s => s.name !== spell.name);
+                                if (prev.length >= fsRequiredCantrips) return prev;
+                                return [...prev, spell];
+                              });
+                            }
+                          }}
+                          className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
+                        />
+                      </SpellTooltip>
+                    );
+                  })}
+                  {fsCantripsAvailable.length === 0 && (
+                    <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                  )}
+                </div>
+
+                {/* Expanded detail panel for focused cantrip */}
+                {fsCantripDetail && (
+                  <div className="glass-panel ornate-border p-4 mt-3 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h5 className="text-lg font-medieval text-gold">{fsCantripDetail.name}</h5>
+                      <button
+                        onClick={() => setFsCantripDetail(null)}
+                        className="text-text-muted hover:text-text-primary text-sm"
+                      >✕</button>
+                    </div>
+                    <div className="text-xs text-text-muted">
+                      Заговор
+                      {fsCantripDetail.school && ` • ${SCHOOL_NAMES[fsCantripDetail.school] || fsCantripDetail.school}`}
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      {(() => { const m = getSpellMeta(fsCantripDetail); return (<>
+                        {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
+                        {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
+                        {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
+                        {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                      </>); })()}
+                    </div>
+                    <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
+                      {EntryRendererCmp ? (
+                        <EntryRendererCmp entries={fsCantripDetail.entries} context={fsCantripDetail.name} />
+                      ) : (
+                        fsCantripDetail.entries?.map((e: any, i: number) => (
+                          <p key={i}>{typeof e === 'string' ? e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1') : ''}</p>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         )}
       </div>

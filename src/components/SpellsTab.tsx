@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Character, CustomAttack } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
 import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
-import { getClassResources, getClassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
+import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
@@ -585,15 +585,27 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
         );
         if (classData?.levelTable) {
           const row = getLevelTableRow(classData.levelTable, character.level);
-          setClassResources(getClassResources(row));
-          setPassiveStats(getClassPassiveStats(row));
+          const baseResources = getClassResources(row);
+          const basePassive = getClassPassiveStats(row);
+          // Add subclass resources & passive stats (e.g. Battle Master superiority dice)
+          if (character.subclass && character.classId) {
+            const { CLASS_REGISTRY: registry } = await import('../data/classes');
+            const classDef = registry.find(c => c.id === character.classId);
+            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            if (subDef) {
+              baseResources.push(...getSubclassResources(character.classId, subDef.id, character.level));
+              basePassive.push(...getSubclassPassiveStats(character.classId, subDef.id, character.level));
+            }
+          }
+          setClassResources(baseResources);
+          setPassiveStats(basePassive);
         }
       } catch (e) {
         console.warn('Failed to load class resources:', e);
       }
     })();
     return () => { cancelled = true; };
-  }, [character.classId, character.class, character.level]);
+  }, [character.classId, character.class, character.level, character.subclass]);
 
   // Load spells data (only if spellcaster)
   useEffect(() => {
