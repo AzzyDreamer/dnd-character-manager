@@ -41,6 +41,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     updatedChar: Character;
     mode: 'asi' | 'epicBoon';
   } | null>(null);
+  const [showFightingStylePicker, setShowFightingStylePicker] = useState(false);
+  const [pendingFightingStyleLevelUp, setPendingFightingStyleLevelUp] = useState<{
+    updatedChar: Character;
+  } | null>(null);
 
   const [showCropModal, setShowCropModal] = useState(false);
   const [pendingPortraitUrl, setPendingPortraitUrl] = useState<string | null>(null);
@@ -210,11 +214,94 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Check if this level grants ASI or Epic Boon
-    if (checkAndShowFeatPicker(updated)) return;
+    // Check Fighting Style → ASI/EB chain
+    if (checkAndShowFightingStylePicker(updated)) return;
 
     onUpdate(updated);
     setShowSubclassModal(false);
+  };
+
+  /** Check if the character's current level grants Fighting Style and show picker if so. */
+  const checkAndShowFightingStylePicker = (updated: Character): boolean => {
+    (async () => {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const data = mod.getClassDataByName(updated.class);
+        if (!data?.levelTable) {
+          checkAndShowFeatPicker(updated);
+          return;
+        }
+        const levelRow = data.levelTable.find((r: any) => r.level === updated.level);
+        const features: string[] = levelRow?.features ?? [];
+
+        // Check class-level features
+        let hasFS = features.includes('Fighting Style') || features.includes('Additional Fighting Style');
+
+        // Check subclass features (e.g. Champion level 7)
+        if (!hasFS && updated.subclass) {
+          try {
+            const subMod = await import('../data/classes/subclassJsonLoader');
+            await subMod.init();
+            const classDef2 = getClassById(updated.classId || '') ?? CLASS_REGISTRY.find(c => c.name === updated.class);
+            const subDef = classDef2?.subclasses.find(s => s.name === updated.subclass);
+            if (subDef && classDef2) {
+              const subData = subMod.getSubclassById(classDef2.id, subDef.id);
+              if (subData?.features) {
+                hasFS = subData.features.some(f =>
+                  f.level === updated.level &&
+                  (f.name === 'Fighting Style' || f.name === 'Additional Fighting Style')
+                );
+              }
+            }
+          } catch (e) { /* ignore */ }
+        }
+
+        if (hasFS) {
+          setPendingFightingStyleLevelUp({ updatedChar: updated });
+          setShowFightingStylePicker(true);
+        } else {
+          checkAndShowFeatPicker(updated);
+        }
+      } catch (e) {
+        console.warn('Failed to check Fighting Style:', e);
+        checkAndShowFeatPicker(updated);
+      }
+    })();
+    return true;
+  };
+
+  const handleFightingStyleConfirm = (result: FeatPickerResult) => {
+    if (!pendingFightingStyleLevelUp || !result.feat) return;
+    let updated = { ...pendingFightingStyleLevelUp.updatedChar };
+
+    // Add feat to features and feats
+    updated.features = [
+      ...updated.features,
+      {
+        id: `feat-${result.feat.name.toLowerCase().replace(/\s+/g, '-')}-${updated.level}`,
+        name: result.feat.name,
+        description: result.feat.entries?.map((e: any) =>
+          typeof e === 'string' ? e : ''
+        ).filter(Boolean).join('\n') || '',
+        source: result.feat.source,
+      },
+    ];
+    updated.feats = [
+      ...(updated.feats ?? []),
+      {
+        name: result.feat.name,
+        source: result.feat.source,
+        category: result.feat.category || 'FS',
+        levelAcquired: updated.level,
+      },
+    ];
+
+    setShowFightingStylePicker(false);
+    setPendingFightingStyleLevelUp(null);
+
+    // Continue the chain: check for ASI/EB
+    checkAndShowFeatPicker(updated);
   };
 
   /** Check if the character's current level grants ASI/EB and show picker if so. Returns true if picker shown. */
@@ -338,8 +425,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
 
-    // After spells, check for ASI/EB
-    checkAndShowFeatPicker(final);
+    // After spells, check Fighting Style → ASI/EB chain
+    checkAndShowFightingStylePicker(final);
   };
 
   const handleSpellLevelUpCancel = () => {
@@ -544,6 +631,21 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       )}
 
       {/* Feat Picker Modal */}
+      {showFightingStylePicker && pendingFightingStyleLevelUp && (
+        <FeatPickerModal
+          character={pendingFightingStyleLevelUp.updatedChar}
+          mode="fightingStyle"
+          onConfirm={handleFightingStyleConfirm}
+          onCancel={() => {
+            // Skip fighting style, continue to ASI/EB check
+            const updated = pendingFightingStyleLevelUp.updatedChar;
+            setShowFightingStylePicker(false);
+            setPendingFightingStyleLevelUp(null);
+            checkAndShowFeatPicker(updated);
+          }}
+        />
+      )}
+
       {showFeatPicker && pendingFeatLevelUp && (
         <FeatPickerModal
           character={pendingFeatLevelUp.updatedChar}
@@ -820,7 +922,19 @@ function FeaturesSection({ character }: { character: Character }) {
           }
         }
 
-        // Class features — wrap description in rawEntries so EntryRenderer processes tags
+        // Build rawEntries from description + details (if present)
+        const buildRawEntries = (f: any): any[] => {
+          const entries: any[] = [];
+          if (f.description) entries.push(f.description);
+          if (f.details && typeof f.details === 'object') {
+            for (const val of Object.values(f.details)) {
+              if (typeof val === 'string') entries.push(val);
+            }
+          }
+          return entries;
+        };
+
+        // Class features — wrap description + details in rawEntries so EntryRenderer processes tags
         const classData = classMod.getClassDataByName(character.class);
         if (classData?.classFeatures) {
           const cf = classData.classFeatures
@@ -828,7 +942,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .map((f: any) => ({
               name: f.name,
               description: f.description || '',
-              rawEntries: f.description ? [f.description] : [],
+              rawEntries: buildRawEntries(f),
               level: f.level,
               source: f.source,
             }));
@@ -851,10 +965,10 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter(f => f.level <= character.level)
                 .map(f => ({
                   name: f.name,
-                  description: f.description || '',
-                  rawEntries: f.description ? [f.description] : [],
+                  description: (f as any).description || '',
+                  rawEntries: buildRawEntries(f),
                   level: f.level,
-                  source: f.source,
+                  source: (f as any).source,
                 }));
               setSubclassFeatures(sf);
             }
