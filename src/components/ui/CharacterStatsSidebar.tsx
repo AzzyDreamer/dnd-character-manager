@@ -42,7 +42,7 @@ interface CharacterStatsSidebarProps {
   classIconSrc?: string;
   className?: string;
   /** Sections to hide (already shown elsewhere) */
-  hideSections?: ('proficiencies' | 'skills' | 'spells')[];
+  hideSections?: ('identity' | 'proficiencies' | 'skills' | 'spells')[];
   /** Portrait data URL for top of sidebar */
   portraitUrl?: string;
   /** Portrait crop position */
@@ -280,32 +280,34 @@ export function CharacterStatsSidebar({
       ) : null}
 
       {/* Identity */}
-      <div className="glass-panel p-3">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 min-w-0 space-y-0.5">
-            {name && (
-              <h3 className="font-medieval text-gold text-base truncate">{name}</h3>
-            )}
-            <div className="text-xs text-text-secondary space-y-0.5">
-              {race && <div>{race}</div>}
-              {cls && (
-                <div>
-                  Уровень {level} {cls}
-                  {subclass && ` \u2022 ${subclass}`}
-                </div>
+      {!hideSections.includes('identity') && (
+        <div className="glass-panel p-3">
+          <div className="flex items-center gap-3">
+            <div className="flex-1 min-w-0 space-y-0.5">
+              {name && (
+                <h3 className="font-medieval text-gold text-base truncate">{name}</h3>
               )}
+              <div className="text-xs text-text-secondary space-y-0.5">
+                {race && <div>{race}</div>}
+                {cls && (
+                  <div>
+                    Уровень {level} {cls}
+                    {subclass && ` \u2022 ${subclass}`}
+                  </div>
+                )}
+              </div>
             </div>
+            {classIconSrc && (
+              <img
+                src={classIconSrc}
+                alt={cls}
+                className="w-10 h-10 object-contain shrink-0 opacity-80"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+            )}
           </div>
-          {classIconSrc && (
-            <img
-              src={classIconSrc}
-              alt={cls}
-              className="w-10 h-10 object-contain shrink-0 opacity-80"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
-          )}
         </div>
-      </div>
+      )}
 
       {/* Ability Scores */}
       {abilityScores && (

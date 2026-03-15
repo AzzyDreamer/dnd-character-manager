@@ -258,6 +258,19 @@ export interface SpellSlots {
   level9: { total: number; used: number };
 }
 
+export type DamageResistanceModifier =
+  | 'resistance'        // простая устойчивость (белая ↑)
+  | 'resistance_magic'  // магическая устойчивость (синяя ↑)
+  | 'resistance_all'    // общая устойчивость (обе ↑↑)
+  | 'vulnerability'     // уязвимость (красная ↓)
+  | 'immunity'          // простой иммунитет (белая обводка)
+  | 'immunity_all';     // общий иммунитет (синяя обводка)
+
+export interface DamageResistanceEntry {
+  type: string;                    // "fire", "cold", "slashing", etc.
+  modifier: DamageResistanceModifier;
+}
+
 // Основная структура персонажа
 export interface Character {
   id: string;
@@ -367,6 +380,12 @@ export interface Character {
 
   // Трекеры ресурсов класса (Channel Divinity, Second Wind, и т.д.)
   resourceTrackers?: Record<string, ResourceTracker>;
+
+  // Активные состояния (Blinded, Charmed, etc.)
+  conditions?: string[];
+
+  // Устойчивости / уязвимости / иммунитеты к типам урона
+  damageResistances?: DamageResistanceEntry[];
 
   // Кастомные атаки
   customAttacks?: CustomAttack[];
