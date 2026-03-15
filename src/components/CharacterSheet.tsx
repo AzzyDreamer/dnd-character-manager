@@ -364,7 +364,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   return (
     <div className="flex flex-col h-full">
       {/* Compact Header */}
-      <div className="shrink-0 px-4 py-3 flex items-center justify-between border-b border-border-default">
+      <div className="shrink-0 py-3 flex items-center justify-between border-b border-border-default">
         <div className="flex items-center gap-3">
           <input
             ref={portraitInputRef}
@@ -408,7 +408,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       </div>
 
       {/* Content + Sidebar */}
-      <div className="flex flex-1 min-h-0 gap-4 p-4">
+      <div className="flex flex-1 min-h-0 gap-4 py-4">
         {/* Left content — changes per tab */}
         <div className="flex-1 min-h-0 overflow-y-auto space-y-4">
           {/* Tab: Inventory */}
@@ -434,11 +434,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Tab: Stats */}
           {activeTab === 'stats' && (
             <>
-              {/* HP Management */}
+              {/* HP Management + Hit Dice */}
               <div className="glass-panel p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="text-red-bright" size={20} />
-                  <h2 className="text-lg font-medieval text-gold">Хиты</h2>
+                  <h2 className="text-lg font-medieval text-gold">Здоровье</h2>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
@@ -466,16 +466,15 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     />
                   </div>
                 </div>
-              </div>
-
-              {/* Hit Dice */}
-              <div className="glass-panel p-4 flex items-center justify-between">
-                <h2 className="text-lg font-medieval text-gold">Кости хитов</h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-xl font-bold text-text-primary">
-                    {character.hitDice.total - character.hitDice.used} / {character.hitDice.total}
-                  </span>
-                  <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
+                {/* Hit Dice */}
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-default">
+                  <span className="text-sm font-medium text-text-secondary">Кости хитов</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-text-primary">
+                      {character.hitDice.total - character.hitDice.used} / {character.hitDice.total}
+                    </span>
+                    <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
+                  </div>
                 </div>
               </div>
 
@@ -1542,8 +1541,8 @@ function ConditionsSection({
   };
 
   return (
-    <div className="glass-panel p-5">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="glass-panel p-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="flex items-center gap-2 flex-1 text-left"
@@ -1570,7 +1569,7 @@ function ConditionsSection({
       </div>
 
       {!collapsed && (
-        <>
+        <div className="mt-2">
           {activeConditions.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {activeConditions.map(key => (
@@ -1597,7 +1596,7 @@ function ConditionsSection({
           ) : (
             <p className="text-xs text-text-muted italic">Нет активных состояний</p>
           )}
-        </>
+        </div>
       )}
 
       {showConditionModal && (
@@ -1634,8 +1633,8 @@ function ResistancesSection({
   };
 
   return (
-    <div className="glass-panel p-5">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="glass-panel p-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="flex items-center gap-2 flex-1 text-left"
@@ -1662,7 +1661,7 @@ function ResistancesSection({
       </div>
 
       {!collapsed && (
-        <>
+        <div className="mt-2">
           {resistances.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {resistances.map((entry, idx) => {
@@ -1696,7 +1695,7 @@ function ResistancesSection({
           ) : (
             <p className="text-xs text-text-muted italic">Нет устойчивостей</p>
           )}
-        </>
+        </div>
       )}
 
       {showResistanceModal && (

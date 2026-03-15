@@ -143,17 +143,16 @@ function AppContent() {
       />
 
       {/* Main content */}
-      <main className="flex-1 min-h-0">
+      <main className="flex-1 min-h-0 px-4 sm:px-6">
         {currentView === 'sheet' && activeCharacter ? (
-          /* Character Sheet — full screen, no padding */
-          <div className="h-full">
+          <div className="h-full py-4">
             <CharacterSheet
               character={activeCharacter}
               onUpdate={updateCharacter}
             />
           </div>
         ) : currentView === 'home' ? (
-          <div className="h-full overflow-y-auto px-4 sm:px-6 py-4 grid place-items-center">
+          <div className="h-full overflow-y-auto py-4 grid place-items-center">
             <HomePage
               characters={characters}
               onNavigate={handleTabChange}
@@ -161,7 +160,7 @@ function AppContent() {
             />
           </div>
         ) : (
-          <div className="h-full overflow-y-auto px-4 sm:px-6 py-4">
+          <div className="h-full overflow-y-auto py-4">
             {currentView === 'creator' ? (
               <CharacterCreator
                 onSave={(character) => {

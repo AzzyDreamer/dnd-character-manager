@@ -28,6 +28,7 @@ interface SpellIconBadgeProps {
   prepared?: boolean;
   selected?: boolean;
   onClick?: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
   className?: string;
 }
 
@@ -39,6 +40,7 @@ export function SpellIconBadge({
   prepared,
   selected,
   onClick,
+  onContextMenu,
   className = '',
 }: SpellIconBadgeProps) {
   const borderColor = SCHOOL_COLORS[school] ?? 'border-border-default';
@@ -48,6 +50,7 @@ export function SpellIconBadge({
   return (
     <button
       onClick={onClick}
+      onContextMenu={onContextMenu}
       title={name}
       className={`
         relative w-10 h-10 rounded-md border-2 flex items-center justify-center
