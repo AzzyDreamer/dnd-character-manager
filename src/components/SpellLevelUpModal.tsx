@@ -245,10 +245,11 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
   })() : null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex flex-col">
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
+    <div className="w-full max-w-7xl max-h-[85vh] bg-bg-panel-solid rounded-xl border border-gold/30 flex flex-col overflow-hidden">
       {/* Header bar */}
       <div className="shrink-0 border-b border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
@@ -566,6 +567,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

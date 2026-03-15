@@ -492,7 +492,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const handleManualChange = (ability: keyof AbilityScores, value: number) => {
     setAbilityScores(prev => ({
       ...prev,
-      [ability]: Math.max(1, Math.min(20, value || 1)),
+      [ability]: Math.max(1, Math.min(30, value || 1)),
     }));
   };
 
@@ -1066,7 +1066,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   <input
                     type="number"
                     min={1}
-                    max={20}
+                    max={30}
                     value={base}
                     onChange={e => handleManualChange(ability, parseInt(e.target.value))}
                     className="w-14 text-center bg-bg-panel-solid text-text-primary rounded border border-border-default px-1 py-0.5 text-xs"
@@ -1975,15 +1975,25 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                                 : 'border-border-default/30 bg-bg-panel/30 text-text-muted/50 cursor-not-allowed'
                         }`}
                       >
-                        {/* Placeholder icon — colored circle */}
-                        <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
+                        {/* Skill icon */}
+                        <div className={`w-8 h-8 rounded-full border-2 overflow-hidden shrink-0 relative ${
                           isActive
                             ? isFromBg
-                              ? 'border-blue-400 bg-blue-900/40 text-blue-300'
-                              : 'border-gold bg-gold/20 text-gold'
-                            : 'border-border-default bg-bg-panel-solid text-text-muted'
+                              ? 'border-blue-400'
+                              : 'border-gold'
+                            : 'border-border-default'
                         }`}>
-                          {isActive ? <Check size={14} /> : SKILL_NAMES[skillKey]?.charAt(0) || '?'}
+                          <img
+                            src={`/images/skills/${skillKey}.webp`}
+                            alt={SKILL_NAMES[skillKey]}
+                            className={`w-full h-full object-cover ${isDisabled && !isFromBg ? 'opacity-30 grayscale' : isActive ? '' : 'opacity-60'}`}
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                          />
+                          {isActive && (
+                            <div className={`absolute inset-0 flex items-center justify-center ${isFromBg ? 'bg-blue-900/50' : 'bg-gold/30'}`}>
+                              <Check size={14} className={isFromBg ? 'text-blue-300' : 'text-gold'} />
+                            </div>
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-medium truncate text-xs">{SKILL_NAMES[skillKey]}</div>

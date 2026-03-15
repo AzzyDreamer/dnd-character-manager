@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Coins, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -476,49 +476,6 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
 
-              {/* Spells summary */}
-              {character.spellcasting && character.spellcasting.spells.length > 0 && (
-                <div className="glass-panel p-4">
-                  <h2 className="text-lg font-medieval mb-2 text-gold">
-                    Заклинания ({character.spellcasting.spells.length})
-                  </h2>
-                  <div className="flex flex-wrap gap-1">
-                    {character.spellcasting.spells.map(spell => (
-                      <span
-                        key={spell.spellId}
-                        className={`px-2 py-1 rounded text-xs ${
-                          spell.level === 0 ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-900/50 text-blue-300'
-                        }`}
-                      >
-                        {spell.name}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-xs text-text-muted mt-2 italic">Подробности во вкладке «Действия и заклинания»</p>
-                </div>
-              )}
-
-              {/* Currency */}
-              <div className="glass-panel p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Coins className="text-gold" size={20} />
-                  <h2 className="text-lg font-medieval text-gold">Валюта</h2>
-                </div>
-                <div className="flex flex-wrap gap-4 text-sm">
-                  {[
-                    { key: 'platinum', label: 'ПП', val: character.currency.platinum },
-                    { key: 'gold', label: 'ЗМ', val: character.currency.gold },
-                    { key: 'electrum', label: 'ЭМ', val: character.currency.electrum },
-                    { key: 'silver', label: 'СМ', val: character.currency.silver },
-                    { key: 'copper', label: 'ММ', val: character.currency.copper },
-                  ].map(c => (
-                    <div key={c.key} className="flex items-center gap-1.5">
-                      <span className="text-text-muted">{c.label}:</span>
-                      <span className="font-semibold text-text-primary">{c.val}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </>
           )}
         </div>
@@ -1390,16 +1347,21 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [subclassDetails, setSubclassDetails] = useState<SubclassJsonData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [renderTags, setRenderTags] = useState<((text: string) => React.ReactNode[]) | null>(null);
 
-  // Load detailed subclass data
+  // Load detailed subclass data + entryRenderer
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const loader = await import('../data/classes/subclassJsonLoader');
+      const [loader, entryMod] = await Promise.all([
+        import('../data/classes/subclassJsonLoader'),
+        import('../utils/entryRenderer'),
+      ]);
       await loader.init();
       if (cancelled) return;
       const details = loader.getSubclassesByClass(classDef.id);
       setSubclassDetails(details);
+      setRenderTags(() => (text: string) => entryMod.renderTaggedString(text));
       setLoading(false);
     })();
     return () => { cancelled = true; };
@@ -1415,10 +1377,11 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
   const next = () => setSelectedIdx(i => (i + 1) % subs.length);
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex flex-col">
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
+    <div className="w-full max-w-5xl max-h-[85vh] bg-bg-panel-solid rounded-xl border border-gold/30 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="shrink-0 border-b border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
-        <div className="flex items-center justify-between max-w-5xl mx-auto">
+        <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
@@ -1468,7 +1431,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
           {/* Description */}
           <div className="glass-panel p-4">
             <p className="text-sm text-text-secondary leading-relaxed">
-              {detail?.description || current?.description}
+              {renderTags ? renderTags(detail?.description || current?.description || '') : (detail?.description || current?.description)}
             </p>
           </div>
 
@@ -1489,9 +1452,9 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
                     <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
                     {feature.name}
                   </h4>
-                  <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-line">
-                    {cleanEntryRefs(feature.description)}
-                  </p>
+                  <div className="text-xs text-text-secondary leading-relaxed whitespace-pre-line">
+                    {renderTags ? renderTags(feature.description) : cleanEntryRefs(feature.description)}
+                  </div>
                   {feature.spellList && feature.spellList.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-border-default">
                       <div className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Заклинания подкласса</div>
@@ -1559,6 +1522,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -32,11 +32,11 @@ export function TopNavBar({
     <nav className="shrink-0 select-none">
       {/* Main navigation bar */}
       <div className="bg-gradient-to-b from-[#1a1a24] to-[#0f0f16] border-b border-border-default">
-        <div className="flex items-center h-14 px-4 sm:px-6">
+        <div className="flex items-center gap-8 h-14 px-4 sm:px-6">
           {/* Logo */}
           <button
             onClick={() => onLogoClick ? onLogoClick() : onTabChange(tabs[0]?.key ?? '')}
-            className="flex items-center gap-2.5 mr-8 shrink-0"
+            className="flex items-center gap-2.5 shrink-0 cursor-pointer"
           >
             <BookOpen className="text-gold" size={26} />
             <span className="font-medieval text-gold text-lg hidden sm:block">
@@ -45,7 +45,7 @@ export function TopNavBar({
           </button>
 
           {/* Main tabs */}
-          <div className="flex items-center gap-1 flex-1 min-w-0 overflow-x-auto">
+          <div className="flex items-center gap-2 flex-1 min-w-0 overflow-x-auto">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.key;
               const Icon = tab.icon;
@@ -54,19 +54,16 @@ export function TopNavBar({
                   key={tab.key}
                   onClick={() => onTabChange(tab.key)}
                   className={`
-                    relative flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md
-                    transition-all duration-200 whitespace-nowrap
+                    flex items-center gap-2 px-4 py-2 text-sm font-medium
+                    transition-colors duration-200 whitespace-nowrap cursor-pointer
                     ${isActive
-                      ? 'text-gold bg-gold-muted'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
+                      ? 'text-gold'
+                      : 'text-text-secondary hover:text-text-primary'
                     }
                   `}
                 >
                   {Icon && <Icon size={16} />}
                   <span>{tab.label}</span>
-                  {isActive && (
-                    <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gold rounded-full" />
-                  )}
                 </button>
               );
             })}
@@ -84,7 +81,7 @@ export function TopNavBar({
       {/* Sub-navigation */}
       {subTabs && subTabs.length > 0 && (
         <div className="bg-[#0f0f16]/80 border-b border-border-default">
-          <div className="flex items-center h-10 px-4 sm:px-6 gap-1 overflow-x-auto">
+          <div className="flex items-center h-10 px-4 sm:px-6 gap-2 overflow-x-auto">
             {subTabs.map((tab) => {
               const isActive = activeSubTab === tab.key;
               return (
@@ -92,10 +89,10 @@ export function TopNavBar({
                   key={tab.key}
                   onClick={() => onSubTabChange?.(tab.key)}
                   className={`
-                    px-3 py-1.5 text-xs font-medium rounded transition-all whitespace-nowrap
+                    px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap cursor-pointer
                     ${isActive
-                      ? 'text-gold-light bg-gold-muted'
-                      : 'text-text-muted hover:text-text-secondary hover:bg-white/5'
+                      ? 'text-gold'
+                      : 'text-text-muted hover:text-text-primary'
                     }
                   `}
                 >
