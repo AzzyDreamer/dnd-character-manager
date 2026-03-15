@@ -760,10 +760,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             checkAndShowFeatPicker(updated);
           }}
           onCancel={() => {
-            const updated = pendingFsCantrips.updatedChar;
+            // Cancel — don't save anything, revert the level-up
             setShowFsCantripPicker(false);
             setPendingFsCantrips(null);
-            checkAndShowFeatPicker(updated);
           }}
         />
       )}
@@ -1273,7 +1272,12 @@ function FeaturesSection({ character }: { character: Character }) {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold/60 shrink-0" />
+                        <img
+                          src={getFeatureImageUrl(feat.name)}
+                          alt=""
+                          className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel"
+                          onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
                         <span className="text-sm text-text-primary font-medium">{feat.name}</span>
                         {feat.level && (
                           <span className="text-[10px] text-text-muted ml-auto shrink-0">{feat.level} ур.</span>
@@ -1392,6 +1396,11 @@ const CONDITION_NAMES: Record<string, string> = {
 
 function getConditionDisplayName(name: string): string {
   return CONDITION_NAMES[name] || name;
+}
+
+function getFeatureImageUrl(name: string): string {
+  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  return `/images/misc/${filename}.webp`;
 }
 
 function getConditionImageUrl(name: string): string {

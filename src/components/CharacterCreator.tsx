@@ -23,7 +23,7 @@ import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
-import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
@@ -456,6 +456,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [selectedSpells, setSelectedSpells] = useState<SpellData[]>([]);
   const [selectedCantrips, setSelectedCantrips] = useState<SpellData[]>([]);
   const [spellSearchQuery, setSpellSearchQuery] = useState('');
+  const [spellCollapsedSections, setSpellCollapsedSections] = useState<Set<string>>(new Set());
+  const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
 
   // Details
   const [name, setName] = useState('');
@@ -2434,168 +2436,289 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       });
     };
 
+    const toggleSpellSection = (key: string) => {
+      setSpellCollapsedSections(prev => {
+        const next = new Set(prev);
+        if (next.has(key)) next.delete(key); else next.add(key);
+        return next;
+      });
+    };
+
+    // Spell slots at level 1
+    const spellSlots = level1Data?.spellSlots as number[] | undefined;
+
+    // Group leveled spells by level
+    const spellsByLevel: Record<number, SpellData[]> = {};
+    for (const s of filteredLeveled) {
+      (spellsByLevel[s.level] = spellsByLevel[s.level] || []).push(s);
+    }
+
+    // Expanded spell data
+    const expandedData = expandedSpell
+      ? [...availableSpells.cantrips, ...availableSpells.leveled].find(s => s.name === expandedSpell) ?? null
+      : null;
+
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-medieval text-gold">Выберите заклинания</h3>
-          <div className="text-sm text-text-secondary">
+      <div className="space-y-5">
+        {/* "Вы получите следующее:" section */}
+        <div className="glass-panel ornate-border p-4 space-y-3">
+          <h3 className="text-base font-medieval text-gold">Вы получите следующее:</h3>
+          <div className="space-y-2 text-sm">
+            {maxCantrips > 0 && (
+              <div className="flex items-center gap-2 text-text-primary">
+                <span className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
+                  <Sparkles size={12} className="text-purple-400" />
+                </span>
+                {maxCantrips} заговоров
+              </div>
+            )}
+            {maxSpells > 0 && (
+              <div className="flex items-center gap-2 text-text-primary">
+                <span className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+                  <Wand2 size={12} className="text-blue-400" />
+                </span>
+                {maxSpells} заклинаний
+              </div>
+            )}
+            {spellSlots && spellSlots.map((count, idx) =>
+              count > 0 ? (
+                <div key={idx} className="flex items-center gap-2 text-text-primary">
+                  <span className="w-5 h-5 rounded-full bg-gold/20 flex items-center justify-center shrink-0">
+                    <Zap size={12} className="text-gold" />
+                  </span>
+                  Ячейки {idx + 1} ур.: {count}
+                </div>
+              ) : null
+            )}
+          </div>
+          <div className="text-xs text-text-muted mt-1">
             {selectedClass.name} • {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
           </div>
         </div>
 
-        {/* Поиск */}
+        {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
           <input
             type="text"
             placeholder="Поиск заклинаний..."
             value={spellSearchQuery}
             onChange={e => setSpellSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
+            className="w-full pl-9 pr-4 py-2 bg-bg-primary border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50 transition-colors"
           />
         </div>
 
-        {/* Заговоры */}
-        <div>
-          <h4 className="text-lg font-medieval text-purple-300 mb-2">
-            Заговоры
-            <span className="text-sm font-normal text-text-secondary ml-2">
-              ({selectedCantrips.length}/{maxCantrips})
-            </span>
-          </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
-            {filteredCantrips.map(spell => {
-              const isSelected = selectedCantrips.some(s => s.name === spell.name);
-              const limitReached = !isSelected && selectedCantrips.length >= maxCantrips;
-              const meta = getSpellMeta(spell);
-              const imgUrl = spellsModRef.current?.getSpellImageUrl(spell.name);
-              return (
-                <SpellTooltip
-                  key={spell.name}
-                  name={spell.name}
-                  level={0}
-                  school={spell.school}
-                  castingTime={meta.castingTime}
-                  range={meta.range}
-                  components={meta.components}
-                  duration={meta.duration}
-                  description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
-                >
-                  <button
-                    onClick={() => toggleCantrip(spell)}
-                    disabled={limitReached}
-                    className={`w-full flex items-center gap-2 p-2 rounded-lg border text-left text-xs transition-all ${
-                      isSelected
-                        ? 'border-purple-500 bg-purple-900/30 text-purple-200'
-                        : limitReached
-                          ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
-                          : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
-                    }`}
-                  >
-                    <SpellIconBadge
+        {/* Cantrips — icon grid with collapsible section */}
+        {maxCantrips > 0 && (
+          <div className="glass-panel p-4">
+            <button
+              onClick={() => toggleSpellSection('cantrips')}
+              className="flex items-center gap-2 w-full text-left mb-3"
+            >
+              {spellCollapsedSections.has('cantrips')
+                ? <ChevronRight size={16} className="text-text-muted" />
+                : <ChevronDown size={16} className="text-text-muted" />}
+              <Sparkles size={16} className="text-purple-400" />
+              <span className="text-sm font-medieval text-purple-300">
+                Заговоры ({selectedCantrips.length}/{maxCantrips})
+              </span>
+            </button>
+            {!spellCollapsedSections.has('cantrips') && (
+              <div className="flex flex-wrap gap-2">
+                {filteredCantrips.map(spell => {
+                  const isSelected = selectedCantrips.some(s => s.name === spell.name);
+                  const disabled = !isSelected && selectedCantrips.length >= maxCantrips;
+                  const meta = getSpellMeta(spell);
+                  return (
+                    <SpellTooltip
+                      key={spell.name}
                       name={spell.name}
-                      school={spell.school}
                       level={0}
-                      imageSrc={imgUrl}
-                      className="pointer-events-none"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="font-semibold truncate">{spell.name}</div>
-                      <div className="text-text-muted text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
-                    </div>
-                  </button>
-                </SpellTooltip>
-              );
-            })}
-            {filteredCantrips.length === 0 && (
-              <div className="col-span-full text-center text-text-muted py-4 text-sm">
-                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заговоров'}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Заклинания 1 уровня */}
-        <div>
-          <h4 className="text-lg font-medieval text-blue-300 mb-2">
-            Заклинания 1 уровня
-            <span className="text-sm font-normal text-text-secondary ml-2">
-              (выбрано: {selectedSpells.length}/{maxSpells})
-            </span>
-          </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
-            {filteredLeveled.map(spell => {
-              const isSelected = selectedSpells.some(s => s.name === spell.name);
-              const limitReached = !isSelected && selectedSpells.length >= maxSpells;
-              const meta = getSpellMeta(spell);
-              const imgUrl = spellsModRef.current?.getSpellImageUrl(spell.name);
-              return (
-                <SpellTooltip
-                  key={spell.name}
-                  name={spell.name}
-                  level={spell.level}
-                  school={spell.school}
-                  castingTime={meta.castingTime}
-                  range={meta.range}
-                  components={meta.components}
-                  duration={meta.duration}
-                  description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
-                >
-                  <button
-                    onClick={() => toggleSpell(spell)}
-                    disabled={limitReached}
-                    className={`w-full flex items-center gap-2 p-2 rounded-lg border text-left text-xs transition-all ${
-                      isSelected
-                        ? 'border-blue-500 bg-blue-900/30 text-blue-200'
-                        : limitReached
-                          ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
-                          : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
-                    }`}
-                  >
-                    <SpellIconBadge
-                      name={spell.name}
                       school={spell.school}
-                      level={spell.level}
-                      imageSrc={imgUrl}
-                      className="pointer-events-none"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="font-semibold truncate">{spell.name}</div>
-                      <div className="text-text-muted text-[10px]">
-                        {SCHOOL_NAMES[spell.school] || spell.school}
-                        {spell.concentration && spell.duration?.[0]?.concentration ? ' • Концентрация' : ''}
-                      </div>
-                    </div>
-                  </button>
-                </SpellTooltip>
-              );
-            })}
-            {filteredLeveled.length === 0 && (
-              <div className="col-span-full text-center text-text-muted py-4 text-sm">
-                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
+                      castingTime={meta.castingTime}
+                      range={meta.range}
+                      components={meta.components}
+                      duration={meta.duration}
+                      description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
+                    >
+                      <SpellIconBadge
+                        name={spell.name}
+                        school={spell.school}
+                        level={0}
+                        imageSrc={spellsModRef.current?.getSpellImageUrl(spell.name)}
+                        prepared={!disabled || isSelected}
+                        selected={isSelected}
+                        onClick={() => {
+                          if (!disabled || isSelected) {
+                            setExpandedSpell(spell.name === expandedSpell ? null : spell.name);
+                            toggleCantrip(spell);
+                          }
+                        }}
+                        className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
+                      />
+                    </SpellTooltip>
+                  );
+                })}
+                {filteredCantrips.length === 0 && (
+                  <p className="text-sm text-text-muted py-2">
+                    {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заговоров'}
+                  </p>
+                )}
               </div>
             )}
           </div>
-        </div>
+        )}
 
-        {/* Выбранные */}
-        {(selectedCantrips.length > 0 || selectedSpells.length > 0) && (
-          <div className="bg-bg-panel-solid/60 rounded-lg border border-border-default p-4">
-            <h4 className="text-sm text-text-secondary mb-2">Выбранные заклинания:</h4>
-            <div className="flex flex-wrap gap-2">
-              {selectedCantrips.map(s => (
-                <span key={s.name} className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs flex items-center gap-1">
-                  {s.name}
-                  <button onClick={() => toggleCantrip(s)} className="text-purple-400 hover:text-text-primary ml-1">&times;</button>
-                </span>
-              ))}
-              {selectedSpells.map(s => (
-                <span key={s.name} className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs flex items-center gap-1">
-                  {s.name}
-                  <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-text-primary ml-1">&times;</button>
-                </span>
-              ))}
+        {/* Leveled spells — icon grid grouped by level */}
+        {maxSpells > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <Wand2 size={16} className="text-blue-400" />
+              <span className="text-sm font-medieval text-blue-300">
+                Заклинания ({selectedSpells.length}/{maxSpells})
+              </span>
             </div>
+
+            {Object.entries(spellsByLevel)
+              .sort(([a], [b]) => Number(a) - Number(b))
+              .map(([level, spells]) => {
+                const sectionKey = `spells-level-${level}`;
+                return (
+                  <div key={level} className="glass-panel p-4">
+                    <button
+                      onClick={() => toggleSpellSection(sectionKey)}
+                      className="flex items-center gap-2 w-full text-left mb-3"
+                    >
+                      {spellCollapsedSections.has(sectionKey)
+                        ? <ChevronRight size={14} className="text-text-muted" />
+                        : <ChevronDown size={14} className="text-text-muted" />}
+                      <span className="text-sm font-medieval text-blue-300">
+                        {level} уровень ({spells.length})
+                      </span>
+                    </button>
+                    {!spellCollapsedSections.has(sectionKey) && (
+                      <div className="flex flex-wrap gap-2">
+                        {spells.map(spell => {
+                          const isSelected = selectedSpells.some(s => s.name === spell.name);
+                          const disabled = !isSelected && selectedSpells.length >= maxSpells;
+                          const meta = getSpellMeta(spell);
+                          return (
+                            <SpellTooltip
+                              key={spell.name}
+                              name={spell.name}
+                              level={spell.level}
+                              school={spell.school}
+                              castingTime={meta.castingTime}
+                              range={meta.range}
+                              components={meta.components}
+                              duration={meta.duration}
+                              description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
+                            >
+                              <SpellIconBadge
+                                name={spell.name}
+                                school={spell.school}
+                                level={spell.level}
+                                imageSrc={spellsModRef.current?.getSpellImageUrl(spell.name)}
+                                prepared={!disabled || isSelected}
+                                selected={isSelected}
+                                onClick={() => {
+                                  if (!disabled || isSelected) {
+                                    setExpandedSpell(spell.name === expandedSpell ? null : spell.name);
+                                    toggleSpell(spell);
+                                  }
+                                }}
+                                className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
+                              />
+                            </SpellTooltip>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+            {filteredLeveled.length === 0 && (
+              <p className="text-sm text-text-muted text-center py-4">
+                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Expanded spell detail */}
+        {expandedData && (
+          <div className="glass-panel ornate-border p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medieval text-gold">{expandedData.name}</h3>
+              <button
+                onClick={() => setExpandedSpell(null)}
+                className="text-text-muted hover:text-text-primary text-sm"
+              >✕</button>
+            </div>
+            <div className="text-xs text-text-muted">
+              {expandedData.level === 0 ? 'Заговор' : `${expandedData.level} уровень`}
+              {expandedData.school && ` • ${SCHOOL_NAMES[expandedData.school] || expandedData.school}`}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              {(() => { const m = getSpellMeta(expandedData); return (<>
+                {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
+                {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
+                {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
+                {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+              </>); })()}
+            </div>
+            <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
+              {EntryRendererCmp ? (
+                <EntryRendererCmp entries={expandedData.entries} context={expandedData.name} />
+              ) : (
+                expandedData.entries?.map((e: any, i: number) => (
+                  <p key={i}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Spell slots info */}
+        {spellSlots && (
+          <div className="glass-panel p-4">
+            <h4 className="text-sm font-medieval text-text-secondary mb-2 flex items-center gap-2">
+              <BookOpen size={14} />
+              Ячейки заклинаний (1 уровень)
+            </h4>
+            <div className="flex gap-3 flex-wrap text-sm">
+              {spellSlots.map((count: number, idx: number) =>
+                count > 0 ? (
+                  <div key={idx} className="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-primary border border-border-default">
+                    <span className="text-text-muted text-xs">{idx + 1} ур.</span>
+                    <span className="text-text-primary font-bold">{count}</span>
+                  </div>
+                ) : null
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Selected spells summary */}
+        {(selectedCantrips.length > 0 || selectedSpells.length > 0) && (
+          <div className="glass-panel p-3 space-y-2">
+            <h4 className="text-[10px] uppercase tracking-wider text-text-muted">Выбрано</h4>
+            {selectedCantrips.map(s => (
+              <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
+                <span className="truncate">{s.name}</span>
+                <button onClick={() => toggleCantrip(s)} className="text-purple-400 hover:text-text-primary ml-auto text-[10px]">✕</button>
+              </div>
+            ))}
+            {selectedSpells.map(s => (
+              <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                <span className="truncate">{s.name}</span>
+                <span className="text-blue-400 text-[10px] ml-auto mr-2">{s.level} ур.</span>
+                <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-text-primary text-[10px]">✕</button>
+              </div>
+            ))}
           </div>
         )}
       </div>
