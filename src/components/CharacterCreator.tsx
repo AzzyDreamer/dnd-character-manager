@@ -24,7 +24,7 @@ import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
 import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages } from 'lucide-react';
-import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge } from './ui';
+import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
 function getSpeciesSpeed(sp: SpeciesData): number {
@@ -151,6 +151,44 @@ const SCHOOL_NAMES: Record<string, string> = {
   A: 'Ограждение', C: 'Вызов', D: 'Прорицание', E: 'Очарование',
   V: 'Воплощение', I: 'Иллюзия', N: 'Некромантия', T: 'Преобразование',
 };
+
+const TIME_UNITS: Record<string, string> = {
+  action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.',
+};
+
+function getSpellMeta(spell: SpellData) {
+  const castingTime = spell.time
+    ?.map((t: any) => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`)
+    .join(', ');
+  const range = spell.range?.distance?.amount
+    ? `${spell.range.distance.amount} фт.`
+    : spell.range?.type === 'touch' ? 'Касание'
+      : spell.range?.type === 'self' ? 'На себя'
+        : spell.range?.type || '';
+  const components = spell.components
+    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
+    : '';
+  const duration = spell.duration
+    ?.map((d: any) => {
+      if (d.type === 'instant') return 'Мгновенная';
+      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+      return d.type;
+    })
+    .join(', ');
+  return { castingTime, range, components, duration };
+}
+
+function cleanTagRefs(text: string): string {
+  return text.replace(/\{@\w+\s+([^|}]+)(?:\|[^|}]*)*(?:\|([^}]*))?\}/g, (_, first, last) => last || first);
+}
+
+function getFirstEntryText(entries: any[]): string {
+  for (const e of entries) {
+    if (typeof e === 'string') return cleanTagRefs(e);
+    if (e?.entries) return getFirstEntryText(e.entries);
+  }
+  return '';
+}
 
 interface CharacterCreatorProps {
   onSave: (character: Character) => void;
@@ -384,6 +422,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // Доступные заклинания для класса (загружаются лениво)
   const [spellsLoaded, setSpellsLoaded] = useState(false);
   const [loadedSpells, setLoadedSpells] = useState<SpellData[]>([]);
+  const spellsModRef = React.useRef<any>(null);
 
   React.useEffect(() => {
     if (!selectedClass?.spellcaster) return;
@@ -391,6 +430,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     import('../data/spells').then(async mod => {
       await mod.init(); // Инициализируем данные заклинаний
       if (cancelled) return;
+      spellsModRef.current = mod;
       const spells = mod.getSpellsByClass(selectedClass.name);
       setLoadedSpells(spells);
       setSpellsLoaded(true);
@@ -2099,23 +2139,48 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               ({selectedCantrips.length}/{maxCantrips})
             </span>
           </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
             {filteredCantrips.map(spell => {
               const isSelected = selectedCantrips.some(s => s.name === spell.name);
+              const limitReached = !isSelected && selectedCantrips.length >= maxCantrips;
+              const meta = getSpellMeta(spell);
+              const imgUrl = spellsModRef.current?.getSpellImageUrl(spell.name);
               return (
-                <button
+                <SpellTooltip
                   key={spell.name}
-                  onClick={() => toggleCantrip(spell)}
-                  disabled={!isSelected && selectedCantrips.length >= maxCantrips}
-                  className={`p-2 rounded-lg border text-left text-xs transition-all ${
-                    isSelected
-                      ? 'border-purple-500 bg-purple-900/30 text-purple-200'
-                      : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover disabled:opacity-40'
-                  }`}
+                  name={spell.name}
+                  level={0}
+                  school={spell.school}
+                  castingTime={meta.castingTime}
+                  range={meta.range}
+                  components={meta.components}
+                  duration={meta.duration}
+                  description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
                 >
-                  <div className="font-semibold truncate">{spell.name}</div>
-                  <div className="text-text-muted text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
-                </button>
+                  <button
+                    onClick={() => toggleCantrip(spell)}
+                    disabled={limitReached}
+                    className={`w-full flex items-center gap-2 p-2 rounded-lg border text-left text-xs transition-all ${
+                      isSelected
+                        ? 'border-purple-500 bg-purple-900/30 text-purple-200'
+                        : limitReached
+                          ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
+                          : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
+                    }`}
+                  >
+                    <SpellIconBadge
+                      name={spell.name}
+                      school={spell.school}
+                      level={0}
+                      imageSrc={imgUrl}
+                      className="pointer-events-none"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold truncate">{spell.name}</div>
+                      <div className="text-text-muted text-[10px]">{SCHOOL_NAMES[spell.school] || spell.school}</div>
+                    </div>
+                  </button>
+                </SpellTooltip>
               );
             })}
             {filteredCantrips.length === 0 && (
@@ -2134,29 +2199,51 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               (выбрано: {selectedSpells.length}/{maxSpells})
             </span>
           </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
             {filteredLeveled.map(spell => {
               const isSelected = selectedSpells.some(s => s.name === spell.name);
               const limitReached = !isSelected && selectedSpells.length >= maxSpells;
+              const meta = getSpellMeta(spell);
+              const imgUrl = spellsModRef.current?.getSpellImageUrl(spell.name);
               return (
-                <button
+                <SpellTooltip
                   key={spell.name}
-                  onClick={() => toggleSpell(spell)}
-                  disabled={limitReached}
-                  className={`p-2 rounded-lg border text-left text-xs transition-all ${
-                    isSelected
-                      ? 'border-blue-500 bg-blue-900/30 text-blue-200'
-                      : limitReached
-                        ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
-                        : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
-                  }`}
+                  name={spell.name}
+                  level={spell.level}
+                  school={spell.school}
+                  castingTime={meta.castingTime}
+                  range={meta.range}
+                  components={meta.components}
+                  duration={meta.duration}
+                  description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
                 >
-                  <div className="font-semibold truncate">{spell.name}</div>
-                  <div className="text-text-muted text-[10px]">
-                    {SCHOOL_NAMES[spell.school] || spell.school}
-                    {spell.concentration && spell.duration?.[0]?.concentration ? ' • Концентрация' : ''}
-                  </div>
-                </button>
+                  <button
+                    onClick={() => toggleSpell(spell)}
+                    disabled={limitReached}
+                    className={`w-full flex items-center gap-2 p-2 rounded-lg border text-left text-xs transition-all ${
+                      isSelected
+                        ? 'border-blue-500 bg-blue-900/30 text-blue-200'
+                        : limitReached
+                          ? 'border-border-default bg-bg-panel text-text-muted opacity-50 cursor-not-allowed'
+                          : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
+                    }`}
+                  >
+                    <SpellIconBadge
+                      name={spell.name}
+                      school={spell.school}
+                      level={spell.level}
+                      imageSrc={imgUrl}
+                      className="pointer-events-none"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold truncate">{spell.name}</div>
+                      <div className="text-text-muted text-[10px]">
+                        {SCHOOL_NAMES[spell.school] || spell.school}
+                        {spell.concentration && spell.duration?.[0]?.concentration ? ' • Концентрация' : ''}
+                      </div>
+                    </div>
+                  </button>
+                </SpellTooltip>
               );
             })}
             {filteredLeveled.length === 0 && (

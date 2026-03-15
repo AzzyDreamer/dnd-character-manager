@@ -4,7 +4,8 @@ import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
 import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
 import { getClassResources, getClassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { SpellIconBadge, SpellTooltip } from './ui';
-import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield } from 'lucide-react';
+import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
+import { SpellPreparationModal } from './SpellPreparationModal';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -446,6 +447,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+  const [showPrepModal, setShowPrepModal] = useState(false);
   const [autoSpells, setAutoSpells] = useState<{ spellId: string; name: string; level: number; prepared: boolean; alwaysPrepared: boolean; source?: string }[]>([]);
   const [classResources, setClassResources] = useState<ClassResource[]>([]);
   const [passiveStats, setPassiveStats] = useState<ClassPassiveStat[]>([]);
@@ -639,6 +641,23 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
   const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared).length;
   const maxPrepared = spellcasting?.spellsKnown ?? 0;
 
+  const togglePrepared = (spellId: string) => {
+    if (!spellcasting) return;
+    const spell = spellcasting.spells.find(s => s.spellId === spellId);
+    if (!spell || spell.level === 0 || spell.alwaysPrepared) return;
+    const willPrepare = !spell.prepared;
+    if (willPrepare && maxPrepared > 0 && preparedCount >= maxPrepared) return;
+    onUpdate({
+      ...character,
+      spellcasting: {
+        ...spellcasting,
+        spells: spellcasting.spells.map(s =>
+          s.spellId === spellId ? { ...s, prepared: willPrepare } : s
+        ),
+      },
+    });
+  };
+
   return (
     <div className="space-y-4">
       {/* ── Section A: Spell Slot Tracker ── */}
@@ -676,6 +695,13 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
               <span className="font-bold text-gold">{preparedCount}/{maxPrepared}</span>
             </div>
           )}
+          <button
+            onClick={() => setShowPrepModal(true)}
+            className="ml-auto px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold text-xs font-medium hover:bg-gold/20 flex items-center gap-1.5 transition-colors"
+          >
+            <BookOpen size={13} />
+            Подготовка
+          </button>
         </div>
       )}
 
@@ -755,6 +781,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                       {spells.map(spell => {
                         const data = modules.getSpellByName(spell.name);
                         const meta = getSpellMeta(data);
+                        const isAutoSpell = spell.alwaysPrepared || !spellcasting?.spells.some(s => s.spellId === spell.spellId);
                         return (
                           <SpellTooltip
                             key={spell.spellId}
@@ -775,6 +802,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                               prepared={spell.prepared}
                               selected={expandedSpell === spell.spellId}
                               onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                              onContextMenu={!isAutoSpell ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
                             />
                           </SpellTooltip>
                         );
@@ -792,10 +820,28 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
         <div className="glass-panel ornate-border p-4 space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medieval text-gold">{expandedData.charSpell.name}</h3>
-            <button
-              onClick={() => setExpandedSpell(null)}
-              className="text-text-muted hover:text-text-primary text-sm"
-            >✕</button>
+            <div className="flex items-center gap-2">
+              {expandedData.charSpell.level > 0 && !expandedData.charSpell.alwaysPrepared && spellcasting?.spells.some(s => s.spellId === expandedData.charSpell.spellId) && (
+                <button
+                  onClick={() => togglePrepared(expandedData.charSpell.spellId)}
+                  disabled={!expandedData.charSpell.prepared && maxPrepared > 0 && preparedCount >= maxPrepared}
+                  className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+                    expandedData.charSpell.prepared
+                      ? 'bg-green-accent/30 text-green-bright border border-green-bright/30 hover:bg-red-accent/30 hover:text-red-bright hover:border-red-bright/30'
+                      : 'bg-bg-panel border border-border-default text-text-secondary hover:border-gold/40 hover:text-gold disabled:opacity-40'
+                  }`}
+                >
+                  {expandedData.charSpell.prepared ? 'Снять подготовку' : 'Подготовить'}
+                </button>
+              )}
+              {expandedData.charSpell.alwaysPrepared && (
+                <span className="px-2 py-1 rounded text-xs text-gold/70 bg-gold/10 border border-gold/20">Всегда подготовлено</span>
+              )}
+              <button
+                onClick={() => setExpandedSpell(null)}
+                className="text-text-muted hover:text-text-primary text-sm"
+              >✕</button>
+            </div>
           </div>
           <div className="text-xs text-text-muted">
             {expandedData.charSpell.level === 0 ? 'Заговор' : `${expandedData.charSpell.level} уровень`}
@@ -827,6 +873,21 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
         <div className="text-center text-text-muted py-4 italic text-sm">
           Заклинания не выбраны
         </div>
+      )}
+
+      {/* Spell Preparation Modal */}
+      {showPrepModal && spellcasting && (
+        <SpellPreparationModal
+          character={character}
+          onConfirm={(updatedSpells) => {
+            onUpdate({
+              ...character,
+              spellcasting: { ...spellcasting, spells: updatedSpells },
+            });
+            setShowPrepModal(false);
+          }}
+          onCancel={() => setShowPrepModal(false)}
+        />
       )}
     </div>
   );

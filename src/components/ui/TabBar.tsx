@@ -27,7 +27,7 @@ export function TabBar({
   };
 
   return (
-    <div className="flex items-center gap-2 border-b border-border-default overflow-x-auto">
+    <div className="flex items-center gap-2 border-b border-border-default">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.key;
         const Icon = tab.icon;
