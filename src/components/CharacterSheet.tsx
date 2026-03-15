@@ -2,11 +2,11 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2 } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
-import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
+import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import type { SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
@@ -40,6 +40,22 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const [pendingFeatLevelUp, setPendingFeatLevelUp] = useState<{
     updatedChar: Character;
     mode: 'asi' | 'epicBoon';
+  } | null>(null);
+  const [showFightingStylePicker, setShowFightingStylePicker] = useState(false);
+  const [pendingFightingStyleLevelUp, setPendingFightingStyleLevelUp] = useState<{
+    updatedChar: Character;
+  } | null>(null);
+  // Cantrip picker for Blessed/Druidic Warrior after FS selection
+  const [showFsCantripPicker, setShowFsCantripPicker] = useState(false);
+  const [pendingFsCantrips, setPendingFsCantrips] = useState<{
+    updatedChar: Character;
+    count: number;
+    sourceClass: string;
+  } | null>(null);
+  // Fighting style replacement on level-up
+  const [showFsReplaceModal, setShowFsReplaceModal] = useState(false);
+  const [pendingFsReplace, setPendingFsReplace] = useState<{
+    updatedChar: Character;
   } | null>(null);
 
   const [showCropModal, setShowCropModal] = useState(false);
@@ -210,11 +226,128 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Check if this level grants ASI or Epic Boon
-    if (checkAndShowFeatPicker(updated)) return;
+    // Check FS replacement → Fighting Style → ASI/EB chain
+    if (checkAndShowFsReplace(updated)) return;
 
     onUpdate(updated);
     setShowSubclassModal(false);
+  };
+
+  /** Check if the character can replace an existing fighting style on level-up. */
+  const checkAndShowFsReplace = (updated: Character): boolean => {
+    const FS_CLASSES = ['fighter', 'paladin', 'ranger'];
+    const classId = updated.classId || '';
+    const hasExistingFs = updated.feats?.some(f => f.category?.startsWith('FS'));
+    if (FS_CLASSES.includes(classId) && hasExistingFs) {
+      setPendingFsReplace({ updatedChar: updated });
+      setShowFsReplaceModal(true);
+      return true;
+    }
+    return checkAndShowFightingStylePicker(updated);
+  };
+
+  /** Check if the character's current level grants Fighting Style and show picker if so. */
+  const checkAndShowFightingStylePicker = (updated: Character): boolean => {
+    (async () => {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const data = mod.getClassDataByName(updated.class);
+        if (!data?.levelTable) {
+          checkAndShowFeatPicker(updated);
+          return;
+        }
+        const levelRow = data.levelTable.find((r: any) => r.level === updated.level);
+        const features: string[] = levelRow?.features ?? [];
+
+        // Check class-level features
+        let hasFS = features.includes('Fighting Style') || features.includes('Additional Fighting Style');
+
+        // Check subclass features (e.g. Champion level 7)
+        if (!hasFS && updated.subclass) {
+          try {
+            const subMod = await import('../data/classes/subclassJsonLoader');
+            await subMod.init();
+            const classDef2 = getClassById(updated.classId || '') ?? CLASS_REGISTRY.find(c => c.name === updated.class);
+            const subDef = classDef2?.subclasses.find(s => s.name === updated.subclass);
+            if (subDef && classDef2) {
+              const subData = subMod.getSubclassById(classDef2.id, subDef.id);
+              if (subData?.features) {
+                hasFS = subData.features.some(f =>
+                  f.level === updated.level &&
+                  (f.name === 'Fighting Style' || f.name === 'Additional Fighting Style')
+                );
+              }
+            }
+          } catch (e) { /* ignore */ }
+        }
+
+        if (hasFS) {
+          setPendingFightingStyleLevelUp({ updatedChar: updated });
+          setShowFightingStylePicker(true);
+        } else {
+          checkAndShowFeatPicker(updated);
+        }
+      } catch (e) {
+        console.warn('Failed to check Fighting Style:', e);
+        checkAndShowFeatPicker(updated);
+      }
+    })();
+    return true;
+  };
+
+  const FS_CLASS_MAP: Record<string, string> = { cleric: 'Жрец', druid: 'Друид' };
+
+  /** Parse additionalSpells from a fighting style feat */
+  const parseFsAdditionalSpells = (feat: any): { count: number; sourceClass: string } | null => {
+    const as = feat?.additionalSpells?.[0];
+    if (!as) return null;
+    const count = as.known?._?.[0]?.count ?? 0;
+    const choose: string = as.known?._?.[0]?.choose ?? '';
+    const classMatch = choose.match(/class=(\w+)/);
+    const sourceClass = classMatch ? (FS_CLASS_MAP[classMatch[1]] || classMatch[1]) : '';
+    return count > 0 && sourceClass ? { count, sourceClass } : null;
+  };
+
+  const handleFightingStyleConfirm = (result: FeatPickerResult) => {
+    if (!pendingFightingStyleLevelUp || !result.feat) return;
+    let updated = { ...pendingFightingStyleLevelUp.updatedChar };
+
+    // Add feat to features and feats
+    updated.features = [
+      ...updated.features,
+      {
+        id: `feat-${result.feat.name.toLowerCase().replace(/\s+/g, '-')}-${updated.level}`,
+        name: result.feat.name,
+        description: result.feat.entries?.map((e: any) =>
+          typeof e === 'string' ? e : ''
+        ).filter(Boolean).join('\n') || '',
+        source: result.feat.source,
+      },
+    ];
+    updated.feats = [
+      ...(updated.feats ?? []),
+      {
+        name: result.feat.name,
+        source: result.feat.source,
+        category: result.feat.category || 'FS',
+        levelAcquired: updated.level,
+      },
+    ];
+
+    setShowFightingStylePicker(false);
+    setPendingFightingStyleLevelUp(null);
+
+    // Check if this FS grants cantrips (Blessed/Druidic Warrior)
+    const spellInfo = parseFsAdditionalSpells(result.feat);
+    if (spellInfo) {
+      setPendingFsCantrips({ updatedChar: updated, ...spellInfo });
+      setShowFsCantripPicker(true);
+      return;
+    }
+
+    // Continue the chain: check for ASI/EB
+    checkAndShowFeatPicker(updated);
   };
 
   /** Check if the character's current level grants ASI/EB and show picker if so. Returns true if picker shown. */
@@ -338,8 +471,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
 
-    // After spells, check for ASI/EB
-    checkAndShowFeatPicker(final);
+    // After spells, check FS replacement → Fighting Style → ASI/EB chain
+    checkAndShowFsReplace(final);
   };
 
   const handleSpellLevelUpCancel = () => {
@@ -544,6 +677,21 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       )}
 
       {/* Feat Picker Modal */}
+      {showFightingStylePicker && pendingFightingStyleLevelUp && (
+        <FeatPickerModal
+          character={pendingFightingStyleLevelUp.updatedChar}
+          mode="fightingStyle"
+          onConfirm={handleFightingStyleConfirm}
+          onCancel={() => {
+            // Skip fighting style, continue to ASI/EB check
+            const updated = pendingFightingStyleLevelUp.updatedChar;
+            setShowFightingStylePicker(false);
+            setPendingFightingStyleLevelUp(null);
+            checkAndShowFeatPicker(updated);
+          }}
+        />
+      )}
+
       {showFeatPicker && pendingFeatLevelUp && (
         <FeatPickerModal
           character={pendingFeatLevelUp.updatedChar}
@@ -554,6 +702,68 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             onUpdate(pendingFeatLevelUp.updatedChar);
             setShowFeatPicker(false);
             setPendingFeatLevelUp(null);
+          }}
+        />
+      )}
+
+      {/* Fighting Style Replacement Modal */}
+      {showFsReplaceModal && pendingFsReplace && (
+        <FsReplaceModal
+          character={pendingFsReplace.updatedChar}
+          onReplace={(oldFeatName) => {
+            let updated = { ...pendingFsReplace.updatedChar };
+            // Remove old FS from features and feats
+            const oldFeat = updated.feats?.find(f => f.name === oldFeatName && f.category?.startsWith('FS'));
+            updated.features = updated.features.filter(f => f.name !== oldFeatName);
+            updated.feats = (updated.feats ?? []).filter(f => !(f.name === oldFeatName && f.category?.startsWith('FS')));
+            // If old was Blessed/Druidic Warrior, we'd need to remove cantrips too — but for simplicity, keep them
+            // (user can manage spells separately)
+            setShowFsReplaceModal(false);
+            setPendingFsReplace(null);
+            // Show FS picker for replacement (reuse existing fighting style picker)
+            setPendingFightingStyleLevelUp({ updatedChar: updated });
+            setShowFightingStylePicker(true);
+          }}
+          onSkip={() => {
+            const updated = pendingFsReplace.updatedChar;
+            setShowFsReplaceModal(false);
+            setPendingFsReplace(null);
+            checkAndShowFightingStylePicker(updated);
+          }}
+        />
+      )}
+
+      {/* FS Cantrip Picker Modal */}
+      {showFsCantripPicker && pendingFsCantrips && (
+        <FsCantripPickerModal
+          sourceClass={pendingFsCantrips.sourceClass}
+          count={pendingFsCantrips.count}
+          character={pendingFsCantrips.updatedChar}
+          onConfirm={(cantrips) => {
+            let updated = { ...pendingFsCantrips.updatedChar };
+            const newSpells = cantrips.map((s: any) => ({
+              spellId: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+              name: s.name,
+              level: 0,
+              prepared: true,
+              alwaysPrepared: true,
+            }));
+            if (updated.spellcasting) {
+              updated.spellcasting = {
+                ...updated.spellcasting,
+                spells: [...updated.spellcasting.spells, ...newSpells],
+                cantripsKnown: (updated.spellcasting.cantripsKnown ?? 0) + cantrips.length,
+              };
+            }
+            setShowFsCantripPicker(false);
+            setPendingFsCantrips(null);
+            checkAndShowFeatPicker(updated);
+          }}
+          onCancel={() => {
+            const updated = pendingFsCantrips.updatedChar;
+            setShowFsCantripPicker(false);
+            setPendingFsCantrips(null);
+            checkAndShowFeatPicker(updated);
           }}
         />
       )}
@@ -820,7 +1030,19 @@ function FeaturesSection({ character }: { character: Character }) {
           }
         }
 
-        // Class features — wrap description in rawEntries so EntryRenderer processes tags
+        // Build rawEntries from description + details (if present)
+        const buildRawEntries = (f: any): any[] => {
+          const entries: any[] = [];
+          if (f.description) entries.push(f.description);
+          if (f.details && typeof f.details === 'object') {
+            for (const val of Object.values(f.details)) {
+              if (typeof val === 'string') entries.push(val);
+            }
+          }
+          return entries;
+        };
+
+        // Class features — wrap description + details in rawEntries so EntryRenderer processes tags
         const classData = classMod.getClassDataByName(character.class);
         if (classData?.classFeatures) {
           const cf = classData.classFeatures
@@ -828,7 +1050,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .map((f: any) => ({
               name: f.name,
               description: f.description || '',
-              rawEntries: f.description ? [f.description] : [],
+              rawEntries: buildRawEntries(f),
               level: f.level,
               source: f.source,
             }));
@@ -851,10 +1073,10 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter(f => f.level <= character.level)
                 .map(f => ({
                   name: f.name,
-                  description: f.description || '',
-                  rawEntries: f.description ? [f.description] : [],
+                  description: (f as any).description || '',
+                  rawEntries: buildRawEntries(f),
                   level: f.level,
-                  source: f.source,
+                  source: (f as any).source,
                 }));
               setSubclassFeatures(sf);
             }
@@ -2121,6 +2343,340 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
               hover:bg-gold/30 transition-all gold-glow"
           >
             Выбрать {current?.name}
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+}
+
+// ── Fighting Style Replacement Modal ──
+
+function FsReplaceModal({
+  character,
+  onReplace,
+  onSkip,
+}: {
+  character: Character;
+  onReplace: (oldFeatName: string) => void;
+  onSkip: () => void;
+}) {
+  const fsFeats = (character.feats ?? []).filter(f => f.category?.startsWith('FS'));
+
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-bg-panel-solid rounded-xl border border-gold/30 p-6">
+        <h2 className="text-xl font-medieval text-gold mb-4">Замена боевого стиля</h2>
+        <p className="text-sm text-text-secondary mb-4">
+          При повышении уровня вы можете заменить свой боевой стиль на другой.
+        </p>
+
+        <div className="space-y-2 mb-6">
+          {fsFeats.map(f => (
+            <div key={f.name} className="flex items-center justify-between p-3 rounded-lg border border-border-default bg-bg-primary/40">
+              <span className="text-sm text-text-primary font-medium">{f.name}</span>
+              <button
+                onClick={() => onReplace(f.name)}
+                className="px-3 py-1 text-xs rounded border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors"
+              >
+                Заменить
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={onSkip}
+            className="px-6 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
+          >
+            Пропустить
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── FS Cantrip Picker Modal ──
+
+const FS_TIME_UNITS: Record<string, string> = { action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.', hour: 'час' };
+
+function getFsCantripMeta(spell: any) {
+  const castingTime = spell.time
+    ?.map((t: any) => `${t.number} ${FS_TIME_UNITS[t.unit] || t.unit}`)
+    .join(', ');
+  const range = spell.range?.distance?.amount
+    ? `${spell.range.distance.amount} фт.`
+    : spell.range?.type === 'touch' ? 'Касание'
+      : spell.range?.type === 'self' ? 'На себя'
+        : spell.range?.type || '';
+  const components = spell.components
+    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
+    : '';
+  const duration = spell.duration
+    ?.map((d: any) => {
+      if (d.type === 'instant') return 'Мгновенная';
+      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+      return d.type;
+    })
+    .join(', ');
+  return { castingTime, range, components, duration };
+}
+
+function getFsFirstEntryText(entries: any[]): string {
+  for (const e of entries) {
+    if (typeof e === 'string') return e;
+    if (e?.entries) return getFsFirstEntryText(e.entries);
+  }
+  return '';
+}
+
+function FsCantripPickerModal({
+  sourceClass,
+  count,
+  character,
+  onConfirm,
+  onCancel,
+}: {
+  sourceClass: string;
+  count: number;
+  character: Character;
+  onConfirm: (cantrips: any[]) => void;
+  onCancel: () => void;
+}) {
+  const [available, setAvailable] = useState<any[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selected, setSelected] = useState<any[]>([]);
+  const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
+  const [getImgUrl, setGetImgUrl] = useState<((name: string) => string) | null>(null);
+  const [EntryRenderer, setEntryRenderer] = useState<React.FC<any> | null>(null);
+  const [schoolNames, setSchoolNames] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [spellMod, entryMod] = await Promise.all([
+          import('../data/spells').then(async m => { await m.init(); return m; }),
+          import('../utils/entryRenderer'),
+        ]);
+        if (cancelled) return;
+        setGetImgUrl(() => spellMod.getSpellImageUrl);
+        setEntryRenderer(() => entryMod.EntryRenderer);
+        setSchoolNames(spellMod.SCHOOL_NAMES || {});
+        const all = spellMod.getSpellsByClass(sourceClass).filter((s: any) => s.level === 0);
+        const knownNames = new Set(character.spellcasting?.spells?.filter(s => s.level === 0).map(s => s.name) ?? []);
+        setAvailable(all.filter((s: any) => !knownNames.has(s.name)));
+        setLoaded(true);
+      } catch { if (!cancelled) setLoaded(true); }
+    })();
+    return () => { cancelled = true; };
+  }, [sourceClass, character]);
+
+  const filtered = searchQuery.trim()
+    ? available.filter((s: any) => s.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : available;
+
+  const toggle = (spell: any) => {
+    setSelected(prev => {
+      if (prev.some(s => s.name === spell.name)) return prev.filter(s => s.name !== spell.name);
+      if (prev.length >= count) return prev;
+      return [...prev, spell];
+    });
+  };
+
+  const expandedData = expandedSpell ? available.find(s => s.name === expandedSpell) ?? null : null;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
+    <div className="w-full max-w-7xl max-h-[85vh] bg-bg-panel-solid rounded-xl border border-gold/30 flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="shrink-0 border-b border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
+              <Sparkles className="text-purple-400" size={24} />
+              Выберите заговоры — {sourceClass}
+            </h1>
+            <p className="text-sm text-text-secondary mt-1">
+              Выберите {count} {count === 1 ? 'заговор' : 'заговора'} из списка {sourceClass === 'Жрец' ? 'жреца' : 'друида'}
+            </p>
+          </div>
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
+          >
+            Отмена
+          </button>
+        </div>
+      </div>
+
+      {/* Main content: two-column layout */}
+      <div className="flex flex-1 min-h-0 max-w-7xl mx-auto w-full">
+        {/* LEFT: content */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-5">
+          {!loaded ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 size={32} className="animate-spin text-gold" />
+              <span className="ml-3 text-text-secondary">Загрузка заговоров...</span>
+            </div>
+          ) : (
+            <>
+              {/* "Вы получите" section */}
+              <div className="glass-panel ornate-border p-4 space-y-3">
+                <h3 className="text-base font-medieval text-gold">Вы получите следующее:</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2 text-text-primary">
+                    <span className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <Sparkles size={12} className="text-purple-400" />
+                    </span>
+                    +{count} {count === 1 ? 'заговор' : 'заговора'} из списка {sourceClass === 'Жрец' ? 'жреца' : 'друида'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
+                <input
+                  type="text"
+                  placeholder="Поиск заговоров..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 bg-bg-primary border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50 transition-colors"
+                />
+              </div>
+
+              {/* Cantrip icon grid */}
+              <div className="glass-panel p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles size={16} className="text-purple-400" />
+                  <span className="text-sm font-medieval text-purple-300">
+                    Заговоры ({selected.length}/{count})
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {filtered.map((spell: any) => {
+                    const isSelected = selected.some(s => s.name === spell.name);
+                    const disabled = !isSelected && selected.length >= count;
+                    const meta = getFsCantripMeta(spell);
+                    return (
+                      <SpellTooltip
+                        key={spell.name}
+                        name={spell.name}
+                        level={0}
+                        school={spell.school}
+                        castingTime={meta.castingTime}
+                        range={meta.range}
+                        components={meta.components}
+                        duration={meta.duration}
+                        description={getFsFirstEntryText(spell.entries || [])}
+                      >
+                        <SpellIconBadge
+                          name={spell.name}
+                          school={spell.school}
+                          level={0}
+                          imageSrc={getImgUrl?.(spell.name)}
+                          prepared={!disabled || isSelected}
+                          selected={isSelected}
+                          onClick={() => {
+                            if (!disabled || isSelected) {
+                              toggle(spell);
+                              setExpandedSpell(spell.name);
+                            }
+                          }}
+                          className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
+                        />
+                      </SpellTooltip>
+                    );
+                  })}
+                  {filtered.length === 0 && (
+                    <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Expanded spell detail */}
+              {expandedData && (
+                <div className="glass-panel ornate-border p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-medieval text-gold">{expandedData.name}</h3>
+                    <button
+                      onClick={() => setExpandedSpell(null)}
+                      className="text-text-muted hover:text-text-primary text-sm"
+                    >✕</button>
+                  </div>
+                  <div className="text-xs text-text-muted">
+                    Заговор
+                    {expandedData.school && ` • ${schoolNames[expandedData.school] || expandedData.school}`}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    {(() => { const m = getFsCantripMeta(expandedData); return (<>
+                      {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
+                      {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
+                      {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
+                      {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                    </>); })()}
+                  </div>
+                  <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
+                    {EntryRenderer ? (
+                      <EntryRenderer entries={expandedData.entries} context={expandedData.name} />
+                    ) : (
+                      expandedData.entries?.map((e: any, i: number) => (
+                        <p key={i}>{typeof e === 'string' ? cleanEntryRefs(e) : ''}</p>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* RIGHT: Character stats sidebar */}
+        <div className="hidden lg:block w-72 shrink-0 border-l border-border-default bg-bg-panel-solid/50 overflow-y-auto p-4">
+          <CharacterStatsSidebar
+            character={character}
+            showCombatStats
+            classIconSrc={`/images/classes/${character.classId}.webp`}
+            className="!w-full !flex !flex-col"
+          />
+
+          {/* Selected cantrips summary */}
+          {selected.length > 0 && (
+            <div className="glass-panel p-3 mt-3 space-y-2">
+              <h4 className="text-[10px] uppercase tracking-wider text-text-muted">Выбрано</h4>
+              {selected.map((s: any) => (
+                <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
+                  <span className="truncate">{s.name}</span>
+                  <span className="text-purple-400 text-[10px] ml-auto">заг.</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="shrink-0 border-t border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="text-sm text-text-muted">
+            <span className={selected.length === count ? 'text-green-bright' : ''}>
+              Заговоры: {selected.length}/{count}
+            </span>
+          </div>
+          <button
+            onClick={() => onConfirm(selected)}
+            disabled={selected.length !== count}
+            className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
+              hover:bg-gold/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all
+              enabled:gold-glow"
+          >
+            Подтвердить
           </button>
         </div>
       </div>

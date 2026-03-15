@@ -23,7 +23,7 @@ import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
-import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
 
 // ─── Хелперы для SpeciesData ───
@@ -205,6 +205,7 @@ const ALL_STEPS = [
   { key: 'languages', label: 'Языки', icon: Languages },
   { key: 'originfeat', label: 'Черта', icon: Star },
   { key: 'charoptions', label: 'Опции', icon: Scroll },
+  { key: 'fightingStyle', label: 'Боевой стиль', icon: Shield },
   { key: 'abilities', label: 'Характеристики', icon: Dices },
   { key: 'skills', label: 'Навыки', icon: Target },
   { key: 'spells', label: 'Заклинания', icon: Wand2 },
@@ -352,6 +353,96 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return () => { cancelled = true; };
   }, []);
 
+  // Fighting Style
+  const [selectedFightingStyle, setSelectedFightingStyle] = useState<any | null>(null);
+  const [fightingStyleFeats, setFightingStyleFeats] = useState<any[]>([]);
+  const [fightingStyleLoaded, setFightingStyleLoaded] = useState(false);
+  const [fightingStyleSearch, setFightingStyleSearch] = useState('');
+  // Cantrips from Blessed Warrior / Druidic Warrior
+  const [fsCantrips, setFsCantrips] = useState<SpellData[]>([]);
+  const [fsCantripsAvailable, setFsCantripsAvailable] = useState<SpellData[]>([]);
+  const [fsCantripsLoaded, setFsCantripsLoaded] = useState(true);
+  const [fsCantripSearch, setFsCantripSearch] = useState('');
+  const [fsCantripDetail, setFsCantripDetail] = useState<SpellData | null>(null);
+
+  // Detect if class needs fighting style at level 1
+  const needsFightingStyle = useMemo(() => {
+    if (!classLevelTable) return false;
+    const level1Row = classLevelTable.find((r: any) => r.level === 1);
+    return (level1Row?.features as string[] | undefined)?.includes('Fighting Style') ?? false;
+  }, [classLevelTable]);
+
+  // Load fighting style feats when class changes (reuse already-loaded feats module)
+  React.useEffect(() => {
+    if (!selectedClass) {
+      setFightingStyleFeats([]);
+      setFightingStyleLoaded(false);
+      setSelectedFightingStyle(null);
+      setFightingStyleSearch('');
+      return;
+    }
+    let cancelled = false;
+    setFightingStyleLoaded(false);
+    setSelectedFightingStyle(null);
+    setFightingStyleSearch('');
+    import('../data/feats').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      const classId = selectedClass.id;
+      setFightingStyleFeats(mod.ALL_FEATS.filter(f => {
+        if (!f.category || !f.category.startsWith('FS')) return false;
+        if (f.category === 'FS') return true;
+        const suffix = f.category.split(':')[1];
+        if (suffix === 'P' && classId === 'paladin') return true;
+        if (suffix === 'R' && classId === 'ranger') return true;
+        return false;
+      }));
+      setFightingStyleLoaded(true);
+    }).catch(err => {
+      console.error('Failed to load fighting style feats:', err);
+      if (!cancelled) setFightingStyleLoaded(true);
+    });
+    return () => { cancelled = true; };
+  }, [selectedClass]);
+
+  // Load cantrips when a fighting style with additionalSpells is selected (Blessed/Druidic Warrior)
+  const FS_CLASS_MAP: Record<string, string> = { cleric: 'Жрец', druid: 'Друид' };
+  const fsRequiredCantrips = useMemo(() => {
+    const as = selectedFightingStyle?.additionalSpells?.[0];
+    if (!as) return 0;
+    return as.known?._?.[0]?.count ?? 0;
+  }, [selectedFightingStyle]);
+
+  const fsSourceClass = useMemo(() => {
+    const as = selectedFightingStyle?.additionalSpells?.[0];
+    if (!as) return '';
+    const choose: string = as.known?._?.[0]?.choose ?? '';
+    // format: "level=0|class=cleric"
+    const classMatch = choose.match(/class=(\w+)/);
+    return classMatch ? (FS_CLASS_MAP[classMatch[1]] || classMatch[1]) : '';
+  }, [selectedFightingStyle]);
+
+  React.useEffect(() => {
+    setFsCantrips([]);
+    setFsCantripSearch('');
+    if (!fsSourceClass || fsRequiredCantrips === 0) {
+      setFsCantripsAvailable([]);
+      setFsCantripsLoaded(true);
+      return;
+    }
+    let cancelled = false;
+    setFsCantripsLoaded(false);
+    import('../data/spells').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      spellsModRef.current = mod; // Store ref for getSpellImageUrl
+      const cantrips = mod.getSpellsByClass(fsSourceClass).filter((s: any) => s.level === 0);
+      setFsCantripsAvailable(cantrips as SpellData[]);
+      setFsCantripsLoaded(true);
+    }).catch(() => { if (!cancelled) setFsCantripsLoaded(true); });
+    return () => { cancelled = true; };
+  }, [fsSourceClass, fsRequiredCantrips]);
+
   // Skills (reset when class changes)
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   React.useEffect(() => { setSelectedSkills([]); }, [selectedClass]);
@@ -460,10 +551,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return ALL_STEPS.filter(s => {
       if (s.key === 'languages' && !needsLanguageStep) return false;
       if (s.key === 'originfeat' && bgHasFeat) return false;
+      if (s.key === 'fightingStyle' && !needsFightingStyle) return false;
       if (s.key === 'spells' && !isSpellcaster) return false;
       return true;
     });
-  }, [bgHasFeat, isSpellcaster, needsLanguageStep]);
+  }, [bgHasFeat, isSpellcaster, needsLanguageStep, needsFightingStyle]);
 
   // Clamp step when STEPS length changes
   React.useEffect(() => {
@@ -495,6 +587,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         return true;
       }
       case 'originfeat': return selectedOriginFeat !== null;
+      case 'fightingStyle': return selectedFightingStyle !== null && (fsRequiredCantrips === 0 || fsCantrips.length === fsRequiredCantrips);
       case 'skills': {
         if (!selectedClass) return false;
         return selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
@@ -630,20 +723,38 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       inventory: [],
       equipment: {},
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
-      features: featName ? [{
-        id: bgFeat ? 'bg-feat' : 'origin-feat',
-        name: featName,
-        description: bgFeat
-          ? `Черта от предыстории: ${selectedBackground.name}`
-          : `Черта происхождения`,
-        source: featSource,
-      }] : [],
-      feats: featName ? [{
-        name: featName,
-        source: featSource,
-        category: 'O',
-        levelAcquired: 1,
-      }] : undefined,
+      features: [
+        ...(featName ? [{
+          id: bgFeat ? 'bg-feat' : 'origin-feat',
+          name: featName,
+          description: bgFeat
+            ? `Черта от предыстории: ${selectedBackground.name}`
+            : `Черта происхождения`,
+          source: featSource,
+        }] : []),
+        ...(selectedFightingStyle ? [{
+          id: `feat-${selectedFightingStyle.name.toLowerCase().replace(/\s+/g, '-')}-1`,
+          name: selectedFightingStyle.name,
+          description: selectedFightingStyle.entries?.map((e: any) =>
+            typeof e === 'string' ? e : ''
+          ).filter(Boolean).join('\n') || '',
+          source: selectedFightingStyle.source || 'XPHB',
+        }] : []),
+      ],
+      feats: [
+        ...(featName ? [{
+          name: featName,
+          source: featSource,
+          category: 'O',
+          levelAcquired: 1,
+        }] : []),
+        ...(selectedFightingStyle ? [{
+          name: selectedFightingStyle.name,
+          source: selectedFightingStyle.source || 'XPHB',
+          category: selectedFightingStyle.category || 'FS',
+          levelAcquired: 1,
+        }] : []),
+      ],
       ...(confirmedCharOption ? {
         charCreationOption: {
           name: confirmedCharOption.name,
@@ -671,12 +782,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           prepared: true,
         })),
       ];
+      // Append cantrips from fighting style (Blessed Warrior / Druidic Warrior)
+      const fsCantripSpells = fsCantrips.map(s => ({
+        spellId: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name: s.name,
+        level: 0,
+        prepared: true,
+        alwaysPrepared: true,
+      }));
       character.spellcasting = {
         ability: selectedClass.spellcastingAbility,
         spellSaveDC: 8 + proficiencyBonus + abilityMod,
         spellAttackBonus: proficiencyBonus + abilityMod,
-        spells: allSelectedSpells,
-        cantripsKnown: maxCantrips,
+        spells: [...allSelectedSpells, ...fsCantripSpells],
+        cantripsKnown: maxCantrips + fsCantrips.length,
         spellsKnown: maxSpells,
       };
 
@@ -1930,6 +2049,211 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     );
   };
 
+  // ─── Step: Fighting Style ───
+  const renderFightingStyleStep = () => {
+    if (!fightingStyleLoaded) {
+      return (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 size={24} className="text-gold animate-spin" />
+          <span className="ml-2 text-text-muted">Загрузка боевых стилей...</span>
+        </div>
+      );
+    }
+
+    const filtered = fightingStyleSearch.trim()
+      ? fightingStyleFeats.filter(f => f.name.toLowerCase().includes(fightingStyleSearch.toLowerCase()))
+      : fightingStyleFeats;
+
+    return (
+      <div className="space-y-4">
+        <div className="glass-panel p-4">
+          <h3 className="text-lg font-medieval text-gold mb-1">Боевой стиль</h3>
+          <p className="text-xs text-text-muted mb-4">
+            Вы получаете черту «Боевой стиль». Выберите один из доступных вариантов.
+          </p>
+
+          {/* Search */}
+          <div className="relative mb-3">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input
+              type="text"
+              value={fightingStyleSearch}
+              onChange={e => setFightingStyleSearch(e.target.value)}
+              placeholder="Поиск стиля..."
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
+                text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
+            />
+          </div>
+
+          {/* Style grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
+            {filtered.map(feat => {
+              const isSelected = selectedFightingStyle?.name === feat.name;
+              return (
+                <button
+                  key={feat.name}
+                  onClick={() => setSelectedFightingStyle(isSelected ? null : feat)}
+                  className={`text-left rounded-lg border p-3 transition-all ${
+                    isSelected
+                      ? 'border-gold/50 bg-gold/10'
+                      : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    {isSelected && <Check size={14} className="text-gold shrink-0" />}
+                    <span className={`text-sm font-medium ${isSelected ? 'text-gold' : 'text-text-primary'}`}>
+                      {feat.name}
+                    </span>
+                  </div>
+                  {feat.entries?.[0] && typeof feat.entries[0] === 'string' && (
+                    <p className="text-[11px] text-text-muted mt-1 line-clamp-2">
+                      {feat.entries[0].replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1').slice(0, 120)}
+                    </p>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+          )}
+        </div>
+
+        {/* Selected style detail */}
+        {selectedFightingStyle && (
+          <div className="glass-panel p-4">
+            <h4 className="text-base font-medieval text-gold mb-2">{selectedFightingStyle.name}</h4>
+            <div className="text-sm text-text-secondary leading-relaxed space-y-2">
+              {EntryRendererCmp ? (
+                <EntryRendererCmp entries={selectedFightingStyle.entries} />
+              ) : (
+                selectedFightingStyle.entries?.map((e: any, i: number) => (
+                  <p key={i}>{typeof e === 'string' ? e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1') : ''}</p>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Cantrip picker for Blessed Warrior / Druidic Warrior */}
+        {selectedFightingStyle && fsRequiredCantrips > 0 && (
+          <div className="glass-panel p-4 space-y-3">
+            <h4 className="text-base font-medieval text-purple-300 mb-1">
+              Выберите заговоры
+              <span className="text-sm font-normal text-text-secondary ml-2">
+                ({fsCantrips.length}/{fsRequiredCantrips}) — {fsSourceClass}
+              </span>
+            </h4>
+
+            {!fsCantripsLoaded ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 size={20} className="text-gold animate-spin" />
+                <span className="ml-2 text-text-muted text-sm">Загрузка заговоров...</span>
+              </div>
+            ) : (
+              <>
+                <div className="relative">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+                  <input
+                    type="text"
+                    value={fsCantripSearch}
+                    onChange={e => setFsCantripSearch(e.target.value)}
+                    placeholder="Поиск заговора..."
+                    className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
+                      text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {(fsCantripSearch.trim()
+                    ? fsCantripsAvailable.filter(s => s.name.toLowerCase().includes(fsCantripSearch.toLowerCase()))
+                    : fsCantripsAvailable
+                  ).map(spell => {
+                    const isSelected = fsCantrips.some(s => s.name === spell.name);
+                    const limitReached = !isSelected && fsCantrips.length >= fsRequiredCantrips;
+                    const meta = getSpellMeta(spell);
+                    const imgUrl = spellsModRef.current?.getSpellImageUrl?.(spell.name);
+                    return (
+                      <SpellTooltip
+                        key={spell.name}
+                        name={spell.name}
+                        level={0}
+                        school={spell.school}
+                        castingTime={meta.castingTime}
+                        range={meta.range}
+                        components={meta.components}
+                        duration={meta.duration}
+                        description={spell.entries ? getFirstEntryText(spell.entries) : undefined}
+                      >
+                        <SpellIconBadge
+                          name={spell.name}
+                          school={spell.school}
+                          level={0}
+                          imageSrc={imgUrl}
+                          prepared={!limitReached || isSelected}
+                          selected={isSelected}
+                          onClick={() => {
+                            if (!limitReached || isSelected) {
+                              setFsCantripDetail(spell);
+                              setFsCantrips(prev => {
+                                if (prev.some(s => s.name === spell.name)) return prev.filter(s => s.name !== spell.name);
+                                if (prev.length >= fsRequiredCantrips) return prev;
+                                return [...prev, spell];
+                              });
+                            }
+                          }}
+                          className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
+                        />
+                      </SpellTooltip>
+                    );
+                  })}
+                  {fsCantripsAvailable.length === 0 && (
+                    <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                  )}
+                </div>
+
+                {/* Expanded detail panel for focused cantrip */}
+                {fsCantripDetail && (
+                  <div className="glass-panel ornate-border p-4 mt-3 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h5 className="text-lg font-medieval text-gold">{fsCantripDetail.name}</h5>
+                      <button
+                        onClick={() => setFsCantripDetail(null)}
+                        className="text-text-muted hover:text-text-primary text-sm"
+                      >✕</button>
+                    </div>
+                    <div className="text-xs text-text-muted">
+                      Заговор
+                      {fsCantripDetail.school && ` • ${SCHOOL_NAMES[fsCantripDetail.school] || fsCantripDetail.school}`}
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      {(() => { const m = getSpellMeta(fsCantripDetail); return (<>
+                        {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
+                        {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
+                        {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
+                        {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                      </>); })()}
+                    </div>
+                    <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
+                      {EntryRendererCmp ? (
+                        <EntryRendererCmp entries={fsCantripDetail.entries} context={fsCantripDetail.name} />
+                      ) : (
+                        fsCantripDetail.entries?.map((e: any, i: number) => (
+                          <p key={i}>{typeof e === 'string' ? e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1') : ''}</p>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // ─── Step: Skills ───
   const renderSkillsStep = () => {
     if (!selectedClass) return null;
@@ -2288,6 +2612,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 'languages': return renderLanguagesStep();
       case 'originfeat': return renderOriginFeatStep();
       case 'charoptions': return renderCharOptionsStep();
+      case 'fightingStyle': return renderFightingStyleStep();
       case 'abilities': return renderAbilitiesStep();
       case 'skills': return renderSkillsStep();
       case 'spells': return renderSpellsStep();

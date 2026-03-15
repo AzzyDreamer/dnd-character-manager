@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Character, CustomAttack } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
 import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
-import { getClassResources, getClassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
+import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
@@ -196,7 +196,10 @@ const ResourceTokenTracker: React.FC<{
           const current = trackers[res.key]?.current ?? res.max;
           return (
             <div key={res.key} className="flex items-center gap-3">
-              <span className="text-xs text-text-secondary min-w-[140px]">{res.label}</span>
+              <span className="text-xs text-text-secondary min-w-[140px] flex items-center gap-1.5">
+                {res.icon && <img src={res.icon} alt="" className="w-5 h-5 object-contain" />}
+                {res.label}
+              </span>
               <div className="flex gap-1">
                 {Array.from({ length: res.max }, (_, i) => {
                   const isAvailable = i < current;
@@ -380,14 +383,123 @@ const WeaponAttacksSection: React.FC<{
 
 // ─── Actions & Features Section ──────────────────────────────────────
 
+interface LoadedFeature {
+  id: string;
+  name: string;
+  source: string;
+  rawEntries: any[];
+}
+
 const ActionsSection: React.FC<{
   character: Character;
   passiveStats: ClassPassiveStat[];
-}> = ({ character, passiveStats }) => {
+  EntryRenderer?: React.FC<any>;
+}> = ({ character, passiveStats, EntryRenderer: EntryRendererProp }) => {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const [loadedFeatures, setLoadedFeatures] = useState<LoadedFeature[]>([]);
+  const [LocalEntryRenderer, setLocalEntryRenderer] = useState<React.FC<any> | null>(null);
+
+  // Load EntryRenderer lazily if not passed as prop
+  useEffect(() => {
+    if (EntryRendererProp) return;
+    let cancelled = false;
+    import('../utils/entryRenderer').then(mod => {
+      if (!cancelled) setLocalEntryRenderer(() => mod.EntryRenderer);
+    });
+    return () => { cancelled = true; };
+  }, [EntryRendererProp]);
+
+  const Renderer = EntryRendererProp || LocalEntryRenderer;
 
   const features = character.features ?? [];
-  if (features.length === 0 && passiveStats.length === 0) return null;
+
+  // Build rawEntries from description + details
+  const buildRawEntries = (f: any): any[] => {
+    const entries: any[] = [];
+    if (f.description) entries.push(f.description);
+    if (f.details && typeof f.details === 'object') {
+      for (const val of Object.values(f.details)) {
+        if (typeof val === 'string') entries.push(val);
+      }
+    }
+    return entries;
+  };
+
+  // Load full feature data from class/subclass JSON
+  useEffect(() => {
+    if (features.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const classMod = await import('../data/classes/classJsonLoader');
+        await classMod.init();
+        if (cancelled) return;
+
+        const classData = classMod.getClassDataByName(character.class);
+        const featureMap = new Map<string, any>();
+        if (classData?.classFeatures) {
+          for (const f of classData.classFeatures) {
+            if (f.level <= character.level) {
+              featureMap.set(f.name.toLowerCase(), f);
+            }
+          }
+        }
+
+        // Also load subclass features
+        if (character.subclass) {
+          try {
+            const subMod = await import('../data/classes/subclassJsonLoader');
+            await subMod.init();
+            if (cancelled) return;
+            const { getClassById, CLASS_REGISTRY } = await import('../data/classes');
+            const classDef = getClassById(character.classId || '') ?? CLASS_REGISTRY.find(c => c.name === character.class);
+            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            if (subDef) {
+              const subData = subMod.getSubclassById(classDef!.id, subDef.id);
+              if (subData?.features) {
+                for (const f of subData.features) {
+                  if (f.level <= character.level) {
+                    featureMap.set(f.name.toLowerCase(), f);
+                  }
+                }
+              }
+            }
+          } catch (e) { console.warn('Failed to load subclass for ActionsSection:', e); }
+        }
+
+        if (cancelled) return;
+        const loaded: LoadedFeature[] = features.map(feat => {
+          const jsonFeat = featureMap.get(feat.name.toLowerCase());
+          return {
+            id: feat.id,
+            name: feat.name,
+            source: feat.source,
+            rawEntries: jsonFeat ? buildRawEntries(jsonFeat) : (feat.description ? [feat.description] : []),
+          };
+        });
+        setLoadedFeatures(loaded);
+      } catch (e) {
+        console.warn('Failed to load features for ActionsSection:', e);
+        // Fallback to simple descriptions
+        setLoadedFeatures(features.map(feat => ({
+          id: feat.id,
+          name: feat.name,
+          source: feat.source,
+          rawEntries: feat.description ? [feat.description] : [],
+        })));
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [character.class, character.classId, character.subclass, character.level, features.length]);
+
+  const displayFeatures = loadedFeatures.length > 0 ? loadedFeatures : features.map(f => ({
+    id: f.id,
+    name: f.name,
+    source: f.source,
+    rawEntries: f.description ? [f.description] : [],
+  }));
+
+  if (displayFeatures.length === 0 && passiveStats.length === 0) return null;
 
   return (
     <div className="glass-panel p-3">
@@ -402,8 +514,9 @@ const ActionsSection: React.FC<{
           {passiveStats.map(stat => (
             <span
               key={stat.key}
-              className="px-2 py-0.5 rounded text-xs bg-purple-900/40 text-purple-300 border border-purple-800/30"
+              className="px-2 py-0.5 rounded text-xs bg-purple-900/40 text-purple-300 border border-purple-800/30 flex items-center gap-1.5"
             >
+              {stat.icon && <img src={stat.icon} alt="" className="w-4 h-4 object-contain" />}
               {stat.label}: {stat.value}
             </span>
           ))}
@@ -412,7 +525,7 @@ const ActionsSection: React.FC<{
 
       {/* Features list */}
       <div className="space-y-1">
-        {features.map(feat => (
+        {displayFeatures.map(feat => (
           <div key={feat.id} className="rounded bg-bg-secondary/50">
             <button
               onClick={() => setExpandedFeature(expandedFeature === feat.id ? null : feat.id)}
@@ -424,9 +537,14 @@ const ActionsSection: React.FC<{
               <span className="text-text-primary font-medium">{feat.name}</span>
               <span className="text-xs text-text-muted ml-auto">{feat.source}</span>
             </button>
-            {expandedFeature === feat.id && feat.description && (
+            {expandedFeature === feat.id && feat.rawEntries.length > 0 && (
               <div className="px-6 pb-2 text-xs text-text-secondary leading-relaxed">
-                {cleanTagRefs(feat.description)}
+                {Renderer
+                  ? <Renderer entries={feat.rawEntries} context={feat.name} />
+                  : feat.rawEntries.map((e, i) => (
+                      <p key={i} className={i > 0 ? 'mt-1' : ''}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
+                    ))
+                }
               </div>
             )}
           </div>
@@ -467,15 +585,27 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
         );
         if (classData?.levelTable) {
           const row = getLevelTableRow(classData.levelTable, character.level);
-          setClassResources(getClassResources(row));
-          setPassiveStats(getClassPassiveStats(row));
+          const baseResources = getClassResources(row);
+          const basePassive = getClassPassiveStats(row);
+          // Add subclass resources & passive stats (e.g. Battle Master superiority dice)
+          if (character.subclass && character.classId) {
+            const { CLASS_REGISTRY: registry } = await import('../data/classes');
+            const classDef = registry.find(c => c.id === character.classId);
+            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            if (subDef) {
+              baseResources.push(...getSubclassResources(character.classId, subDef.id, character.level));
+              basePassive.push(...getSubclassPassiveStats(character.classId, subDef.id, character.level));
+            }
+          }
+          setClassResources(baseResources);
+          setPassiveStats(basePassive);
         }
       } catch (e) {
         console.warn('Failed to load class resources:', e);
       }
     })();
     return () => { cancelled = true; };
-  }, [character.classId, character.class, character.level]);
+  }, [character.classId, character.class, character.level, character.subclass]);
 
   // Load spells data (only if spellcaster)
   useEffect(() => {
@@ -672,7 +802,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       <WeaponAttacksSection character={character} onUpdate={onUpdate} />
 
       {/* ── Section D: Actions & Features ── */}
-      <ActionsSection character={character} passiveStats={passiveStats} />
+      <ActionsSection character={character} passiveStats={passiveStats} EntryRenderer={modules?.EntryRenderer} />
 
       {/* ── Section E: Spellcasting Stats Bar ── */}
       {spellcasting && (

@@ -8,7 +8,7 @@ import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 
 // ── Types ──
 
-type FeatPickerMode = 'asi' | 'epicBoon';
+type FeatPickerMode = 'asi' | 'epicBoon' | 'fightingStyle';
 type PickerTab = 'asi' | 'feat';
 
 export interface FeatPickerResult {
@@ -46,7 +46,8 @@ function loadEntryRenderer(): Promise<void> {
 // ── Main Component ──
 
 export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPickerModalProps) {
-  const [activeTab, setActiveTab] = useState<PickerTab>('asi');
+  const isFightingStyle = mode === 'fightingStyle';
+  const [activeTab, setActiveTab] = useState<PickerTab>(isFightingStyle ? 'feat' : 'asi');
   const [allFeats, setAllFeats] = useState<FeatData[]>([]);
   const [featsLoading, setFeatsLoading] = useState(true);
   const [entryReady, setEntryReady] = useState(!!_EntryRenderer);
@@ -60,8 +61,8 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
   const [featAbilityChoice, setFeatAbilityChoice] = useState<Partial<AbilityScores>>({});
 
   const maxScore = 30;
-  const category = mode === 'epicBoon' ? 'EB' : 'G';
-  const categoryLabel = mode === 'epicBoon' ? 'Эпическое благо' : 'Общая черта';
+  const category = mode === 'epicBoon' ? 'EB' : isFightingStyle ? 'FS' : 'G';
+  const categoryLabel = mode === 'epicBoon' ? 'Эпическое благо' : isFightingStyle ? 'Боевой стиль' : 'Общая черта';
 
   // Load feats
   useEffect(() => {
@@ -98,22 +99,31 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
   // All category feats (excluding ASI)
   const categoryFeats = useMemo(() => {
     return allFeats.filter(feat => {
+      if (isFightingStyle) {
+        // FS = generic, FS:P = paladin-only, FS:R = ranger-only
+        if (!feat.category || !feat.category.startsWith('FS')) return false;
+        if (feat.category === 'FS') return true;
+        const suffix = feat.category.split(':')[1];
+        if (suffix === 'P' && character.classId === 'paladin') return true;
+        if (suffix === 'R' && character.classId === 'ranger') return true;
+        return false;
+      }
       if (feat.category !== category) return false;
       if (feat.name === 'Ability Score Improvement') return false;
       return true;
     });
-  }, [allFeats, category]);
+  }, [allFeats, category, isFightingStyle, character.classId]);
 
-  // Set of eligible feat names
+  // Set of eligible feat names (in fightingStyle mode all are eligible)
   const eligibleFeatNames = useMemo(() => {
     const names = new Set<string>();
     for (const feat of categoryFeats) {
-      if (checkFeatPrerequisite(featCtx, feat)) {
+      if (isFightingStyle || checkFeatPrerequisite(featCtx, feat)) {
         names.add(feat.name);
       }
     }
     return names;
-  }, [categoryFeats, featCtx]);
+  }, [categoryFeats, featCtx, isFightingStyle]);
 
   // Search filter + sort: eligible first, then ineligible
   const filteredFeats = useMemo(() => {
@@ -240,10 +250,14 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
-              {mode === 'epicBoon' ? 'Эпическое благо — Уровень 19' : `Улучшение — Уровень ${character.level}`}
+              {isFightingStyle
+                ? `Боевой стиль — Уровень ${character.level}`
+                : mode === 'epicBoon' ? 'Эпическое благо — Уровень 19' : `Улучшение — Уровень ${character.level}`}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              Выберите улучшение характеристик (+2/+1) или черту
+              {isFightingStyle
+                ? 'Выберите боевой стиль'
+                : 'Выберите улучшение характеристик (+2/+1) или черту'}
             </p>
           </div>
           <button
@@ -255,12 +269,14 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="shrink-0 bg-bg-panel-solid/90">
-        <div className="max-w-6xl mx-auto">
-          <TabBar tabs={tabs} activeTab={activeTab} onTabChange={(k) => setActiveTab(k as PickerTab)} size="md" />
+      {/* Tabs (hidden in fightingStyle mode) */}
+      {!isFightingStyle && (
+        <div className="shrink-0 bg-bg-panel-solid/90">
+          <div className="max-w-6xl mx-auto">
+            <TabBar tabs={tabs} activeTab={activeTab} onTabChange={(k) => setActiveTab(k as PickerTab)} size="md" />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Content + Sidebar */}
       <div className="flex-1 min-h-0 flex gap-4 max-w-6xl mx-auto w-full p-4">
@@ -308,7 +324,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
             ) : (
               selectedFeat ? (
                 <span>Выбрано: <span className="text-gold font-semibold">{selectedFeat.name}</span></span>
-              ) : 'Выберите черту'
+              ) : isFightingStyle ? 'Выберите боевой стиль' : 'Выберите черту'
             )}
           </div>
           <button
