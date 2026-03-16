@@ -1403,8 +1403,31 @@ function getConditionDisplayName(name: string): string {
   return CONDITION_NAMES[name] || name;
 }
 
+// Override map for feature names that differ from image filenames
+// (British/American spelling, variant suffixes, etc.)
+const FEATURE_IMAGE_OVERRIDES: Record<string, string> = {
+  'Accursed_Specter': 'Accursed_Spectre',
+  'Armor_of_Hexes': 'Armour_of_Hexes',
+  'Beguiling_Defenses': 'Beguiling_Defences',
+  'Bolstering_Magic': 'Bolstering_Magic_Boon',
+  'Elemental_Affinity': 'Elemental_Affinity_Damage',
+  'Elemental_Cleaver': 'Elemental_Cleaver_fire',
+  'Heart_of_the_Storm': 'Heart_of_the_Storm_Lightning',
+  'Improved_Critical': 'Improved_Critical_Hit',
+  'Martial_Arts': 'Martial_Arts_Dextrous_Attacks',
+  'Remarkable_Athlete': 'Remarkable_Athlete_Proficiency',
+  'Sneak_Attack': 'Sneak_Attack_Melee',
+  'Song_of_Defense': 'Song_of_Defence',
+  'Stunning_Strike': 'Stunning_Strike_Melee',
+  'Unarmored_Defense': 'Unarmoured_Defense_Barbarian',
+  'Unarmored_Movement': 'Unarmoured_Movement',
+  'Arcane_Shot': 'Arcane_Shot_Banishing_Arrow',
+  'Metamagic': 'Metamagic_Subtle_Spell',
+};
+
 function getFeatureImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  const sanitized = name.replace(/[^a-zA-Z0-9]/g, '_');
+  const filename = FEATURE_IMAGE_OVERRIDES[sanitized] || sanitized;
   return `/images/misc/${filename}.webp`;
 }
 
