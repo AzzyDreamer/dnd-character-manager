@@ -7,7 +7,7 @@ import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
-import type { SubclassJsonData } from '../data/classes/subclassJsonLoader';
+import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
 
@@ -965,6 +965,7 @@ function FeaturesSection({ character }: { character: Character }) {
   const [loaded, setLoaded] = useState(false);
   const [classFeatures, setClassFeatures] = useState<FeatureItem[]>([]);
   const [subclassFeatures, setSubclassFeatures] = useState<FeatureItem[]>([]);
+  const [subclassImageUrl, setSubclassImageUrl] = useState<string | null>(null);
   const [raceTraits, setRaceTraits] = useState<FeatureItem[]>([]);
   const [featItems, setFeatItems] = useState<FeatureItem[]>([]);
   const [charOptionTraits, setCharOptionTraits] = useState<FeatureItem[]>([]);
@@ -997,6 +998,7 @@ function FeaturesSection({ character }: { character: Character }) {
     setLoaded(false);
     setClassFeatures([]);
     setSubclassFeatures([]);
+    setSubclassImageUrl(null);
     setRaceTraits([]);
     setFeatItems([]);
     setCharOptionTraits([]);
@@ -1079,6 +1081,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 }));
               setSubclassFeatures(sf);
             }
+            setSubclassImageUrl(subMod.getSubclassImageUrl(classDef!.id, subDef.id));
           }
         }
 
@@ -1174,7 +1177,9 @@ function FeaturesSection({ character }: { character: Character }) {
     }] : []),
     ...(subclassFeatures.length > 0 && character.subclass ? [{
       label: character.subclass,
-      icon: <BookOpen size={14} className="text-blue-400" />,
+      icon: subclassImageUrl
+        ? <img src={subclassImageUrl} alt="" className="w-5 h-5 rounded object-cover shrink-0" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        : <BookOpen size={14} className="text-blue-400" />,
       features: subclassFeatures,
     }] : []),
     ...(charOptionTraits.length > 0 ? [{
@@ -2245,7 +2250,8 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
               >
                 <ChevronLeft size={20} />
               </button>
-              <div className="text-center min-w-[200px]">
+              <div className="text-center min-w-[200px] flex flex-col items-center">
+                {(() => { const scImg = current ? getSubclassImageUrl(classDef.id, current.id) : null; return scImg ? <img src={scImg} alt="" className="w-10 h-10 rounded-lg object-cover mb-1" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} /> : null; })()}
                 <div className="text-xl font-medieval text-gold">{current?.name}</div>
                 <div className="text-xs text-text-muted mt-1">{current?.source}</div>
               </div>

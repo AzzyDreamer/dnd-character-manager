@@ -20,6 +20,7 @@ import {
   canDecreasePointBuy,
 } from '../utils/dnd';
 import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
+import { getSubclassImageUrl } from '../data/classes/subclassJsonLoader';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
@@ -1072,12 +1073,17 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   Подклассы (выбор на 3 ур.)
                 </h4>
                 <div className="space-y-1">
-                  {selectedClass.subclasses.map(sub => (
-                    <div key={sub.id} className="flex items-center gap-1.5 text-[11px] text-text-secondary">
-                      <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />
-                      <span>{sub.name}</span>
-                    </div>
-                  ))}
+                  {selectedClass.subclasses.map(sub => {
+                    const scImg = getSubclassImageUrl(selectedClass.id, sub.id);
+                    return (
+                      <div key={sub.id} className="flex items-center gap-1.5 text-[11px] text-text-secondary">
+                        {scImg
+                          ? <img src={scImg} alt="" className="w-4 h-4 rounded object-cover shrink-0" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                          : <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />}
+                        <span>{sub.name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
