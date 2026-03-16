@@ -1037,7 +1037,15 @@ function FeaturesSection({ character }: { character: Character }) {
           if (f.description) entries.push(f.description);
           if (f.details && typeof f.details === 'object') {
             for (const val of Object.values(f.details)) {
-              if (typeof val === 'string') entries.push(val);
+              if (typeof val === 'string') {
+                // Extract bold name like {@b Careful Spell.} or just "Name. ..."
+                const match = val.match(/\{@b\s+([^.}]+)\.\s*\}/);
+                if (match) {
+                  entries.push({ _detailName: match[1], _detailText: val });
+                } else {
+                  entries.push(val);
+                }
+              }
             }
           }
           return entries;
@@ -1227,9 +1235,32 @@ function FeaturesSection({ character }: { character: Character }) {
 
   const renderFeatureContent = (feat: FeatureItem) => {
     if (feat.rawEntries && feat.rawEntries.length > 0 && EntryRendererCmp) {
+      // Separate plain entries from detail entries (with images)
+      const plainEntries = feat.rawEntries.filter(e => !e?._detailName);
+      const detailEntries = feat.rawEntries.filter(e => e?._detailName);
+
       return (
         <div className="mt-2 pt-2 border-t border-border-default text-xs text-text-secondary leading-relaxed ml-3.5 prose prose-invert prose-sm max-w-none">
-          <EntryRendererCmp entries={feat.rawEntries} context={feat.name} />
+          {plainEntries.length > 0 && (
+            <EntryRendererCmp entries={plainEntries} context={feat.name} />
+          )}
+          {detailEntries.length > 0 && (
+            <div className="space-y-2 mt-2 not-prose">
+              {detailEntries.map((d: any, i: number) => (
+                <div key={i} className="flex gap-2 items-start">
+                  <img
+                    src={getFeatureImageUrl(d._detailName)}
+                    alt=""
+                    className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel mt-0.5"
+                    onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                  <div className="prose prose-invert prose-sm max-w-none text-xs">
+                    <EntryRendererCmp entries={[d._detailText]} context={d._detailName} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       );
     }
@@ -1406,9 +1437,15 @@ function getConditionDisplayName(name: string): string {
 // Override map for feature names that differ from image filenames
 // (British/American spelling, variant suffixes, etc.)
 const FEATURE_IMAGE_OVERRIDES: Record<string, string> = {
+  // British/American spelling
   'Accursed_Specter': 'Accursed_Spectre',
   'Armor_of_Hexes': 'Armour_of_Hexes',
   'Beguiling_Defenses': 'Beguiling_Defences',
+  'Song_of_Defense': 'Song_of_Defence',
+  'Unarmored_Defense': 'Unarmoured_Defense_Barbarian',
+  'Unarmored_Movement': 'Unarmoured_Movement',
+  'Patient_Defense': 'Patient_Defence',
+  // Parent features with variant images
   'Bolstering_Magic': 'Bolstering_Magic_Boon',
   'Elemental_Affinity': 'Elemental_Affinity_Damage',
   'Elemental_Cleaver': 'Elemental_Cleaver_fire',
@@ -1417,12 +1454,43 @@ const FEATURE_IMAGE_OVERRIDES: Record<string, string> = {
   'Martial_Arts': 'Martial_Arts_Dextrous_Attacks',
   'Remarkable_Athlete': 'Remarkable_Athlete_Proficiency',
   'Sneak_Attack': 'Sneak_Attack_Melee',
-  'Song_of_Defense': 'Song_of_Defence',
   'Stunning_Strike': 'Stunning_Strike_Melee',
-  'Unarmored_Defense': 'Unarmoured_Defense_Barbarian',
-  'Unarmored_Movement': 'Unarmoured_Movement',
   'Arcane_Shot': 'Arcane_Shot_Banishing_Arrow',
   'Metamagic': 'Metamagic_Subtle_Spell',
+  'Step_of_the_Wind': 'Step_of_the_Wind_Dash',
+  // Metamagic sub-options
+  'Careful_Spell': 'Metamagic_Careful_Spell',
+  'Distant_Spell': 'Metamagic_Distant_Spell',
+  'Extended_Spell': 'Metamagic_Extended_Spell',
+  'Heightened_Spell': 'Metamagic_Heightened_Spell',
+  'Quickened_Spell': 'Metamagic_Quickened_Spell',
+  'Subtle_Spell': 'Metamagic_Subtle_Spell',
+  'Twinned_Spell': 'Metamagic_Twinned_Spell',
+  // Arcane Shot sub-options
+  'Banishing_Arrow': 'Arcane_Shot_Banishing_Arrow',
+  'Beguiling_Arrow': 'Arcane_Shot_Beguiling_Arrow',
+  'Bursting_Arrow': 'Arcane_Shot_Bursting_Arrow',
+  'Enfeebling_Arrow': 'Arcane_Shot_Enfeebling_Arrow',
+  'Grasping_Arrow': 'Arcane_Shot_Grasping_Arrow',
+  'Piercing_Arrow': 'Arcane_Shot_Piercing_Arrow',
+  'Seeking_Arrow': 'Arcane_Shot_Seeking_Arrow',
+  'Shadow_Arrow': 'Arcane_Shot_Shadow_Arrow',
+  // Battle Master maneuvers (Melee variant)
+  'Commander_s_Strike': "Commander's_Strike",
+  'Disarming_Attack': 'Disarming_Attack_Melee',
+  'Distracting_Strike': 'Distracting_Strike_Melee',
+  'Goading_Attack': 'Goading_Attack_Melee',
+  'Menacing_Attack': 'Menacing_Attack_Melee',
+  'Pushing_Attack': 'Pushing_Attack_Melee',
+  'Trip_Attack': 'Trip_Attack_Melee',
+  // Monk sub-options
+  'Bonus_Unarmed_Strike': 'Martial_Arts_Bonus_Unarmed_Strike',
+  'Dexterous_Attacks': 'Martial_Arts_Dextrous_Attacks',
+  'Deft_Strike': 'Martial_Arts_Deft_Strikes',
+  // Blade Flourish sub-options
+  'Defensive_Flourish': 'Defensive_Flourish_Melee',
+  'Mobile_Flourish': 'Mobile_Flourish_Melee',
+  'Slashing_Flourish': 'Slashing_Flourish_Melee',
 };
 
 function getFeatureImageUrl(name: string): string {
