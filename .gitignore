@@ -28,3 +28,6 @@ dist-ssr
 
 # UI reference images
 INTERFACE_EXAMPLE/
+
+# Temp scripts
+tmp_*.mjs
