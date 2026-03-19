@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { X } from 'lucide-react';
 
 // ─── Типы для навигации по тегам ───
 export interface RegistryEntry {
@@ -154,6 +156,7 @@ const TagTooltip: React.FC<{
   onNavigate?: (entry: RegistryEntry) => void;
 }> = ({ entry, children, onNavigate }) => {
   const [show, setShow] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const ref = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -254,10 +257,17 @@ const TagTooltip: React.FC<{
       className="tag-link cursor-pointer"
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      onClick={() => onNavigate?.(entry)}
+      onClick={() => {
+        if (onNavigate) {
+          onNavigate(entry);
+        } else {
+          setModalOpen(true);
+          setShow(false);
+        }
+      }}
     >
       {children}
-      {show && (
+      {show && !modalOpen && (
         <div
           ref={tooltipRef}
           className="tag-tooltip"
@@ -276,7 +286,98 @@ const TagTooltip: React.FC<{
           ))}
         </div>
       )}
+      {modalOpen && createPortal(
+        <TagDetailModal entry={entry} onClose={() => setModalOpen(false)} />,
+        document.body
+      )}
     </span>
+  );
+};
+
+// ─── Модальное окно подробного описания записи ───
+const TagDetailModal: React.FC<{
+  entry: RegistryEntry;
+  onClose: () => void;
+}> = ({ entry, onClose }) => {
+  const d = entry.data;
+
+  // Получаем entries
+  let entries: any[] = [];
+  if (d.entries) entries = d.entries;
+  else if (d.raw?.entries) entries = d.raw.entries;
+  else if (entry.entries) entries = entry.entries;
+
+  const typeLabels: Record<string, string> = {
+    spell: 'Заклинание', feat: 'Черта', condition: 'Состояние',
+    disease: 'Болезнь', skill: 'Навык', sense: 'Чувство',
+    variantrule: 'Правило', optfeature: 'Способность',
+    item: 'Предмет', background: 'Предыстория', species: 'Вид', action: 'Действие',
+  };
+
+  const schoolNames: Record<string, string> = {
+    A: 'Ограждение', C: 'Вызов', D: 'Прорицание', E: 'Очарование',
+    V: 'Воплощение', I: 'Иллюзия', N: 'Некромантия', T: 'Преобразование',
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div
+        className="bg-gray-900 rounded-xl border-2 border-gold max-w-3xl w-full max-h-[85vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Шапка */}
+        <div className="sticky top-0 bg-gray-900 border-b border-border-default p-4 flex items-center justify-between z-10">
+          <h2 className="text-xl font-medieval text-gold">{entry.name || d.name || 'Запись'}</h2>
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary">
+            <X size={24} />
+          </button>
+        </div>
+
+        <div className="p-6 space-y-4">
+          {/* Мета-теги */}
+          <div className="flex flex-wrap gap-2">
+            {(entry.source || d.source) && (
+              <span className="px-2 py-1 bg-bg-panel-solid text-text-primary rounded text-xs">{entry.source || d.source}</span>
+            )}
+            {typeLabels[entry.type] && (
+              <span className="px-2 py-1 bg-indigo-900/40 text-indigo-300 rounded text-xs">{typeLabels[entry.type]}</span>
+            )}
+            {entry.type === 'spell' && d.level !== undefined && (
+              <span className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs">
+                {d.level === 0 ? 'Заговор' : `${d.level} уровень`}
+              </span>
+            )}
+            {d.school && (
+              <span className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs">
+                {schoolNames[d.school] || d.school}
+              </span>
+            )}
+          </div>
+
+          {/* Полное описание через EntryRenderer */}
+          {entries.length > 0 && (
+            <div className="prose prose-invert prose-sm max-w-none">
+              <EntryRenderer entries={entries} context={entry.name || d.name || ''} />
+            </div>
+          )}
+
+          {/* Fallback: если entries пустой, но есть description */}
+          {entries.length === 0 && d.description && (
+            <div className="prose prose-invert prose-sm max-w-none">
+              <p>{d.description}</p>
+            </div>
+          )}
+
+          {/* Higher level entries для заклинаний */}
+          {d.entriesHigherLevel?.length > 0 && (
+            <div className="pt-4 border-t border-border-default">
+              <h4 className="text-sm font-medium text-text-primary mb-2">На более высоких уровнях</h4>
+              <EntryRenderer entries={d.entriesHigherLevel} context={entry.name || d.name || ''} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

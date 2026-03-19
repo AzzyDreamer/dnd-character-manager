@@ -1,5 +1,4 @@
 import type { ReactNode, FC } from 'react';
-import { BookOpen } from 'lucide-react';
 
 export interface NavTab {
   key: string;
@@ -38,10 +37,7 @@ export function TopNavBar({
             onClick={() => onLogoClick ? onLogoClick() : onTabChange(tabs[0]?.key ?? '')}
             className="flex items-center gap-2.5 shrink-0 cursor-pointer"
           >
-            <BookOpen className="text-gold" size={26} />
-            <span className="font-medieval text-gold text-lg hidden sm:block">
-              D&D 5e
-            </span>
+            <img src="/logo.svg" alt="Logo" className="h-10 w-10" />
           </button>
 
           {/* Main tabs */}
