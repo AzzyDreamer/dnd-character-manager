@@ -8,7 +8,7 @@ export interface ClassResourceDef {
 }
 
 export const TRACKABLE_RESOURCES: Record<string, ClassResourceDef> = {
-  secondWind: { label: 'Второе дыхание', restoreOn: 'short' },
+  secondWind: { label: 'Второе дыхание', restoreOn: 'short', icon: '/images/resources/Second_Wind.webp' },
   channelDivinity: { label: 'Божественный канал', restoreOn: 'short', icon: '/images/resources/30px-Channel_Divinity_Charges_Icon.png.webp' },
   channelOath: { label: 'Канал клятвы', restoreOn: 'short', icon: '/images/resources/30px-Channel_Oath_Icon.png.webp' },
   rages: { label: 'Ярость', restoreOn: 'long', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
