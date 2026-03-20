@@ -77,8 +77,9 @@ function getBgAbilityOptions(bg: JsonBackgroundData): (keyof AbilityScores)[] {
     int: 'intelligence', wis: 'wisdom', cha: 'charisma',
   };
   for (const ab of bg.ability) {
-    if (ab.choose?.from) {
-      for (const k of ab.choose.from) {
+    const from: string[] | undefined = ab.choose?.weighted?.from ?? ab.choose?.from;
+    if (from) {
+      for (const k of from) {
         const mapped = ABILITY_MAP[k] || k as keyof AbilityScores;
         if (!result.includes(mapped)) result.push(mapped);
       }
@@ -259,6 +260,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [speciesLoaded, setSpeciesLoaded] = useState(false);
   const [allSpecies, setAllSpecies] = useState<SpeciesData[]>([]);
   const [selectedSpecies, setSelectedSpecies] = useState<SpeciesData | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<SpeciesData | null>(null);
 
   // Class
   const [selectedClass, setSelectedClass] = useState<ClassDefinition | null>(null);
@@ -578,7 +580,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const canProceed = (): boolean => {
     const effectiveKey = getEffectiveStep(step);
     switch (effectiveKey) {
-      case 'race': return selectedSpecies !== null;
+      case 'race': return selectedSpecies !== null && (speciesVariants.length === 0 || selectedVariant !== null);
       case 'class': return selectedClass !== null;
       case 'background': return selectedBackground !== null;
       case 'languages': return selectedLanguages.length === languageInfo.totalChoose;
@@ -689,6 +691,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       name,
       race: selectedSpecies.name,
       raceSource: selectedSpecies.source,
+      raceVariant: selectedVariant?.name,
       class: selectedClass.name,
       classId: selectedClass.id,
       level,
@@ -721,7 +724,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       },
       armorClass: 10 + getAbilityModifier(finalScores.dexterity),
       initiative: getAbilityModifier(finalScores.dexterity),
-      speed: getSpeciesSpeed(selectedSpecies),
+      speed: getSpeciesSpeed(effectiveSpecies ?? selectedSpecies),
       proficiencyBonus,
       inventory: [],
       equipment: {},
@@ -764,6 +767,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           source: confirmedCharOption.source,
         },
       } : {}),
+      // Сопротивления от вида/подвида
+      ...((() => {
+        const sp = effectiveSpecies ?? selectedSpecies;
+        const resistArr = sp?.resist as string[] | undefined;
+        if (resistArr?.length) {
+          return {
+            damageResistances: resistArr.map(r => ({
+              type: r,
+              modifier: 'resistance_all' as const,
+            })),
+          };
+        }
+        return {};
+      })()),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -894,12 +911,21 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   }, [allSpecies]);
 
   const filteredSpecies = useMemo(() => {
-    let list = allSpecies;
+    let list = allSpecies.filter(sp => !sp._isVariant);
     if (speciesSourceFilter) list = list.filter(sp => sp.source === speciesSourceFilter);
     const q = speciesSearchQuery.toLowerCase().trim();
     if (q) list = list.filter(sp => sp.name.toLowerCase().includes(q));
     return list;
   }, [allSpecies, speciesSearchQuery, speciesSourceFilter]);
+
+  // Variants for currently selected species
+  const speciesVariants = useMemo(() => {
+    if (!selectedSpecies) return [];
+    return allSpecies.filter(sp => sp._isVariant && sp._parentSpecies === selectedSpecies.name && sp.source === selectedSpecies.source);
+  }, [allSpecies, selectedSpecies]);
+
+  // Effective species = variant if selected, otherwise base
+  const effectiveSpecies = selectedVariant ?? selectedSpecies;
 
   const renderRaceStep = () => (
     <div className="space-y-4">
@@ -950,7 +976,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             {filteredSpecies.map((sp, idx) => (
               <button
                 key={`${sp.name}-${sp.source}-${idx}`}
-                onClick={() => setSelectedSpecies(sp)}
+                onClick={() => { setSelectedSpecies(sp); setSelectedVariant(null); }}
                 className={`rounded-lg border text-left p-2 text-xs transition-all ${
                   selectedSpecies?.name === sp.name && selectedSpecies?.source === sp.source
                     ? 'border-gold/40 bg-gold/5 text-gold'
@@ -970,19 +996,41 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {selectedSpecies && (
             <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default overflow-hidden">
               <div className="p-4 space-y-3">
+                {/* Variant picker */}
+                {speciesVariants.length > 0 && (
+                  <div>
+                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Подвид</h4>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {speciesVariants.map(v => (
+                        <button
+                          key={v.name}
+                          onClick={() => setSelectedVariant(v)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                            selectedVariant?.name === v.name
+                              ? 'border-gold/50 bg-gold/15 text-gold'
+                              : 'border-border-default bg-bg-panel text-text-primary hover:border-border-hover'
+                          }`}
+                        >
+                          {v._variantLabel ?? v.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2 text-sm">
                   <div className="flex gap-2">
                     <span className="text-text-secondary shrink-0">Скорость:</span>
-                    <span className="text-text-primary">{getSpeciesSpeed(selectedSpecies)} фт.</span>
+                    <span className="text-text-primary">{getSpeciesSpeed(effectiveSpecies ?? selectedSpecies)} фт.</span>
                   </div>
                   <div className="flex gap-2">
                     <span className="text-text-secondary shrink-0">Размер:</span>
-                    <span className="text-text-primary">{getSpeciesSize(selectedSpecies)}</span>
+                    <span className="text-text-primary">{getSpeciesSize(effectiveSpecies ?? selectedSpecies)}</span>
                   </div>
-                  {selectedSpecies.darkvision && (
+                  {(effectiveSpecies ?? selectedSpecies).darkvision && (
                     <div className="flex gap-2">
                       <span className="text-text-secondary shrink-0">Тёмное зрение:</span>
-                      <span className="text-text-primary">{selectedSpecies.darkvision} фт.</span>
+                      <span className="text-text-primary">{(effectiveSpecies ?? selectedSpecies).darkvision} фт.</span>
                     </div>
                   )}
                   <div className="flex gap-2">

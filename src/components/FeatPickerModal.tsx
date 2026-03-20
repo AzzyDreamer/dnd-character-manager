@@ -62,7 +62,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
 
   const maxScore = 30;
   const category = mode === 'epicBoon' ? 'EB' : isFightingStyle ? 'FS' : 'G';
-  const categoryLabel = mode === 'epicBoon' ? 'Эпическое благо' : isFightingStyle ? 'Боевой стиль' : 'Общая черта';
+  const categoryLabel = mode === 'epicBoon' ? 'Эпическое благо' : isFightingStyle ? 'Боевой стиль' : 'Черта';
 
   // Load feats
   useEffect(() => {
@@ -108,7 +108,12 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         if (suffix === 'R' && character.classId === 'ranger') return true;
         return false;
       }
-      if (feat.category !== category) return false;
+      // For ASI mode, show both General (G) and Origin (O) feats
+      if (category === 'G') {
+        if (feat.category !== 'G' && feat.category !== 'O') return false;
+      } else {
+        if (feat.category !== category) return false;
+      }
       if (feat.name === 'Ability Score Improvement') return false;
       return true;
     });

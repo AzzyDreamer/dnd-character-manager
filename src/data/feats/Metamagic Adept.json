@@ -27,5 +27,6 @@
 				"You gain 2 sorcery points to spend on Metamagic (these points are added to any sorcery points you have from another source but can be used only on Metamagic). You regain all spent sorcery points when you finish a long rest."
 			]
 		}
-	]
+	],
+	"category": "G"
 }

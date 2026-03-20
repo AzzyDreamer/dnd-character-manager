@@ -24,5 +24,6 @@
 				"Whenever you take the {@action Dodge} action in combat, you can spend one Hit Die to heal yourself. Roll the die, add your Constitution modifier, and regain a number of hit points equal to the total (minimum of 1)."
 			]
 		}
-	]
+	],
+	"category": "G"
 }

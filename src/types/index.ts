@@ -243,6 +243,7 @@ export interface CharacterSpell {
   level: number;
   prepared?: boolean;
   alwaysPrepared?: boolean;
+  source?: string;
 }
 
 // Слоты заклинаний
@@ -277,6 +278,7 @@ export interface Character {
   name: string;
   race: string;
   raceSource?: string;
+  raceVariant?: string;
   class: string;
   classId: string;
   subclass?: string;

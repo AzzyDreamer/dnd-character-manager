@@ -27,5 +27,6 @@
 		"You can communicate telepathically with your servo familiar and perceive through its senses as long as you are on the same plane of existence. You can speak through your servo in your own voice.",
 		"Additionally, when you take the {@action Attack} action, you can forgo one of your own attacks to allow your servo familiar to make one attack of its own."
 	],
-	"hasFluffImages": true
+	"hasFluffImages": true,
+	"category": "G"
 }

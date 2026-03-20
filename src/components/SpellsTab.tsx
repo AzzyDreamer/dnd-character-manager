@@ -3,6 +3,7 @@ import type { Character, CustomAttack } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
 import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
+import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
@@ -71,17 +72,6 @@ function getFirstEntryText(entries: any[]): string {
   return '';
 }
 
-function parseSpellTag(tag: string): string {
-  const m = tag.match(/\{@spell\s+([^|}]+)/);
-  return m ? m[1].trim() : tag.replace(/[{}@spell]/g, '').split('|')[0].trim();
-}
-
-function parseRacialSpellName(raw: string): { name: string; isCantrip: boolean } {
-  const isCantrip = raw.endsWith('#c');
-  const clean = raw.replace(/#c$/, '').split('|')[0].trim();
-  const name = clean.replace(/\b\w/g, c => c.toUpperCase());
-  return { name, isCantrip };
-}
 
 // ─── Spell Slot Tracker (BG3 style) ─────────────────────────────────
 
@@ -388,7 +378,158 @@ interface LoadedFeature {
   name: string;
   source: string;
   rawEntries: any[];
+  image?: string;
 }
+
+// Breath Weapon image mapping: damageType → image filename
+const BREATH_WEAPON_IMAGES: Record<string, string> = {
+  acid: '/images/species-actions/Acid_Breath.webp',
+  lightning: '/images/species-actions/Lightning_Breath.webp',
+  fire: '/images/species-actions/Fire_Breath.webp',
+  poison: '/images/species-actions/Poison_Breath.webp',
+  cold: '/images/species-actions/Frost_Breath.webp',
+};
+
+// Species action images: entry name (lowercase) → image path
+const SPECIES_ACTION_IMAGES: Record<string, string> = {
+  // Dragonborn
+  'draconic flight': '/images/spells/Grant_Flight.webp',
+  // Aasimar
+  'healing hands': '/images/spells/Cure_Wounds.webp',
+  'celestial revelation': '/images/spells/Daylight.webp',
+  'light bearer': '/images/spells/Light.webp',
+  // Teleportation
+  'fey step': '/images/spells/Misty_Step.webp',
+  'starlight step': '/images/spells/Misty_Step.webp',
+  'blessing of the raven queen': '/images/spells/Misty_Step.webp',
+  // Flight
+  'flight': '/images/spells/Grant_Flight.webp',
+  'glide': '/images/spells/Grant_Flight.webp',
+  'gem flight': '/images/spells/Grant_Flight.webp',
+  // Natural weapons
+  'talons': '/images/misc/Generic_Physical_Icon.webp',
+  'claws': '/images/misc/Generic_Physical_Icon.webp',
+  'hooves': '/images/misc/Generic_Physical_Icon.webp',
+  'horns': '/images/misc/Generic_Physical_Icon.webp',
+  'bite': '/images/misc/Generic_Physical_Icon.webp',
+  'ram': '/images/misc/Generic_Physical_Icon.webp',
+  'vampiric bite': '/images/misc/Generic_Blood.webp',
+  // Combat abilities
+  'charge': '/images/misc/Generic_Physical_Icon.webp',
+  'goring rush': '/images/misc/Generic_Physical_Icon.webp',
+  'hammering horns': '/images/misc/Generic_Physical_Icon.webp',
+  'daunting roar': '/images/misc/Generic_Threat.webp',
+  'hungry jaws': '/images/misc/Generic_Physical_Icon.webp',
+  'shell defense': '/images/spells/Shield.webp',
+  'surprise attack': '/images/misc/Generic_Damage.webp',
+  'vengeful assault': '/images/misc/Generic_Damage.webp',
+  'astral spark': '/images/misc/Generic_Force.webp',
+  'fury of the small': '/images/misc/Generic_Damage.webp',
+  'savage attacks': '/images/misc/Generic_Damage.webp',
+  'draconic cry': '/images/misc/Generic_Threat.webp',
+  'adrenaline rush': '/images/misc/Generic_Buff.webp',
+  // Magic/Spellcasting
+  'fairy magic': '/images/misc/Generic_Magical.webp',
+  'firbolg magic': '/images/misc/Generic_Magical.webp',
+  'wind caller': '/images/misc/Generic_Magical.webp',
+  'fiendish legacy': '/images/misc/Generic_Magical.webp',
+  'gnomish lineage': '/images/misc/Generic_Magical.webp',
+  'elven lineage': '/images/misc/Generic_Magical.webp',
+  'faerie lineage': '/images/misc/Generic_Magical.webp',
+  'duergar magic': '/images/misc/Generic_Magical.webp',
+  'githyanki psionics': '/images/misc/Generic_Psychic.webp',
+  'githzerai psionics': '/images/misc/Generic_Psychic.webp',
+  'serpentine spellcasting': '/images/misc/Generic_Poison.webp',
+  'control air and water': '/images/misc/Generic_Nature.webp',
+  'reach to the blaze': '/images/misc/Generic_Fire.webp',
+  'mingle with the wind': '/images/misc/Generic_Lightning.webp',
+  'call to the wave': '/images/misc/Generic_Cold.webp',
+  'merge with stone': '/images/misc/Generic_Nature.webp',
+  'hex magic': '/images/misc/Generic_Necrotic.webp',
+  'blessing of the moon weaver': '/images/misc/Generic_Magical.webp',
+  'kobold legacy': '/images/misc/Generic_Magical.webp',
+  // Stealth/Utility
+  'hidden step': '/images/misc/Generic_Invisibility.webp',
+  'nimble escape': '/images/misc/Generic_Invisibility.webp',
+  'sneaky': '/images/misc/Generic_Invisibility.webp',
+  'chameleon carapace': '/images/misc/Generic_Invisibility.webp',
+  'svirfneblin camouflage': '/images/misc/Generic_Invisibility.webp',
+  'feline agility': '/images/misc/Generic_Buff.webp',
+  'rabbit hop': '/images/misc/Generic_Buff.webp',
+  'lucky footwork': '/images/misc/Generic_Buff.webp',
+  'hadozee dodge': '/images/misc/Generic_Buff.webp',
+  // Shifting/Transformation
+  'shifting': '/images/misc/Generic_Wild_Animal.webp',
+  'shape-shifter': '/images/misc/Generic_Ethereal.webp',
+  'shape self': '/images/misc/Generic_Ethereal.webp',
+  'giant ancestry': '/images/misc/Generic_Buff.webp',
+  'large form': '/images/misc/Generic_Buff.webp',
+  // Telepathy/Mind
+  'mind link': '/images/misc/Generic_Psychic.webp',
+  'eerie token': '/images/misc/Generic_Psychic.webp',
+  'thri-kreen telepathy': '/images/misc/Generic_Psychic.webp',
+  'psionic mind': '/images/misc/Generic_Psychic.webp',
+  'limited telepathy': '/images/misc/Generic_Psychic.webp',
+  'taunt': '/images/misc/Generic_Psychic.webp',
+  // Defensive
+  'relentless endurance': '/images/misc/Generic_Healing.webp',
+  'black blood healing': '/images/misc/Generic_Healing.webp',
+  'knowledge from a past life': '/images/misc/Generic_Info.webp',
+  'built for success': '/images/misc/Generic_Buff.webp',
+  'fey gift': '/images/misc/Generic_Buff.webp',
+  'fortune from the many': '/images/misc/Generic_Buff.webp',
+  'animal enhancement': '/images/misc/Generic_Wild_Animal.webp',
+  'child of the wood': '/images/misc/Generic_Nature.webp',
+};
+
+// Passive/informational entries to exclude from actions display
+const PASSIVE_ENTRY_NAMES = new Set([
+  'darkvision', 'superior darkvision', 'size', 'age', 'alignment', 'speed',
+  'languages', 'language', 'creature type',
+  // Resistances/immunities (already shown on character sheet)
+  'damage resistance', 'draconic resistance', 'celestial resistance',
+  'fire resistance', 'lightning resistance', 'acid resistance',
+  'necrotic resistance', 'poison resilience', 'magic resistance',
+  'gnomish magic resistance', 'psychic resilience', 'mental discipline',
+  'dwarven resilience', 'construct resilience', 'natural resilience',
+  'loxodon serenity', 'vedalken dispassion', 'guardian of the depths',
+  // Passive features (proficiencies, senses, knowledge)
+  'keen senses', 'fey ancestry', 'trance', 'astral trance',
+  'stonecunning', 'dwarven toughness', 'powerful build', 'equine build',
+  'hippo build', 'natural armor', 'hold breath', 'amphibious',
+  'partially amphibious', 'long-limbed', 'labyrinthine recall',
+  'brave', 'halfling nimbleness', 'luck', 'naturally stealthy',
+  'resourceful', 'skillful', 'versatile', 'specialized design',
+  'tireless precision', 'silent feathers', 'hunter\'s instincts',
+  'nature\'s intuition', "cat's talent", 'reveler', 'persuasive',
+  'expert duplication', 'kenku recall', 'mimicry', 'kender curiosity',
+  'fearless', 'dual mind', 'severed from dreams',
+  'emissary of the sea', 'friend of the sea', 'child of the sea',
+  'speech of beast and leaf', 'trunk', 'keen smell',
+  'secondary arms', 'sleepless', 'dexterous feet',
+  'sentry\'s rest', 'healing machine', 'mechanical nature', 'armored casing',
+  'integrated protection', 'tireless',
+  'ancestral legacy', 'deathless nature', 'lethargy resilience',
+  'skill versatility', 'trace of undeath', 'spider climb',
+  'amorphous', 'incisive sense', 'telepathic insight',
+  'astral knowledge', 'hare-trigger', 'leporine senses',
+  'natural affinity', 'bestial instincts', 'menacing',
+  'astral fire', 'changeling instincts', 'otherworldly presence',
+  'gnomish cunning', 'light bearer', 'forceful presence',
+  'cat\'s claws', 'firearms mastery', 'draconic ancestry',
+  'timberwalk', 'unending breath', 'earth walk',
+  // Lineage descriptions that just list spells (handled by auto-spells)
+  'otherworldly presence',
+]);
+
+// Level-gated species actions
+const LEVEL_GATED_ACTIONS: Record<string, number> = {
+  'draconic flight': 5,
+  'gem flight': 5,
+  'celestial revelation': 3,
+  'animal enhancement': 1, // base at 1, enhanced at 5 — show always
+  'control air and water': 1, // fog cloud at 1, gust of wind at 3, water walk at 5
+};
 
 const ActionsSection: React.FC<{
   character: Character;
@@ -397,6 +538,7 @@ const ActionsSection: React.FC<{
 }> = ({ character, passiveStats, EntryRenderer: EntryRendererProp }) => {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [loadedFeatures, setLoadedFeatures] = useState<LoadedFeature[]>([]);
+  const [speciesActions, setSpeciesActions] = useState<LoadedFeature[]>([]);
   const [LocalEntryRenderer, setLocalEntryRenderer] = useState<React.FC<any> | null>(null);
 
   // Load EntryRenderer lazily if not passed as prop
@@ -492,6 +634,59 @@ const ActionsSection: React.FC<{
     return () => { cancelled = true; };
   }, [character.class, character.classId, character.subclass, character.level, features.length]);
 
+  // Load species actions (Breath Weapon, Draconic Flight, etc.)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const speciesMod = await import('../data/species');
+        await speciesMod.init();
+        if (cancelled) return;
+
+        // Try variant first, then base species
+        const speciesName = character.raceVariant || character.race;
+        const speciesData = speciesMod.getSpeciesByName(speciesName, character.raceSource);
+        if (!speciesData?.entries) return;
+
+        const resistType = speciesData.resist?.[0] as string | undefined;
+
+        const actions: LoadedFeature[] = [];
+        for (const entry of speciesData.entries) {
+          if (entry.type !== 'entries' || !entry.name) continue;
+          const nameLower = entry.name.toLowerCase();
+
+          // Skip passive/informational entries
+          if (PASSIVE_ENTRY_NAMES.has(nameLower)) continue;
+
+          // Check level requirements
+          const reqLevel = LEVEL_GATED_ACTIONS[nameLower];
+          if (reqLevel !== undefined && character.level < reqLevel) continue;
+
+          // Determine image
+          let image: string | undefined;
+          if (nameLower === 'breath weapon' && resistType) {
+            image = BREATH_WEAPON_IMAGES[resistType];
+          } else {
+            image = SPECIES_ACTION_IMAGES[nameLower];
+          }
+
+          actions.push({
+            id: `species-${nameLower.replace(/\s+/g, '-')}`,
+            name: entry.name,
+            source: speciesData._parentSpecies ?? speciesData.name,
+            rawEntries: entry.entries ?? [],
+            image,
+          });
+        }
+
+        if (!cancelled) setSpeciesActions(actions);
+      } catch (e) {
+        console.warn('Failed to load species actions:', e);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [character.race, character.raceVariant, character.raceSource, character.level]);
+
   const displayFeatures = loadedFeatures.length > 0 ? loadedFeatures : features.map(f => ({
     id: f.id,
     name: f.name,
@@ -499,7 +694,9 @@ const ActionsSection: React.FC<{
     rawEntries: f.description ? [f.description] : [],
   }));
 
-  if (displayFeatures.length === 0 && passiveStats.length === 0) return null;
+  const allFeatures = [...displayFeatures, ...speciesActions];
+
+  if (allFeatures.length === 0 && passiveStats.length === 0) return null;
 
   return (
     <div className="glass-panel p-3">
@@ -525,26 +722,35 @@ const ActionsSection: React.FC<{
 
       {/* Features list */}
       <div className="space-y-1">
-        {displayFeatures.map(feat => (
+        {allFeatures.map(feat => (
           <div key={feat.id} className="rounded bg-bg-secondary/50">
             <button
               onClick={() => setExpandedFeature(expandedFeature === feat.id ? null : feat.id)}
               className="flex items-center gap-2 w-full text-left py-1.5 px-2 text-sm hover:bg-bg-secondary/80 transition-colors rounded"
             >
+              {feat.image && (
+                <img src={feat.image} alt="" className="w-6 h-6 object-contain shrink-0 rounded" />
+              )}
               {expandedFeature === feat.id
                 ? <ChevronDown size={12} className="text-text-muted shrink-0" />
                 : <ChevronRight size={12} className="text-text-muted shrink-0" />}
               <span className="text-text-primary font-medium">{feat.name}</span>
               <span className="text-xs text-text-muted ml-auto">{feat.source}</span>
             </button>
-            {expandedFeature === feat.id && feat.rawEntries.length > 0 && (
+            {expandedFeature === feat.id && (
               <div className="px-6 pb-2 text-xs text-text-secondary leading-relaxed">
-                {Renderer
-                  ? <Renderer entries={feat.rawEntries} context={feat.name} />
-                  : feat.rawEntries.map((e, i) => (
-                      <p key={i} className={i > 0 ? 'mt-1' : ''}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
-                    ))
-                }
+                {feat.image && (
+                  <div className="flex justify-center mb-2">
+                    <img src={feat.image} alt={feat.name} className="w-24 h-24 object-contain rounded-lg" />
+                  </div>
+                )}
+                {feat.rawEntries.length > 0 && (
+                  Renderer
+                    ? <Renderer entries={feat.rawEntries} context={feat.name} />
+                    : feat.rawEntries.map((e, i) => (
+                        <p key={i} className={i > 0 ? 'mt-1' : ''}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
+                      ))
+                )}
               </div>
             )}
           </div>
@@ -625,115 +831,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       });
       setSpellsLoading(false);
 
-      // Load auto-prepared spells from subclass and race
-      const auto: typeof autoSpells = [];
-      const existingNames = new Set(character.spellcasting?.spells.map(s => s.name.toLowerCase()) ?? []);
-
-      // Subclass spells
-      if (character.subclass && character.classId) {
-        try {
-          const [subMod, { getClassById, CLASS_REGISTRY }] = await Promise.all([
-            import('../data/classes/subclassJsonLoader').then(async m => { await m.init(); return m; }),
-            import('../data/classes'),
-          ]);
-          if (cancelled) return;
-
-          const classDef = getClassById(character.classId) ?? CLASS_REGISTRY.find(c => c.name === character.class);
-          const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
-          if (subDef && classDef) {
-            const subData = subMod.getSubclassById(classDef.id, subDef.id);
-            if (subData?.features) {
-              for (const feat of subData.features) {
-                const spellEntries = feat.spellList ?? feat.spells ?? [];
-                for (const entry of spellEntries) {
-                  const levelKey = Object.keys(entry).find(k => k.endsWith('Level'));
-                  const requiredLevel = levelKey ? entry[levelKey] : entry.level;
-                  if (requiredLevel != null && requiredLevel <= character.level) {
-                    for (const spellTag of (entry.spells ?? [])) {
-                      const name = parseSpellTag(spellTag);
-                      if (!existingNames.has(name.toLowerCase())) {
-                        const spellData = spells.getSpellByName(name);
-                        auto.push({
-                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                          name,
-                          level: spellData?.level ?? 1,
-                          prepared: true,
-                          alwaysPrepared: true,
-                          source: character.subclass,
-                        });
-                        existingNames.add(name.toLowerCase());
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (e) { console.warn('Failed to load subclass spells:', e); }
-      }
-
-      // Racial spells
-      if (character.race) {
-        try {
-          const speciesMod = await import('../data/species');
-          await speciesMod.init();
-          if (cancelled) return;
-
-          const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
-          if (speciesData?.additionalSpells) {
-            for (const group of speciesData.additionalSpells) {
-              if (group.known) {
-                for (const [lvlStr, spellsOrObj] of Object.entries(group.known)) {
-                  if (parseInt(lvlStr) <= character.level && Array.isArray(spellsOrObj)) {
-                    for (const raw of spellsOrObj) {
-                      if (typeof raw !== 'string') continue;
-                      const { name, isCantrip } = parseRacialSpellName(raw);
-                      if (!existingNames.has(name.toLowerCase())) {
-                        const spellData = spells.getSpellByName(name);
-                        auto.push({
-                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                          name,
-                          level: isCantrip ? 0 : (spellData?.level ?? 1),
-                          prepared: true,
-                          alwaysPrepared: true,
-                          source: character.race,
-                        });
-                        existingNames.add(name.toLowerCase());
-                      }
-                    }
-                  }
-                }
-              }
-              if (group.innate) {
-                for (const [lvlStr, innateObj] of Object.entries(group.innate as Record<string, any>)) {
-                  if (parseInt(lvlStr) <= character.level && innateObj?.daily) {
-                    for (const spellArr of Object.values(innateObj.daily as Record<string, string[]>)) {
-                      if (!Array.isArray(spellArr)) continue;
-                      for (const raw of spellArr) {
-                        if (typeof raw !== 'string') continue;
-                        const { name } = parseRacialSpellName(raw);
-                        if (!existingNames.has(name.toLowerCase())) {
-                          const spellData = spells.getSpellByName(name);
-                          auto.push({
-                            spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                            name,
-                            level: spellData?.level ?? 1,
-                            prepared: true,
-                            alwaysPrepared: true,
-                            source: character.race,
-                          });
-                          existingNames.add(name.toLowerCase());
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (e) { console.warn('Failed to load racial spells:', e); }
-      }
-
+      // Load auto-prepared spells from subclass and race (for legacy characters
+      // whose auto-spells aren't yet persisted in spellcasting.spells)
+      const auto = await getAutoSpellsForLevel(character, spells.getSpellByName);
       if (!cancelled) setAutoSpells(auto);
     })();
     return () => { cancelled = true; };

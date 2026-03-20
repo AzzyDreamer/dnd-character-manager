@@ -51,5 +51,6 @@
 				"You learn the {@spell misty step} spell and can cast it once without expending a spell slot. You regain the ability to cast it in this way when you finish a short or long rest. Intelligence is your spellcasting ability for this spell."
 			]
 		}
-	]
+	],
+	"category": "G"
 }

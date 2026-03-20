@@ -11,6 +11,8 @@ import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip }
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
+import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
+import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -68,6 +70,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     allowReplace: boolean;
     // Queue of remaining optional feature checks to run after this one
     remainingChecks: (() => void)[];
+  } | null>(null);
+
+  // Auto-spells notification on level-up (subclass + racial)
+  const [showAutoSpellsNotification, setShowAutoSpellsNotification] = useState(false);
+  const [pendingAutoSpells, setPendingAutoSpells] = useState<{
+    updatedChar: Character;
+    newSpells: AutoSpellResult[];
   } | null>(null);
 
   const [showCropModal, setShowCropModal] = useState(false);
@@ -238,8 +247,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Check Invocations → FS replacement → Fighting Style → ASI/EB chain
-    if (checkAndShowOptionalFeaturePickers(updated)) return;
+    // Check auto-spells → Invocations → FS replacement → Fighting Style → ASI/EB chain
+    if (checkAndShowAutoSpells(updated)) return;
 
     onUpdate(updated);
     setShowSubclassModal(false);
@@ -602,7 +611,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         {
           name: result.feat.name,
           source: result.feat.source,
-          category: result.feat.category || pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
+          category: result.feat.category || (pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G'),
           levelAcquired: updated.level,
           abilityBonuses: result.abilityChoice,
         },
@@ -636,13 +645,81 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
 
-    // After spells, check Invocations → FS replacement → Fighting Style → ASI/EB chain
-    checkAndShowOptionalFeaturePickers(final);
+    // After spells, check auto-spells → Invocations → FS replacement → Fighting Style → ASI/EB chain
+    checkAndShowAutoSpells(final);
   };
 
   const handleSpellLevelUpCancel = () => {
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
+  };
+
+  // Check for auto-spells (subclass + racial) gained at this level
+  const checkAndShowAutoSpells = (updated: Character): boolean => {
+    if (!updated.spellcasting) {
+      checkAndShowOptionalFeaturePickers(updated);
+      return true;
+    }
+
+    (async () => {
+      try {
+        const spellsMod = await import('../data/spells');
+        await spellsMod.init();
+
+        const newAutoSpells = await getNewAutoSpellsAtLevel(
+          {
+            class: updated.class,
+            classId: updated.classId,
+            subclass: updated.subclass,
+            level: updated.level,
+            race: updated.race,
+            raceSource: updated.raceSource,
+            raceVariant: updated.raceVariant,
+            spellcasting: updated.spellcasting,
+          },
+          updated.level,
+          spellsMod.getSpellByName,
+        );
+
+        if (newAutoSpells.length > 0) {
+          const withAutoSpells: Character = {
+            ...updated,
+            spellcasting: {
+              ...updated.spellcasting!,
+              spells: [
+                ...updated.spellcasting!.spells,
+                ...newAutoSpells.map(s => ({
+                  spellId: s.spellId,
+                  name: s.name,
+                  level: s.level,
+                  prepared: true,
+                  alwaysPrepared: true,
+                  source: s.source,
+                })),
+              ],
+            },
+          };
+
+          setPendingAutoSpells({ updatedChar: withAutoSpells, newSpells: newAutoSpells });
+          setShowAutoSpellsNotification(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Failed to check auto-spells:', e);
+      }
+
+      // No auto-spells or error → continue chain
+      checkAndShowOptionalFeaturePickers(updated);
+    })();
+
+    return true;
+  };
+
+  const handleAutoSpellsConfirm = () => {
+    if (!pendingAutoSpells) return;
+    setShowAutoSpellsNotification(false);
+    checkAndShowOptionalFeaturePickers(pendingAutoSpells.updatedChar);
+    setPendingAutoSpells(null);
   };
 
   const handleSubclassSelect = (subclassName: string) => {
@@ -841,6 +918,15 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         />
       )}
 
+      {/* Auto-spells notification */}
+      {showAutoSpellsNotification && pendingAutoSpells && (
+        <AutoSpellsNotificationModal
+          spells={pendingAutoSpells.newSpells}
+          newLevel={pendingAutoSpells.updatedChar.level}
+          onConfirm={handleAutoSpellsConfirm}
+        />
+      )}
+
       {/* Feat Picker Modal */}
       {showFightingStylePicker && pendingFightingStyleLevelUp && (
         <FeatPickerModal
@@ -848,11 +934,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           mode="fightingStyle"
           onConfirm={handleFightingStyleConfirm}
           onCancel={() => {
-            // Skip fighting style, continue to ASI/EB check
-            const updated = pendingFightingStyleLevelUp.updatedChar;
+            // On cancel, discard the level-up entirely
             setShowFightingStylePicker(false);
             setPendingFightingStyleLevelUp(null);
-            checkAndShowFeatPicker(updated);
           }}
         />
       )}
@@ -878,8 +962,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           mode={pendingFeatLevelUp.mode}
           onConfirm={handleFeatPickerConfirm}
           onCancel={() => {
-            // On cancel, still apply the level-up but without feat/ASI
-            onUpdate(pendingFeatLevelUp.updatedChar);
+            // On cancel, discard the level-up entirely
             setShowFeatPicker(false);
             setPendingFeatLevelUp(null);
           }}
@@ -1194,8 +1277,10 @@ function FeaturesSection({ character }: { character: Character }) {
         ]);
         if (cancelled) return;
 
-        // Species traits (with raw entries for EntryRenderer)
-        const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
+        // Species traits (with raw entries for EntryRenderer) — prefer variant data
+        const speciesData = character.raceVariant
+          ? speciesMod.getSpeciesByName(character.raceVariant, character.raceSource) ?? speciesMod.getSpeciesByName(character.race, character.raceSource)
+          : speciesMod.getSpeciesByName(character.race, character.raceSource);
         if (speciesData?.entries) {
           const traits = speciesData.entries
             .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
