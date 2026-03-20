@@ -6,6 +6,7 @@ import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, Chev
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
+import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
@@ -56,6 +57,17 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const [showFsReplaceModal, setShowFsReplaceModal] = useState(false);
   const [pendingFsReplace, setPendingFsReplace] = useState<{
     updatedChar: Character;
+  } | null>(null);
+
+  // Optional feature picker on level-up (invocations, metamagic, maneuvers)
+  const [showOptionalFeaturePicker, setShowOptionalFeaturePicker] = useState(false);
+  const [pendingOptionalFeature, setPendingOptionalFeature] = useState<{
+    updatedChar: Character;
+    config: OptionalFeaturePickerConfig;
+    newSlots: number;
+    allowReplace: boolean;
+    // Queue of remaining optional feature checks to run after this one
+    remainingChecks: (() => void)[];
   } | null>(null);
 
   const [showCropModal, setShowCropModal] = useState(false);
@@ -226,11 +238,164 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Check FS replacement → Fighting Style → ASI/EB chain
-    if (checkAndShowFsReplace(updated)) return;
+    // Check Invocations → FS replacement → Fighting Style → ASI/EB chain
+    if (checkAndShowOptionalFeaturePickers(updated)) return;
 
     onUpdate(updated);
     setShowSubclassModal(false);
+  };
+
+  /** Detect all optional features to pick at this level and show pickers sequentially. */
+  const checkAndShowOptionalFeaturePickers = (updated: Character): boolean => {
+    (async () => {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const data = mod.getClassDataByName(updated.class);
+
+        // Collect all optional feature picks needed at this level
+        type FeaturePick = { config: OptionalFeaturePickerConfig; gain: number; allowReplace: boolean };
+        const picks: FeaturePick[] = [];
+
+        // --- Warlock: Eldritch Invocations (from invocations field in levelTable) ---
+        if (data?.levelTable) {
+          const oldRow = data.levelTable.find((r: any) => r.level === updated.level - 1);
+          const newRow = data.levelTable.find((r: any) => r.level === updated.level);
+          const oldInv = (oldRow as any)?.invocations ?? 0;
+          const newInv = (newRow as any)?.invocations ?? 0;
+          const gain = newInv - oldInv;
+          const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'EI');
+
+          if (gain > 0 || (newInv > 0 && hasExisting)) {
+            picks.push({
+              config: OPTIONAL_FEATURE_CONFIGS['EI'],
+              gain,
+              allowReplace: hasExisting,
+            });
+          }
+        }
+
+        // --- Sorcerer: Metamagic (from "Metamagic" in features array) ---
+        if (data?.levelTable) {
+          const newRow = data.levelTable.find((r: any) => r.level === updated.level);
+          const features: string[] = (newRow as any)?.features ?? [];
+          if (features.includes('Metamagic')) {
+            const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MM');
+            picks.push({
+              config: OPTIONAL_FEATURE_CONFIGS['MM'],
+              gain: 2, // PHB'24: always 2 metamagic options
+              allowReplace: hasExisting,
+            });
+          }
+        }
+
+        // --- Battle Master: Maneuvers (subclass feature) ---
+        if (updated.subclass && updated.classId === 'fighter') {
+          try {
+            const subMod = await import('../data/classes/subclassJsonLoader');
+            await subMod.init();
+            const subData = subMod.getSubclassById('fighter', 'battle-master');
+            if (subData) {
+              // Battle Master gains maneuvers at levels 3, 7, 10, 15
+              const BM_MANEUVER_GAINS: Record<number, number> = { 3: 3, 7: 2, 10: 2, 15: 2 };
+              const gain = BM_MANEUVER_GAINS[updated.level] ?? 0;
+              const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MV:B');
+              if (gain > 0) {
+                picks.push({
+                  config: OPTIONAL_FEATURE_CONFIGS['MV:B'],
+                  gain,
+                  allowReplace: hasExisting,
+                });
+              }
+            }
+          } catch (e) { /* ignore */ }
+        }
+
+        if (picks.length === 0) {
+          checkAndShowFsReplace(updated);
+          return;
+        }
+
+        // Show the first pick, queue the rest
+        const [first, ...rest] = picks;
+        const remainingChecks = rest.map(pick => () => {
+          setPendingOptionalFeature(prev => {
+            if (!prev) return null;
+            return {
+              updatedChar: prev.updatedChar, // will be overwritten by confirm handler
+              config: pick.config,
+              newSlots: pick.gain,
+              allowReplace: pick.allowReplace,
+              remainingChecks: prev.remainingChecks.slice(1),
+            };
+          });
+          setShowOptionalFeaturePicker(true);
+        });
+
+        setPendingOptionalFeature({
+          updatedChar: updated,
+          config: first.config,
+          newSlots: first.gain,
+          allowReplace: first.allowReplace,
+          remainingChecks,
+        });
+        setShowOptionalFeaturePicker(true);
+      } catch (e) {
+        console.warn('Failed to check optional features:', e);
+        checkAndShowFsReplace(updated);
+      }
+    })();
+    return true;
+  };
+
+  const handleOptionalFeatureConfirm = (result: OptionalFeaturePickerResult) => {
+    if (!pendingOptionalFeature) return;
+    const { config, remainingChecks } = pendingOptionalFeature;
+    let updated = { ...pendingOptionalFeature.updatedChar };
+
+    // Add newly chosen features
+    const newOptFeatures = [...(updated.optionalFeatures ?? [])];
+    for (const feat of result.chosen) {
+      newOptFeatures.push({
+        name: feat.name,
+        source: feat.source,
+        featureType: config.featureType,
+        levelAcquired: updated.level,
+      });
+    }
+
+    // Handle replacement
+    if (result.replaced && result.replacement) {
+      const idx = newOptFeatures.findIndex(
+        f => f.featureType === config.featureType && f.name === result.replaced
+      );
+      if (idx !== -1) {
+        newOptFeatures[idx] = {
+          name: result.replacement.name,
+          source: result.replacement.source,
+          featureType: config.featureType,
+          levelAcquired: updated.level,
+        };
+      }
+    }
+
+    updated.optionalFeatures = newOptFeatures;
+
+    setShowOptionalFeaturePicker(false);
+
+    // If there are more picks queued, show the next one
+    if (remainingChecks.length > 0) {
+      const [next, ...rest] = remainingChecks;
+      setPendingOptionalFeature(prev => prev ? {
+        ...prev,
+        updatedChar: updated,
+        remainingChecks: rest,
+      } : null);
+      next();
+    } else {
+      setPendingOptionalFeature(null);
+      checkAndShowFsReplace(updated);
+    }
   };
 
   /** Check if the character can replace an existing fighting style on level-up. */
@@ -471,8 +636,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
 
-    // After spells, check FS replacement → Fighting Style → ASI/EB chain
-    checkAndShowFsReplace(final);
+    // After spells, check Invocations → FS replacement → Fighting Style → ASI/EB chain
+    checkAndShowOptionalFeaturePickers(final);
   };
 
   const handleSpellLevelUpCancel = () => {
@@ -688,6 +853,21 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             setShowFightingStylePicker(false);
             setPendingFightingStyleLevelUp(null);
             checkAndShowFeatPicker(updated);
+          }}
+        />
+      )}
+
+      {showOptionalFeaturePicker && pendingOptionalFeature && (
+        <OptionalFeaturePickerModal
+          character={pendingOptionalFeature.updatedChar}
+          config={pendingOptionalFeature.config}
+          newSlots={pendingOptionalFeature.newSlots}
+          allowReplace={pendingOptionalFeature.allowReplace}
+          onConfirm={handleOptionalFeatureConfirm}
+          onCancel={() => {
+            // Full cancel — do not apply level-up at all
+            setShowOptionalFeaturePicker(false);
+            setPendingOptionalFeature(null);
           }}
         />
       )}
@@ -969,6 +1149,7 @@ function FeaturesSection({ character }: { character: Character }) {
   const [raceTraits, setRaceTraits] = useState<FeatureItem[]>([]);
   const [featItems, setFeatItems] = useState<FeatureItem[]>([]);
   const [charOptionTraits, setCharOptionTraits] = useState<FeatureItem[]>([]);
+  const [optionalFeatureGroups, setOptionalFeatureGroups] = useState<{ featureType: string; label: string; items: FeatureItem[] }[]>([]);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [collapsedCats, setCollapsedCats] = useState<Set<string>>(new Set());
   const [EntryRendererCmp, setEntryRendererCmp] = useState<React.FC<any> | null>(null);
@@ -1002,6 +1183,7 @@ function FeaturesSection({ character }: { character: Character }) {
     setRaceTraits([]);
     setFeatItems([]);
     setCharOptionTraits([]);
+    setOptionalFeatureGroups([]);
 
     (async () => {
       try {
@@ -1154,6 +1336,37 @@ function FeaturesSection({ character }: { character: Character }) {
           } catch (e) { console.warn('Failed to load char creation option:', e); }
         }
 
+        // Load optional feature details (invocations, metamagic, maneuvers, etc.)
+        const allOptFeatures = character.optionalFeatures ?? [];
+        if (allOptFeatures.length > 0) {
+          try {
+            const ofMod = await import('../data/optionalfeatures');
+            await ofMod.init();
+            // Group by featureType
+            const byType = new Map<string, typeof allOptFeatures>();
+            for (const f of allOptFeatures) {
+              const arr = byType.get(f.featureType) ?? [];
+              arr.push(f);
+              byType.set(f.featureType, arr);
+            }
+            const groups = Array.from(byType.entries()).map(([ft, features]) => ({
+              featureType: ft,
+              label: ofMod.FEATURE_TYPE_NAMES[ft] ?? ft,
+              items: features.map(f => {
+                const data = ofMod.getOptionalFeatureByName(f.name);
+                return {
+                  name: f.name,
+                  description: '',
+                  rawEntries: data?.entries,
+                  level: f.levelAcquired,
+                  source: f.source,
+                } as FeatureItem;
+              }),
+            }));
+            if (!cancelled) setOptionalFeatureGroups(groups);
+          } catch (e) { console.warn('Failed to load optional features:', e); }
+        }
+
         if (!cancelled) setLoaded(true);
       } catch (e) {
         console.warn('Failed to load features:', e);
@@ -1161,7 +1374,7 @@ function FeaturesSection({ character }: { character: Character }) {
       }
     })();
     return () => { cancelled = true; };
-  }, [character.class, character.subclass, character.level, character.classId, character.race, character.raceSource, character.name, character.charCreationOption]);
+  }, [character.class, character.subclass, character.level, character.classId, character.race, character.raceSource, character.name, character.charCreationOption, character.optionalFeatures]);
 
   const toggleCat = (key: string) => {
     setCollapsedCats(prev => {
@@ -1190,6 +1403,11 @@ function FeaturesSection({ character }: { character: Character }) {
         : <BookOpen size={14} className="text-blue-400" />,
       features: subclassFeatures,
     }] : []),
+    ...optionalFeatureGroups.map(g => ({
+      label: g.label,
+      icon: <Sparkles size={14} className="text-violet-400" />,
+      features: g.items,
+    })),
     ...(charOptionTraits.length > 0 ? [{
       label: character.charCreationOption?.name ?? 'Опция создания',
       icon: <Scroll size={14} className="text-emerald-400" />,

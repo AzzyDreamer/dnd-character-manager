@@ -381,6 +381,14 @@ export interface Character {
   // Трекеры ресурсов класса (Channel Divinity, Second Wind, и т.д.)
   resourceTrackers?: Record<string, ResourceTracker>;
 
+  // Опциональные способности класса (Воззвания, Метамагия и т.д.)
+  optionalFeatures?: {
+    name: string;
+    source: string;
+    featureType: string;  // "EI", "MM", etc.
+    levelAcquired: number;
+  }[];
+
   // Активные состояния (Blinded, Charmed, etc.)
   conditions?: string[];
 

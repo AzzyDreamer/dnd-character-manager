@@ -1,4 +1,4 @@
-import type { ReactNode, FC } from 'react';
+import { type ReactNode, type FC, useState, useRef, useCallback } from 'react';
 
 export interface NavTab {
   key: string;
@@ -17,6 +17,8 @@ interface TopNavBarProps {
   rightContent?: ReactNode;
 }
 
+const E_SRC = '/assets/ui/textures/t4nh';
+
 export function TopNavBar({
   tabs,
   activeTab,
@@ -27,6 +29,39 @@ export function TopNavBar({
   onSubTabChange,
   rightContent,
 }: TopNavBarProps) {
+  const [eggActive, setEggActive] = useState(false);
+  const clickTimes = useRef<number[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleLogoClick = useCallback(() => {
+    const now = Date.now();
+    clickTimes.current.push(now);
+    // Keep only clicks within last 1.5s
+    clickTimes.current = clickTimes.current.filter(t => now - t < 1500);
+
+    if (clickTimes.current.length >= 5) {
+      clickTimes.current = [];
+      const next = !eggActive;
+      setEggActive(next);
+      if (next) {
+        if (!audioRef.current) {
+          audioRef.current = new Audio(`${E_SRC}.mp3`);
+          audioRef.current.loop = false;
+        }
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => {});
+      } else {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        }
+      }
+      return; // Don't navigate on egg toggle
+    }
+
+    onLogoClick ? onLogoClick() : onTabChange(tabs[0]?.key ?? '');
+  }, [eggActive, onLogoClick, onTabChange, tabs]);
+
   return (
     <nav className="shrink-0 select-none">
       {/* Main navigation bar */}
@@ -34,10 +69,14 @@ export function TopNavBar({
         <div className="flex items-center gap-8 h-14 px-4 sm:px-6">
           {/* Logo */}
           <button
-            onClick={() => onLogoClick ? onLogoClick() : onTabChange(tabs[0]?.key ?? '')}
+            onClick={handleLogoClick}
             className="flex items-center gap-2.5 shrink-0 cursor-pointer"
           >
-            <img src="/logo.svg" alt="Logo" className="h-10 w-10" />
+            <img
+              src={eggActive ? `${E_SRC}.gif` : '/logo.svg'}
+              alt="Logo"
+              className={`h-10 w-10${eggActive ? ' rounded-full' : ''}`}
+            />
           </button>
 
           {/* Main tabs */}

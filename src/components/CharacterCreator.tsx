@@ -1521,7 +1521,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const { fixed, speciesChoose, bgChoose, bgChooseFrom, totalChoose } = languageInfo;
 
     // Build list of available languages for each slot type
-    const alreadyChosen = new Set([...fixed.map(l => l.toLowerCase()), ...selectedLanguages.map(l => l.toLowerCase())]);
+    const alreadyChosen = new Set([...fixed.map(l => l.toLowerCase()), ...selectedLanguages.filter(Boolean).map(l => l.toLowerCase())]);
 
     const speciesAvailable = ALL_CHOOSABLE_LANGUAGES.filter(l => !fixed.map(f => f.toLowerCase()).includes(l.toLowerCase()));
     const bgAvailable = bgChooseFrom
