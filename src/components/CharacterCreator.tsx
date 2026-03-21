@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import type { Character, AbilityScores } from '../types';
+import type { Character, AbilityScores, CharacterSpell } from '../types';
 import {
   generateAbilityScores,
   calculateMaxHP,
@@ -26,6 +26,8 @@ import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
 import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
+import { applyFeatStatEffects, extractFeatProficiencies, applyFeatProficiencies, extractFeatResistances, applyFeatResistances, extractFeatSpellConfig, type FeatSpellConfig } from '../utils/featEffects';
+import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 
 // ─── Хелперы для SpeciesData ───
 function getSpeciesSpeed(sp: SpeciesData): number {
@@ -54,9 +56,23 @@ function getSpeciesLanguages(sp: SpeciesData): string[] {
 }
 
 // ─── Хелперы для JsonBackgroundData ───
+/** Parse bg feat key like "magic initiate; cleric|xphb" → { name: "Magic Initiate", variant: "Cleric" } */
+function parseBgFeat(bg: JsonBackgroundData): { name: string; variant: string } {
+  if (!bg.feats?.length) return { name: '', variant: '' };
+  const raw = Object.keys(bg.feats[0])[0]?.split('|')[0] || '';
+  const parts = raw.split(';').map(s => s.trim());
+  const name = parts[0].replace(/\b\w/g, (c: string) => c.toUpperCase());
+  const variant = parts[1] ? parts[1].replace(/\b\w/g, (c: string) => c.toUpperCase()) : '';
+  return { name, variant };
+}
+
 function getBgFeatName(bg: JsonBackgroundData): string {
-  if (!bg.feats?.length) return '';
-  return Object.keys(bg.feats[0])[0]?.split('|')[0] || '';
+  return parseBgFeat(bg).name;
+}
+
+function getBgFeatDisplayName(bg: JsonBackgroundData): string {
+  const { name, variant } = parseBgFeat(bg);
+  return variant ? `${name} (${variant})` : name;
 }
 
 function getBgSkills(bg: JsonBackgroundData): string[] {
@@ -344,6 +360,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [allOriginFeats, setAllOriginFeats] = useState<any[]>([]);
   const [originFeatSearch, setOriginFeatSearch] = useState('');
 
+  // Background feat spell picker (Magic Initiate from background)
+  const [showBgFeatSpellPicker, setShowBgFeatSpellPicker] = useState(false);
+  const [bgFeatSpellConfig, setBgFeatSpellConfig] = useState<FeatSpellConfig | null>(null);
+  const [pendingCharacter, setPendingCharacter] = useState<Character | null>(null);
+
   // Lazy load origin feats
   React.useEffect(() => {
     let cancelled = false;
@@ -373,6 +394,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     if (!classLevelTable) return false;
     const level1Row = classLevelTable.find((r: any) => r.level === 1);
     return (level1Row?.features as string[] | undefined)?.includes('Fighting Style') ?? false;
+  }, [classLevelTable]);
+
+  // Detect if class needs expertise at level 1 (Rogue)
+  const needsExpertise = useMemo(() => {
+    if (!classLevelTable) return false;
+    const level1Row = classLevelTable.find((r: any) => r.level === 1);
+    return (level1Row?.features as string[] | undefined)?.includes('Expertise') ?? false;
   }, [classLevelTable]);
 
   // Load fighting style feats when class changes (reuse already-loaded feats module)
@@ -449,6 +477,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // Skills (reset when class changes)
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   React.useEffect(() => { setSelectedSkills([]); }, [selectedClass]);
+
+  // Expertise (reset when class or skills change)
+  const [selectedExpertise, setSelectedExpertise] = useState<string[]>([]);
+  React.useEffect(() => { setSelectedExpertise([]); }, [selectedClass]);
 
   // Languages
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -595,7 +627,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       case 'fightingStyle': return selectedFightingStyle !== null && (fsRequiredCantrips === 0 || fsCantrips.length === fsRequiredCantrips);
       case 'skills': {
         if (!selectedClass) return false;
-        return selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
+        const skillsDone = selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
+        if (needsExpertise) return skillsDone && selectedExpertise.length === 2;
+        return skillsDone;
       }
       case 'spells': return true; // Заклинания опциональны
       case 'details': return name.trim().length > 0;
@@ -681,9 +715,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       allTools.push(bgTool);
     }
 
-    const bgFeat = getBgFeatName(selectedBackground);
+    const { name: bgFeat, variant: bgFeatVariant } = parseBgFeat(selectedBackground);
     // Determine which feat to use — background feat or selected origin feat
     const featName = bgFeat || selectedOriginFeat?.name || '';
+    const featDisplayName = bgFeatVariant ? `${bgFeat} (${bgFeatVariant})` : featName;
     const featSource = bgFeat ? selectedBackground.source : (selectedOriginFeat?.source || '');
 
     const character: Character = {
@@ -712,7 +747,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           sk,
           {
             proficient: selectedSkills.includes(sk) || backgroundSkillKeys.includes(sk),
-            expertise: false,
+            expertise: selectedExpertise.includes(sk),
           },
         ])
       ),
@@ -732,7 +767,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       features: [
         ...(featName ? [{
           id: bgFeat ? 'bg-feat' : 'origin-feat',
-          name: featName,
+          name: featDisplayName,
           description: bgFeat
             ? `Черта от предыстории: ${selectedBackground.name}`
             : `Черта происхождения`,
@@ -749,7 +784,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       ],
       feats: [
         ...(featName ? [{
-          name: featName,
+          name: featDisplayName,
           source: featSource,
           category: 'O',
           levelAcquired: 1,
@@ -836,6 +871,93 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       }
     }
 
+    // Apply feat stat effects (Tough HP, Alert initiative, Defense AC, Speedy speed, etc.)
+    // This works for both background feats (bgFeat) and manually selected origin feats
+    if (featName) {
+      applyFeatStatEffects(character, featName);
+    }
+    // Apply proficiencies/resistances from feat JSON (only when we have full feat data)
+    const originFeatData = selectedOriginFeat;
+    if (originFeatData) {
+      const profs = extractFeatProficiencies(originFeatData);
+      applyFeatProficiencies(character, profs);
+      const resists = extractFeatResistances(originFeatData);
+      applyFeatResistances(character, resists);
+    }
+    // Apply fighting style stat effects (e.g. Defense +1 AC)
+    if (selectedFightingStyle) {
+      applyFeatStatEffects(character, selectedFightingStyle.name);
+    }
+
+    // Check if background feat grants spells — show spell picker before saving
+    if (bgFeat) {
+      const { variant } = parseBgFeat(selectedBackground);
+      // Load feat data to check for spells
+      import('../data/feats').then(async mod => {
+        await mod.init();
+        const featData = mod.getFeatByName(getBgFeatName(selectedBackground));
+        if (featData) {
+          let spellConfig = extractFeatSpellConfig(featData);
+          if (spellConfig) {
+            // If variant specified (e.g. "Cleric"), pre-filter class options
+            if (variant && spellConfig.classOptions) {
+              const matchIdx = spellConfig.classOptions.findIndex(
+                o => o.className.toLowerCase() === variant.toLowerCase()
+              );
+              if (matchIdx >= 0) {
+                // Pre-select the class variant — parse that specific spell set
+                const variantSpellSet = featData.additionalSpells[matchIdx];
+                if (variantSpellSet) {
+                  const variantConfig = extractFeatSpellConfig({ ...featData, additionalSpells: [variantSpellSet] });
+                  if (variantConfig) {
+                    spellConfig = variantConfig;
+                    // Set filterClass on choices if not already set
+                    for (const ch of spellConfig.choices) {
+                      if (!ch.filterClass) ch.filterClass = variant;
+                    }
+                  }
+                }
+              }
+            }
+            setPendingCharacter(character);
+            setBgFeatSpellConfig(spellConfig);
+            setShowBgFeatSpellPicker(true);
+            return;
+          }
+        }
+        // No spell config — just save
+        onSave(character);
+      });
+      return;
+    }
+
+    onSave(character);
+  };
+
+  const handleBgFeatSpellConfirm = (spells: CharacterSpell[], chosenAbility?: string) => {
+    if (!pendingCharacter) return;
+    const character = { ...pendingCharacter };
+
+    if (spells.length > 0) {
+      if (!character.spellcasting) {
+        const ability = (chosenAbility || 'wisdom') as 'intelligence' | 'wisdom' | 'charisma';
+        const abilityMod = getAbilityModifier(character.abilityScores[ability]);
+        character.spellcasting = {
+          ability,
+          spellSaveDC: 8 + character.proficiencyBonus + abilityMod,
+          spellAttackBonus: character.proficiencyBonus + abilityMod,
+          spells: [],
+        };
+      }
+      character.spellcasting = {
+        ...character.spellcasting,
+        spells: [...(character.spellcasting.spells || []), ...spells],
+      };
+    }
+
+    setShowBgFeatSpellPicker(false);
+    setBgFeatSpellConfig(null);
+    setPendingCharacter(null);
     onSave(character);
   };
 
@@ -1501,7 +1623,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 }`}
               >
                 <div className="font-semibold truncate">{bg.name}</div>
-                <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatName(bg)}</div>
+                <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatDisplayName(bg)}</div>
               </button>
             ))}
             {filteredBackgrounds.length === 0 && (
@@ -1518,7 +1640,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   {getBgFeatName(selectedBackground) && (
                     <div>
                       <span className="text-text-secondary">Черта:</span>
-                      <span className="text-purple-300 ml-2 font-medium">{getBgFeatName(selectedBackground)}</span>
+                      <span className="text-purple-300 ml-2 font-medium">{getBgFeatDisplayName(selectedBackground)}</span>
                     </div>
                   )}
                   {getBgSkills(selectedBackground).length > 0 && (
@@ -1769,7 +1891,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
           <div className="text-sm text-text-secondary mb-1">Предыстория</div>
           <div className="text-lg text-gold font-medieval">{selectedBackground.name}</div>
-          <div className="text-xs text-text-secondary mt-1">Черта: {getBgFeatName(selectedBackground)}</div>
+          <div className="text-xs text-text-secondary mt-1">Черта: {getBgFeatDisplayName(selectedBackground)}</div>
         </div>
       )}
 
@@ -2316,13 +2438,33 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const { count, from } = selectedClass.proficiencies.skillChoices;
 
     const toggleSkill = (skillKey: string) => {
-      // Don't toggle background skills
-      if (backgroundSkillKeys.includes(skillKey)) return;
-      setSelectedSkills(prev => {
-        if (prev.includes(skillKey)) return prev.filter(s => s !== skillKey);
-        if (prev.length >= count) return prev;
-        return [...prev, skillKey];
-      });
+      // Background skills: can only toggle expertise if needsExpertise
+      if (backgroundSkillKeys.includes(skillKey)) {
+        if (!needsExpertise) return;
+        // Toggle expertise on bg skill
+        setSelectedExpertise(prev => {
+          if (prev.includes(skillKey)) return prev.filter(s => s !== skillKey);
+          if (prev.length >= 2) return prev;
+          return [...prev, skillKey];
+        });
+        return;
+      }
+
+      const isSelected = selectedSkills.includes(skillKey);
+      const hasExpertise = selectedExpertise.includes(skillKey);
+
+      if (!isSelected) {
+        // Not selected → select as proficient
+        if (selectedSkills.length >= count) return;
+        setSelectedSkills(prev => [...prev, skillKey]);
+      } else if (needsExpertise && !hasExpertise && selectedExpertise.length < 2) {
+        // Selected but no expertise → add expertise
+        setSelectedExpertise(prev => [...prev, skillKey]);
+      } else {
+        // Has expertise or no expertise available → deselect
+        setSelectedExpertise(prev => prev.filter(s => s !== skillKey));
+        setSelectedSkills(prev => prev.filter(s => s !== skillKey));
+      }
     };
 
     // Group skills by ability
@@ -2334,17 +2476,31 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-medieval text-gold">Выберите навыки</h3>
-          <div className="text-sm">
-            <span className={`font-bold ${selectedSkills.length === count ? 'text-green-400' : 'text-gold'}`}>
-              {selectedSkills.length}
+          <div className="text-sm flex gap-3">
+            <span>
+              <span className={`font-bold ${selectedSkills.length === count ? 'text-green-400' : 'text-gold'}`}>
+                {selectedSkills.length}
+              </span>
+              <span className="text-text-secondary"> / {count}</span>
             </span>
-            <span className="text-text-secondary"> / {count}</span>
+            {needsExpertise && (
+              <span>
+                <Star size={10} className="inline text-purple-400 mr-0.5" />
+                <span className={`font-bold ${selectedExpertise.length === 2 ? 'text-green-400' : 'text-purple-300'}`}>
+                  {selectedExpertise.length}
+                </span>
+                <span className="text-text-secondary"> / 2</span>
+              </span>
+            )}
           </div>
         </div>
 
         <p className="text-sm text-text-secondary">
           Выберите {count} навык{count === 2 ? 'а' : count === 3 ? 'а' : 'ов'} из списка класса «{selectedClass.name}».
           {backgroundSkillKeys.length > 0 && ' Навыки предыстории уже отмечены.'}
+          {needsExpertise && (
+            <span className="text-purple-300"> Нажмите повторно на владеемый навык для двойного мастерства (Expertise).</span>
+          )}
         </p>
 
         {/* All 18 skills grouped by ability */}
@@ -2368,6 +2524,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     const isFromClass = from.includes(skillKey);
                     const isFromBg = backgroundSkillKeys.includes(skillKey);
                     const isSelected = selectedSkills.includes(skillKey);
+                    const hasExpertise = selectedExpertise.includes(skillKey);
                     const isActive = isSelected || isFromBg;
                     const isDisabled = !isFromClass && !isFromBg;
                     const isFull = selectedSkills.length >= count && !isSelected;
@@ -2376,32 +2533,41 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     const mod = getSkillBonus(
                       abilityScore,
                       isActive,
-                      false,
+                      hasExpertise,
                       getProficiencyBonus(1)
                     );
+
+                    // Can this bg skill be clicked for expertise?
+                    const bgCanExpertise = isFromBg && needsExpertise;
 
                     return (
                       <button
                         key={skillKey}
                         onClick={() => toggleSkill(skillKey)}
-                        disabled={isDisabled || isFromBg || (isFull && !isSelected)}
+                        disabled={(isDisabled && !isFromBg) || (isFromBg && !bgCanExpertise) || (isFull && !isSelected)}
                         className={`flex items-center gap-2.5 p-2.5 rounded-lg border text-left text-sm transition-all ${
-                          isFromBg
-                            ? 'border-blue-500/50 bg-blue-900/20 text-blue-300 cursor-default'
-                            : isSelected
-                              ? 'border-gold/70 bg-gold/10 text-gold'
-                              : isFromClass
-                                ? 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
-                                : 'border-border-default/30 bg-bg-panel/30 text-text-muted/50 cursor-not-allowed'
+                          hasExpertise
+                            ? 'border-purple-400/70 bg-purple-500/15 text-purple-200 ring-1 ring-purple-500/30'
+                            : isFromBg
+                              ? bgCanExpertise
+                                ? 'border-blue-500/50 bg-blue-900/20 text-blue-300 hover:border-purple-400/50 cursor-pointer'
+                                : 'border-blue-500/50 bg-blue-900/20 text-blue-300 cursor-default'
+                              : isSelected
+                                ? 'border-gold/70 bg-gold/10 text-gold'
+                                : isFromClass
+                                  ? 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                                  : 'border-border-default/30 bg-bg-panel/30 text-text-muted/50 cursor-not-allowed'
                         }`}
                       >
                         {/* Skill icon */}
                         <div className={`w-8 h-8 rounded-full border-2 overflow-hidden shrink-0 relative ${
-                          isActive
-                            ? isFromBg
-                              ? 'border-blue-400'
-                              : 'border-gold'
-                            : 'border-border-default'
+                          hasExpertise
+                            ? 'border-purple-400'
+                            : isActive
+                              ? isFromBg
+                                ? 'border-blue-400'
+                                : 'border-gold'
+                              : 'border-border-default'
                         }`}>
                           <img
                             src={`/images/skills/${skillKey}.webp`}
@@ -2409,7 +2575,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                             className={`w-full h-full object-cover ${isDisabled && !isFromBg ? 'opacity-30 grayscale' : isActive ? '' : 'opacity-60'}`}
                             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                           />
-                          {isActive && (
+                          {hasExpertise ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-purple-900/50">
+                              <Star size={14} className="text-purple-300" />
+                            </div>
+                          ) : isActive && (
                             <div className={`absolute inset-0 flex items-center justify-center ${isFromBg ? 'bg-blue-900/50' : 'bg-gold/30'}`}>
                               <Check size={14} className={isFromBg ? 'text-blue-300' : 'text-gold'} />
                             </div>
@@ -2419,10 +2589,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                           <div className="font-medium truncate text-xs">{SKILL_NAMES[skillKey]}</div>
                           <div className="text-[10px] text-text-muted">
                             {ABILITY_SHORT[SKILL_ABILITIES[skillKey]]}
-                            {isFromBg && ' • Предыстория'}
+                            {isFromBg && !hasExpertise && ' • Предыстория'}
+                            {hasExpertise && <span className="text-purple-400"> • Мастерство ×2</span>}
                           </div>
                         </div>
-                        <span className={`text-xs font-bold ${isActive ? 'text-green-400' : 'text-text-muted'}`}>
+                        <span className={`text-xs font-bold ${hasExpertise ? 'text-purple-300' : isActive ? 'text-green-400' : 'text-text-muted'}`}>
                           {mod >= 0 ? '+' : ''}{mod}
                         </span>
                       </button>
@@ -2440,16 +2611,30 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">Владение навыками:</h4>
             <div className="flex flex-wrap gap-1.5">
               {backgroundSkillKeys.map(sk => (
-                <span key={sk} className="px-2 py-1 bg-blue-900/40 text-blue-300 rounded text-xs">
-                  {SKILL_NAMES[sk]} <span className="text-blue-400/60 text-[10px]">(Предыстория)</span>
+                <span key={sk} className={`px-2 py-1 rounded text-xs flex items-center gap-1 ${
+                  selectedExpertise.includes(sk)
+                    ? 'bg-purple-900/40 text-purple-300'
+                    : 'bg-blue-900/40 text-blue-300'
+                }`}>
+                  {selectedExpertise.includes(sk) && <Star size={10} />}
+                  {SKILL_NAMES[sk]} <span className="text-[10px] opacity-60 ml-0.5">(Предыстория)</span>
                 </span>
               ))}
               {selectedSkills.map(sk => (
-                <span key={sk} className="px-2 py-1 bg-gold/10 text-gold rounded text-xs flex items-center gap-1">
+                <span key={sk} className={`px-2 py-1 rounded text-xs flex items-center gap-1 ${
+                  selectedExpertise.includes(sk)
+                    ? 'bg-purple-900/40 text-purple-300'
+                    : 'bg-gold/10 text-gold'
+                }`}>
+                  {selectedExpertise.includes(sk) && <Star size={10} />}
                   {SKILL_NAMES[sk]}
                   <button
-                    onClick={() => setSelectedSkills(prev => prev.filter(s => s !== sk))}
-                    className="text-gold/50 hover:text-gold ml-0.5"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedExpertise(prev => prev.filter(s => s !== sk));
+                      setSelectedSkills(prev => prev.filter(s => s !== sk));
+                    }}
+                    className="opacity-50 hover:opacity-100 ml-0.5"
                   >&times;</button>
                 </span>
               ))}
@@ -2859,6 +3044,23 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </button>
         )}
       </div>
+
+      {/* Background feat spell picker (Magic Initiate from background, etc.) */}
+      {showBgFeatSpellPicker && bgFeatSpellConfig && pendingCharacter && (
+        <FeatSpellPickerModal
+          character={pendingCharacter}
+          featName={getBgFeatName(selectedBackground!)}
+          config={bgFeatSpellConfig}
+          onConfirm={handleBgFeatSpellConfirm}
+          onCancel={() => {
+            // Cancel spell selection — still save the character without spells
+            setShowBgFeatSpellPicker(false);
+            setBgFeatSpellConfig(null);
+            onSave(pendingCharacter);
+            setPendingCharacter(null);
+          }}
+        />
+      )}
     </div>
   );
 };

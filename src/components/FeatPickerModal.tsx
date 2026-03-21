@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import type { Character, AbilityScores } from '../types';
+import type { Character, AbilityScores, CharacterSpell } from '../types';
 import { type FeatData, getFeatImageUrl } from '../data/feats';
-import { getAbilityModifier, ABILITY_NAMES, ABILITY_SHORT, ABILITY_SHORT_TO_LONG } from '../utils/dnd';
+import { getAbilityModifier, ABILITY_NAMES, ABILITY_SHORT, ABILITY_SHORT_TO_LONG, SKILL_NAMES } from '../utils/dnd';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
+import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 
@@ -16,6 +17,14 @@ export interface FeatPickerResult {
   asiChanges?: Partial<AbilityScores>;
   feat?: FeatData;
   abilityChoice?: Partial<AbilityScores>;
+  // Feat-specific choices
+  skillChoices?: string[];
+  savingThrowChoice?: string;
+  resistanceChoices?: string[];
+  toolChoices?: string[];
+  languageChoices?: string[];
+  expertiseChoice?: string;
+  spellConfig?: FeatSpellConfig | null;  // passed to CharacterSheet to trigger spell picker
 }
 
 interface FeatPickerModalProps {
@@ -59,6 +68,12 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
   // Feat selection state
   const [selectedFeat, setSelectedFeat] = useState<FeatData | null>(null);
   const [featAbilityChoice, setFeatAbilityChoice] = useState<Partial<AbilityScores>>({});
+
+  // Feat choice states
+  const [skillChoices, setSkillChoices] = useState<string[]>([]);
+  const [savingThrowChoice, setSavingThrowChoice] = useState<string>('');
+  const [resistanceChoices, setResistanceChoices] = useState<string[]>([]);
+  const [expertiseChoice, setExpertiseChoice] = useState<string>('');
 
   const maxScore = 30;
   const category = mode === 'epicBoon' ? 'EB' : isFightingStyle ? 'FS' : 'G';
@@ -201,6 +216,22 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
     return 1;
   }, [selectedFeat]);
 
+  // Extract proficiency/resistance/spell requirements from selected feat
+  const featProfs = useMemo<ExtractedProficiencies | null>(() => {
+    if (!selectedFeat) return null;
+    return extractFeatProficiencies(selectedFeat);
+  }, [selectedFeat]);
+
+  const featResists = useMemo<ExtractedResistances | null>(() => {
+    if (!selectedFeat) return null;
+    return extractFeatResistances(selectedFeat);
+  }, [selectedFeat]);
+
+  const featSpellCfg = useMemo<FeatSpellConfig | null>(() => {
+    if (!selectedFeat) return null;
+    return extractFeatSpellConfig(selectedFeat);
+  }, [selectedFeat]);
+
   const handleFeatAbilityChange = (shortKey: string) => {
     const longKey = ABILITY_SHORT_TO_LONG[shortKey];
     if (!longKey) return;
@@ -223,9 +254,20 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
 
   // Can confirm
   const canConfirmAsi = asiTotal === 2;
-  const canConfirmFeat = selectedFeat !== null && (
-    featAbilityOptions.length === 0 || Object.keys(featAbilityChoice).length === 1
-  );
+  const canConfirmFeat = useMemo(() => {
+    if (!selectedFeat) return false;
+    // Ability choice required?
+    if (featAbilityOptions.length > 0 && Object.keys(featAbilityChoice).length !== 1) return false;
+    // Skill choices required?
+    if (featProfs?.skillChoiceCount && skillChoices.length < featProfs.skillChoiceCount) return false;
+    // Saving throw choice required?
+    if (featProfs?.savingThrowChoiceCount && !savingThrowChoice) return false;
+    // Resistance choices required?
+    if (featResists?.choiceCount && resistanceChoices.length < featResists.choiceCount) return false;
+    // Expertise choice required?
+    if (featProfs?.expertiseChoiceCount && !expertiseChoice) return false;
+    return true;
+  }, [selectedFeat, featAbilityOptions, featAbilityChoice, featProfs, skillChoices, savingThrowChoice, featResists, resistanceChoices, expertiseChoice]);
 
   const handleConfirm = () => {
     if (activeTab === 'asi') {
@@ -237,6 +279,11 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         type: 'feat',
         feat: selectedFeat,
         abilityChoice: featAbilityOptions.length > 0 ? featAbilityChoice : undefined,
+        skillChoices: skillChoices.length > 0 ? skillChoices : undefined,
+        savingThrowChoice: savingThrowChoice || undefined,
+        resistanceChoices: resistanceChoices.length > 0 ? resistanceChoices : undefined,
+        expertiseChoice: expertiseChoice || undefined,
+        spellConfig: featSpellCfg,
       });
     }
   };
@@ -300,7 +347,14 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
               feats={filteredFeats}
               loading={featsLoading}
               selectedFeat={selectedFeat}
-              onSelectFeat={(f) => { setSelectedFeat(f); setFeatAbilityChoice({}); }}
+              onSelectFeat={(f) => {
+                setSelectedFeat(f);
+                setFeatAbilityChoice({});
+                setSkillChoices([]);
+                setSavingThrowChoice('');
+                setResistanceChoices([]);
+                setExpertiseChoice('');
+              }}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               takenFeatNames={takenFeatNames}
@@ -312,6 +366,16 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
               featAbilityAmount={featAbilityAmount}
               onFeatAbilityChange={handleFeatAbilityChange}
               character={character}
+              featProfs={featProfs}
+              featResists={featResists}
+              skillChoices={skillChoices}
+              onSkillChoicesChange={setSkillChoices}
+              savingThrowChoice={savingThrowChoice}
+              onSavingThrowChoiceChange={setSavingThrowChoice}
+              resistanceChoices={resistanceChoices}
+              onResistanceChoicesChange={setResistanceChoices}
+              expertiseChoice={expertiseChoice}
+              onExpertiseChoiceChange={setExpertiseChoice}
             />
           )}
         </div>
@@ -463,6 +527,16 @@ function FeatTab({
   featAbilityAmount,
   onFeatAbilityChange,
   character,
+  featProfs,
+  featResists,
+  skillChoices,
+  onSkillChoicesChange,
+  savingThrowChoice,
+  onSavingThrowChoiceChange,
+  resistanceChoices,
+  onResistanceChoicesChange,
+  expertiseChoice,
+  onExpertiseChoiceChange,
 }: {
   feats: FeatData[];
   loading: boolean;
@@ -479,6 +553,16 @@ function FeatTab({
   featAbilityAmount: number;
   onFeatAbilityChange: (shortKey: string) => void;
   character: Character;
+  featProfs: ExtractedProficiencies | null;
+  featResists: ExtractedResistances | null;
+  skillChoices: string[];
+  onSkillChoicesChange: (choices: string[]) => void;
+  savingThrowChoice: string;
+  onSavingThrowChoiceChange: (choice: string) => void;
+  resistanceChoices: string[];
+  onResistanceChoicesChange: (choices: string[]) => void;
+  expertiseChoice: string;
+  onExpertiseChoiceChange: (choice: string) => void;
 }) {
   if (loading) {
     return (
@@ -640,6 +724,79 @@ function FeatTab({
                 </div>
               </div>
             )}
+
+            {/* Skill choice panel */}
+            {featProfs && featProfs.skillChoiceCount && featProfs.skillChoiceCount > 0 && (
+              <FeatSkillChoicePanel
+                count={featProfs.skillChoiceCount}
+                fromSkills={featProfs.skillChoiceFrom}
+                chosen={skillChoices}
+                onChange={onSkillChoicesChange}
+                character={character}
+              />
+            )}
+
+            {/* Saving throw choice panel */}
+            {featProfs && featProfs.savingThrowChoiceCount && featProfs.savingThrowChoiceCount > 0 && (
+              <FeatSavingThrowChoicePanel
+                fromAbilities={featProfs.savingThrowChoiceFrom ?? []}
+                chosen={savingThrowChoice}
+                onChange={onSavingThrowChoiceChange}
+                character={character}
+              />
+            )}
+
+            {/* Resistance choice panel */}
+            {featResists && featResists.choiceCount && featResists.choiceCount > 0 && featResists.choiceFrom && (
+              <FeatResistanceChoicePanel
+                count={featResists.choiceCount}
+                fromTypes={featResists.choiceFrom}
+                chosen={resistanceChoices}
+                onChange={onResistanceChoicesChange}
+              />
+            )}
+
+            {/* Expertise choice panel */}
+            {featProfs && featProfs.expertiseChoiceCount && featProfs.expertiseChoiceCount > 0 && (
+              <FeatExpertiseChoicePanel
+                chosen={expertiseChoice}
+                onChange={onExpertiseChoiceChange}
+                character={character}
+                newSkillChoices={skillChoices}
+                allSkills={featProfs.allSkills}
+              />
+            )}
+
+            {/* Show what will be granted (non-choice proficiencies) */}
+            {featProfs && (featProfs.armor.length > 0 || featProfs.weapons.length > 0 || featProfs.tools.length > 0 || featProfs.languages.length > 0) && (
+              <div className="border-t border-border-default pt-3">
+                <h4 className="text-sm font-medium text-text-primary mb-2">Будет получено</h4>
+                <div className="space-y-1 text-xs text-text-secondary">
+                  {featProfs.armor.length > 0 && (
+                    <div><span className="text-text-muted">Доспехи:</span> {featProfs.armor.join(', ')}</div>
+                  )}
+                  {featProfs.weapons.length > 0 && (
+                    <div><span className="text-text-muted">Оружие:</span> {featProfs.weapons.join(', ')}</div>
+                  )}
+                  {featProfs.tools.length > 0 && (
+                    <div><span className="text-text-muted">Инструменты:</span> {featProfs.tools.join(', ')}</div>
+                  )}
+                  {featProfs.languages.length > 0 && (
+                    <div><span className="text-text-muted">Языки:</span> {featProfs.languages.join(', ')}</div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Fixed resistances info */}
+            {featResists && featResists.fixed.length > 0 && (
+              <div className="border-t border-border-default pt-3">
+                <h4 className="text-sm font-medium text-text-primary mb-2">Сопротивления</h4>
+                <div className="text-xs text-text-secondary">
+                  {featResists.fixed.map(r => DAMAGE_TYPE_NAMES[r] || r).join(', ')}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-text-muted text-sm">
@@ -647,6 +804,213 @@ function FeatTab({
             Выберите черту из списка слева
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+// ── Damage type names ──
+
+const DAMAGE_TYPE_NAMES: Record<string, string> = {
+  acid: 'Кислота', cold: 'Холод', fire: 'Огонь', lightning: 'Молния',
+  necrotic: 'Некротический', poison: 'Яд', psychic: 'Психический',
+  radiant: 'Сияющий', thunder: 'Гром', bludgeoning: 'Дробящий',
+  piercing: 'Колющий', slashing: 'Рубящий', force: 'Силовой',
+};
+
+const SAVING_THROW_NAMES: Record<string, string> = {
+  strength: 'Сила', dexterity: 'Ловкость', constitution: 'Телосложение',
+  intelligence: 'Интеллект', wisdom: 'Мудрость', charisma: 'Харизма',
+};
+
+// ── Choice panel components ──
+
+function FeatSkillChoicePanel({
+  count, fromSkills, chosen, onChange, character,
+}: {
+  count: number;
+  fromSkills?: string[];
+  chosen: string[];
+  onChange: (choices: string[]) => void;
+  character: Character;
+}) {
+  // All skill keys or filtered
+  const allSkills = Object.keys(SKILL_NAMES);
+  const available = fromSkills && fromSkills.length > 0
+    ? fromSkills.filter(sk => allSkills.includes(sk))
+    : allSkills;
+
+  // Filter out already proficient
+  const selectable = available.filter(sk => !character.skills[sk]?.proficient);
+
+  const toggle = (sk: string) => {
+    if (chosen.includes(sk)) {
+      onChange(chosen.filter(s => s !== sk));
+    } else if (chosen.length < count) {
+      onChange([...chosen, sk]);
+    }
+  };
+
+  return (
+    <div className="border-t border-border-default pt-3">
+      <h4 className="text-sm font-medium text-text-primary mb-2">
+        Выберите навыки ({chosen.length}/{count})
+      </h4>
+      <div className="flex flex-wrap gap-1.5">
+        {selectable.map(sk => {
+          const isChosen = chosen.includes(sk);
+          return (
+            <button
+              key={sk}
+              onClick={() => toggle(sk)}
+              disabled={!isChosen && chosen.length >= count}
+              className={`px-2.5 py-1.5 rounded-lg border text-xs transition-all ${
+                isChosen
+                  ? 'border-gold/50 bg-gold/10 text-gold'
+                  : 'border-border-default bg-bg-primary/40 text-text-secondary hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed'
+              }`}
+            >
+              {isChosen && <Check size={10} className="inline mr-1" />}
+              {SKILL_NAMES[sk] || sk}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FeatSavingThrowChoicePanel({
+  fromAbilities, chosen, onChange, character,
+}: {
+  fromAbilities: string[];
+  chosen: string;
+  onChange: (choice: string) => void;
+  character: Character;
+}) {
+  // Filter out already proficient
+  const selectable = fromAbilities.filter(ab => {
+    const key = ab as keyof typeof character.savingThrows;
+    return !character.savingThrows[key]?.proficient;
+  });
+
+  return (
+    <div className="border-t border-border-default pt-3">
+      <h4 className="text-sm font-medium text-text-primary mb-2">
+        Выберите спасбросок
+      </h4>
+      <div className="flex flex-wrap gap-2">
+        {selectable.map(ab => {
+          const isChosen = chosen === ab;
+          return (
+            <button
+              key={ab}
+              onClick={() => onChange(isChosen ? '' : ab)}
+              className={`px-3 py-2 rounded-lg border text-sm transition-all ${
+                isChosen
+                  ? 'border-gold/50 bg-gold/10 text-gold'
+                  : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
+              }`}
+            >
+              {SAVING_THROW_NAMES[ab] || ab}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FeatResistanceChoicePanel({
+  count, fromTypes, chosen, onChange,
+}: {
+  count: number;
+  fromTypes: string[];
+  chosen: string[];
+  onChange: (choices: string[]) => void;
+}) {
+  const toggle = (type: string) => {
+    if (chosen.includes(type)) {
+      onChange(chosen.filter(t => t !== type));
+    } else if (chosen.length < count) {
+      onChange([...chosen, type]);
+    }
+  };
+
+  return (
+    <div className="border-t border-border-default pt-3">
+      <h4 className="text-sm font-medium text-text-primary mb-2">
+        Выберите сопротивления ({chosen.length}/{count})
+      </h4>
+      <div className="flex flex-wrap gap-1.5">
+        {fromTypes.map(type => {
+          const isChosen = chosen.includes(type);
+          return (
+            <button
+              key={type}
+              onClick={() => toggle(type)}
+              disabled={!isChosen && chosen.length >= count}
+              className={`px-2.5 py-1.5 rounded-lg border text-xs transition-all ${
+                isChosen
+                  ? 'border-gold/50 bg-gold/10 text-gold'
+                  : 'border-border-default bg-bg-primary/40 text-text-secondary hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed'
+              }`}
+            >
+              {isChosen && <Check size={10} className="inline mr-1" />}
+              {DAMAGE_TYPE_NAMES[type] || type}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FeatExpertiseChoicePanel({
+  chosen, onChange, character, newSkillChoices, allSkills,
+}: {
+  chosen: string;
+  onChange: (choice: string) => void;
+  character: Character;
+  newSkillChoices: string[];
+  allSkills?: boolean;
+}) {
+  // Available: skills that are proficient (or will be from this feat) and don't already have expertise
+  const proficientSkills = Object.entries(character.skills)
+    .filter(([, v]) => v.proficient && !v.expertise)
+    .map(([k]) => k);
+
+  // Also include skills that will be gained from this feat
+  const allProficient = [...new Set([...proficientSkills, ...newSkillChoices])];
+
+  // If allSkills (Boon of Skill), all skills are eligible for expertise
+  const selectable = allSkills
+    ? Object.keys(SKILL_NAMES).filter(sk => !character.skills[sk]?.expertise)
+    : allProficient;
+
+  return (
+    <div className="border-t border-border-default pt-3">
+      <h4 className="text-sm font-medium text-text-primary mb-2">
+        Выберите навык для экспертизы
+      </h4>
+      <div className="flex flex-wrap gap-1.5">
+        {selectable.map(sk => {
+          const isChosen = chosen === sk;
+          return (
+            <button
+              key={sk}
+              onClick={() => onChange(isChosen ? '' : sk)}
+              className={`px-2.5 py-1.5 rounded-lg border text-xs transition-all ${
+                isChosen
+                  ? 'border-purple-500/50 bg-purple-500/10 text-purple-400'
+                  : 'border-border-default bg-bg-primary/40 text-text-secondary hover:border-border-hover'
+              }`}
+            >
+              {isChosen && <Check size={10} className="inline mr-1" />}
+              {SKILL_NAMES[sk] || sk}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

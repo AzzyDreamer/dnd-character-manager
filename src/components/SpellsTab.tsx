@@ -5,7 +5,7 @@ import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
-import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
 
 // Типы для данных заклинаний (без импорта модуля)
@@ -852,12 +852,52 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
   // Spell data (only when spellcaster)
   const allSpells = spellcasting ? [...spellcasting.spells, ...autoSpells] : [];
-  const cantrips = allSpells.filter(s => s.level === 0);
-  const leveledSpells = allSpells.filter(s => s.level > 0);
-  const groupedByLevel = leveledSpells.reduce<Record<number, typeof leveledSpells>>((acc, s) => {
-    (acc[s.level] = acc[s.level] || []).push(s);
-    return acc;
-  }, {});
+
+  // Group spells by source
+  type SourceType = 'class' | 'subclass' | 'race' | 'feat';
+  interface SourceGroup {
+    key: string;
+    type: SourceType;
+    label: string;
+    color: string;
+    icon: typeof Wand2;
+    spells: typeof allSpells;
+  }
+
+  const sourceGroups = React.useMemo<SourceGroup[]>(() => {
+    const groups = new Map<string, typeof allSpells>();
+    for (const spell of allSpells) {
+      const key = spell.source || '__class__';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(spell);
+    }
+
+    const result: SourceGroup[] = [];
+    const classSpells = groups.get('__class__');
+    if (classSpells?.length) {
+      result.push({ key: '__class__', type: 'class', label: `Заклинания класса`, color: 'text-blue-300', icon: BookOpen, spells: classSpells });
+    }
+    groups.delete('__class__');
+
+    // Subclass
+    if (character.subclass && groups.has(character.subclass)) {
+      result.push({ key: character.subclass, type: 'subclass', label: `${character.subclass}`, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
+      groups.delete(character.subclass);
+    }
+
+    // Race
+    if (character.race && groups.has(character.race)) {
+      result.push({ key: character.race, type: 'race', label: `${character.race}`, color: 'text-emerald-300', icon: Sparkles, spells: groups.get(character.race)! });
+      groups.delete(character.race);
+    }
+
+    // Remaining (feats)
+    for (const [key, spells] of Array.from(groups.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      result.push({ key, type: 'feat', label: key, color: 'text-purple-300', icon: Wand2, spells });
+    }
+
+    return result;
+  }, [allSpells, character.subclass, character.race]);
 
   const expandedData = expandedSpell && modules
     ? (() => {
@@ -868,7 +908,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       })()
     : null;
 
-  const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared).length;
+  const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared && !s.alwaysPrepared).length;
   const maxPrepared = spellcasting?.spellsKnown ?? 0;
 
   const togglePrepared = (spellId: string) => {
@@ -944,104 +984,114 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
       {spellcasting && modules && (
         <div className="space-y-3">
-          {/* Cantrips */}
-          {cantrips.length > 0 && (
-            <div className="glass-panel p-3">
-              <button
-                onClick={() => toggleSection('cantrips')}
-                className="flex items-center gap-2 w-full text-left mb-2"
-              >
-                {collapsedSections.has('cantrips')
-                  ? <ChevronRight size={14} className="text-text-muted" />
-                  : <ChevronDown size={14} className="text-text-muted" />}
-                <span className="text-sm font-medieval text-purple-300">Заговоры ({cantrips.length})</span>
-              </button>
-              {!collapsedSections.has('cantrips') && (
-                <div className="flex flex-wrap gap-2">
-                  {cantrips.map(spell => {
-                    const data = modules.getSpellByName(spell.name);
-                    const meta = getSpellMeta(data);
-                    return (
-                      <SpellTooltip
-                        key={spell.spellId}
-                        name={spell.name}
-                        level={0}
-                        school={data?.school}
-                        castingTime={meta.castingTime}
-                        range={meta.range}
-                        components={meta.components}
-                        duration={meta.duration}
-                        description={data ? getFirstEntryText(data.entries) : undefined}
-                      >
-                        <SpellIconBadge
-                          name={spell.name}
-                          school={data?.school || ''}
-                          level={0}
-                          imageSrc={modules.getSpellImageUrl(spell.name)}
-                          prepared
-                          selected={expandedSpell === spell.spellId}
-                          onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
-                        />
-                      </SpellTooltip>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          {sourceGroups.map(group => {
+            const groupCantrips = group.spells.filter(s => s.level === 0);
+            const groupLeveled = group.spells.filter(s => s.level > 0);
+            const groupedByLevel = groupLeveled.reduce<Record<number, typeof groupLeveled>>((acc, s) => {
+              (acc[s.level] = acc[s.level] || []).push(s);
+              return acc;
+            }, {});
+            const sectionKey = `src-${group.key}`;
+            const GroupIcon = group.icon;
 
-          {/* Leveled spells by level */}
-          {Object.entries(groupedByLevel)
-            .sort(([a], [b]) => Number(a) - Number(b))
-            .map(([level, spells]) => {
-              const sectionKey = `level-${level}`;
-              return (
-                <div key={level} className="glass-panel p-3">
-                  <button
-                    onClick={() => toggleSection(sectionKey)}
-                    className="flex items-center gap-2 w-full text-left mb-2"
-                  >
-                    {collapsedSections.has(sectionKey)
-                      ? <ChevronRight size={14} className="text-text-muted" />
-                      : <ChevronDown size={14} className="text-text-muted" />}
-                    <span className="text-sm font-medieval text-blue-300">{level} уровень ({spells.length})</span>
-                  </button>
-                  {!collapsedSections.has(sectionKey) && (
-                    <div className="flex flex-wrap gap-2">
-                      {spells.map(spell => {
-                        const data = modules.getSpellByName(spell.name);
-                        const meta = getSpellMeta(data);
-                        const isAutoSpell = spell.alwaysPrepared || !spellcasting?.spells.some(s => s.spellId === spell.spellId);
-                        return (
-                          <SpellTooltip
-                            key={spell.spellId}
-                            name={spell.name}
-                            level={spell.level}
-                            school={data?.school}
-                            castingTime={meta.castingTime}
-                            range={meta.range}
-                            components={meta.components}
-                            duration={meta.duration}
-                            description={data ? getFirstEntryText(data.entries) : undefined}
-                          >
-                            <SpellIconBadge
-                              name={spell.name}
-                              school={data?.school || ''}
-                              level={spell.level}
-                              imageSrc={modules.getSpellImageUrl(spell.name)}
-                              prepared={spell.prepared}
-                              selected={expandedSpell === spell.spellId}
-                              onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
-                              onContextMenu={!isAutoSpell ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
-                            />
-                          </SpellTooltip>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            return (
+              <div key={group.key} className="glass-panel p-3">
+                {/* Source group header */}
+                <button
+                  onClick={() => toggleSection(sectionKey)}
+                  className="flex items-center gap-2 w-full text-left mb-2"
+                >
+                  {collapsedSections.has(sectionKey)
+                    ? <ChevronRight size={14} className="text-text-muted" />
+                    : <ChevronDown size={14} className="text-text-muted" />}
+                  <GroupIcon size={14} className={group.color} />
+                  <span className={`text-sm font-medieval ${group.color}`}>
+                    {group.label} ({group.spells.length})
+                  </span>
+                </button>
+
+                {!collapsedSections.has(sectionKey) && (
+                  <div className="space-y-2 pl-1">
+                    {/* Cantrips within group */}
+                    {groupCantrips.length > 0 && (
+                      <div>
+                        <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">Заговоры ({groupCantrips.length})</div>
+                        <div className="flex flex-wrap gap-2">
+                          {groupCantrips.map(spell => {
+                            const data = modules.getSpellByName(spell.name);
+                            const meta = getSpellMeta(data);
+                            return (
+                              <SpellTooltip
+                                key={spell.spellId}
+                                name={spell.name}
+                                level={0}
+                                school={data?.school}
+                                castingTime={meta.castingTime}
+                                range={meta.range}
+                                components={meta.components}
+                                duration={meta.duration}
+                                description={data ? getFirstEntryText(data.entries) : undefined}
+                              >
+                                <SpellIconBadge
+                                  name={spell.name}
+                                  school={data?.school || ''}
+                                  level={0}
+                                  imageSrc={modules.getSpellImageUrl(spell.name)}
+                                  prepared
+                                  selected={expandedSpell === spell.spellId}
+                                  onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                                />
+                              </SpellTooltip>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Leveled spells within group, sub-grouped by level */}
+                    {Object.entries(groupedByLevel)
+                      .sort(([a], [b]) => Number(a) - Number(b))
+                      .map(([level, spells]) => (
+                        <div key={level}>
+                          <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">{level} уровень ({spells.length})</div>
+                          <div className="flex flex-wrap gap-2">
+                            {spells.map(spell => {
+                              const data = modules.getSpellByName(spell.name);
+                              const meta = getSpellMeta(data);
+                              const isClassSpell = group.type === 'class';
+                              return (
+                                <SpellTooltip
+                                  key={spell.spellId}
+                                  name={spell.name}
+                                  level={spell.level}
+                                  school={data?.school}
+                                  castingTime={meta.castingTime}
+                                  range={meta.range}
+                                  components={meta.components}
+                                  duration={meta.duration}
+                                  description={data ? getFirstEntryText(data.entries) : undefined}
+                                >
+                                  <SpellIconBadge
+                                    name={spell.name}
+                                    school={data?.school || ''}
+                                    level={spell.level}
+                                    imageSrc={modules.getSpellImageUrl(spell.name)}
+                                    prepared={spell.prepared}
+                                    selected={expandedSpell === spell.spellId}
+                                    onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                                    onContextMenu={isClassSpell && !spell.alwaysPrepared ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
+                                  />
+                                </SpellTooltip>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 

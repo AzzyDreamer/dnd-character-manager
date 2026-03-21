@@ -66,7 +66,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
   const [preparedNames, setPreparedNames] = useState<Set<string>>(() => {
     const prepared = new Set<string>();
     character.spellcasting?.spells
-      .filter(s => s.level > 0 && s.prepared)
+      .filter(s => s.level > 0 && s.prepared && !s.alwaysPrepared)
       .forEach(s => prepared.add(s.name));
     return prepared;
   });
