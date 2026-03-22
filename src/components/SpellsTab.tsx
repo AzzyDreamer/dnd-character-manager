@@ -8,6 +8,7 @@ import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
+import { ClickableDamage } from './DiceRollProvider';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -297,7 +298,7 @@ const WeaponAttacksSection: React.FC<{
                       }</div>
             </div>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{atk.attackBonusFormatted}</span>
-            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <ClickableDamage damage={atk.damage} className="text-text-secondary min-w-[90px] text-right" />
             <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
           </div>
         ))}
@@ -316,7 +317,7 @@ const WeaponAttacksSection: React.FC<{
             <div className="text-[10px] text-text-muted">Безоружная атака</div>
           </div>
           <span className="text-green-400 font-bold min-w-[40px] text-right">{unarmedStrike.attackBonusFormatted}</span>
-          <span className="text-text-secondary min-w-[90px] text-right">{unarmedStrike.damage}</span>
+          <ClickableDamage damage={unarmedStrike.damage} className="text-text-secondary min-w-[90px] text-right" />
           <span className="text-xs text-text-muted min-w-[60px]">{unarmedStrike.damageType}</span>
         </div>
 
@@ -328,7 +329,7 @@ const WeaponAttacksSection: React.FC<{
             </div>
             <span className="font-medium text-text-primary flex-1">{atk.name}</span>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{formatModifier(atk.attackBonus)}</span>
-            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <ClickableDamage damage={atk.damage} className="text-text-secondary min-w-[90px] text-right" />
             <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
             <button
               onClick={() => removeCustomAttack(atk.id)}

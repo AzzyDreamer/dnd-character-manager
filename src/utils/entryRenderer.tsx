@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { lookupByTag, getTagDisplayName as registryGetTagDisplayName } from '../data/registry';
 import type { RegistryEntry } from '../data/registry';
+import { DiceRollContext } from '../components/DiceRollProvider';
 
 export type { RegistryEntry };
 
@@ -313,6 +314,39 @@ const TagDetailModal: React.FC<{
   );
 };
 
+// ─── Rollable dice tags ───
+const ROLLABLE_TAGS = new Set(['damage', 'dice', 'scaledamage', 'scaledice']);
+
+const DiceTag: React.FC<{ expression: string; tagType: string }> = ({ expression, tagType }) => {
+  const { roll, openConfig } = useContext(DiceRollContext);
+
+  return (
+    <span
+      className={`tag-${tagType} tag-rollable`}
+      role="button"
+      tabIndex={0}
+      onClick={(e) => {
+        e.stopPropagation();
+        roll(expression, e);
+      }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const rect = (e.target as HTMLElement).getBoundingClientRect();
+        openConfig(expression, rect);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          roll(expression);
+        }
+      }}
+    >
+      {expression}
+    </span>
+  );
+};
+
 // ─── Рендеринг строки с @тегами ───
 export function renderTaggedString(
   text: string,
@@ -359,7 +393,11 @@ export function renderTaggedString(
       result.push(<span key={key} className="tag-note">{renderTaggedString(tagContent, context, onNavigate)}</span>);
     } else if (TEXT_TAGS.has(tagType)) {
       const displayText = parseTagContent(tagType, tagContent);
-      result.push(<span key={key} className={`tag-${tagType}`}>{displayText}</span>);
+      if (ROLLABLE_TAGS.has(tagType) && /\d+d\d+/.test(displayText)) {
+        result.push(<DiceTag key={key} expression={displayText} tagType={tagType} />);
+      } else {
+        result.push(<span key={key} className={`tag-${tagType}`}>{displayText}</span>);
+      }
     } else if (LINK_TAGS.has(tagType)) {
       const displayText = parseTagContent(tagType, tagContent);
       const entry = lookupByTag(tagType, tagContent);
