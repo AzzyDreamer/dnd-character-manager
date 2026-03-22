@@ -1,5 +1,25 @@
 import type { Character } from '../types';
 import { getAbilityModifier, formatModifier } from './dnd';
+import { DAMAGE_TYPE_NAMES, PROPERTY_NAMES } from '../data/items/constants';
+import { getEffectiveAbilityScores } from './classEffects';
+
+function parseItemBonus(val: any): number {
+  if (typeof val === 'number') return val;
+  if (typeof val === 'string') { const n = parseInt(val, 10); return isNaN(n) ? 0 : n; }
+  return 0;
+}
+
+/** Extract weapon stats from raw item JSON data (fallback when not in static WEAPON_STATS table) */
+function statsFromRaw(raw: Record<string, any>): WeaponStats | null {
+  if (!raw.dmg1) return null;
+  const dmgTypeCode = raw.dmgType ?? '';
+  const damageType = DAMAGE_TYPE_NAMES[dmgTypeCode] ?? dmgTypeCode;
+  const properties = (raw.property ?? [])
+    .filter((p: any) => typeof p === 'string')
+    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .filter(Boolean);
+  return { damage: raw.dmg1, damageType, properties };
+}
 
 interface WeaponStats {
   damage: string;
@@ -103,7 +123,7 @@ function isRanged(name: string): boolean {
 }
 
 function isFinesse(stats: WeaponStats): boolean {
-  return stats.properties.some(p => p === 'фехтовальное' || p === 'finesse');
+  return stats.properties.some(p => p.toLowerCase() === 'фехтовальное' || p.toLowerCase() === 'finesse');
 }
 
 function lookupWeaponStats(name: string): WeaponStats | undefined {
@@ -119,17 +139,60 @@ function lookupWeaponStats(name: string): WeaponStats | undefined {
 
 export interface WeaponAttack {
   name: string;
-  slot: 'mainhand' | 'offhand';
+  slot: 'mainhand' | 'offhand' | 'rangedMainhand' | 'rangedOffhand';
   attackBonus: number;
   attackBonusFormatted: string;
   damage: string;
   damageType: string;
   properties: string[];
+  isRanged: boolean;
+  image: string;
 }
 
-export function getEquippedWeaponAttacks(character: Character): WeaponAttack[] {
+export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
+  const character = { ...inputCharacter, abilityScores: getEffectiveAbilityScores(inputCharacter) };
+  const strMod = getAbilityModifier(character.abilityScores.strength);
+  const attackBonus = character.proficiencyBonus + strMod;
+  // Monk: martial arts die + DEX or STR
+  const isMonk = character.classId === 'monk';
+  let damage: string;
+  let abilityMod: number;
+  if (isMonk) {
+    const dexMod = getAbilityModifier(character.abilityScores.dexterity);
+    abilityMod = Math.max(strMod, dexMod);
+    const monkBonus = character.proficiencyBonus + abilityMod;
+    const martialDie = character.level >= 17 ? '1d12' : character.level >= 11 ? '1d10' : character.level >= 5 ? '1d8' : '1d6';
+    damage = abilityMod >= 0 ? `${martialDie} + ${abilityMod}` : `${martialDie} - ${Math.abs(abilityMod)}`;
+    return {
+      name: 'Безоружный удар',
+      slot: 'mainhand',
+      attackBonus: monkBonus,
+      attackBonusFormatted: formatModifier(monkBonus),
+      damage,
+      damageType: 'дробящий',
+      properties: [],
+      isRanged: false,
+      image: '/images/Unarmed_Strike.webp',
+    };
+  }
+  damage = strMod >= 0 ? `1 + ${strMod}` : `1 - ${Math.abs(strMod)}`;
+  return {
+    name: 'Безоружный удар',
+    slot: 'mainhand',
+    attackBonus,
+    attackBonusFormatted: formatModifier(attackBonus),
+    damage,
+    damageType: 'дробящий',
+    properties: [],
+    isRanged: false,
+    image: '/images/Unarmed_Strike.webp',
+  };
+}
+
+export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttack[] {
+  const character = { ...inputCharacter, abilityScores: getEffectiveAbilityScores(inputCharacter) };
   const attacks: WeaponAttack[] = [];
-  const slots = ['mainhand', 'offhand'] as const;
+  const slots = ['mainhand', 'offhand', 'rangedMainhand', 'rangedOffhand'] as const;
 
   for (const slot of slots) {
     const itemId = character.equipment[slot];
@@ -138,17 +201,34 @@ export function getEquippedWeaponAttacks(character: Character): WeaponAttack[] {
     const item = character.inventory.find(i => i.id === itemId);
     if (!item || item.category !== 'weapon') continue;
 
-    const stats = lookupWeaponStats(item.name);
+    let stats = lookupWeaponStats(item.name) ?? (item.raw ? statsFromRaw(item.raw) : null);
+    const ranged = slot === 'rangedMainhand' || slot === 'rangedOffhand' || isRanged(item.name) || item.raw?.type === 'R';
+    const isOffhand = slot === 'offhand' || slot === 'rangedOffhand';
+
+    // Универсальное оружие: если offhand пустой — двуручный хват (dmg2)
+    if (stats && slot === 'mainhand' && !character.equipment.offhand && item.raw?.dmg2) {
+      const isVersatile = (item.raw?.property ?? []).some((p: any) => typeof p === 'string' && p.startsWith('V'));
+      if (isVersatile) {
+        stats = { ...stats, damage: item.raw.dmg2 };
+      }
+    }
+    const attackImage = isOffhand
+      ? (ranged ? '/images/Off-Hand_Attack_Ranged.webp' : '/images/Off-Hand_Attack_Melee.webp')
+      : (ranged ? '/images/Ranged_Attack.webp' : '/images/Main_Hand_Attack.webp');
+
     if (!stats) {
-      // Оружие не найдено в таблице — показываем без расчёта
+      const wb = parseItemBonus(item.raw?.bonusWeapon);
+      const ab = character.proficiencyBonus + wb;
       attacks.push({
         name: item.name,
         slot,
-        attackBonus: character.proficiencyBonus,
-        attackBonusFormatted: formatModifier(character.proficiencyBonus),
+        attackBonus: ab,
+        attackBonusFormatted: formatModifier(ab),
         damage: '?',
         damageType: '?',
         properties: [],
+        isRanged: ranged,
+        image: attackImage,
       });
       continue;
     }
@@ -157,7 +237,7 @@ export function getEquippedWeaponAttacks(character: Character): WeaponAttack[] {
     const dexMod = getAbilityModifier(character.abilityScores.dexterity);
 
     let abilityMod: number;
-    if (isRanged(item.name)) {
+    if (ranged) {
       abilityMod = dexMod;
     } else if (isFinesse(stats)) {
       abilityMod = Math.max(strMod, dexMod);
@@ -165,10 +245,14 @@ export function getEquippedWeaponAttacks(character: Character): WeaponAttack[] {
       abilityMod = strMod;
     }
 
-    const attackBonus = character.proficiencyBonus + abilityMod;
-    const damageStr = abilityMod >= 0
-      ? `${stats.damage} + ${abilityMod}`
-      : `${stats.damage} - ${Math.abs(abilityMod)}`;
+    // Parse magic weapon bonus (+1, +2, +3)
+    const weaponBonus = parseItemBonus(item.raw?.bonusWeapon);
+
+    const attackBonus = character.proficiencyBonus + abilityMod + weaponBonus;
+    const totalDamageMod = abilityMod + weaponBonus;
+    const damageStr = totalDamageMod >= 0
+      ? `${stats.damage} + ${totalDamageMod}`
+      : `${stats.damage} - ${Math.abs(totalDamageMod)}`;
 
     attacks.push({
       name: item.name,
@@ -178,8 +262,105 @@ export function getEquippedWeaponAttacks(character: Character): WeaponAttack[] {
       damage: damageStr,
       damageType: stats.damageType,
       properties: stats.properties,
+      isRanged: ranged,
+      image: attackImage,
     });
   }
 
   return attacks;
+}
+
+// ── Weapon Mastery Actions ──
+
+export interface MasteryAction {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  weaponName: string;
+}
+
+interface MasteryInfo {
+  name: string;
+  description: string;
+  image: string;
+}
+
+const MASTERY_DATA: Record<string, MasteryInfo> = {
+  Cleave: {
+    name: 'Cleave',
+    description: 'If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon\'s damage, but don\'t add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.',
+    image: '/images/mastery/Cleave.webp',
+  },
+  Graze: {
+    name: 'Graze',
+    description: 'If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.',
+    image: '/images/mastery/Tenacity.webp',
+  },
+  Nick: {
+    name: 'Nick',
+    description: 'When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.',
+    image: '/images/mastery/Lacerate.webp',
+  },
+  Push: {
+    name: 'Push',
+    description: 'If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from you if it is Large or smaller.',
+    image: '/images/mastery/Concussive_Smash.webp',
+  },
+  Sap: {
+    name: 'Sap',
+    description: 'If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.',
+    image: '/images/mastery/Weakening_Strike.webp',
+  },
+  Slow: {
+    name: 'Slow',
+    description: 'If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn\'t exceed 10 feet.',
+    image: '/images/mastery/Crippling_Strike.webp',
+  },
+  Topple: {
+    name: 'Topple',
+    description: 'If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 + the ability modifier used to make the attack roll + your Proficiency Bonus). On a failed save, the creature has the Prone condition.',
+    image: '/images/mastery/Topple.webp',
+  },
+  Vex: {
+    name: 'Vex',
+    description: 'If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.',
+    image: '/images/mastery/Prepare.webp',
+  },
+};
+
+export function getMasteryInfo(masteryCode: string): MasteryInfo | undefined {
+  return MASTERY_DATA[masteryCode];
+}
+
+export function getEquippedMasteryActions(character: Character): MasteryAction[] {
+  const actions: MasteryAction[] = [];
+  const seen = new Set<string>();
+  const slots = ['mainhand', 'offhand', 'rangedMainhand', 'rangedOffhand'] as const;
+
+  for (const slot of slots) {
+    const itemId = character.equipment[slot];
+    if (!itemId) continue;
+
+    const item = character.inventory.find(i => i.id === itemId);
+    if (!item || item.category !== 'weapon' || !item.mastery) continue;
+
+    for (const masteryCode of item.mastery) {
+      if (seen.has(masteryCode)) continue;
+      seen.add(masteryCode);
+
+      const info = MASTERY_DATA[masteryCode];
+      if (!info) continue;
+
+      actions.push({
+        id: masteryCode,
+        name: info.name,
+        description: info.description,
+        image: info.image,
+        weaponName: item.name,
+      });
+    }
+  }
+
+  return actions;
 }

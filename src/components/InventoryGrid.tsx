@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import type { Character, InventoryItem, EquipmentSlot, Equipment } from '../types';
 import {
   ITEM_TEMPLATES,
@@ -8,9 +8,18 @@ import {
   EQUIPMENT_SLOT_NAMES,
   EQUIPMENT_SLOT_ICONS,
   CATEGORY_NAMES,
+  DAMAGE_TYPE_NAMES,
+  PROPERTY_NAMES,
   canEquipInOffhand,
+  getArmorType,
+  getArmorAC,
+  getWeaponCategory,
+  getWeaponMastery,
+  loadAllItemTemplates,
+  getAllItemTemplatesSync,
   type ItemTemplate,
 } from '../data/items';
+import { resolveAC, getClassSpeedBonus, hasItemProficiency } from '../utils/classEffects';
 import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins } from 'lucide-react';
 
 // ============================
@@ -18,7 +27,8 @@ import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins } from 
 // ============================
 const GRID_COLS = 10;
 const GRID_ROWS = 8;
-const CELL_SIZE = 56; // px
+const CELL_SIZE = 72; // px — backpack grid (same as equip slots)
+const EQUIP_SLOT_SIZE = 72; // px — equipment slots
 
 // ============================
 // Props
@@ -57,20 +67,182 @@ function findFreePosition(grid: (string | null)[][]): { x: number; y: number } |
   return null;
 }
 
-// Проверяет, подходит ли предмет к слоту offhand
+// Проверяет, является ли предмет двуручным
+function isItemTwoHanded(item: InventoryItem): boolean {
+  const props = item.raw?.property;
+  if (!Array.isArray(props)) return false;
+  return props.some((p: any) => typeof p === 'string' && p.startsWith('2H'));
+}
+
+// Проверяет, является ли предмет полуторным (Versatile)
+function isItemVersatile(item: InventoryItem): boolean {
+  const props = item.raw?.property;
+  if (!Array.isArray(props)) return false;
+  return props.some((p: any) => typeof p === 'string' && p.startsWith('V'));
+}
+
+// Проверяет, блокирует ли оружие в mainhand использование offhand
+function isMainhandBlocking(item: InventoryItem, equipment: Equipment, inventory: InventoryItem[]): boolean {
+  const isRanged = item.equipSlot === 'rangedMainhand' || item.equipSlot === 'rangedOffhand';
+  const mainId = isRanged ? equipment.rangedMainhand : equipment.mainhand;
+  if (!mainId) return false;
+  const mainItem = inventory.find(i => i.id === mainId);
+  if (!mainItem) return false;
+  return isItemTwoHanded(mainItem) || isItemVersatile(mainItem);
+}
+
+// Проверяет, подходит ли предмет к слоту offhand (melee или ranged)
 function canItemFitOffhand(item: InventoryItem): boolean {
   // Щиты
   if (item.category === 'shield') return true;
-  // Оружие без Two-Handed
-  if (item.category === 'weapon' && item.equipSlot === 'mainhand') {
-    // Проверяем через шаблон
+  // Двуручное и полуторное — нельзя в offhand
+  if (isItemTwoHanded(item)) return false;
+  // Melee оружие без Two-Handed
+  if (item.category === 'weapon' && (item.equipSlot === 'mainhand' || item.equipSlot === 'rangedMainhand')) {
     const template = ITEM_TEMPLATES.find(t => t.name === item.name);
     if (template) return canEquipInOffhand(template);
-    // Если шаблон не найден, разрешаем одноручное
     return true;
   }
   return false;
 }
+
+// ============================
+// Компонент: Детальный просмотр предмета (модал)
+// ============================
+
+const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = ({ item, onClose }) => {
+  const rarityColor = RARITY_COLORS[item.rarity];
+  const raw = item.raw ?? {};
+  const [EntryRendererComp, setEntryRendererComp] = useState<React.FC<any> | null>(null);
+
+  useEffect(() => {
+    import('../utils/entryRenderer').then(mod => {
+      setEntryRendererComp(() => mod.EntryRenderer);
+    });
+  }, []);
+
+  const properties = (raw.property ?? [])
+    .filter((p: any) => typeof p === 'string')
+    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .filter(Boolean);
+
+  const masteries = (raw.mastery ?? [])
+    .filter((m: any) => typeof m === 'string')
+    .map((m: string) => {
+      const key = m.split('|')[0];
+      const MASTERY: Record<string, string> = { Cleave: 'Рассечение', Graze: 'Вскользь', Nick: 'Порез', Push: 'Толчок', Sap: 'Оглушение', Slow: 'Замедление', Topple: 'Опрокидывание', Vex: 'Досада' };
+      return MASTERY[key] ?? key;
+    });
+
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/60 z-50" onClick={onClose} />
+      <div
+        className="fixed z-50 rounded-xl shadow-2xl border-2 p-5 max-w-md w-full"
+        style={{
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          background: 'var(--color-bg-primary)',
+          borderColor: rarityColor,
+          maxHeight: '80vh',
+          overflowY: 'auto',
+        }}
+      >
+        {/* Заголовок */}
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: rarityColor }}>{item.name}</h3>
+            <div className="text-sm text-text-secondary">{item.type}</div>
+            <div className="text-sm" style={{ color: rarityColor }}>{RARITY_NAMES[item.rarity]}</div>
+          </div>
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors ml-4">
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Характеристики оружия */}
+        {raw.dmg1 && (
+          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
+            <div className="flex gap-4">
+              <span className="text-text-secondary">Урон:</span>
+              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (DAMAGE_TYPE_NAMES[raw.dmgType] ?? raw.dmgType) : ''}</span>
+            </div>
+            {raw.dmg2 && (
+              <div className="flex gap-4">
+                <span className="text-text-secondary">Двуручный:</span>
+                <span className="text-text-primary">{raw.dmg2}</span>
+              </div>
+            )}
+            {raw.range && (
+              <div className="flex gap-4">
+                <span className="text-text-secondary">Дальность:</span>
+                <span className="text-text-primary">{raw.range}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* КД для доспехов */}
+        {raw.ac != null && (
+          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm">
+            <span className="text-text-secondary">КД: </span>
+            <span className="text-text-primary">{raw.ac}{raw.stealth ? ' (помеха Скрытности)' : ''}</span>
+            {raw.strength && <span className="text-text-secondary ml-2">Сила {raw.strength}+</span>}
+          </div>
+        )}
+
+        {/* Свойства и мастерство */}
+        {(properties.length > 0 || masteries.length > 0) && (
+          <div className="mb-3 flex flex-wrap gap-1.5">
+            {properties.map((p, i) => (
+              <span key={i} className="px-2 py-0.5 rounded-full bg-bg-secondary text-xs text-text-secondary border border-border-default">{p}</span>
+            ))}
+            {masteries.map((m, i) => (
+              <span key={`m${i}`} className="px-2 py-0.5 rounded-full bg-purple-500/15 text-xs text-purple-300 border border-purple-500/30">{m}</span>
+            ))}
+          </div>
+        )}
+
+        {/* Бонусы */}
+        {(raw.bonusAc || raw.bonusSavingThrow || raw.bonusWeapon || raw.bonusSpellAttack || raw.bonusSpellSaveDc) && (
+          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
+            {raw.bonusAc && <div><span className="text-text-secondary">КД: </span><span className="text-green-400">{raw.bonusAc}</span></div>}
+            {raw.bonusSavingThrow && <div><span className="text-text-secondary">Спасброски: </span><span className="text-green-400">{raw.bonusSavingThrow}</span></div>}
+            {raw.bonusWeapon && <div><span className="text-text-secondary">Атака/Урон: </span><span className="text-green-400">{raw.bonusWeapon}</span></div>}
+            {raw.bonusSpellAttack && <div><span className="text-text-secondary">Атака заклинанием: </span><span className="text-green-400">{raw.bonusSpellAttack}</span></div>}
+            {raw.bonusSpellSaveDc && <div><span className="text-text-secondary">Сл заклинаний: </span><span className="text-green-400">{raw.bonusSpellSaveDc}</span></div>}
+          </div>
+        )}
+
+        {/* Настройка */}
+        {raw.reqAttune && (
+          <div className="mb-3 text-xs text-amber-400">
+            Требуется настройка{typeof raw.reqAttune === 'string' ? ` (${raw.reqAttune})` : ''}
+          </div>
+        )}
+
+        {/* Вес и стоимость */}
+        <div className="flex gap-4 text-xs text-text-muted mb-3">
+          {item.weight != null && <span>Вес: {item.weight} фнт.</span>}
+          {raw.value != null && <span>Стоимость: {raw.value >= 100 ? `${Math.floor(raw.value / 100)} зм` : raw.value >= 10 ? `${Math.floor(raw.value / 10)} см` : `${raw.value} мм`}</span>}
+          {item.quantity > 1 && <span>Кол-во: {item.quantity}</span>}
+        </div>
+
+        {/* Описание (entries) — через EntryRenderer с интерактивными тегами */}
+        {raw.entries && raw.entries.length > 0 && (
+          <div className="border-t border-border-default pt-3">
+            {EntryRendererComp ? (
+              <EntryRendererComp entries={raw.entries} context="item-detail" />
+            ) : (
+              <div className="text-sm text-text-secondary">Загрузка...</div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 // ============================
 // Компонент: Тултип предмета
@@ -180,25 +352,27 @@ const GridItem: React.FC<{
 const EquipSlot: React.FC<{
   slot: EquipmentSlot;
   item?: InventoryItem;
+  notProficient?: boolean;
   onUnequip: (slot: EquipmentSlot) => void;
   onDragOver: (e: React.DragEvent) => void;
   onDrop: (slot: EquipmentSlot) => void;
   showTooltip: (item: InventoryItem, rect: DOMRect) => void;
   hideTooltip: () => void;
-}> = ({ slot, item, onUnequip, onDragOver, onDrop, showTooltip, hideTooltip }) => {
+  onShowDetails?: (item: InventoryItem) => void;
+}> = ({ slot, item, notProficient, onUnequip, onDragOver, onDrop, showTooltip, hideTooltip, onShowDetails }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const rarityColor = item ? RARITY_COLORS[item.rarity] : '#4b5563';
+  const borderColor = notProficient ? '#ef4444' : (item ? RARITY_COLORS[item.rarity] : '#4b5563');
   const rarityBg = item ? RARITY_BG_COLORS[item.rarity] : 'rgba(75, 85, 99, 0.1)';
 
   return (
     <div
       ref={ref}
-      className="relative rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:brightness-125"
+      className={`relative rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:brightness-125${notProficient ? ' ring-1 ring-red-500/50' : ''}`}
       style={{
-        width: CELL_SIZE + 8,
-        height: CELL_SIZE + 8,
-        border: `2px solid ${rarityColor}`,
-        background: rarityBg,
+        width: EQUIP_SLOT_SIZE,
+        height: EQUIP_SLOT_SIZE,
+        border: `2px solid ${borderColor}`,
+        background: notProficient ? 'rgba(239, 68, 68, 0.08)' : rarityBg,
       }}
       onDragOver={(e) => {
         e.preventDefault();
@@ -209,6 +383,12 @@ const EquipSlot: React.FC<{
         onDrop(slot);
       }}
       onClick={() => item && onUnequip(slot)}
+      onContextMenu={(e) => {
+        if (item && onShowDetails) {
+          e.preventDefault();
+          onShowDetails(item);
+        }
+      }}
       onMouseEnter={() => {
         if (item && ref.current) showTooltip(item, ref.current.getBoundingClientRect());
       }}
@@ -216,21 +396,24 @@ const EquipSlot: React.FC<{
     >
       {item ? (
         <>
-          <span className="text-2xl">
+          <span className="text-3xl">
             {item.icon ? (
-              <img src={item.icon} alt={item.name} className="w-8 h-8 object-contain" />
+              <img src={item.icon} alt={item.name} className="w-10 h-10 object-contain" />
             ) : (
               item.iconPlaceholder
             )}
           </span>
+          {notProficient && (
+            <span className="absolute top-0.5 right-0.5 text-xs text-red-400 leading-none" title="Нет владения">✗</span>
+          )}
           <div className="absolute -bottom-4 left-0 right-0 text-center">
-            <span className="text-[8px] text-text-secondary truncate block px-0.5">{item.name}</span>
+            <span className={`text-[9px] truncate block px-0.5 ${notProficient ? 'text-red-400' : 'text-text-secondary'}`}>{item.name}</span>
           </div>
         </>
       ) : (
         <>
-          <span className="text-lg opacity-30">{EQUIPMENT_SLOT_ICONS[slot]}</span>
-          <span className="text-[8px] text-text-muted mt-0.5">{EQUIPMENT_SLOT_NAMES[slot]}</span>
+          <span className="text-2xl opacity-30">{EQUIPMENT_SLOT_ICONS[slot]}</span>
+          <span className="text-[9px] text-text-muted mt-1">{EQUIPMENT_SLOT_NAMES[slot]}</span>
         </>
       )}
     </div>
@@ -249,8 +432,9 @@ const ItemContextMenu: React.FC<{
   onEquipOffhand: () => void;
   onUnequip: () => void;
   onRemove: () => void;
+  onDetails: () => void;
   showOffhand: boolean;
-}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onRemove, showOffhand }) => {
+}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onRemove, onDetails, showOffhand }) => {
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
@@ -292,6 +476,12 @@ const ItemContextMenu: React.FC<{
           </button>
         )}
         <button
+          onClick={onDetails}
+          className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors border-t border-border-default"
+        >
+          Подробнее
+        </button>
+        <button
           onClick={onRemove}
           className="w-full text-left px-3 py-1.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
         >
@@ -313,10 +503,24 @@ const AddItemModal: React.FC<{
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedItem, setSelectedItem] = useState<ItemTemplate | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const initialItems = getAllItemTemplatesSync();
+  const [allItems, setAllItems] = useState<ItemTemplate[]>(initialItems);
+  const [loading, setLoading] = useState(initialItems.length < 100);
+  const [displayLimit, setDisplayLimit] = useState(50);
 
-  const categories = ['all', ...new Set(ITEM_TEMPLATES.map((i) => i.category))];
+  useEffect(() => {
+    if (!loading) return;
+    loadAllItemTemplates((partial) => {
+      setAllItems(partial);
+    }).then((final) => {
+      setAllItems(final);
+      setLoading(false);
+    });
+  }, []);
 
-  const filtered = ITEM_TEMPLATES.filter((item) => {
+  const categories = ['all', ...new Set(allItems.map((i) => i.category))];
+
+  const filtered = allItems.filter((item) => {
     const matchesSearch =
       search === '' ||
       item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -355,7 +559,7 @@ const AddItemModal: React.FC<{
             <input
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setDisplayLimit(50); }}
               placeholder="Поиск предметов..."
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-primary placeholder-text-muted"
               autoFocus
@@ -365,7 +569,7 @@ const AddItemModal: React.FC<{
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => { setSelectedCategory(cat); setDisplayLimit(50); }}
                 className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                   selectedCategory === cat
                     ? 'bg-gold text-text-primary'
@@ -380,67 +584,81 @@ const AddItemModal: React.FC<{
 
         {/* Список предметов */}
         <div className="flex-1 overflow-y-auto p-4">
+          {loading && (
+            <div className="text-center text-text-muted py-2 text-xs mb-2">Загрузка предметов...</div>
+          )}
           {filtered.length === 0 ? (
             <div className="text-center text-text-muted py-8">Предметы не найдены</div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {filtered.map((template) => {
-                const isSelected = selectedItem?.id === template.id;
-                return (
-                  <button
-                    key={template.id}
-                    onClick={() => {
-                      setSelectedItem(template);
-                      setQuantity(1);
-                    }}
-                    className={`text-left p-3 rounded-lg border-2 transition-all ${
-                      isSelected
-                        ? 'border-gold/40 bg-gold/10'
-                        : 'border-border-default hover:border-border-hover bg-bg-panel'
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className="text-2xl flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center overflow-hidden"
-                        style={{
-                          border: `1px solid ${RARITY_COLORS[template.rarity]}`,
-                          background: RARITY_BG_COLORS[template.rarity],
-                        }}
-                      >
-                        {template.icon ? (
-                          <img
-                            src={template.icon}
-                            alt=""
-                            className="w-8 h-8 object-contain"
-                            onError={e => {
-                              (e.target as HTMLImageElement).style.display = 'none';
-                              (e.target as HTMLImageElement).parentElement!.textContent = template.iconPlaceholder;
-                            }}
-                          />
-                        ) : (
-                          template.iconPlaceholder
-                        )}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div
-                          className="font-semibold text-sm truncate"
-                          style={{ color: RARITY_COLORS[template.rarity] }}
+            <>
+              <div className="text-xs text-text-muted mb-2">{filtered.length} предметов</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {filtered.slice(0, displayLimit).map((template) => {
+                  const isSelected = selectedItem?.id === template.id;
+                  return (
+                    <button
+                      key={template.id}
+                      onClick={() => {
+                        setSelectedItem(template);
+                        setQuantity(1);
+                      }}
+                      className={`text-left p-3 rounded-lg border-2 transition-all ${
+                        isSelected
+                          ? 'border-gold/40 bg-gold/10'
+                          : 'border-border-default hover:border-border-hover bg-bg-panel'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span
+                          className="text-2xl flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center overflow-hidden"
+                          style={{
+                            border: `1px solid ${RARITY_COLORS[template.rarity]}`,
+                            background: RARITY_BG_COLORS[template.rarity],
+                          }}
                         >
-                          {template.name}
-                        </div>
-                        <div className="text-xs text-text-muted">{template.type}</div>
-                        <div className="text-xs text-text-muted mt-0.5 line-clamp-2">{template.description}</div>
-                        <div className="text-[10px] text-text-muted mt-1">
-                          {RARITY_NAMES[template.rarity]}
-                          {template.weight ? ` | ${template.weight} фнт.` : ''}
-                          {template.value ? ` | ${formatValue(template.value)}` : ''}
+                          {template.icon ? (
+                            <img
+                              src={template.icon}
+                              alt=""
+                              className="w-8 h-8 object-contain"
+                              onError={e => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                                (e.target as HTMLImageElement).parentElement!.textContent = template.iconPlaceholder;
+                              }}
+                            />
+                          ) : (
+                            template.iconPlaceholder
+                          )}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className="font-semibold text-sm truncate"
+                            style={{ color: RARITY_COLORS[template.rarity] }}
+                          >
+                            {template.name}
+                          </div>
+                          <div className="text-xs text-text-muted">{template.type}</div>
+                          <div className="text-xs text-text-muted mt-0.5 line-clamp-2">{template.description}</div>
+                          <div className="text-[10px] text-text-muted mt-1">
+                            {RARITY_NAMES[template.rarity]}
+                            {template.weight ? ` | ${template.weight} фнт.` : ''}
+                            {template.value ? ` | ${formatValue(template.value)}` : ''}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                    </button>
+                  );
+                })}
+              </div>
+              {filtered.length > displayLimit && (
+                <button
+                  onClick={() => setDisplayLimit(prev => prev + 50)}
+                  className="w-full mt-3 py-2 text-sm text-gold hover:text-gold/80 bg-bg-secondary/50 rounded-lg transition-colors"
+                >
+                  Показать ещё ({filtered.length - displayLimit} осталось)
+                </button>
+              )}
+            </>
           )}
         </div>
 
@@ -496,6 +714,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   const [dragItem, setDragItem] = useState<InventoryItem | null>(null);
   const [tooltipItem, setTooltipItem] = useState<{ item: InventoryItem; rect: DOMRect } | null>(null);
   const [contextMenu, setContextMenu] = useState<{ item: InventoryItem; x: number; y: number } | null>(null);
+  const [detailItem, setDetailItem] = useState<InventoryItem | null>(null);
+  const [profWarning, setProfWarning] = useState<{ itemId: string; slot: EquipmentSlot; item: InventoryItem } | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const equipment: Equipment = character.equipment || {};
@@ -509,12 +729,19 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
   const updateInventory = useCallback(
     (newInventory: InventoryItem[], newEquipment?: Equipment) => {
-      onUpdate({
+      const updated = {
         ...character,
         inventory: newInventory,
         equipment: newEquipment ?? equipment,
         updatedAt: new Date().toISOString(),
-      });
+      };
+      // Recalculate AC and speed when equipment changes (armor affects Unarmored Defense, Fast Movement)
+      if (newEquipment) {
+        updated.armorClass = resolveAC(updated);
+        const baseSpeed = character.speed - getClassSpeedBonus(character);
+        updated.speed = baseSpeed + getClassSpeedBonus(updated);
+      }
+      onUpdate(updated);
     },
     [character, equipment, onUpdate],
   );
@@ -542,9 +769,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         gridX: pos.x,
         gridY: pos.y,
         equipSlot: template.equipSlot,
+        armorType: getArmorType(template),
+        armorAC: getArmorAC(template),
+        weaponCategory: getWeaponCategory(template),
+        mastery: getWeaponMastery(template),
         rarity: template.rarity,
         icon: template.icon,
         iconPlaceholder: template.iconPlaceholder,
+        raw: template.raw,
       };
 
       updateInventory([...inventory, newItem]);
@@ -588,7 +820,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       // Снимаем текущий предмет из слота
       if (currentEquippedId && currentEquippedId !== itemId) {
         const tempInv = newInventory.map(i =>
-          i.id === currentEquippedId ? { ...i, equipped: false } : i
+          i.id === currentEquippedId ? { ...i, equipped: false, attuned: false } : i
         );
         const currentGrid = buildGrid(tempInv);
         const currentItem = newInventory.find(i => i.id === currentEquippedId);
@@ -596,7 +828,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           const pos = findFreePosition(currentGrid);
           newInventory = newInventory.map((i) =>
             i.id === currentEquippedId
-              ? { ...i, equipped: false, gridX: pos?.x ?? 0, gridY: pos?.y ?? 0 }
+              ? { ...i, equipped: false, attuned: false, gridX: pos?.x ?? 0, gridY: pos?.y ?? 0 }
               : i,
           );
         }
@@ -611,16 +843,58 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         }
       }
 
-      // Экипируем
+      // Двуручное/полуторное в mainhand → освобождаем offhand
+      if (targetSlot === 'mainhand' && isItemTwoHanded(item)) {
+        const offhandId = newEquipment.offhand;
+        if (offhandId) {
+          const tempInv2 = newInventory.map(i => i.id === offhandId ? { ...i, equipped: false, attuned: false } : i);
+          const grid2 = buildGrid(tempInv2);
+          const pos2 = findFreePosition(grid2);
+          newInventory = newInventory.map(i =>
+            i.id === offhandId ? { ...i, equipped: false, attuned: false, gridX: pos2?.x ?? 0, gridY: pos2?.y ?? 0 } : i,
+          );
+          delete newEquipment.offhand;
+        }
+      }
+      if (targetSlot === 'rangedMainhand' && isItemTwoHanded(item)) {
+        const offhandId = newEquipment.rangedOffhand;
+        if (offhandId) {
+          const tempInv2 = newInventory.map(i => i.id === offhandId ? { ...i, equipped: false, attuned: false } : i);
+          const grid2 = buildGrid(tempInv2);
+          const pos2 = findFreePosition(grid2);
+          newInventory = newInventory.map(i =>
+            i.id === offhandId ? { ...i, equipped: false, attuned: false, gridX: pos2?.x ?? 0, gridY: pos2?.y ?? 0 } : i,
+          );
+          delete newEquipment.rangedOffhand;
+        }
+      }
+
+      // Экипируем (автоматически настраиваем предметы, требующие настройку)
       newEquipment[targetSlot] = itemId;
       newInventory = newInventory.map((i) =>
-        i.id === itemId ? { ...i, equipped: true, gridX: undefined, gridY: undefined } : i,
+        i.id === itemId ? { ...i, equipped: true, attuned: !!i.raw?.reqAttune, gridX: undefined, gridY: undefined } : i,
       );
 
       updateInventory(newInventory, newEquipment);
       setContextMenu(null);
     },
     [inventory, equipment, updateInventory],
+  );
+
+  // Проверка владения перед экипировкой
+  const tryEquipToSlot = useCallback(
+    (itemId: string, targetSlot: EquipmentSlot) => {
+      const item = inventory.find((i) => i.id === itemId);
+      if (!item) return;
+
+      if (!hasItemProficiency(character, item)) {
+        setProfWarning({ itemId, slot: targetSlot, item });
+        return;
+      }
+
+      equipToSlot(itemId, targetSlot);
+    },
+    [inventory, character, equipToSlot],
   );
 
   const handleEquipItem = useCallback(
@@ -630,25 +904,32 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
       let targetSlot: EquipmentSlot = item.equipSlot;
 
-      // Для колец: если ring1 занят, пробуем ring2
-      if (item.category === 'ring') {
-        if (equipment.ring1 && equipment.ring1 !== itemId) {
-          targetSlot = 'ring2';
+      // Для аксессуаров: находим первый свободный слот
+      if (targetSlot === 'accessory1' || targetSlot === 'accessory2' || targetSlot === 'accessory3') {
+        if (!equipment.accessory1 || equipment.accessory1 === itemId) {
+          targetSlot = 'accessory1';
+        } else if (!equipment.accessory2 || equipment.accessory2 === itemId) {
+          targetSlot = 'accessory2';
         } else {
-          targetSlot = 'ring1';
+          targetSlot = 'accessory3';
         }
       }
 
-      equipToSlot(itemId, targetSlot);
+      tryEquipToSlot(itemId, targetSlot);
     },
-    [inventory, equipment, equipToSlot],
+    [inventory, equipment, tryEquipToSlot],
   );
 
   const handleEquipOffhand = useCallback(
     (itemId: string) => {
-      equipToSlot(itemId, 'offhand');
+      const item = inventory.find((i) => i.id === itemId);
+      if (!item) return;
+      if (isMainhandBlocking(item, equipment, inventory)) return;
+      // Ranged weapons go to ranged offhand
+      const isRangedItem = item.equipSlot === 'rangedMainhand' || item.equipSlot === 'rangedOffhand';
+      tryEquipToSlot(itemId, isRangedItem ? 'rangedOffhand' : 'offhand');
     },
-    [equipToSlot],
+    [inventory, equipment, tryEquipToSlot],
   );
 
   const handleUnequipItem = useCallback(
@@ -670,7 +951,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       delete newEquipment[slot];
 
       const newInventory = inventory.map((i) =>
-        i.id === itemId ? { ...i, equipped: false, gridX: pos.x, gridY: pos.y } : i,
+        i.id === itemId ? { ...i, equipped: false, attuned: false, gridX: pos.x, gridY: pos.y } : i,
       );
 
       updateInventory(newInventory, newEquipment);
@@ -726,12 +1007,12 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       if (!dragItem) return;
 
       // Проверяем совместимость предмета со слотом
-      if (!canDragToSlot(dragItem, slot)) return;
+      if (!canDragToSlot(dragItem, slot, equipment, inventory)) return;
 
-      equipToSlot(dragItem.id, slot);
+      tryEquipToSlot(dragItem.id, slot);
       setDragItem(null);
     },
-    [dragItem, equipToSlot],
+    [dragItem, tryEquipToSlot],
   );
 
   const showTooltipFn = useCallback((item: InventoryItem, rect: DOMRect) => {
@@ -752,19 +1033,11 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   // Общий вес инвентаря
   const totalWeight = inventory.reduce((sum, item) => sum + (item.weight ?? 0) * item.quantity, 0);
 
-  // Слоты экипировки в порядке отображения
-  const equipmentLayout: { slot: EquipmentSlot; row: number; col: number }[] = [
-    { slot: 'helmet', row: 0, col: 1 },
-    { slot: 'amulet', row: 0, col: 2 },
-    { slot: 'cloak', row: 0, col: 0 },
-    { slot: 'armor', row: 1, col: 1 },
-    { slot: 'gloves', row: 1, col: 0 },
-    { slot: 'ring1', row: 1, col: 2 },
-    { slot: 'mainhand', row: 2, col: 0 },
-    { slot: 'boots', row: 2, col: 1 },
-    { slot: 'offhand', row: 2, col: 2 },
-    { slot: 'ring2', row: 3, col: 1 },
-  ];
+  // Группы слотов экипировки
+  const armorSlots: EquipmentSlot[] = ['helmet', 'cloak', 'armor', 'gloves', 'boots'];
+  const accessorySlots: EquipmentSlot[] = ['accessory1', 'accessory2', 'accessory3'];
+  const meleeSlots: EquipmentSlot[] = ['mainhand', 'offhand'];
+  const rangedSlots: EquipmentSlot[] = ['rangedMainhand', 'rangedOffhand'];
 
   return (
     <div className="space-y-4">
@@ -788,29 +1061,98 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
       <div className="flex flex-col lg:flex-row gap-4">
         {/* === Левая часть: Экипировка === */}
-        <div className="glass-panel p-4 flex-shrink-0">
+        <div className="glass-panel p-5 flex-shrink-0" style={{ minWidth: 420 }}>
           <div className="flex items-center gap-2 mb-4">
             <Shield className="text-text-secondary" size={18} />
             <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Экипировка</h3>
           </div>
 
-          <div className="grid grid-cols-3 gap-3" style={{ width: (CELL_SIZE + 8) * 3 + 24 }}>
-            {equipmentLayout.map(({ slot, row, col }) => (
-              <div
-                key={slot}
-                style={{ gridRow: row + 1, gridColumn: col + 1 }}
-              >
+          {/* Верхняя часть: броня (лево) + аксессуары (право) */}
+          <div className="flex justify-between">
+            {/* Левая колонка: броня */}
+            <div className="flex flex-col gap-3">
+              {armorSlots.map(slot => (
                 <EquipSlot
+                  key={slot}
                   slot={slot}
                   item={getEquippedItem(slot)}
+                  notProficient={(() => {
+                    const eqItem = getEquippedItem(slot);
+                    return eqItem ? !hasItemProficiency(character, eqItem) : false;
+                  })()}
                   onUnequip={handleUnequipItem}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={() => handleEquipSlotDrop(slot)}
                   showTooltip={showTooltipFn}
                   hideTooltip={hideTooltipFn}
+                  onShowDetails={setDetailItem}
                 />
-              </div>
-            ))}
+              ))}
+            </div>
+            {/* Правая колонка: аксессуары */}
+            <div className="flex flex-col gap-3">
+              {accessorySlots.map(slot => (
+                <EquipSlot
+                  key={slot}
+                  slot={slot}
+                  item={getEquippedItem(slot)}
+                  notProficient={(() => {
+                    const eqItem = getEquippedItem(slot);
+                    return eqItem ? !hasItemProficiency(character, eqItem) : false;
+                  })()}
+                  onUnequip={handleUnequipItem}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => handleEquipSlotDrop(slot)}
+                  showTooltip={showTooltipFn}
+                  hideTooltip={hideTooltipFn}
+                  onShowDetails={setDetailItem}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Нижняя часть: оружие */}
+          <div className="flex justify-between mt-3 pt-3 border-t border-border-default">
+            {/* Левый: ближний бой */}
+            <div className="flex gap-3">
+              {meleeSlots.map(slot => (
+                <EquipSlot
+                  key={slot}
+                  slot={slot}
+                  item={getEquippedItem(slot)}
+                  notProficient={(() => {
+                    const eqItem = getEquippedItem(slot);
+                    return eqItem ? !hasItemProficiency(character, eqItem) : false;
+                  })()}
+                  onUnequip={handleUnequipItem}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => handleEquipSlotDrop(slot)}
+                  showTooltip={showTooltipFn}
+                  hideTooltip={hideTooltipFn}
+                  onShowDetails={setDetailItem}
+                />
+              ))}
+            </div>
+            {/* Правый: дальний бой (offhand, mainhand — справа налево) */}
+            <div className="flex gap-3">
+              {rangedSlots.map(slot => (
+                <EquipSlot
+                  key={slot}
+                  slot={slot}
+                  item={getEquippedItem(slot)}
+                  notProficient={(() => {
+                    const eqItem = getEquippedItem(slot);
+                    return eqItem ? !hasItemProficiency(character, eqItem) : false;
+                  })()}
+                  onUnequip={handleUnequipItem}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => handleEquipSlotDrop(slot)}
+                  showTooltip={showTooltipFn}
+                  hideTooltip={hideTooltipFn}
+                  onShowDetails={setDetailItem}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Зелья */}
@@ -877,6 +1219,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                   }}
                   showTooltip={showTooltipFn}
                   hideTooltip={hideTooltipFn}
+                  onShowDetails={setDetailItem}
                 />
               ))}
 
@@ -963,8 +1306,52 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             setContextMenu(null);
           }}
           onRemove={() => handleRemoveItem(contextMenu.item.id)}
-          showOffhand={canItemFitOffhand(contextMenu.item)}
+          onDetails={() => { setDetailItem(contextMenu.item); setContextMenu(null); }}
+          showOffhand={canItemFitOffhand(contextMenu.item) && !isMainhandBlocking(contextMenu.item, equipment, inventory)}
         />
+      )}
+
+      {/* Предупреждение о невладении */}
+      {profWarning && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center" onClick={() => setProfWarning(null)}>
+            <div
+              className="rounded-xl border-2 border-red-500/50 shadow-2xl p-5 max-w-sm mx-4"
+              style={{ background: 'var(--color-bg-secondary)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-red-400 text-xl">⚠️</span>
+                <h3 className="text-red-400 font-semibold text-lg">Нет владения</h3>
+              </div>
+              <p className="text-text-secondary text-sm mb-2">
+                У персонажа нет владения предметом <span className="text-text-primary font-semibold">{profWarning.item.name}</span>.
+              </p>
+              <p className="text-text-muted text-xs mb-4">
+                {profWarning.item.armorType
+                  ? 'Без владения доспехом: помеха на проверки и спасброски СИЛ/ЛОВ, невозможность колдовать.'
+                  : 'Без владения оружием: бонус владения не добавляется к броскам атаки.'}
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setProfWarning(null)}
+                  className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:bg-white/5 text-sm transition-colors"
+                >
+                  Отмена
+                </button>
+                <button
+                  onClick={() => {
+                    equipToSlot(profWarning.itemId, profWarning.slot);
+                    setProfWarning(null);
+                  }}
+                  className="px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 text-sm font-semibold transition-colors"
+                >
+                  Экипировать всё равно
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
       )}
 
       {/* Модал добавления */}
@@ -977,26 +1364,52 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           onClose={() => setShowAddModal(false)}
         />
       )}
+
+      {/* Детали предмета */}
+      {detailItem && (
+        <ItemDetailModal item={detailItem} onClose={() => setDetailItem(null)} />
+      )}
     </div>
   );
 };
 
 // === Утилита: проверка совместимости drag-and-drop со слотом ===
 
-function canDragToSlot(item: InventoryItem, slot: EquipmentSlot): boolean {
-  // Offhand: щиты + одноручное оружие
+function canDragToSlot(item: InventoryItem, slot: EquipmentSlot, equipment?: Equipment, inventory?: InventoryItem[]): boolean {
+  // Offhand: щиты + одноручное оружие (melee), не двуручное/полуторное
   if (slot === 'offhand') {
-    return canItemFitOffhand(item);
+    if (!canItemFitOffhand(item)) return false;
+    if (equipment && inventory && isMainhandBlocking(item, equipment, inventory)) return false;
+    return true;
   }
 
-  // Mainhand: любое оружие
+  // Mainhand: melee оружие
   if (slot === 'mainhand') {
-    return item.category === 'weapon' || item.equipSlot === 'mainhand';
+    if (item.category !== 'weapon') return false;
+    // Ranged weapons go to ranged slots
+    return item.equipSlot === 'mainhand' || item.equipSlot === 'offhand';
   }
 
-  // Кольца: ring1 или ring2
-  if (slot === 'ring1' || slot === 'ring2') {
-    return item.category === 'ring' || item.equipSlot === 'ring1' || item.equipSlot === 'ring2';
+  // Ranged mainhand: ranged оружие
+  if (slot === 'rangedMainhand') {
+    if (item.category !== 'weapon') return false;
+    return item.equipSlot === 'rangedMainhand' || item.equipSlot === 'rangedOffhand';
+  }
+
+  // Ranged offhand: одноручное дальнобойное оружие
+  if (slot === 'rangedOffhand') {
+    if (item.category !== 'weapon') return false;
+    if (item.equipSlot !== 'rangedMainhand' && item.equipSlot !== 'rangedOffhand') return false;
+    if (isItemTwoHanded(item)) return false;
+    if (equipment && inventory && isMainhandBlocking(item, equipment, inventory)) return false;
+    const template = ITEM_TEMPLATES.find(t => t.name === item.name);
+    if (template) return canEquipInOffhand(template);
+    return true;
+  }
+
+  // Аксессуары: любой предмет с accessory equipSlot
+  if (slot === 'accessory1' || slot === 'accessory2' || slot === 'accessory3') {
+    return item.equipSlot === 'accessory1' || item.equipSlot === 'accessory2' || item.equipSlot === 'accessory3';
   }
 
   // Прямое совпадение слота

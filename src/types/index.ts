@@ -176,11 +176,13 @@ export type EquipmentSlot =
   | 'gloves'
   | 'boots'
   | 'cloak'
-  | 'amulet'
-  | 'ring1'
-  | 'ring2'
+  | 'accessory1'
+  | 'accessory2'
+  | 'accessory3'
   | 'mainhand'
-  | 'offhand';
+  | 'offhand'
+  | 'rangedMainhand'
+  | 'rangedOffhand';
 
 // Предмет инвентаря (с поддержкой сетки)
 export interface InventoryItem {
@@ -200,10 +202,20 @@ export interface InventoryItem {
   gridY?: number;     // Позиция Y в сетке рюкзака
   // Слот экипировки
   equipSlot?: EquipmentSlot;
+  // Тип брони (для проверки Unarmored Defense, Fast Movement и т.д.)
+  armorType?: 'light' | 'medium' | 'heavy' | 'shield';
+  // Значение КД брони (базовое)
+  armorAC?: number;
+  // Категория оружия (simple/martial) для проверки владения
+  weaponCategory?: 'simple' | 'martial';
+  // Мастерство оружия (Cleave, Sap, Vex, etc.)
+  mastery?: string[];
   // Визуальные свойства
   rarity: ItemRarity;
   icon?: string;      // Путь к иконке (загрузится позже)
   iconPlaceholder: string; // Эмодзи или символ-заглушка для иконки
+  // Сырые данные предмета (бонусы КД, спасбросков, оружия, заклинаний и т.д.)
+  raw?: Record<string, any>;
 }
 
 // Экипировка персонажа (надетые предметы)
@@ -213,11 +225,13 @@ export interface Equipment {
   gloves?: string;
   boots?: string;
   cloak?: string;
-  amulet?: string;
-  ring1?: string;
-  ring2?: string;
+  accessory1?: string;
+  accessory2?: string;
+  accessory3?: string;
   mainhand?: string;
   offhand?: string;
+  rangedMainhand?: string;
+  rangedOffhand?: string;
 }
 
 // Кастомная атака
@@ -243,6 +257,7 @@ export interface CharacterSpell {
   level: number;
   prepared?: boolean;
   alwaysPrepared?: boolean;
+  source?: string;
 }
 
 // Слоты заклинаний
@@ -277,6 +292,7 @@ export interface Character {
   name: string;
   race: string;
   raceSource?: string;
+  raceVariant?: string;
   class: string;
   classId: string;
   subclass?: string;

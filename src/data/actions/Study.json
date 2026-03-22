@@ -1,0 +1,49 @@
+{
+	"name": "Study",
+	"source": "XPHB",
+	"page": 375,
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"When you take the Study action, you make an Intelligence check to study your memory, a book, a clue, or another source of knowledge and call to mind an important piece of information about it.",
+		"The Areas of Knowledge table suggests which skills are applicable to various areas of knowledge.",
+		{
+			"type": "table",
+			"caption": "Areas of Knowledge",
+			"colLabels": [
+				"Skill",
+				"Areas"
+			],
+			"colStyles": [
+				"col-3",
+				"col-9"
+			],
+			"rows": [
+				[
+					"{@skill Arcana|XPHB}",
+					"Spells, magic items, eldritch symbols, magical traditions, planes of existence, and certain creatures (Aberrations, Constructs, Elementals, Fey, and Monstrosities)"
+				],
+				[
+					"{@skill History|XPHB}",
+					"Historic events and people, ancient civilizations, wars, and certain creatures (Giants and Humanoids)"
+				],
+				[
+					"{@skill Investigation|XPHB}",
+					"Traps, ciphers, riddles, and gadgetry"
+				],
+				[
+					"{@skill Nature|XPHB}",
+					"Terrain, flora, weather, and certain creatures (Beasts, Dragons, Oozes, and Plants)"
+				],
+				[
+					"{@skill Religion|XPHB}",
+					"Deities, religious hierarchies and rites, holy symbols, cults, and certain creatures (Celestials, Fiends, and Undead)"
+				]
+			]
+		}
+	]
+}

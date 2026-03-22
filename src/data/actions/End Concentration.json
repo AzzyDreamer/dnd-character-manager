@@ -1,0 +1,13 @@
+{
+	"name": "End Concentration",
+	"source": "XPHB",
+	"page": 363,
+	"srd52": true,
+	"basicRules2024": true,
+	"time": [
+		"Free"
+	],
+	"entries": [
+		"Some spells and other effects require Concentration to remain active, as specified in their descriptions. You can end Concentration at any time (no action required)."
+	]
+}

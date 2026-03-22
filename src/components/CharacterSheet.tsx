@@ -6,11 +6,19 @@ import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, Chev
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
+import { FeatSpellPickerModal } from './FeatSpellPickerModal';
+import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores } from '../utils/classEffects';
+import { getAllItemTemplatesSync } from '../data/items';
+import { ExpertisePickerModal } from './ExpertisePickerModal';
+import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
+import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
+import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -42,6 +50,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     updatedChar: Character;
     mode: 'asi' | 'epicBoon';
   } | null>(null);
+  const [showExpertisePicker, setShowExpertisePicker] = useState(false);
+  const [pendingExpertise, setPendingExpertise] = useState<{
+    updatedChar: Character;
+    count: number;
+  } | null>(null);
   const [showFightingStylePicker, setShowFightingStylePicker] = useState(false);
   const [pendingFightingStyleLevelUp, setPendingFightingStyleLevelUp] = useState<{
     updatedChar: Character;
@@ -70,11 +83,86 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     remainingChecks: (() => void)[];
   } | null>(null);
 
+  // Auto-spells notification on level-up (subclass + racial)
+  const [showAutoSpellsNotification, setShowAutoSpellsNotification] = useState(false);
+  const [pendingAutoSpells, setPendingAutoSpells] = useState<{
+    updatedChar: Character;
+    newSpells: AutoSpellResult[];
+  } | null>(null);
+
+  // Feat spell swap on level-up
+  const [showFeatSpellSwap, setShowFeatSpellSwap] = useState(false);
+  const [pendingFeatSwapChar, setPendingFeatSwapChar] = useState<Character | null>(null);
+
+  // Feat spell picker (Magic Initiate, Fey-Touched, etc.)
+  const [showFeatSpellPicker, setShowFeatSpellPicker] = useState(false);
+  const [pendingFeatSpells, setPendingFeatSpells] = useState<{
+    updatedChar: Character;
+    featName: string;
+    config: FeatSpellConfig;
+  } | null>(null);
+
   const [showCropModal, setShowCropModal] = useState(false);
   const [pendingPortraitUrl, setPendingPortraitUrl] = useState<string | null>(null);
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
   const portraitInputRef = React.useRef<HTMLInputElement>(null);
+  const effectiveScores = getEffectiveAbilityScores(character);
+  // Character with effective ability scores for display purposes
+  const displayCharacter = React.useMemo(() => {
+    if (effectiveScores === character.abilityScores) return character;
+    return { ...character, abilityScores: effectiveScores };
+  }, [character, effectiveScores]);
+
+  // Миграция: обновить raw данные предметов из актуальных шаблонов (мёрж бонусов)
+  useEffect(() => {
+    const inv = character.inventory;
+    if (!inv || inv.length === 0) return;
+    const templates = getAllItemTemplatesSync();
+    let changed = false;
+    const migrated = inv.map(item => {
+      const tmpl = templates.find(t => t.name === item.name);
+      if (!tmpl) return item;
+      // Если raw отсутствует или шаблон имеет поля, которых нет в item.raw — обновить
+      const newRaw = { ...(item.raw ?? {}), ...tmpl.raw };
+      const newEquipSlot = item.equipSlot ?? tmpl.equipSlot;
+      const rawChanged = JSON.stringify(newRaw) !== JSON.stringify(item.raw);
+      const slotChanged = newEquipSlot !== item.equipSlot;
+      if (rawChanged || slotChanged) {
+        changed = true;
+        return { ...item, raw: newRaw, equipSlot: newEquipSlot };
+      }
+      return item;
+    });
+    if (changed) {
+      const updated = { ...character, inventory: migrated, armorClass: 0 };
+      updated.armorClass = resolveAC(updated);
+      onUpdate(updated);
+    }
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Миграция: amulet/ring1/ring2 → accessory1/accessory2/accessory3
+  useEffect(() => {
+    const eq = character.equipment;
+    if (!eq) return;
+    const legacy = eq as Record<string, string | undefined>;
+    if (!legacy.amulet && !legacy.ring1 && !legacy.ring2) return;
+    const newEq = { ...eq };
+    const newEqAny = newEq as Record<string, string | undefined>;
+    if (legacy.amulet) { newEqAny.accessory1 = legacy.amulet; delete newEqAny.amulet; }
+    if (legacy.ring1) { newEqAny.accessory2 = legacy.ring1; delete newEqAny.ring1; }
+    if (legacy.ring2) { newEqAny.accessory3 = legacy.ring2; delete newEqAny.ring2; }
+    // Обновить equipSlot у предметов
+    const inv = (character.inventory ?? []).map(item => {
+      if (item.equipSlot === 'amulet' as any || item.equipSlot === 'ring1' as any || item.equipSlot === 'ring2' as any) {
+        return { ...item, equipSlot: 'accessory1' as const };
+      }
+      return item;
+    });
+    const updated = { ...character, equipment: newEq, inventory: inv, armorClass: 0 };
+    updated.armorClass = resolveAC(updated);
+    onUpdate(updated);
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -145,14 +233,19 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
   const buildUpdatedChar = (newLevel: number, hpGain: number, subclass?: string): Character => {
     const newProfBonus = getProficiencyBonus(newLevel);
+    // Add ongoing HP bonus from feats like Tough (+2 per level)
+    const featHpBonus = getOngoingFeatHpBonus(character);
+    // Add ongoing HP bonus from class/subclass/species (e.g. Draconic Resilience +1/level, Dwarf +1/level)
+    const classHpBonus = getOngoingClassHpBonus(character);
+    const totalHpGain = hpGain + featHpBonus + classHpBonus;
 
     const updated: Character = {
       ...character,
       level: newLevel,
       hitPoints: {
         ...character.hitPoints,
-        max: character.hitPoints.max + hpGain,
-        current: character.hitPoints.current + hpGain,
+        max: character.hitPoints.max + totalHpGain,
+        current: character.hitPoints.current + totalHpGain,
       },
       hitDice: {
         ...character.hitDice,
@@ -164,7 +257,30 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
     if (subclass) {
       updated.subclass = subclass;
+
+      // Apply flat HP bonus when subclass is first selected (e.g. Draconic Resilience +3)
+      const subId = getSubclassIdByName(character.classId, subclass);
+      if (subId) {
+        const flatHp = getSubclassHpFlatBonus(character.classId, subId);
+        if (flatHp > 0) {
+          updated.hitPoints = {
+            ...updated.hitPoints,
+            max: updated.hitPoints.max + flatHp,
+            current: updated.hitPoints.current + flatHp,
+          };
+        }
+      }
     }
+
+    // Recalculate AC considering class/subclass formulas (e.g. Barbarian/Monk Unarmored Defense, Draconic Resilience)
+    updated.armorClass = resolveAC(updated);
+
+    // Recalculate speed with class/subclass bonuses (e.g. Barbarian Fast Movement, Monk Unarmored Movement)
+    const baseSpeed = character.speed - getClassSpeedBonus(character);
+    updated.speed = baseSpeed + getClassSpeedBonus(updated);
+
+    // Apply permanent effects gained at this level (resistances, saving throw proficiencies)
+    applyLevelUpEffects(updated, newLevel);
 
     // Update spellcasting stats if applicable
     if (updated.spellcasting) {
@@ -174,6 +290,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         spellSaveDC: 8 + newProfBonus + abilityMod,
         spellAttackBonus: newProfBonus + abilityMod,
       };
+    }
+
+    // Recalculate initiative if Alert feat is present (adds proficiency bonus)
+    const hasAlert = (updated.feats ?? []).some(f => f.name === 'Alert');
+    if (hasAlert) {
+      updated.initiative = getAbilityModifier(updated.abilityScores.dexterity) + newProfBonus;
     }
 
     return updated;
@@ -238,8 +360,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Check Invocations → FS replacement → Fighting Style → ASI/EB chain
-    if (checkAndShowOptionalFeaturePickers(updated)) return;
+    // Check auto-spells → Invocations → FS replacement → Fighting Style → ASI/EB chain
+    if (checkAndShowAutoSpells(updated)) return;
 
     onUpdate(updated);
     setShowSubclassModal(false);
@@ -312,7 +434,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         }
 
         if (picks.length === 0) {
-          checkAndShowFsReplace(updated);
+          checkAndShowExpertise(updated);
           return;
         }
 
@@ -342,7 +464,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         setShowOptionalFeaturePicker(true);
       } catch (e) {
         console.warn('Failed to check optional features:', e);
-        checkAndShowFsReplace(updated);
+        checkAndShowExpertise(updated);
       }
     })();
     return true;
@@ -394,8 +516,46 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       next();
     } else {
       setPendingOptionalFeature(null);
-      checkAndShowFsReplace(updated);
+      checkAndShowExpertise(updated);
     }
+  };
+
+  /** Check if the character's current level grants Expertise and show picker if so. */
+  const checkAndShowExpertise = (updated: Character): void => {
+    (async () => {
+      try {
+        const mod = await import('../data/classes/classJsonLoader');
+        await mod.init();
+        const data = mod.getClassDataByName(updated.class);
+        if (!data?.levelTable) {
+          checkAndShowFsReplace(updated);
+          return;
+        }
+        const levelRow = data.levelTable.find((r: any) => r.level === updated.level);
+        const features: string[] = levelRow?.features ?? [];
+        if (features.includes('Expertise')) {
+          setPendingExpertise({ updatedChar: updated, count: 2 });
+          setShowExpertisePicker(true);
+        } else {
+          checkAndShowFsReplace(updated);
+        }
+      } catch (e) {
+        console.warn('Failed to check Expertise:', e);
+        checkAndShowFsReplace(updated);
+      }
+    })();
+  };
+
+  const handleExpertiseConfirm = (skills: string[]) => {
+    if (!pendingExpertise) return;
+    const updated = { ...pendingExpertise.updatedChar };
+    updated.skills = { ...updated.skills };
+    for (const sk of skills) {
+      updated.skills[sk] = { ...updated.skills[sk], expertise: true };
+    }
+    setShowExpertisePicker(false);
+    setPendingExpertise(null);
+    checkAndShowFsReplace(updated);
   };
 
   /** Check if the character can replace an existing fighting style on level-up. */
@@ -500,6 +660,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       },
     ];
 
+    // Apply stat effects from fighting style (e.g. Defense: +1 AC)
+    applyFeatStatEffects(updated, result.feat.name);
+
     setShowFightingStylePicker(false);
     setPendingFightingStyleLevelUp(null);
 
@@ -602,20 +765,79 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         {
           name: result.feat.name,
           source: result.feat.source,
-          category: result.feat.category || pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
+          category: result.feat.category || (pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G'),
           levelAcquired: updated.level,
           abilityBonuses: result.abilityChoice,
         },
       ];
+
+      // Apply proficiencies from feat JSON data + choices
+      const profs = extractFeatProficiencies(result.feat);
+      applyFeatProficiencies(updated, profs, {
+        skills: result.skillChoices,
+        savingThrows: result.savingThrowChoice ? [result.savingThrowChoice] : undefined,
+        expertise: result.expertiseChoice ? [result.expertiseChoice] : undefined,
+      });
+
+      // Apply resistances
+      const resists = extractFeatResistances(result.feat);
+      if (resists.fixed.length > 0 || (result.resistanceChoices && result.resistanceChoices.length > 0)) {
+        applyFeatResistances(updated, resists, result.resistanceChoices);
+      }
+
+      // Apply stat effects (HP, AC, initiative, speed)
+      applyFeatStatEffects(updated, result.feat.name);
+
+      // Check if feat grants spells — trigger spell picker
+      if (result.spellConfig) {
+        recalcDerivedStats(updated);
+        updated.armorClass = resolveAC(updated);
+        setShowFeatPicker(false);
+        setPendingFeatLevelUp(null);
+        setShowSubclassModal(false);
+        setPendingFeatSpells({ updatedChar: updated, featName: result.feat.name, config: result.spellConfig });
+        setShowFeatSpellPicker(true);
+        return;
+      }
     }
 
-    // Recalc derived stats (spell DC, attack bonus)
+    // Recalc derived stats (spell DC, attack bonus, AC)
     recalcDerivedStats(updated);
+    updated.armorClass = resolveAC(updated);
 
     onUpdate(updated);
     setShowFeatPicker(false);
     setPendingFeatLevelUp(null);
     setShowSubclassModal(false);
+  };
+
+  const handleFeatSpellPickerConfirm = (spells: CharacterSpell[], chosenAbility?: string) => {
+    if (!pendingFeatSpells) return;
+    let updated = { ...pendingFeatSpells.updatedChar };
+
+    if (spells.length > 0) {
+      if (!updated.spellcasting) {
+        // Initialize minimal spellcasting for non-caster characters
+        const ability = (chosenAbility || 'intelligence') as 'intelligence' | 'wisdom' | 'charisma';
+        const abilityMod = getAbilityModifier(updated.abilityScores[ability]);
+        updated.spellcasting = {
+          ability,
+          spellSaveDC: 8 + updated.proficiencyBonus + abilityMod,
+          spellAttackBonus: updated.proficiencyBonus + abilityMod,
+          spells: [],
+        };
+      }
+      updated.spellcasting = {
+        ...updated.spellcasting,
+        spells: [...updated.spellcasting.spells, ...spells],
+      };
+    }
+
+    recalcDerivedStats(updated);
+    updated.armorClass = resolveAC(updated);
+    onUpdate(updated);
+    setShowFeatSpellPicker(false);
+    setPendingFeatSpells(null);
   };
 
   const handleSpellLevelUpConfirm = (newSpells: CharacterSpell[], updatedSlots: SpellSlots) => {
@@ -636,13 +858,121 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
 
-    // After spells, check Invocations → FS replacement → Fighting Style → ASI/EB chain
-    checkAndShowOptionalFeaturePickers(final);
+    // After spells, check auto-spells → Invocations → FS replacement → Fighting Style → ASI/EB chain
+    checkAndShowAutoSpells(final);
   };
 
   const handleSpellLevelUpCancel = () => {
     setShowSpellLevelUp(false);
     setPendingLevelUp(null);
+  };
+
+  // Check for auto-spells (subclass + racial) gained at this level
+  const checkAndShowAutoSpells = (updated: Character): boolean => {
+    if (!updated.spellcasting) {
+      checkAndShowFeatSpellSwap(updated);
+      return true;
+    }
+
+    (async () => {
+      try {
+        const spellsMod = await import('../data/spells');
+        await spellsMod.init();
+
+        const newAutoSpells = await getNewAutoSpellsAtLevel(
+          {
+            class: updated.class,
+            classId: updated.classId,
+            subclass: updated.subclass,
+            level: updated.level,
+            race: updated.race,
+            raceSource: updated.raceSource,
+            raceVariant: updated.raceVariant,
+            spellcasting: updated.spellcasting,
+          },
+          updated.level,
+          spellsMod.getSpellByName,
+        );
+
+        if (newAutoSpells.length > 0) {
+          const withAutoSpells: Character = {
+            ...updated,
+            spellcasting: {
+              ...updated.spellcasting!,
+              spells: [
+                ...updated.spellcasting!.spells,
+                ...newAutoSpells.map(s => ({
+                  spellId: s.spellId,
+                  name: s.name,
+                  level: s.level,
+                  prepared: true,
+                  alwaysPrepared: true,
+                  source: s.source,
+                })),
+              ],
+            },
+          };
+
+          setPendingAutoSpells({ updatedChar: withAutoSpells, newSpells: newAutoSpells });
+          setShowAutoSpellsNotification(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Failed to check auto-spells:', e);
+      }
+
+      // No auto-spells or error → continue chain
+      checkAndShowFeatSpellSwap(updated);
+    })();
+
+    return true;
+  };
+
+  const handleAutoSpellsConfirm = () => {
+    if (!pendingAutoSpells) return;
+    setShowAutoSpellsNotification(false);
+    checkAndShowFeatSpellSwap(pendingAutoSpells.updatedChar);
+    setPendingAutoSpells(null);
+  };
+
+  // Check if character has feat spells that can be swapped on level-up
+  const checkAndShowFeatSpellSwap = (updated: Character) => {
+    const featSpells = updated.spellcasting?.spells.filter(s =>
+      s.source && s.source !== updated.subclass && s.source !== updated.race
+    ) || [];
+    if (featSpells.length > 0) {
+      setPendingFeatSwapChar(updated);
+      setShowFeatSpellSwap(true);
+      return;
+    }
+    checkAndShowOptionalFeaturePickers(updated);
+  };
+
+  const handleFeatSpellSwapConfirm = (swaps: { oldSpellId: string; newSpell: CharacterSpell }[]) => {
+    if (!pendingFeatSwapChar) return;
+    let updated = { ...pendingFeatSwapChar };
+    if (swaps.length > 0 && updated.spellcasting) {
+      updated = {
+        ...updated,
+        spellcasting: {
+          ...updated.spellcasting,
+          spells: updated.spellcasting.spells.map(s => {
+            const swap = swaps.find(sw => sw.oldSpellId === s.spellId);
+            return swap ? swap.newSpell : s;
+          }),
+        },
+      };
+    }
+    setShowFeatSpellSwap(false);
+    setPendingFeatSwapChar(null);
+    checkAndShowOptionalFeaturePickers(updated);
+  };
+
+  const handleFeatSpellSwapSkip = () => {
+    if (!pendingFeatSwapChar) return;
+    setShowFeatSpellSwap(false);
+    checkAndShowOptionalFeaturePickers(pendingFeatSwapChar);
+    setPendingFeatSwapChar(null);
   };
 
   const handleSubclassSelect = (subclassName: string) => {
@@ -789,7 +1119,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
         {/* Right Sidebar — always visible (BG3 pattern) */}
         <CharacterStatsSidebar
-          character={character}
+          character={displayCharacter}
           showCombatStats
           classIconSrc={`/images/classes/${character.classId}.webp`}
           hideSections={['identity', 'proficiencies', 'skills', 'spells']}
@@ -810,7 +1140,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       {showHpChoiceModal && pendingHpChoice && (
         <HpChoiceModal
           hitDieType={character.hitDice.type}
-          conMod={getAbilityModifier(character.abilityScores.constitution)}
+          conMod={getAbilityModifier(effectiveScores.constitution)}
           onChoice={handleHpChoice}
           onCancel={() => {
             setShowHpChoiceModal(false);
@@ -841,18 +1171,45 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         />
       )}
 
-      {/* Feat Picker Modal */}
+      {/* Auto-spells notification */}
+      {showAutoSpellsNotification && pendingAutoSpells && (
+        <AutoSpellsNotificationModal
+          spells={pendingAutoSpells.newSpells}
+          newLevel={pendingAutoSpells.updatedChar.level}
+          onConfirm={handleAutoSpellsConfirm}
+        />
+      )}
+
+      {/* Feat Spell Swap on Level-Up */}
+      {showFeatSpellSwap && pendingFeatSwapChar && (
+        <FeatSpellSwapModal
+          character={pendingFeatSwapChar}
+          onConfirm={handleFeatSpellSwapConfirm}
+          onSkip={handleFeatSpellSwapSkip}
+        />
+      )}
+
+      {/* Expertise Picker Modal */}
+      {showExpertisePicker && pendingExpertise && (
+        <ExpertisePickerModal
+          character={pendingExpertise.updatedChar}
+          count={pendingExpertise.count}
+          onConfirm={handleExpertiseConfirm}
+          onCancel={() => {
+            setShowExpertisePicker(false);
+            setPendingExpertise(null);
+          }}
+        />
+      )}
       {showFightingStylePicker && pendingFightingStyleLevelUp && (
         <FeatPickerModal
           character={pendingFightingStyleLevelUp.updatedChar}
           mode="fightingStyle"
           onConfirm={handleFightingStyleConfirm}
           onCancel={() => {
-            // Skip fighting style, continue to ASI/EB check
-            const updated = pendingFightingStyleLevelUp.updatedChar;
+            // On cancel, discard the level-up entirely
             setShowFightingStylePicker(false);
             setPendingFightingStyleLevelUp(null);
-            checkAndShowFeatPicker(updated);
           }}
         />
       )}
@@ -878,10 +1235,25 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           mode={pendingFeatLevelUp.mode}
           onConfirm={handleFeatPickerConfirm}
           onCancel={() => {
-            // On cancel, still apply the level-up but without feat/ASI
-            onUpdate(pendingFeatLevelUp.updatedChar);
+            // On cancel, discard the level-up entirely
             setShowFeatPicker(false);
             setPendingFeatLevelUp(null);
+          }}
+        />
+      )}
+
+      {/* Feat Spell Picker Modal (Magic Initiate, Fey-Touched, etc.) */}
+      {showFeatSpellPicker && pendingFeatSpells && (
+        <FeatSpellPickerModal
+          character={pendingFeatSpells.updatedChar}
+          featName={pendingFeatSpells.featName}
+          config={pendingFeatSpells.config}
+          onConfirm={handleFeatSpellPickerConfirm}
+          onCancel={() => {
+            // On cancel, still save the character with feat effects applied (just no spells)
+            onUpdate(pendingFeatSpells.updatedChar);
+            setShowFeatSpellPicker(false);
+            setPendingFeatSpells(null);
           }}
         />
       )}
@@ -1005,6 +1377,8 @@ function SkillsSection({ character }: { character: Character }) {
   const [collapsed, setCollapsed] = useState(false);
 
   const profBonus = character.proficiencyBonus;
+  const itemBonuses = getEquippedItemBonuses(character);
+  const effectiveScores = getEffectiveAbilityScores(character);
 
   return (
     <div className="glass-panel p-4">
@@ -1041,7 +1415,7 @@ function SkillsSection({ character }: { character: Character }) {
                     const skillData = character.skills?.[skillKey];
                     const isProficient = skillData?.proficient ?? false;
                     const hasExpertise = skillData?.expertise ?? false;
-                    const abilityScore = character.abilityScores[ability];
+                    const abilityScore = effectiveScores[ability];
                     const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus);
 
                     return (
@@ -1107,7 +1481,7 @@ function SkillsSection({ character }: { character: Character }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {ABILITY_ORDER.map(ability => {
                 const isProficient = character.savingThrows[ability]?.proficient ?? false;
-                const mod = getAbilityModifier(character.abilityScores[ability]) + (isProficient ? profBonus : 0);
+                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow;
                 return (
                   <div
                     key={ability}
@@ -1194,8 +1568,10 @@ function FeaturesSection({ character }: { character: Character }) {
         ]);
         if (cancelled) return;
 
-        // Species traits (with raw entries for EntryRenderer)
-        const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
+        // Species traits (with raw entries for EntryRenderer) — prefer variant data
+        const speciesData = character.raceVariant
+          ? speciesMod.getSpeciesByName(character.raceVariant, character.raceSource) ?? speciesMod.getSpeciesByName(character.race, character.raceSource)
+          : speciesMod.getSpeciesByName(character.race, character.raceSource);
         if (speciesData?.entries) {
           const traits = speciesData.entries
             .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
@@ -2963,7 +3339,7 @@ function FsCantripPickerModal({
         {/* RIGHT: Character stats sidebar */}
         <div className="hidden lg:block w-72 shrink-0 border-l border-border-default bg-bg-panel-solid/50 overflow-y-auto p-4">
           <CharacterStatsSidebar
-            character={character}
+            character={displayCharacter}
             showCombatStats
             classIconSrc={`/images/classes/${character.classId}.webp`}
             className="!w-full !flex !flex-col"

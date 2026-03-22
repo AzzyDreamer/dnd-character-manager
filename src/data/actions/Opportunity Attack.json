@@ -1,0 +1,15 @@
+{
+	"name": "Opportunity Attack",
+	"source": "XPHB",
+	"page": 371,
+	"srd52": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "reaction"
+		}
+	],
+	"entries": [
+		"You can make an Opportunity Attack when a creature that you can see leaves your reach using its action, its {@variantrule Bonus Action|XPHB}, its {@variantrule Reaction|XPHB}, or one of its speeds. To make the Opportunity Attack, take a {@variantrule Reaction|XPHB} to make one melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB} against the provoking creature. The attack occurs right before the creature leaves your reach."
+	]
+}

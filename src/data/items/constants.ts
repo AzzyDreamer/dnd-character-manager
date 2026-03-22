@@ -56,11 +56,13 @@ export const EQUIPMENT_SLOT_NAMES: Record<EquipmentSlot, string> = {
   gloves: 'Перчатки',
   boots: 'Обувь',
   cloak: 'Плащ',
-  amulet: 'Амулет',
-  ring1: 'Кольцо 1',
-  ring2: 'Кольцо 2',
+  accessory1: 'Аксессуар 1',
+  accessory2: 'Аксессуар 2',
+  accessory3: 'Аксессуар 3',
   mainhand: 'Основная рука',
   offhand: 'Вторая рука',
+  rangedMainhand: 'Дальний бой',
+  rangedOffhand: 'Дальний (2)',
 };
 
 // Иконки-заглушки для слотов
@@ -70,11 +72,13 @@ export const EQUIPMENT_SLOT_ICONS: Record<EquipmentSlot, string> = {
   gloves: '🧤',
   boots: '👢',
   cloak: '🧥',
-  amulet: '📿',
-  ring1: '💍',
-  ring2: '💍',
+  accessory1: '✨',
+  accessory2: '✨',
+  accessory3: '✨',
   mainhand: '⚔️',
   offhand: '🛡️',
+  rangedMainhand: '🏹',
+  rangedOffhand: '🏹',
 };
 
 // === Маппинг кодов 5etools ===
@@ -101,12 +105,15 @@ export const TYPE_TO_CATEGORY: Record<string, ItemCategory> = {
 // Тип предмета → слот экипировки по умолчанию
 export const TYPE_TO_EQUIP_SLOT: Record<string, EquipmentSlot> = {
   'M': 'mainhand',
-  'R': 'mainhand',
+  'R': 'rangedMainhand',
   'LA': 'armor',
   'MA': 'armor',
   'HA': 'armor',
   'S': 'offhand',
-  'RG': 'ring1',
+  'RG': 'accessory1',
+  'WD': 'accessory1',
+  'RD': 'accessory1',
+  'SCF': 'accessory1',
 };
 
 // Редкость 5etools → наша
@@ -170,7 +177,7 @@ export const WEAPON_CATEGORY_NAMES: Record<string, string> = {
 
 // Иконки-заглушки по типу предмета
 export function getIconPlaceholder(raw: RawItemData): string {
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
     if (raw.sword) return '🗡️';

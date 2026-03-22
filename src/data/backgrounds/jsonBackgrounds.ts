@@ -66,6 +66,31 @@ export async function init(): Promise<void> {
       }
     }
 
+    // Resolve _copy references: inherit fields from parent background
+    // Multiple passes to handle chained copies (A -> B -> C)
+    for (let pass = 0; pass < 3; pass++) {
+      for (const bg of ALL_JSON_BACKGROUNDS) {
+        if (!bg._copy) continue;
+        // Try exact match first, then fallback to name-only match
+        const parent = ALL_JSON_BACKGROUNDS.find(
+          p => p.name === bg._copy.name && p.source === bg._copy.source
+        ) ?? ALL_JSON_BACKGROUNDS.find(
+          p => p.name === bg._copy.name && p !== bg
+        );
+        if (parent) {
+          const copyFields = [
+            'ability', 'feats', 'skillProficiencies', 'toolProficiencies',
+            'languageProficiencies', 'startingEquipment', 'entries', 'edition',
+          ];
+          for (const field of copyFields) {
+            if (bg[field] === undefined && parent[field] !== undefined) {
+              bg[field] = parent[field];
+            }
+          }
+        }
+      }
+    }
+
     ALL_JSON_BACKGROUNDS.sort((a, b) => a.name.localeCompare(b.name));
     _initialized = true;
   })();

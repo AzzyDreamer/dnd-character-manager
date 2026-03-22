@@ -13,7 +13,7 @@ interface RegistryEntry {
 type GlossaryCategory =
   | 'spells' | 'feats' | 'species' | 'backgrounds' | 'conditions'
   | 'senses' | 'skills' | 'rules' | 'optionalfeatures' | 'items'
-  | 'classes' | 'subclasses' | 'charoptions';
+  | 'classes' | 'subclasses' | 'charoptions' | 'actions';
 
 interface CategoryConfig {
   key: GlossaryCategory;
@@ -381,6 +381,12 @@ async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
       };
       break;
     }
+    case 'actions': {
+      const mod = await import('../data/actions');
+      await mod.init();
+      result = { items: mod.ALL_ACTIONS, constants: {} };
+      break;
+    }
     default:
       result = { items: [], constants: {} };
   }
@@ -484,6 +490,7 @@ const CATEGORIES: CategoryConfig[] = [
   { key: 'classes', label: 'Классы', icon: Swords },
   { key: 'subclasses', label: 'Подклассы', icon: Shield },
   { key: 'charoptions', label: 'Опции создания', icon: Sparkles },
+  { key: 'actions', label: 'Действия', icon: Swords },
 ];
 
 export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange }) => {
@@ -671,6 +678,11 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       case 'charoptions': {
         const optTypes = item.optionType?.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ');
         return optTypes || item.source || '';
+      }
+      case 'actions': {
+        const time = item.time?.[0];
+        const timeStr = time ? `${time.number} ${time.unit}` : '';
+        return timeStr ? `${timeStr} • ${item.source || ''}` : item.source || '';
       }
       default:
         return item.source || '';

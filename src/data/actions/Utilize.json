@@ -1,0 +1,15 @@
+{
+	"name": "Utilize",
+	"source": "XPHB",
+	"page": 377,
+	"srd52": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"You normally interact with an object while doing something else, such as when you draw a sword as part of the {@action Attack|XPHB} action. When an object requires an action for its use, you take the Utilize action."
+	]
+}

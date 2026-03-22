@@ -46,5 +46,6 @@
 				"You have advantage on any Strength ({@skill Athletics}) or Dexterity ({@skill Acrobatics}) check you make to escape from being {@condition grappled}."
 			]
 		}
-	]
+	],
+	"category": "G"
 }

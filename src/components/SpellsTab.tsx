@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import type { Character, CustomAttack } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
-import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
+import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
+import { getEquippedItemBonuses } from '../utils/classEffects';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
+import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
-import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
 
 // Типы для данных заклинаний (без импорта модуля)
@@ -71,17 +73,6 @@ function getFirstEntryText(entries: any[]): string {
   return '';
 }
 
-function parseSpellTag(tag: string): string {
-  const m = tag.match(/\{@spell\s+([^|}]+)/);
-  return m ? m[1].trim() : tag.replace(/[{}@spell]/g, '').split('|')[0].trim();
-}
-
-function parseRacialSpellName(raw: string): { name: string; isCantrip: boolean } {
-  const isCantrip = raw.endsWith('#c');
-  const clean = raw.replace(/#c$/, '').split('|')[0].trim();
-  const name = clean.replace(/\b\w/g, c => c.toUpperCase());
-  return { name, isCantrip };
-}
 
 // ─── Spell Slot Tracker (BG3 style) ─────────────────────────────────
 
@@ -234,8 +225,11 @@ const WeaponAttacksSection: React.FC<{
 }> = ({ character, onUpdate }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newAttack, setNewAttack] = useState({ name: '', attackBonus: 0, damage: '', damageType: '', notes: '' });
+  const [expandedMastery, setExpandedMastery] = useState<string | null>(null);
 
   const equippedAttacks = getEquippedWeaponAttacks(character);
+  const unarmedStrike = getUnarmedStrike(character);
+  const masteryActions = getEquippedMasteryActions(character);
   const customAttacks = character.customAttacks ?? [];
 
   const addCustomAttack = () => {
@@ -265,25 +259,7 @@ const WeaponAttacksSection: React.FC<{
     });
   };
 
-  if (equippedAttacks.length === 0 && customAttacks.length === 0 && !showAddForm) {
-    return (
-      <div className="glass-panel p-3">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medieval text-gold flex items-center gap-2">
-            <Swords size={14} />
-            Атаки
-          </h3>
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="text-xs text-text-muted hover:text-gold transition-colors flex items-center gap-1"
-          >
-            <Plus size={12} /> Добавить
-          </button>
-        </div>
-        <p className="text-xs text-text-muted italic">Экипируйте оружие или добавьте атаку вручную</p>
-      </div>
-    );
-  }
+  // Always show attacks section (unarmed strike is always available)
 
   return (
     <div className="glass-panel p-3">
@@ -300,24 +276,60 @@ const WeaponAttacksSection: React.FC<{
         </button>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {/* Equipped weapon attacks */}
         {equippedAttacks.map((atk, i) => (
-          <div key={`eq-${i}`} className="flex items-center gap-3 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
-            <span className="font-medium text-text-primary flex-1">{atk.name}</span>
+          <div key={`eq-${i}`} className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+            <img
+              src={atk.image}
+              alt={atk.name}
+              className="w-8 h-8 rounded object-contain flex-shrink-0"
+              style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
+              onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-text-primary text-sm">{atk.name}</div>
+              <div className="text-[10px] text-text-muted">{
+                        atk.slot === 'offhand' ? 'Вторая рука' :
+                        atk.slot === 'rangedMainhand' ? 'Дальний бой' :
+                        atk.slot === 'rangedOffhand' ? 'Дальний (2)' :
+                        'Основная рука'
+                      }</div>
+            </div>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{atk.attackBonusFormatted}</span>
-            <span className="text-text-secondary min-w-[100px]">{atk.damage}</span>
-            <span className="text-xs text-text-muted">{atk.damageType}</span>
+            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
           </div>
         ))}
 
+        {/* Unarmed Strike (always available) */}
+        <div className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+          <img
+            src={unarmedStrike.image}
+            alt={unarmedStrike.name}
+            className="w-8 h-8 rounded object-contain flex-shrink-0"
+            style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
+            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-text-primary text-sm">{unarmedStrike.name}</div>
+            <div className="text-[10px] text-text-muted">Безоружная атака</div>
+          </div>
+          <span className="text-green-400 font-bold min-w-[40px] text-right">{unarmedStrike.attackBonusFormatted}</span>
+          <span className="text-text-secondary min-w-[90px] text-right">{unarmedStrike.damage}</span>
+          <span className="text-xs text-text-muted min-w-[60px]">{unarmedStrike.damageType}</span>
+        </div>
+
         {/* Custom attacks */}
         {customAttacks.map(atk => (
-          <div key={atk.id} className="flex items-center gap-3 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+          <div key={atk.id} className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+            <div className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0 bg-bg-tertiary border border-border-default">
+              <Swords size={14} className="text-text-muted" />
+            </div>
             <span className="font-medium text-text-primary flex-1">{atk.name}</span>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{formatModifier(atk.attackBonus)}</span>
-            <span className="text-text-secondary min-w-[100px]">{atk.damage}</span>
-            <span className="text-xs text-text-muted">{atk.damageType}</span>
+            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
             <button
               onClick={() => removeCustomAttack(atk.id)}
               className="text-red-400/60 hover:text-red-400 transition-colors"
@@ -327,6 +339,47 @@ const WeaponAttacksSection: React.FC<{
           </div>
         ))}
       </div>
+
+      {/* Mastery Actions */}
+      {masteryActions.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-border-default">
+          <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <Zap size={12} className="text-amber-400" />
+            Мастерство оружия
+          </h4>
+          <div className="space-y-1.5">
+            {masteryActions.map(action => {
+              const isExpanded = expandedMastery === action.id;
+              return (
+                <div key={action.id}>
+                  <button
+                    onClick={() => setExpandedMastery(isExpanded ? null : action.id)}
+                    className="w-full text-left flex items-center gap-2.5 py-1.5 px-2 rounded bg-bg-secondary/50 hover:bg-bg-secondary transition-colors"
+                  >
+                    <img
+                      src={action.image}
+                      alt={action.name}
+                      className="w-8 h-8 rounded object-contain flex-shrink-0"
+                      style={{ border: '1px solid rgba(251, 191, 36, 0.3)', background: 'rgba(251, 191, 36, 0.05)' }}
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-amber-300">{action.name}</div>
+                      <div className="text-[10px] text-text-muted">{action.weaponName}</div>
+                    </div>
+                    {isExpanded ? <ChevronDown size={14} className="text-text-muted" /> : <ChevronRight size={14} className="text-text-muted" />}
+                  </button>
+                  {isExpanded && (
+                    <div className="mt-1 ml-12 mr-2 mb-1 p-2 rounded bg-bg-primary/50 border border-border-default">
+                      <p className="text-xs text-text-secondary leading-relaxed">{action.description}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Add custom attack form */}
       {showAddForm && (
@@ -388,7 +441,158 @@ interface LoadedFeature {
   name: string;
   source: string;
   rawEntries: any[];
+  image?: string;
 }
+
+// Breath Weapon image mapping: damageType → image filename
+const BREATH_WEAPON_IMAGES: Record<string, string> = {
+  acid: '/images/species-actions/Acid_Breath.webp',
+  lightning: '/images/species-actions/Lightning_Breath.webp',
+  fire: '/images/species-actions/Fire_Breath.webp',
+  poison: '/images/species-actions/Poison_Breath.webp',
+  cold: '/images/species-actions/Frost_Breath.webp',
+};
+
+// Species action images: entry name (lowercase) → image path
+const SPECIES_ACTION_IMAGES: Record<string, string> = {
+  // Dragonborn
+  'draconic flight': '/images/spells/Grant_Flight.webp',
+  // Aasimar
+  'healing hands': '/images/spells/Cure_Wounds.webp',
+  'celestial revelation': '/images/spells/Daylight.webp',
+  'light bearer': '/images/spells/Light.webp',
+  // Teleportation
+  'fey step': '/images/spells/Misty_Step.webp',
+  'starlight step': '/images/spells/Misty_Step.webp',
+  'blessing of the raven queen': '/images/spells/Misty_Step.webp',
+  // Flight
+  'flight': '/images/spells/Grant_Flight.webp',
+  'glide': '/images/spells/Grant_Flight.webp',
+  'gem flight': '/images/spells/Grant_Flight.webp',
+  // Natural weapons
+  'talons': '/images/misc/Generic_Physical_Icon.webp',
+  'claws': '/images/misc/Generic_Physical_Icon.webp',
+  'hooves': '/images/misc/Generic_Physical_Icon.webp',
+  'horns': '/images/misc/Generic_Physical_Icon.webp',
+  'bite': '/images/misc/Generic_Physical_Icon.webp',
+  'ram': '/images/misc/Generic_Physical_Icon.webp',
+  'vampiric bite': '/images/misc/Generic_Blood.webp',
+  // Combat abilities
+  'charge': '/images/misc/Generic_Physical_Icon.webp',
+  'goring rush': '/images/misc/Generic_Physical_Icon.webp',
+  'hammering horns': '/images/misc/Generic_Physical_Icon.webp',
+  'daunting roar': '/images/misc/Generic_Threat.webp',
+  'hungry jaws': '/images/misc/Generic_Physical_Icon.webp',
+  'shell defense': '/images/spells/Shield.webp',
+  'surprise attack': '/images/misc/Generic_Damage.webp',
+  'vengeful assault': '/images/misc/Generic_Damage.webp',
+  'astral spark': '/images/misc/Generic_Force.webp',
+  'fury of the small': '/images/misc/Generic_Damage.webp',
+  'savage attacks': '/images/misc/Generic_Damage.webp',
+  'draconic cry': '/images/misc/Generic_Threat.webp',
+  'adrenaline rush': '/images/misc/Generic_Buff.webp',
+  // Magic/Spellcasting
+  'fairy magic': '/images/misc/Generic_Magical.webp',
+  'firbolg magic': '/images/misc/Generic_Magical.webp',
+  'wind caller': '/images/misc/Generic_Magical.webp',
+  'fiendish legacy': '/images/misc/Generic_Magical.webp',
+  'gnomish lineage': '/images/misc/Generic_Magical.webp',
+  'elven lineage': '/images/misc/Generic_Magical.webp',
+  'faerie lineage': '/images/misc/Generic_Magical.webp',
+  'duergar magic': '/images/misc/Generic_Magical.webp',
+  'githyanki psionics': '/images/misc/Generic_Psychic.webp',
+  'githzerai psionics': '/images/misc/Generic_Psychic.webp',
+  'serpentine spellcasting': '/images/misc/Generic_Poison.webp',
+  'control air and water': '/images/misc/Generic_Nature.webp',
+  'reach to the blaze': '/images/misc/Generic_Fire.webp',
+  'mingle with the wind': '/images/misc/Generic_Lightning.webp',
+  'call to the wave': '/images/misc/Generic_Cold.webp',
+  'merge with stone': '/images/misc/Generic_Nature.webp',
+  'hex magic': '/images/misc/Generic_Necrotic.webp',
+  'blessing of the moon weaver': '/images/misc/Generic_Magical.webp',
+  'kobold legacy': '/images/misc/Generic_Magical.webp',
+  // Stealth/Utility
+  'hidden step': '/images/misc/Generic_Invisibility.webp',
+  'nimble escape': '/images/misc/Generic_Invisibility.webp',
+  'sneaky': '/images/misc/Generic_Invisibility.webp',
+  'chameleon carapace': '/images/misc/Generic_Invisibility.webp',
+  'svirfneblin camouflage': '/images/misc/Generic_Invisibility.webp',
+  'feline agility': '/images/misc/Generic_Buff.webp',
+  'rabbit hop': '/images/misc/Generic_Buff.webp',
+  'lucky footwork': '/images/misc/Generic_Buff.webp',
+  'hadozee dodge': '/images/misc/Generic_Buff.webp',
+  // Shifting/Transformation
+  'shifting': '/images/misc/Generic_Wild_Animal.webp',
+  'shape-shifter': '/images/misc/Generic_Ethereal.webp',
+  'shape self': '/images/misc/Generic_Ethereal.webp',
+  'giant ancestry': '/images/misc/Generic_Buff.webp',
+  'large form': '/images/misc/Generic_Buff.webp',
+  // Telepathy/Mind
+  'mind link': '/images/misc/Generic_Psychic.webp',
+  'eerie token': '/images/misc/Generic_Psychic.webp',
+  'thri-kreen telepathy': '/images/misc/Generic_Psychic.webp',
+  'psionic mind': '/images/misc/Generic_Psychic.webp',
+  'limited telepathy': '/images/misc/Generic_Psychic.webp',
+  'taunt': '/images/misc/Generic_Psychic.webp',
+  // Defensive
+  'relentless endurance': '/images/misc/Generic_Healing.webp',
+  'black blood healing': '/images/misc/Generic_Healing.webp',
+  'knowledge from a past life': '/images/misc/Generic_Info.webp',
+  'built for success': '/images/misc/Generic_Buff.webp',
+  'fey gift': '/images/misc/Generic_Buff.webp',
+  'fortune from the many': '/images/misc/Generic_Buff.webp',
+  'animal enhancement': '/images/misc/Generic_Wild_Animal.webp',
+  'child of the wood': '/images/misc/Generic_Nature.webp',
+};
+
+// Passive/informational entries to exclude from actions display
+const PASSIVE_ENTRY_NAMES = new Set([
+  'darkvision', 'superior darkvision', 'size', 'age', 'alignment', 'speed',
+  'languages', 'language', 'creature type',
+  // Resistances/immunities (already shown on character sheet)
+  'damage resistance', 'draconic resistance', 'celestial resistance',
+  'fire resistance', 'lightning resistance', 'acid resistance',
+  'necrotic resistance', 'poison resilience', 'magic resistance',
+  'gnomish magic resistance', 'psychic resilience', 'mental discipline',
+  'dwarven resilience', 'construct resilience', 'natural resilience',
+  'loxodon serenity', 'vedalken dispassion', 'guardian of the depths',
+  // Passive features (proficiencies, senses, knowledge)
+  'keen senses', 'fey ancestry', 'trance', 'astral trance',
+  'stonecunning', 'dwarven toughness', 'powerful build', 'equine build',
+  'hippo build', 'natural armor', 'hold breath', 'amphibious',
+  'partially amphibious', 'long-limbed', 'labyrinthine recall',
+  'brave', 'halfling nimbleness', 'luck', 'naturally stealthy',
+  'resourceful', 'skillful', 'versatile', 'specialized design',
+  'tireless precision', 'silent feathers', 'hunter\'s instincts',
+  'nature\'s intuition', "cat's talent", 'reveler', 'persuasive',
+  'expert duplication', 'kenku recall', 'mimicry', 'kender curiosity',
+  'fearless', 'dual mind', 'severed from dreams',
+  'emissary of the sea', 'friend of the sea', 'child of the sea',
+  'speech of beast and leaf', 'trunk', 'keen smell',
+  'secondary arms', 'sleepless', 'dexterous feet',
+  'sentry\'s rest', 'healing machine', 'mechanical nature', 'armored casing',
+  'integrated protection', 'tireless',
+  'ancestral legacy', 'deathless nature', 'lethargy resilience',
+  'skill versatility', 'trace of undeath', 'spider climb',
+  'amorphous', 'incisive sense', 'telepathic insight',
+  'astral knowledge', 'hare-trigger', 'leporine senses',
+  'natural affinity', 'bestial instincts', 'menacing',
+  'astral fire', 'changeling instincts', 'otherworldly presence',
+  'gnomish cunning', 'light bearer', 'forceful presence',
+  'cat\'s claws', 'firearms mastery', 'draconic ancestry',
+  'timberwalk', 'unending breath', 'earth walk',
+  // Lineage descriptions that just list spells (handled by auto-spells)
+  'otherworldly presence',
+]);
+
+// Level-gated species actions
+const LEVEL_GATED_ACTIONS: Record<string, number> = {
+  'draconic flight': 5,
+  'gem flight': 5,
+  'celestial revelation': 3,
+  'animal enhancement': 1, // base at 1, enhanced at 5 — show always
+  'control air and water': 1, // fog cloud at 1, gust of wind at 3, water walk at 5
+};
 
 const ActionsSection: React.FC<{
   character: Character;
@@ -397,6 +601,7 @@ const ActionsSection: React.FC<{
 }> = ({ character, passiveStats, EntryRenderer: EntryRendererProp }) => {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [loadedFeatures, setLoadedFeatures] = useState<LoadedFeature[]>([]);
+  const [speciesActions, setSpeciesActions] = useState<LoadedFeature[]>([]);
   const [LocalEntryRenderer, setLocalEntryRenderer] = useState<React.FC<any> | null>(null);
 
   // Load EntryRenderer lazily if not passed as prop
@@ -492,6 +697,59 @@ const ActionsSection: React.FC<{
     return () => { cancelled = true; };
   }, [character.class, character.classId, character.subclass, character.level, features.length]);
 
+  // Load species actions (Breath Weapon, Draconic Flight, etc.)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const speciesMod = await import('../data/species');
+        await speciesMod.init();
+        if (cancelled) return;
+
+        // Try variant first, then base species
+        const speciesName = character.raceVariant || character.race;
+        const speciesData = speciesMod.getSpeciesByName(speciesName, character.raceSource);
+        if (!speciesData?.entries) return;
+
+        const resistType = speciesData.resist?.[0] as string | undefined;
+
+        const actions: LoadedFeature[] = [];
+        for (const entry of speciesData.entries) {
+          if (entry.type !== 'entries' || !entry.name) continue;
+          const nameLower = entry.name.toLowerCase();
+
+          // Skip passive/informational entries
+          if (PASSIVE_ENTRY_NAMES.has(nameLower)) continue;
+
+          // Check level requirements
+          const reqLevel = LEVEL_GATED_ACTIONS[nameLower];
+          if (reqLevel !== undefined && character.level < reqLevel) continue;
+
+          // Determine image
+          let image: string | undefined;
+          if (nameLower === 'breath weapon' && resistType) {
+            image = BREATH_WEAPON_IMAGES[resistType];
+          } else {
+            image = SPECIES_ACTION_IMAGES[nameLower];
+          }
+
+          actions.push({
+            id: `species-${nameLower.replace(/\s+/g, '-')}`,
+            name: entry.name,
+            source: speciesData._parentSpecies ?? speciesData.name,
+            rawEntries: entry.entries ?? [],
+            image,
+          });
+        }
+
+        if (!cancelled) setSpeciesActions(actions);
+      } catch (e) {
+        console.warn('Failed to load species actions:', e);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [character.race, character.raceVariant, character.raceSource, character.level]);
+
   const displayFeatures = loadedFeatures.length > 0 ? loadedFeatures : features.map(f => ({
     id: f.id,
     name: f.name,
@@ -499,7 +757,9 @@ const ActionsSection: React.FC<{
     rawEntries: f.description ? [f.description] : [],
   }));
 
-  if (displayFeatures.length === 0 && passiveStats.length === 0) return null;
+  const allFeatures = [...displayFeatures, ...speciesActions];
+
+  if (allFeatures.length === 0 && passiveStats.length === 0) return null;
 
   return (
     <div className="glass-panel p-3">
@@ -525,26 +785,35 @@ const ActionsSection: React.FC<{
 
       {/* Features list */}
       <div className="space-y-1">
-        {displayFeatures.map(feat => (
+        {allFeatures.map(feat => (
           <div key={feat.id} className="rounded bg-bg-secondary/50">
             <button
               onClick={() => setExpandedFeature(expandedFeature === feat.id ? null : feat.id)}
               className="flex items-center gap-2 w-full text-left py-1.5 px-2 text-sm hover:bg-bg-secondary/80 transition-colors rounded"
             >
+              {feat.image && (
+                <img src={feat.image} alt="" className="w-6 h-6 object-contain shrink-0 rounded" />
+              )}
               {expandedFeature === feat.id
                 ? <ChevronDown size={12} className="text-text-muted shrink-0" />
                 : <ChevronRight size={12} className="text-text-muted shrink-0" />}
               <span className="text-text-primary font-medium">{feat.name}</span>
               <span className="text-xs text-text-muted ml-auto">{feat.source}</span>
             </button>
-            {expandedFeature === feat.id && feat.rawEntries.length > 0 && (
+            {expandedFeature === feat.id && (
               <div className="px-6 pb-2 text-xs text-text-secondary leading-relaxed">
-                {Renderer
-                  ? <Renderer entries={feat.rawEntries} context={feat.name} />
-                  : feat.rawEntries.map((e, i) => (
-                      <p key={i} className={i > 0 ? 'mt-1' : ''}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
-                    ))
-                }
+                {feat.image && (
+                  <div className="flex justify-center mb-2">
+                    <img src={feat.image} alt={feat.name} className="w-24 h-24 object-contain rounded-lg" />
+                  </div>
+                )}
+                {feat.rawEntries.length > 0 && (
+                  Renderer
+                    ? <Renderer entries={feat.rawEntries} context={feat.name} />
+                    : feat.rawEntries.map((e, i) => (
+                        <p key={i} className={i > 0 ? 'mt-1' : ''}>{typeof e === 'string' ? cleanTagRefs(e) : ''}</p>
+                      ))
+                )}
               </div>
             )}
           </div>
@@ -625,115 +894,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       });
       setSpellsLoading(false);
 
-      // Load auto-prepared spells from subclass and race
-      const auto: typeof autoSpells = [];
-      const existingNames = new Set(character.spellcasting?.spells.map(s => s.name.toLowerCase()) ?? []);
-
-      // Subclass spells
-      if (character.subclass && character.classId) {
-        try {
-          const [subMod, { getClassById, CLASS_REGISTRY }] = await Promise.all([
-            import('../data/classes/subclassJsonLoader').then(async m => { await m.init(); return m; }),
-            import('../data/classes'),
-          ]);
-          if (cancelled) return;
-
-          const classDef = getClassById(character.classId) ?? CLASS_REGISTRY.find(c => c.name === character.class);
-          const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
-          if (subDef && classDef) {
-            const subData = subMod.getSubclassById(classDef.id, subDef.id);
-            if (subData?.features) {
-              for (const feat of subData.features) {
-                const spellEntries = feat.spellList ?? feat.spells ?? [];
-                for (const entry of spellEntries) {
-                  const levelKey = Object.keys(entry).find(k => k.endsWith('Level'));
-                  const requiredLevel = levelKey ? entry[levelKey] : entry.level;
-                  if (requiredLevel != null && requiredLevel <= character.level) {
-                    for (const spellTag of (entry.spells ?? [])) {
-                      const name = parseSpellTag(spellTag);
-                      if (!existingNames.has(name.toLowerCase())) {
-                        const spellData = spells.getSpellByName(name);
-                        auto.push({
-                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                          name,
-                          level: spellData?.level ?? 1,
-                          prepared: true,
-                          alwaysPrepared: true,
-                          source: character.subclass,
-                        });
-                        existingNames.add(name.toLowerCase());
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (e) { console.warn('Failed to load subclass spells:', e); }
-      }
-
-      // Racial spells
-      if (character.race) {
-        try {
-          const speciesMod = await import('../data/species');
-          await speciesMod.init();
-          if (cancelled) return;
-
-          const speciesData = speciesMod.getSpeciesByName(character.race, character.raceSource);
-          if (speciesData?.additionalSpells) {
-            for (const group of speciesData.additionalSpells) {
-              if (group.known) {
-                for (const [lvlStr, spellsOrObj] of Object.entries(group.known)) {
-                  if (parseInt(lvlStr) <= character.level && Array.isArray(spellsOrObj)) {
-                    for (const raw of spellsOrObj) {
-                      if (typeof raw !== 'string') continue;
-                      const { name, isCantrip } = parseRacialSpellName(raw);
-                      if (!existingNames.has(name.toLowerCase())) {
-                        const spellData = spells.getSpellByName(name);
-                        auto.push({
-                          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                          name,
-                          level: isCantrip ? 0 : (spellData?.level ?? 1),
-                          prepared: true,
-                          alwaysPrepared: true,
-                          source: character.race,
-                        });
-                        existingNames.add(name.toLowerCase());
-                      }
-                    }
-                  }
-                }
-              }
-              if (group.innate) {
-                for (const [lvlStr, innateObj] of Object.entries(group.innate as Record<string, any>)) {
-                  if (parseInt(lvlStr) <= character.level && innateObj?.daily) {
-                    for (const spellArr of Object.values(innateObj.daily as Record<string, string[]>)) {
-                      if (!Array.isArray(spellArr)) continue;
-                      for (const raw of spellArr) {
-                        if (typeof raw !== 'string') continue;
-                        const { name } = parseRacialSpellName(raw);
-                        if (!existingNames.has(name.toLowerCase())) {
-                          const spellData = spells.getSpellByName(name);
-                          auto.push({
-                            spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                            name,
-                            level: spellData?.level ?? 1,
-                            prepared: true,
-                            alwaysPrepared: true,
-                            source: character.race,
-                          });
-                          existingNames.add(name.toLowerCase());
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (e) { console.warn('Failed to load racial spells:', e); }
-      }
-
+      // Load auto-prepared spells from subclass and race (for legacy characters
+      // whose auto-spells aren't yet persisted in spellcasting.spells)
+      const auto = await getAutoSpellsForLevel(character, spells.getSpellByName);
       if (!cancelled) setAutoSpells(auto);
     })();
     return () => { cancelled = true; };
@@ -752,12 +915,52 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
   // Spell data (only when spellcaster)
   const allSpells = spellcasting ? [...spellcasting.spells, ...autoSpells] : [];
-  const cantrips = allSpells.filter(s => s.level === 0);
-  const leveledSpells = allSpells.filter(s => s.level > 0);
-  const groupedByLevel = leveledSpells.reduce<Record<number, typeof leveledSpells>>((acc, s) => {
-    (acc[s.level] = acc[s.level] || []).push(s);
-    return acc;
-  }, {});
+
+  // Group spells by source
+  type SourceType = 'class' | 'subclass' | 'race' | 'feat';
+  interface SourceGroup {
+    key: string;
+    type: SourceType;
+    label: string;
+    color: string;
+    icon: typeof Wand2;
+    spells: typeof allSpells;
+  }
+
+  const sourceGroups = React.useMemo<SourceGroup[]>(() => {
+    const groups = new Map<string, typeof allSpells>();
+    for (const spell of allSpells) {
+      const key = spell.source || '__class__';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(spell);
+    }
+
+    const result: SourceGroup[] = [];
+    const classSpells = groups.get('__class__');
+    if (classSpells?.length) {
+      result.push({ key: '__class__', type: 'class', label: `Заклинания класса`, color: 'text-blue-300', icon: BookOpen, spells: classSpells });
+    }
+    groups.delete('__class__');
+
+    // Subclass
+    if (character.subclass && groups.has(character.subclass)) {
+      result.push({ key: character.subclass, type: 'subclass', label: `${character.subclass}`, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
+      groups.delete(character.subclass);
+    }
+
+    // Race
+    if (character.race && groups.has(character.race)) {
+      result.push({ key: character.race, type: 'race', label: `${character.race}`, color: 'text-emerald-300', icon: Sparkles, spells: groups.get(character.race)! });
+      groups.delete(character.race);
+    }
+
+    // Remaining (feats)
+    for (const [key, spells] of Array.from(groups.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      result.push({ key, type: 'feat', label: key, color: 'text-purple-300', icon: Wand2, spells });
+    }
+
+    return result;
+  }, [allSpells, character.subclass, character.race]);
 
   const expandedData = expandedSpell && modules
     ? (() => {
@@ -768,7 +971,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       })()
     : null;
 
-  const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared).length;
+  const preparedCount = allSpells.filter(s => s.level > 0 && s.prepared && !s.alwaysPrepared).length;
   const maxPrepared = spellcasting?.spellsKnown ?? 0;
 
   const togglePrepared = (spellId: string) => {
@@ -805,15 +1008,21 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       <ActionsSection character={character} passiveStats={passiveStats} EntryRenderer={modules?.EntryRenderer} />
 
       {/* ── Section E: Spellcasting Stats Bar ── */}
-      {spellcasting && (
+      {spellcasting && (() => {
+        const ib = getEquippedItemBonuses(character);
+        const totalDC = spellcasting.spellSaveDC + ib.bonusSpellSaveDc;
+        const totalAttack = spellcasting.spellAttackBonus + ib.bonusSpellAttack;
+        return (
         <div className="glass-panel p-3 flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Сл спасброска:</span>
-            <span className="font-bold text-gold">{spellcasting.spellSaveDC}</span>
+            <span className="font-bold text-gold">{totalDC}</span>
+            {ib.bonusSpellSaveDc > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellSaveDc} предмет)</span>}
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Бонус атаки:</span>
-            <span className="font-bold text-gold">{formatModifier(spellcasting.spellAttackBonus)}</span>
+            <span className="font-bold text-gold">{formatModifier(totalAttack)}</span>
+            {ib.bonusSpellAttack > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellAttack} предмет)</span>}
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Характеристика:</span>
@@ -833,7 +1042,8 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
             Подготовка
           </button>
         </div>
-      )}
+        );
+      })()}
 
       {/* ── Section F: Spells Grid ── */}
       {spellcasting && spellsLoading && (
@@ -844,104 +1054,114 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
       {spellcasting && modules && (
         <div className="space-y-3">
-          {/* Cantrips */}
-          {cantrips.length > 0 && (
-            <div className="glass-panel p-3">
-              <button
-                onClick={() => toggleSection('cantrips')}
-                className="flex items-center gap-2 w-full text-left mb-2"
-              >
-                {collapsedSections.has('cantrips')
-                  ? <ChevronRight size={14} className="text-text-muted" />
-                  : <ChevronDown size={14} className="text-text-muted" />}
-                <span className="text-sm font-medieval text-purple-300">Заговоры ({cantrips.length})</span>
-              </button>
-              {!collapsedSections.has('cantrips') && (
-                <div className="flex flex-wrap gap-2">
-                  {cantrips.map(spell => {
-                    const data = modules.getSpellByName(spell.name);
-                    const meta = getSpellMeta(data);
-                    return (
-                      <SpellTooltip
-                        key={spell.spellId}
-                        name={spell.name}
-                        level={0}
-                        school={data?.school}
-                        castingTime={meta.castingTime}
-                        range={meta.range}
-                        components={meta.components}
-                        duration={meta.duration}
-                        description={data ? getFirstEntryText(data.entries) : undefined}
-                      >
-                        <SpellIconBadge
-                          name={spell.name}
-                          school={data?.school || ''}
-                          level={0}
-                          imageSrc={modules.getSpellImageUrl(spell.name)}
-                          prepared
-                          selected={expandedSpell === spell.spellId}
-                          onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
-                        />
-                      </SpellTooltip>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          {sourceGroups.map(group => {
+            const groupCantrips = group.spells.filter(s => s.level === 0);
+            const groupLeveled = group.spells.filter(s => s.level > 0);
+            const groupedByLevel = groupLeveled.reduce<Record<number, typeof groupLeveled>>((acc, s) => {
+              (acc[s.level] = acc[s.level] || []).push(s);
+              return acc;
+            }, {});
+            const sectionKey = `src-${group.key}`;
+            const GroupIcon = group.icon;
 
-          {/* Leveled spells by level */}
-          {Object.entries(groupedByLevel)
-            .sort(([a], [b]) => Number(a) - Number(b))
-            .map(([level, spells]) => {
-              const sectionKey = `level-${level}`;
-              return (
-                <div key={level} className="glass-panel p-3">
-                  <button
-                    onClick={() => toggleSection(sectionKey)}
-                    className="flex items-center gap-2 w-full text-left mb-2"
-                  >
-                    {collapsedSections.has(sectionKey)
-                      ? <ChevronRight size={14} className="text-text-muted" />
-                      : <ChevronDown size={14} className="text-text-muted" />}
-                    <span className="text-sm font-medieval text-blue-300">{level} уровень ({spells.length})</span>
-                  </button>
-                  {!collapsedSections.has(sectionKey) && (
-                    <div className="flex flex-wrap gap-2">
-                      {spells.map(spell => {
-                        const data = modules.getSpellByName(spell.name);
-                        const meta = getSpellMeta(data);
-                        const isAutoSpell = spell.alwaysPrepared || !spellcasting?.spells.some(s => s.spellId === spell.spellId);
-                        return (
-                          <SpellTooltip
-                            key={spell.spellId}
-                            name={spell.name}
-                            level={spell.level}
-                            school={data?.school}
-                            castingTime={meta.castingTime}
-                            range={meta.range}
-                            components={meta.components}
-                            duration={meta.duration}
-                            description={data ? getFirstEntryText(data.entries) : undefined}
-                          >
-                            <SpellIconBadge
-                              name={spell.name}
-                              school={data?.school || ''}
-                              level={spell.level}
-                              imageSrc={modules.getSpellImageUrl(spell.name)}
-                              prepared={spell.prepared}
-                              selected={expandedSpell === spell.spellId}
-                              onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
-                              onContextMenu={!isAutoSpell ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
-                            />
-                          </SpellTooltip>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            return (
+              <div key={group.key} className="glass-panel p-3">
+                {/* Source group header */}
+                <button
+                  onClick={() => toggleSection(sectionKey)}
+                  className="flex items-center gap-2 w-full text-left mb-2"
+                >
+                  {collapsedSections.has(sectionKey)
+                    ? <ChevronRight size={14} className="text-text-muted" />
+                    : <ChevronDown size={14} className="text-text-muted" />}
+                  <GroupIcon size={14} className={group.color} />
+                  <span className={`text-sm font-medieval ${group.color}`}>
+                    {group.label} ({group.spells.length})
+                  </span>
+                </button>
+
+                {!collapsedSections.has(sectionKey) && (
+                  <div className="space-y-2 pl-1">
+                    {/* Cantrips within group */}
+                    {groupCantrips.length > 0 && (
+                      <div>
+                        <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">Заговоры ({groupCantrips.length})</div>
+                        <div className="flex flex-wrap gap-2">
+                          {groupCantrips.map(spell => {
+                            const data = modules.getSpellByName(spell.name);
+                            const meta = getSpellMeta(data);
+                            return (
+                              <SpellTooltip
+                                key={spell.spellId}
+                                name={spell.name}
+                                level={0}
+                                school={data?.school}
+                                castingTime={meta.castingTime}
+                                range={meta.range}
+                                components={meta.components}
+                                duration={meta.duration}
+                                description={data ? getFirstEntryText(data.entries) : undefined}
+                              >
+                                <SpellIconBadge
+                                  name={spell.name}
+                                  school={data?.school || ''}
+                                  level={0}
+                                  imageSrc={modules.getSpellImageUrl(spell.name)}
+                                  prepared
+                                  selected={expandedSpell === spell.spellId}
+                                  onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                                />
+                              </SpellTooltip>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Leveled spells within group, sub-grouped by level */}
+                    {Object.entries(groupedByLevel)
+                      .sort(([a], [b]) => Number(a) - Number(b))
+                      .map(([level, spells]) => (
+                        <div key={level}>
+                          <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">{level} уровень ({spells.length})</div>
+                          <div className="flex flex-wrap gap-2">
+                            {spells.map(spell => {
+                              const data = modules.getSpellByName(spell.name);
+                              const meta = getSpellMeta(data);
+                              const isClassSpell = group.type === 'class';
+                              return (
+                                <SpellTooltip
+                                  key={spell.spellId}
+                                  name={spell.name}
+                                  level={spell.level}
+                                  school={data?.school}
+                                  castingTime={meta.castingTime}
+                                  range={meta.range}
+                                  components={meta.components}
+                                  duration={meta.duration}
+                                  description={data ? getFirstEntryText(data.entries) : undefined}
+                                >
+                                  <SpellIconBadge
+                                    name={spell.name}
+                                    school={data?.school || ''}
+                                    level={spell.level}
+                                    imageSrc={modules.getSpellImageUrl(spell.name)}
+                                    prepared={spell.prepared}
+                                    selected={expandedSpell === spell.spellId}
+                                    onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                                    onContextMenu={isClassSpell && !spell.alwaysPrepared ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
+                                  />
+                                </SpellTooltip>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 

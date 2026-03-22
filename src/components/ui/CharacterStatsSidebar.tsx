@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
-import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus } from 'lucide-react';
+import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
 
 /** Partial data for creation mode (not a full Character yet) */
@@ -234,6 +234,7 @@ export function CharacterStatsSidebar({
   const hp = character ? character.hitPoints.current : creationStats?.hitPoints;
   const hpMax = character?.hitPoints.max;
   const speed = character?.speed ?? creationStats?.speed;
+  const initiative = character?.initiative;
   const profBonus = character?.proficiencyBonus ?? creationStats?.proficiencyBonus;
 
   return (
@@ -334,7 +335,7 @@ export function CharacterStatsSidebar({
       {/* Combat Stats */}
       {showCombatStats && (ac !== undefined || hp !== undefined || speed !== undefined) && (
         <div className="glass-panel p-3">
-          <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="grid grid-cols-2 gap-2 text-center">
             {ac !== undefined && (
               <div className="flex flex-col items-center gap-1">
                 <Shield size={16} className="text-gold/70" />
@@ -349,6 +350,13 @@ export function CharacterStatsSidebar({
                   {hp}{hpMax !== undefined && `/${hpMax}`}
                 </span>
                 <span className="text-[10px] text-text-muted uppercase">ХП</span>
+              </div>
+            )}
+            {initiative !== undefined && (
+              <div className="flex flex-col items-center gap-1">
+                <Swords size={16} className="text-gold/70" />
+                <span className="text-lg font-bold text-text-primary">{initiative >= 0 ? '+' : ''}{initiative}</span>
+                <span className="text-[10px] text-text-muted uppercase">Инициатива</span>
               </div>
             )}
             {speed !== undefined && (

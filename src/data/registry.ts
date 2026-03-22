@@ -1,13 +1,18 @@
-// Центральный реестр всех данных — ленивая загрузка модулей
-// НЕ импортирует данные на верхнем уровне, чтобы не грузить ~3500 JSON в dev mode
+// Центральный реестр всех данных — предзагрузка при старте приложения
 
-// ─── Типы (только описания, без runtime-импортов) ───
+// ─── Типы ───
 export interface RegistryEntry {
   type: string;
   name: string;
   source?: string;
   entries?: any[];
   data: any;
+}
+
+export interface LoadProgress {
+  phase: string;
+  loaded: number;
+  total: number;
 }
 
 // ─── Кеш загруженных модулей ───
@@ -23,54 +28,106 @@ let _backgrounds: any = null;
 let _itemsBase: any = null;
 let _items: any = null;
 let _charCreationOptions: any = null;
+let _classes: any = null;
+let _subclasses: any = null;
+let _actions: any = null;
 
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-// ─── Инициализация: загружает все модули данных ───
-export async function initRegistry(): Promise<void> {
+const PHASES = [
+  { key: 'spells', label: 'Заклинания' },
+  { key: 'feats', label: 'Черты' },
+  { key: 'species', label: 'Виды' },
+  { key: 'conditions', label: 'Состояния' },
+  { key: 'senses', label: 'Чувства' },
+  { key: 'skills', label: 'Навыки' },
+  { key: 'rules', label: 'Правила' },
+  { key: 'optfeatures', label: 'Способности' },
+  { key: 'backgrounds', label: 'Предыстории' },
+  { key: 'classes', label: 'Классы' },
+  { key: 'subclasses', label: 'Подклассы' },
+  { key: 'itemsBase', label: 'Базовые предметы' },
+  { key: 'items', label: 'Предметы' },
+  { key: 'charOptions', label: 'Опции создания' },
+  { key: 'actions', label: 'Действия' },
+];
+
+// ─── Инициализация с прогрессом ───
+export async function initRegistry(onProgress?: (p: LoadProgress) => void): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
+  const total = PHASES.length;
+  let loaded = 0;
+
+  const report = (phase: string) => {
+    loaded++;
+    onProgress?.({ phase, loaded, total });
+  };
+
   _initializing = (async () => {
     try {
-      // Загружаем модули последовательно — каждый модуль имеет init() который
-      // загружает JSON файлы через ленивый import.meta.glob
       _spells = await import('./spells');
       await _spells.init();
+      report('Заклинания');
 
       _feats = await import('./feats');
       await _feats.init();
+      report('Черты');
 
       _species = await import('./species');
       await _species.init();
+      report('Виды');
 
       _conditions = await import('./conditionsdiseases');
       await _conditions.init();
+      report('Состояния');
 
       _senses = await import('./senses');
       await _senses.init();
+      report('Чувства');
 
       _skills = await import('./skills');
       await _skills.init();
+      report('Навыки');
 
       _variantrule = await import('./variantrule');
       await _variantrule.init();
+      report('Правила');
 
       _optfeatures = await import('./optionalfeatures');
       await _optfeatures.init();
+      report('Способности');
 
       _backgrounds = await import('./backgrounds/jsonBackgrounds');
       await _backgrounds.init();
+      report('Предыстории');
+
+      _classes = await import('./classes/classJsonLoader');
+      await _classes.init();
+      report('Классы');
+
+      _subclasses = await import('./classes/subclassJsonLoader');
+      await _subclasses.init();
+      report('Подклассы');
 
       _itemsBase = await import('./items-base');
       await _itemsBase.init();
+      report('Базовые предметы');
 
       _items = await import('./items');
       await _items.init();
+      _items.buildAllTemplatesCache(_itemsBase);
+      report('Предметы');
 
       _charCreationOptions = await import('./charactercreationoptions');
       await _charCreationOptions.init();
+      report('Опции создания');
+
+      _actions = await import('./actions');
+      await _actions.init();
+      report('Действия');
 
       _initialized = true;
     } catch (e) {
@@ -116,6 +173,11 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (dis) return { type: 'disease', name: dis.name, source: dis.source, entries: dis.entries, data: dis };
       break;
     }
+    case 'status': {
+      const status = _conditions.getConditionByName(entityName);
+      if (status) return { type: 'condition', name: status.name, source: status.source, entries: status.entries, data: status };
+      break;
+    }
     case 'skill': {
       const skill = _skills.getSkillByName(entityName);
       if (skill) return { type: 'skill', name: skill.name, source: skill.source, entries: skill.entries, data: skill };
@@ -127,10 +189,15 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       break;
     }
     case 'variantrule': {
-      let ruleName = entityName;
-      const bracketIdx = ruleName.indexOf(' [');
-      if (bracketIdx > -1) ruleName = ruleName.substring(0, bracketIdx);
-      const rule = _variantrule.getVariantRuleByName(ruleName);
+      // Сначала ищем по полному имени, потом без скобок
+      let rule = _variantrule.getVariantRuleByName(entityName);
+      if (!rule) {
+        const bracketIdx = entityName.indexOf(' [');
+        if (bracketIdx > -1) {
+          const shortName = entityName.substring(0, bracketIdx);
+          rule = _variantrule.getVariantRuleByName(shortName);
+        }
+      }
       if (rule) return { type: 'variantrule', name: rule.name, source: rule.source, entries: rule.entries, data: rule };
       break;
     }
@@ -140,10 +207,8 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       break;
     }
     case 'item': {
-      // Try full item database first (has descriptions)
       const fullItem = _items.getItemByName(entityName, entitySource);
       if (fullItem) return { type: 'item', name: fullItem.name, source: fullItem.source, entries: fullItem.entries, data: fullItem };
-      // Fallback to inventory templates
       const itemId = entityName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       const item = _items.getItemTemplate(itemId);
       if (item) return { type: 'item', name: item.name, source: item.raw.source, entries: item.raw.entries, data: item };
@@ -167,14 +232,23 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (charOpt) return { type: 'charoption', name: charOpt.name, source: charOpt.source, entries: charOpt.entries, data: charOpt };
       break;
     }
-    case 'action':
+    case 'action': {
+      if (_actions) {
+        const action = _actions.getActionByName(entityName);
+        if (action) return { type: 'action', name: action.name, source: action.source, entries: action.entries, data: action };
+      }
+      // Фоллбэк на варианты правил
+      const actionRule = _variantrule.getVariantRuleByName(entityName);
+      if (actionRule) return { type: 'action', name: actionRule.name, source: actionRule.source, entries: actionRule.entries, data: actionRule };
+      break;
+    }
     case 'hazard':
     case 'quickref':
     case 'creature':
     case 'card':
     case 'itemProperty': {
-      const actionRule = _variantrule.getVariantRuleByName(entityName);
-      if (actionRule) return { type: tagType, name: actionRule.name, source: actionRule.source, entries: actionRule.entries, data: actionRule };
+      const rule = _variantrule.getVariantRuleByName(entityName);
+      if (rule) return { type: tagType, name: rule.name, source: rule.source, entries: rule.entries, data: rule };
       break;
     }
     default:
@@ -184,7 +258,7 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
   return undefined;
 }
 
-// ─── Получить отображаемое имя тега (работает без инициализации) ───
+// ─── Получить отображаемое имя тега ───
 export function getTagDisplayName(_tagType: string, content: string): string {
   const parts = content.split('|');
   if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
@@ -196,7 +270,7 @@ export function getTagDisplayName(_tagType: string, content: string): string {
   return name;
 }
 
-// ─── Доступ к данным (после инициализации) ───
+// ─── Доступ к данным ───
 export function getLoadedModules() {
   if (!_initialized) return null;
   return {
@@ -209,8 +283,11 @@ export function getLoadedModules() {
     variantrule: _variantrule,
     optfeatures: _optfeatures,
     backgrounds: _backgrounds,
+    classes: _classes,
+    subclasses: _subclasses,
     itemsBase: _itemsBase,
     items: _items,
     charCreationOptions: _charCreationOptions,
+    actions: _actions,
   };
 }

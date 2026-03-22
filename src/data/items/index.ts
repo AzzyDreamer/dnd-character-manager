@@ -148,13 +148,6 @@ import backpack from './gear/backpack.json';
 
 // Magic items
 import flameTongue from './magic/flame-tongue-longsword.json';
-import cloakOfProtection from './magic/cloak-of-protection.json';
-import bootsOfElvenkind from './magic/boots-of-elvenkind.json';
-import ringOfProtection from './magic/ring-of-protection.json';
-import gauntletsOfOgrePower from './magic/gauntlets-of-ogre-power.json';
-import bagOfHolding from './magic/bag-of-holding.json';
-import wandOfMagicMissiles from './magic/wand-of-magic-missiles.json';
-import amuletOfHealth from './magic/amulet-of-health.json';
 
 // === ItemTemplate (processed form) ===
 
@@ -178,7 +171,7 @@ export interface ItemTemplate {
 
 function buildDescription(raw: RawItemData): string {
   const parts: string[] = [];
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
   // Оружие — урон и свойства
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
@@ -197,7 +190,8 @@ function buildDescription(raw: RawItemData): string {
 
     if (raw.property && raw.property.length > 0) {
       const props = raw.property
-        .map(p => {
+        .filter((p: any) => typeof p === 'string')
+        .map((p: string) => {
           const code = p.split('|')[0];
           return PROPERTY_NAMES[code] ?? code;
         })
@@ -211,7 +205,8 @@ function buildDescription(raw: RawItemData): string {
 
     if (raw.mastery && raw.mastery.length > 0) {
       const masteries = raw.mastery
-        .map(m => {
+        .filter((m: any) => typeof m === 'string')
+        .map((m: string) => {
           const code = m.split('|')[0];
           return MASTERY_NAMES[code] ?? code;
         })
@@ -265,7 +260,7 @@ function buildDescription(raw: RawItemData): string {
 // === Генерация типа для отображения ===
 
 function buildDisplayType(raw: RawItemData): string {
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
     const cat = raw.weaponCategory
@@ -296,24 +291,35 @@ function buildDisplayType(raw: RawItemData): string {
 // === Определение слота экипировки ===
 
 function resolveEquipSlot(raw: RawItemData): EquipmentSlot | undefined {
-  // Явный слот из JSON
+  // Явный слот из JSON (с маппингом legacy → accessory)
   if (raw.equipSlot) {
-    return raw.equipSlot as EquipmentSlot;
+    const slot = raw.equipSlot as string;
+    if (slot === 'amulet' || slot === 'ring1' || slot === 'ring2') return 'accessory1';
+    return slot as EquipmentSlot;
   }
 
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
-  // Для колец
-  if (typeCode === 'RG') return 'ring1';
+  // Для стандартных типов (включая RG, WD, RD, SCF → accessory1)
+  if (TYPE_TO_EQUIP_SLOT[typeCode]) return TYPE_TO_EQUIP_SLOT[typeCode];
 
-  // Для стандартных типов
-  return TYPE_TO_EQUIP_SLOT[typeCode];
+  // Wondrous items — определяем слот по названию
+  if (typeCode === 'W' || raw.wondrous) {
+    const n = raw.name.toLowerCase();
+    if (n.includes('cloak') || n.includes('mantle') || n.includes('cape')) return 'cloak';
+    if (n.includes('helm') || n.includes('headband') || n.includes('circlet') || n.includes('hat') || n.includes('crown')) return 'helmet';
+    if (n.includes('boots') || n.includes('slippers') || n.includes('shoes')) return 'boots';
+    if (n.includes('gloves') || n.includes('gauntlets') || n.includes('bracers')) return 'gloves';
+    return 'accessory1';
+  }
+
+  return undefined;
 }
 
 // === Определение категории ===
 
 function resolveCategory(raw: RawItemData): ItemCategory {
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
   // Wondrous items — определяем по equipSlot
   if (typeCode === 'W' && raw.equipSlot) {
@@ -322,7 +328,7 @@ function resolveCategory(raw: RawItemData): ItemCategory {
     if (slot === 'boots') return 'boots';
     if (slot === 'gloves') return 'gloves';
     if (slot === 'cloak') return 'cloak';
-    if (slot === 'amulet') return 'amulet';
+    if (slot === 'amulet') return 'amulet'; // legacy support for JSON data
   }
 
   return TYPE_TO_CATEGORY[typeCode] ?? 'misc';
@@ -359,7 +365,7 @@ function toItemTemplate(raw: RawItemData): ItemTemplate {
 
 export function canEquipInOffhand(template: ItemTemplate): boolean {
   const raw = template.raw;
-  const typeCode = raw.type?.split('|')[0] ?? '';
+  const typeCode = (typeof raw.type === 'string' ? raw.type.split('|')[0] : '') ?? '';
 
   // Щиты всегда идут в offhand
   if (typeCode === 'S') return true;
@@ -387,6 +393,41 @@ export function isLightWeapon(template: ItemTemplate): boolean {
   return raw.property?.some(p => p.startsWith('L')) ?? false;
 }
 
+// === Тип брони из raw данных ===
+
+const ARMOR_TYPE_MAP: Record<string, 'light' | 'medium' | 'heavy' | 'shield'> = {
+  'LA': 'light',
+  'MA': 'medium',
+  'HA': 'heavy',
+  'S': 'shield',
+};
+
+export function getArmorType(template: ItemTemplate): 'light' | 'medium' | 'heavy' | 'shield' | undefined {
+  const typeCode = (typeof template.raw.type === 'string' ? template.raw.type.split('|')[0] : '') ?? '';
+  return ARMOR_TYPE_MAP[typeCode];
+}
+
+export function getWeaponCategory(template: ItemTemplate): 'simple' | 'martial' | undefined {
+  const raw = template.raw;
+  if (raw.weaponCategory === 'simple') return 'simple';
+  if (raw.weaponCategory === 'martial') return 'martial';
+  return undefined;
+}
+
+export function getWeaponMastery(template: ItemTemplate): string[] | undefined {
+  const raw = template.raw;
+  if (!raw.mastery || raw.mastery.length === 0) return undefined;
+  return raw.mastery.filter((m: any) => typeof m === 'string').map((m: string) => m.split('|')[0]);
+}
+
+export function getArmorAC(template: ItemTemplate): number | undefined {
+  const typeCode = (typeof template.raw.type === 'string' ? template.raw.type.split('|')[0] : '') ?? '';
+  if (['LA', 'MA', 'HA', 'S'].includes(typeCode)) {
+    return template.raw.ac;
+  }
+  return undefined;
+}
+
 // === Все предметы ===
 
 const ALL_RAW: RawItemData[] = [
@@ -406,23 +447,110 @@ const ALL_RAW: RawItemData[] = [
   healersKit, rations, waterskin, backpack,
   // Magic
   flameTongue as unknown as RawItemData,
-  cloakOfProtection as unknown as RawItemData,
-  bootsOfElvenkind as unknown as RawItemData,
-  ringOfProtection as unknown as RawItemData,
-  gauntletsOfOgrePower as unknown as RawItemData,
-  bagOfHolding as unknown as RawItemData,
-  wandOfMagicMissiles as unknown as RawItemData,
-  amuletOfHealth as unknown as RawItemData,
 ];
 
 export const ITEM_TEMPLATES: ItemTemplate[] = ALL_RAW.map(toItemTemplate);
 
+// Все шаблоны предметов (статические + items-base + items корневые)
+let _allTemplatesCache: ItemTemplate[] | null = null;
+let _loadingPromise: Promise<ItemTemplate[]> | null = null;
+
+/**
+ * Load all item templates using the same approach as Glossary:
+ * 1. First load items-base (155 files — fast) and report progress
+ * 2. Then load root items (1700+ files) and merge
+ */
+/**
+ * Build the full templates cache synchronously.
+ * Call AFTER both items-base and items init() have completed (e.g. from registry).
+ */
+export function buildAllTemplatesCache(itemsBaseMod: { ALL_ITEMS_BASE: any[] }): void {
+  if (_allTemplatesCache) return;
+
+  const seen = new Set(ITEM_TEMPLATES.map(t => t.name.toLowerCase()));
+  const allTemplates = [...ITEM_TEMPLATES];
+
+  for (const raw of itemsBaseMod.ALL_ITEMS_BASE) {
+    const key = raw.name.toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      allTemplates.push(toItemTemplate(raw as unknown as RawItemData));
+    }
+  }
+
+  for (const raw of ALL_ITEMS) {
+    const key = raw.name.toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      allTemplates.push(toItemTemplate(raw as unknown as RawItemData));
+    }
+  }
+
+  allTemplates.sort((a, b) => a.name.localeCompare(b.name));
+  _allTemplatesCache = allTemplates;
+}
+
+export function loadAllItemTemplates(onProgress?: (items: ItemTemplate[]) => void): Promise<ItemTemplate[]> {
+  if (_allTemplatesCache) {
+    onProgress?.(_allTemplatesCache);
+    return Promise.resolve(_allTemplatesCache);
+  }
+  if (_loadingPromise) return _loadingPromise;
+
+  _loadingPromise = (async () => {
+    const seen = new Set(ITEM_TEMPLATES.map(t => t.name.toLowerCase()));
+    const allTemplates = [...ITEM_TEMPLATES];
+
+    // Phase 1: load items-base (155 files — fast, base weapons/armor/gear)
+    try {
+      const itemsBase = await import('../items-base');
+      await itemsBase.init();
+      for (const raw of itemsBase.ALL_ITEMS_BASE) {
+        const key = raw.name.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          allTemplates.push(toItemTemplate(raw as unknown as RawItemData));
+        }
+      }
+      allTemplates.sort((a, b) => a.name.localeCompare(b.name));
+      onProgress?.(allTemplates);
+    } catch (e) {
+      console.warn('Failed to load items-base:', e);
+    }
+
+    // Phase 2: load root items (1700+ magic items with descriptions)
+    await init();
+    for (const raw of ALL_ITEMS) {
+      const key = raw.name.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        allTemplates.push(toItemTemplate(raw as unknown as RawItemData));
+      }
+    }
+
+    allTemplates.sort((a, b) => a.name.localeCompare(b.name));
+    _allTemplatesCache = allTemplates;
+    onProgress?.(allTemplates);
+    return allTemplates;
+  })();
+
+  return _loadingPromise;
+}
+
+export function getAllItemTemplatesSync(): ItemTemplate[] {
+  return _allTemplatesCache ?? ITEM_TEMPLATES;
+}
+
+export async function getAllItemTemplates(): Promise<ItemTemplate[]> {
+  return _allTemplatesCache ?? loadAllItemTemplates();
+}
+
 // Получить шаблон предмета по ID
 export function getItemTemplate(id: string): ItemTemplate | undefined {
-  return ITEM_TEMPLATES.find(item => item.id === id);
+  return (_allTemplatesCache ?? ITEM_TEMPLATES).find(item => item.id === id);
 }
 
 // Получить предметы по категории
 export function getItemsByCategory(category: ItemCategory): ItemTemplate[] {
-  return ITEM_TEMPLATES.filter(item => item.category === category);
+  return (_allTemplatesCache ?? ITEM_TEMPLATES).filter(item => item.category === category);
 }

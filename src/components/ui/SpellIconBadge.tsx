@@ -45,7 +45,7 @@ export function SpellIconBadge({
 }: SpellIconBadgeProps) {
   const borderColor = SCHOOL_COLORS[school] ?? 'border-border-default';
   const bgColor = SCHOOL_BG[school] ?? 'bg-bg-panel';
-  const initial = name.charAt(0).toUpperCase();
+  const initial = (name || '?').charAt(0).toUpperCase();
 
   return (
     <button

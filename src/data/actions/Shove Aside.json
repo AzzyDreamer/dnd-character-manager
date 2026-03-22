@@ -1,0 +1,15 @@
+{
+	"name": "Shove Aside",
+	"source": "DMG",
+	"page": 272,
+	"fromVariant": "Action Options",
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"With this option, a creature uses the special {@action shove} attack from the {@book Player's Handbook|PHB|9|Shoving a Creature} to force a target to the side, rather than away. The attacker has disadvantage on its Strength ({@skill Athletics}) check when it does so. If that check is successful, the attacker moves the target 5 feet to a different space within its reach."
+	]
+}

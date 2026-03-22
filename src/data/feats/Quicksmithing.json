@@ -60,5 +60,6 @@
 				"When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed."
 			]
 		}
-	]
+	],
+	"category": "G"
 }

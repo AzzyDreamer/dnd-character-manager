@@ -1,0 +1,16 @@
+{
+	"name": "Don or Doff a Shield",
+	"source": "XPHB",
+	"page": 219,
+	"srd52": true,
+	"basicRules2024": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"A {@item Shield|XPHB} can be donned or doffed as an action."
+	]
+}
