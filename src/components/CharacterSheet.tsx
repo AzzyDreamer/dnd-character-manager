@@ -14,6 +14,7 @@ import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
 import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
+import { useDiceRoll } from './DiceRollProvider';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
@@ -22,8 +23,9 @@ import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpel
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
+const LazyDiceTab = lazy(() => import('./DiceTab').then(m => ({ default: m.DiceTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies';
+type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice';
 
 interface CharacterSheetProps {
   character: Character;
@@ -987,6 +989,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     { key: 'inventory', label: 'Инвентарь', icon: Backpack },
     { key: 'actions', label: 'Действия и заклинания', icon: Swords },
     { key: 'proficiencies', label: 'Умения и Владения', icon: ScrollText },
+    { key: 'dice', label: 'Кубики', icon: Dices },
   ];
 
   return (
@@ -1057,6 +1060,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <SkillsSection character={character} />
               <ProficienciesSection character={character} />
             </>
+          )}
+
+          {/* Tab: Dice */}
+          {activeTab === 'dice' && (
+            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+              <LazyDiceTab />
+            </Suspense>
           )}
 
           {/* Tab: Stats */}
@@ -1375,6 +1385,7 @@ const ABILITY_ORDER: (keyof AbilityScores)[] = [
 
 function SkillsSection({ character }: { character: Character }) {
   const [collapsed, setCollapsed] = useState(false);
+  const diceCtx = useDiceRoll();
 
   const profBonus = character.proficiencyBonus;
   const itemBonuses = getEquippedItemBonuses(character);
@@ -1421,9 +1432,17 @@ function SkillsSection({ character }: { character: Character }) {
                     return (
                       <div
                         key={skillKey}
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-colors ${
+                        role="button"
+                        tabIndex={0}
+                        title={`Бросить ${SKILL_NAMES[skillKey]}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                        onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          diceCtx.openConfig(`1d20${mod >= 0 ? '+' : ''}${mod}`, (e.currentTarget as HTMLElement).getBoundingClientRect());
+                        }}
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer ${
                           isProficient
-                            ? 'bg-gold/5'
+                            ? 'bg-gold/5 hover:bg-gold/10'
                             : 'hover:bg-bg-panel/50'
                         }`}
                       >
@@ -1453,6 +1472,9 @@ function SkillsSection({ character }: { character: Character }) {
                         }`}>
                           {SKILL_NAMES[skillKey]}
                         </span>
+
+                        {/* Dice icon */}
+                        <Dices size={12} className="text-text-muted/40 shrink-0" />
 
                         {/* Modifier */}
                         <span className={`text-sm font-bold tabular-nums ${
@@ -1485,8 +1507,16 @@ function SkillsSection({ character }: { character: Character }) {
                 return (
                   <div
                     key={ability}
-                    className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm ${
-                      isProficient ? 'bg-gold/5' : ''
+                    role="button"
+                    tabIndex={0}
+                    title={`Спасбросок ${ABILITY_SHORT[ability]}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                    onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      diceCtx.openConfig(`1d20${mod >= 0 ? '+' : ''}${mod}`, (e.currentTarget as HTMLElement).getBoundingClientRect());
+                    }}
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm cursor-pointer transition-colors ${
+                      isProficient ? 'bg-gold/5 hover:bg-gold/10' : 'hover:bg-bg-panel/50'
                     }`}
                   >
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${

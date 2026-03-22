@@ -12,6 +12,7 @@ import { importCharacter } from './utils/storage';
 import { initRegistry } from './data/registry';
 import type { LoadProgress } from './data/registry';
 import { PlusCircle, Users, Scroll, Library } from 'lucide-react';
+import { DiceRollProvider } from './components/DiceRollProvider';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -234,7 +235,9 @@ function AppContent() {
 function App() {
   return (
     <ErrorBoundary>
-      <AppContent />
+      <DiceRollProvider>
+        <AppContent />
+      </DiceRollProvider>
     </ErrorBoundary>
   );
 }
