@@ -299,7 +299,13 @@ export interface Character {
   level: number;
   background: string;
   alignment?: string;
-  
+  appearance?: string;
+  backstory?: string;
+  personalityTraits?: string;
+  ideals?: string;
+  bonds?: string;
+  flaws?: string;
+
   // Характеристики
   abilityScores: AbilityScores;
   

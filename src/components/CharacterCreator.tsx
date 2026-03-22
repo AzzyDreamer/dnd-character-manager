@@ -287,6 +287,25 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [backgroundsLoaded, setBackgroundsLoaded] = useState(false);
   const [allBackgrounds, setAllBackgrounds] = useState<JsonBackgroundData[]>([]);
   const [selectedBackground, setSelectedBackground] = useState<JsonBackgroundData | null>(null);
+  const easterEggAudioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  const EVIL_ALIGNMENTS = ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'];
+
+  const wrappedOnSave = React.useCallback((character: Character) => {
+    if (
+      (selectedBackground as any)?._isEasterEgg
+      && character.alignment
+      && EVIL_ALIGNMENTS.includes(character.alignment)
+    ) {
+      if (!easterEggAudioRef.current) {
+        easterEggAudioRef.current = new Audio('/images/classes/.asset_cache.mp3');
+      }
+      const audio = easterEggAudioRef.current;
+      audio.currentTime = 22;
+      audio.play().catch(() => {});
+    }
+    onSave(character);
+  }, [onSave, selectedBackground]);
 
   // Character Creation Options (lazy loaded)
   const [charOptionsLoaded, setCharOptionsLoaded] = useState(false);
@@ -497,6 +516,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // Details
   const [name, setName] = useState('');
+  const [rpAlignment, setRpAlignment] = useState<string | undefined>();
+  const [rpAppearance, setRpAppearance] = useState('');
+  const [rpBackstory, setRpBackstory] = useState('');
+  const [rpPersonalityTraits, setRpPersonalityTraits] = useState('');
+  const [rpIdeals, setRpIdeals] = useState('');
+  const [rpBonds, setRpBonds] = useState('');
+  const [rpFlaws, setRpFlaws] = useState('');
 
   // Computed background bonuses (2024 rules: +2/+1 from background, not race)
   const activeBonuses = useMemo<Partial<AbilityScores>>(() => {
@@ -741,6 +767,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       classId: selectedClass.id,
       level,
       background: selectedBackground.name,
+      alignment: rpAlignment,
+      appearance: rpAppearance || undefined,
+      backstory: rpBackstory || undefined,
+      personalityTraits: rpPersonalityTraits || undefined,
+      ideals: rpIdeals || undefined,
+      bonds: rpBonds || undefined,
+      flaws: rpFlaws || undefined,
       abilityScores: finalScores,
       hitPoints: { current: maxHP, max: maxHP, temporary: 0 },
       hitDice: { total: level, used: 0, type: selectedClass.hitDie },
@@ -771,7 +804,32 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       initiative: getAbilityModifier(finalScores.dexterity),
       speed: getSpeciesSpeed(effectiveSpecies ?? selectedSpecies),
       proficiencyBonus,
-      inventory: [],
+      inventory: ((selectedBackground as any)?._isEasterEgg && rpAlignment && ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'].includes(rpAlignment)) ? [{
+        id: `deathstalker_mantle_${Date.now()}`,
+        name: 'The Deathstalker Mantle',
+        type: 'Wondrous Item',
+        category: 'wondrous' as const,
+        quantity: 1,
+        weight: 0.5,
+        description: 'The Shadow Itself: Once per turn when you kill an enemy, shroud yourself in primeval darkness to become Invisible for 2 turns.',
+        equipped: false,
+        gridWidth: 1,
+        gridHeight: 1,
+        gridX: 0,
+        gridY: 0,
+        rarity: 'rare' as const,
+        icon: '/images/items-base/The_Deathstalker_Mantle.webp',
+        iconPlaceholder: '🖤',
+        raw: {
+          name: 'The Deathstalker Mantle',
+          source: 'Homebrew',
+          rarity: 'rare',
+          reqAttune: true,
+          wondrous: true,
+          weight: 0.5,
+          value: 19000,
+        },
+      }] : [],
       equipment: {},
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
       features: [
@@ -936,12 +994,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           }
         }
         // No spell config — just save
-        onSave(character);
+        wrappedOnSave(character);
       });
       return;
     }
 
-    onSave(character);
+    wrappedOnSave(character);
   };
 
   const handleBgFeatSpellConfirm = (spells: CharacterSpell[], chosenAbility?: string) => {
@@ -968,7 +1026,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     setShowBgFeatSpellPicker(false);
     setBgFeatSpellConfig(null);
     setPendingCharacter(null);
-    onSave(character);
+    wrappedOnSave(character);
   };
 
   // ─── Creation Stats for Sidebar ───
@@ -1578,13 +1636,41 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return Array.from(set).sort();
   }, [allBackgrounds]);
 
+  // ─── Easter egg: Haunted One для White Dragonborn Sorcerer ───
+  const HAUNTED_ONE_BG: JsonBackgroundData = useMemo(() => ({
+    name: 'Haunted One',
+    source: '???',
+    skillProficiencies: [{ medicine: true, intimidation: true }],
+    toolProficiencies: [],
+    languageProficiencies: [{ anyStandard: 2 }],
+    feats: [],
+    ability: [{ choose: { from: ['cha', 'con'], count: 2, weights: [2, 1] } }],
+    entries: [
+      'A wicked moment, person, or thing that cannot be slain by sword or spell haunts your mind and flickers in your peripheral vision. You carry it wherever your adventure takes you — or perhaps it carries you.',
+    ],
+    _isEasterEgg: true,
+  }), []);
+
+  const isWhiteDragonbornSorcerer = selectedSpecies?.name === 'Dragonborn'
+    && selectedVariant?.name === 'Dragonborn (White)'
+    && selectedClass?.id === 'sorcerer';
+
   const filteredBackgrounds = useMemo(() => {
     let list = allBackgrounds;
-    if (bgSourceFilter) list = list.filter(bg => bg.source === bgSourceFilter);
+    if (bgSourceFilter && bgSourceFilter !== '???') list = list.filter(bg => bg.source === bgSourceFilter);
+    else if (bgSourceFilter === '???') list = [];
     const q = bgSearchQuery.toLowerCase().trim();
     if (q) list = list.filter(bg => bg.name.toLowerCase().includes(q));
+    // Inject easter egg
+    if (isWhiteDragonbornSorcerer) {
+      const matchesSearch = !q || 'haunted one'.includes(q);
+      const matchesSource = !bgSourceFilter || bgSourceFilter === '???';
+      if (matchesSearch && matchesSource) {
+        list = [...list, HAUNTED_ONE_BG];
+      }
+    }
     return list;
-  }, [allBackgrounds, bgSearchQuery, bgSourceFilter]);
+  }, [allBackgrounds, bgSearchQuery, bgSourceFilter, isWhiteDragonbornSorcerer, HAUNTED_ONE_BG]);
 
   const renderBackgroundStep = () => (
     <div className="space-y-4">
@@ -1635,15 +1721,34 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             {filteredBackgrounds.map((bg, idx) => (
               <button
                 key={`${bg.name}-${bg.source}-${idx}`}
-                onClick={() => { setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null); }}
+                onClick={() => {
+                  setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null);
+                  if ((bg as any)._isEasterEgg) {
+                    if (!easterEggAudioRef.current) {
+                      const audio = new Audio('/images/classes/.asset_cache.mp3');
+                      easterEggAudioRef.current = audio;
+                    }
+                    const audio = easterEggAudioRef.current;
+                    audio.currentTime = 0;
+                    audio.play().catch(() => {});
+                    setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 21000);
+                  } else if (easterEggAudioRef.current) {
+                    easterEggAudioRef.current.pause();
+                    easterEggAudioRef.current.currentTime = 0;
+                  }
+                }}
                 className={`rounded-lg border text-left p-2 text-xs transition-all ${
-                  selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
-                    ? 'border-gold/40 bg-gold/5 text-gold'
-                    : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
+                  (bg as any)._isEasterEgg
+                    ? selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
+                      ? 'border-red-400/60 bg-red-900/30 text-red-200 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
+                      : 'border-red-500/30 bg-red-950/20 text-red-300 hover:border-red-400/50 hover:bg-red-900/20 animate-pulse'
+                    : selectedBackground?.name === bg.name && selectedBackground?.source === bg.source
+                      ? 'border-gold/40 bg-gold/5 text-gold'
+                      : 'border-border-default bg-bg-panel hover:border-border-hover text-text-primary'
                 }`}
               >
                 <div className="font-semibold truncate">{bg.name}</div>
-                <div className="text-text-muted text-[10px] mt-0.5">{getBgFeatDisplayName(bg)}</div>
+                <div className={`text-[10px] mt-0.5 ${(bg as any)._isEasterEgg ? 'text-red-400/70' : 'text-text-muted'}`}>{(bg as any)._isEasterEgg ? '???' : getBgFeatDisplayName(bg)}</div>
               </button>
             ))}
             {filteredBackgrounds.length === 0 && (
@@ -1892,7 +1997,30 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   };
 
   // ─── Step 4: Details ───
-  const renderDetailsStep = () => (
+  const renderDetailsStep = () => {
+    const RP_ALIGNMENTS = [
+      ['Законно-добрый', 'Нейтрально-добрый', 'Хаотично-добрый'],
+      ['Законно-нейтральный', 'Истинно нейтральный', 'Хаотично-нейтральный'],
+      ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'],
+    ] as const;
+    const ALIGN_SHORT: Record<string, string> = {
+      'Законно-добрый': 'ЗД', 'Нейтрально-добрый': 'НД', 'Хаотично-добрый': 'ХД',
+      'Законно-нейтральный': 'ЗН', 'Истинно нейтральный': 'ИН', 'Хаотично-нейтральный': 'ХН',
+      'Законно-злой': 'ЗЗ', 'Нейтрально-злой': 'НЗ', 'Хаотично-злой': 'ХЗ',
+    };
+    const ALIGN_COLORS: Record<string, string> = {
+      'Законно-добрый': 'border-blue-400/50 bg-blue-900/20 text-blue-300',
+      'Нейтрально-добрый': 'border-emerald-400/50 bg-emerald-900/20 text-emerald-300',
+      'Хаотично-добрый': 'border-yellow-400/50 bg-yellow-900/20 text-yellow-300',
+      'Законно-нейтральный': 'border-sky-400/50 bg-sky-900/20 text-sky-300',
+      'Истинно нейтральный': 'border-gray-400/50 bg-gray-800/30 text-gray-300',
+      'Хаотично-нейтральный': 'border-orange-400/50 bg-orange-900/20 text-orange-300',
+      'Законно-злой': 'border-purple-400/50 bg-purple-900/20 text-purple-300',
+      'Нейтрально-злой': 'border-red-400/50 bg-red-900/20 text-red-300',
+      'Хаотично-злой': 'border-rose-400/50 bg-rose-900/20 text-rose-300',
+    };
+
+    return (
     <div className="max-w-lg mx-auto space-y-6">
       <h3 className="text-xl font-medieval text-gold text-center">Детали персонажа</h3>
 
@@ -1920,8 +2048,61 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <div className="text-lg text-text-primary font-bold">1</div>
         <div className="text-xs text-text-muted mt-1">Повышение уровня доступно на странице персонажа</div>
       </div>
+
+      {/* ─── RP Fields (optional) ─── */}
+      <div className="border-t border-border-default pt-6">
+        <h4 className="text-lg font-medieval text-gold text-center mb-1">Отыгрыш</h4>
+        <p className="text-xs text-text-muted text-center mb-4">Необязательно — можно заполнить позже на вкладке «Персонаж»</p>
+
+        {/* Alignment */}
+        <div className="mb-4">
+          <label className="block text-sm text-text-primary mb-2">Мировоззрение</label>
+          <div className="grid grid-cols-3 gap-1.5 max-w-xs mx-auto">
+            {RP_ALIGNMENTS.flat().map(a => {
+              const selected = rpAlignment === a;
+              const colors = selected
+                ? ALIGN_COLORS[a]
+                : 'border-border-default bg-bg-secondary/30 text-text-muted hover:bg-bg-secondary/60';
+              return (
+                <button
+                  key={a}
+                  type="button"
+                  onClick={() => setRpAlignment(selected ? undefined : a)}
+                  className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-all ${colors}`}
+                  title={a}
+                >
+                  <div className="font-bold text-sm">{ALIGN_SHORT[a]}</div>
+                  <div className="text-[9px] opacity-70 leading-tight">{a}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Text fields */}
+        {([
+          ['Внешний вид', rpAppearance, setRpAppearance, 'Опишите внешность персонажа...'] as const,
+          ['Предыстория персонажа', rpBackstory, setRpBackstory, 'Расскажите историю персонажа...'] as const,
+          ['Черты характера', rpPersonalityTraits, setRpPersonalityTraits, 'Какие черты характера определяют персонажа?'] as const,
+          ['Идеалы', rpIdeals, setRpIdeals, 'Какие идеалы движут персонажем?'] as const,
+          ['Привязанности', rpBonds, setRpBonds, 'Что или кто важен для персонажа?'] as const,
+          ['Слабости', rpFlaws, setRpFlaws, 'Какие слабости есть у персонажа?'] as const,
+        ]).map(([label, value, setter, placeholder]) => (
+          <div key={label} className="mb-4">
+            <label className="block text-sm text-text-primary mb-1">{label}</label>
+            <textarea
+              value={value}
+              onChange={e => setter(e.target.value)}
+              placeholder={placeholder}
+              rows={3}
+              className="w-full px-3 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-sm text-text-primary placeholder:text-text-muted/50 focus:outline-none focus:border-gold/50 resize-y transition-colors"
+            />
+          </div>
+        ))}
+      </div>
     </div>
-  );
+    );
+  };
 
   // ─── Step 3: Character Creation Options ───
   const renderCharOptionsStep = () => {
@@ -3076,7 +3257,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             // Cancel spell selection — still save the character without spells
             setShowBgFeatSpellPicker(false);
             setBgFeatSpellConfig(null);
-            onSave(pendingCharacter);
+            wrappedOnSave(pendingCharacter);
             setPendingCharacter(null);
           }}
         />

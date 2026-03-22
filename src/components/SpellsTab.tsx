@@ -8,7 +8,7 @@ import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
-import { ClickableDamage } from './DiceRollProvider';
+import { ClickableDamage, ClickableAttackBonus } from './DiceRollProvider';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -297,7 +297,7 @@ const WeaponAttacksSection: React.FC<{
                         'Основная рука'
                       }</div>
             </div>
-            <span className="text-green-400 font-bold min-w-[40px] text-right">{atk.attackBonusFormatted}</span>
+            <ClickableAttackBonus bonus={atk.attackBonus} className="text-green-400 font-bold min-w-[40px] text-right" />
             <ClickableDamage damage={atk.damage} className="text-text-secondary min-w-[90px] text-right" />
             <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
           </div>
@@ -316,7 +316,7 @@ const WeaponAttacksSection: React.FC<{
             <div className="font-medium text-text-primary text-sm">{unarmedStrike.name}</div>
             <div className="text-[10px] text-text-muted">Безоружная атака</div>
           </div>
-          <span className="text-green-400 font-bold min-w-[40px] text-right">{unarmedStrike.attackBonusFormatted}</span>
+          <ClickableAttackBonus bonus={unarmedStrike.attackBonus} className="text-green-400 font-bold min-w-[40px] text-right" />
           <ClickableDamage damage={unarmedStrike.damage} className="text-text-secondary min-w-[90px] text-right" />
           <span className="text-xs text-text-muted min-w-[60px]">{unarmedStrike.damageType}</span>
         </div>
@@ -328,7 +328,7 @@ const WeaponAttacksSection: React.FC<{
               <Swords size={14} className="text-text-muted" />
             </div>
             <span className="font-medium text-text-primary flex-1">{atk.name}</span>
-            <span className="text-green-400 font-bold min-w-[40px] text-right">{formatModifier(atk.attackBonus)}</span>
+            <ClickableAttackBonus bonus={atk.attackBonus} className="text-green-400 font-bold min-w-[40px] text-right" />
             <ClickableDamage damage={atk.damage} className="text-text-secondary min-w-[90px] text-right" />
             <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
             <button
@@ -1022,7 +1022,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Бонус атаки:</span>
-            <span className="font-bold text-gold">{formatModifier(totalAttack)}</span>
+            <ClickableAttackBonus bonus={totalAttack} className="font-bold text-gold" />
             {ib.bonusSpellAttack > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellAttack} предмет)</span>}
           </div>
           <div className="flex items-center gap-2">

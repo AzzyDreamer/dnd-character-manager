@@ -333,6 +333,73 @@ export function getMasteryInfo(masteryCode: string): MasteryInfo | undefined {
   return MASTERY_DATA[masteryCode];
 }
 
+// Mastery по базовому типу оружия (для предметов без собственного поля mastery)
+const BASE_WEAPON_MASTERY: Record<string, string[]> = {
+  club: ['Sap'], дубинка: ['Sap'],
+  dagger: ['Nick'], кинжал: ['Nick'],
+  greatclub: ['Push'], 'большая дубина': ['Push'],
+  handaxe: ['Vex'], 'ручной топор': ['Vex'],
+  javelin: ['Slow'], 'метательное копьё': ['Slow'],
+  'light hammer': ['Nick'], 'лёгкий молот': ['Nick'],
+  mace: ['Sap'], булава: ['Sap'],
+  quarterstaff: ['Topple'], 'боевой посох': ['Topple'],
+  sickle: ['Nick'], серп: ['Nick'],
+  spear: ['Sap'], копьё: ['Sap'],
+  'light crossbow': ['Slow'], 'лёгкий арбалет': ['Slow'],
+  dart: ['Vex'], дротик: ['Vex'],
+  shortbow: ['Vex'], 'короткий лук': ['Vex'],
+  sling: ['Slow'], праща: ['Slow'],
+  battleaxe: ['Topple'], 'боевой топор': ['Topple'],
+  flail: ['Sap'], цеп: ['Sap'],
+  glaive: ['Graze'], глефа: ['Graze'],
+  greataxe: ['Cleave'], секира: ['Cleave'],
+  greatsword: ['Graze'], 'двуручный меч': ['Graze'],
+  halberd: ['Cleave'], алебарда: ['Cleave'],
+  lance: ['Topple'], 'копьё рыцарское': ['Topple'],
+  longsword: ['Sap'], 'длинный меч': ['Sap'],
+  maul: ['Topple'], молот: ['Topple'],
+  morningstar: ['Sap'], моргенштерн: ['Sap'],
+  pike: ['Push'], пика: ['Push'],
+  rapier: ['Vex'], рапира: ['Vex'],
+  scimitar: ['Nick'], скимитар: ['Nick'],
+  shortsword: ['Vex'], 'короткий меч': ['Vex'],
+  trident: ['Topple'], трезубец: ['Topple'],
+  'war pick': ['Sap'], 'боевая кирка': ['Sap'],
+  warhammer: ['Push'], 'боевой молот': ['Push'],
+  whip: ['Slow'], кнут: ['Slow'],
+  blowgun: ['Vex'], 'духовая трубка': ['Vex'],
+  'hand crossbow': ['Vex'], 'ручной арбалет': ['Vex'],
+  'heavy crossbow': ['Push'], 'тяжёлый арбалет': ['Push'],
+  longbow: ['Slow'], 'длинный лук': ['Slow'],
+  musket: ['Slow'], мушкет: ['Slow'],
+  pistol: ['Vex'], пистолет: ['Vex'],
+};
+
+/** Resolve mastery codes for an item, falling back to base weapon type */
+function resolveItemMastery(item: { name: string; mastery?: string[]; raw?: any }): string[] | undefined {
+  if (item.mastery && item.mastery.length > 0) return item.mastery;
+
+  // Try baseItem field (e.g. "longsword|phb")
+  const baseItem = item.raw?.baseItem;
+  if (typeof baseItem === 'string') {
+    const baseName = baseItem.split('|')[0].toLowerCase();
+    if (BASE_WEAPON_MASTERY[baseName]) return BASE_WEAPON_MASTERY[baseName];
+  }
+
+  // Try matching item name against known weapon names
+  const lowerName = item.name.toLowerCase();
+  if (BASE_WEAPON_MASTERY[lowerName]) return BASE_WEAPON_MASTERY[lowerName];
+
+  // Partial match: check if item name contains a base weapon name
+  for (const [weaponName, mastery] of Object.entries(BASE_WEAPON_MASTERY)) {
+    if (lowerName.includes(weaponName) || weaponName.includes(lowerName)) {
+      return mastery;
+    }
+  }
+
+  return undefined;
+}
+
 export function getEquippedMasteryActions(character: Character): MasteryAction[] {
   const actions: MasteryAction[] = [];
   const seen = new Set<string>();
@@ -343,9 +410,12 @@ export function getEquippedMasteryActions(character: Character): MasteryAction[]
     if (!itemId) continue;
 
     const item = character.inventory.find(i => i.id === itemId);
-    if (!item || item.category !== 'weapon' || !item.mastery) continue;
+    if (!item || item.category !== 'weapon') continue;
 
-    for (const masteryCode of item.mastery) {
+    const masteryCodes = resolveItemMastery(item);
+    if (!masteryCodes) continue;
+
+    for (const masteryCode of masteryCodes) {
       if (seen.has(masteryCode)) continue;
       seen.add(masteryCode);
 

@@ -535,6 +535,44 @@ const DiceConfigMenu: React.FC<{
   );
 };
 
+// ─── Reusable clickable attack bonus component (rolls 1d20+bonus) ───
+
+export const ClickableAttackBonus: React.FC<{
+  bonus: number;
+  className?: string;
+}> = ({ bonus, className = 'text-green-400 font-bold' }) => {
+  const { roll, openConfig } = useDiceRoll();
+  const expression = `1d20${bonus >= 0 ? '+' : ''}${bonus}`;
+  const label = bonus >= 0 ? `+${bonus}` : `${bonus}`;
+
+  return (
+    <span
+      className={`${className} tag-rollable tag-rollable-attack`}
+      role="button"
+      tabIndex={0}
+      onClick={(e) => {
+        e.stopPropagation();
+        roll(expression, e);
+      }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const rect = (e.target as HTMLElement).getBoundingClientRect();
+        openConfig(expression, rect);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          roll(expression);
+        }
+      }}
+    >
+      <Dices size={12} className="inline-block mr-1 opacity-40 group-hover:opacity-70" />
+      {label}
+    </span>
+  );
+};
+
 // ─── Reusable clickable damage component for weapon attacks ───
 
 export const ClickableDamage: React.FC<{

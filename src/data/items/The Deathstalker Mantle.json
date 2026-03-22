@@ -1,0 +1,31 @@
+{
+	"name": "The Deathstalker Mantle",
+	"source": "Homebrew",
+	"rarity": "rare",
+	"reqAttune": true,
+	"wondrous": true,
+	"weight": 0.5,
+	"value": 19000,
+	"fluff": {
+		"entries": [
+			"{@i The Deathstalker Mantle} is a rare {@item Cloak||Cloak} that turns the wearer {@condition Invisible} for 2 turns after killing an enemy.",
+			{
+				"type": "quote",
+				"entries": [
+					"Let hill and hollow be a door",
+					"to screams that last forevermore"
+				]
+			}
+		]
+	},
+	"entries": [
+		"The wearer of this item gains:",
+		{
+			"type": "entries",
+			"name": "The Shadow Itself",
+			"entries": [
+				"Once per turn when you kill an enemy, shroud yourself in primeval darkness to become {@condition Invisible} for 2 turns."
+			]
+		}
+	]
+}
