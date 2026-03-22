@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2 } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -24,8 +24,9 @@ import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpel
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
 const LazyDiceTab = lazy(() => import('./DiceTab').then(m => ({ default: m.DiceTab })));
+const LazyRoleplayTab = lazy(() => import('./RoleplayTab').then(m => ({ default: m.RoleplayTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice';
+type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | 'roleplay';
 
 interface CharacterSheetProps {
   character: Character;
@@ -989,6 +990,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     { key: 'inventory', label: 'Инвентарь', icon: Backpack },
     { key: 'actions', label: 'Действия и заклинания', icon: Swords },
     { key: 'proficiencies', label: 'Умения и Владения', icon: ScrollText },
+    { key: 'roleplay', label: 'Персонаж', icon: User },
     { key: 'dice', label: 'Кубики', icon: Dices },
   ];
 
@@ -1060,6 +1062,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <SkillsSection character={character} />
               <ProficienciesSection character={character} />
             </>
+          )}
+
+          {/* Tab: Roleplay */}
+          {activeTab === 'roleplay' && (
+            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+              <LazyRoleplayTab character={character} onUpdate={onUpdate} />
+            </Suspense>
           )}
 
           {/* Tab: Dice */}

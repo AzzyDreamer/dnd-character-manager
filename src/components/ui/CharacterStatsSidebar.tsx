@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
-import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords } from 'lucide-react';
+import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords, Eye } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
 
 /** Partial data for creation mode (not a full Character yet) */
@@ -371,6 +371,20 @@ export function CharacterStatsSidebar({
             <div className="mt-2 pt-2 border-t border-border-default text-center">
               <span className="text-[10px] text-text-muted uppercase">Мастерство</span>
               <span className="ml-2 text-sm font-bold text-gold">+{profBonus}</span>
+            </div>
+          )}
+          {abilityScores?.wisdom !== undefined && profBonus !== undefined && (
+            <div className="mt-2 pt-2 border-t border-border-default flex items-center justify-center gap-1.5">
+              <Eye size={12} className="text-gold/70" />
+              <span className="text-[10px] text-text-muted uppercase">Пассивное внимание</span>
+              <span className="text-sm font-bold text-text-primary">
+                {10 + getSkillBonus(
+                  abilityScores.wisdom,
+                  skillProficiencies.includes('perception'),
+                  character?.skills?.perception?.expertise ?? false,
+                  profBonus,
+                )}
+              </span>
             </div>
           )}
         </div>

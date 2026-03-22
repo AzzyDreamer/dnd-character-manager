@@ -122,14 +122,23 @@ export const CharacterList: React.FC<CharacterListProps> = ({
           <div className="flex flex-wrap gap-4 justify-center content-center">
             {characters.map((character) => {
               const isActive = character.id === activeCharacterId;
+              const isHauntedOne = character.race === 'Dragonborn'
+                && character.raceVariant === 'Dragonborn (White)'
+                && character.classId === 'sorcerer'
+                && character.background === 'Haunted One'
+                && ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'].includes(character.alignment ?? '');
               return (
                 <div
                   key={character.id}
                   style={{ width: cardWidth }}
                   className={`relative group cursor-pointer rounded-lg overflow-hidden transition-all duration-200 ${
                     isActive
-                      ? 'ring-2 ring-gold shadow-[0_0_12px_rgba(212,175,55,0.3)] scale-[1.01]'
-                      : 'ring-1 ring-border-default hover:ring-gold/40 hover:scale-[1.02] hover:brightness-110'
+                      ? isHauntedOne
+                        ? 'ring-2 ring-red-500 shadow-[0_0_12px_rgba(239,68,68,0.3)] scale-[1.01]'
+                        : 'ring-2 ring-gold shadow-[0_0_12px_rgba(212,175,55,0.3)] scale-[1.01]'
+                      : isHauntedOne
+                        ? 'ring-1 ring-red-500/40 hover:ring-red-400/60 hover:scale-[1.02] hover:brightness-110'
+                        : 'ring-1 ring-border-default hover:ring-gold/40 hover:scale-[1.02] hover:brightness-110'
                   }`}
                   onClick={() => onSelectCharacter(character.id)}
                 >
@@ -156,7 +165,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
 
                     {/* Bottom gradient + name overlay */}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-8 pb-2.5 px-3">
-                      <div className={`text-sm font-semibold truncate ${isActive ? 'text-gold' : 'text-white'}`}>
+                      <div className={`text-sm font-semibold truncate ${isActive ? (isHauntedOne ? 'text-red-400' : 'text-gold') : 'text-white'}`}>
                         {character.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
@@ -166,7 +175,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
 
                     {/* Active indicator — bottom gold bar */}
                     {isActive && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold" />
+                      <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${isHauntedOne ? 'bg-red-500' : 'bg-gold'}`} />
                     )}
 
                     {/* Hover overlay with actions */}
