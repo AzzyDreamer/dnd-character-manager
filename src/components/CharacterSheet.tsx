@@ -8,6 +8,8 @@ import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores } from '../utils/classEffects';
+import { getAllItemTemplatesSync } from '../data/items';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
@@ -105,6 +107,62 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
   const portraitInputRef = React.useRef<HTMLInputElement>(null);
+  const effectiveScores = getEffectiveAbilityScores(character);
+  // Character with effective ability scores for display purposes
+  const displayCharacter = React.useMemo(() => {
+    if (effectiveScores === character.abilityScores) return character;
+    return { ...character, abilityScores: effectiveScores };
+  }, [character, effectiveScores]);
+
+  // Миграция: обновить raw данные предметов из актуальных шаблонов (мёрж бонусов)
+  useEffect(() => {
+    const inv = character.inventory;
+    if (!inv || inv.length === 0) return;
+    const templates = getAllItemTemplatesSync();
+    let changed = false;
+    const migrated = inv.map(item => {
+      const tmpl = templates.find(t => t.name === item.name);
+      if (!tmpl) return item;
+      // Если raw отсутствует или шаблон имеет поля, которых нет в item.raw — обновить
+      const newRaw = { ...(item.raw ?? {}), ...tmpl.raw };
+      const newEquipSlot = item.equipSlot ?? tmpl.equipSlot;
+      const rawChanged = JSON.stringify(newRaw) !== JSON.stringify(item.raw);
+      const slotChanged = newEquipSlot !== item.equipSlot;
+      if (rawChanged || slotChanged) {
+        changed = true;
+        return { ...item, raw: newRaw, equipSlot: newEquipSlot };
+      }
+      return item;
+    });
+    if (changed) {
+      const updated = { ...character, inventory: migrated, armorClass: 0 };
+      updated.armorClass = resolveAC(updated);
+      onUpdate(updated);
+    }
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Миграция: amulet/ring1/ring2 → accessory1/accessory2/accessory3
+  useEffect(() => {
+    const eq = character.equipment;
+    if (!eq) return;
+    const legacy = eq as Record<string, string | undefined>;
+    if (!legacy.amulet && !legacy.ring1 && !legacy.ring2) return;
+    const newEq = { ...eq };
+    const newEqAny = newEq as Record<string, string | undefined>;
+    if (legacy.amulet) { newEqAny.accessory1 = legacy.amulet; delete newEqAny.amulet; }
+    if (legacy.ring1) { newEqAny.accessory2 = legacy.ring1; delete newEqAny.ring1; }
+    if (legacy.ring2) { newEqAny.accessory3 = legacy.ring2; delete newEqAny.ring2; }
+    // Обновить equipSlot у предметов
+    const inv = (character.inventory ?? []).map(item => {
+      if (item.equipSlot === 'amulet' as any || item.equipSlot === 'ring1' as any || item.equipSlot === 'ring2' as any) {
+        return { ...item, equipSlot: 'accessory1' as const };
+      }
+      return item;
+    });
+    const updated = { ...character, equipment: newEq, inventory: inv, armorClass: 0 };
+    updated.armorClass = resolveAC(updated);
+    onUpdate(updated);
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -177,7 +235,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     const newProfBonus = getProficiencyBonus(newLevel);
     // Add ongoing HP bonus from feats like Tough (+2 per level)
     const featHpBonus = getOngoingFeatHpBonus(character);
-    const totalHpGain = hpGain + featHpBonus;
+    // Add ongoing HP bonus from class/subclass/species (e.g. Draconic Resilience +1/level, Dwarf +1/level)
+    const classHpBonus = getOngoingClassHpBonus(character);
+    const totalHpGain = hpGain + featHpBonus + classHpBonus;
 
     const updated: Character = {
       ...character,
@@ -197,7 +257,30 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
     if (subclass) {
       updated.subclass = subclass;
+
+      // Apply flat HP bonus when subclass is first selected (e.g. Draconic Resilience +3)
+      const subId = getSubclassIdByName(character.classId, subclass);
+      if (subId) {
+        const flatHp = getSubclassHpFlatBonus(character.classId, subId);
+        if (flatHp > 0) {
+          updated.hitPoints = {
+            ...updated.hitPoints,
+            max: updated.hitPoints.max + flatHp,
+            current: updated.hitPoints.current + flatHp,
+          };
+        }
+      }
     }
+
+    // Recalculate AC considering class/subclass formulas (e.g. Barbarian/Monk Unarmored Defense, Draconic Resilience)
+    updated.armorClass = resolveAC(updated);
+
+    // Recalculate speed with class/subclass bonuses (e.g. Barbarian Fast Movement, Monk Unarmored Movement)
+    const baseSpeed = character.speed - getClassSpeedBonus(character);
+    updated.speed = baseSpeed + getClassSpeedBonus(updated);
+
+    // Apply permanent effects gained at this level (resistances, saving throw proficiencies)
+    applyLevelUpEffects(updated, newLevel);
 
     // Update spellcasting stats if applicable
     if (updated.spellcasting) {
@@ -708,6 +791,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       // Check if feat grants spells — trigger spell picker
       if (result.spellConfig) {
         recalcDerivedStats(updated);
+        updated.armorClass = resolveAC(updated);
         setShowFeatPicker(false);
         setPendingFeatLevelUp(null);
         setShowSubclassModal(false);
@@ -717,8 +801,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
     }
 
-    // Recalc derived stats (spell DC, attack bonus)
+    // Recalc derived stats (spell DC, attack bonus, AC)
     recalcDerivedStats(updated);
+    updated.armorClass = resolveAC(updated);
 
     onUpdate(updated);
     setShowFeatPicker(false);
@@ -749,6 +834,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     }
 
     recalcDerivedStats(updated);
+    updated.armorClass = resolveAC(updated);
     onUpdate(updated);
     setShowFeatSpellPicker(false);
     setPendingFeatSpells(null);
@@ -1033,7 +1119,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
         {/* Right Sidebar — always visible (BG3 pattern) */}
         <CharacterStatsSidebar
-          character={character}
+          character={displayCharacter}
           showCombatStats
           classIconSrc={`/images/classes/${character.classId}.webp`}
           hideSections={['identity', 'proficiencies', 'skills', 'spells']}
@@ -1054,7 +1140,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       {showHpChoiceModal && pendingHpChoice && (
         <HpChoiceModal
           hitDieType={character.hitDice.type}
-          conMod={getAbilityModifier(character.abilityScores.constitution)}
+          conMod={getAbilityModifier(effectiveScores.constitution)}
           onChoice={handleHpChoice}
           onCancel={() => {
             setShowHpChoiceModal(false);
@@ -1291,6 +1377,8 @@ function SkillsSection({ character }: { character: Character }) {
   const [collapsed, setCollapsed] = useState(false);
 
   const profBonus = character.proficiencyBonus;
+  const itemBonuses = getEquippedItemBonuses(character);
+  const effectiveScores = getEffectiveAbilityScores(character);
 
   return (
     <div className="glass-panel p-4">
@@ -1327,7 +1415,7 @@ function SkillsSection({ character }: { character: Character }) {
                     const skillData = character.skills?.[skillKey];
                     const isProficient = skillData?.proficient ?? false;
                     const hasExpertise = skillData?.expertise ?? false;
-                    const abilityScore = character.abilityScores[ability];
+                    const abilityScore = effectiveScores[ability];
                     const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus);
 
                     return (
@@ -1393,7 +1481,7 @@ function SkillsSection({ character }: { character: Character }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {ABILITY_ORDER.map(ability => {
                 const isProficient = character.savingThrows[ability]?.proficient ?? false;
-                const mod = getAbilityModifier(character.abilityScores[ability]) + (isProficient ? profBonus : 0);
+                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow;
                 return (
                   <div
                     key={ability}
@@ -3251,7 +3339,7 @@ function FsCantripPickerModal({
         {/* RIGHT: Character stats sidebar */}
         <div className="hidden lg:block w-72 shrink-0 border-l border-border-default bg-bg-panel-solid/50 overflow-y-auto p-4">
           <CharacterStatsSidebar
-            character={character}
+            character={displayCharacter}
             showCombatStats
             classIconSrc={`/images/classes/${character.classId}.webp`}
             className="!w-full !flex !flex-col"

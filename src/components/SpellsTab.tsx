@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { Character, CustomAttack } from '../types';
 import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
-import { getEquippedWeaponAttacks } from '../utils/weaponAttacks';
+import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
+import { getEquippedItemBonuses } from '../utils/classEffects';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
@@ -224,8 +225,11 @@ const WeaponAttacksSection: React.FC<{
 }> = ({ character, onUpdate }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newAttack, setNewAttack] = useState({ name: '', attackBonus: 0, damage: '', damageType: '', notes: '' });
+  const [expandedMastery, setExpandedMastery] = useState<string | null>(null);
 
   const equippedAttacks = getEquippedWeaponAttacks(character);
+  const unarmedStrike = getUnarmedStrike(character);
+  const masteryActions = getEquippedMasteryActions(character);
   const customAttacks = character.customAttacks ?? [];
 
   const addCustomAttack = () => {
@@ -255,25 +259,7 @@ const WeaponAttacksSection: React.FC<{
     });
   };
 
-  if (equippedAttacks.length === 0 && customAttacks.length === 0 && !showAddForm) {
-    return (
-      <div className="glass-panel p-3">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medieval text-gold flex items-center gap-2">
-            <Swords size={14} />
-            Атаки
-          </h3>
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="text-xs text-text-muted hover:text-gold transition-colors flex items-center gap-1"
-          >
-            <Plus size={12} /> Добавить
-          </button>
-        </div>
-        <p className="text-xs text-text-muted italic">Экипируйте оружие или добавьте атаку вручную</p>
-      </div>
-    );
-  }
+  // Always show attacks section (unarmed strike is always available)
 
   return (
     <div className="glass-panel p-3">
@@ -290,24 +276,60 @@ const WeaponAttacksSection: React.FC<{
         </button>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {/* Equipped weapon attacks */}
         {equippedAttacks.map((atk, i) => (
-          <div key={`eq-${i}`} className="flex items-center gap-3 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
-            <span className="font-medium text-text-primary flex-1">{atk.name}</span>
+          <div key={`eq-${i}`} className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+            <img
+              src={atk.image}
+              alt={atk.name}
+              className="w-8 h-8 rounded object-contain flex-shrink-0"
+              style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
+              onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-text-primary text-sm">{atk.name}</div>
+              <div className="text-[10px] text-text-muted">{
+                        atk.slot === 'offhand' ? 'Вторая рука' :
+                        atk.slot === 'rangedMainhand' ? 'Дальний бой' :
+                        atk.slot === 'rangedOffhand' ? 'Дальний (2)' :
+                        'Основная рука'
+                      }</div>
+            </div>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{atk.attackBonusFormatted}</span>
-            <span className="text-text-secondary min-w-[100px]">{atk.damage}</span>
-            <span className="text-xs text-text-muted">{atk.damageType}</span>
+            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
           </div>
         ))}
 
+        {/* Unarmed Strike (always available) */}
+        <div className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+          <img
+            src={unarmedStrike.image}
+            alt={unarmedStrike.name}
+            className="w-8 h-8 rounded object-contain flex-shrink-0"
+            style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
+            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-text-primary text-sm">{unarmedStrike.name}</div>
+            <div className="text-[10px] text-text-muted">Безоружная атака</div>
+          </div>
+          <span className="text-green-400 font-bold min-w-[40px] text-right">{unarmedStrike.attackBonusFormatted}</span>
+          <span className="text-text-secondary min-w-[90px] text-right">{unarmedStrike.damage}</span>
+          <span className="text-xs text-text-muted min-w-[60px]">{unarmedStrike.damageType}</span>
+        </div>
+
         {/* Custom attacks */}
         {customAttacks.map(atk => (
-          <div key={atk.id} className="flex items-center gap-3 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+          <div key={atk.id} className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
+            <div className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0 bg-bg-tertiary border border-border-default">
+              <Swords size={14} className="text-text-muted" />
+            </div>
             <span className="font-medium text-text-primary flex-1">{atk.name}</span>
             <span className="text-green-400 font-bold min-w-[40px] text-right">{formatModifier(atk.attackBonus)}</span>
-            <span className="text-text-secondary min-w-[100px]">{atk.damage}</span>
-            <span className="text-xs text-text-muted">{atk.damageType}</span>
+            <span className="text-text-secondary min-w-[90px] text-right">{atk.damage}</span>
+            <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
             <button
               onClick={() => removeCustomAttack(atk.id)}
               className="text-red-400/60 hover:text-red-400 transition-colors"
@@ -317,6 +339,47 @@ const WeaponAttacksSection: React.FC<{
           </div>
         ))}
       </div>
+
+      {/* Mastery Actions */}
+      {masteryActions.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-border-default">
+          <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <Zap size={12} className="text-amber-400" />
+            Мастерство оружия
+          </h4>
+          <div className="space-y-1.5">
+            {masteryActions.map(action => {
+              const isExpanded = expandedMastery === action.id;
+              return (
+                <div key={action.id}>
+                  <button
+                    onClick={() => setExpandedMastery(isExpanded ? null : action.id)}
+                    className="w-full text-left flex items-center gap-2.5 py-1.5 px-2 rounded bg-bg-secondary/50 hover:bg-bg-secondary transition-colors"
+                  >
+                    <img
+                      src={action.image}
+                      alt={action.name}
+                      className="w-8 h-8 rounded object-contain flex-shrink-0"
+                      style={{ border: '1px solid rgba(251, 191, 36, 0.3)', background: 'rgba(251, 191, 36, 0.05)' }}
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-amber-300">{action.name}</div>
+                      <div className="text-[10px] text-text-muted">{action.weaponName}</div>
+                    </div>
+                    {isExpanded ? <ChevronDown size={14} className="text-text-muted" /> : <ChevronRight size={14} className="text-text-muted" />}
+                  </button>
+                  {isExpanded && (
+                    <div className="mt-1 ml-12 mr-2 mb-1 p-2 rounded bg-bg-primary/50 border border-border-default">
+                      <p className="text-xs text-text-secondary leading-relaxed">{action.description}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Add custom attack form */}
       {showAddForm && (
@@ -945,15 +1008,21 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       <ActionsSection character={character} passiveStats={passiveStats} EntryRenderer={modules?.EntryRenderer} />
 
       {/* ── Section E: Spellcasting Stats Bar ── */}
-      {spellcasting && (
+      {spellcasting && (() => {
+        const ib = getEquippedItemBonuses(character);
+        const totalDC = spellcasting.spellSaveDC + ib.bonusSpellSaveDc;
+        const totalAttack = spellcasting.spellAttackBonus + ib.bonusSpellAttack;
+        return (
         <div className="glass-panel p-3 flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Сл спасброска:</span>
-            <span className="font-bold text-gold">{spellcasting.spellSaveDC}</span>
+            <span className="font-bold text-gold">{totalDC}</span>
+            {ib.bonusSpellSaveDc > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellSaveDc} предмет)</span>}
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Бонус атаки:</span>
-            <span className="font-bold text-gold">{formatModifier(spellcasting.spellAttackBonus)}</span>
+            <span className="font-bold text-gold">{formatModifier(totalAttack)}</span>
+            {ib.bonusSpellAttack > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellAttack} предмет)</span>}
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Характеристика:</span>
@@ -973,7 +1042,8 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
             Подготовка
           </button>
         </div>
-      )}
+        );
+      })()}
 
       {/* ── Section F: Spells Grid ── */}
       {spellcasting && spellsLoading && (

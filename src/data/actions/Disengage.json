@@ -1,0 +1,15 @@
+{
+	"name": "Disengage",
+	"source": "XPHB",
+	"page": 366,
+	"srd52": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"If you take the Disengage action, your movement doesn't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} for the rest of the current turn."
+	]
+}

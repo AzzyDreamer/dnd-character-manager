@@ -1,0 +1,19 @@
+{
+	"name": "Two-Weapon Fighting",
+	"source": "XPHB",
+	"page": 213,
+	"srd52": true,
+	"basicRules2024": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "bonus"
+		}
+	],
+	"entries": [
+		"When you take the {@action Attack|XPHB} action on your turn and attack with a Light weapon, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a {@item Shortsword|XPHB} in one hand and a {@item Dagger|XPHB} in the other using the {@action Attack|XPHB} action and a {@variantrule Bonus Action|XPHB}, but you don't add your Strength or Dexterity modifier to the damage roll of the {@variantrule Bonus Action|XPHB} unless that modifier is negative."
+	],
+	"seeAlsoAction": [
+		"Attack|XPHB"
+	]
+}

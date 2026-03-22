@@ -1,4 +1,4 @@
-import { useState, Component } from 'react';
+import { useState, useEffect, Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
@@ -9,6 +9,8 @@ import { Glossary } from './components/Glossary';
 import { TopNavBar } from './components/ui';
 import type { NavTab } from './components/ui';
 import { importCharacter } from './utils/storage';
+import { initRegistry } from './data/registry';
+import type { LoadProgress } from './data/registry';
 import { PlusCircle, Users, Scroll, Library } from 'lucide-react';
 
 class ErrorBoundary extends Component<
@@ -67,7 +69,29 @@ const GLOSSARY_SUB_TABS: NavTab[] = [
   { key: 'skills', label: 'Навыки' },
   { key: 'rules', label: 'Правила' },
   { key: 'charoptions', label: 'Опции создания' },
+  { key: 'actions', label: 'Действия' },
 ];
+
+function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
+  const percent = progress ? Math.round((progress.loaded / progress.total) * 100) : 0;
+
+  return (
+    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center gap-6">
+      <h1 className="text-text-primary text-3xl font-medieval">D&D Character Manager</h1>
+      <div className="w-80 flex flex-col gap-3">
+        <div className="w-full h-3 bg-bg-secondary rounded-full overflow-hidden border border-border-primary">
+          <div
+            className="h-full bg-gold transition-all duration-300 rounded-full"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+        <div className="text-text-secondary text-sm text-center">
+          {progress ? `${progress.phase}... (${progress.loaded}/${progress.total})` : 'Инициализация...'}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function AppContent() {
   const {
@@ -81,8 +105,18 @@ function AppContent() {
     setActiveCharacter,
   } = useCharacters();
 
+  const [registryReady, setRegistryReady] = useState(false);
+  const [registryProgress, setRegistryProgress] = useState<LoadProgress | null>(null);
+  const [registryError, setRegistryError] = useState<string | null>(null);
+
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    initRegistry(setRegistryProgress)
+      .then(() => setRegistryReady(true))
+      .catch((e) => setRegistryError(String(e)));
+  }, []);
 
   const handleImportCharacter = async (file: File) => {
     try {
@@ -100,7 +134,7 @@ function AppContent() {
   };
 
   const handleTabChange = (key: string) => {
-    if (key === 'sheet') return; // не переключаемся на sheet через таб
+    if (key === 'sheet') return;
     setCurrentView(key as AppView);
     if (key === 'glossary' && !glossaryCategory) {
       setGlossaryCategory('spells');
@@ -111,12 +145,15 @@ function AppContent() {
     setGlossaryCategory(key);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
-        <div className="text-text-primary text-2xl font-medieval">Загрузка...</div>
-      </div>
-    );
+  if (!registryReady || loading) {
+    if (registryError) {
+      return (
+        <div className="min-h-screen bg-bg-primary flex items-center justify-center">
+          <div className="text-red-400 text-lg">Ошибка загрузки: {registryError}</div>
+        </div>
+      );
+    }
+    return <LoadingScreen progress={registryProgress} />;
   }
 
   return (

@@ -1,88 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { lookupByTag, getTagDisplayName as registryGetTagDisplayName } from '../data/registry';
+import type { RegistryEntry } from '../data/registry';
 
-// ─── Типы для навигации по тегам ───
-export interface RegistryEntry {
-  type: string;
-  name: string;
-  source?: string;
-  entries?: any[];
-  data: any;
-}
+export type { RegistryEntry };
 
-// Локальный кеш загруженных данных для поиска по тегам
-interface LoadedData {
-  spells?: any[];
-  feats?: any[];
-  conditions?: any[];
-  skills?: any[];
-  senses?: any[];
-  species?: any[];
-  backgrounds?: any[];
-  items?: any[];
-  optionalfeatures?: any[];
-  rules?: any[];
-  classes?: any[];
-  charoptions?: any[];
-  subclasses?: any[];
-}
-
-let _loadedData: LoadedData = {};
-
-// Регистрируем загруженные данные из Glossary
-export function registerLoadedData(type: string, items: any[]): void {
-  (_loadedData as any)[type] = items;
-}
-
-// Маппинг тегов на типы данных
-const TAG_TO_CATEGORY: Record<string, string> = {
-  spell: 'spells',
-  condition: 'conditions',
-  disease: 'conditions',
-  skill: 'skills',
-  sense: 'senses',
-  feat: 'feats',
-  species: 'species',
-  race: 'species',
-  background: 'backgrounds',
-  item: 'items',
-  optfeature: 'optionalfeatures',
-  variantrule: 'rules',
-  class: 'classes',
-  charoption: 'charoptions',
-  subclass: 'subclasses',
-};
-
-// Поиск по тегу в загруженных данных
-function lookupByTag(tagType: string, content: string): RegistryEntry | undefined {
-  const category = TAG_TO_CATEGORY[tagType];
-  if (!category) return undefined;
-
-  const items = (_loadedData as any)[category];
-  if (!items || !Array.isArray(items)) return undefined;
-
-  const parts = content.split('|');
-  const name = parts[0].trim().toLowerCase();
-
-  const found = items.find((item: any) => item.name?.toLowerCase() === name);
-  if (!found) return undefined;
-
-  return {
-    type: tagType,
-    name: found.name,
-    source: found.source,
-    entries: found.entries,
-    data: found,
-  };
+// Для обратной совместимости с Glossary (больше не нужна, но оставляем no-op)
+export function registerLoadedData(_type: string, _items: any[]): void {
+  // no-op: данные теперь берутся из registry
 }
 
 // Получить отображаемое имя из тега
-function getTagDisplayName(_tagType: string, content: string): string {
-  const parts = content.split('|');
-  // Если есть третья часть — это кастомное отображаемое имя
-  if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
-  return parts[0].trim();
+function getTagDisplayName(tagType: string, content: string): string {
+  return registryGetTagDisplayName(tagType, content);
 }
 
 // ─── Список неработающих ссылок (собирается при рендеринге) ───
@@ -95,7 +26,7 @@ export function getBrokenLinks() {
 // ─── Типы тегов ───
 // Теги, которые генерируют ссылки/тултипы
 const LINK_TAGS = new Set([
-  'spell', 'item', 'condition', 'disease', 'skill', 'sense',
+  'spell', 'item', 'condition', 'disease', 'skill', 'sense', 'status',
   'variantrule', 'optfeature', 'feat', 'action', 'background',
   'race', 'species', 'creature', 'hazard', 'quickref', 'itemProperty',
   'card', 'class', 'charoption', 'subclass',
@@ -257,7 +188,8 @@ const TagTooltip: React.FC<{
       className="tag-link cursor-pointer"
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (onNavigate) {
           onNavigate(entry);
         } else {
@@ -439,9 +371,8 @@ export function renderTaggedString(
           </TagTooltip>
         );
       } else {
-        // Нет данных — отображаем как обычный текст, фиксируем broken link
-        brokenLinks.push({ tag: tagType, content: tagContent, context });
-        result.push(<span key={key} className="tag-broken">{displayText}</span>);
+        // Нет данных — отображаем как обычный текст
+        result.push(<span key={key} className="tag-text-only">{displayText}</span>);
       }
     } else {
       // Неизвестный тег — просто текст

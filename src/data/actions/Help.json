@@ -1,0 +1,35 @@
+{
+	"name": "Help",
+	"source": "XPHB",
+	"page": 368,
+	"srd52": true,
+	"time": [
+		{
+			"number": 1,
+			"unit": "action"
+		}
+	],
+	"entries": [
+		"When you take the Help action, you do one of the following.",
+		{
+			"type": "entries",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Assist an Ability Check",
+					"entries": [
+						"Choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. That ally has {@variantrule Advantage|XPHB} on the next ability check they make with the chosen skill or tool. This benefit expires if the ally doesn't use it before the start of your next turn. The DM has final say on whether your assistance is possible."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Assist an Attack Roll",
+					"entries": [
+						"You momentarily distract an enemy within 5 feet of you, giving {@variantrule Advantage|XPHB} to the next attack roll by one of your allies against that enemy. This benefit expires at the start of your next turn."
+					]
+				}
+			]
+		},
+		"{@note Additionally, the Help action may be used to {@book stabilize a creature|XPHB|1|Stabilizing a Character}.}"
+	]
+}

@@ -27,6 +27,7 @@ import type { CharacterCreationOptionData } from '../data/charactercreationoptio
 import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
 import { applyFeatStatEffects, extractFeatProficiencies, applyFeatProficiencies, extractFeatResistances, applyFeatResistances, extractFeatSpellConfig, type FeatSpellConfig } from '../utils/featEffects';
+import { resolveACForCreation, SPECIES_EFFECTS } from '../utils/classEffects';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 
 // ─── Хелперы для SpeciesData ───
@@ -706,7 +707,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     };
 
     const proficiencyBonus = getProficiencyBonus(level);
-    const maxHP = calculateMaxHP(level, finalScores.constitution, selectedClass.hitDie);
+    let maxHP = calculateMaxHP(level, finalScores.constitution, selectedClass.hitDie);
+
+    // Add species HP bonus (e.g. Dwarf: +1 HP per level)
+    const speciesEffects = SPECIES_EFFECTS[selectedSpecies.name];
+    if (speciesEffects) {
+      for (const e of speciesEffects) {
+        if (e.hpPerLevel) maxHP += e.hpPerLevel * level;
+        if (e.hpFlat) maxHP += e.hpFlat;
+      }
+    }
 
     // Merge tool proficiencies from class and background
     const bgTool = getBgToolProficiency(selectedBackground);
@@ -757,7 +767,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         tools: allTools,
         languages: [...languageInfo.fixed, ...selectedLanguages.filter(Boolean)],
       },
-      armorClass: 10 + getAbilityModifier(finalScores.dexterity),
+      armorClass: resolveACForCreation(selectedClass.id, finalScores),
       initiative: getAbilityModifier(finalScores.dexterity),
       speed: getSpeciesSpeed(effectiveSpecies ?? selectedSpecies),
       proficiencyBonus,
@@ -985,9 +995,19 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       ...selectedCantrips.map(s => ({ name: s.name, level: 0 })),
       ...selectedSpells.map(s => ({ name: s.name, level: s.level })),
     ],
-    armorClass: 10 + getAbilityModifier(getFinalScore('dexterity')),
+    armorClass: selectedClass
+      ? resolveACForCreation(selectedClass.id, {
+          strength: getFinalScore('strength'),
+          dexterity: getFinalScore('dexterity'),
+          constitution: getFinalScore('constitution'),
+          intelligence: getFinalScore('intelligence'),
+          wisdom: getFinalScore('wisdom'),
+          charisma: getFinalScore('charisma'),
+        })
+      : 10 + getAbilityModifier(getFinalScore('dexterity')),
     hitPoints: selectedClass
       ? calculateMaxHP(1, getFinalScore('constitution'), selectedClass.hitDie)
+        + (selectedSpecies && SPECIES_EFFECTS[selectedSpecies.name]?.reduce((sum, e) => sum + (e.hpPerLevel ?? 0) + (e.hpFlat ?? 0), 0) || 0)
       : undefined,
     speed: selectedSpecies ? getSpeciesSpeed(selectedSpecies) : undefined,
     proficiencyBonus: getProficiencyBonus(1),
