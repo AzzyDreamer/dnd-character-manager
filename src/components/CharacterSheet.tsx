@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -473,6 +473,116 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return true;
   };
 
+  /** Extract innate spell names from an optional feature's additionalSpells field */
+  const extractInnateSpellNames = (feat: any): string[] => {
+    const spells: string[] = [];
+    const asList = feat.additionalSpells;
+    if (!Array.isArray(asList)) return spells;
+    for (const as of asList) {
+      const innate = as?.innate?._;
+      if (!innate) continue;
+      if (Array.isArray(innate)) {
+        // Simple list: ["speak with animals"]
+        for (const s of innate) {
+          if (typeof s === 'string') spells.push(s.split('|')[0]);
+        }
+      } else if (typeof innate === 'object') {
+        // Daily use: { daily: { "1e": ["compulsion"] } }
+        const daily = innate.daily;
+        if (daily) {
+          for (const arr of Object.values(daily)) {
+            if (Array.isArray(arr)) {
+              for (const s of arr) {
+                if (typeof s === 'string') spells.push(s.split('|')[0]);
+              }
+            }
+          }
+        }
+      }
+    }
+    return spells;
+  };
+
+  /** Apply spell and skill effects from an optional feature onto the character */
+  const applyOptionalFeatureEffects = async (char: Character, feat: any): Promise<Character> => {
+    let updated = { ...char };
+
+    // 1) additionalSpells — add innate spells to character
+    const spellNames = extractInnateSpellNames(feat);
+    if (spellNames.length > 0) {
+      const spellsMod = await import('../data/spells');
+      await spellsMod.init();
+      const newSpells = spellNames
+        .filter(name => {
+          // Skip if already known
+          const existing = updated.spellcasting?.spells ?? [];
+          return !existing.some(s => s.name.toLowerCase() === name.toLowerCase());
+        })
+        .map(name => {
+          const spellData = spellsMod.getSpellByName(name);
+          return {
+            spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            name: spellData?.name ?? name.replace(/\b\w/g, c => c.toUpperCase()),
+            level: spellData?.level ?? 0,
+            prepared: true,
+            alwaysPrepared: true,
+            source: feat.name,
+          };
+        });
+      if (newSpells.length > 0 && updated.spellcasting) {
+        updated.spellcasting = {
+          ...updated.spellcasting,
+          spells: [...updated.spellcasting.spells, ...newSpells],
+        };
+      } else if (newSpells.length > 0 && !updated.spellcasting) {
+        // Warlock should always have spellcasting, but just in case
+        updated.spellcasting = {
+          ability: 'charisma',
+          spellSaveDC: 0,
+          spellAttackBonus: 0,
+          spells: newSpells,
+        };
+      }
+    }
+
+    // 2) skillProficiencies — add skill proficiencies
+    const skillProfs = feat.skillProficiencies;
+    if (Array.isArray(skillProfs)) {
+      updated.skills = { ...updated.skills };
+      for (const entry of skillProfs) {
+        if (typeof entry === 'object') {
+          for (const [skill, val] of Object.entries(entry)) {
+            if (val === true && updated.skills[skill]) {
+              updated.skills[skill] = { ...updated.skills[skill], proficient: true };
+            }
+          }
+        }
+      }
+    }
+
+    return updated;
+  };
+
+  /** Remove spell and skill effects of a replaced optional feature */
+  const removeOptionalFeatureEffects = (char: Character, featName: string, featData: any): Character => {
+    let updated = { ...char };
+
+    // Remove innate spells sourced from this feature
+    const spellNames = extractInnateSpellNames(featData);
+    if (spellNames.length > 0 && updated.spellcasting) {
+      const nameLower = new Set(spellNames.map(n => n.toLowerCase()));
+      updated.spellcasting = {
+        ...updated.spellcasting,
+        spells: updated.spellcasting.spells.filter(s =>
+          !(nameLower.has(s.name.toLowerCase()) && s.source === featName)
+        ),
+      };
+    }
+
+    // Note: we don't remove skill proficiencies since they may overlap with other sources
+    return updated;
+  };
+
   const handleOptionalFeatureConfirm = (result: OptionalFeaturePickerResult) => {
     if (!pendingOptionalFeature) return;
     const { config, remainingChecks } = pendingOptionalFeature;
@@ -506,21 +616,39 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
     updated.optionalFeatures = newOptFeatures;
 
-    setShowOptionalFeaturePicker(false);
+    // Apply effects asynchronously (spells, skills)
+    (async () => {
+      // Remove effects of replaced feature
+      if (result.replaced && result.replacement) {
+        const { getOptionalFeatureByName } = await import('../data/optionalfeatures');
+        const oldData = getOptionalFeatureByName(result.replaced);
+        if (oldData) {
+          updated = removeOptionalFeatureEffects(updated, result.replaced, oldData);
+        }
+        updated = await applyOptionalFeatureEffects(updated, result.replacement);
+      }
 
-    // If there are more picks queued, show the next one
-    if (remainingChecks.length > 0) {
-      const [next, ...rest] = remainingChecks;
-      setPendingOptionalFeature(prev => prev ? {
-        ...prev,
-        updatedChar: updated,
-        remainingChecks: rest,
-      } : null);
-      next();
-    } else {
-      setPendingOptionalFeature(null);
-      checkAndShowExpertise(updated);
-    }
+      // Apply effects of newly chosen features
+      for (const feat of result.chosen) {
+        updated = await applyOptionalFeatureEffects(updated, feat);
+      }
+
+      setShowOptionalFeaturePicker(false);
+
+      // If there are more picks queued, show the next one
+      if (remainingChecks.length > 0) {
+        const [next, ...rest] = remainingChecks;
+        setPendingOptionalFeature(prev => prev ? {
+          ...prev,
+          updatedChar: updated,
+          remainingChecks: rest,
+        } : null);
+        next();
+      } else {
+        setPendingOptionalFeature(null);
+        checkAndShowExpertise(updated);
+      }
+    })();
   };
 
   /** Check if the character's current level grants Expertise and show picker if so. */
@@ -1081,46 +1209,76 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Tab: Stats */}
           {activeTab === 'stats' && (
             <>
-              {/* HP Management + Hit Dice */}
+              {/* HP Management + Hit Dice + Death Saves */}
               <div className="glass-panel p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="text-red-bright" size={20} />
                   <h2 className="text-lg font-medieval text-gold">Здоровье</h2>
                 </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => updateHP(character.hitPoints.current - 1)}
-                    className="px-3 py-1.5 bg-red-accent/80 text-white rounded hover:bg-red-accent transition-colors text-sm"
-                  >−</button>
-                  <input
-                    type="number"
-                    value={character.hitPoints.current}
-                    onChange={(e) => updateHP(parseInt(e.target.value) || 0)}
-                    className="w-20 text-center text-xl font-bold bg-bg-primary border border-border-default text-text-primary rounded px-2 py-1"
-                  />
-                  <span className="text-text-muted">/ {character.hitPoints.max}</span>
-                  <button
-                    onClick={() => updateHP(character.hitPoints.current + 1)}
-                    className="px-3 py-1.5 bg-green-accent/80 text-white rounded hover:bg-green-accent transition-colors text-sm"
-                  >+</button>
-                  <div className="ml-4 flex items-center gap-2 text-sm">
-                    <span className="text-text-muted">Временные:</span>
-                    <input
-                      type="number"
-                      value={character.hitPoints.temporary}
-                      onChange={(e) => updateTempHP(parseInt(e.target.value) || 0)}
-                      className="w-16 text-center bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
-                    />
+                <div className="flex gap-4">
+                  {/* Left: HP controls + Hit Dice */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => updateHP(character.hitPoints.current - 1)}
+                        className="px-3 py-1.5 bg-red-accent/80 text-white rounded hover:bg-red-accent transition-colors text-sm"
+                      >−</button>
+                      <input
+                        type="number"
+                        value={character.hitPoints.current}
+                        onChange={(e) => updateHP(parseInt(e.target.value) || 0)}
+                        className="w-20 text-center text-xl font-bold bg-bg-primary border border-border-default text-text-primary rounded px-2 py-1"
+                      />
+                      <span className="text-text-muted">/ {character.hitPoints.max}</span>
+                      <button
+                        onClick={() => updateHP(character.hitPoints.current + 1)}
+                        className="px-3 py-1.5 bg-green-accent/80 text-white rounded hover:bg-green-accent transition-colors text-sm"
+                      >+</button>
+                      <div className="ml-4 flex items-center gap-2 text-sm">
+                        <span className="text-text-muted">Временные:</span>
+                        <input
+                          type="number"
+                          value={character.hitPoints.temporary}
+                          onChange={(e) => updateTempHP(parseInt(e.target.value) || 0)}
+                          className="w-16 text-center bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+                        />
+                      </div>
+                    </div>
+                    {/* Hit Dice */}
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-default">
+                      <span className="text-sm font-medium text-text-secondary">Кости хитов</span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            const remaining = character.hitDice.total - character.hitDice.used;
+                            if (remaining > 0) onUpdate({ ...character, hitDice: { ...character.hitDice, used: character.hitDice.used + 1 } });
+                          }}
+                          className="px-2 py-0.5 bg-red-accent/80 text-white rounded hover:bg-red-accent transition-colors text-sm"
+                        >−</button>
+                        <input
+                          type="number"
+                          value={character.hitDice.total - character.hitDice.used}
+                          onChange={(e) => {
+                            const remaining = Math.max(0, Math.min(character.hitDice.total, parseInt(e.target.value) || 0));
+                            onUpdate({ ...character, hitDice: { ...character.hitDice, used: character.hitDice.total - remaining } });
+                          }}
+                          className="w-10 text-center text-lg font-bold bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+                        />
+                        <span className="text-text-muted">/ {character.hitDice.total}</span>
+                        <button
+                          onClick={() => {
+                            if (character.hitDice.used > 0) onUpdate({ ...character, hitDice: { ...character.hitDice, used: character.hitDice.used - 1 } });
+                          }}
+                          className="px-2 py-0.5 bg-green-accent/80 text-white rounded hover:bg-green-accent transition-colors text-sm"
+                        >+</button>
+                        <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                {/* Hit Dice */}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-default">
-                  <span className="text-sm font-medium text-text-secondary">Кости хитов</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-text-primary">
-                      {character.hitDice.total - character.hitDice.used} / {character.hitDice.total}
-                    </span>
-                    <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
+
+                  {/* Right: Death Saves */}
+                  <div className="border-l border-border-default pl-4">
+                    <DeathSavesSection character={character} onUpdate={onUpdate} />
                   </div>
                 </div>
               </div>
@@ -2472,6 +2630,161 @@ function ResistancePickerModal({
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── Death Saving Throws Section ──
+function DeathSavesSection({ character, onUpdate }: { character: Character; onUpdate: (c: Character) => void }) {
+  const { roll, openConfig } = useDiceRoll();
+  const [lastRoll, setLastRoll] = useState<{ value: number; type: 'success' | 'failure' | 'crit_success' | 'crit_failure' } | null>(null);
+
+  const deathSaves = character.deathSaves ?? { successes: 0, failures: 0 };
+  const isResolved = deathSaves.successes >= 3 || deathSaves.failures >= 3;
+
+  const updateDeathSaves = (successes: number, failures: number) => {
+    onUpdate({
+      ...character,
+      deathSaves: {
+        successes: Math.max(0, Math.min(3, successes)),
+        failures: Math.max(0, Math.min(3, failures)),
+      },
+    });
+  };
+
+  // Apply d20 result to death saves (used by both left-click roll and config menu callback)
+  const applyDeathSaveResult = (value: number) => {
+    if (isResolved) return;
+    if (value === 20) {
+      setLastRoll({ value, type: 'crit_success' });
+      onUpdate({
+        ...character,
+        deathSaves: { successes: 0, failures: 0 },
+        hitPoints: { ...character.hitPoints, current: 1 },
+      });
+    } else if (value === 1) {
+      const newFailures = Math.min(3, deathSaves.failures + 2);
+      setLastRoll({ value, type: 'crit_failure' });
+      updateDeathSaves(deathSaves.successes, newFailures);
+    } else if (value >= 10) {
+      setLastRoll({ value, type: 'success' });
+      updateDeathSaves(Math.min(3, deathSaves.successes + 1), deathSaves.failures);
+    } else {
+      setLastRoll({ value, type: 'failure' });
+      updateDeathSaves(deathSaves.successes, Math.min(3, deathSaves.failures + 1));
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isResolved) return;
+    const result = roll('1d20', e);
+    if (result) applyDeathSaveResult(result.total);
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (isResolved) return;
+    e.preventDefault();
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    openConfig('1d20', rect, (total) => applyDeathSaveResult(total));
+  };
+
+  const resetDeathSaves = () => {
+    updateDeathSaves(0, 0);
+    setLastRoll(null);
+  };
+
+  const renderPips = (count: number, max: number, color: 'success' | 'failure') => {
+    const colorClass = color === 'success'
+      ? 'bg-green-accent border-green-accent'
+      : 'bg-red-accent border-red-accent';
+    return (
+      <div className="flex gap-1.5">
+        {Array.from({ length: max }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              if (color === 'success') {
+                updateDeathSaves(i < count ? i : i + 1, deathSaves.failures);
+              } else {
+                updateDeathSaves(deathSaves.successes, i < count ? i : i + 1);
+              }
+            }}
+            className={`w-5 h-5 rounded-full border-2 transition-all cursor-pointer ${
+              i < count
+                ? colorClass
+                : 'border-border-default bg-transparent hover:border-text-muted'
+            }`}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-2.5">
+      {/* Title + reset */}
+      <div className="flex items-center gap-2">
+        <Skull className="text-text-muted" size={16} />
+        <span className="text-sm font-medieval text-gold whitespace-nowrap">Спасброски</span>
+        {(deathSaves.successes > 0 || deathSaves.failures > 0) && (
+          <button
+            onClick={resetDeathSaves}
+            className="text-text-muted hover:text-text-secondary transition-colors ml-1"
+            title="Сбросить"
+          >
+            <X size={14} />
+          </button>
+        )}
+      </div>
+
+      {/* Pips rows */}
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-green-accent w-10 text-right">Успехи</span>
+          {renderPips(deathSaves.successes, 3, 'success')}
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-red-accent w-10 text-right">Провалы</span>
+          {renderPips(deathSaves.failures, 3, 'failure')}
+        </div>
+      </div>
+
+      {/* Roll Button — left-click rolls, right-click opens config */}
+      <button
+        onClick={handleClick}
+        onContextMenu={handleContextMenu}
+        disabled={isResolved}
+        className={`px-4 py-1.5 rounded font-medium text-sm transition-all flex items-center gap-2 whitespace-nowrap ${
+          deathSaves.successes >= 3
+            ? 'bg-green-accent/20 text-green-accent cursor-default'
+            : deathSaves.failures >= 3
+            ? 'bg-red-accent/20 text-red-accent cursor-default'
+            : 'bg-gold/20 text-gold hover:bg-gold/30 cursor-pointer tag-rollable'
+        }`}
+      >
+        <Dices size={16} />
+        {deathSaves.successes >= 3
+          ? 'Стабилен'
+          : deathSaves.failures >= 3
+          ? 'Смерть'
+          : '1d20'}
+      </button>
+
+      {/* Last Roll Result */}
+      {lastRoll && (
+        <div className={`text-sm text-center ${
+          lastRoll.type === 'crit_success' || lastRoll.type === 'success' ? 'text-green-accent' : 'text-red-accent'
+        }`}>
+          <span className="font-bold">{lastRoll.value}</span>
+          {' '}
+          <span>
+            {lastRoll.type === 'crit_success' && '— крит!'}
+            {lastRoll.type === 'success' && '— успех'}
+            {lastRoll.type === 'failure' && '— провал'}
+            {lastRoll.type === 'crit_failure' && '— крит!'}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

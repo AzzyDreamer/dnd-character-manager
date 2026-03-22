@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import type { Character, CustomAttack } from '../types';
-import { formatModifier, ABILITY_NAMES } from '../utils/dnd';
+import type { Character, CharacterSpell, CustomAttack } from '../types';
+import { getAbilityModifier, formatModifier, ABILITY_NAMES } from '../utils/dnd';
+import { getEffectiveAbilityScores } from '../utils/classEffects';
 import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
@@ -9,6 +10,9 @@ import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
 import { SpellPreparationModal } from './SpellPreparationModal';
 import { ClickableDamage, ClickableAttackBonus } from './DiceRollProvider';
+import { SpellContextMenu } from './SpellContextMenu';
+import { SpellCastModal } from './SpellCastModal';
+import type { SpellData } from '../data/spells';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -841,6 +845,18 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
   const [passiveStats, setPassiveStats] = useState<ClassPassiveStat[]>([]);
   const [spellsLoading, setSpellsLoading] = useState(!!character.spellcasting);
 
+  // Context menu & cast modal state
+  const [contextMenu, setContextMenu] = useState<{
+    x: number; y: number;
+    spell: CharacterSpell;
+    spellData: SpellData | null;
+    isClassSpell: boolean;
+  } | null>(null);
+  const [castingSpell, setCastingSpell] = useState<{
+    spell: CharacterSpell;
+    spellData: SpellData;
+  } | null>(null);
+
   // Load class resources from JSON
   useEffect(() => {
     let cancelled = false;
@@ -905,12 +921,35 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
   const spellcasting = character.spellcasting;
 
+  // Detect Agonizing Blast invocation
+  const hasAgonizingBlast = (character.optionalFeatures ?? []).some(
+    f => f.name === 'Agonizing Blast' && f.featureType === 'EI'
+  );
+
   const toggleSection = (key: string) => {
     setCollapsedSections(prev => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
       return next;
+    });
+  };
+
+  // Open context menu for a spell
+  const handleSpellContextMenu = (
+    e: React.MouseEvent,
+    spell: CharacterSpell,
+    isClassSpell: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const spellData = modules ? modules.getSpellByName(spell.name) as SpellData | undefined : undefined;
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      spell,
+      spellData: spellData ?? null,
+      isClassSpell,
     });
   };
 
@@ -1111,6 +1150,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                                   prepared
                                   selected={expandedSpell === spell.spellId}
                                   onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
+                                  onContextMenu={(e) => handleSpellContextMenu(e, spell as CharacterSpell, group.type === 'class')}
                                 />
                               </SpellTooltip>
                             );
@@ -1150,7 +1190,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                                     prepared={spell.prepared}
                                     selected={expandedSpell === spell.spellId}
                                     onClick={() => setExpandedSpell(expandedSpell === spell.spellId ? null : spell.spellId)}
-                                    onContextMenu={isClassSpell && !spell.alwaysPrepared ? (e) => { e.preventDefault(); togglePrepared(spell.spellId); } : undefined}
+                                    onContextMenu={(e) => handleSpellContextMenu(e, spell as CharacterSpell, isClassSpell)}
                                   />
                                 </SpellTooltip>
                               );
@@ -1216,6 +1256,18 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
               <modules.EntryRenderer entries={expandedData.data.entriesHigherLevel} context={expandedData.data.name} />
             </div>
           )}
+          {/* Agonizing Blast bonus for damaging cantrips */}
+          {expandedData.charSpell.level === 0 && hasAgonizingBlast && (() => {
+            const effScores = getEffectiveAbilityScores(character);
+            const chaMod = getAbilityModifier(effScores.charisma);
+            return (
+              <div className="pt-2 border-t border-border-default flex items-center gap-2 text-xs">
+                <Zap size={12} className="text-amber-400" />
+                <span className="text-amber-400 font-medium">Agonizing Blast</span>
+                <span className="text-text-secondary">+{chaMod} к урону (Харизма)</span>
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -1238,6 +1290,45 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
             setShowPrepModal(false);
           }}
           onCancel={() => setShowPrepModal(false)}
+        />
+      )}
+
+      {/* Spell Context Menu */}
+      {contextMenu && (
+        <SpellContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          spellName={contextMenu.spell.name}
+          canPrepare={contextMenu.isClassSpell && contextMenu.spell.level > 0 && !contextMenu.spell.alwaysPrepared}
+          isPrepared={!!contextMenu.spell.prepared}
+          onViewInfo={() => {
+            setExpandedSpell(contextMenu.spell.spellId);
+            setContextMenu(null);
+          }}
+          onCast={() => {
+            if (contextMenu.spellData) {
+              setCastingSpell({ spell: contextMenu.spell, spellData: contextMenu.spellData });
+            }
+            setContextMenu(null);
+          }}
+          onTogglePrepare={contextMenu.isClassSpell && contextMenu.spell.level > 0 && !contextMenu.spell.alwaysPrepared
+            ? () => {
+                togglePrepared(contextMenu.spell.spellId);
+                setContextMenu(null);
+              }
+            : undefined
+          }
+          onClose={() => setContextMenu(null)}
+        />
+      )}
+
+      {/* Spell Cast Modal */}
+      {castingSpell && (
+        <SpellCastModal
+          character={character}
+          spell={castingSpell.spell}
+          spellData={castingSpell.spellData}
+          onClose={() => setCastingSpell(null)}
         />
       )}
     </div>

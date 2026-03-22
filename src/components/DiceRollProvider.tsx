@@ -23,10 +23,10 @@ export interface ConsoleEntry {
 }
 
 interface DiceRollContextType {
-  /** Quick roll (left-click) — pass event to get origin for animation */
-  roll: (expression: string, originEvent?: React.MouseEvent) => void;
-  /** Open config menu (right-click) */
-  openConfig: (expression: string, anchorRect: DOMRect) => void;
+  /** Quick roll (left-click) — pass event to get origin for animation, returns result */
+  roll: (expression: string, originEvent?: React.MouseEvent) => DiceRollResult | undefined;
+  /** Open config menu (right-click), optional onResult callback for getting the rolled value */
+  openConfig: (expression: string, anchorRect: DOMRect, onResult?: (total: number) => void) => void;
   /** Persistent GUI history */
   guiHistory: GUIRollEntry[];
   setGuiHistory: React.Dispatch<React.SetStateAction<GUIRollEntry[]>>;
@@ -39,7 +39,7 @@ interface DiceRollContextType {
 }
 
 const DiceRollContext = createContext<DiceRollContextType>({
-  roll: () => {},
+  roll: () => undefined,
   openConfig: () => {},
   guiHistory: [],
   setGuiHistory: () => {},
@@ -70,6 +70,7 @@ export const DiceRollProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Config menu state
   const [configExpr, setConfigExpr] = useState<string | null>(null);
   const [configAnchor, setConfigAnchor] = useState<DOMRect | null>(null);
+  const configOnResultRef = useRef<((total: number) => void) | null>(null);
 
   // Persistent dice tab state (survives tab switches)
   const [guiHistory, setGuiHistory] = useState<GUIRollEntry[]>([]);
@@ -97,24 +98,29 @@ export const DiceRollProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }, 800);
   }, []);
 
-  const roll = useCallback((expression: string, _originEvent?: React.MouseEvent) => {
+  const roll = useCallback((expression: string, _originEvent?: React.MouseEvent): DiceRollResult | undefined => {
     const result = rollDice(expression);
-    if (result.rolls.length === 0) return;
+    if (result.rolls.length === 0) return undefined;
     showToast({ type: 'simple', result });
+    return result;
   }, [showToast]);
 
-  const openConfig = useCallback((expression: string, anchorRect: DOMRect) => {
+  const openConfig = useCallback((expression: string, anchorRect: DOMRect, onResult?: (total: number) => void) => {
     setConfigExpr(expression);
     setConfigAnchor(anchorRect);
+    configOnResultRef.current = onResult ?? null;
   }, []);
 
   const closeConfig = useCallback(() => {
     setConfigExpr(null);
     setConfigAnchor(null);
+    configOnResultRef.current = null;
   }, []);
 
   const handleConfigRoll = useCallback((data: ToastData) => {
     showToast(data);
+    const total = data.type === 'simple' ? data.result.total : data.result.chosen.total;
+    configOnResultRef.current?.(total);
     closeConfig();
   }, [showToast, closeConfig]);
 

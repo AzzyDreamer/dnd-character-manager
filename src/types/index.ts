@@ -323,6 +323,12 @@ export interface Character {
     type: string; // "d6", "d8", "d10", "d12"
   };
   
+  // Спасброски от смерти
+  deathSaves?: {
+    successes: number; // 0-3
+    failures: number;  // 0-3
+  };
+
   // Спасброски
   savingThrows: {
     strength: { proficient: boolean };

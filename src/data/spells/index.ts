@@ -27,7 +27,10 @@ export interface SpellData {
   backgrounds?: { name: string; source: string }[];
   feats?: { name: string; source: string }[];
   optionalfeatures?: { name: string; source: string; featureType?: string[] }[];
-  scalingLevelDice?: any;
+  scalingLevelDice?: { label: string; scaling: Record<string, string> } | any;
+  spellAttack?: string[];
+  conditionInflict?: string[];
+  meta?: { ritual?: boolean; [key: string]: any };
   hasFluff?: boolean;
   hasFluffImages?: boolean;
   foundryImg?: string;
