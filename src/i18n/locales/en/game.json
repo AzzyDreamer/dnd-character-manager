@@ -1,0 +1,118 @@
+{
+  "abilities": {
+    "strength": "Strength",
+    "dexterity": "Dexterity",
+    "constitution": "Constitution",
+    "intelligence": "Intelligence",
+    "wisdom": "Wisdom",
+    "charisma": "Charisma"
+  },
+  "abilitiesShort": {
+    "strength": "STR",
+    "dexterity": "DEX",
+    "constitution": "CON",
+    "intelligence": "INT",
+    "wisdom": "WIS",
+    "charisma": "CHA"
+  },
+  "skills": {
+    "acrobatics": "Acrobatics",
+    "animalHandling": "Animal Handling",
+    "arcana": "Arcana",
+    "athletics": "Athletics",
+    "deception": "Deception",
+    "history": "History",
+    "insight": "Insight",
+    "intimidation": "Intimidation",
+    "investigation": "Investigation",
+    "medicine": "Medicine",
+    "nature": "Nature",
+    "perception": "Perception",
+    "performance": "Performance",
+    "persuasion": "Persuasion",
+    "religion": "Religion",
+    "sleightOfHand": "Sleight of Hand",
+    "stealth": "Stealth",
+    "survival": "Survival"
+  },
+  "categories": {
+    "weapon": "Weapons",
+    "armor": "Armor",
+    "shield": "Shields",
+    "helmet": "Helmets",
+    "boots": "Boots",
+    "gloves": "Gloves",
+    "cloak": "Cloaks",
+    "amulet": "Amulets",
+    "ring": "Rings",
+    "potion": "Potions",
+    "scroll": "Scrolls",
+    "wand": "Wands",
+    "ammunition": "Ammunition",
+    "tool": "Tools",
+    "treasure": "Treasures",
+    "misc": "Miscellaneous"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "very_rare": "Very Rare",
+    "legendary": "Legendary",
+    "artifact": "Artifact"
+  },
+  "equipmentSlots": {
+    "helmet": "Helmet",
+    "armor": "Armor",
+    "gloves": "Gloves",
+    "boots": "Boots",
+    "cloak": "Cloak",
+    "accessory1": "Accessory 1",
+    "accessory2": "Accessory 2",
+    "accessory3": "Accessory 3",
+    "mainhand": "Main Hand",
+    "offhand": "Off Hand",
+    "rangedMainhand": "Ranged",
+    "rangedOffhand": "Ranged (2)"
+  },
+  "damageTypes": {
+    "S": "Slashing",
+    "P": "Piercing",
+    "B": "Bludgeoning",
+    "F": "Fire",
+    "C": "Cold",
+    "L": "Lightning",
+    "T": "Poison",
+    "R": "Radiant",
+    "N": "Necrotic",
+    "A": "Acid",
+    "Y": "Psychic",
+    "O": "Force"
+  },
+  "weaponProperties": {
+    "F": "Finesse",
+    "L": "Light",
+    "H": "Heavy",
+    "2H": "Two-Handed",
+    "V": "Versatile",
+    "T": "Thrown",
+    "AM": "Ammunition",
+    "LD": "Loading",
+    "R": "Reach",
+    "S": "Special"
+  },
+  "weaponMastery": {
+    "Cleave": "Cleave",
+    "Graze": "Graze",
+    "Nick": "Nick",
+    "Push": "Push",
+    "Sap": "Sap",
+    "Slow": "Slow",
+    "Topple": "Topple",
+    "Vex": "Vex"
+  },
+  "weaponCategories": {
+    "simple": "Simple Weapon",
+    "martial": "Martial Weapon"
+  }
+}

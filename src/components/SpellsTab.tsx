@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Character, CharacterSpell, CustomAttack } from '../types';
-import { getAbilityModifier, formatModifier, ABILITY_NAMES } from '../utils/dnd';
+import { getAbilityModifier, formatModifier, getAbilityName } from '../utils/dnd';
 import { getEffectiveAbilityScores } from '../utils/classEffects';
 import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
@@ -1066,7 +1066,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           </div>
           <div className="flex items-center gap-2">
             <span className="text-text-muted">Характеристика:</span>
-            <span className="font-bold text-gold">{ABILITY_NAMES[spellcasting.ability]}</span>
+            <span className="font-bold text-gold">{getAbilityName(spellcasting.ability)}</span>
           </div>
           {maxPrepared > 0 && (
             <div className="flex items-center gap-2">

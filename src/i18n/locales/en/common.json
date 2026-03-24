@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "characters": "Characters",
+    "creation": "Creation",
+    "glossary": "Knowledge Base"
+  },
+  "glossaryTabs": {
+    "spells": "Spells",
+    "classes": "Classes",
+    "subclasses": "Subclasses",
+    "species": "Species",
+    "backgrounds": "Backgrounds",
+    "feats": "Feats",
+    "items": "Items",
+    "optionalfeatures": "Features",
+    "conditions": "Conditions",
+    "senses": "Senses",
+    "skills": "Skills",
+    "rules": "Rules",
+    "charoptions": "Creation Options",
+    "actions": "Actions"
+  },
+  "buttons": {
+    "create": "Create"
+  },
+  "loading": {
+    "initializing": "Initializing...",
+    "progress": "{{phase}}... ({{loaded}}/{{total}})"
+  },
+  "errors": {
+    "renderError": "Application render error",
+    "loadError": "Loading error: {{error}}",
+    "importError": "Character import error: {{error}}"
+  },
+  "alerts": {
+    "importSuccess": "Character \"{{name}}\" imported successfully!"
+  }
+}

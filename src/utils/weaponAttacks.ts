@@ -1,6 +1,6 @@
 import type { Character } from '../types';
 import { getAbilityModifier, formatModifier } from './dnd';
-import { DAMAGE_TYPE_NAMES, PROPERTY_NAMES } from '../data/items/constants';
+import { getDamageTypeName, getPropertyName } from '../data/items/constants';
 import { getEffectiveAbilityScores } from './classEffects';
 
 function parseItemBonus(val: any): number {
@@ -13,10 +13,10 @@ function parseItemBonus(val: any): number {
 function statsFromRaw(raw: Record<string, any>): WeaponStats | null {
   if (!raw.dmg1) return null;
   const dmgTypeCode = raw.dmgType ?? '';
-  const damageType = DAMAGE_TYPE_NAMES[dmgTypeCode] ?? dmgTypeCode;
+  const damageType = getDamageTypeName(dmgTypeCode);
   const properties = (raw.property ?? [])
     .filter((p: any) => typeof p === 'string')
-    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .map((p: string) => getPropertyName(p.split('|')[0]))
     .filter(Boolean);
   return { damage: raw.dmg1, damageType, properties };
 }

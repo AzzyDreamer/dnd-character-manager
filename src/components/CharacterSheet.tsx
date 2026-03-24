@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
-import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, ABILITY_NAMES, ABILITY_SHORT, SKILL_ABILITIES, SKILL_NAMES, recalcDerivedStats } from '../utils/dnd';
+import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
+import { getDamageTypeName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
@@ -1584,7 +1585,7 @@ function SkillsSection({ character }: { character: Character }) {
               <div key={ability}>
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
-                    {ABILITY_NAMES[ability]} ({ABILITY_SHORT[ability]})
+                    {getAbilityName(ability)} ({getAbilityShort(ability)})
                   </span>
                   <div className="flex-1 h-px bg-border-default/50" />
                 </div>
@@ -1601,7 +1602,7 @@ function SkillsSection({ character }: { character: Character }) {
                         key={skillKey}
                         role="button"
                         tabIndex={0}
-                        title={`Бросить ${SKILL_NAMES[skillKey]}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                        title={`Бросить ${getSkillName(skillKey)}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
                         onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
                         onContextMenu={(e) => {
                           e.preventDefault();
@@ -1637,7 +1638,7 @@ function SkillsSection({ character }: { character: Character }) {
                         <span className={`flex-1 text-sm ${
                           isProficient ? 'text-text-primary font-medium' : 'text-text-secondary'
                         }`}>
-                          {SKILL_NAMES[skillKey]}
+                          {getSkillName(skillKey)}
                         </span>
 
                         {/* Dice icon */}
@@ -1676,7 +1677,7 @@ function SkillsSection({ character }: { character: Character }) {
                     key={ability}
                     role="button"
                     tabIndex={0}
-                    title={`Спасбросок ${ABILITY_SHORT[ability]}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                    title={`Спасбросок ${getAbilityShort(ability)}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
                     onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
                     onContextMenu={(e) => {
                       e.preventDefault();
@@ -1694,7 +1695,7 @@ function SkillsSection({ character }: { character: Character }) {
                       {isProficient && <Check size={8} className="text-gold" />}
                     </div>
                     <span className={isProficient ? 'text-text-primary' : 'text-text-secondary'}>
-                      {ABILITY_SHORT[ability]}
+                      {getAbilityShort(ability)}
                     </span>
                     <span className={`ml-auto font-bold tabular-nums ${
                       isProficient ? 'text-green-400' : 'text-text-muted'
@@ -2418,21 +2419,6 @@ function ConditionPickerModal({
   );
 }
 
-const DAMAGE_TYPE_NAMES: Record<string, string> = {
-  fire: 'Огонь',
-  cold: 'Холод',
-  lightning: 'Молния',
-  poison: 'Яд',
-  acid: 'Кислота',
-  necrotic: 'Некротический',
-  radiant: 'Излучение',
-  psychic: 'Психический',
-  force: 'Силовой',
-  thunder: 'Звук',
-  bludgeoning: 'Дробящий',
-  piercing: 'Колющий',
-  slashing: 'Рубящий',
-};
 
 const DAMAGE_TYPE_IMAGES: Record<string, string> = {
   fire: '40px-Fire_Damage_Icon.png.webp',
@@ -2454,7 +2440,7 @@ function getDamageTypeImageUrl(type: string): string {
   return `/images/resistances/${DAMAGE_TYPE_IMAGES[type] || type + '.webp'}`;
 }
 
-const ALL_DAMAGE_TYPES = Object.keys(DAMAGE_TYPE_NAMES);
+const ALL_DAMAGE_TYPES = Object.keys(DAMAGE_TYPE_IMAGES);
 
 const MODIFIER_INFO: { key: DamageResistanceModifier; label: string; shortLabel: string; color: string }[] = [
   { key: 'resistance',       label: 'Устойчивость',       shortLabel: 'Устойч.',    color: 'text-white' },
@@ -2555,7 +2541,7 @@ function ResistancePickerModal({
                       ? 'border-gold bg-gold/15 text-gold'
                       : 'border-border-default/50 bg-bg-primary/40 text-text-secondary hover:border-border-default hover:text-text-primary'
                   }`}
-                  title={DAMAGE_TYPE_NAMES[type]}
+                  title={getDamageTypeName(type)}
                 >
                   <img
                     src={getDamageTypeImageUrl(type)}
@@ -2564,7 +2550,7 @@ function ResistancePickerModal({
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                   <span className="text-[9px] leading-tight text-center truncate w-full">
-                    {DAMAGE_TYPE_NAMES[type]}
+                    {getDamageTypeName(type)}
                   </span>
                 </button>
               ))}
@@ -2953,7 +2939,7 @@ function ResistancesSection({
                       />
                       <ResistanceIndicator modifier={entry.modifier} />
                     </div>
-                    <span>{DAMAGE_TYPE_NAMES[entry.type] || entry.type}</span>
+                    <span>{getDamageTypeName(entry.type)}</span>
                     <span className="text-[9px] opacity-60">({modInfo?.shortLabel})</span>
                     <button
                       onClick={() => removeResistance(idx)}

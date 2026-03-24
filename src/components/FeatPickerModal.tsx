@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
 import { type FeatData, getFeatImageUrl } from '../data/feats';
-import { getAbilityModifier, ABILITY_NAMES, ABILITY_SHORT, ABILITY_SHORT_TO_LONG, SKILL_NAMES } from '../utils/dnd';
+import { getAbilityModifier, getAbilityName, getAbilityShort, ABILITY_SHORT_TO_LONG, getSkillName, SKILL_ABILITIES } from '../utils/dnd';
+import { getDamageTypeName } from '../data/items/constants';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
 import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
@@ -453,10 +454,10 @@ function AsiTab({
               >
                 <div className="flex-1">
                   <div className="text-sm font-medium text-text-primary">
-                    {ABILITY_NAMES[ability]}
+                    {getAbilityName(ability)}
                   </div>
                   <div className="text-xs text-text-muted">
-                    {ABILITY_SHORT[ability]} • {current}
+                    {getAbilityShort(ability)} • {current}
                     {bonus > 0 && (
                       <span className="text-gold ml-1">→ {final}</span>
                     )}
@@ -713,7 +714,7 @@ function FeatTab({
                               : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
                         }`}
                       >
-                        <div className="font-medium">{ABILITY_SHORT[longKey]}</div>
+                        <div className="font-medium">{getAbilityShort(longKey)}</div>
                         <div className="text-[10px] text-text-muted">
                           {currentScore}
                           {isChosen && <span className="text-gold"> → {currentScore + featAbilityAmount}</span>}
@@ -793,7 +794,7 @@ function FeatTab({
               <div className="border-t border-border-default pt-3">
                 <h4 className="text-sm font-medium text-text-primary mb-2">Сопротивления</h4>
                 <div className="text-xs text-text-secondary">
-                  {featResists.fixed.map(r => DAMAGE_TYPE_NAMES[r] || r).join(', ')}
+                  {featResists.fixed.map(r => getDamageTypeName(r)).join(', ')}
                 </div>
               </div>
             )}
@@ -809,14 +810,6 @@ function FeatTab({
   );
 }
 
-// ── Damage type names ──
-
-const DAMAGE_TYPE_NAMES: Record<string, string> = {
-  acid: 'Кислота', cold: 'Холод', fire: 'Огонь', lightning: 'Молния',
-  necrotic: 'Некротический', poison: 'Яд', psychic: 'Психический',
-  radiant: 'Сияющий', thunder: 'Гром', bludgeoning: 'Дробящий',
-  piercing: 'Колющий', slashing: 'Рубящий', force: 'Силовой',
-};
 
 const SAVING_THROW_NAMES: Record<string, string> = {
   strength: 'Сила', dexterity: 'Ловкость', constitution: 'Телосложение',
@@ -835,7 +828,7 @@ function FeatSkillChoicePanel({
   character: Character;
 }) {
   // All skill keys or filtered
-  const allSkills = Object.keys(SKILL_NAMES);
+  const allSkills = Object.keys(SKILL_ABILITIES);
   const available = fromSkills && fromSkills.length > 0
     ? fromSkills.filter(sk => allSkills.includes(sk))
     : allSkills;
@@ -871,7 +864,7 @@ function FeatSkillChoicePanel({
               }`}
             >
               {isChosen && <Check size={10} className="inline mr-1" />}
-              {SKILL_NAMES[sk] || sk}
+              {getSkillName(sk)}
             </button>
           );
         })}
@@ -957,7 +950,7 @@ function FeatResistanceChoicePanel({
               }`}
             >
               {isChosen && <Check size={10} className="inline mr-1" />}
-              {DAMAGE_TYPE_NAMES[type] || type}
+              {getDamageTypeName(type)}
             </button>
           );
         })}
@@ -985,7 +978,7 @@ function FeatExpertiseChoicePanel({
 
   // If allSkills (Boon of Skill), all skills are eligible for expertise
   const selectable = allSkills
-    ? Object.keys(SKILL_NAMES).filter(sk => !character.skills[sk]?.expertise)
+    ? Object.keys(SKILL_ABILITIES).filter(sk => !character.skills[sk]?.expertise)
     : allProficient;
 
   return (
@@ -1007,7 +1000,7 @@ function FeatExpertiseChoicePanel({
               }`}
             >
               {isChosen && <Check size={10} className="inline mr-1" />}
-              {SKILL_NAMES[sk] || sk}
+              {getSkillName(sk)}
             </button>
           );
         })}
@@ -1033,7 +1026,7 @@ function formatPrerequisite(prereq: any): string {
       for (const [k, v] of Object.entries(ab)) {
         const longKey = ABILITY_SHORT_TO_LONG[k];
         if (longKey && typeof v === 'number') {
-          parts.push(`${ABILITY_SHORT[longKey]} ${v}+`);
+          parts.push(`${getAbilityShort(longKey)} ${v}+`);
         }
       }
     }

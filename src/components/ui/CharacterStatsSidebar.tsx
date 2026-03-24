@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { AbilityScores, Character } from '../../types';
-import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
+import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords, Eye } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
@@ -100,7 +100,7 @@ function SkillsPanel({
                   alt=""
                   className="w-4 h-4 object-contain opacity-80 shrink-0"
                 />
-                <span className="truncate">{SKILL_NAMES[sk] || sk}</span>
+                <span className="truncate">{getSkillName(sk)}</span>
               </div>
             ))}
           </div>
@@ -140,7 +140,7 @@ function SkillsPanel({
             return (
               <div key={ability}>
                 <div className="text-[9px] uppercase tracking-wider text-text-muted/60 font-bold mb-0.5">
-                  {ABILITY_SHORT[ability]}
+                  {getAbilityShort(ability)}
                 </div>
                 <div className="space-y-px">
                   {skillsForAbility.map(sk => {
@@ -173,7 +173,7 @@ function SkillsPanel({
                         <span className={`flex-1 truncate ${
                           isProficient ? 'text-text-primary' : 'text-text-muted'
                         }`}>
-                          {SKILL_NAMES[sk]}
+                          {getSkillName(sk)}
                         </span>
                         <span className={`font-bold tabular-nums text-[10px] ${
                           isProficient
@@ -320,7 +320,7 @@ export function CharacterStatsSidebar({
               return (
                 <StatBadge
                   key={key}
-                  label={ABILITY_SHORT[key]}
+                  label={getAbilityShort(key)}
                   value={val}
                   modifier={getAbilityModifier(val)}
                   variant="circle"

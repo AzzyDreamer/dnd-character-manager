@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "characters": "Персонажи",
+    "creation": "Создание",
+    "glossary": "База знаний"
+  },
+  "glossaryTabs": {
+    "spells": "Заклинания",
+    "classes": "Классы",
+    "subclasses": "Подклассы",
+    "species": "Виды",
+    "backgrounds": "Предыстории",
+    "feats": "Черты",
+    "items": "Предметы",
+    "optionalfeatures": "Способности",
+    "conditions": "Состояния",
+    "senses": "Чувства",
+    "skills": "Навыки",
+    "rules": "Правила",
+    "charoptions": "Опции создания",
+    "actions": "Действия"
+  },
+  "buttons": {
+    "create": "Создать"
+  },
+  "loading": {
+    "initializing": "Инициализация...",
+    "progress": "{{phase}}... ({{loaded}}/{{total}})"
+  },
+  "errors": {
+    "renderError": "Ошибка рендеринга приложения",
+    "loadError": "Ошибка загрузки: {{error}}",
+    "importError": "Ошибка импорта персонажа: {{error}}"
+  },
+  "alerts": {
+    "importSuccess": "Персонаж \"{{name}}\" успешно импортирован!"
+  }
+}

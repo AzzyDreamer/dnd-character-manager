@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import type { Character } from '../types';
-import { SKILL_NAMES, SKILL_ABILITIES, ABILITY_NAMES, type AbilityScores } from '../utils/dnd';
+import { getSkillName, SKILL_ABILITIES, getAbilityName, type AbilityScores } from '../utils/dnd';
 import { Star, X, Check } from 'lucide-react';
 
 interface ExpertisePickerModalProps {
@@ -27,7 +27,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
     return Object.entries(character.skills ?? {})
       .filter(([, data]) => data.proficient && !data.expertise)
       .map(([key]) => key)
-      .sort((a, b) => (SKILL_NAMES[a] ?? a).localeCompare(SKILL_NAMES[b] ?? b, 'ru'));
+      .sort((a, b) => getSkillName(a).localeCompare(getSkillName(b), 'ru'));
   }, [character.skills]);
 
   const toggleSkill = (key: string) => {
@@ -47,7 +47,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
     const groups: Record<string, string[]> = {};
     for (const sk of availableSkills) {
       const ability = SKILL_ABILITIES[sk] as keyof AbilityScores | undefined;
-      const groupName = ability ? ABILITY_NAMES[ability] : 'Прочее';
+      const groupName = ability ? getAbilityName(ability) : 'Прочее';
       if (!groups[groupName]) groups[groupName] = [];
       groups[groupName].push(sk);
     }
@@ -112,7 +112,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
                         `}>
                           {isSelected && <Check size={12} className="text-purple-300" />}
                         </div>
-                        {SKILL_NAMES[sk] ?? sk}
+                        {getSkillName(sk)}
                       </button>
                     );
                   })}

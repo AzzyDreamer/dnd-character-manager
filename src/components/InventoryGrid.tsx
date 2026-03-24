@@ -4,12 +4,12 @@ import {
   ITEM_TEMPLATES,
   RARITY_COLORS,
   RARITY_BG_COLORS,
-  RARITY_NAMES,
-  EQUIPMENT_SLOT_NAMES,
+  getRarityName,
+  getEquipmentSlotName,
   EQUIPMENT_SLOT_ICONS,
-  CATEGORY_NAMES,
-  DAMAGE_TYPE_NAMES,
-  PROPERTY_NAMES,
+  getCategoryName,
+  getDamageTypeName,
+  getPropertyName,
   canEquipInOffhand,
   getArmorType,
   getArmorAC,
@@ -123,7 +123,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
 
   const properties = (raw.property ?? [])
     .filter((p: any) => typeof p === 'string')
-    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .map((p: string) => getPropertyName(p.split('|')[0]))
     .filter(Boolean);
 
   const masteries = (raw.mastery ?? [])
@@ -154,7 +154,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
           <div>
             <h3 className="text-lg font-semibold" style={{ color: rarityColor }}>{item.name}</h3>
             <div className="text-sm text-text-secondary">{item.type}</div>
-            <div className="text-sm" style={{ color: rarityColor }}>{RARITY_NAMES[item.rarity]}</div>
+            <div className="text-sm" style={{ color: rarityColor }}>{getRarityName(item.rarity)}</div>
           </div>
           <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors ml-4">
             <X size={20} />
@@ -166,7 +166,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
           <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
             <div className="flex gap-4">
               <span className="text-text-secondary">Урон:</span>
-              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (DAMAGE_TYPE_NAMES[raw.dmgType] ?? raw.dmgType) : ''}</span>
+              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (getDamageTypeName(raw.dmgType)) : ''}</span>
             </div>
             {raw.dmg2 && (
               <div className="flex gap-4">
@@ -270,7 +270,7 @@ const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }
         </div>
         <div className="text-xs text-text-secondary mb-1">{item.type}</div>
         <div className="text-xs mb-2" style={{ color: rarityColor }}>
-          {RARITY_NAMES[item.rarity]}
+          {getRarityName(item.rarity)}
         </div>
         {item.description && (
           <div className="text-sm text-text-primary border-t border-border-default pt-2 mb-2">
@@ -413,7 +413,7 @@ const EquipSlot: React.FC<{
       ) : (
         <>
           <span className="text-2xl opacity-30">{EQUIPMENT_SLOT_ICONS[slot]}</span>
-          <span className="text-[9px] text-text-muted mt-1">{EQUIPMENT_SLOT_NAMES[slot]}</span>
+          <span className="text-[9px] text-text-muted mt-1">{getEquipmentSlotName(slot)}</span>
         </>
       )}
     </div>
@@ -576,7 +576,7 @@ const AddItemModal: React.FC<{
                     : 'bg-bg-panel-solid text-text-secondary hover:bg-bg-panel hover:text-text-primary'
                 }`}
               >
-                {cat === 'all' ? 'Все' : CATEGORY_NAMES[cat as keyof typeof CATEGORY_NAMES] || cat}
+                {cat === 'all' ? 'Все' : getCategoryName(cat)}
               </button>
             ))}
           </div>
@@ -640,7 +640,7 @@ const AddItemModal: React.FC<{
                           <div className="text-xs text-text-muted">{template.type}</div>
                           <div className="text-xs text-text-muted mt-0.5 line-clamp-2">{template.description}</div>
                           <div className="text-[10px] text-text-muted mt-1">
-                            {RARITY_NAMES[template.rarity]}
+                            {getRarityName(template.rarity)}
                             {template.weight ? ` | ${template.weight} фнт.` : ''}
                             {template.value ? ` | ${formatValue(template.value)}` : ''}
                           </div>

@@ -1,33 +1,13 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
+import i18n from '../../i18n';
 
-// Названия категорий на русском
-export const CATEGORY_NAMES: Record<ItemCategory, string> = {
-  weapon: 'Оружие',
-  armor: 'Доспехи',
-  shield: 'Щиты',
-  helmet: 'Шлемы',
-  boots: 'Обувь',
-  gloves: 'Перчатки',
-  cloak: 'Плащи',
-  amulet: 'Амулеты',
-  ring: 'Кольца',
-  potion: 'Зелья',
-  scroll: 'Свитки',
-  wand: 'Жезлы',
-  ammunition: 'Боеприпасы',
-  tool: 'Инструменты',
-  treasure: 'Сокровища',
-  misc: 'Разное',
+// i18n-backed name getters
+export const getCategoryName = (key: ItemCategory): string => {
+  return i18n.t(`categories.${key}`, { ns: 'game' });
 };
 
-// Названия редкости на русском
-export const RARITY_NAMES: Record<ItemRarity, string> = {
-  common: 'Обычный',
-  uncommon: 'Необычный',
-  rare: 'Редкий',
-  very_rare: 'Очень редкий',
-  legendary: 'Легендарный',
-  artifact: 'Артефакт',
+export const getRarityName = (key: ItemRarity): string => {
+  return i18n.t(`rarity.${key}`, { ns: 'game' });
 };
 
 // Цвета рамок по редкости (как в BG3)
@@ -49,20 +29,8 @@ export const RARITY_BG_COLORS: Record<ItemRarity, string> = {
   artifact: 'rgba(239, 68, 68, 0.15)',
 };
 
-// Названия слотов экипировки
-export const EQUIPMENT_SLOT_NAMES: Record<EquipmentSlot, string> = {
-  helmet: 'Шлем',
-  armor: 'Доспех',
-  gloves: 'Перчатки',
-  boots: 'Обувь',
-  cloak: 'Плащ',
-  accessory1: 'Аксессуар 1',
-  accessory2: 'Аксессуар 2',
-  accessory3: 'Аксессуар 3',
-  mainhand: 'Основная рука',
-  offhand: 'Вторая рука',
-  rangedMainhand: 'Дальний бой',
-  rangedOffhand: 'Дальний (2)',
+export const getEquipmentSlotName = (key: EquipmentSlot): string => {
+  return i18n.t(`equipmentSlots.${key}`, { ns: 'game' });
 };
 
 // Иконки-заглушки для слотов
@@ -127,52 +95,20 @@ export const RARITY_MAP: Record<string, ItemRarity> = {
   'artifact': 'artifact',
 };
 
-// Тип урона
-export const DAMAGE_TYPE_NAMES: Record<string, string> = {
-  'S': 'рубящий',
-  'P': 'колющий',
-  'B': 'дробящий',
-  'F': 'огонь',
-  'C': 'холод',
-  'L': 'молния',
-  'T': 'яд',
-  'R': 'радиация',
-  'N': 'некротический',
-  'A': 'кислота',
-  'Y': 'психический',
-  'O': 'силовое поле',
+export const getDamageTypeName = (key: string): string => {
+  return i18n.t(`damageTypes.${key}`, { ns: 'game' });
 };
 
-// Свойства оружия
-export const PROPERTY_NAMES: Record<string, string> = {
-  'F': 'Фехтовальное',
-  'L': 'Лёгкое',
-  'H': 'Тяжёлое',
-  '2H': 'Двуручное',
-  'V': 'Универсальное',
-  'T': 'Метательное',
-  'AM': 'Боеприпас',
-  'LD': 'Перезарядка',
-  'R': 'Досягаемость',
-  'S': 'Особое',
+export const getPropertyName = (key: string): string => {
+  return i18n.t(`weaponProperties.${key}`, { ns: 'game' });
 };
 
-// Мастерство оружия
-export const MASTERY_NAMES: Record<string, string> = {
-  'Cleave': 'Рассечение',
-  'Graze': 'Вскользь',
-  'Nick': 'Порез',
-  'Push': 'Толчок',
-  'Sap': 'Оглушение',
-  'Slow': 'Замедление',
-  'Topple': 'Опрокидывание',
-  'Vex': 'Досада',
+export const getMasteryName = (key: string): string => {
+  return i18n.t(`weaponMastery.${key}`, { ns: 'game' });
 };
 
-// Категория оружия
-export const WEAPON_CATEGORY_NAMES: Record<string, string> = {
-  'simple': 'Простое оружие',
-  'martial': 'Боевое оружие',
+export const getWeaponCategoryName = (key: string): string => {
+  return i18n.t(`weaponCategories.${key}`, { ns: 'game' });
 };
 
 // Иконки-заглушки по типу предмета

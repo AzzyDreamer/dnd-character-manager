@@ -7,10 +7,10 @@ import {
   getAbilityModifier,
   formatModifier,
   getSkillBonus,
-  ABILITY_NAMES,
-  ABILITY_SHORT,
+  getAbilityName,
+  getAbilityShort,
   SKILL_ABILITIES,
-  SKILL_NAMES,
+  getSkillName,
   POINT_BUY_TOTAL,
   POINT_BUY_MIN,
   POINT_BUY_MAX,
@@ -1282,7 +1282,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <div className="flex flex-wrap gap-1 mt-1">
                   {selectedClass.primaryAbility.map(a => (
                     <span key={a} className="px-1.5 py-0.5 bg-red-accent/30 text-red-300 rounded text-[10px]">
-                      {ABILITY_NAMES[a]}
+                      {getAbilityName(a)}
                     </span>
                   ))}
                 </div>
@@ -1292,7 +1292,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <div className="flex flex-wrap gap-1 mt-1">
                   {selectedClass.savingThrows.map(a => (
                     <span key={a} className="px-1.5 py-0.5 bg-blue-900/40 text-blue-300 rounded text-[10px]">
-                      {ABILITY_NAMES[a]}
+                      {getAbilityName(a)}
                     </span>
                   ))}
                 </div>
@@ -1300,7 +1300,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               {selectedClass.spellcaster && (
                 <div className="flex gap-2">
                   <span className="text-text-muted shrink-0">Заклинатель:</span>
-                  <span className="text-purple-300">{ABILITY_NAMES[selectedClass.spellcastingAbility!]}</span>
+                  <span className="text-purple-300">{getAbilityName(selectedClass.spellcastingAbility!)}</span>
                 </div>
               )}
               <div className="flex gap-2">
@@ -1449,7 +1449,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             return (
               <div key={ability} className="flex flex-col items-center gap-1.5">
                 <StatBadge
-                  label={ABILITY_NAMES[ability]}
+                  label={getAbilityName(ability)}
                   value={final}
                   modifier={mod}
                   variant="circle"
@@ -1542,7 +1542,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     const is1 = bgBonus1 === ability;
                     return (
                       <div key={ability} className="text-center space-y-2">
-                        <div className="text-sm text-text-primary font-medium">{ABILITY_NAMES[ability]}</div>
+                        <div className="text-sm text-text-primary font-medium">{getAbilityName(ability)}</div>
                         <div className="flex gap-2 justify-center">
                           <button
                             onClick={() => {
@@ -1578,10 +1578,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 {bgBonus2 && bgBonus1 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span className="px-3 py-1 bg-gold/10 text-gold rounded-lg text-sm">
-                      {ABILITY_NAMES[bgBonus2]} +2
+                      {getAbilityName(bgBonus2)} +2
                     </span>
                     <span className="px-3 py-1 bg-gold/10 text-gold rounded-lg text-sm">
-                      {ABILITY_NAMES[bgBonus1]} +1
+                      {getAbilityName(bgBonus1)} +1
                     </span>
                   </div>
                 )}
@@ -1599,7 +1599,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {(Object.keys(abilityScores) as Array<keyof AbilityScores>).map(ability => (
                     <div key={ability} className="text-center">
-                      <div className="text-xs text-text-secondary mb-1">{ABILITY_NAMES[ability]}</div>
+                      <div className="text-xs text-text-secondary mb-1">{getAbilityName(ability)}</div>
                       <div className="flex items-center justify-center gap-1">
                         <button
                           onClick={() => handleCustomBonusChange(ability, -1)}
@@ -1789,7 +1789,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                       <span className="text-text-secondary">Связанные характеристики:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {getBgAbilityOptions(selectedBackground).map(a => (
-                          <span key={a} className="px-2 py-0.5 bg-gold/10 text-gold rounded text-xs">{ABILITY_NAMES[a]}</span>
+                          <span key={a} className="px-2 py-0.5 bg-gold/10 text-gold rounded text-xs">{getAbilityName(a)}</span>
                         ))}
                       </div>
                     </div>
@@ -2245,7 +2245,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <div className="grid grid-cols-2 gap-2">
               {(Object.keys(finalScores) as Array<keyof AbilityScores>).map(ability => (
                 <div key={ability} className="flex justify-between text-sm">
-                  <span className="text-text-primary">{ABILITY_NAMES[ability]}</span>
+                  <span className="text-text-primary">{getAbilityName(ability)}</span>
                   <span className="text-text-primary font-bold">
                     {finalScores[ability]} ({formatModifier(getAbilityModifier(finalScores[ability]))})
                   </span>
@@ -2291,7 +2291,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <div className="grid grid-cols-3 gap-4 text-sm text-center">
               <div>
                 <div className="text-text-secondary">Характеристика</div>
-                <div className="text-purple-300 font-bold">{ABILITY_NAMES[selectedClass.spellcastingAbility]}</div>
+                <div className="text-purple-300 font-bold">{getAbilityName(selectedClass.spellcastingAbility)}</div>
               </div>
               <div>
                 <div className="text-text-secondary">Сл спасброска</div>
@@ -2669,7 +2669,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     };
 
     // Group skills by ability
-    const ABILITY_ORDER: (keyof typeof ABILITY_NAMES)[] = [
+    const ABILITY_ORDER: (keyof AbilityScores)[] = [
       'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',
     ];
 
@@ -2716,7 +2716,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div key={ability}>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
-                    {ABILITY_NAMES[ability]} ({ABILITY_SHORT[ability]})
+                    {getAbilityName(ability)} ({getAbilityShort(ability)})
                   </span>
                   <div className="flex-1 h-px bg-border-default" />
                 </div>
@@ -2772,7 +2772,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                         }`}>
                           <img
                             src={`/images/skills/${skillKey}.webp`}
-                            alt={SKILL_NAMES[skillKey]}
+                            alt={getSkillName(skillKey)}
                             className={`w-full h-full object-cover ${isDisabled && !isFromBg ? 'opacity-30 grayscale' : isActive ? '' : 'opacity-60'}`}
                             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                           />
@@ -2787,9 +2787,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium truncate text-xs">{SKILL_NAMES[skillKey]}</div>
+                          <div className="font-medium truncate text-xs">{getSkillName(skillKey)}</div>
                           <div className="text-[10px] text-text-muted">
-                            {ABILITY_SHORT[SKILL_ABILITIES[skillKey]]}
+                            {getAbilityShort(SKILL_ABILITIES[skillKey])}
                             {isFromBg && !hasExpertise && ' • Предыстория'}
                             {hasExpertise && <span className="text-purple-400"> • Мастерство ×2</span>}
                           </div>
@@ -2818,7 +2818,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     : 'bg-blue-900/40 text-blue-300'
                 }`}>
                   {selectedExpertise.includes(sk) && <Star size={10} />}
-                  {SKILL_NAMES[sk]} <span className="text-[10px] opacity-60 ml-0.5">(Предыстория)</span>
+                  {getSkillName(sk)} <span className="text-[10px] opacity-60 ml-0.5">(Предыстория)</span>
                 </span>
               ))}
               {selectedSkills.map(sk => (
@@ -2828,7 +2828,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     : 'bg-gold/10 text-gold'
                 }`}>
                   {selectedExpertise.includes(sk) && <Star size={10} />}
-                  {SKILL_NAMES[sk]}
+                  {getSkillName(sk)}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -2932,7 +2932,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             )}
           </div>
           <div className="text-xs text-text-muted mt-1">
-            {selectedClass.name} • {ABILITY_NAMES[selectedClass.spellcastingAbility!]}
+            {selectedClass.name} • {getAbilityName(selectedClass.spellcastingAbility!)}
           </div>
         </div>
 
