@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { Dices, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { rollDice, rollWithAdvantage, parseDiceExpression } from '../utils/diceRoller';
@@ -246,6 +247,7 @@ const SpinningDiceChip: React.FC<{ finalValue: number; sides: number; delay: num
 // ─── Toast Component ───
 
 const DiceRollToast: React.FC<{ data: ToastData; hiding: boolean; rolling: boolean }> = ({ data, hiding, rolling }) => {
+  const { t } = useTranslation('combat');
   // Detect sides from expression
   const getSides = (expr: string) => {
     const m = expr.match(/d(\d+)/);
@@ -283,7 +285,7 @@ const DiceRollToast: React.FC<{ data: ToastData; hiding: boolean; rolling: boole
   // Advantage/disadvantage
   const { result } = data;
   const isAdv = result.mode === 'advantage';
-  const label = isAdv ? 'Преимущество' : 'Помеха';
+  const label = isAdv ? t('diceRoll.advantage') : t('diceRoll.disadvantage');
   const labelColor = isAdv ? 'text-green-400' : 'text-red-400';
   const sides = getSides(result.chosen.expression);
 
@@ -340,6 +342,7 @@ const DiceConfigMenu: React.FC<{
   onRoll: (data: ToastData) => void;
   onClose: () => void;
 }> = ({ expression, anchor, onRoll, onClose }) => {
+  const { t } = useTranslation('combat');
   const [mode, setMode] = useState<'normal' | 'advantage' | 'disadvantage'>('normal');
   const [bonus, setBonus] = useState(0);
   const [multiplier, setMultiplier] = useState(1);
@@ -437,12 +440,12 @@ const DiceConfigMenu: React.FC<{
 
         {/* Mode */}
         <div className="mb-3">
-          <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">Режим</div>
+          <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">{t('diceRoll.modeLabel')}</div>
           <div className="grid grid-cols-3 gap-1">
             {([
-              ['normal', 'Обычный', ''],
-              ['advantage', 'Преим.', 'green'],
-              ['disadvantage', 'Помеха', 'red'],
+              ['normal', t('diceRoll.modeNormal'), ''],
+              ['advantage', t('diceRoll.modeAdvantage'), 'green'],
+              ['disadvantage', t('diceRoll.modeDisadvantage'), 'red'],
             ] as const).map(([m, label, color]) => (
               <button
                 key={m}
@@ -464,7 +467,7 @@ const DiceConfigMenu: React.FC<{
         {/* Bonus & Multiplier row */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">Бонус</div>
+            <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">{t('diceRoll.bonusLabel')}</div>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setBonus(b => b - 1)}
@@ -487,7 +490,7 @@ const DiceConfigMenu: React.FC<{
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">Множитель</div>
+            <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">{t('diceRoll.multiplierLabel')}</div>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setMultiplier(m => Math.max(1, m - 1))}
@@ -521,7 +524,7 @@ const DiceConfigMenu: React.FC<{
             )}
             {mode !== 'normal' && (
               <span className={mode === 'advantage' ? 'text-green-400' : 'text-red-400'}>
-                {' '}({mode === 'advantage' ? 'преим.' : 'помеха'})
+                {' '}({mode === 'advantage' ? t('diceRoll.advantageShort') : t('diceRoll.disadvantageShort')})
               </span>
             )}
           </div>
@@ -534,7 +537,7 @@ const DiceConfigMenu: React.FC<{
           className="w-full py-2 rounded-lg bg-gold/20 text-gold border border-gold/40 font-medium text-sm hover:bg-gold/30 transition-all gold-glow disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Dices size={16} />
-          Бросить
+          {t('diceRoll.rollButton')}
         </button>
       </div>
     </div>

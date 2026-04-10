@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
 import {
   generateAbilityScores,
@@ -37,13 +38,7 @@ function getSpeciesSpeed(sp: SpeciesData): number {
   return 30;
 }
 
-const SPECIES_SIZE_NAMES: Record<string, string> = {
-  T: 'Крошечный', S: 'Маленький', M: 'Средний', L: 'Большой', H: 'Огромный', G: 'Гигантский',
-};
-
-function getSpeciesSize(sp: SpeciesData): string {
-  return sp.size?.map(s => SPECIES_SIZE_NAMES[s] || s).join('/') || 'Средний';
-}
+// getSpeciesSize moved inside component to access i18n
 
 function getSpeciesLanguages(sp: SpeciesData): string[] {
   if (!sp.languageProficiencies?.length) return ['Common'];
@@ -105,14 +100,7 @@ function getBgAbilityOptions(bg: JsonBackgroundData): (keyof AbilityScores)[] {
   return result;
 }
 
-// ─── OPTION_TYPE_NAMES для char creation options ───
-const OPTION_TYPE_NAMES: Record<string, string> = {
-  'SG': 'Сверхъестественный Дар',
-  'CS': 'Секрет Персонажа',
-  'DG': 'Тёмный Дар',
-  'RF:B': 'Региональная Особенность',
-  'Transformation': 'Трансформация',
-};
+// OPTION_TYPE_NAMES moved inside component to access i18n
 
 // ─── Языки D&D ───
 const STANDARD_LANGUAGES = [
@@ -166,36 +154,7 @@ interface SpellData {
   [key: string]: any;
 }
 
-const SCHOOL_NAMES: Record<string, string> = {
-  A: 'Ограждение', C: 'Вызов', D: 'Прорицание', E: 'Очарование',
-  V: 'Воплощение', I: 'Иллюзия', N: 'Некромантия', T: 'Преобразование',
-};
-
-const TIME_UNITS: Record<string, string> = {
-  action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.',
-};
-
-function getSpellMeta(spell: SpellData) {
-  const castingTime = spell.time
-    ?.map((t: any) => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`)
-    .join(', ');
-  const range = spell.range?.distance?.amount
-    ? `${spell.range.distance.amount} фт.`
-    : spell.range?.type === 'touch' ? 'Касание'
-      : spell.range?.type === 'self' ? 'На себя'
-        : spell.range?.type || '';
-  const components = spell.components
-    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
-    : '';
-  const duration = spell.duration
-    ?.map((d: any) => {
-      if (d.type === 'instant') return 'Мгновенная';
-      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
-      return d.type;
-    })
-    .join(', ');
-  return { castingTime, range, components, duration };
-}
+// SCHOOL_NAMES, TIME_UNITS, getSpellMeta moved inside component to access i18n
 
 function cleanTagRefs(text: string): string {
   return text.replace(/\{@\w+\s+([^|}]+)(?:\|[^|}]*)*(?:\|([^}]*))?\}/g, (_, first, last) => last || first);
@@ -217,20 +176,13 @@ interface CharacterCreatorProps {
 type AbilityMethod = 'pointBuy' | 'roll' | 'manual';
 type BackgroundBonusMode = 'background' | 'custom';
 
-const ALL_STEPS = [
-  { key: 'race', label: 'Раса', icon: Sparkles },
-  { key: 'class', label: 'Класс', icon: Swords },
-  { key: 'background', label: 'Предыстория', icon: BookOpen },
-  { key: 'languages', label: 'Языки', icon: Languages },
-  { key: 'originfeat', label: 'Черта', icon: Star },
-  { key: 'charoptions', label: 'Опции', icon: Scroll },
-  { key: 'fightingStyle', label: 'Боевой стиль', icon: Shield },
-  { key: 'abilities', label: 'Характеристики', icon: Dices },
-  { key: 'skills', label: 'Навыки', icon: Target },
-  { key: 'spells', label: 'Заклинания', icon: Wand2 },
-  { key: 'details', label: 'Детали', icon: User },
-  { key: 'review', label: 'Обзор', icon: Eye },
-];
+// ALL_STEPS moved inside component to access i18n
+const ALL_STEP_ICONS = {
+  race: Sparkles, class: Swords, background: BookOpen, languages: Languages,
+  originfeat: Star, charoptions: Scroll, fightingStyle: Shield, abilities: Dices,
+  skills: Target, spells: Wand2, details: User, review: Eye,
+} as const;
+const ALL_STEP_KEYS = ['race', 'class', 'background', 'languages', 'originfeat', 'charoptions', 'fightingStyle', 'abilities', 'skills', 'spells', 'details', 'review'] as const;
 
 const DEFAULT_SCORES: AbilityScores = {
   strength: 8, dexterity: 8, constitution: 8,
@@ -271,7 +223,55 @@ const EntityImage: React.FC<{
 };
 
 export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCancel }) => {
+  const { t } = useTranslation('character');
   const [step, setStep] = useState(0);
+
+  // i18n-backed helpers (moved from module scope)
+  const SCHOOL_NAMES: Record<string, string> = {
+    A: t('creation.schools.A'), C: t('creation.schools.C'), D: t('creation.schools.D'), E: t('creation.schools.E'),
+    V: t('creation.schools.V'), I: t('creation.schools.I'), N: t('creation.schools.N'), T: t('creation.schools.T'),
+  };
+  const TIME_UNITS: Record<string, string> = {
+    action: t('creation.timeUnits.action'), bonus: t('creation.timeUnits.bonus'),
+    reaction: t('creation.timeUnits.reaction'), minute: t('creation.timeUnits.minute'),
+  };
+  const OPTION_TYPE_NAMES: Record<string, string> = {
+    'SG': t('creation.optionTypes.SG'), 'CS': t('creation.optionTypes.CS'),
+    'DG': t('creation.optionTypes.DG'), 'RF:B': t('creation.optionTypes.RF:B'),
+    'Transformation': t('creation.optionTypes.Transformation'),
+  };
+
+  const getSpeciesSize = (sp: SpeciesData): string => {
+    return sp.size?.map(s => t(`creation.sizes.${s}`, { defaultValue: s })).join('/') || t('creation.sizes.M');
+  };
+
+  const getSpellMeta = (spell: SpellData) => {
+    const castingTime = spell.time
+      ?.map((ti: any) => `${ti.number} ${TIME_UNITS[ti.unit] || ti.unit}`)
+      .join(', ');
+    const range = spell.range?.distance?.amount
+      ? t('creation.spellRange.ft', { amount: spell.range.distance.amount })
+      : spell.range?.type === 'touch' ? t('creation.spellRange.touch')
+        : spell.range?.type === 'self' ? t('creation.spellRange.self')
+          : spell.range?.type || '';
+    const components = spell.components
+      ? [spell.components.v ? t('creation.spellComponents.v') : '', spell.components.s ? t('creation.spellComponents.s') : '', spell.components.m ? t('creation.spellComponents.m') : ''].filter(Boolean).join(', ')
+      : '';
+    const duration = spell.duration
+      ?.map((d: any) => {
+        if (d.type === 'instant') return t('creation.spellDuration.instant');
+        if (d.concentration) return t('creation.spellDuration.concentration', { amount: d.duration?.amount || '', type: d.duration?.type || '' });
+        return d.type;
+      })
+      .join(', ');
+    return { castingTime, range, components, duration };
+  };
+
+  const ALL_STEPS = ALL_STEP_KEYS.map(key => ({
+    key,
+    label: t(`creation.steps.${key}`),
+    icon: ALL_STEP_ICONS[key],
+  }));
 
   // Species (lazy loaded)
   const [speciesLoaded, setSpeciesLoaded] = useState(false);
@@ -289,7 +289,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [selectedBackground, setSelectedBackground] = useState<JsonBackgroundData | null>(null);
   const easterEggAudioRef = React.useRef<HTMLAudioElement | null>(null);
 
-  const EVIL_ALIGNMENTS = ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'];
+  const EVIL_ALIGNMENTS = ['lawfulEvil', 'neutralEvil', 'chaoticEvil'];
 
   const wrappedOnSave = React.useCallback((character: Character) => {
     if (
@@ -457,7 +457,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   }, [selectedClass]);
 
   // Load cantrips when a fighting style with additionalSpells is selected (Blessed/Druidic Warrior)
-  const FS_CLASS_MAP: Record<string, string> = { cleric: 'Жрец', druid: 'Друид' };
+  const FS_CLASS_MAP: Record<string, string> = { cleric: t('creation.classMap.cleric'), druid: t('creation.classMap.druid') };
   const fsRequiredCantrips = useMemo(() => {
     const as = selectedFightingStyle?.additionalSpells?.[0];
     if (!as) return 0;
@@ -804,7 +804,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       initiative: getAbilityModifier(finalScores.dexterity),
       speed: getSpeciesSpeed(effectiveSpecies ?? selectedSpecies),
       proficiencyBonus,
-      inventory: ((selectedBackground as any)?._isEasterEgg && rpAlignment && ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'].includes(rpAlignment)) ? [{
+      inventory: ((selectedBackground as any)?._isEasterEgg && rpAlignment && EVIL_ALIGNMENTS.includes(rpAlignment)) ? [{
         id: `deathstalker_mantle_${Date.now()}`,
         name: 'The Deathstalker Mantle',
         type: 'Wondrous Item',
@@ -837,8 +837,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           id: bgFeat ? 'bg-feat' : 'origin-feat',
           name: featDisplayName,
           description: bgFeat
-            ? `Черта от предыстории: ${selectedBackground.name}`
-            : `Черта происхождения`,
+            ? t('creation.background.featFromBackground', { name: selectedBackground.name })
+            : t('creation.background.originFeat'),
           source: featSource,
         }] : []),
         ...(selectedFightingStyle ? [{
@@ -1132,7 +1132,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       {!speciesLoaded ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 size={32} className="animate-spin text-gold" />
-          <span className="ml-3 text-text-secondary">Загрузка видов...</span>
+          <span className="ml-3 text-text-secondary">{t('creation.race.loading')}</span>
         </div>
       ) : (
         <>
@@ -1142,7 +1142,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
               <input
                 type="text"
-                placeholder="Поиск видов..."
+                placeholder={t('creation.race.searchPlaceholder')}
                 value={speciesSearchQuery}
                 onChange={e => setSpeciesSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
@@ -1156,7 +1156,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     ? 'border-gold/50 bg-gold/10 text-gold'
                     : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
                 }`}
-              >Все</button>
+              >{t('creation.race.all')}</button>
               {speciesSources.map(src => (
                 <button
                   key={src}
@@ -1188,7 +1188,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </button>
             ))}
             {filteredSpecies.length === 0 && (
-              <div className="col-span-full text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+              <div className="col-span-full text-center text-text-muted text-sm py-4">{t('creation.race.nothingFound')}</div>
             )}
           </div>
 
@@ -1199,7 +1199,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 {/* Variant picker */}
                 {speciesVariants.length > 0 && (
                   <div>
-                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Подвид</h4>
+                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">{t('creation.race.subspecies')}</h4>
                     <div className="flex gap-1.5 flex-wrap">
                       {speciesVariants.map(v => (
                         <button
@@ -1220,29 +1220,29 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
                 <div className="space-y-2 text-sm">
                   <div className="flex gap-2">
-                    <span className="text-text-secondary shrink-0">Скорость:</span>
-                    <span className="text-text-primary">{getSpeciesSpeed(effectiveSpecies ?? selectedSpecies)} фт.</span>
+                    <span className="text-text-secondary shrink-0">{t('creation.race.speed')}:</span>
+                    <span className="text-text-primary">{getSpeciesSpeed(effectiveSpecies ?? selectedSpecies)} {t('creation.race.ft')}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span className="text-text-secondary shrink-0">Размер:</span>
+                    <span className="text-text-secondary shrink-0">{t('creation.race.size')}:</span>
                     <span className="text-text-primary">{getSpeciesSize(effectiveSpecies ?? selectedSpecies)}</span>
                   </div>
                   {(effectiveSpecies ?? selectedSpecies).darkvision && (
                     <div className="flex gap-2">
-                      <span className="text-text-secondary shrink-0">Тёмное зрение:</span>
-                      <span className="text-text-primary">{(effectiveSpecies ?? selectedSpecies).darkvision} фт.</span>
+                      <span className="text-text-secondary shrink-0">{t('creation.race.darkvision')}:</span>
+                      <span className="text-text-primary">{(effectiveSpecies ?? selectedSpecies).darkvision} {t('creation.race.ft')}</span>
                     </div>
                   )}
                   <div className="flex gap-2">
-                    <span className="text-text-secondary shrink-0">Языки:</span>
+                    <span className="text-text-secondary shrink-0">{t('creation.race.languages')}:</span>
                     <span className="text-text-primary">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
                   </div>
                 </div>
 
-                {/* "Вы получите следующее:" — BG3 style features list */}
+                {/* BG3 style features list */}
                 {selectedSpecies.entries && selectedSpecies.entries.length > 0 && EntryRendererCmp && (
                   <div className="pt-3 border-t border-border-default">
-                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
+                    <h4 className="text-xs text-gold uppercase tracking-wider mb-2">{t('creation.race.youWillGet')}</h4>
                     <div className="prose prose-invert prose-sm max-w-none text-xs">
                       <EntryRendererCmp entries={selectedSpecies.entries} context={selectedSpecies.name} />
                     </div>
@@ -1274,11 +1274,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
             <div className="pt-2 border-t border-border-default space-y-2 text-xs">
               <div className="flex gap-2">
-                <span className="text-text-muted shrink-0">Кость хитов:</span>
+                <span className="text-text-muted shrink-0">{t('creation.class.hitDie')}:</span>
                 <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
               </div>
               <div>
-                <span className="text-text-muted">Основная характеристика:</span>
+                <span className="text-text-muted">{t('creation.class.primaryAbility')}:</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {selectedClass.primaryAbility.map(a => (
                     <span key={a} className="px-1.5 py-0.5 bg-red-accent/30 text-red-300 rounded text-[10px]">
@@ -1288,7 +1288,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 </div>
               </div>
               <div>
-                <span className="text-text-muted">Спасброски:</span>
+                <span className="text-text-muted">{t('creation.class.savingThrows')}:</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {selectedClass.savingThrows.map(a => (
                     <span key={a} className="px-1.5 py-0.5 bg-blue-900/40 text-blue-300 rounded text-[10px]">
@@ -1299,18 +1299,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </div>
               {selectedClass.spellcaster && (
                 <div className="flex gap-2">
-                  <span className="text-text-muted shrink-0">Заклинатель:</span>
+                  <span className="text-text-muted shrink-0">{t('creation.class.spellcaster')}:</span>
                   <span className="text-purple-300">{getAbilityName(selectedClass.spellcastingAbility!)}</span>
                 </div>
               )}
               <div className="flex gap-2">
-                <span className="text-text-muted shrink-0">Доспехи:</span>
+                <span className="text-text-muted shrink-0">{t('creation.class.armor')}:</span>
                 <span className="text-text-primary">
-                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : 'Нет'}
+                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : t('creation.class.noArmor')}
                 </span>
               </div>
               <div className="flex gap-2">
-                <span className="text-text-muted shrink-0">Оружие:</span>
+                <span className="text-text-muted shrink-0">{t('creation.class.weapons')}:</span>
                 <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
               </div>
             </div>
@@ -1318,7 +1318,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             {selectedClass.subclasses.length > 0 && (
               <div className="pt-2 border-t border-border-default">
                 <h4 className="text-[10px] text-text-muted uppercase tracking-wider mb-1.5">
-                  Подклассы (выбор на 3 ур.)
+                  {t('creation.class.subclasses')}
                 </h4>
                 <div className="space-y-1">
                   {selectedClass.subclasses.map(sub => {
@@ -1338,7 +1338,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-text-muted text-sm">
-            Выберите класс
+            {t('creation.class.selectClass')}
           </div>
         )}
       </div>
@@ -1395,12 +1395,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h3 className="text-xl font-medieval text-gold">Характеристики</h3>
+          <h3 className="text-xl font-medieval text-gold">{t('creation.abilities.title')}</h3>
           <div className="flex rounded-lg overflow-hidden border border-border-default">
             {([
-              { key: 'pointBuy' as const, label: 'Покупка очков' },
-              { key: 'roll' as const, label: 'Бросок кубиков' },
-              { key: 'manual' as const, label: 'Вручную' },
+              { key: 'pointBuy' as const, label: t('creation.abilities.pointBuy') },
+              { key: 'roll' as const, label: t('creation.abilities.roll') },
+              { key: 'manual' as const, label: t('creation.abilities.manual') },
             ]).map(m => (
               <button
                 key={m.key}
@@ -1419,7 +1419,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
         {abilityMethod === 'pointBuy' && (
           <div className="flex items-center gap-4 p-3 rounded-lg bg-bg-panel-solid/80 border border-border-default">
-            <span className="text-text-primary text-sm">Осталось очков:</span>
+            <span className="text-text-primary text-sm">{t('creation.abilities.pointsRemaining')}</span>
             <span className={`text-2xl font-bold ${remaining! < 0 ? 'text-red-400' : remaining === 0 ? 'text-green-400' : 'text-gold'}`}>
               {remaining} / {POINT_BUY_TOTAL}
             </span>
@@ -1433,7 +1433,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               className="px-5 py-2 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 flex items-center gap-2 font-medium"
             >
               <Dices size={18} />
-              Бросить заново (4d6 без наименьшего)
+              {t('creation.abilities.rollAgain')}
             </button>
           </div>
         )}
@@ -1489,7 +1489,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 )}
 
                 {abilityMethod === 'roll' && (
-                  <div className="text-[10px] text-text-muted">баз: {base}</div>
+                  <div className="text-[10px] text-text-muted">{t('creation.abilities.base', { value: base })}</div>
                 )}
 
                 {bonus > 0 && (
@@ -1509,7 +1509,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {/* Background Bonus Mode (2024 rules) */}
         {selectedBackground && (
           <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-            <h4 className="text-lg font-medieval text-gold mb-3">Бонусы предыстории</h4>
+            <h4 className="text-lg font-medieval text-gold mb-3">{t('creation.abilities.backgroundBonuses')}</h4>
             <div className="flex rounded-lg overflow-hidden border border-border-default mb-4 w-fit">
               <button
                 onClick={() => { setBackgroundBonusMode('background'); setCustomBonuses({}); }}
@@ -1519,7 +1519,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     : 'bg-bg-panel-solid text-text-primary hover:bg-bg-panel-solid'
                 }`}
               >
-                По предыстории ({selectedBackground.name})
+                {t('creation.abilities.byBackground', { name: selectedBackground.name })}
               </button>
               <button
                 onClick={() => { setBackgroundBonusMode('custom'); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); }}
@@ -1529,13 +1529,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     : 'bg-bg-panel-solid text-text-primary hover:bg-bg-panel-solid'
                 }`}
               >
-                Свободное распределение
+                {t('creation.abilities.freeDistribution')}
               </button>
             </div>
 
             {backgroundBonusMode === 'background' ? (
               <div className="space-y-3">
-                <p className="text-sm text-text-secondary">Выберите +2 к одной и +1 к другой из связанных характеристик:</p>
+                <p className="text-sm text-text-secondary">{t('creation.abilities.selectBonuses')}</p>
                 <div className="grid grid-cols-3 gap-3">
                   {getBgAbilityOptions(selectedBackground).map(ability => {
                     const is2 = bgBonus2 === ability;
@@ -1590,7 +1590,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-sm text-text-primary">
-                    Распределите 3 очка (макс. +2 на характеристику)
+                    {t('creation.abilities.distribute3points')}
                   </span>
                   <span className={`font-bold ${customBonusSpent === 3 ? 'text-green-400' : 'text-gold'}`}>
                     {customBonusSpent} / 3
@@ -1677,7 +1677,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       {!backgroundsLoaded ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 size={32} className="animate-spin text-gold" />
-          <span className="ml-3 text-text-secondary">Загрузка предысторий...</span>
+          <span className="ml-3 text-text-secondary">{t('creation.background.loading')}</span>
         </div>
       ) : (
         <>
@@ -1687,7 +1687,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={16} />
               <input
                 type="text"
-                placeholder="Поиск предысторий..."
+                placeholder={t('creation.background.searchPlaceholder')}
                 value={bgSearchQuery}
                 onChange={e => setBgSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50"
@@ -1701,7 +1701,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     ? 'border-gold/50 bg-gold/10 text-gold'
                     : 'border-border-default text-text-muted hover:text-text-primary hover:border-border-hover'
                 }`}
-              >Все</button>
+              >{t('creation.race.all')}</button>
               {bgSources.map(src => (
                 <button
                   key={src}
@@ -1752,7 +1752,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               </button>
             ))}
             {filteredBackgrounds.length === 0 && (
-              <div className="col-span-full text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+              <div className="col-span-full text-center text-text-muted text-sm py-4">{t('creation.background.nothingFound')}</div>
             )}
           </div>
 
@@ -1760,17 +1760,17 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {selectedBackground && (
             <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4 space-y-3">
               <div className="pt-1">
-                <h4 className="text-xs text-gold uppercase tracking-wider mb-2">Вы получите следующее:</h4>
+                <h4 className="text-xs text-gold uppercase tracking-wider mb-2">{t('creation.background.youWillGet')}</h4>
                 <div className="space-y-2 text-sm">
                   {getBgFeatName(selectedBackground) && (
                     <div>
-                      <span className="text-text-secondary">Черта:</span>
+                      <span className="text-text-secondary">{t('creation.background.feat')}:</span>
                       <span className="text-purple-300 ml-2 font-medium">{getBgFeatDisplayName(selectedBackground)}</span>
                     </div>
                   )}
                   {getBgSkills(selectedBackground).length > 0 && (
                     <div>
-                      <span className="text-text-secondary">Навыки:</span>
+                      <span className="text-text-secondary">{t('creation.background.skills')}:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {getBgSkills(selectedBackground).map(s => (
                           <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
@@ -1780,13 +1780,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   )}
                   {getBgToolProficiency(selectedBackground) && (
                     <div className="flex gap-2">
-                      <span className="text-text-secondary shrink-0">Инструменты:</span>
+                      <span className="text-text-secondary shrink-0">{t('creation.background.tools')}:</span>
                       <span className="text-text-primary">{getBgToolProficiency(selectedBackground)}</span>
                     </div>
                   )}
                   {getBgAbilityOptions(selectedBackground).length > 0 && (
                     <div>
-                      <span className="text-text-secondary">Связанные характеристики:</span>
+                      <span className="text-text-secondary">{t('creation.abilities.relatedAbilities')}:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {getBgAbilityOptions(selectedBackground).map(a => (
                           <span key={a} className="px-2 py-0.5 bg-gold/10 text-gold rounded text-xs">{getAbilityName(a)}</span>
@@ -1842,11 +1842,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
     return (
       <div className="space-y-4">
-        <h3 className="text-xl font-medieval text-gold text-center">Языки</h3>
+        <h3 className="text-xl font-medieval text-gold text-center">{t('creation.languages.title')}</h3>
 
         {/* Fixed languages */}
         <div className="glass-panel p-4">
-          <h4 className="text-sm font-semibold text-text-primary mb-2">Известные языки</h4>
+          <h4 className="text-sm font-semibold text-text-primary mb-2">{t('creation.languages.known')}</h4>
           <div className="flex flex-wrap gap-2">
             {fixed.map(lang => (
               <span key={lang} className="px-3 py-1.5 rounded-lg bg-gold/10 text-gold border border-gold/30 text-sm font-medium">
@@ -1860,13 +1860,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {speciesChoose > 0 && (
           <div className="glass-panel p-4">
             <h4 className="text-sm font-semibold text-text-primary mb-1">
-              Языки от расы
+              {t('creation.languages.fromRace')}
               <span className="text-text-muted font-normal ml-2">
-                (выберите {speciesChoose})
+                {t('creation.languages.choose', { count: speciesChoose })}
               </span>
             </h4>
             <p className="text-xs text-text-muted mb-3">
-              {selectedSpecies?.name ?? 'Раса'} — выберите дополнительные языки
+              {t('creation.languages.raceChooseDesc', { name: selectedSpecies?.name ?? t('creation.steps.race') })}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {speciesAvailable.map(lang => {
@@ -1918,7 +1918,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               })}
             </div>
             <div className="mt-2 text-xs text-text-muted">
-              Выбрано: {selectedLanguages.slice(0, speciesChoose).filter(Boolean).length}/{speciesChoose}
+              {t('creation.languages.selected', { count: selectedLanguages.slice(0, speciesChoose).filter(Boolean).length, total: speciesChoose })}
             </div>
           </div>
         )}
@@ -1927,13 +1927,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {bgChoose > 0 && (
           <div className="glass-panel p-4">
             <h4 className="text-sm font-semibold text-text-primary mb-1">
-              Языки от предыстории
+              {t('creation.languages.fromBackground')}
               <span className="text-text-muted font-normal ml-2">
-                (выберите {bgChoose})
+                {t('creation.languages.choose', { count: bgChoose })}
               </span>
             </h4>
             <p className="text-xs text-text-muted mb-3">
-              {selectedBackground?.name ?? 'Предыстория'} — дополнительные языки
+              {t('creation.languages.bgChooseDesc', { name: selectedBackground?.name ?? t('creation.steps.background') })}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {bgAvailable.map(lang => {
@@ -1983,14 +1983,14 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               })}
             </div>
             <div className="mt-2 text-xs text-text-muted">
-              Выбрано: {selectedLanguages.slice(speciesChoose, speciesChoose + bgChoose).filter(Boolean).length}/{bgChoose}
+              {t('creation.languages.selected', { count: selectedLanguages.slice(speciesChoose, speciesChoose + bgChoose).filter(Boolean).length, total: bgChoose })}
             </div>
           </div>
         )}
 
         {/* Summary */}
         <div className="text-center text-sm text-text-muted">
-          Всего языков: {fixed.length + selectedLanguages.filter(Boolean).length} из {fixed.length + totalChoose}
+          {t('creation.languages.totalLanguages', { current: fixed.length + selectedLanguages.filter(Boolean).length, max: fixed.length + totalChoose })}
         </div>
       </div>
     );
@@ -1999,64 +1999,62 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // ─── Step 4: Details ───
   const renderDetailsStep = () => {
     const RP_ALIGNMENTS = [
-      ['Законно-добрый', 'Нейтрально-добрый', 'Хаотично-добрый'],
-      ['Законно-нейтральный', 'Истинно нейтральный', 'Хаотично-нейтральный'],
-      ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'],
+      ['lawfulGood', 'neutralGood', 'chaoticGood'],
+      ['lawfulNeutral', 'trueNeutral', 'chaoticNeutral'],
+      ['lawfulEvil', 'neutralEvil', 'chaoticEvil'],
     ] as const;
-    const ALIGN_SHORT: Record<string, string> = {
-      'Законно-добрый': 'ЗД', 'Нейтрально-добрый': 'НД', 'Хаотично-добрый': 'ХД',
-      'Законно-нейтральный': 'ЗН', 'Истинно нейтральный': 'ИН', 'Хаотично-нейтральный': 'ХН',
-      'Законно-злой': 'ЗЗ', 'Нейтрально-злой': 'НЗ', 'Хаотично-злой': 'ХЗ',
-    };
+    const ALIGN_SHORT: Record<string, string> = Object.fromEntries(
+      RP_ALIGNMENTS.flat().map(key => [key, t(`creation.alignmentsShort.${key}`)])
+    );
     const ALIGN_COLORS: Record<string, string> = {
-      'Законно-добрый': 'border-blue-400/50 bg-blue-900/20 text-blue-300',
-      'Нейтрально-добрый': 'border-emerald-400/50 bg-emerald-900/20 text-emerald-300',
-      'Хаотично-добрый': 'border-yellow-400/50 bg-yellow-900/20 text-yellow-300',
-      'Законно-нейтральный': 'border-sky-400/50 bg-sky-900/20 text-sky-300',
-      'Истинно нейтральный': 'border-gray-400/50 bg-gray-800/30 text-gray-300',
-      'Хаотично-нейтральный': 'border-orange-400/50 bg-orange-900/20 text-orange-300',
-      'Законно-злой': 'border-purple-400/50 bg-purple-900/20 text-purple-300',
-      'Нейтрально-злой': 'border-red-400/50 bg-red-900/20 text-red-300',
-      'Хаотично-злой': 'border-rose-400/50 bg-rose-900/20 text-rose-300',
+      lawfulGood: 'border-blue-400/50 bg-blue-900/20 text-blue-300',
+      neutralGood: 'border-emerald-400/50 bg-emerald-900/20 text-emerald-300',
+      chaoticGood: 'border-yellow-400/50 bg-yellow-900/20 text-yellow-300',
+      lawfulNeutral: 'border-sky-400/50 bg-sky-900/20 text-sky-300',
+      trueNeutral: 'border-gray-400/50 bg-gray-800/30 text-gray-300',
+      chaoticNeutral: 'border-orange-400/50 bg-orange-900/20 text-orange-300',
+      lawfulEvil: 'border-purple-400/50 bg-purple-900/20 text-purple-300',
+      neutralEvil: 'border-red-400/50 bg-red-900/20 text-red-300',
+      chaoticEvil: 'border-rose-400/50 bg-rose-900/20 text-rose-300',
     };
 
     return (
     <div className="max-w-lg mx-auto space-y-6">
-      <h3 className="text-xl font-medieval text-gold text-center">Детали персонажа</h3>
+      <h3 className="text-xl font-medieval text-gold text-center">{t('creation.details.title')}</h3>
 
       <div>
-        <label className="block text-sm text-text-primary mb-2">Имя персонажа *</label>
+        <label className="block text-sm text-text-primary mb-2">{t('creation.details.characterName')}</label>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          placeholder="Введите имя персонажа"
+          placeholder={t('creation.details.namePlaceholder')}
           className="w-full px-4 py-3 bg-bg-panel-solid border-2 border-border-default rounded-lg text-text-primary focus:outline-none focus:border-gold/50 transition-colors"
         />
       </div>
 
       {selectedBackground && (
         <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-          <div className="text-sm text-text-secondary mb-1">Предыстория</div>
+          <div className="text-sm text-text-secondary mb-1">{t('creation.details.backgroundLabel')}</div>
           <div className="text-lg text-gold font-medieval">{selectedBackground.name}</div>
-          <div className="text-xs text-text-secondary mt-1">Черта: {getBgFeatDisplayName(selectedBackground)}</div>
+          <div className="text-xs text-text-secondary mt-1">{t('creation.details.featLabel', { name: getBgFeatDisplayName(selectedBackground) })}</div>
         </div>
       )}
 
       <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-        <div className="text-sm text-text-secondary mb-1">Уровень</div>
+        <div className="text-sm text-text-secondary mb-1">{t('creation.details.levelLabel')}</div>
         <div className="text-lg text-text-primary font-bold">1</div>
-        <div className="text-xs text-text-muted mt-1">Повышение уровня доступно на странице персонажа</div>
+        <div className="text-xs text-text-muted mt-1">{t('creation.details.levelUpHint')}</div>
       </div>
 
       {/* ─── RP Fields (optional) ─── */}
       <div className="border-t border-border-default pt-6">
-        <h4 className="text-lg font-medieval text-gold text-center mb-1">Отыгрыш</h4>
-        <p className="text-xs text-text-muted text-center mb-4">Необязательно — можно заполнить позже на вкладке «Персонаж»</p>
+        <h4 className="text-lg font-medieval text-gold text-center mb-1">{t('creation.details.roleplay')}</h4>
+        <p className="text-xs text-text-muted text-center mb-4">{t('creation.details.roleplayHint')}</p>
 
         {/* Alignment */}
         <div className="mb-4">
-          <label className="block text-sm text-text-primary mb-2">Мировоззрение</label>
+          <label className="block text-sm text-text-primary mb-2">{t('creation.details.alignment')}</label>
           <div className="grid grid-cols-3 gap-1.5 max-w-xs mx-auto">
             {RP_ALIGNMENTS.flat().map(a => {
               const selected = rpAlignment === a;
@@ -2072,7 +2070,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   title={a}
                 >
                   <div className="font-bold text-sm">{ALIGN_SHORT[a]}</div>
-                  <div className="text-[9px] opacity-70 leading-tight">{a}</div>
+                  <div className="text-[9px] opacity-70 leading-tight">{t(`creation.alignments.${a}`)}</div>
                 </button>
               );
             })}
@@ -2081,12 +2079,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
         {/* Text fields */}
         {([
-          ['Внешний вид', rpAppearance, setRpAppearance, 'Опишите внешность персонажа...'] as const,
-          ['Предыстория персонажа', rpBackstory, setRpBackstory, 'Расскажите историю персонажа...'] as const,
-          ['Черты характера', rpPersonalityTraits, setRpPersonalityTraits, 'Какие черты характера определяют персонажа?'] as const,
-          ['Идеалы', rpIdeals, setRpIdeals, 'Какие идеалы движут персонажем?'] as const,
-          ['Привязанности', rpBonds, setRpBonds, 'Что или кто важен для персонажа?'] as const,
-          ['Слабости', rpFlaws, setRpFlaws, 'Какие слабости есть у персонажа?'] as const,
+          [t('creation.details.appearance'), rpAppearance, setRpAppearance, t('creation.details.appearancePlaceholder')] as const,
+          [t('creation.details.backstory'), rpBackstory, setRpBackstory, t('creation.details.backstoryPlaceholder')] as const,
+          [t('creation.details.personalityTraits'), rpPersonalityTraits, setRpPersonalityTraits, t('creation.details.personalityTraitsPlaceholder')] as const,
+          [t('creation.details.ideals'), rpIdeals, setRpIdeals, t('creation.details.idealsPlaceholder')] as const,
+          [t('creation.details.bonds'), rpBonds, setRpBonds, t('creation.details.bondsPlaceholder')] as const,
+          [t('creation.details.flaws'), rpFlaws, setRpFlaws, t('creation.details.flawsPlaceholder')] as const,
         ]).map(([label, value, setter, placeholder]) => (
           <div key={label} className="mb-4">
             <label className="block text-sm text-text-primary mb-1">{label}</label>
@@ -2110,7 +2108,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       return (
         <div className="flex items-center justify-center py-12">
           <Loader2 size={32} className="animate-spin text-gold" />
-          <span className="ml-3 text-text-secondary">Загрузка опций создания...</span>
+          <span className="ml-3 text-text-secondary">{t('creation.charOptions.loading')}</span>
         </div>
       );
     }
@@ -2126,9 +2124,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <h3 className="text-xl font-medieval text-gold">Опции создания персонажа</h3>
+          <h3 className="text-xl font-medieval text-gold">{t('creation.charOptions.title')}</h3>
           <p className="text-sm text-text-secondary mt-1">
-            Необязательный шаг — ознакомьтесь с дополнительными опциями для вашего персонажа
+            {t('creation.charOptions.subtitle')}
           </p>
         </div>
 
@@ -2141,7 +2139,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <button
               onClick={() => setConfirmedCharOption(null)}
               className="ml-auto text-xs text-red-400 hover:text-red-300 transition-colors"
-            >Убрать</button>
+            >{t('creation.charOptions.remove')}</button>
           </div>
         )}
 
@@ -2152,7 +2150,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               <ArrowLeft size={14} />
-              Назад к списку
+              {t('creation.charOptions.backToList')}
             </button>
             <div className="bg-bg-panel-solid/80 rounded-lg border border-gold/40 p-6">
               <h3 className="text-2xl font-medieval text-text-primary mb-1">{selectedCharOption.name}</h3>
@@ -2166,12 +2164,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <button
                   onClick={() => { setConfirmedCharOption(null); setSelectedCharOption(null); }}
                   className="mb-4 px-4 py-2 rounded-lg border border-red-500/40 bg-red-900/20 text-red-300 text-sm hover:bg-red-900/40 transition-colors"
-                >Убрать выбор</button>
+                >{t('creation.charOptions.deselect')}</button>
               ) : (
                 <button
                   onClick={() => { setConfirmedCharOption(selectedCharOption); setSelectedCharOption(null); }}
                   className="mb-4 px-4 py-2 rounded-lg border border-gold/40 bg-gold/10 text-gold text-sm hover:bg-gold/20 transition-colors"
-                >Выбрать</button>
+                >{t('creation.charOptions.select')}</button>
               )}
 
               {EntryRendererCmp && selectedCharOption.entries && (
@@ -2225,23 +2223,23 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
     return (
       <div className="max-w-2xl mx-auto space-y-6">
-        <h3 className="text-xl font-medieval text-gold text-center">Обзор персонажа</h3>
+        <h3 className="text-xl font-medieval text-gold text-center">{t('creation.review.title')}</h3>
 
         <div className="bg-bg-panel-solid/80 rounded-lg border border-gold/40 p-6">
-          <h2 className="text-3xl font-medieval text-text-primary mb-1">{name || 'Без имени'}</h2>
+          <h2 className="text-3xl font-medieval text-text-primary mb-1">{name || t('creation.review.noName')}</h2>
           <p className="text-gold text-lg">
             {selectedSpecies.name}
             {' • '}
             {selectedClass.name}
             {' • '}
-            1 уровень
+            {t('creation.review.level', { level: 1 })}
           </p>
-          <p className="text-text-secondary mt-1">Предыстория: {selectedBackground.name}</p>
+          <p className="text-text-secondary mt-1">{t('creation.review.backgroundLabel', { name: selectedBackground.name })}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-            <h4 className="text-sm text-text-secondary mb-3">Характеристики</h4>
+            <h4 className="text-sm text-text-secondary mb-3">{t('creation.review.abilities')}</h4>
             <div className="grid grid-cols-2 gap-2">
               {(Object.keys(finalScores) as Array<keyof AbilityScores>).map(ability => (
                 <div key={ability} className="flex justify-between text-sm">
@@ -2255,30 +2253,30 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
 
           <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-            <h4 className="text-sm text-text-secondary mb-3">Боевые характеристики</h4>
+            <h4 className="text-sm text-text-secondary mb-3">{t('creation.review.combat')}</h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-text-primary">Хиты:</span>
+                <span className="text-text-primary">{t('creation.review.hitPoints')}:</span>
                 <span className="text-text-primary font-bold">{maxHP}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-primary">Класс брони:</span>
+                <span className="text-text-primary">{t('creation.review.armorClass')}:</span>
                 <span className="text-text-primary font-bold">{10 + getAbilityModifier(finalScores.dexterity)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-primary">Инициатива:</span>
+                <span className="text-text-primary">{t('creation.review.initiative')}:</span>
                 <span className="text-text-primary font-bold">{formatModifier(getAbilityModifier(finalScores.dexterity))}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-primary">Скорость:</span>
-                <span className="text-text-primary font-bold">{getSpeciesSpeed(selectedSpecies)} фт.</span>
+                <span className="text-text-primary">{t('creation.review.speed')}:</span>
+                <span className="text-text-primary font-bold">{getSpeciesSpeed(selectedSpecies)} {t('creation.race.ft')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-primary">Бонус мастерства:</span>
+                <span className="text-text-primary">{t('creation.review.proficiencyBonus')}:</span>
                 <span className="text-text-primary font-bold">{formatModifier(profBonus)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-primary">Кость хитов:</span>
+                <span className="text-text-primary">{t('creation.review.hitDie')}:</span>
                 <span className="text-text-primary font-bold">{selectedClass.hitDie}</span>
               </div>
             </div>
@@ -2287,20 +2285,20 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
         {selectedClass.spellcaster && selectedClass.spellcastingAbility && (
           <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-            <h4 className="text-sm text-text-secondary mb-3">Заклинания</h4>
+            <h4 className="text-sm text-text-secondary mb-3">{t('creation.review.spellcasting')}</h4>
             <div className="grid grid-cols-3 gap-4 text-sm text-center">
               <div>
-                <div className="text-text-secondary">Характеристика</div>
+                <div className="text-text-secondary">{t('creation.review.spellAbility')}</div>
                 <div className="text-purple-300 font-bold">{getAbilityName(selectedClass.spellcastingAbility)}</div>
               </div>
               <div>
-                <div className="text-text-secondary">Сл спасброска</div>
+                <div className="text-text-secondary">{t('creation.review.spellSaveDC')}</div>
                 <div className="text-text-primary font-bold">
                   {8 + profBonus + getAbilityModifier(finalScores[selectedClass.spellcastingAbility])}
                 </div>
               </div>
               <div>
-                <div className="text-text-secondary">Бонус атаки</div>
+                <div className="text-text-secondary">{t('creation.review.attackBonus')}</div>
                 <div className="text-text-primary font-bold">
                   {formatModifier(profBonus + getAbilityModifier(finalScores[selectedClass.spellcastingAbility]))}
                 </div>
@@ -2310,26 +2308,26 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         )}
 
         <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-4">
-          <h4 className="text-sm text-text-secondary mb-3">Владения</h4>
+          <h4 className="text-sm text-text-secondary mb-3">{t('creation.review.proficiencies')}</h4>
           <div className="space-y-2 text-sm">
             {selectedClass.proficiencies.armor.length > 0 && (
               <div>
-                <span className="text-text-secondary">Доспехи: </span>
+                <span className="text-text-secondary">{t('creation.review.armorProf')}</span>
                 <span className="text-text-primary">{selectedClass.proficiencies.armor.join(', ')}</span>
               </div>
             )}
             <div>
-              <span className="text-text-secondary">Оружие: </span>
+              <span className="text-text-secondary">{t('creation.review.weaponsProf')}</span>
               <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
             </div>
             {selectedClass.proficiencies.tools.length > 0 && (
               <div>
-                <span className="text-text-secondary">Инструменты: </span>
+                <span className="text-text-secondary">{t('creation.review.toolsProf')}</span>
                 <span className="text-text-primary">{selectedClass.proficiencies.tools.join(', ')}</span>
               </div>
             )}
             <div>
-              <span className="text-text-secondary">Языки: </span>
+              <span className="text-text-secondary">{t('creation.review.languagesProf')}</span>
               <span className="text-text-primary">{getSpeciesLanguages(selectedSpecies).join(', ')}</span>
             </div>
           </div>
@@ -2344,7 +2342,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       return (
         <div className="flex items-center justify-center py-20">
           <Loader2 size={24} className="text-gold animate-spin" />
-          <span className="ml-2 text-text-muted">Загрузка черт...</span>
+          <span className="ml-2 text-text-muted">{t('creation.originFeat.loading')}</span>
         </div>
       );
     }
@@ -2356,9 +2354,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-4">
         <div className="glass-panel p-4">
-          <h3 className="text-lg font-medieval text-gold mb-1">Черта происхождения</h3>
+          <h3 className="text-lg font-medieval text-gold mb-1">{t('creation.originFeat.title')}</h3>
           <p className="text-xs text-text-muted mb-4">
-            Ваша предыстория не даёт черту. Выберите черту происхождения (Origin Feat).
+            {t('creation.originFeat.description')}
           </p>
 
           {/* Search */}
@@ -2368,7 +2366,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               type="text"
               value={originFeatSearch}
               onChange={e => setOriginFeatSearch(e.target.value)}
-              placeholder="Поиск черты..."
+              placeholder={t('creation.originFeat.searchPlaceholder')}
               className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                 text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
             />
@@ -2405,7 +2403,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+            <div className="text-center text-text-muted text-sm py-4">{t('creation.originFeat.nothingFound')}</div>
           )}
         </div>
 
@@ -2434,7 +2432,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       return (
         <div className="flex items-center justify-center py-20">
           <Loader2 size={24} className="text-gold animate-spin" />
-          <span className="ml-2 text-text-muted">Загрузка боевых стилей...</span>
+          <span className="ml-2 text-text-muted">{t('creation.fightingStyle.loading')}</span>
         </div>
       );
     }
@@ -2446,9 +2444,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-4">
         <div className="glass-panel p-4">
-          <h3 className="text-lg font-medieval text-gold mb-1">Боевой стиль</h3>
+          <h3 className="text-lg font-medieval text-gold mb-1">{t('creation.fightingStyle.title')}</h3>
           <p className="text-xs text-text-muted mb-4">
-            Вы получаете черту «Боевой стиль». Выберите один из доступных вариантов.
+            {t('creation.fightingStyle.description')}
           </p>
 
           {/* Search */}
@@ -2458,7 +2456,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               type="text"
               value={fightingStyleSearch}
               onChange={e => setFightingStyleSearch(e.target.value)}
-              placeholder="Поиск стиля..."
+              placeholder={t('creation.fightingStyle.searchPlaceholder')}
               className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                 text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
             />
@@ -2495,7 +2493,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center text-text-muted text-sm py-4">Ничего не найдено</div>
+            <div className="text-center text-text-muted text-sm py-4">{t('creation.fightingStyle.nothingFound')}</div>
           )}
         </div>
 
@@ -2519,7 +2517,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {selectedFightingStyle && fsRequiredCantrips > 0 && (
           <div className="glass-panel p-4 space-y-3">
             <h4 className="text-base font-medieval text-purple-300 mb-1">
-              Выберите заговоры
+              {t('creation.fightingStyle.selectCantrips')}
               <span className="text-sm font-normal text-text-secondary ml-2">
                 ({fsCantrips.length}/{fsRequiredCantrips}) — {fsSourceClass}
               </span>
@@ -2528,7 +2526,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             {!fsCantripsLoaded ? (
               <div className="flex items-center justify-center py-8">
                 <Loader2 size={20} className="text-gold animate-spin" />
-                <span className="ml-2 text-text-muted text-sm">Загрузка заговоров...</span>
+                <span className="ml-2 text-text-muted text-sm">{t('creation.fightingStyle.loadingCantrips')}</span>
               </div>
             ) : (
               <>
@@ -2538,7 +2536,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     type="text"
                     value={fsCantripSearch}
                     onChange={e => setFsCantripSearch(e.target.value)}
-                    placeholder="Поиск заговора..."
+                    placeholder={t('creation.fightingStyle.searchCantripPlaceholder')}
                     className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                       text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
                   />
@@ -2588,7 +2586,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     );
                   })}
                   {fsCantripsAvailable.length === 0 && (
-                    <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                    <p className="text-sm text-text-muted py-2">{t('creation.fightingStyle.noCantrips')}</p>
                   )}
                 </div>
 
@@ -2603,15 +2601,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                       >✕</button>
                     </div>
                     <div className="text-xs text-text-muted">
-                      Заговор
+                      {t('creation.fightingStyle.cantrip')}
                       {fsCantripDetail.school && ` • ${SCHOOL_NAMES[fsCantripDetail.school] || fsCantripDetail.school}`}
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                       {(() => { const m = getSpellMeta(fsCantripDetail); return (<>
-                        {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-                        {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-                        {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-                        {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                        {m.castingTime && <div><span className="text-text-muted">{t('creation.spells.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+                        {m.range && <div><span className="text-text-muted">{t('creation.spells.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+                        {m.components && <div><span className="text-text-muted">{t('creation.spells.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+                        {m.duration && <div><span className="text-text-muted">{t('creation.spells.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
                       </>); })()}
                     </div>
                     <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -2676,7 +2674,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return (
       <div className="space-y-5">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-medieval text-gold">Выберите навыки</h3>
+          <h3 className="text-xl font-medieval text-gold">{t('creation.skills.title')}</h3>
           <div className="text-sm flex gap-3">
             <span>
               <span className={`font-bold ${selectedSkills.length === count ? 'text-green-400' : 'text-gold'}`}>
@@ -2697,10 +2695,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         </div>
 
         <p className="text-sm text-text-secondary">
-          Выберите {count} навык{count === 2 ? 'а' : count === 3 ? 'а' : 'ов'} из списка класса «{selectedClass.name}».
-          {backgroundSkillKeys.length > 0 && ' Навыки предыстории уже отмечены.'}
+          {t('creation.skills.selectCount', { count, suffix: count === 2 ? 'а' : count === 3 ? 'а' : 'ов', class: selectedClass.name })}
+          {backgroundSkillKeys.length > 0 && t('creation.skills.bgSkillsMarked')}
           {needsExpertise && (
-            <span className="text-purple-300"> Нажмите повторно на владеемый навык для двойного мастерства (Expertise).</span>
+            <span className="text-purple-300">{t('creation.skills.expertiseHint')}</span>
           )}
         </p>
 
@@ -2790,8 +2788,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                           <div className="font-medium truncate text-xs">{getSkillName(skillKey)}</div>
                           <div className="text-[10px] text-text-muted">
                             {getAbilityShort(SKILL_ABILITIES[skillKey])}
-                            {isFromBg && !hasExpertise && ' • Предыстория'}
-                            {hasExpertise && <span className="text-purple-400"> • Мастерство ×2</span>}
+                            {isFromBg && !hasExpertise && ` • ${t('creation.skills.fromBackground')}`}
+                            {hasExpertise && <span className="text-purple-400"> • {t('creation.skills.expertiseDouble')}</span>}
                           </div>
                         </div>
                         <span className={`text-xs font-bold ${hasExpertise ? 'text-purple-300' : isActive ? 'text-green-400' : 'text-text-muted'}`}>
@@ -2809,7 +2807,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {/* Selected summary */}
         {(selectedSkills.length > 0 || backgroundSkillKeys.length > 0) && (
           <div className="bg-bg-panel-solid/60 rounded-lg border border-border-default p-3">
-            <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">Владение навыками:</h4>
+            <h4 className="text-xs text-text-muted uppercase tracking-wider mb-2">{t('creation.skills.skillProficiencies')}</h4>
             <div className="flex flex-wrap gap-1.5">
               {backgroundSkillKeys.map(sk => (
                 <span key={sk} className={`px-2 py-1 rounded text-xs flex items-center gap-1 ${
@@ -2818,7 +2816,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     : 'bg-blue-900/40 text-blue-300'
                 }`}>
                   {selectedExpertise.includes(sk) && <Star size={10} />}
-                  {getSkillName(sk)} <span className="text-[10px] opacity-60 ml-0.5">(Предыстория)</span>
+                  {getSkillName(sk)} <span className="text-[10px] opacity-60 ml-0.5">({t('creation.skills.fromBackground')})</span>
                 </span>
               ))}
               {selectedSkills.map(sk => (
@@ -2900,16 +2898,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
     return (
       <div className="space-y-5">
-        {/* "Вы получите следующее:" section */}
+        {/* Spell summary section */}
         <div className="glass-panel ornate-border p-4 space-y-3">
-          <h3 className="text-base font-medieval text-gold">Вы получите следующее:</h3>
+          <h3 className="text-base font-medieval text-gold">{t('creation.spells.youWillGet')}</h3>
           <div className="space-y-2 text-sm">
             {maxCantrips > 0 && (
               <div className="flex items-center gap-2 text-text-primary">
                 <span className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                   <Sparkles size={12} className="text-purple-400" />
                 </span>
-                {maxCantrips} заговоров
+                {t('creation.spells.cantripsCount', { count: maxCantrips })}
               </div>
             )}
             {maxSpells > 0 && (
@@ -2917,7 +2915,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 <span className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
                   <Wand2 size={12} className="text-blue-400" />
                 </span>
-                {maxSpells} заклинаний
+                {t('creation.spells.spellsCount', { count: maxSpells })}
               </div>
             )}
             {spellSlots && spellSlots.map((count, idx) =>
@@ -2926,7 +2924,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   <span className="w-5 h-5 rounded-full bg-gold/20 flex items-center justify-center shrink-0">
                     <Zap size={12} className="text-gold" />
                   </span>
-                  Ячейки {idx + 1} ур.: {count}
+                  {t('creation.spells.spellSlots', { level: idx + 1, count })}
                 </div>
               ) : null
             )}
@@ -2941,7 +2939,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
           <input
             type="text"
-            placeholder="Поиск заклинаний..."
+            placeholder={t('creation.spells.searchPlaceholder')}
             value={spellSearchQuery}
             onChange={e => setSpellSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 bg-bg-primary border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50 transition-colors"
@@ -2960,7 +2958,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 : <ChevronDown size={16} className="text-text-muted" />}
               <Sparkles size={16} className="text-purple-400" />
               <span className="text-sm font-medieval text-purple-300">
-                Заговоры ({selectedCantrips.length}/{maxCantrips})
+                {t('creation.spells.cantrips')} ({selectedCantrips.length}/{maxCantrips})
               </span>
             </button>
             {!spellCollapsedSections.has('cantrips') && (
@@ -3001,7 +2999,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 })}
                 {filteredCantrips.length === 0 && (
                   <p className="text-sm text-text-muted py-2">
-                    {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заговоров'}
+                    {spellSearchQuery ? t('creation.spells.nothingFound') : t('creation.spells.noCantrips')}
                   </p>
                 )}
               </div>
@@ -3015,7 +3013,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <div className="flex items-center gap-2 px-1">
               <Wand2 size={16} className="text-blue-400" />
               <span className="text-sm font-medieval text-blue-300">
-                Заклинания ({selectedSpells.length}/{maxSpells})
+                {t('creation.spells.spells')} ({selectedSpells.length}/{maxSpells})
               </span>
             </div>
 
@@ -3033,7 +3031,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                         ? <ChevronRight size={14} className="text-text-muted" />
                         : <ChevronDown size={14} className="text-text-muted" />}
                       <span className="text-sm font-medieval text-blue-300">
-                        {level} уровень ({spells.length})
+                        {t('creation.spells.spellLevel', { level })} ({spells.length})
                       </span>
                     </button>
                     {!spellCollapsedSections.has(sectionKey) && (
@@ -3080,7 +3078,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
             {filteredLeveled.length === 0 && (
               <p className="text-sm text-text-muted text-center py-4">
-                {spellSearchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
+                {spellSearchQuery ? t('creation.spells.nothingFound') : t('creation.spells.noSpells')}
               </p>
             )}
           </div>
@@ -3097,15 +3095,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               >✕</button>
             </div>
             <div className="text-xs text-text-muted">
-              {expandedData.level === 0 ? 'Заговор' : `${expandedData.level} уровень`}
+              {expandedData.level === 0 ? t('creation.spells.cantripLevel') : t('creation.spells.spellLevel', { level: expandedData.level })}
               {expandedData.school && ` • ${SCHOOL_NAMES[expandedData.school] || expandedData.school}`}
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
               {(() => { const m = getSpellMeta(expandedData); return (<>
-                {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-                {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-                {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-                {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                {m.castingTime && <div><span className="text-text-muted">{t('creation.spells.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+                {m.range && <div><span className="text-text-muted">{t('creation.spells.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+                {m.components && <div><span className="text-text-muted">{t('creation.spells.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+                {m.duration && <div><span className="text-text-muted">{t('creation.spells.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
               </>); })()}
             </div>
             <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -3125,13 +3123,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <div className="glass-panel p-4">
             <h4 className="text-sm font-medieval text-text-secondary mb-2 flex items-center gap-2">
               <BookOpen size={14} />
-              Ячейки заклинаний (1 уровень)
+              {t('creation.spells.spellSlotsTitle')}
             </h4>
             <div className="flex gap-3 flex-wrap text-sm">
               {spellSlots.map((count: number, idx: number) =>
                 count > 0 ? (
                   <div key={idx} className="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-primary border border-border-default">
-                    <span className="text-text-muted text-xs">{idx + 1} ур.</span>
+                    <span className="text-text-muted text-xs">{t('creation.spells.levelShort', { level: idx + 1 })}</span>
                     <span className="text-text-primary font-bold">{count}</span>
                   </div>
                 ) : null
@@ -3143,7 +3141,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         {/* Selected spells summary */}
         {(selectedCantrips.length > 0 || selectedSpells.length > 0) && (
           <div className="glass-panel p-3 space-y-2">
-            <h4 className="text-[10px] uppercase tracking-wider text-text-muted">Выбрано</h4>
+            <h4 className="text-[10px] uppercase tracking-wider text-text-muted">{t('creation.skills.selected')}</h4>
             {selectedCantrips.map(s => (
               <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
                 <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
@@ -3155,7 +3153,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
                 <span className="truncate">{s.name}</span>
-                <span className="text-blue-400 text-[10px] ml-auto mr-2">{s.level} ур.</span>
+                <span className="text-blue-400 text-[10px] ml-auto mr-2">{t('creation.spells.levelShort', { level: s.level })}</span>
                 <button onClick={() => toggleSpell(s)} className="text-blue-400 hover:text-text-primary text-[10px]">✕</button>
               </div>
             ))}
@@ -3193,9 +3191,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
         >
           <ArrowLeft size={20} />
-          <span>Назад к списку</span>
+          <span>{t('creation.backToList')}</span>
         </button>
-        <h2 className="text-2xl font-medieval text-gold">Создание персонажа</h2>
+        <h2 className="text-2xl font-medieval text-gold">{t('creation.title')}</h2>
         <div className="w-32" />
       </div>
 
@@ -3222,7 +3220,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           className="flex items-center gap-2 px-6 py-3 rounded-lg border border-border-default text-text-primary hover:text-text-primary hover:border-border-hover transition-colors"
         >
           <ArrowLeft size={18} />
-          {step === 0 ? 'Отмена' : 'Назад'}
+          {step === 0 ? t('creation.cancel') : t('creation.back')}
         </button>
 
         {step < maxStep ? (
@@ -3231,7 +3229,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             disabled={!canProceed()}
             className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gold text-bg-primary font-semibold hover:bg-gold/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
-            Далее
+            {t('creation.next')}
             <ArrowRight size={18} />
           </button>
         ) : (
@@ -3241,7 +3239,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             className="flex items-center gap-2 px-8 py-3 rounded-lg bg-gold text-bg-primary font-semibold hover:bg-gold/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-lg shadow-gold/20"
           >
             <Wand2 size={18} />
-            Создать персонажа
+            {t('creation.createCharacter')}
           </button>
         )}
       </div>

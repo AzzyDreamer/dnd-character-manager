@@ -1,1 +1,49 @@
-{}
+{
+  "diceTab": {
+    "guiTab": "Кубики",
+    "consoleTab": "Консоль",
+    "bonus": "Бонус:",
+    "rollAll": "Бросить все",
+    "resetCounters": "Сбросить счётчики",
+    "rollHistory": "История бросков",
+    "clear": "Очистить",
+    "clickDiceToRoll": "Нажмите на кубик для броска",
+    "consoleEmpty": "Введите выражение (например, 2d6+3) или /help для справки",
+    "parseError": "Ошибка разбора выражения",
+    "helpTitle": "Справка"
+  },
+  "diceRoll": {
+    "advantage": "Преимущество",
+    "disadvantage": "Помеха",
+    "modeLabel": "Режим",
+    "modeNormal": "Обычный",
+    "modeAdvantage": "Преим.",
+    "modeDisadvantage": "Помеха",
+    "bonusLabel": "Бонус",
+    "multiplierLabel": "Множитель",
+    "advantageShort": "преим.",
+    "disadvantageShort": "помеха",
+    "rollButton": "Бросить"
+  },
+  "diceHelp": {
+    "syntaxTitle": "Синтаксис бросков:",
+    "basic": "Базовый: 1d20, 2d6+3, 1d8-1",
+    "keepHighest": "Оставить лучшие (keep highest): 4d6kh3",
+    "dropLowest": "Отбросить худшие (drop lowest): 4d6dl1",
+    "dropHighest": "Отбросить лучшие (drop highest): 3d4dh1",
+    "keepLowest": "Оставить худшие (keep lowest): 3d4kl1",
+    "reroll": "Перебросить (reroll): 2d4r1, 2d4r<2, 2d4r<=2",
+    "explode": "Взрыв (explode): 2d4x4, 2d4x>2",
+    "countSuccesses": "Подсчёт успехов (count successes): 2d4cs=4, 2d4cs>2",
+    "marginOfSuccess": "Запас успеха (margin of success): 2d4ms=4",
+    "dicePools": "Пулы кубиков (dice pools): {2d8, 1d6}kh1",
+    "rounding": "Округление (rounding): floor(1.5), ceil(1.5), round(1.5)",
+    "average": "Среднее (average): avg(8d6)",
+    "maxMin": "Макс/Мин (max/min): dmax(8d6), dmin(8d6)",
+    "functions": "Функции (functions): sign(1d6-3), abs(1d6-3)",
+    "labelsTitle": "Метки:",
+    "labelsExample": "Fireball: 8d6",
+    "arrowKeys": "Стрелки ↑↓ — история ввода",
+    "clearCommand": "/clear — очистить консоль"
+  }
+}

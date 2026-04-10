@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, CharacterSpell } from '../types';
 import { SpellIconBadge } from './ui';
 import { ArrowRight, Search, SkipForward } from 'lucide-react';
@@ -24,23 +25,21 @@ interface LoadedModules {
   EntryRenderer: React.FC<any>;
 }
 
-const TIME_UNITS: Record<string, string> = {
-  action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.',
-};
-
-function getSpellMeta(s: SpellDataLocal | undefined) {
-  if (!s) return {};
-  const castingTime = s.time?.map(t => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`).join(', ');
+function getSpellMeta(s: SpellDataLocal | undefined, t: (key: string, opts?: any) => string) {
+  if (!s) return {} as { castingTime?: string; range?: string; components?: string; duration?: string };
+  const castingTime = s.time?.map(tm => `${tm.number} ${t(`meta.timeUnits.${tm.unit}`, { defaultValue: tm.unit })}`).join(', ');
   const range = s.range?.type === 'point'
-    ? (s.range.distance?.type === 'self' ? 'На себя' : `${s.range.distance?.amount || 0} фт.`)
-    : s.range?.type === 'special' ? 'Особая' : undefined;
+    ? (s.range.distance?.type === 'self' ? t('meta.rangeSelf') : t('meta.rangeFeet', { amount: s.range.distance?.amount || 0 }))
+    : s.range?.type === 'special' ? t('meta.rangeSpecial') : undefined;
   const components = s.components
-    ? [s.components.v && 'В', s.components.s && 'С', s.components.m && 'М'].filter(Boolean).join(', ')
+    ? [s.components.v && t('meta.componentV'), s.components.s && t('meta.componentS'), s.components.m && t('meta.componentM')].filter(Boolean).join(', ')
     : undefined;
   const duration = s.duration?.[0]
-    ? (s.duration[0].type === 'instant' ? 'Мгновенная'
-      : s.duration[0].type === 'permanent' ? 'Перманентная'
-      : `${s.duration[0].concentration ? 'Конц., ' : ''}${s.duration[0].duration?.amount || ''} ${s.duration[0].duration?.type || ''}`)
+    ? (s.duration[0].type === 'instant' ? t('meta.durationInstant')
+      : s.duration[0].type === 'permanent' ? t('meta.durationPermanent')
+      : s.duration[0].concentration
+        ? t('meta.durationConcentration', { amount: s.duration[0].duration?.amount || '', type: s.duration[0].duration?.type || '' })
+        : `${s.duration[0].duration?.amount || ''} ${s.duration[0].duration?.type || ''}`)
     : undefined;
   return { castingTime, range, components, duration };
 }
@@ -52,6 +51,7 @@ interface FeatSpellSwapModalProps {
 }
 
 export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ character, onConfirm, onSkip }) => {
+  const { t } = useTranslation('spells');
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [selectedFeatSpell, setSelectedFeatSpell] = useState<CharacterSpell | null>(null);
   const [selectedReplacement, setSelectedReplacement] = useState<SpellDataLocal | null>(null);
@@ -150,16 +150,16 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
   }
 
   const detailSpell = inspectedSpell;
-  const detailMeta = getSpellMeta(detailSpell ?? undefined);
+  const detailMeta = getSpellMeta(detailSpell ?? undefined, t);
 
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
       <div className="w-full max-w-5xl max-h-[85vh] bg-bg-panel-solid rounded-xl border border-purple-500/30 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="shrink-0 border-b border-purple-500/30 px-6 py-4">
-          <h2 className="text-lg font-medieval text-purple-300">Замена заклинания черты</h2>
+          <h2 className="text-lg font-medieval text-purple-300">{t('swap.title')}</h2>
           <p className="text-xs text-text-muted mt-1">
-            При повышении уровня вы можете заменить одно заклинание черты на заклинание из списка класса черты
+            {t('swap.description')}
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
           <div className="flex-1 overflow-y-auto p-4 space-y-4 border-r border-border-default">
             {/* Step 1: Select feat spell to replace */}
             <div>
-              <h3 className="text-sm font-medium text-text-primary mb-2">Заклинание для замены</h3>
+              <h3 className="text-sm font-medium text-text-primary mb-2">{t('swap.spellToReplace')}</h3>
               <div className="flex flex-wrap gap-2">
                 {featSpells.map(spell => {
                   const data = modules?.getSpellByName(spell.name);
@@ -203,7 +203,7 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
                       <div className="text-left">
                         <div className={`text-sm ${isSelected ? 'text-purple-300' : 'text-text-primary'}`}>{spell.name}</div>
                         <div className="text-[10px] text-text-muted">
-                          {spell.level === 0 ? 'заговор' : `${spell.level} ур.`} · {spell.source}
+                          {spell.level === 0 ? t('common.cantripInline') : t('common.levelInline', { level: spell.level })} · {spell.source}
                         </div>
                       </div>
                     </button>
@@ -218,7 +218,10 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
                 <div className="flex items-center gap-2 mb-2">
                   <ArrowRight size={14} className="text-text-muted" />
                   <h3 className="text-sm font-medium text-text-primary">
-                    Заменить на ({selectedFeatSpell.level === 0 ? 'заговоры' : `1–${maxAvailableLevel} ур.`} класса {getFeatClassName(selectedFeatSpell.source || '') || character.class})
+                    {t('swap.replaceWith', {
+                      levelRange: selectedFeatSpell.level === 0 ? t('swap.replaceWithCantrips') : t('swap.levelRangeSpells', { max: maxAvailableLevel }),
+                      class: getFeatClassName(selectedFeatSpell.source || '') || character.class,
+                    })}
                   </h3>
                 </div>
 
@@ -228,7 +231,7 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Поиск заклинаний..."
+                    placeholder={t('common.search')}
                     className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                       text-text-primary placeholder-text-muted focus:border-purple-400/50 focus:outline-none"
                   />
@@ -265,13 +268,13 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
                           {spell.name}
                         </span>
                         {spell.level > 0 && (
-                          <span className="text-[10px] text-text-muted shrink-0">{spell.level} ур.</span>
+                          <span className="text-[10px] text-text-muted shrink-0">{t('common.levelInline', { level: spell.level })}</span>
                         )}
                       </button>
                     );
                   })}
                   {replacementSpells.length === 0 && (
-                    <div className="text-text-muted text-sm py-2">Нет доступных заклинаний для замены</div>
+                    <div className="text-text-muted text-sm py-2">{t('swap.noReplacementSpells')}</div>
                   )}
                 </div>
               </div>
@@ -284,15 +287,15 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
               <div className="space-y-3">
                 <h3 className="text-lg font-medieval text-gold">{detailSpell.name}</h3>
                 <div className="text-xs text-text-muted">
-                  {detailSpell.level === 0 ? 'Заговор' : `${detailSpell.level} уровень`}
-                  {detailSpell.school && ` · ${modules.SCHOOL_NAMES[detailSpell.school] || detailSpell.school}`}
+                  {detailSpell.level === 0 ? t('common.cantrip') : t(`spellLevelLabels.${detailSpell.level}`)}
+                  {detailSpell.school && ` · ${t(`schoolLabels.${detailSpell.school}`, { defaultValue: modules.SCHOOL_NAMES[detailSpell.school] || detailSpell.school })}`}
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
-                  {detailMeta.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{detailMeta.castingTime}</span></div>}
-                  {detailMeta.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{detailMeta.range}</span></div>}
-                  {detailMeta.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{detailMeta.components}</span></div>}
-                  {detailMeta.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{detailMeta.duration}</span></div>}
+                  {detailMeta.castingTime && <div><span className="text-text-muted">{t('meta.castingTime')}</span><span className="text-text-primary">{detailMeta.castingTime}</span></div>}
+                  {detailMeta.range && <div><span className="text-text-muted">{t('meta.range')}</span><span className="text-text-primary">{detailMeta.range}</span></div>}
+                  {detailMeta.components && <div><span className="text-text-muted">{t('meta.components')}</span><span className="text-text-primary">{detailMeta.components}</span></div>}
+                  {detailMeta.duration && <div><span className="text-text-muted">{t('meta.duration')}</span><span className="text-text-primary">{detailMeta.duration}</span></div>}
                 </div>
 
                 <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -306,7 +309,7 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
               </div>
             ) : (
               <div className="flex items-center justify-center h-full text-text-muted text-sm italic">
-                Нажмите на заклинание, чтобы увидеть описание
+                {t('swap.clickToSeeDescription')}
               </div>
             )}
           </div>
@@ -319,14 +322,14 @@ export const FeatSpellSwapModal: React.FC<FeatSpellSwapModalProps> = ({ characte
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors"
           >
             <SkipForward size={14} />
-            Пропустить
+            {t('common.skip')}
           </button>
           <button
             onClick={handleConfirm}
             disabled={!selectedFeatSpell || !selectedReplacement}
             className="px-5 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
-            Заменить
+            {t('common.replace')}
           </button>
         </div>
       </div>

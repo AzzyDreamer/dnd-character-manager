@@ -1,1 +1,49 @@
-{}
+{
+  "diceTab": {
+    "guiTab": "Dice",
+    "consoleTab": "Console",
+    "bonus": "Bonus:",
+    "rollAll": "Roll all",
+    "resetCounters": "Reset counters",
+    "rollHistory": "Roll history",
+    "clear": "Clear",
+    "clickDiceToRoll": "Click a die to roll",
+    "consoleEmpty": "Enter an expression (e.g., 2d6+3) or /help for help",
+    "parseError": "Expression parse error",
+    "helpTitle": "Help"
+  },
+  "diceRoll": {
+    "advantage": "Advantage",
+    "disadvantage": "Disadvantage",
+    "modeLabel": "Mode",
+    "modeNormal": "Normal",
+    "modeAdvantage": "Adv.",
+    "modeDisadvantage": "Disadv.",
+    "bonusLabel": "Bonus",
+    "multiplierLabel": "Multiplier",
+    "advantageShort": "adv.",
+    "disadvantageShort": "disadv.",
+    "rollButton": "Roll"
+  },
+  "diceHelp": {
+    "syntaxTitle": "Roll syntax:",
+    "basic": "Basic: 1d20, 2d6+3, 1d8-1",
+    "keepHighest": "Keep highest: 4d6kh3",
+    "dropLowest": "Drop lowest: 4d6dl1",
+    "dropHighest": "Drop highest: 3d4dh1",
+    "keepLowest": "Keep lowest: 3d4kl1",
+    "reroll": "Reroll: 2d4r1, 2d4r<2, 2d4r<=2",
+    "explode": "Explode: 2d4x4, 2d4x>2",
+    "countSuccesses": "Count successes: 2d4cs=4, 2d4cs>2",
+    "marginOfSuccess": "Margin of success: 2d4ms=4",
+    "dicePools": "Dice pools: {2d8, 1d6}kh1",
+    "rounding": "Rounding: floor(1.5), ceil(1.5), round(1.5)",
+    "average": "Average: avg(8d6)",
+    "maxMin": "Max/Min: dmax(8d6), dmin(8d6)",
+    "functions": "Functions: sign(1d6-3), abs(1d6-3)",
+    "labelsTitle": "Labels:",
+    "labelsExample": "Fireball: 8d6",
+    "arrowKeys": "Arrow keys ↑↓ — input history",
+    "clearCommand": "/clear — clear console"
+  }
+}

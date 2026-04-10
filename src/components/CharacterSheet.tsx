@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
 import { getDamageTypeName } from '../data/items/constants';
@@ -35,6 +36,7 @@ interface CharacterSheetProps {
 }
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
+  const { t } = useTranslation('character');
   const [showSubclassModal, setShowSubclassModal] = useState(false);
   const [showSpellLevelUp, setShowSpellLevelUp] = useState(false);
   const [showHpChoiceModal, setShowHpChoiceModal] = useState(false);
@@ -753,7 +755,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return true;
   };
 
-  const FS_CLASS_MAP: Record<string, string> = { cleric: 'Жрец', druid: 'Друид' };
+  const FS_CLASS_MAP: Record<string, string> = { cleric: t('creation.classMap.cleric'), druid: t('creation.classMap.druid') };
 
   /** Parse additionalSpells from a fighting style feat */
   const parseFsAdditionalSpells = (feat: any): { count: number; sourceClass: string } | null => {
@@ -1115,12 +1117,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const needsSubclass = character.level === 2 && !character.subclass && classDef && classDef.subclasses.length > 0;
 
   const sheetTabs: Tab[] = [
-    { key: 'stats', label: 'Характеристики', icon: ScrollText },
-    { key: 'inventory', label: 'Инвентарь', icon: Backpack },
-    { key: 'actions', label: 'Действия и заклинания', icon: Swords },
-    { key: 'proficiencies', label: 'Умения и Владения', icon: ScrollText },
-    { key: 'roleplay', label: 'Персонаж', icon: User },
-    { key: 'dice', label: 'Кубики', icon: Dices },
+    { key: 'stats', label: t('sheet.tabs.stats'), icon: ScrollText },
+    { key: 'inventory', label: t('sheet.tabs.inventory'), icon: Backpack },
+    { key: 'actions', label: t('sheet.tabs.actions'), icon: Swords },
+    { key: 'proficiencies', label: t('sheet.tabs.proficiencies'), icon: ScrollText },
+    { key: 'roleplay', label: t('sheet.tabs.roleplay'), icon: User },
+    { key: 'dice', label: t('sheet.tabs.dice'), icon: Dices },
   ];
 
   return (
@@ -1144,7 +1146,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           <div>
             <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
             <p className="text-sm text-text-secondary">
-              {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {character.level} ур.
+              {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {t('sheet.header.levelDisplay', { level: character.level })}
             </p>
           </div>
         </div>
@@ -1154,7 +1156,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             className="flex items-center gap-2 px-4 py-2 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold transition-colors text-sm"
           >
             <ArrowUp size={16} />
-            {needsSubclass ? 'Ур. 3 (подкласс)' : `Уровень ${character.level + 1}`}
+            {needsSubclass ? t('sheet.header.levelUpSubclass') : t('sheet.header.levelUp', { level: character.level + 1 })}
           </button>
         )}
       </div>
@@ -1180,7 +1182,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
           {/* Tab: Actions & Spells */}
           {activeTab === 'actions' && (
-            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+            <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
               <LazyActionsSpellsTab character={character} onUpdate={onUpdate} />
             </Suspense>
           )}
@@ -1195,14 +1197,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
           {/* Tab: Roleplay */}
           {activeTab === 'roleplay' && (
-            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+            <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
               <LazyRoleplayTab character={character} onUpdate={onUpdate} />
             </Suspense>
           )}
 
           {/* Tab: Dice */}
           {activeTab === 'dice' && (
-            <Suspense fallback={<div className="text-center text-text-muted py-8">Загрузка...</div>}>
+            <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
               <LazyDiceTab />
             </Suspense>
           )}
@@ -1214,7 +1216,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <div className="glass-panel p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="text-red-bright" size={20} />
-                  <h2 className="text-lg font-medieval text-gold">Здоровье</h2>
+                  <h2 className="text-lg font-medieval text-gold">{t('sheet.health.title')}</h2>
                 </div>
                 <div className="flex gap-4">
                   {/* Left: HP controls + Hit Dice */}
@@ -1236,7 +1238,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                         className="px-3 py-1.5 bg-green-accent/80 text-white rounded hover:bg-green-accent transition-colors text-sm"
                       >+</button>
                       <div className="ml-4 flex items-center gap-2 text-sm">
-                        <span className="text-text-muted">Временные:</span>
+                        <span className="text-text-muted">{t('sheet.health.temporaryHp')}</span>
                         <input
                           type="number"
                           value={character.hitPoints.temporary}
@@ -1247,7 +1249,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     </div>
                     {/* Hit Dice */}
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-default">
-                      <span className="text-sm font-medium text-text-secondary">Кости хитов</span>
+                      <span className="text-sm font-medium text-text-secondary">{t('sheet.health.hitDice')}</span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => {
@@ -1552,6 +1554,7 @@ const ABILITY_ORDER: (keyof AbilityScores)[] = [
 ];
 
 function SkillsSection({ character }: { character: Character }) {
+  const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(false);
   const diceCtx = useDiceRoll();
 
@@ -1566,7 +1569,7 @@ function SkillsSection({ character }: { character: Character }) {
         className="flex items-center gap-2 w-full text-left mb-3"
       >
         <Target className="text-gold" size={20} />
-        <h2 className="text-lg font-medieval text-gold flex-1">Навыки</h2>
+        <h2 className="text-lg font-medieval text-gold flex-1">{t('sheet.skills.title')}</h2>
         <ChevronDown
           size={16}
           className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`}
@@ -1602,7 +1605,7 @@ function SkillsSection({ character }: { character: Character }) {
                         key={skillKey}
                         role="button"
                         tabIndex={0}
-                        title={`Бросить ${getSkillName(skillKey)}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                        title={t('sheet.skills.rollTooltip', { skill: getSkillName(skillKey), mod: `${mod >= 0 ? '+' : ''}${mod}` })}
                         onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
                         onContextMenu={(e) => {
                           e.preventDefault();
@@ -1664,7 +1667,7 @@ function SkillsSection({ character }: { character: Character }) {
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">
-                Спасброски
+                {t('sheet.skills.savingThrows')}
               </span>
               <div className="flex-1 h-px bg-border-default/50" />
             </div>
@@ -1677,7 +1680,7 @@ function SkillsSection({ character }: { character: Character }) {
                     key={ability}
                     role="button"
                     tabIndex={0}
-                    title={`Спасбросок ${getAbilityShort(ability)}: 1d20${mod >= 0 ? '+' : ''}${mod}`}
+                    title={t('sheet.skills.savingThrowTooltip', { ability: getAbilityShort(ability), mod: `${mod >= 0 ? '+' : ''}${mod}` })}
                     onClick={(e) => diceCtx.roll(`1d20${mod >= 0 ? '+' : ''}${mod}`, e)}
                     onContextMenu={(e) => {
                       e.preventDefault();
@@ -1714,6 +1717,7 @@ function SkillsSection({ character }: { character: Character }) {
 }
 
 function FeaturesSection({ character }: { character: Character }) {
+  const { t } = useTranslation('character');
   const [loaded, setLoaded] = useState(false);
   const [classFeatures, setClassFeatures] = useState<FeatureItem[]>([]);
   const [subclassFeatures, setSubclassFeatures] = useState<FeatureItem[]>([]);
@@ -1961,7 +1965,7 @@ function FeaturesSection({ character }: { character: Character }) {
   // --- Особенности categories ---
   const featureCategories: FeatureCategory[] = [
     ...(raceTraits.length > 0 ? [{
-      label: `Раса — ${character.race}`,
+      label: t('sheet.features.raceLabel', { race: character.race }),
       icon: <Sparkles size={14} className="text-purple-400" />,
       features: raceTraits,
     }] : []),
@@ -1983,7 +1987,7 @@ function FeaturesSection({ character }: { character: Character }) {
       features: g.items,
     })),
     ...(charOptionTraits.length > 0 ? [{
-      label: character.charCreationOption?.name ?? 'Опция создания',
+      label: character.charCreationOption?.name ?? t('sheet.features.creationOption'),
       icon: <Scroll size={14} className="text-emerald-400" />,
       features: charOptionTraits,
     }] : []),
@@ -2007,7 +2011,7 @@ function FeaturesSection({ character }: { character: Character }) {
   // If there are non-origin feats, show them at top level
   if (otherFeatItems.length > 0) {
     featCategories.push({
-      label: 'Общие',
+      label: t('sheet.features.general'),
       icon: <Star size={14} className="text-amber-400" />,
       features: otherFeatItems,
     });
@@ -2017,7 +2021,7 @@ function FeaturesSection({ character }: { character: Character }) {
   const bgSubFeatures = [...originFeatItems, ...bgFeatures];
   if (bgSubFeatures.length > 0) {
     featCategories.push({
-      label: character.background || 'Предыстория',
+      label: character.background || t('sheet.features.backgroundFallback'),
       icon: <ScrollText size={14} className="text-text-secondary" />,
       features: bgSubFeatures,
     });
@@ -2108,7 +2112,7 @@ function FeaturesSection({ character }: { character: Character }) {
                         />
                         <span className="text-sm text-text-primary font-medium">{feat.name}</span>
                         {feat.level && (
-                          <span className="text-[10px] text-text-muted ml-auto shrink-0">{feat.level} ур.</span>
+                          <span className="text-[10px] text-text-muted ml-auto shrink-0">{t('sheet.features.levelShort', { level: feat.level })}</span>
                         )}
                       </div>
                       {isExpanded && renderFeatureContent(feat)}
@@ -2129,19 +2133,19 @@ function FeaturesSection({ character }: { character: Character }) {
       <div className="glass-panel p-4">
         <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
           <BookOpen size={18} />
-          Особенности
+          {t('sheet.features.title')}
           <span className="text-xs font-normal text-text-muted ml-1">({featureTotalCount})</span>
         </h2>
 
         {!loaded && featureCategories.length === 0 && (
-          <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
+          <div className="text-text-muted text-sm animate-pulse py-2">{t('sheet.features.loading')}</div>
         )}
 
         {renderCategoryList(featureCategories)}
 
         {loaded && featureTotalCount === 0 && (
           <div className="text-center text-text-muted text-sm py-2 italic">
-            Нет особенностей
+            {t('sheet.features.noFeatures')}
           </div>
         )}
       </div>
@@ -2150,19 +2154,19 @@ function FeaturesSection({ character }: { character: Character }) {
       <div className="glass-panel p-4">
         <h2 className="text-lg font-medieval mb-3 text-gold flex items-center gap-2">
           <Star size={18} />
-          Черты
+          {t('sheet.features.featsTitle')}
           <span className="text-xs font-normal text-text-muted ml-1">({featTotalCount})</span>
         </h2>
 
         {!loaded && featCategories.length === 0 && (
-          <div className="text-text-muted text-sm animate-pulse py-2">Загрузка...</div>
+          <div className="text-text-muted text-sm animate-pulse py-2">{t('sheet.features.loading')}</div>
         )}
 
         {renderCategoryList(featCategories)}
 
         {loaded && featTotalCount === 0 && (
           <div className="text-center text-text-muted text-sm py-2 italic">
-            Нет черт
+            {t('sheet.features.noFeats')}
           </div>
         )}
       </div>
@@ -2174,56 +2178,17 @@ function FeaturesSection({ character }: { character: Character }) {
 // Conditions & Resistances Section (Состояния и Устойчивости)
 // ==============================
 
-// Русские названия для известных состояний (fallback — английское имя из JSON)
-const CONDITION_NAMES: Record<string, string> = {
-  'Blinded': 'Ослеплён',
-  'Charmed': 'Очарован',
-  'Deafened': 'Оглушён',
-  'Exhaustion': 'Истощение',
-  'Frightened': 'Испуган',
-  'Grappled': 'Схвачен',
-  'Incapacitated': 'Недееспособен',
-  'Invisible': 'Невидимый',
-  'Paralyzed': 'Парализован',
-  'Petrified': 'Окаменевший',
-  'Poisoned': 'Отравлен',
-  'Prone': 'Сбит с ног',
-  'Restrained': 'Опутан',
-  'Stunned': 'Оглушён (стан)',
-  'Surprised': 'Застигнут врасплох',
-  'Unconscious': 'Без сознания',
-  'Concentration': 'Концентрация',
-  'Bloodied': 'Окровавлен',
-  'Arcane Blight': 'Тайная порча',
-  'Blinding Sickness': 'Слепящая хворь',
-  'Blue Mist Fever': 'Лихорадка синего тумана',
-  'Bluerot': 'Синяя гниль',
-  'Cackle Fever': 'Хохочущая лихорадка',
-  'Filth Fever': 'Грязная лихорадка',
-  'Flesh Rot': 'Гниение плоти',
-  'Frigid Woe': 'Ледяная скорбь',
-  'Ghoul Gut': 'Гулье брюхо',
-  'Grackle-Lung': 'Грэкл-лёгкие',
-  'Lichen Plague': 'Лишайная чума',
-  'Mindfire': 'Разумный огонь',
-  'Mudpox': 'Грязевая оспа',
-  'Redface': 'Красноликость',
-  'Saprophytic Plague': 'Сапрофитная чума',
-  'Seizure': 'Судорога',
-  'Sewer Plague': 'Канализационная чума',
-  'Shaking Plague': 'Трясучая чума',
-  'Shivering Sickness': 'Дрожащая хворь',
-  'Sight Rot': 'Гниение зрения',
-  'Slimy Doom': 'Слизистая погибель',
-  'Spider Eggs': 'Паучьи яйца',
-  'Super-Tetanus': 'Супер-столбняк',
-  'The Gnawing Plague': 'Грызущая чума',
-  'The Rusting': 'Ржавение',
-  'Throat Leeches': 'Горловые пиявки',
-};
+// Map from condition English name to i18n key (PascalCase without spaces/hyphens/apostrophes)
+function conditionNameToI18nKey(name: string): string {
+  return name.replace(/[\s\-']+/g, '').replace(/^(.)/, c => c.toUpperCase());
+}
 
-function getConditionDisplayName(name: string): string {
-  return CONDITION_NAMES[name] || name;
+// This is not a hook — it's a pure lookup function.
+// Components that call it must provide their own t() function.
+function getConditionDisplayName(name: string, t: (key: string, opts?: any) => string): string {
+  const i18nKey = conditionNameToI18nKey(name);
+  const translated = t(`sheet.conditions.names.${i18nKey}`, { defaultValue: '' });
+  return translated || name;
 }
 
 // Override map for feature names that differ from image filenames
@@ -2306,6 +2271,7 @@ function ConditionPickerModal({
   onCancel: () => void;
   activeConditions: string[];
 }) {
+  const { t } = useTranslation('character');
   const [allConditions, setAllConditions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -2335,7 +2301,7 @@ function ConditionPickerModal({
     if (activeConditions.includes(name)) return false;
     if (filter !== 'all' && conditionTypes[name] !== filter) return false;
     if (search) {
-      const displayName = getConditionDisplayName(name).toLowerCase();
+      const displayName = getConditionDisplayName(name, t).toLowerCase();
       const englishName = name.toLowerCase();
       return displayName.includes(searchLower) || englishName.includes(searchLower);
     }
@@ -2350,7 +2316,7 @@ function ConditionPickerModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-default shrink-0">
-          <h3 className="text-base font-medieval text-gold">Добавить состояние</h3>
+          <h3 className="text-base font-medieval text-gold">{t('sheet.conditions.addCondition')}</h3>
           <button onClick={onCancel} className="p-1 rounded hover:bg-bg-primary/80 text-text-muted hover:text-text-primary transition-colors">
             <X size={16} />
           </button>
@@ -2360,14 +2326,14 @@ function ConditionPickerModal({
         <div className="px-4 pt-3 pb-2 space-y-2 shrink-0">
           <input
             type="text"
-            placeholder="Поиск..."
+            placeholder={t('sheet.conditions.searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full px-3 py-1.5 text-sm bg-bg-primary border border-border-default rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-gold/50"
             autoFocus
           />
           <div className="flex gap-1.5">
-            {([['all', 'Все'], ['condition', 'Состояния'], ['disease', 'Болезни']] as const).map(([key, label]) => (
+            {([['all', t('sheet.conditions.filterAll')], ['condition', t('sheet.conditions.filterConditions')], ['disease', t('sheet.conditions.filterDiseases')]] as [('all' | 'condition' | 'disease'), string][]).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setFilter(key)}
@@ -2386,9 +2352,9 @@ function ConditionPickerModal({
         {/* Condition list */}
         <div className="flex-1 overflow-y-auto px-4 pb-3 min-h-0">
           {loading ? (
-            <p className="text-sm text-text-muted text-center py-4">Загрузка...</p>
+            <p className="text-sm text-text-muted text-center py-4">{t('sheet.loading')}</p>
           ) : filtered.length === 0 ? (
-            <p className="text-sm text-text-muted text-center py-4 italic">Ничего не найдено</p>
+            <p className="text-sm text-text-muted text-center py-4 italic">{t('sheet.conditions.nothingFound')}</p>
           ) : (
             <div className="grid grid-cols-2 gap-1.5">
               {filtered.map(name => (
@@ -2404,8 +2370,8 @@ function ConditionPickerModal({
                     onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
                   />
                   <div className="min-w-0">
-                    <div className="truncate">{getConditionDisplayName(name)}</div>
-                    {getConditionDisplayName(name) !== name && (
+                    <div className="truncate">{getConditionDisplayName(name, t)}</div>
+                    {getConditionDisplayName(name, t) !== name && (
                       <div className="text-[9px] text-text-muted truncate">{name}</div>
                     )}
                   </div>
@@ -2442,14 +2408,16 @@ function getDamageTypeImageUrl(type: string): string {
 
 const ALL_DAMAGE_TYPES = Object.keys(DAMAGE_TYPE_IMAGES);
 
-const MODIFIER_INFO: { key: DamageResistanceModifier; label: string; shortLabel: string; color: string }[] = [
-  { key: 'resistance',       label: 'Устойчивость',       shortLabel: 'Устойч.',    color: 'text-white' },
-  { key: 'resistance_magic', label: 'Маг. устойчивость',  shortLabel: 'Маг. уст.',  color: 'text-blue-400' },
-  { key: 'resistance_all',   label: 'Общая устойчивость', shortLabel: 'Общ. уст.',  color: 'text-emerald-400' },
-  { key: 'vulnerability',    label: 'Уязвимость',         shortLabel: 'Уязв.',      color: 'text-red-400' },
-  { key: 'immunity',         label: 'Иммунитет',          shortLabel: 'Иммун.',     color: 'text-white' },
-  { key: 'immunity_all',     label: 'Полный иммунитет',   shortLabel: 'Полн. имм.', color: 'text-blue-400' },
-];
+function getModifierInfo(t: (key: string) => string): { key: DamageResistanceModifier; label: string; shortLabel: string; color: string }[] {
+  return [
+    { key: 'resistance',       label: t('sheet.resistances.modifiers.resistance'),       shortLabel: t('sheet.resistances.modifiers.resistanceShort'),    color: 'text-white' },
+    { key: 'resistance_magic', label: t('sheet.resistances.modifiers.resistanceMagic'),  shortLabel: t('sheet.resistances.modifiers.resistanceMagicShort'),  color: 'text-blue-400' },
+    { key: 'resistance_all',   label: t('sheet.resistances.modifiers.resistanceAll'), shortLabel: t('sheet.resistances.modifiers.resistanceAllShort'),  color: 'text-emerald-400' },
+    { key: 'vulnerability',    label: t('sheet.resistances.modifiers.vulnerability'),         shortLabel: t('sheet.resistances.modifiers.vulnerabilityShort'),      color: 'text-red-400' },
+    { key: 'immunity',         label: t('sheet.resistances.modifiers.immunity'),          shortLabel: t('sheet.resistances.modifiers.immunityShort'),     color: 'text-white' },
+    { key: 'immunity_all',     label: t('sheet.resistances.modifiers.immunityAll'),   shortLabel: t('sheet.resistances.modifiers.immunityAllShort'), color: 'text-blue-400' },
+  ];
+}
 
 // ── Visual indicator overlay for resistance badges ──
 function ResistanceIndicator({ modifier }: { modifier: DamageResistanceModifier }) {
@@ -2504,6 +2472,8 @@ function ResistancePickerModal({
   onCancel: () => void;
   existing: DamageResistanceEntry[];
 }) {
+  const { t } = useTranslation('character');
+  const MODIFIER_INFO = getModifierInfo(t);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedModifier, setSelectedModifier] = useState<DamageResistanceModifier | null>(null);
 
@@ -2521,7 +2491,7 @@ function ResistancePickerModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-default">
-          <h3 className="text-base font-medieval text-gold">Добавить устойчивость</h3>
+          <h3 className="text-base font-medieval text-gold">{t('sheet.resistances.addResistance')}</h3>
           <button onClick={onCancel} className="p-1 rounded hover:bg-bg-primary/80 text-text-muted hover:text-text-primary transition-colors">
             <X size={16} />
           </button>
@@ -2530,7 +2500,7 @@ function ResistancePickerModal({
         <div className="p-4 space-y-4">
           {/* Damage type grid */}
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">Тип урона</p>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">{t('sheet.resistances.damageType')}</p>
             <div className="grid grid-cols-5 gap-1.5">
               {ALL_DAMAGE_TYPES.map(type => (
                 <button
@@ -2559,7 +2529,7 @@ function ResistancePickerModal({
 
           {/* Modifier selection */}
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">Тип модификатора</p>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-2">{t('sheet.resistances.modifierType')}</p>
             <div className="grid grid-cols-2 gap-1.5">
               {MODIFIER_INFO.map(info => (
                 <button
@@ -2595,13 +2565,13 @@ function ResistancePickerModal({
         {/* Footer */}
         <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-border-default">
           {alreadyExists && (
-            <span className="text-xs text-red-400 mr-auto">Уже добавлено</span>
+            <span className="text-xs text-red-400 mr-auto">{t('sheet.resistances.alreadyAdded')}</span>
           )}
           <button
             onClick={onCancel}
             className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
-            Отмена
+            {t('sheet.resistances.cancel')}
           </button>
           <button
             disabled={!canAdd}
@@ -2612,7 +2582,7 @@ function ResistancePickerModal({
             }}
             className="px-4 py-1.5 text-sm font-semibold rounded-lg bg-gold/20 text-gold border border-gold/30 hover:bg-gold/30 transition-colors disabled:opacity-30 disabled:pointer-events-none"
           >
-            Добавить
+            {t('sheet.resistances.add')}
           </button>
         </div>
       </div>
@@ -2622,6 +2592,7 @@ function ResistancePickerModal({
 
 // ── Death Saving Throws Section ──
 function DeathSavesSection({ character, onUpdate }: { character: Character; onUpdate: (c: Character) => void }) {
+  const { t } = useTranslation('character');
   const { roll, openConfig } = useDiceRoll();
   const [lastRoll, setLastRoll] = useState<{ value: number; type: 'success' | 'failure' | 'crit_success' | 'crit_failure' } | null>(null);
 
@@ -2711,12 +2682,12 @@ function DeathSavesSection({ character, onUpdate }: { character: Character; onUp
       {/* Title + reset */}
       <div className="flex items-center gap-2">
         <Skull className="text-text-muted" size={16} />
-        <span className="text-sm font-medieval text-gold whitespace-nowrap">Спасброски</span>
+        <span className="text-sm font-medieval text-gold whitespace-nowrap">{t('sheet.deathSaves.title')}</span>
         {(deathSaves.successes > 0 || deathSaves.failures > 0) && (
           <button
             onClick={resetDeathSaves}
             className="text-text-muted hover:text-text-secondary transition-colors ml-1"
-            title="Сбросить"
+            title={t('sheet.deathSaves.reset')}
           >
             <X size={14} />
           </button>
@@ -2726,11 +2697,11 @@ function DeathSavesSection({ character, onUpdate }: { character: Character; onUp
       {/* Pips rows */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-green-accent w-10 text-right">Успехи</span>
+          <span className="text-xs text-green-accent w-10 text-right">{t('sheet.deathSaves.successes')}</span>
           {renderPips(deathSaves.successes, 3, 'success')}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-red-accent w-10 text-right">Провалы</span>
+          <span className="text-xs text-red-accent w-10 text-right">{t('sheet.deathSaves.failures')}</span>
           {renderPips(deathSaves.failures, 3, 'failure')}
         </div>
       </div>
@@ -2750,9 +2721,9 @@ function DeathSavesSection({ character, onUpdate }: { character: Character; onUp
       >
         <Dices size={16} />
         {deathSaves.successes >= 3
-          ? 'Стабилен'
+          ? t('sheet.deathSaves.stable')
           : deathSaves.failures >= 3
-          ? 'Смерть'
+          ? t('sheet.deathSaves.dead')
           : '1d20'}
       </button>
 
@@ -2764,10 +2735,10 @@ function DeathSavesSection({ character, onUpdate }: { character: Character; onUp
           <span className="font-bold">{lastRoll.value}</span>
           {' '}
           <span>
-            {lastRoll.type === 'crit_success' && '— крит!'}
-            {lastRoll.type === 'success' && '— успех'}
-            {lastRoll.type === 'failure' && '— провал'}
-            {lastRoll.type === 'crit_failure' && '— крит!'}
+            {lastRoll.type === 'crit_success' && t('sheet.deathSaves.critSuccess')}
+            {lastRoll.type === 'success' && t('sheet.deathSaves.success')}
+            {lastRoll.type === 'failure' && t('sheet.deathSaves.failure')}
+            {lastRoll.type === 'crit_failure' && t('sheet.deathSaves.critFailure')}
           </span>
         </div>
       )}
@@ -2783,6 +2754,7 @@ function ConditionsSection({
   character: Character;
   onUpdate: (c: Character) => void;
 }) {
+  const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(false);
   const [showConditionModal, setShowConditionModal] = useState(false);
 
@@ -2807,12 +2779,12 @@ function ConditionsSection({
           className="flex items-center gap-2 flex-1 text-left"
         >
           <ShieldAlert className="text-gold" size={20} />
-          <h2 className="text-lg font-medieval text-gold">Состояния</h2>
+          <h2 className="text-lg font-medieval text-gold">{t('sheet.conditions.title')}</h2>
         </button>
         <button
           onClick={() => setShowConditionModal(true)}
           className="p-1.5 rounded-lg border border-gold/30 bg-gold/10 text-gold hover:bg-gold/25 transition-colors shrink-0"
-          title="Добавить состояние"
+          title={t('sheet.conditions.addCondition')}
         >
           <Plus size={18} />
         </button>
@@ -2842,7 +2814,7 @@ function ConditionsSection({
                     className="w-5 h-5 object-contain"
                     onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
                   />
-                  {getConditionDisplayName(key)}
+                  {getConditionDisplayName(key, t)}
                   <button
                     onClick={() => removeCondition(key)}
                     className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
@@ -2853,7 +2825,7 @@ function ConditionsSection({
               ))}
             </div>
           ) : (
-            <p className="text-xs text-text-muted italic">Нет активных состояний</p>
+            <p className="text-xs text-text-muted italic">{t('sheet.conditions.noActiveConditions')}</p>
           )}
         </div>
       )}
@@ -2877,6 +2849,8 @@ function ResistancesSection({
   character: Character;
   onUpdate: (c: Character) => void;
 }) {
+  const { t } = useTranslation('character');
+  const MODIFIER_INFO = getModifierInfo(t);
   const [collapsed, setCollapsed] = useState(false);
   const [showResistanceModal, setShowResistanceModal] = useState(false);
 
@@ -2899,12 +2873,12 @@ function ResistancesSection({
           className="flex items-center gap-2 flex-1 text-left"
         >
           <Shield className="text-gold" size={20} />
-          <h2 className="text-lg font-medieval text-gold">Устойчивости</h2>
+          <h2 className="text-lg font-medieval text-gold">{t('sheet.resistances.title')}</h2>
         </button>
         <button
           onClick={() => setShowResistanceModal(true)}
           className="p-1.5 rounded-lg border border-gold/30 bg-gold/10 text-gold hover:bg-gold/25 transition-colors shrink-0"
-          title="Добавить устойчивость"
+          title={t('sheet.resistances.addResistance')}
         >
           <Plus size={18} />
         </button>
@@ -2952,7 +2926,7 @@ function ResistancesSection({
               })}
             </div>
           ) : (
-            <p className="text-xs text-text-muted italic">Нет устойчивостей</p>
+            <p className="text-xs text-text-muted italic">{t('sheet.resistances.noResistances')}</p>
           )}
         </div>
       )}
@@ -2973,30 +2947,31 @@ function ResistancesSection({
 // ==============================
 
 function ProficienciesSection({ character }: { character: Character }) {
+  const { t } = useTranslation('character');
   const { proficiencies } = character;
 
   const categories = [
     {
       key: 'languages',
-      label: 'Языки',
+      label: t('sheet.proficiencies.languages'),
       icon: <Languages size={16} className="text-blue-400" />,
       items: proficiencies.languages,
     },
     {
       key: 'weapons',
-      label: 'Оружие',
+      label: t('sheet.proficiencies.weapons'),
       icon: <Swords size={16} className="text-red-400" />,
       items: proficiencies.weapons,
     },
     {
       key: 'armor',
-      label: 'Броня',
+      label: t('sheet.proficiencies.armor'),
       icon: <Shield size={16} className="text-amber-400" />,
       items: proficiencies.armor,
     },
     {
       key: 'tools',
-      label: 'Инструменты',
+      label: t('sheet.proficiencies.tools'),
       icon: <Dices size={16} className="text-emerald-400" />,
       items: proficiencies.tools,
     },
@@ -3028,7 +3003,7 @@ function ProficienciesSection({ character }: { character: Character }) {
 
       {categories.every(c => !c.items?.length) && (
         <div className="text-center text-text-muted text-sm py-8 italic">
-          Нет владений
+          {t('sheet.proficiencies.noProficiencies')}
         </div>
       )}
     </div>
@@ -3046,6 +3021,7 @@ interface HpChoiceModalProps {
 }
 
 function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModalProps) {
+  const { t } = useTranslation('character');
   const hitDieValue = parseInt(hitDieType.replace('d', ''));
   const averageRoll = Math.ceil(hitDieValue / 2) + 1; // стандартная формула D&D: ceil(die/2)+1
   const averageTotal = Math.max(1, averageRoll + conMod);
@@ -3079,10 +3055,10 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
       <div className="bg-bg-panel-solid rounded-xl border-2 border-gold/40 ornate-border max-w-md w-full p-6 space-y-5">
         {/* Header */}
         <div className="text-center">
-          <h2 className="text-xl font-medieval text-gold">Повышение здоровья</h2>
+          <h2 className="text-xl font-medieval text-gold">{t('sheet.hpRoll.title')}</h2>
           <p className="text-sm text-text-secondary mt-1">
-            Кость здоровья: <span className="text-text-primary font-bold">{hitDieType}</span>
-            {' '} • Модификатор Тел: <span className="text-text-primary font-bold">{formatModifier(conMod)}</span>
+            {t('sheet.hpRoll.hitDieLabel', { die: hitDieType })}
+            {' '} • {t('sheet.hpRoll.conModLabel', { mod: formatModifier(conMod) })}
           </p>
         </div>
 
@@ -3099,10 +3075,10 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
               </div>
               <div className="flex-1">
                 <div className="font-semibold text-text-primary group-hover:text-gold transition-colors">
-                  Стандартная формула
+                  {t('sheet.hpRoll.standardFormula')}
                 </div>
                 <div className="text-xs text-text-muted mt-0.5">
-                  {averageRoll} ({hitDieType} среднее) {conMod >= 0 ? '+' : ''}{conMod} (Тел)
+                  {t('sheet.hpRoll.averageLabel', { average: averageRoll, die: hitDieType, mod: `${conMod >= 0 ? '+' : ''}${conMod}` })}
                 </div>
               </div>
               <div className="text-2xl font-bold text-gold">
@@ -3119,10 +3095,10 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
               </div>
               <div className="flex-1">
                 <div className="font-semibold text-text-primary">
-                  Бросить кубик
+                  {t('sheet.hpRoll.rollDie')}
                 </div>
                 <div className="text-xs text-text-muted mt-0.5">
-                  1{hitDieType} {conMod >= 0 ? '+' : ''}{conMod} (Тел) — от {Math.max(1, 1 + conMod)} до {hitDieValue + conMod}
+                  {t('sheet.hpRoll.rangeLabel', { die: hitDieType, mod: `${conMod >= 0 ? '+' : ''}${conMod}`, min: Math.max(1, 1 + conMod), max: hitDieValue + conMod })}
                 </div>
               </div>
 
@@ -3146,7 +3122,7 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
                     hover:bg-gold/20 disabled:opacity-50 transition-all text-sm flex items-center justify-center gap-2"
                 >
                   <Dices size={16} className={isRolling ? 'animate-spin' : ''} />
-                  {isRolling ? 'Бросаю...' : 'Бросить ' + hitDieType}
+                  {isRolling ? t('sheet.hpRoll.rolling') : t('sheet.hpRoll.rollButton', { die: hitDieType })}
                 </button>
               ) : (
                 <>
@@ -3155,14 +3131,14 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
                     className="py-2 px-4 rounded-lg border border-border-default text-text-secondary hover:text-text-primary
                       hover:border-border-hover transition-colors text-sm"
                   >
-                    Перебросить
+                    {t('sheet.hpRoll.reroll')}
                   </button>
                   <button
                     onClick={() => onChoice(rolledTotal!)}
                     className="flex-1 py-2 rounded-lg bg-gold/20 text-gold border border-gold/30 font-semibold
                       hover:bg-gold/30 transition-all text-sm"
                   >
-                    Принять +{rolledTotal}
+                    {t('sheet.hpRoll.accept', { total: rolledTotal })}
                   </button>
                 </>
               )}
@@ -3170,7 +3146,7 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
 
             {rolledValue !== null && !isRolling && (
               <div className="text-xs text-text-muted text-center">
-                Выпало: <span className="text-text-primary font-bold">{rolledValue}</span> {conMod >= 0 ? '+' : ''}{conMod} = <span className="text-gold font-bold">{rolledTotal}</span>
+                {t('sheet.hpRoll.rollResult', { value: rolledValue, mod: `${conMod >= 0 ? '+' : ''}${conMod}`, total: rolledTotal })}
               </div>
             )}
           </div>
@@ -3182,7 +3158,7 @@ function HpChoiceModal({ hitDieType, conMod, onChoice, onCancel }: HpChoiceModal
           className="w-full py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary
             hover:border-border-hover transition-colors text-sm"
         >
-          Отмена
+          {t('sheet.hpRoll.cancel')}
         </button>
       </div>
     </div>
@@ -3205,6 +3181,7 @@ interface SubclassPickerModalProps {
 }
 
 function SubclassPickerModal({ character, classDef, onSelect, onCancel }: SubclassPickerModalProps) {
+  const { t } = useTranslation('character');
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [subclassDetails, setSubclassDetails] = useState<SubclassJsonData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -3246,17 +3223,17 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
-              Выбор подкласса — Уровень 3
+              {t('sheet.subclass.title')}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              Ваш {character.class} достиг 3 уровня! Выберите специализацию.
+              {t('sheet.subclass.description', { class: character.class })}
             </p>
           </div>
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
           >
-            Отмена
+            {t('sheet.subclass.cancel')}
           </button>
         </div>
       </div>
@@ -3300,13 +3277,13 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
           {/* Level 3 Features */}
           {loading ? (
             <div className="glass-panel p-6 flex items-center justify-center">
-              <div className="text-text-muted animate-pulse">Загрузка способностей...</div>
+              <div className="text-text-muted animate-pulse">{t('sheet.subclass.loadingAbilities')}</div>
             </div>
           ) : level3Features.length > 0 ? (
             <div className="glass-panel p-4 space-y-4">
               <h3 className="text-base font-medieval text-gold flex items-center gap-2">
                 <BookOpen size={16} />
-                Способности 3 уровня
+                {t('sheet.subclass.level3Features')}
               </h3>
               {level3Features.map((feature, i) => (
                 <div key={i} className="border border-border-default rounded-lg p-3 bg-bg-primary/40">
@@ -3319,7 +3296,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
                   </div>
                   {feature.spellList && feature.spellList.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-border-default">
-                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Заклинания подкласса</div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-1">{t('sheet.subclass.subclassSpells')}</div>
                       <div className="space-y-1">
                         {feature.spellList.map((row: any, ri: number) => {
                           const lvlKey = Object.keys(row).find(k => k !== 'spells') || '';
@@ -3329,7 +3306,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
                           );
                           return (
                             <div key={ri} className="flex items-start gap-2 text-xs">
-                              <span className="text-text-muted shrink-0">{lvlVal} ур.:</span>
+                              <span className="text-text-muted shrink-0">{t('sheet.fsCantripPicker.levelShort', { level: lvlVal })}:</span>
                               <span className="text-text-primary">{spellNames.join(', ')}</span>
                             </div>
                           );
@@ -3342,13 +3319,13 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
             </div>
           ) : (
             <div className="glass-panel p-4 text-center text-text-muted text-sm">
-              Подробные данные для этого подкласса не найдены
+              {t('sheet.subclass.noDetailData')}
             </div>
           )}
 
           {/* All subclasses quick-nav grid */}
           <div className="glass-panel p-4">
-            <h4 className="text-xs text-text-muted uppercase tracking-wider mb-3">Все подклассы</h4>
+            <h4 className="text-xs text-text-muted uppercase tracking-wider mb-3">{t('sheet.subclass.allSubclasses')}</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {subs.map((sub, i) => (
                 <button
@@ -3373,14 +3350,14 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
       <div className="shrink-0 border-t border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
         <div className="flex items-center justify-between max-w-5xl mx-auto">
           <div className="text-sm text-text-secondary">
-            Выбрано: <span className="text-gold font-semibold">{current?.name}</span>
+            {t('sheet.subclass.selected')} <span className="text-gold font-semibold">{current?.name}</span>
           </div>
           <button
             onClick={() => onSelect(current?.name)}
             className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
               hover:bg-gold/30 transition-all gold-glow"
           >
-            Выбрать {current?.name}
+            {t('sheet.subclass.selectButton', { name: current?.name })}
           </button>
         </div>
       </div>
@@ -3400,14 +3377,15 @@ function FsReplaceModal({
   onReplace: (oldFeatName: string) => void;
   onSkip: () => void;
 }) {
+  const { t } = useTranslation('character');
   const fsFeats = (character.feats ?? []).filter(f => f.category?.startsWith('FS'));
 
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-bg-panel-solid rounded-xl border border-gold/30 p-6">
-        <h2 className="text-xl font-medieval text-gold mb-4">Замена боевого стиля</h2>
+        <h2 className="text-xl font-medieval text-gold mb-4">{t('sheet.fightingStyleReplace.title')}</h2>
         <p className="text-sm text-text-secondary mb-4">
-          При повышении уровня вы можете заменить свой боевой стиль на другой.
+          {t('sheet.fightingStyleReplace.description')}
         </p>
 
         <div className="space-y-2 mb-6">
@@ -3418,7 +3396,7 @@ function FsReplaceModal({
                 onClick={() => onReplace(f.name)}
                 className="px-3 py-1 text-xs rounded border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors"
               >
-                Заменить
+                {t('sheet.fightingStyleReplace.replace')}
               </button>
             </div>
           ))}
@@ -3429,7 +3407,7 @@ function FsReplaceModal({
             onClick={onSkip}
             className="px-6 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
           >
-            Пропустить
+            {t('sheet.fightingStyleReplace.skip')}
           </button>
         </div>
       </div>
@@ -3439,24 +3417,22 @@ function FsReplaceModal({
 
 // ── FS Cantrip Picker Modal ──
 
-const FS_TIME_UNITS: Record<string, string> = { action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.', hour: 'час' };
-
-function getFsCantripMeta(spell: any) {
+function getFsCantripMeta(spell: any, t: (key: string, opts?: any) => string) {
   const castingTime = spell.time
-    ?.map((t: any) => `${t.number} ${FS_TIME_UNITS[t.unit] || t.unit}`)
+    ?.map((ti: any) => `${ti.number} ${t(`creation.timeUnits.${ti.unit}`, { defaultValue: ti.unit })}`)
     .join(', ');
   const range = spell.range?.distance?.amount
-    ? `${spell.range.distance.amount} фт.`
-    : spell.range?.type === 'touch' ? 'Касание'
-      : spell.range?.type === 'self' ? 'На себя'
+    ? t('creation.spellRange.ft', { amount: spell.range.distance.amount })
+    : spell.range?.type === 'touch' ? t('creation.spellRange.touch')
+      : spell.range?.type === 'self' ? t('creation.spellRange.self')
         : spell.range?.type || '';
   const components = spell.components
-    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
+    ? [spell.components.v ? t('creation.spellComponents.v') : '', spell.components.s ? t('creation.spellComponents.s') : '', spell.components.m ? t('creation.spellComponents.m') : ''].filter(Boolean).join(', ')
     : '';
   const duration = spell.duration
     ?.map((d: any) => {
-      if (d.type === 'instant') return 'Мгновенная';
-      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+      if (d.type === 'instant') return t('creation.spellDuration.instant');
+      if (d.concentration) return t('creation.spellDuration.concentration', { amount: d.duration?.amount || '', type: d.duration?.type || '' });
       return d.type;
     })
     .join(', ');
@@ -3484,6 +3460,7 @@ function FsCantripPickerModal({
   onConfirm: (cantrips: any[]) => void;
   onCancel: () => void;
 }) {
+  const { t } = useTranslation('character');
   const [available, setAvailable] = useState<any[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -3537,17 +3514,17 @@ function FsCantripPickerModal({
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-purple-400" size={24} />
-              Выберите заговоры — {sourceClass}
+              {t('sheet.fsCantripPicker.title', { class: sourceClass })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              Выберите {count} {count === 1 ? 'заговор' : 'заговора'} из списка {sourceClass === 'Жрец' ? 'жреца' : 'друида'}
+              {t('sheet.fsCantripPicker.description', { count, cantripWord: count === 1 ? t('sheet.fsCantripPicker.cantripSingular') : t('sheet.fsCantripPicker.cantripPlural'), classGen: sourceClass === t('creation.classMap.cleric') ? t('sheet.fsCantripPicker.clericGen') : t('sheet.fsCantripPicker.druidGen') })}
             </p>
           </div>
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
           >
-            Отмена
+            {t('sheet.fsCantripPicker.cancel')}
           </button>
         </div>
       </div>
@@ -3559,19 +3536,19 @@ function FsCantripPickerModal({
           {!loaded ? (
             <div className="flex items-center justify-center py-20">
               <Loader2 size={32} className="animate-spin text-gold" />
-              <span className="ml-3 text-text-secondary">Загрузка заговоров...</span>
+              <span className="ml-3 text-text-secondary">{t('sheet.loading')}</span>
             </div>
           ) : (
             <>
               {/* "Вы получите" section */}
               <div className="glass-panel ornate-border p-4 space-y-3">
-                <h3 className="text-base font-medieval text-gold">Вы получите следующее:</h3>
+                <h3 className="text-base font-medieval text-gold">{t('sheet.fsCantripPicker.youWillGet')}</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2 text-text-primary">
                     <span className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                       <Sparkles size={12} className="text-purple-400" />
                     </span>
-                    +{count} {count === 1 ? 'заговор' : 'заговора'} из списка {sourceClass === 'Жрец' ? 'жреца' : 'друида'}
+                    {t('sheet.fsCantripPicker.cantripBonus', { count, cantripWord: count === 1 ? t('sheet.fsCantripPicker.cantripSingular') : t('sheet.fsCantripPicker.cantripPlural'), classGen: sourceClass === t('creation.classMap.cleric') ? t('sheet.fsCantripPicker.clericGen') : t('sheet.fsCantripPicker.druidGen') })}
                   </div>
                 </div>
               </div>
@@ -3581,7 +3558,7 @@ function FsCantripPickerModal({
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
                 <input
                   type="text"
-                  placeholder="Поиск заговоров..."
+                  placeholder={t('sheet.fsCantripPicker.searchPlaceholder')}
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-9 pr-4 py-2 bg-bg-primary border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50 transition-colors"
@@ -3593,14 +3570,14 @@ function FsCantripPickerModal({
                 <div className="flex items-center gap-2 mb-3">
                   <Sparkles size={16} className="text-purple-400" />
                   <span className="text-sm font-medieval text-purple-300">
-                    Заговоры ({selected.length}/{count})
+                    {t('sheet.fsCantripPicker.cantripsCount', { current: selected.length, max: count })}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {filtered.map((spell: any) => {
                     const isSelected = selected.some(s => s.name === spell.name);
                     const disabled = !isSelected && selected.length >= count;
-                    const meta = getFsCantripMeta(spell);
+                    const meta = getFsCantripMeta(spell, t);
                     return (
                       <SpellTooltip
                         key={spell.name}
@@ -3632,7 +3609,7 @@ function FsCantripPickerModal({
                     );
                   })}
                   {filtered.length === 0 && (
-                    <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                    <p className="text-sm text-text-muted py-2">{t('sheet.fsCantripPicker.noCantrips')}</p>
                   )}
                 </div>
               </div>
@@ -3648,15 +3625,15 @@ function FsCantripPickerModal({
                     >✕</button>
                   </div>
                   <div className="text-xs text-text-muted">
-                    Заговор
+                    {t('sheet.fsCantripPicker.cantripLabel')}
                     {expandedData.school && ` • ${schoolNames[expandedData.school] || expandedData.school}`}
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    {(() => { const m = getFsCantripMeta(expandedData); return (<>
-                      {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-                      {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-                      {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-                      {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                    {(() => { const m = getFsCantripMeta(expandedData, t); return (<>
+                      {m.castingTime && <div><span className="text-text-muted">{t('sheet.fsCantripPicker.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+                      {m.range && <div><span className="text-text-muted">{t('sheet.fsCantripPicker.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+                      {m.components && <div><span className="text-text-muted">{t('sheet.fsCantripPicker.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+                      {m.duration && <div><span className="text-text-muted">{t('sheet.fsCantripPicker.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
                     </>); })()}
                   </div>
                   <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -3686,12 +3663,12 @@ function FsCantripPickerModal({
           {/* Selected cantrips summary */}
           {selected.length > 0 && (
             <div className="glass-panel p-3 mt-3 space-y-2">
-              <h4 className="text-[10px] uppercase tracking-wider text-text-muted">Выбрано</h4>
+              <h4 className="text-[10px] uppercase tracking-wider text-text-muted">{t('sheet.fsCantripPicker.selected')}</h4>
               {selected.map((s: any) => (
                 <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
                   <span className="truncate">{s.name}</span>
-                  <span className="text-purple-400 text-[10px] ml-auto">заг.</span>
+                  <span className="text-purple-400 text-[10px] ml-auto">{t('sheet.fsCantripPicker.cantripShort')}</span>
                 </div>
               ))}
             </div>
@@ -3704,7 +3681,7 @@ function FsCantripPickerModal({
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="text-sm text-text-muted">
             <span className={selected.length === count ? 'text-green-bright' : ''}>
-              Заговоры: {selected.length}/{count}
+              {t('sheet.fsCantripPicker.cantripsFooter', { current: selected.length, max: count })}
             </span>
           </div>
           <button
@@ -3714,7 +3691,7 @@ function FsCantripPickerModal({
               hover:bg-gold/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all
               enabled:gold-glow"
           >
-            Подтвердить
+            {t('sheet.fsCantripPicker.confirm')}
           </button>
         </div>
       </div>

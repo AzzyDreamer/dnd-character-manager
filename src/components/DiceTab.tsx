@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dices, Send, Trash2, ChevronUp, ChevronDown, HelpCircle } from 'lucide-react';
 import { rollDice, evalConsoleExpression } from '../utils/diceRoller';
 import type { DiceRollResult } from '../utils/diceRoller';
@@ -58,6 +59,7 @@ const DiceButton: React.FC<{
 };
 
 const GUIRoller: React.FC = () => {
+  const { t } = useTranslation('combat');
   const { guiHistory, setGuiHistory } = useDiceRoll();
   const [counts, setCounts] = useState<Record<number, number>>(
     Object.fromEntries(DICE_TYPES.map(d => [d, 0]))
@@ -144,7 +146,7 @@ const GUIRoller: React.FC = () => {
       {/* Modifier + Roll All */}
       <div className="flex items-center justify-center gap-3 mb-3">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs text-text-muted">Бонус:</span>
+          <span className="text-xs text-text-muted">{t('diceTab.bonus')}</span>
           <button
             onClick={() => setModifier(m => m - 1)}
             className="w-6 h-6 rounded bg-bg-secondary border border-border-default text-text-secondary hover:bg-bg-tertiary transition-colors flex items-center justify-center"
@@ -170,12 +172,12 @@ const GUIRoller: React.FC = () => {
           className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gold/20 text-gold border border-gold/40 font-medium text-sm hover:bg-gold/30 transition-all gold-glow disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <Dices size={14} />
-          Бросить все
+          {t('diceTab.rollAll')}
         </button>
         <button
           onClick={clearCounts}
           className="text-text-muted hover:text-text-primary transition-colors"
-          title="Сбросить счётчики"
+          title={t('diceTab.resetCounters')}
         >
           <Trash2 size={14} />
         </button>
@@ -184,13 +186,13 @@ const GUIRoller: React.FC = () => {
       {/* History header */}
       {guiHistory.length > 0 && (
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[10px] uppercase tracking-wider text-text-muted">История бросков</span>
+          <span className="text-[10px] uppercase tracking-wider text-text-muted">{t('diceTab.rollHistory')}</span>
           <button
             onClick={() => setGuiHistory([])}
             className="text-[10px] text-text-muted hover:text-red-400 transition-colors flex items-center gap-1"
           >
             <Trash2 size={10} />
-            Очистить
+            {t('diceTab.clear')}
           </button>
         </div>
       )}
@@ -199,7 +201,7 @@ const GUIRoller: React.FC = () => {
       <div className="flex-1 min-h-0 overflow-y-auto space-y-1.5">
         {guiHistory.length === 0 && (
           <div className="text-center text-text-muted text-sm py-8">
-            Нажмите на кубик для броска
+            {t('diceTab.clickDiceToRoll')}
           </div>
         )}
         {guiHistory.map(entry => (
@@ -227,27 +229,32 @@ const GUIRoller: React.FC = () => {
 
 // ─── Console Roller ───
 
-const HELP_TEXT = `**Синтаксис бросков:**
-• Базовый: 1d20, 2d6+3, 1d8-1
-• Оставить лучшие (keep highest): 4d6kh3
-• Отбросить худшие (drop lowest): 4d6dl1
-• Отбросить лучшие (drop highest): 3d4dh1
-• Оставить худшие (keep lowest): 3d4kl1
-• Перебросить (reroll): 2d4r1, 2d4r<2, 2d4r<=2
-• Взрыв (explode): 2d4x4, 2d4x>2
-• Подсчёт успехов (count successes): 2d4cs=4, 2d4cs>2
-• Запас успеха (margin of success): 2d4ms=4
-• Пулы кубиков (dice pools): {2d8, 1d6}kh1
-• Округление (rounding): floor(1.5), ceil(1.5), round(1.5)
-• Среднее (average): avg(8d6)
-• Макс/Мин (max/min): dmax(8d6), dmin(8d6)
-• Функции (functions): sign(1d6-3), abs(1d6-3)
+type TFn = (key: string, opts?: Record<string, unknown>) => string;
 
-**Метки:** Fireball: 8d6
-**Стрелки ↑↓** — история ввода
-**/clear** — очистить консоль`;
+function buildHelpText(t: TFn): string {
+  return `**${t('diceHelp.syntaxTitle')}**
+• ${t('diceHelp.basic')}
+• ${t('diceHelp.keepHighest')}
+• ${t('diceHelp.dropLowest')}
+• ${t('diceHelp.dropHighest')}
+• ${t('diceHelp.keepLowest')}
+• ${t('diceHelp.reroll')}
+• ${t('diceHelp.explode')}
+• ${t('diceHelp.countSuccesses')}
+• ${t('diceHelp.marginOfSuccess')}
+• ${t('diceHelp.dicePools')}
+• ${t('diceHelp.rounding')}
+• ${t('diceHelp.average')}
+• ${t('diceHelp.maxMin')}
+• ${t('diceHelp.functions')}
+
+**${t('diceHelp.labelsTitle')}** ${t('diceHelp.labelsExample')}
+**${t('diceHelp.arrowKeys')}**
+**${t('diceHelp.clearCommand')}**`;
+}
 
 const ConsoleRoller: React.FC = () => {
+  const { t } = useTranslation('combat');
   const { consoleEntries, setConsoleEntries, consoleInputHistory, setConsoleInputHistory } = useDiceRoll();
   const [input, setInput] = useState('');
   const [historyIdx, setHistoryIdx] = useState(-1);
@@ -290,7 +297,7 @@ const ConsoleRoller: React.FC = () => {
     }
 
     if (trimmed === '/help' || trimmed === '?') {
-      addEntry({ type: 'help', text: HELP_TEXT });
+      addEntry({ type: 'help', text: buildHelpText(t) });
       setInput('');
       return;
     }
@@ -301,7 +308,7 @@ const ConsoleRoller: React.FC = () => {
     // Evaluate
     const result = evalConsoleExpression(trimmed);
     if (result.isError) {
-      addEntry({ type: 'error', text: result.breakdown || 'Ошибка разбора выражения' });
+      addEntry({ type: 'error', text: result.breakdown || t('diceTab.parseError') });
     } else {
       addEntry({
         type: 'result',
@@ -349,7 +356,7 @@ const ConsoleRoller: React.FC = () => {
       <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1 font-mono text-sm">
         {consoleEntries.length === 0 && (
           <div className="text-text-muted text-xs py-4 text-center">
-            Введите выражение (например, 2d6+3) или /help для справки
+            {t('diceTab.consoleEmpty')}
           </div>
         )}
         {consoleEntries.map(entry => (
@@ -378,9 +385,9 @@ const ConsoleRoller: React.FC = () => {
           <Send size={14} />
         </button>
         <button
-          onClick={() => addEntry({ type: 'help', text: HELP_TEXT })}
+          onClick={() => addEntry({ type: 'help', text: buildHelpText(t) })}
           className="text-text-muted hover:text-gold transition-colors"
-          title="Справка"
+          title={t('diceTab.helpTitle')}
         >
           <HelpCircle size={14} />
         </button>
@@ -388,7 +395,7 @@ const ConsoleRoller: React.FC = () => {
           onClick={() => setConsoleEntries([])}
           disabled={consoleEntries.length === 0}
           className="text-text-muted hover:text-red-400 transition-colors disabled:opacity-30"
-          title="Очистить консоль"
+          title={t('diceHelp.clearCommand')}
         >
           <Trash2 size={14} />
         </button>
@@ -448,6 +455,7 @@ const ConsoleEntryLine: React.FC<{ entry: ConsoleEntry }> = ({ entry }) => {
 type DiceView = 'gui' | 'console';
 
 export const DiceTab: React.FC = () => {
+  const { t } = useTranslation('combat');
   const [view, setView] = useState<DiceView>('gui');
 
   return (
@@ -464,7 +472,7 @@ export const DiceTab: React.FC = () => {
         >
           <span className="flex items-center gap-1.5">
             <Dices size={12} />
-            Кубики
+            {t('diceTab.guiTab')}
           </span>
         </button>
         <button
@@ -477,7 +485,7 @@ export const DiceTab: React.FC = () => {
         >
           <span className="flex items-center gap-1.5">
             <Send size={12} />
-            Консоль
+            {t('diceTab.consoleTab')}
           </span>
         </button>
       </div>

@@ -1,1 +1,211 @@
-{}
+{
+  "common": {
+    "cantrip": "Заговор",
+    "cantripShort": "заг.",
+    "level": "{{level}} уровень",
+    "levelShort": "{{level}} ур.",
+    "spellSlot": "Ячейка заклинания",
+    "ritual": "Ритуал",
+    "confirm": "Подтвердить",
+    "cancel": "Отмена",
+    "apply": "Применить",
+    "continue": "Продолжить",
+    "skip": "Пропустить",
+    "replace": "Заменить",
+    "search": "Поиск заклинаний...",
+    "loadingSpells": "Загрузка заклинаний...",
+    "noSpellsAvailable": "Нет доступных заклинаний",
+    "noCantripsAvailable": "Нет доступных заговоров",
+    "noSpellsFound": "Заклинания не найдены",
+    "nothingFound": "Ничего не найдено",
+    "selected": "Выбрано",
+    "auto": "Авто",
+    "alwaysPrepared": "Всегда подготовлено",
+    "cantripInline": "заговор",
+    "levelInline": "{{level}} ур."
+  },
+  "meta": {
+    "castingTime": "Время: ",
+    "range": "Дальность: ",
+    "components": "Компоненты: ",
+    "duration": "Длительность: ",
+    "timeUnits": {
+      "action": "действие",
+      "bonus": "бонус",
+      "reaction": "реакция",
+      "minute": "мин.",
+      "hour": "час"
+    },
+    "rangeFeet": "{{amount}} фт.",
+    "rangeTouch": "Касание",
+    "rangeSelf": "На себя",
+    "rangeSpecial": "Особая",
+    "componentV": "В",
+    "componentS": "С",
+    "componentM": "М",
+    "durationInstant": "Мгновенная",
+    "durationPermanent": "Перманентная",
+    "durationConcentration": "Конц., {{amount}} {{type}}"
+  },
+  "spellSlots": {
+    "title": "Ячейки заклинаний",
+    "useSlot": "Потратить ячейку",
+    "restoreSlot": "Восстановить ячейку",
+    "slotLevel": "Ячейка {{roman}} уровня",
+    "slotsAtLevel": "Ячейки заклинаний (уровень {{level}})",
+    "slotsChange": "Ячейки {{level}} ур.: {{old}} → {{new}}"
+  },
+  "resources": {
+    "title": "Ресурсы класса",
+    "use": "Использовать",
+    "restore": "Восстановить"
+  },
+  "attacks": {
+    "title": "Атаки",
+    "add": "Добавить",
+    "offhand": "Вторая рука",
+    "rangedMainhand": "Дальний бой",
+    "rangedOffhand": "Дальний (2)",
+    "mainhand": "Основная рука",
+    "unarmed": "Безоружная атака",
+    "weaponMastery": "Мастерство оружия",
+    "namePlaceholder": "Название",
+    "attackBonusPlaceholder": "Бонус атаки",
+    "damagePlaceholder": "Урон (1d8 + 3)",
+    "damageTypePlaceholder": "Тип урона"
+  },
+  "actions": {
+    "title": "Действия и способности"
+  },
+  "spellcasting": {
+    "saveDC": "Сл спасброска:",
+    "attackBonus": "Бонус атаки:",
+    "ability": "Характеристика:",
+    "prepared": "Подготовлено:",
+    "preparation": "Подготовка",
+    "itemBonus": "(+{{bonus}} предмет)",
+    "classSpells": "Заклинания класса",
+    "cantripsCount": "Заговоры ({{count}})",
+    "levelCount": "{{level}} уровень ({{count}})",
+    "noSpellsSelected": "Заклинания не выбраны",
+    "unprepare": "Снять подготовку",
+    "prepare": "Подготовить",
+    "agonizingBlast": "+{{mod}} к урону (Харизма)"
+  },
+  "preparation": {
+    "title": "Подготовка заклинаний",
+    "preparedCount": "Подготовлено: ",
+    "preparedShort": "{{count}} подг.",
+    "searchPlaceholder": "Поиск заклинаний...",
+    "hint": "ПКМ по иконке или кнопка — подготовить/снять заклинание",
+    "notFound": "Заклинания не найдены"
+  },
+  "levelUp": {
+    "title": "Уровень {{level}}",
+    "subtitle": "{{class}} {{level}} ур.",
+    "newCantrips": "+{{count}} заговор(ов)",
+    "newSpells": "+{{count}} заклинаний",
+    "availableUpTo": "Доступны до {{level}} уровня",
+    "youWillGain": "Вы получите следующее:",
+    "newCantripsGain": "+{{count}} новых заговоров",
+    "newSpellsGain": "+{{count}} новых заклинаний",
+    "newCantripSection": "Новые заговоры ({{selected}}/{{total}})",
+    "newSpellSection": "Новые заклинания ({{selected}}/{{total}})",
+    "cantripsFooter": "Заговоры: {{selected}}/{{total}}",
+    "spellsFooter": "Заклинания: {{selected}}/{{total}}"
+  },
+  "cast": {
+    "spellSlot": "Ячейка заклинания",
+    "ritualOption": "Ритуал (без ячейки, +10 мин.)",
+    "attackRoll": "Бросок атаки",
+    "savingThrow": "Спасбросок",
+    "dcLabel": "СЛ {{dc}}",
+    "healing": "Лечение",
+    "damage": "Урон",
+    "conditions": "Состояния:",
+    "result": "Результат",
+    "attack": "Атака",
+    "criticalHit": "Критическое попадание!",
+    "criticalMiss": "Критический промах!",
+    "cantripNoSlot": "Заговор — ячейка не требуется",
+    "ritualNoSlot": "Ритуал — ячейка не тратится",
+    "slotOfLevel": "Ячейка {{roman}} уровня"
+  },
+  "swap": {
+    "title": "Замена заклинания черты",
+    "description": "При повышении уровня вы можете заменить одно заклинание черты на заклинание из списка класса черты",
+    "spellToReplace": "Заклинание для замены",
+    "replaceWith": "Заменить на ({{levelRange}} класса {{class}})",
+    "replaceWithCantrips": "заговоры",
+    "levelRangeSpells": "1–{{max}} ур.",
+    "noReplacementSpells": "Нет доступных заклинаний для замены",
+    "clickToSeeDescription": "Нажмите на заклинание, чтобы увидеть описание"
+  },
+  "featSpells": {
+    "title": "{{feat}} — Заклинания",
+    "chooseSpells": "Выберите заклинания, которые даёт эта черта",
+    "chooseSpellList": "Выберите список заклинаний",
+    "baseAbility": "Базовая характеристика заклинаний",
+    "youWillAutoGet": "Вы автоматически получите:",
+    "cantripLabel": "Заговоры",
+    "spellsOfLevel": "Заклинания {{level}} уровня",
+    "chooseCount": "Выберите {{count}} ({{selected}}/{{count}})",
+    "autoPlus": "{{count}} авто + ",
+    "selectedCount": "{{count}} выбрано"
+  },
+  "autoSpells": {
+    "title": "Новые заклинания",
+    "description": "На {{level}} уровне вы получаете новые заклинания"
+  },
+  "tooltip": {
+    "schoolNames": {
+      "A": "Ограждение",
+      "C": "Вызов",
+      "D": "Прорицание",
+      "E": "Очарование",
+      "V": "Воплощение",
+      "I": "Иллюзия",
+      "N": "Некромантия",
+      "T": "Преобразование"
+    }
+  },
+  "contextMenu": {
+    "info": "Информация",
+    "cast": "Применить",
+    "unprepare": "Снять подготовку",
+    "prepare": "Подготовить"
+  },
+  "abilityLabels": {
+    "int": "Интеллект",
+    "wis": "Мудрость",
+    "cha": "Харизма",
+    "str": "Сила",
+    "dex": "Ловкость",
+    "con": "Телосложение",
+    "intelligence": "Интеллект",
+    "wisdom": "Мудрость",
+    "charisma": "Харизма"
+  },
+  "schoolLabels": {
+    "A": "Ограждение",
+    "C": "Вызов",
+    "D": "Прорицание",
+    "E": "Очарование",
+    "V": "Воплощение",
+    "I": "Иллюзия",
+    "N": "Некромантия",
+    "T": "Преобразование"
+  },
+  "spellLevelLabels": {
+    "0": "Заговор",
+    "1": "1 уровень",
+    "2": "2 уровень",
+    "3": "3 уровень",
+    "4": "4 уровень",
+    "5": "5 уровень",
+    "6": "6 уровень",
+    "7": "7 уровень",
+    "8": "8 уровень",
+    "9": "9 уровень"
+  }
+}

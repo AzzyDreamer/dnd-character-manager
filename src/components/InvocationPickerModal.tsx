@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character } from '../types';
 import type { OptionalFeatureData } from '../data/optionalfeatures';
 import { Search, Check, X, Loader2, Sparkles, BookOpen, RefreshCw } from 'lucide-react';
@@ -8,10 +9,6 @@ import { CharacterStatsSidebar } from './ui';
 
 export interface OptionalFeaturePickerConfig {
   featureType: string;          // "EI", "MM", "MV:B"
-  title: string;                // "Воззвания", "Метамагия", "Манёвры"
-  singular: string;             // "воззвание", "метамагию", "манёвр"
-  pluralFew: string;            // "воззвания", "метамагии", "манёвра"
-  pluralGenitive: string;       // "воззваний", "метамагий", "манёвров"
 }
 
 export interface OptionalFeaturePickerResult {
@@ -35,9 +32,9 @@ interface OptionalFeaturePickerModalProps {
 // ── Configs ──
 
 export const OPTIONAL_FEATURE_CONFIGS: Record<string, OptionalFeaturePickerConfig> = {
-  EI: { featureType: 'EI', title: 'Воззвания', singular: 'воззвание', pluralFew: 'воззвания', pluralGenitive: 'воззваний' },
-  MM: { featureType: 'MM', title: 'Метамагия', singular: 'метамагию', pluralFew: 'метамагии', pluralGenitive: 'метамагий' },
-  'MV:B': { featureType: 'MV:B', title: 'Манёвры', singular: 'манёвр', pluralFew: 'манёвра', pluralGenitive: 'манёвров' },
+  EI: { featureType: 'EI' },
+  MM: { featureType: 'MM' },
+  'MV:B': { featureType: 'MV:B' },
 };
 
 // ── EntryRenderer lazy load ──
@@ -103,11 +100,13 @@ function checkPrerequisite(
   return true;
 }
 
-function formatPrerequisite(prereq: any): string {
+type TFunc = (key: string, opts?: Record<string, unknown>) => string;
+
+function formatPrerequisite(prereq: any, t: TFunc): string {
   const parts: string[] = [];
   if (prereq.level) {
     const lvl = typeof prereq.level === 'number' ? prereq.level : prereq.level?.level;
-    if (lvl) parts.push(`Ур. ${lvl}+`);
+    if (lvl) parts.push(t('invocationPicker.prerequisiteLevel', { level: lvl }));
   }
   if (prereq.optionalfeature) {
     for (const of_ of prereq.optionalfeature) {
@@ -128,7 +127,7 @@ function formatPrerequisite(prereq: any): string {
       }
     }
   }
-  return parts.join(', ') || 'Есть требования';
+  return parts.join(', ') || t('invocationPicker.prerequisiteHasRequirements');
 }
 
 function cleanEntryRefs(text: string): string {
@@ -179,6 +178,7 @@ export function OptionalFeaturePickerModal({
   onConfirm,
   onCancel,
 }: OptionalFeaturePickerModalProps) {
+  const { t } = useTranslation('character');
   const [allFeatures, setAllFeatures] = useState<OptionalFeatureData[]>([]);
   const [loading, setLoading] = useState(true);
   const [entryReady, setEntryReady] = useState(!!_EntryRenderer);
@@ -324,7 +324,7 @@ export function OptionalFeaturePickerModal({
       <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
         <div className="glass-panel p-8 flex items-center gap-3">
           <Loader2 size={24} className="text-gold animate-spin" />
-          <span className="text-text-muted">Загрузка...</span>
+          <span className="text-text-muted">{t('invocationPicker.loading')}</span>
         </div>
       </div>
     );
@@ -339,13 +339,13 @@ export function OptionalFeaturePickerModal({
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
-              {config.title} — Уровень {character.level}
+              {t('invocationPicker.titleLevel', { title: t(`invocationPicker.featureConfigs.${config.featureType}.title`), level: character.level })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
               {newSlots > 0
-                ? `Выберите ${newSlots} ${pluralize(newSlots, config.singular, config.pluralFew, config.pluralGenitive)}`
-                : `Вы можете заменить ${config.singular}`}
-              {allowReplace && newSlots > 0 && ` (можно также заменить ${config.singular})`}
+                ? t('invocationPicker.chooseCount', { count: newSlots, word: pluralize(newSlots, t(`invocationPicker.featureConfigs.${config.featureType}.singular`), t(`invocationPicker.featureConfigs.${config.featureType}.pluralFew`), t(`invocationPicker.featureConfigs.${config.featureType}.pluralGenitive`)) })
+                : t('invocationPicker.canReplace', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}
+              {allowReplace && newSlots > 0 && t('invocationPicker.alsoReplace', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}
             </p>
           </div>
           <button
@@ -376,14 +376,14 @@ export function OptionalFeaturePickerModal({
               }`}
             >
               <RefreshCw size={14} />
-              <span>Заменить {config.singular}</span>
+              <span>{t('invocationPicker.replaceButton', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}</span>
             </button>
           )}
 
           {/* Replace: pick existing to remove */}
           {replaceMode && (
             <div className="mb-3 space-y-1">
-              <div className="text-xs text-text-muted mb-1">Заменить:</div>
+              <div className="text-xs text-text-muted mb-1">{t('invocationPicker.replaceLabel')}</div>
               {existingFeatures.map(inv => (
                 <button
                   key={inv.name}
@@ -404,7 +404,7 @@ export function OptionalFeaturePickerModal({
                 </button>
               ))}
               {replacedName && (
-                <div className="text-xs text-text-muted mt-1">Теперь выберите замену из списка ниже:</div>
+                <div className="text-xs text-text-muted mt-1">{t('invocationPicker.replaceHint')}</div>
               )}
             </div>
           )}
@@ -416,7 +416,7 @@ export function OptionalFeaturePickerModal({
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder={`Поиск...`}
+              placeholder={t('invocationPicker.searchPlaceholder')}
               className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                 text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
             />
@@ -426,7 +426,7 @@ export function OptionalFeaturePickerModal({
           <div className="flex-1 overflow-y-auto space-y-1">
             {filteredFeatures.length === 0 ? (
               <div className="text-center text-text-muted text-sm py-8">
-                {searchQuery ? 'Ничего не найдено' : 'Нет доступных опций'}
+                {searchQuery ? t('invocationPicker.nothingFound') : t('invocationPicker.noOptions')}
               </div>
             ) : filteredFeatures.map(inv => {
               const isSelected = selectedNames.has(inv.name);
@@ -467,18 +467,18 @@ export function OptionalFeaturePickerModal({
                       {inv.name}
                     </span>
                     {isTaken && (
-                      <span className="text-[10px] text-text-muted ml-auto shrink-0">уже есть</span>
+                      <span className="text-[10px] text-text-muted ml-auto shrink-0">{t('invocationPicker.alreadyTaken')}</span>
                     )}
                     {isIneligible && !isTaken && (
-                      <span className="text-[10px] text-red-400/60 ml-auto shrink-0">недоступно</span>
+                      <span className="text-[10px] text-red-400/60 ml-auto shrink-0">{t('invocationPicker.unavailable')}</span>
                     )}
                     {isRepeatable(inv) && (
-                      <span className="text-[10px] text-purple-400/60 ml-auto shrink-0">повторяемое</span>
+                      <span className="text-[10px] text-purple-400/60 ml-auto shrink-0">{t('invocationPicker.repeatable')}</span>
                     )}
                   </div>
                   {inv.prerequisite && inv.prerequisite.length > 0 && (
                     <div className={`text-[10px] mt-0.5 truncate ${isIneligible ? 'text-red-400/50' : 'text-text-muted'}`}>
-                      {formatPrerequisite(inv.prerequisite[0])}
+                      {formatPrerequisite(inv.prerequisite[0], t)}
                     </div>
                   )}
                 </button>
@@ -487,7 +487,7 @@ export function OptionalFeaturePickerModal({
           </div>
 
           <div className="mt-2 text-xs text-text-muted text-center">
-            {filteredFeatures.filter(f => eligibleNames.has(f.name)).length} из {filteredFeatures.length} доступно
+            {t('invocationPicker.availableCount', { available: filteredFeatures.filter(f => eligibleNames.has(f.name)).length, total: filteredFeatures.length })}
           </div>
         </div>
 
@@ -509,7 +509,7 @@ export function OptionalFeaturePickerModal({
                   )}
                   {focusedFeature.prerequisite && focusedFeature.prerequisite.length > 0 && (
                     <div className="text-xs text-text-secondary mt-1">
-                      Требования: {formatPrerequisite(focusedFeature.prerequisite[0])}
+                      {t('invocationPicker.prerequisiteRequirements')} {formatPrerequisite(focusedFeature.prerequisite[0], t)}
                     </div>
                   )}
                 </div>
@@ -533,7 +533,7 @@ export function OptionalFeaturePickerModal({
           ) : (
             <div className="flex items-center justify-center h-full text-text-muted text-sm">
               <BookOpen size={20} className="mr-2 opacity-50" />
-              Выберите опцию из списка слева
+              {t('invocationPicker.selectOptionFromList')}
             </div>
           )}
         </div>
@@ -548,12 +548,12 @@ export function OptionalFeaturePickerModal({
           <div className="text-sm text-text-secondary">
             {newSlots > 0 ? (
               <span>
-                Выбрано: <span className={`font-bold ${selected.length === newSlots ? 'text-green-400' : 'text-gold'}`}>
+                {t('invocationPicker.selectedCount')} <span className={`font-bold ${selected.length === newSlots ? 'text-green-400' : 'text-gold'}`}>
                   {selected.length}/{newSlots}
                 </span>
               </span>
             ) : (
-              <span className="text-text-muted">Замена (необязательно)</span>
+              <span className="text-text-muted">{t('invocationPicker.replacementOptional')}</span>
             )}
             {replaceMode && replacedName && replacement && (
               <span className="ml-3 text-amber-400">
@@ -568,7 +568,7 @@ export function OptionalFeaturePickerModal({
                 className="px-6 py-2.5 rounded-lg border border-border-default text-text-secondary
                   hover:border-border-hover hover:text-text-primary transition-all font-medieval"
               >
-                Пропустить
+                {t('invocationPicker.skip')}
               </button>
             )}
             <button
@@ -577,7 +577,7 @@ export function OptionalFeaturePickerModal({
               className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
                 hover:bg-gold/30 transition-all gold-glow disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gold/20"
             >
-              Подтвердить
+              {t('invocationPicker.confirm')}
             </button>
           </div>
         </div>

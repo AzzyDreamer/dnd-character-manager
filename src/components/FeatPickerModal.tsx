@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
 import { type FeatData, getFeatImageUrl } from '../data/feats';
 import { getAbilityModifier, getAbilityName, getAbilityShort, ABILITY_SHORT_TO_LONG, getSkillName, SKILL_ABILITIES } from '../utils/dnd';
@@ -78,7 +79,8 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
 
   const maxScore = 30;
   const category = mode === 'epicBoon' ? 'EB' : isFightingStyle ? 'FS' : 'G';
-  const categoryLabel = mode === 'epicBoon' ? 'Эпическое благо' : isFightingStyle ? 'Боевой стиль' : 'Черта';
+  const { t } = useTranslation('character');
+  const categoryLabel = mode === 'epicBoon' ? t('featPicker.categoryEpicBoon') : isFightingStyle ? t('featPicker.categoryFightingStyle') : t('featPicker.categoryFeat');
 
   // Load feats
   useEffect(() => {
@@ -290,7 +292,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
   };
 
   const tabs: Tab[] = [
-    { key: 'asi', label: 'Улучшение характеристик' },
+    { key: 'asi', label: t('featPicker.tabAsi') },
     { key: 'feat', label: categoryLabel },
   ];
 
@@ -304,13 +306,13 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
               {isFightingStyle
-                ? `Боевой стиль — Уровень ${character.level}`
-                : mode === 'epicBoon' ? 'Эпическое благо — Уровень 19' : `Улучшение — Уровень ${character.level}`}
+                ? t('featPicker.fightingStyleTitle', { level: character.level })
+                : mode === 'epicBoon' ? t('featPicker.epicBoonTitle') : t('featPicker.asiTitle', { level: character.level })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
               {isFightingStyle
-                ? 'Выберите боевой стиль'
-                : 'Выберите улучшение характеристик (+2/+1) или черту'}
+                ? t('featPicker.fightingStyleSubtitle')
+                : t('featPicker.asiSubtitle')}
             </p>
           </div>
           <button
@@ -390,11 +392,11 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="text-sm text-text-secondary">
             {activeTab === 'asi' ? (
-              asiTotal > 0 ? `Распределено: ${asiTotal}/2` : 'Распределите 2 очка'
+              asiTotal > 0 ? t('featPicker.asiDistributed', { current: asiTotal }) : t('featPicker.asiDistribute2')
             ) : (
               selectedFeat ? (
-                <span>Выбрано: <span className="text-gold font-semibold">{selectedFeat.name}</span></span>
-              ) : isFightingStyle ? 'Выберите боевой стиль' : 'Выберите черту'
+                <span>{t('featPicker.selectedFeat')} <span className="text-gold font-semibold">{selectedFeat.name}</span></span>
+              ) : isFightingStyle ? t('featPicker.chooseFightingStyle') : t('featPicker.chooseFeat')
             )}
           </div>
           <button
@@ -403,7 +405,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
             className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
               hover:bg-gold/30 transition-all gold-glow disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gold/20"
           >
-            Подтвердить
+            {t('featPicker.confirm')}
           </button>
         </div>
       </div>
@@ -427,12 +429,13 @@ function AsiTab({
   asiTotal: number;
   onAsiChange: (ability: keyof AbilityScores, delta: number) => void;
 }) {
+  const { t } = useTranslation('character');
   return (
     <div className="space-y-4">
       <div className="glass-panel p-4">
-        <h3 className="text-base font-medieval text-gold mb-1">Улучшение характеристик</h3>
+        <h3 className="text-base font-medieval text-gold mb-1">{t('featPicker.asiSectionTitle')}</h3>
         <p className="text-xs text-text-muted mb-4">
-          Распределите 2 очка между характеристиками. Максимум +2 на одну, максимум {maxScore} итого.
+          {t('featPicker.asiDescription', { maxScore })}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -503,7 +506,7 @@ function AsiTab({
           <span className={`font-bold ${asiTotal === 2 ? 'text-green-400' : 'text-gold'}`}>
             {asiTotal}/2
           </span>
-          <span className="text-text-muted ml-1">очков распределено</span>
+          <span className="text-text-muted ml-1">{t('featPicker.asiPointsDistributed')}</span>
         </div>
       </div>
     </div>
@@ -565,11 +568,12 @@ function FeatTab({
   expertiseChoice: string;
   onExpertiseChoiceChange: (choice: string) => void;
 }) {
+  const { t } = useTranslation('character');
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
         <Loader2 size={24} className="text-gold animate-spin" />
-        <span className="ml-2 text-text-muted">Загрузка черт...</span>
+        <span className="ml-2 text-text-muted">{t('featPicker.loadingFeats')}</span>
       </div>
     );
   }
@@ -585,7 +589,7 @@ function FeatTab({
             type="text"
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Поиск черты..."
+            placeholder={t('featPicker.searchFeat')}
             className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
               text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
           />
@@ -595,7 +599,7 @@ function FeatTab({
         <div className="flex-1 overflow-y-auto space-y-1">
           {feats.length === 0 ? (
             <div className="text-center text-text-muted text-sm py-8">
-              {searchQuery ? 'Ничего не найдено' : 'Нет доступных черт'}
+              {searchQuery ? t('featPicker.nothingFound') : t('featPicker.noFeatsAvailable')}
             </div>
           ) : feats.map(feat => {
             const isSelected = selectedFeat?.name === feat.name;
@@ -631,15 +635,15 @@ function FeatTab({
                     {feat.name}
                   </span>
                   {isTaken && (
-                    <span className="text-[10px] text-text-muted ml-auto shrink-0">уже есть</span>
+                    <span className="text-[10px] text-text-muted ml-auto shrink-0">{t('featPicker.alreadyTaken')}</span>
                   )}
                   {isIneligible && !isTaken && (
-                    <span className="text-[10px] text-red-400/60 ml-auto shrink-0">недоступно</span>
+                    <span className="text-[10px] text-red-400/60 ml-auto shrink-0">{t('featPicker.unavailable')}</span>
                   )}
                 </div>
                 {feat.prerequisite && feat.prerequisite.length > 0 && (
                   <div className={`text-[10px] mt-0.5 truncate ${isIneligible ? 'text-red-400/50' : 'text-text-muted'}`}>
-                    {formatPrerequisite(feat.prerequisite[0])}
+                    {formatPrerequisite(feat.prerequisite[0], t)}
                   </div>
                 )}
               </button>
@@ -648,7 +652,7 @@ function FeatTab({
         </div>
 
         <div className="mt-2 text-xs text-text-muted text-center">
-          {feats.filter(f => eligibleFeatNames.has(f.name)).length} из {feats.length} {feats.length === 1 ? 'черта' : feats.length < 5 ? 'черты' : 'черт'} доступно
+          {t('featPicker.availableCount', { available: feats.filter(f => eligibleFeatNames.has(f.name)).length, total: feats.length, featsWord: feats.length === 1 ? t('featPicker.featWordOne') : feats.length < 5 ? t('featPicker.featWordFew') : t('featPicker.featWordMany') })}
         </div>
       </div>
 
@@ -691,7 +695,7 @@ function FeatTab({
             {featAbilityOptions.length > 0 && (
               <div className="border-t border-border-default pt-3">
                 <h4 className="text-sm font-medium text-text-primary mb-2">
-                  Выберите характеристику (+{featAbilityAmount}, макс. {featAbilityMax})
+                  {t('featPicker.chooseAbility', { amount: featAbilityAmount, max: featAbilityMax })}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {featAbilityOptions.map(shortKey => {
@@ -771,19 +775,19 @@ function FeatTab({
             {/* Show what will be granted (non-choice proficiencies) */}
             {featProfs && (featProfs.armor.length > 0 || featProfs.weapons.length > 0 || featProfs.tools.length > 0 || featProfs.languages.length > 0) && (
               <div className="border-t border-border-default pt-3">
-                <h4 className="text-sm font-medium text-text-primary mb-2">Будет получено</h4>
+                <h4 className="text-sm font-medium text-text-primary mb-2">{t('featPicker.willBeGranted')}</h4>
                 <div className="space-y-1 text-xs text-text-secondary">
                   {featProfs.armor.length > 0 && (
-                    <div><span className="text-text-muted">Доспехи:</span> {featProfs.armor.join(', ')}</div>
+                    <div><span className="text-text-muted">{t('featPicker.armorLabel')}</span> {featProfs.armor.join(', ')}</div>
                   )}
                   {featProfs.weapons.length > 0 && (
-                    <div><span className="text-text-muted">Оружие:</span> {featProfs.weapons.join(', ')}</div>
+                    <div><span className="text-text-muted">{t('featPicker.weaponsLabel')}</span> {featProfs.weapons.join(', ')}</div>
                   )}
                   {featProfs.tools.length > 0 && (
-                    <div><span className="text-text-muted">Инструменты:</span> {featProfs.tools.join(', ')}</div>
+                    <div><span className="text-text-muted">{t('featPicker.toolsLabel')}</span> {featProfs.tools.join(', ')}</div>
                   )}
                   {featProfs.languages.length > 0 && (
-                    <div><span className="text-text-muted">Языки:</span> {featProfs.languages.join(', ')}</div>
+                    <div><span className="text-text-muted">{t('featPicker.languagesLabel')}</span> {featProfs.languages.join(', ')}</div>
                   )}
                 </div>
               </div>
@@ -792,7 +796,7 @@ function FeatTab({
             {/* Fixed resistances info */}
             {featResists && featResists.fixed.length > 0 && (
               <div className="border-t border-border-default pt-3">
-                <h4 className="text-sm font-medium text-text-primary mb-2">Сопротивления</h4>
+                <h4 className="text-sm font-medium text-text-primary mb-2">{t('featPicker.resistancesTitle')}</h4>
                 <div className="text-xs text-text-secondary">
                   {featResists.fixed.map(r => getDamageTypeName(r)).join(', ')}
                 </div>
@@ -802,7 +806,7 @@ function FeatTab({
         ) : (
           <div className="flex items-center justify-center h-full text-text-muted text-sm">
             <BookOpen size={20} className="mr-2 opacity-50" />
-            Выберите черту из списка слева
+            {t('featPicker.selectFeatFromList')}
           </div>
         )}
       </div>
@@ -811,10 +815,7 @@ function FeatTab({
 }
 
 
-const SAVING_THROW_NAMES: Record<string, string> = {
-  strength: 'Сила', dexterity: 'Ловкость', constitution: 'Телосложение',
-  intelligence: 'Интеллект', wisdom: 'Мудрость', charisma: 'Харизма',
-};
+// SAVING_THROW_NAMES is now handled via t('featPicker.savingThrowNames.*')
 
 // ── Choice panel components ──
 
@@ -844,10 +845,11 @@ function FeatSkillChoicePanel({
     }
   };
 
+  const { t } = useTranslation('character');
   return (
     <div className="border-t border-border-default pt-3">
       <h4 className="text-sm font-medium text-text-primary mb-2">
-        Выберите навыки ({chosen.length}/{count})
+        {t('featPicker.chooseSkills', { current: chosen.length, count })}
       </h4>
       <div className="flex flex-wrap gap-1.5">
         {selectable.map(sk => {
@@ -887,10 +889,11 @@ function FeatSavingThrowChoicePanel({
     return !character.savingThrows[key]?.proficient;
   });
 
+  const { t } = useTranslation('character');
   return (
     <div className="border-t border-border-default pt-3">
       <h4 className="text-sm font-medium text-text-primary mb-2">
-        Выберите спасбросок
+        {t('featPicker.chooseSavingThrow')}
       </h4>
       <div className="flex flex-wrap gap-2">
         {selectable.map(ab => {
@@ -905,7 +908,7 @@ function FeatSavingThrowChoicePanel({
                   : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
               }`}
             >
-              {SAVING_THROW_NAMES[ab] || ab}
+              {t(`featPicker.savingThrowNames.${ab}`, ab)}
             </button>
           );
         })}
@@ -930,10 +933,11 @@ function FeatResistanceChoicePanel({
     }
   };
 
+  const { t } = useTranslation('character');
   return (
     <div className="border-t border-border-default pt-3">
       <h4 className="text-sm font-medium text-text-primary mb-2">
-        Выберите сопротивления ({chosen.length}/{count})
+        {t('featPicker.chooseResistances', { current: chosen.length, count })}
       </h4>
       <div className="flex flex-wrap gap-1.5">
         {fromTypes.map(type => {
@@ -981,10 +985,11 @@ function FeatExpertiseChoicePanel({
     ? Object.keys(SKILL_ABILITIES).filter(sk => !character.skills[sk]?.expertise)
     : allProficient;
 
+  const { t } = useTranslation('character');
   return (
     <div className="border-t border-border-default pt-3">
       <h4 className="text-sm font-medium text-text-primary mb-2">
-        Выберите навык для экспертизы
+        {t('featPicker.chooseExpertiseSkill')}
       </h4>
       <div className="flex flex-wrap gap-1.5">
         {selectable.map(sk => {
@@ -1015,11 +1020,11 @@ function cleanEntryRefs(text: string): string {
   return text.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1');
 }
 
-function formatPrerequisite(prereq: any): string {
+function formatPrerequisite(prereq: any, t?: (key: string, opts?: any) => string): string {
   const parts: string[] = [];
   if (prereq.level) {
     const lvl = typeof prereq.level === 'number' ? prereq.level : prereq.level?.level;
-    if (lvl) parts.push(`Ур. ${lvl}+`);
+    if (lvl) parts.push(t ? t('featPicker.prerequisiteLevel', { level: lvl }) : `Lvl ${lvl}+`);
   }
   if (prereq.ability) {
     for (const ab of prereq.ability) {
@@ -1031,9 +1036,9 @@ function formatPrerequisite(prereq: any): string {
       }
     }
   }
-  if (prereq.spellcasting2020) parts.push('Заклинатель');
+  if (prereq.spellcasting2020) parts.push(t ? t('featPicker.prerequisiteSpellcaster') : 'Spellcaster');
   if (prereq.race) {
     parts.push(prereq.race.map((r: any) => r.name).join('/'));
   }
-  return parts.join(', ') || 'Есть требования';
+  return parts.join(', ') || (t ? t('featPicker.prerequisiteHasRequirements') : 'Has requirements');
 }

@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Check, ImagePlus, ZoomIn } from 'lucide-react';
 import { getPortraitPos, portraitBgStyle } from '../utils/portraitPosition';
 import type { PortraitPos } from '../utils/portraitPosition';
@@ -20,6 +21,7 @@ export const PortraitCropModal: React.FC<PortraitCropModalProps> = ({
   onCancel,
   onChangeImage,
 }) => {
+  const { t } = useTranslation('character');
   const init = getPortraitPos(initialPosition);
   const [posX, setPosX] = useState(init.x);
   const [posY, setPosY] = useState(init.y);
@@ -120,9 +122,9 @@ export const PortraitCropModal: React.FC<PortraitCropModalProps> = ({
         className="bg-bg-primary border border-border-default rounded-xl p-5 flex flex-col items-center gap-4 max-w-md w-full mx-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-medieval text-gold">Настройка обрезки</h3>
+        <h3 className="text-lg font-medieval text-gold">{t('portraitCrop.title')}</h3>
         <p className="text-xs text-text-muted text-center">
-          Перетащите для позиции, колёсико мыши для зума
+          {t('portraitCrop.hint')}
         </p>
 
         {/* Preview frame — 9:21 aspect */}
@@ -177,21 +179,21 @@ export const PortraitCropModal: React.FC<PortraitCropModalProps> = ({
             className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:bg-white/5 flex items-center gap-2 text-sm transition-colors"
           >
             <ImagePlus size={14} />
-            Сменить
+            {t('portraitCrop.changeImage')}
           </button>
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-lg border border-border-default text-text-muted hover:bg-white/5 flex items-center gap-2 text-sm transition-colors"
           >
             <X size={14} />
-            Отмена
+            {t('portraitCrop.cancel')}
           </button>
           <button
             onClick={() => onSave({ x: posX, y: posY, zoom })}
             className="px-4 py-2 rounded-lg bg-gold/20 text-gold border border-gold/30 hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-colors"
           >
             <Check size={14} />
-            Сохранить
+            {t('portraitCrop.save')}
           </button>
         </div>
       </div>

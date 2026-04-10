@@ -1,1 +1,260 @@
-{}
+{
+  "sort": {
+    "name": "Name",
+    "source": "Source",
+    "level": "Level",
+    "school": "School",
+    "category": "Category",
+    "rarity": "Rarity",
+    "value": "Price",
+    "weight": "Weight",
+    "hitDie": "Hit Die",
+    "class": "Class",
+    "ability": "Ability",
+    "type": "Type",
+    "featureType": "Type"
+  },
+  "filter": {
+    "level": "Level",
+    "school": "School",
+    "source": "Source",
+    "category": "Category",
+    "rarity": "Rarity",
+    "spellcaster": "Spellcaster",
+    "class": "Class",
+    "ability": "Ability",
+    "size": "Size",
+    "type": "Type",
+    "featureType": "Type",
+    "optionType": "Type",
+    "ruleType": "Type",
+    "cantrip": "Cantrip",
+    "levelShort": "{{level}} lvl",
+    "noCategory": "No category",
+    "yes": "Yes",
+    "no": "No",
+    "conditionType": "Condition",
+    "diseaseType": "Disease"
+  },
+  "rarityNames": {
+    "none": "Common",
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "veryRare": "Very Rare",
+    "legendary": "Legendary",
+    "artifact": "Artifact"
+  },
+  "categories": {
+    "spells": "Spells",
+    "feats": "Feats",
+    "species": "Species",
+    "backgrounds": "Backgrounds",
+    "conditions": "Conditions",
+    "senses": "Senses",
+    "skills": "Skills",
+    "rules": "Rules",
+    "optionalfeatures": "Abilities",
+    "items": "Items",
+    "classes": "Classes",
+    "subclasses": "Subclasses",
+    "charoptions": "Creation options",
+    "actions": "Actions"
+  },
+  "subclassList": {
+    "loading": "Loading subclasses...",
+    "title": "Subclasses ({{count}})",
+    "levelShort": "lvl. {{level}}"
+  },
+  "spell": {
+    "time": {
+      "action": "action",
+      "bonusAction": "bonus action",
+      "reaction": "reaction",
+      "minute_one": "minute",
+      "minute_other": "minutes",
+      "hour_one": "hour",
+      "hour_other": "hours"
+    },
+    "range": {
+      "notSpecified": "Not specified",
+      "feet": "{{amount}} ft.",
+      "special": "Special",
+      "sight": "Line of sight",
+      "unlimited": "Unlimited",
+      "selfRadius": "Self ({{amount}} ft. radius)",
+      "selfCone": "Self ({{amount}} ft. cone)",
+      "selfLine": "Self ({{amount}} ft. line)",
+      "selfSphere": "Self ({{amount}} ft. sphere)",
+      "self": "Self",
+      "touch": "Touch",
+      "miles": "{{amount}} mi.",
+      "feetUnit": "ft."
+    },
+    "components": {
+      "gold": "gp",
+      "consumed": "(consumed)"
+    },
+    "duration": {
+      "instant": "Instantaneous",
+      "permanent": "Permanent",
+      "untilX": "Until {{condition}}",
+      "special": "Special",
+      "concentration": "Concentration, ",
+      "round_one": "round",
+      "round_other": "rounds",
+      "minute_one": "minute",
+      "minute_other": "minutes",
+      "hour_one": "hour",
+      "hour_other": "hours",
+      "day_one": "day",
+      "day_other": "days"
+    },
+    "or": " or ",
+    "castingTime": "Casting time:",
+    "distance": "Range:",
+    "componentsLabel": "Components:",
+    "durationLabel": "Duration:",
+    "savingThrow": "Saving throw:",
+    "damageType": "Damage type:",
+    "higherLevels": "At Higher Levels",
+    "classes": "Classes:"
+  },
+  "feat": {
+    "prerequisites": "Prerequisites:",
+    "abilityBonus": "Ability bonus:",
+    "hasSpells": "Spells: Yes",
+    "levelReq": "{{level}}+ level",
+    "levelReqClass": "{{level}}+ level {{class}}",
+    "spellcasting": "Ability to cast spells",
+    "pact": "Pact: {{pact}}",
+    "patron": "Patron: {{patron}}",
+    "race": "Race: {{races}}",
+    "feat": "Feat: {{feats}}",
+    "proficiency": "Proficiency: {{profs}}"
+  },
+  "abilityBonus": {
+    "chooseFrom": "+{{amount}} to one of: {{options}}",
+    "chooseFromMulti": "+{{amount}} to one of: {{options}} ({{count}} times)",
+    "selectFrom": "Choose from: {{options}}",
+    "selectAbility": "Choose ability"
+  },
+  "abilities": {
+    "str": "Strength",
+    "dex": "Dexterity",
+    "con": "Constitution",
+    "int": "Intelligence",
+    "wis": "Wisdom",
+    "cha": "Charisma"
+  },
+  "detail": {
+    "entry": "Entry",
+    "cantrip": "Cantrip",
+    "levelN": "{{level}} level"
+  },
+  "species": {
+    "size": "Size:",
+    "speed": "Speed:",
+    "ft": "ft.",
+    "darkvision": "Darkvision:",
+    "creatureType": "Creature type:",
+    "resistance": "Resistance:",
+    "traits": "Traits:"
+  },
+  "background": {
+    "abilities": "Abilities:",
+    "skills": "Skills:",
+    "tools": "Tools:",
+    "languages": "Languages:",
+    "anyChoice": "+{{count}} of choice",
+    "feat": "Feat:",
+    "equipment": "Starting equipment:",
+    "gold": "gp"
+  },
+  "item": {
+    "type": "Type:",
+    "rarity": "Rarity:",
+    "weight": "Weight:",
+    "weightUnit": "lb.",
+    "price": "Price:",
+    "gold": "gp",
+    "copper": "cp",
+    "damage": "Damage:",
+    "versatile": "(versatile {{dmg}})",
+    "range": "Range:",
+    "ac": "AC:",
+    "properties": "Properties:",
+    "attunement": "Attunement:",
+    "attunementRequired": "Required",
+    "damageTypes": {
+      "S": "slashing",
+      "P": "piercing",
+      "B": "bludgeoning",
+      "F": "fire",
+      "C": "cold",
+      "L": "lightning",
+      "T": "poison",
+      "N": "necrotic",
+      "A": "acid",
+      "Y": "psychic",
+      "O": "force"
+    },
+    "propertyNames": {
+      "F": "Finesse",
+      "L": "Light",
+      "H": "Heavy",
+      "2H": "Two-Handed",
+      "V": "Versatile",
+      "T": "Thrown",
+      "AM": "Ammunition",
+      "LD": "Loading",
+      "R": "Reach",
+      "S": "Special"
+    }
+  },
+  "optionalFeature": {
+    "type": "Type:"
+  },
+  "condition": {
+    "type": "Type:",
+    "conditionLabel": "Condition",
+    "diseaseLabel": "Disease"
+  },
+  "classDetail": {
+    "hitDie": "Hit Die:",
+    "primaryAbility": "Primary ability:",
+    "savingThrows": "Saving throws:",
+    "spellcaster": "Spellcaster:",
+    "yes": "Yes",
+    "no": "No",
+    "armor": "Armor:",
+    "weapons": "Weapons:",
+    "tools": "Tools:"
+  },
+  "subclassDetail": {
+    "class": "Class:",
+    "level": "Level obtained:",
+    "source": "Source:"
+  },
+  "charOptionDetail": {
+    "type": "Type:"
+  },
+  "classFeature": {
+    "levelLabel": "lvl. {{level}}"
+  },
+  "ui": {
+    "back": "Back",
+    "title": "Knowledge Base",
+    "selectCategory": "Select a category to browse. Data loads on demand.",
+    "entriesCount": "{{count}} entries",
+    "categories": "Categories",
+    "loadingData": "Loading data...",
+    "loadError": "Load error",
+    "retry": "Retry",
+    "search": "Search...",
+    "reset": "Reset",
+    "noTitle": "No title",
+    "nothingFound": "Nothing found",
+    "noEntries": "No entries"
+  }
+}

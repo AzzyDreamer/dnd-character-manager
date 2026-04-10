@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Character } from '../types';
 import { Scroll, Users, Library, Sparkles } from 'lucide-react';
 import { PortraitImage } from './ui/PortraitImage';
@@ -9,7 +10,14 @@ interface HomePageProps {
 }
 
 export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePageProps) {
+  const { t } = useTranslation('common');
   const recentCharacters = characters.slice(-4).reverse();
+
+  const charactersCountText = (count: number): string => {
+    if (count === 1) return t('homePage.charactersCountOne', { count });
+    if (count >= 2 && count <= 4) return t('homePage.charactersCountFew', { count });
+    return t('homePage.charactersCountMany', { count });
+  };
 
   return (
     <div className="max-w-4xl w-full space-y-10">
@@ -30,10 +38,10 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
               <div className="p-2 rounded-lg bg-gold/15 text-gold group-hover:bg-gold/25 transition-colors">
                 <Scroll size={22} />
               </div>
-              <h3 className="font-medieval text-gold text-lg">Создать</h3>
+              <h3 className="font-medieval text-gold text-lg">{t('homePage.createTitle')}</h3>
             </div>
             <p className="text-text-muted text-sm">
-              Новый персонаж с нуля — раса, класс, характеристики и снаряжение.
+              {t('homePage.createDesc')}
             </p>
           </button>
 
@@ -45,12 +53,12 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
               <div className="p-2 rounded-lg bg-gold/15 text-gold group-hover:bg-gold/25 transition-colors">
                 <Users size={22} />
               </div>
-              <h3 className="font-medieval text-gold text-lg">Персонажи</h3>
+              <h3 className="font-medieval text-gold text-lg">{t('homePage.charactersTitle')}</h3>
             </div>
             <p className="text-text-muted text-sm">
               {characters.length > 0
-                ? `${characters.length} ${characters.length === 1 ? 'персонаж' : characters.length < 5 ? 'персонажа' : 'персонажей'} создано.`
-                : 'Пока нет персонажей — самое время создать первого!'}
+                ? charactersCountText(characters.length)
+                : t('homePage.noCharactersYet')}
             </p>
           </button>
 
@@ -62,10 +70,10 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
               <div className="p-2 rounded-lg bg-gold/15 text-gold group-hover:bg-gold/25 transition-colors">
                 <Library size={22} />
               </div>
-              <h3 className="font-medieval text-gold text-lg">База знаний</h3>
+              <h3 className="font-medieval text-gold text-lg">{t('homePage.knowledgeBaseTitle')}</h3>
             </div>
             <p className="text-text-muted text-sm">
-              Заклинания, классы, расы, предметы, черты и правила D&D 5e.
+              {t('homePage.knowledgeBaseDesc')}
             </p>
           </button>
         </div>
@@ -75,7 +83,7 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Sparkles className="text-gold" size={18} />
-              <h2 className="font-medieval text-gold text-lg">Последние персонажи</h2>
+              <h2 className="font-medieval text-gold text-lg">{t('homePage.recentCharacters')}</h2>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {recentCharacters.map((char) => (
@@ -109,7 +117,7 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
                         {char.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
-                        {char.race} • {char.class} {char.level} ур.
+                        {char.race} • {char.class} {t('homePage.levelShort', { level: char.level })}
                       </div>
                     </div>
                   </div>
@@ -120,13 +128,13 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
         ) : (
           <div className="glass-panel ornate-border p-8 text-center">
             <p className="text-text-secondary mb-4">
-              У вас пока нет персонажей. Создайте первого, чтобы начать приключение!
+              {t('homePage.noCharactersHero')}
             </p>
             <button
               onClick={() => onNavigate('creator')}
               className="px-6 py-3 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold transition-all"
             >
-              Создать первого персонажа
+              {t('homePage.createFirstCharacter')}
             </button>
           </div>
         )}

@@ -1,1 +1,101 @@
-{}
+{
+  "title": "Inventory",
+  "weight": "Weight:",
+  "weightValue": "{{value}} lbs.",
+  "addButton": "Add",
+  "equipment": "Equipment",
+  "backpack": "Backpack",
+  "cellsCount": "{{count}} / {{total}} cells",
+  "backpackEmpty": "Backpack is empty",
+  "backpackHint": "Click \"Add Item\"",
+  "noFreeSpace": "No free space in the backpack!",
+
+  "currency": {
+    "title": "Currency",
+    "platinum": "PP",
+    "gold": "GP",
+    "electrum": "EP",
+    "silver": "SP",
+    "copper": "CP"
+  },
+
+  "potions": {
+    "label": "Potions:"
+  },
+
+  "contextMenu": {
+    "equip": "Equip",
+    "equipOffhand": "Off-hand",
+    "unequip": "Unequip",
+    "details": "Details",
+    "remove": "Delete"
+  },
+
+  "addModal": {
+    "title": "Add Item",
+    "searchPlaceholder": "Search items...",
+    "allCategories": "All",
+    "loading": "Loading items...",
+    "noResults": "No items found",
+    "itemCount": "{{count}} items",
+    "showMore": "Show more ({{count}} remaining)",
+    "quantity": "Quantity:",
+    "addItem": "Add {{name}}"
+  },
+
+  "detail": {
+    "damage": "Damage:",
+    "twoHanded": "Two-handed:",
+    "range": "Range:",
+    "ac": "AC: ",
+    "acStealthDisadvantage": " (stealth disadvantage)",
+    "acStrength": "Strength {{value}}+",
+    "bonusAc": "AC: ",
+    "bonusSavingThrow": "Saving Throws: ",
+    "bonusAttackDamage": "Attack/Damage: ",
+    "bonusSpellAttack": "Spell Attack: ",
+    "bonusSpellSaveDc": "Spell Save DC: ",
+    "requiresAttunement": "Requires attunement",
+    "requiresAttunementBy": "Requires attunement ({{by}})",
+    "weightLabel": "Weight: {{value}} lbs.",
+    "valueGp": "{{value}} gp",
+    "valueSp": "{{value}} sp",
+    "valueCp": "{{value}} cp",
+    "quantityLabel": "Qty: {{value}}",
+    "loadingEntries": "Loading..."
+  },
+
+  "tooltip": {
+    "weightLabel": "Weight: {{value}} lbs.",
+    "quantityLabel": "Qty: {{value}}"
+  },
+
+  "itemValue": {
+    "gp": "{{value}} gp",
+    "sp": "{{value}} sp",
+    "cp": "{{value}} cp"
+  },
+
+  "profWarning": {
+    "title": "No Proficiency",
+    "description": "The character is not proficient with <1>{{name}}</1>.",
+    "descriptionText": "The character is not proficient with",
+    "armorPenalty": "Without armor proficiency: disadvantage on ability checks and saving throws using STR/DEX, unable to cast spells.",
+    "weaponPenalty": "Without weapon proficiency: proficiency bonus is not added to attack rolls.",
+    "cancel": "Cancel",
+    "equipAnyway": "Equip anyway"
+  },
+
+  "noProficiency": "No proficiency",
+
+  "mastery": {
+    "Cleave": "Cleave",
+    "Graze": "Graze",
+    "Nick": "Nick",
+    "Push": "Push",
+    "Sap": "Sap",
+    "Slow": "Slow",
+    "Topple": "Topple",
+    "Vex": "Vex"
+  }
+}

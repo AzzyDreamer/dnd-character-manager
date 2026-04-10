@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character } from '../types';
 import { Users, Trash2, FileDown, FileUp } from 'lucide-react';
 import { exportCharacter } from '../utils/storage';
@@ -24,6 +25,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
   onDeleteCharacter,
   onImportCharacter
 }) => {
+  const { t } = useTranslation('common');
   const containerRef = useRef<HTMLDivElement>(null);
   const [cardWidth, setCardWidth] = useState(160);
 
@@ -96,11 +98,11 @@ export const CharacterList: React.FC<CharacterListProps> = ({
       <div className="flex items-center justify-between mb-4 shrink-0">
         <div className="flex items-center gap-2">
           <Users className="text-gold" size={20} />
-          <h2 className="text-lg font-medieval text-gold">Выбор персонажа</h2>
+          <h2 className="text-lg font-medieval text-gold">{t('characterList.title')}</h2>
         </div>
         <label className="px-3 py-1.5 bg-gold/15 text-gold border border-gold/30 rounded-md hover:bg-gold/25 cursor-pointer flex items-center gap-1.5 text-sm font-medium transition-all">
           <FileUp size={14} />
-          Импорт
+          {t('characterList.import')}
           <input
             type="file"
             accept=".json"
@@ -114,7 +116,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
       {characters.length === 0 ? (
         <div className="flex-1 flex items-center justify-center">
           <p className="text-text-muted text-xs italic">
-            Нет созданных персонажей
+            {t('characterList.noCharacters')}
           </p>
         </div>
       ) : (
@@ -126,7 +128,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                 && character.raceVariant === 'Dragonborn (White)'
                 && character.classId === 'sorcerer'
                 && character.background === 'Haunted One'
-                && ['Законно-злой', 'Нейтрально-злой', 'Хаотично-злой'].includes(character.alignment ?? '');
+                && ['lawfulEvil', 'neutralEvil', 'chaoticEvil'].includes(character.alignment ?? '');
               return (
                 <div
                   key={character.id}
@@ -169,7 +171,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                         {character.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
-                        {character.race} • {character.class} {character.level} ур.
+                        {character.race} • {character.class} {t('characterList.levelShort', { level: character.level })}
                       </div>
                     </div>
 
@@ -186,19 +188,19 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                           handleExport(character);
                         }}
                         className="p-1.5 rounded bg-black/50 text-text-muted hover:text-gold hover:bg-gold/20 transition-colors"
-                        title="Экспортировать"
+                        title={t('characterList.exportTooltip')}
                       >
                         <FileDown size={14} />
                       </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (confirm(`Удалить персонажа "${character.name}"?`)) {
+                          if (confirm(t('characterList.deleteConfirm', { name: character.name }))) {
                             onDeleteCharacter(character.id);
                           }
                         }}
                         className="p-1.5 rounded bg-black/50 text-text-muted hover:text-red-bright hover:bg-red-accent/30 transition-colors"
-                        title="Удалить"
+                        title={t('characterList.deleteTooltip')}
                       >
                         <Trash2 size={14} />
                       </button>
