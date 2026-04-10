@@ -1,21 +1,23 @@
 // Маппинг ключей ресурсов из levelTable классов → отображение
 // Только trackable ресурсы (имеющие uses/charges, которые можно тратить и восстанавливать)
 
+import i18n from '../i18n';
+
 export interface ClassResourceDef {
-  label: string;
+  labelKey: string;
   restoreOn: 'short' | 'long';
   icon?: string;
 }
 
-export const TRACKABLE_RESOURCES: Record<string, ClassResourceDef> = {
-  secondWind: { label: 'Второе дыхание', restoreOn: 'short', icon: '/images/resources/Second_Wind.webp' },
-  channelDivinity: { label: 'Божественный канал', restoreOn: 'short', icon: '/images/resources/30px-Channel_Divinity_Charges_Icon.png.webp' },
-  channelOath: { label: 'Канал клятвы', restoreOn: 'short', icon: '/images/resources/30px-Channel_Oath_Icon.png.webp' },
-  rages: { label: 'Ярость', restoreOn: 'long', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
-  focusPoints: { label: 'Очки концентрации', restoreOn: 'short', icon: '/images/resources/30px-Monk_Ki_Icon.png.webp' },
-  sorceryPoints: { label: 'Очки колдовства', restoreOn: 'long', icon: '/images/resources/30px-Sorcery_Points_Icons.png.webp' },
-  wildShape: { label: 'Дикий облик', restoreOn: 'long', icon: '/images/resources/30px-Wild_Shape_Charges_Icon.png.webp' },
-  pactSlots: { label: 'Ячейки договора', restoreOn: 'short' },
+const TRACKABLE_RESOURCES: Record<string, ClassResourceDef> = {
+  secondWind: { labelKey: 'secondWind', restoreOn: 'short', icon: '/images/resources/Second_Wind.webp' },
+  channelDivinity: { labelKey: 'channelDivinity', restoreOn: 'short', icon: '/images/resources/30px-Channel_Divinity_Charges_Icon.png.webp' },
+  channelOath: { labelKey: 'channelOath', restoreOn: 'short', icon: '/images/resources/30px-Channel_Oath_Icon.png.webp' },
+  rages: { labelKey: 'rages', restoreOn: 'long', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
+  focusPoints: { labelKey: 'focusPoints', restoreOn: 'short', icon: '/images/resources/30px-Monk_Ki_Icon.png.webp' },
+  sorceryPoints: { labelKey: 'sorceryPoints', restoreOn: 'long', icon: '/images/resources/30px-Sorcery_Points_Icons.png.webp' },
+  wildShape: { labelKey: 'wildShape', restoreOn: 'long', icon: '/images/resources/30px-Wild_Shape_Charges_Icon.png.webp' },
+  pactSlots: { labelKey: 'pactSlots', restoreOn: 'short' },
 };
 
 // Пассивные значения (не trackable, просто отображение)
@@ -26,15 +28,15 @@ export interface ClassPassiveStat {
   icon?: string;
 }
 
-const PASSIVE_STAT_LABELS: Record<string, { label: string; icon?: string }> = {
-  rageDamage: { label: 'Бонус ярости', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
-  weaponMastery: { label: 'Мастерство оружия', icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp' },
-  martialArts: { label: 'Боевые искусства' },
-  sneakAttack: { label: 'Скрытая атака' },
-  bardicDie: { label: 'Кость вдохновения', icon: '/images/resources/30px-Bardic_Inspiration_Resource_Icon.png.webp' },
-  unarmoredMovement: { label: 'Без доспехов' },
-  invocations: { label: 'Воззвания' },
-  favoredEnemy: { label: 'Избранный враг' },
+const PASSIVE_STAT_DEFS: Record<string, { labelKey: string; icon?: string }> = {
+  rageDamage: { labelKey: 'rageDamage', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
+  weaponMastery: { labelKey: 'weaponMastery', icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp' },
+  martialArts: { labelKey: 'martialArts' },
+  sneakAttack: { labelKey: 'sneakAttack' },
+  bardicDie: { labelKey: 'bardicDie', icon: '/images/resources/30px-Bardic_Inspiration_Resource_Icon.png.webp' },
+  unarmoredMovement: { labelKey: 'unarmoredMovement' },
+  invocations: { labelKey: 'invocations' },
+  favoredEnemy: { labelKey: 'favoredEnemy' },
 };
 
 export interface ClassResource {
@@ -52,7 +54,13 @@ export function getClassResources(levelTableRow: Record<string, any> | undefined
   for (const [key, def] of Object.entries(TRACKABLE_RESOURCES)) {
     const val = levelTableRow[key];
     if (val != null && typeof val === 'number' && val > 0) {
-      resources.push({ key, label: def.label, max: val, restoreOn: def.restoreOn, icon: def.icon });
+      resources.push({
+        key,
+        label: i18n.t(`classResources.${def.labelKey}`, { ns: 'game' }),
+        max: val,
+        restoreOn: def.restoreOn,
+        icon: def.icon,
+      });
     }
   }
 
@@ -64,7 +72,7 @@ export interface SubclassResourceDef {
   classId: string;
   subclassId: string;
   key: string;
-  label: string;
+  labelKey: string;
   restoreOn: 'short' | 'long';
   icon?: string;
   /** Returns the max value based on character level */
@@ -73,12 +81,12 @@ export interface SubclassResourceDef {
   minLevel: number;
 }
 
-export const SUBCLASS_RESOURCES: SubclassResourceDef[] = [
+const SUBCLASS_RESOURCES: SubclassResourceDef[] = [
   {
     classId: 'fighter',
     subclassId: 'battle-master',
     key: 'superiorityDice',
-    label: 'Кости превосходства',
+    labelKey: 'superiorityDice',
     restoreOn: 'short',
     icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
     minLevel: 3,
@@ -96,7 +104,7 @@ export function getSubclassResources(classId: string, subclassId: string | undef
     .filter(d => d.classId === classId && d.subclassId === subclassId && level >= d.minLevel)
     .map(d => ({
       key: d.key,
-      label: d.label,
+      label: i18n.t(`classResources.${d.labelKey}`, { ns: 'game' }),
       max: d.getMax(level),
       restoreOn: d.restoreOn,
       icon: d.icon,
@@ -108,7 +116,7 @@ interface SubclassPassiveStatDef {
   classId: string;
   subclassId: string;
   key: string;
-  label: string;
+  labelKey: string;
   icon?: string;
   minLevel: number;
   getValue: (level: number) => string;
@@ -119,7 +127,7 @@ const SUBCLASS_PASSIVE_STATS: SubclassPassiveStatDef[] = [
     classId: 'fighter',
     subclassId: 'battle-master',
     key: 'superiorityDieType',
-    label: 'Кость превосходства',
+    labelKey: 'superiorityDieType',
     icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
     minLevel: 3,
     getValue: (level: number) => {
@@ -136,7 +144,7 @@ export function getSubclassPassiveStats(classId: string, subclassId: string | un
     .filter(d => d.classId === classId && d.subclassId === subclassId && level >= d.minLevel)
     .map(d => ({
       key: d.key,
-      label: d.label,
+      label: i18n.t(`passiveStats.${d.labelKey}`, { ns: 'game' }),
       value: d.getValue(level),
       icon: d.icon,
     }));
@@ -146,10 +154,15 @@ export function getClassPassiveStats(levelTableRow: Record<string, any> | undefi
   if (!levelTableRow) return [];
   const stats: ClassPassiveStat[] = [];
 
-  for (const [key, def] of Object.entries(PASSIVE_STAT_LABELS)) {
+  for (const [key, def] of Object.entries(PASSIVE_STAT_DEFS)) {
     const val = levelTableRow[key];
     if (val != null) {
-      stats.push({ key, label: def.label, value: val, icon: def.icon });
+      stats.push({
+        key,
+        label: i18n.t(`passiveStats.${def.labelKey}`, { ns: 'game' }),
+        value: val,
+        icon: def.icon,
+      });
     }
   }
 
