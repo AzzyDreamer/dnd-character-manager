@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
 import { getDamageTypeName } from '../data/items/constants';
-import { CLASS_REGISTRY, getClassById } from '../data/classes';
+import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, findSubclass } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
@@ -18,7 +18,6 @@ import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeat
 import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import { useDiceRoll } from './DiceRollProvider';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
-import { getRaceByName } from '../data/races';
 import { PortraitCropModal } from './PortraitCropModal';
 import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
@@ -728,7 +727,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             const subMod = await import('../data/classes/subclassJsonLoader');
             await subMod.init();
             const classDef2 = getClassById(updated.classId || '') ?? CLASS_REGISTRY.find(c => c.name === updated.class);
-            const subDef = classDef2?.subclasses.find(s => s.name === updated.subclass);
+            const subDef = classDef2 && updated.subclass ? findSubclass(classDef2, updated.subclass) : undefined;
             if (subDef && classDef2) {
               const subData = subMod.getSubclassById(classDef2.id, subDef.id);
               if (subData?.features) {
@@ -1783,12 +1782,6 @@ function FeaturesSection({ character }: { character: Character }) {
               rawEntries: e.entries,
             }));
           setRaceTraits(traits);
-        } else {
-          // Fallback to hardcoded race registry
-          const raceDef = getRaceByName(character.race);
-          if (raceDef?.traits) {
-            setRaceTraits(raceDef.traits.map(t => ({ name: t.name, description: t.description })));
-          }
         }
 
         // Build rawEntries from description + details (if present)
@@ -1834,7 +1827,7 @@ function FeaturesSection({ character }: { character: Character }) {
           if (cancelled) return;
 
           const classDef = getClassById(character.classId || '') ?? CLASS_REGISTRY.find(c => c.name === character.class);
-          const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+          const subDef = classDef && character.subclass ? findSubclass(classDef, character.subclass) : undefined;
           if (subDef) {
             const subData = subMod.getSubclassById(classDef!.id, subDef.id);
             if (subData?.features) {
@@ -3252,7 +3245,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
               </button>
               <div className="text-center min-w-[200px] flex flex-col items-center">
                 {(() => { const scImg = current ? getSubclassImageUrl(classDef.id, current.id) : null; return scImg ? <img src={scImg} alt="" className="w-10 h-10 rounded-lg object-cover mb-1" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} /> : null; })()}
-                <div className="text-xl font-medieval text-gold">{current?.name}</div>
+                <div className="text-xl font-medieval text-gold">{current ? getSubclassName(classDef.id, current.id) : ''}</div>
                 <div className="text-xs text-text-muted mt-1">{current?.source}</div>
               </div>
               <button
@@ -3350,14 +3343,14 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
       <div className="shrink-0 border-t border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
         <div className="flex items-center justify-between max-w-5xl mx-auto">
           <div className="text-sm text-text-secondary">
-            {t('sheet.subclass.selected')} <span className="text-gold font-semibold">{current?.name}</span>
+            {t('sheet.subclass.selected')} <span className="text-gold font-semibold">{current ? getSubclassName(classDef.id, current.id) : ''}</span>
           </div>
           <button
             onClick={() => onSelect(current?.name)}
             className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
               hover:bg-gold/30 transition-all gold-glow"
           >
-            {t('sheet.subclass.selectButton', { name: current?.name })}
+            {t('sheet.subclass.selectButton', { name: current ? getSubclassName(classDef.id, current.id) : '' })}
           </button>
         </div>
       </div>

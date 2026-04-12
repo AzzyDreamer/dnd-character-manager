@@ -80,9 +80,15 @@ export function getFeatsByCategory(category: string): FeatData[] {
   return ALL_FEATS.filter(f => f.category === category);
 }
 
-export const FEAT_CATEGORY_NAMES: Record<string, string> = {
-  G: 'Общая черта',
-  O: 'Черта происхождения',
-  EB: 'Эпическое благо',
-  FS: 'Боевой стиль',
-};
+import i18n from '../../i18n';
+
+export function getFeatCategoryName(code: string): string {
+  return i18n.t(`featCategories.${code}`, { ns: 'game' });
+}
+
+// Объект-прокси для обратной совместимости с Glossary.tsx (constants.FEAT_CATEGORY_NAMES[code])
+export const FEAT_CATEGORY_NAMES: Record<string, string> = new Proxy({} as Record<string, string>, {
+  get(_target, prop: string) {
+    return i18n.t(`featCategories.${prop}`, { ns: 'game' });
+  },
+});

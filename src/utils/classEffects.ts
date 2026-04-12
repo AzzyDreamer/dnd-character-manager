@@ -1,6 +1,6 @@
 import type { Character, AbilityScores, InventoryItem } from '../types';
 import { getAbilityModifier } from './dnd';
-import { getClassById } from '../data/classes';
+import { getClassById, findSubclass } from '../data/classes';
 import { FEAT_STAT_EFFECTS } from './featEffects';
 import i18n from '../i18n';
 
@@ -66,7 +66,8 @@ function getSubclassKey(char: Character): string | null {
   if (!char.subclass || !char.classId) return null;
   const classDef = getClassById(char.classId);
   if (!classDef) return null;
-  const subDef = classDef.subclasses.find(s => s.name === char.subclass);
+  if (!char.subclass) return null;
+  const subDef = findSubclass(classDef, char.subclass);
   if (!subDef) return null;
   return `${char.classId}:${subDef.id}`;
 }
@@ -373,7 +374,7 @@ export function resolveACForCreation(
 export function getSubclassIdByName(classId: string, subclassName: string): string | null {
   const classDef = getClassById(classId);
   if (!classDef) return null;
-  const subDef = classDef.subclasses.find(s => s.name === subclassName);
+  const subDef = findSubclass(classDef, subclassName);
   return subDef?.id ?? null;
 }
 

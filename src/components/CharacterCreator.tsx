@@ -20,7 +20,7 @@ import {
   canIncreasePointBuy,
   canDecreasePointBuy,
 } from '../utils/dnd';
-import { CLASS_REGISTRY, type ClassDefinition } from '../data/classes';
+import { CLASS_REGISTRY, type ClassDefinition, getClassName, getClassDescription, getSubclassName, translateProficiencies, translateArmorProficiency, translateWeaponProficiency, translateToolProficiency } from '../data/classes';
 import { getSubclassImageUrl } from '../data/classes/subclassJsonLoader';
 import type { SpeciesData } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
@@ -745,8 +745,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     }
 
     // Merge tool proficiencies from class and background
+    const translatedProfs = translateProficiencies(selectedClass);
     const bgTool = getBgToolProficiency(selectedBackground);
-    const allTools = [...selectedClass.proficiencies.tools];
+    const allTools = [...translatedProfs.tools];
     if (bgTool && !allTools.includes(bgTool)) {
       allTools.push(bgTool);
     }
@@ -763,7 +764,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       race: selectedSpecies.name,
       raceSource: selectedSpecies.source,
       raceVariant: selectedVariant?.name,
-      class: selectedClass.name,
+      class: getClassName(selectedClass.id),
       classId: selectedClass.id,
       level,
       background: selectedBackground.name,
@@ -795,8 +796,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         ])
       ),
       proficiencies: {
-        armor: selectedClass.proficiencies.armor,
-        weapons: selectedClass.proficiencies.weapons,
+        armor: translatedProfs.armor,
+        weapons: translatedProfs.weapons,
         tools: allTools,
         languages: [...languageInfo.fixed, ...selectedLanguages.filter(Boolean)],
       },
@@ -1033,7 +1034,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const creationStats = useMemo<CreationStats>(() => ({
     name: name || undefined,
     race: selectedSpecies?.name,
-    className: selectedClass?.name,
+    className: selectedClass ? getClassName(selectedClass.id) : undefined,
     level: 1,
     abilityScores: {
       strength: getFinalScore('strength'),
@@ -1044,9 +1045,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       charisma: getFinalScore('charisma'),
     },
     proficiencies: selectedClass ? {
-      armor: selectedClass.proficiencies.armor,
-      weapons: selectedClass.proficiencies.weapons,
-      tools: selectedClass.proficiencies.tools,
+      armor: selectedClass.proficiencies.armor.map(translateArmorProficiency),
+      weapons: selectedClass.proficiencies.weapons.map(translateWeaponProficiency),
+      tools: selectedClass.proficiencies.tools.map(translateToolProficiency),
       languages: selectedSpecies ? getSpeciesLanguages(selectedSpecies) : [],
     } : undefined,
     spells: [
@@ -1260,7 +1261,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const filteredClasses = useMemo(() => {
     const q = classSearchQuery.toLowerCase().trim();
     if (!q) return CLASS_REGISTRY;
-    return CLASS_REGISTRY.filter(cls => cls.name.toLowerCase().includes(q));
+    return CLASS_REGISTRY.filter(cls => getClassName(cls.id).toLowerCase().includes(q));
   }, [classSearchQuery]);
 
   const renderClassStep = () => (
@@ -1269,8 +1270,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       <div className="flex-1 min-w-0 overflow-y-auto">
         {selectedClass ? (
           <div className="bg-bg-panel-solid/80 rounded-lg border border-border-default p-3 space-y-3">
-            <h3 className="font-medieval text-gold text-base">{selectedClass.name}</h3>
-            <p className="text-xs text-text-secondary leading-relaxed">{selectedClass.description}</p>
+            <h3 className="font-medieval text-gold text-base">{getClassName(selectedClass.id)}</h3>
+            <p className="text-xs text-text-secondary leading-relaxed">{getClassDescription(selectedClass.id)}</p>
 
             <div className="pt-2 border-t border-border-default space-y-2 text-xs">
               <div className="flex gap-2">
@@ -1306,12 +1307,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <div className="flex gap-2">
                 <span className="text-text-muted shrink-0">{t('creation.class.armor')}:</span>
                 <span className="text-text-primary">
-                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.join(', ') : t('creation.class.noArmor')}
+                  {selectedClass.proficiencies.armor.length > 0 ? selectedClass.proficiencies.armor.map(translateArmorProficiency).join(', ') : t('creation.class.noArmor')}
                 </span>
               </div>
               <div className="flex gap-2">
                 <span className="text-text-muted shrink-0">{t('creation.class.weapons')}:</span>
-                <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
+                <span className="text-text-primary">{selectedClass.proficiencies.weapons.map(translateWeaponProficiency).join(', ')}</span>
               </div>
             </div>
 
@@ -1328,7 +1329,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                         {scImg
                           ? <img src={scImg} alt="" className="w-4 h-4 rounded object-cover shrink-0" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                           : <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />}
-                        <span>{sub.name}</span>
+                        <span>{getSubclassName(selectedClass.id, sub.id)}</span>
                       </div>
                     );
                   })}
@@ -1357,14 +1358,14 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     ? 'border-gold/60 bg-gold/10 shadow-[0_0_8px_rgba(212,175,55,0.15)]'
                     : 'border-border-default bg-bg-panel hover:border-gold/30 hover:bg-gold/5'
                 }`}
-                title={cls.name}
+                title={getClassName(cls.id)}
               >
                 <div className={`w-10 h-10 rounded overflow-hidden flex items-center justify-center shrink-0 ${
                   isSelected ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'
                 } transition-opacity`}>
                   <img
                     src={`/images/classes/${cls.id}.webp`}
-                    alt={cls.name}
+                    alt={getClassName(cls.id)}
                     className="w-full h-full object-contain"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
@@ -1372,13 +1373,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                     }}
                   />
                   <span className={`hidden text-xl font-medieval ${isSelected ? 'text-gold' : 'text-text-muted'}`}>
-                    {cls.name.charAt(0)}
+                    {getClassName(cls.id).charAt(0)}
                   </span>
                 </div>
                 <span className={`text-[10px] leading-tight text-center w-full line-clamp-2 ${
                   isSelected ? 'text-gold font-semibold' : 'text-text-secondary'
                 }`}>
-                  {cls.name}
+                  {getClassName(cls.id)}
                 </span>
               </button>
             );
@@ -2230,7 +2231,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           <p className="text-gold text-lg">
             {selectedSpecies.name}
             {' • '}
-            {selectedClass.name}
+            {getClassName(selectedClass.id)}
             {' • '}
             {t('creation.review.level', { level: 1 })}
           </p>
@@ -2313,17 +2314,17 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             {selectedClass.proficiencies.armor.length > 0 && (
               <div>
                 <span className="text-text-secondary">{t('creation.review.armorProf')}</span>
-                <span className="text-text-primary">{selectedClass.proficiencies.armor.join(', ')}</span>
+                <span className="text-text-primary">{selectedClass.proficiencies.armor.map(translateArmorProficiency).join(', ')}</span>
               </div>
             )}
             <div>
               <span className="text-text-secondary">{t('creation.review.weaponsProf')}</span>
-              <span className="text-text-primary">{selectedClass.proficiencies.weapons.join(', ')}</span>
+              <span className="text-text-primary">{selectedClass.proficiencies.weapons.map(translateWeaponProficiency).join(', ')}</span>
             </div>
             {selectedClass.proficiencies.tools.length > 0 && (
               <div>
                 <span className="text-text-secondary">{t('creation.review.toolsProf')}</span>
-                <span className="text-text-primary">{selectedClass.proficiencies.tools.join(', ')}</span>
+                <span className="text-text-primary">{selectedClass.proficiencies.tools.map(translateToolProficiency).join(', ')}</span>
               </div>
             )}
             <div>
@@ -2695,7 +2696,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         </div>
 
         <p className="text-sm text-text-secondary">
-          {t('creation.skills.selectCount', { count, suffix: count === 2 ? 'а' : count === 3 ? 'а' : 'ов', class: selectedClass.name })}
+          {t('creation.skills.selectCount', { count, suffix: count === 2 ? 'а' : count === 3 ? 'а' : 'ов', class: getClassName(selectedClass.id) })}
           {backgroundSkillKeys.length > 0 && t('creation.skills.bgSkillsMarked')}
           {needsExpertise && (
             <span className="text-purple-300">{t('creation.skills.expertiseHint')}</span>
@@ -2930,7 +2931,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             )}
           </div>
           <div className="text-xs text-text-muted mt-1">
-            {selectedClass.name} • {getAbilityName(selectedClass.spellcastingAbility!)}
+            {getClassName(selectedClass.id)} • {getAbilityName(selectedClass.spellcastingAbility!)}
           </div>
         </div>
 

@@ -668,9 +668,9 @@ const ActionsSection: React.FC<{
             const subMod = await import('../data/classes/subclassJsonLoader');
             await subMod.init();
             if (cancelled) return;
-            const { getClassById, CLASS_REGISTRY } = await import('../data/classes');
+            const { getClassById, CLASS_REGISTRY, findSubclass } = await import('../data/classes');
             const classDef = getClassById(character.classId || '') ?? CLASS_REGISTRY.find(c => c.name === character.class);
-            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            const subDef = classDef && character.subclass ? findSubclass(classDef, character.subclass) : undefined;
             if (subDef) {
               const subData = subMod.getSubclassById(classDef!.id, subDef.id);
               if (subData?.features) {
@@ -883,9 +883,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           const basePassive = getClassPassiveStats(row);
           // Add subclass resources & passive stats (e.g. Battle Master superiority dice)
           if (character.subclass && character.classId) {
-            const { CLASS_REGISTRY: registry } = await import('../data/classes');
+            const { CLASS_REGISTRY: registry, findSubclass: findSub } = await import('../data/classes');
             const classDef = registry.find(c => c.id === character.classId);
-            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            const subDef = classDef && character.subclass ? findSub(classDef, character.subclass) : undefined;
             if (subDef) {
               baseResources.push(...getSubclassResources(character.classId, subDef.id, character.level));
               basePassive.push(...getSubclassPassiveStats(character.classId, subDef.id, character.level));
