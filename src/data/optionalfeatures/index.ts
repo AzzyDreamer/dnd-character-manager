@@ -1,4 +1,5 @@
 // Загрузка всех опциональных способностей из JSON файлов (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface OptionalFeatureData {
@@ -58,6 +59,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_OPTIONAL_FEATURES.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('optionalfeatures', ALL_OPTIONAL_FEATURES, f => f.name);
     _initialized = true;
   })();
 

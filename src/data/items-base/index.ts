@@ -1,4 +1,5 @@
 // Загрузка всех базовых шаблонов предметов из JSON файлов (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface ItemBaseData {
@@ -62,6 +63,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_ITEMS_BASE.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('items-base', ALL_ITEMS_BASE, i => i.name);
     _initialized = true;
   })();
 

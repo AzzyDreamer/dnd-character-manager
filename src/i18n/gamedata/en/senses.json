@@ -1,0 +1,21 @@
+{
+  "Blindsight.entries.0": "If you have Blindsight, you can see within a specific range without relying on physical sight. Within that range, you can see anything that isn't behind {@variantrule Cover|XPHB|Total Cover} even if you have the {@condition Blinded|XPHB} condition or are in {@variantrule Darkness|XPHB}. Moreover, in that range, you can see something that has the {@condition Invisible|XPHB} condition.",
+  "Blindsight.name": "Blindsight",
+  "Darkvision.entries.0": "If you have Darkvision, you can see in {@variantrule Dim Light|XPHB} within a specified range as if it were {@variantrule Bright Light|XPHB} and in {@variantrule Darkness|XPHB} within that range as if it were {@variantrule Dim Light|XPHB}. You discern colors in that {@variantrule Darkness|XPHB} only as shades of gray.",
+  "Darkvision.name": "Darkvision",
+  "Tremorsense.entries.0": "A creature with Tremorsense can pinpoint the location of creatures and moving objects within a specific range, provided that the creature with Tremorsense and anything it is detecting are both in contact with the same surface (such as the ground, a wall, or a ceiling) or the same liquid.",
+  "Tremorsense.entries.1": "Tremorsense can't detect creatures or objects in the air, and it doesn't count as a form of sight.",
+  "Tremorsense.name": "Tremorsense",
+  "Truesight.entries.0": "If you have Truesight, your vision is enhanced within a specified range. Within that range, your vision pierces through the following:",
+  "Truesight.entries.1.items.0.entries.0": "You can see in normal and magical {@variantrule Darkness|XPHB}.",
+  "Truesight.entries.1.items.0.name": "Darkness",
+  "Truesight.entries.1.items.1.entries.0": "You see creatures and objects that have the {@condition Invisible|XPHB} condition.",
+  "Truesight.entries.1.items.1.name": "Invisibility",
+  "Truesight.entries.1.items.2.entries.0": "Visual illusions appear transparent to you, and you automatically succeed on {@variantrule Saving Throw|XPHB|saving throws} against them.",
+  "Truesight.entries.1.items.2.name": "Visual Illusions",
+  "Truesight.entries.1.items.3.entries.0": "You discern the true form of any creature or object you see that has been transformed by magic.",
+  "Truesight.entries.1.items.3.name": "Transformations",
+  "Truesight.entries.1.items.4.entries.0": "You see into the Ethereal Plane.",
+  "Truesight.entries.1.items.4.name": "Ethereal Plane",
+  "Truesight.name": "Truesight"
+}

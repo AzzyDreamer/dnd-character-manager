@@ -1,6 +1,8 @@
 // Загрузка всех заклинаний из JSON файлов (ленивая batch загрузка)
 // НЕ используем { eager: true } — это убивает Vite dev server
 
+import { applyOverlay } from '../translationOverlay';
+
 const spellModules = import.meta.glob('./*.json');
 
 export interface SpellData {
@@ -88,6 +90,7 @@ export async function init(): Promise<void> {
       if (a.level !== b.level) return a.level - b.level;
       return a.name.localeCompare(b.name);
     });
+    await applyOverlay('spells', ALL_SPELLS, s => s.name);
     _initialized = true;
   })();
 

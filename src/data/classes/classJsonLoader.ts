@@ -1,4 +1,5 @@
 // Загрузка JSON данных классов для Glossary (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const classModules = import.meta.glob('./*/*.json');
 
 export interface ClassJsonData {
@@ -66,6 +67,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_CLASS_DATA.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('classes', ALL_CLASS_DATA, c => c.id, 'class');
     _initialized = true;
   })();
 

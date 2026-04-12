@@ -1,4 +1,5 @@
 // Загрузка всех видов (рас) из JSON файлов (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const speciesModules = import.meta.glob('./*.json');
 
 export interface SpeciesData {
@@ -177,6 +178,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_SPECIES.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('species', ALL_SPECIES, s => s.name);
     _initialized = true;
   })();
 

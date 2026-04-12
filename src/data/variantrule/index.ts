@@ -1,4 +1,5 @@
 // Загрузка всех вариантных правил из JSON файлов (ленивая загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface VariantRuleData {
@@ -30,6 +31,7 @@ export async function init(): Promise<void> {
       }
     }
     ALL_VARIANT_RULES.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('variantrule', ALL_VARIANT_RULES, v => v.name);
     _initialized = true;
   })();
 
