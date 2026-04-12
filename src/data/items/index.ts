@@ -1,4 +1,5 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
+import { applyOverlay } from '../translationOverlay';
 import {
   TYPE_TO_CATEGORY,
   TYPE_TO_EQUIP_SLOT,
@@ -82,6 +83,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_ITEMS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('items', ALL_ITEMS, i => i.name);
     _itemsInitialized = true;
   })();
 

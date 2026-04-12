@@ -1,4 +1,5 @@
 // Загрузка всех опций создания персонажа из JSON файлов (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface CharacterCreationOptionData {
@@ -59,6 +60,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_CHARACTER_CREATION_OPTIONS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('charactercreationoptions', ALL_CHARACTER_CREATION_OPTIONS, c => c.name);
     _initialized = true;
   })();
 

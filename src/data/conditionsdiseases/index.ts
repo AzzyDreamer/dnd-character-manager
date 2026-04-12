@@ -1,4 +1,5 @@
 // Загрузка всех состояний и болезней из JSON файлов (ленивая загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface ConditionDiseaseData {
@@ -29,6 +30,7 @@ export async function init(): Promise<void> {
       }
     }
     ALL_CONDITIONS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('conditionsdiseases', ALL_CONDITIONS, c => c.name);
     _initialized = true;
   })();
 

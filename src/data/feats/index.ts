@@ -1,4 +1,5 @@
 // Загрузка всех черт из JSON файлов (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const featModules = import.meta.glob('./*.json');
 
 export interface FeatData {
@@ -61,6 +62,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_FEATS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('feats', ALL_FEATS, f => f.name);
     _initialized = true;
   })();
 

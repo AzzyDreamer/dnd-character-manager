@@ -1,4 +1,5 @@
 // Загрузка JSON данных подклассов для Glossary (ленивая batch загрузка)
+import { applyOverlay } from '../translationOverlay';
 const subclassModules = import.meta.glob('./*/subclasses/*.json');
 
 export interface SubclassJsonData {
@@ -70,6 +71,7 @@ export async function init(): Promise<void> {
       const cmp = a.classId.localeCompare(b.classId);
       return cmp !== 0 ? cmp : a.name.localeCompare(b.name);
     });
+    await applyOverlay('subclasses', ALL_SUBCLASS_DATA, s => s.id, 'subclass');
     _initialized = true;
   })();
 

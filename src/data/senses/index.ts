@@ -1,4 +1,5 @@
 // Загрузка всех чувств из JSON файлов (ленивая загрузка)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface SenseData {
@@ -29,6 +30,7 @@ export async function init(): Promise<void> {
       }
     }
     ALL_SENSES.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('senses', ALL_SENSES, s => s.name);
     _initialized = true;
   })();
 

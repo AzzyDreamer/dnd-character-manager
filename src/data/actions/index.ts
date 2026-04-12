@@ -1,4 +1,5 @@
 // Загрузка всех действий из JSON файлов
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./*.json');
 
 export interface ActionData {
@@ -30,6 +31,7 @@ export async function init(): Promise<void> {
       }
     }
     ALL_ACTIONS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('actions', ALL_ACTIONS, a => a.name);
     _initialized = true;
   })();
 

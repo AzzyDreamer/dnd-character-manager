@@ -1,4 +1,5 @@
 // Загрузка JSON предысторий (5etools формат) (ленивая загрузка с batch)
+import { applyOverlay } from '../translationOverlay';
 const modules = import.meta.glob('./backgrounds/*.json');
 
 export interface JsonBackgroundData {
@@ -92,6 +93,7 @@ export async function init(): Promise<void> {
     }
 
     ALL_JSON_BACKGROUNDS.sort((a, b) => a.name.localeCompare(b.name));
+    await applyOverlay('backgrounds', ALL_JSON_BACKGROUNDS, b => b.name);
     _initialized = true;
   })();
 
