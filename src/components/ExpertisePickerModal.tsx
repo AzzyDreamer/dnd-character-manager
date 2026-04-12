@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character } from '../types';
-import { SKILL_NAMES, SKILL_ABILITIES, ABILITY_NAMES, type AbilityScores } from '../utils/dnd';
+import { getSkillName, SKILL_ABILITIES, getAbilityName, type AbilityScores } from '../utils/dnd';
 import { Star, X, Check } from 'lucide-react';
 
 interface ExpertisePickerModalProps {
@@ -20,6 +21,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  const { t } = useTranslation('character');
   const [selected, setSelected] = useState<string[]>([]);
 
   // Get proficient skills that don't already have expertise
@@ -27,7 +29,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
     return Object.entries(character.skills ?? {})
       .filter(([, data]) => data.proficient && !data.expertise)
       .map(([key]) => key)
-      .sort((a, b) => (SKILL_NAMES[a] ?? a).localeCompare(SKILL_NAMES[b] ?? b, 'ru'));
+      .sort((a, b) => getSkillName(a).localeCompare(getSkillName(b), 'ru'));
   }, [character.skills]);
 
   const toggleSkill = (key: string) => {
@@ -47,7 +49,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
     const groups: Record<string, string[]> = {};
     for (const sk of availableSkills) {
       const ability = SKILL_ABILITIES[sk] as keyof AbilityScores | undefined;
-      const groupName = ability ? ABILITY_NAMES[ability] : 'Прочее';
+      const groupName = ability ? getAbilityName(ability) : t('expertisePicker.groupOther');
       if (!groups[groupName]) groups[groupName] = [];
       groups[groupName].push(sk);
     }
@@ -63,10 +65,10 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
             <div>
               <h1 className="text-2xl font-medieval text-purple-300 flex items-center gap-3">
                 <Star className="text-purple-400" size={24} />
-                Мастерство (Expertise)
+                {t('expertisePicker.title')}
               </h1>
               <p className="text-sm text-text-secondary mt-1">
-                Выберите {count} навыка для двойного бонуса мастерства
+                {t('expertisePicker.subtitle', { count })}
               </p>
             </div>
             <button
@@ -112,7 +114,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
                         `}>
                           {isSelected && <Check size={12} className="text-purple-300" />}
                         </div>
-                        {SKILL_NAMES[sk] ?? sk}
+                        {getSkillName(sk)}
                       </button>
                     );
                   })}
@@ -123,7 +125,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
 
           {availableSkills.length === 0 && (
             <div className="text-center text-text-muted py-8">
-              Нет доступных навыков для Expertise
+              {t('expertisePicker.noSkillsAvailable')}
             </div>
           )}
         </div>
@@ -131,14 +133,14 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
         {/* Footer */}
         <div className="shrink-0 border-t border-purple-500/30 bg-bg-panel-solid/95 px-6 py-4 flex items-center justify-between">
           <div className="text-sm text-text-muted">
-            Выбрано: <span className={canConfirm ? 'text-purple-300 font-bold' : 'text-text-secondary'}>{selected.length}</span> / {count}
+            {t('expertisePicker.selectedCount')} <span className={canConfirm ? 'text-purple-300 font-bold' : 'text-text-secondary'}>{selected.length}</span> / {count}
           </div>
           <div className="flex gap-3">
             <button
               onClick={onCancel}
               className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors"
             >
-              Отмена
+              {t('expertisePicker.cancel')}
             </button>
             <button
               onClick={() => onConfirm(selected)}
@@ -151,7 +153,7 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
                 }
               `}
             >
-              Подтвердить
+              {t('expertisePicker.confirm')}
             </button>
           </div>
         </div>

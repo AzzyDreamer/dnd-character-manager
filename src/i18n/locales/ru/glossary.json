@@ -1,0 +1,260 @@
+{
+  "sort": {
+    "name": "Имя",
+    "source": "Источник",
+    "level": "Уровень",
+    "school": "Школа",
+    "category": "Категория",
+    "rarity": "Редкость",
+    "value": "Цена",
+    "weight": "Вес",
+    "hitDie": "Кость хитов",
+    "class": "Класс",
+    "ability": "Характеристика",
+    "type": "Тип",
+    "featureType": "Тип"
+  },
+  "filter": {
+    "level": "Уровень",
+    "school": "Школа",
+    "source": "Источник",
+    "category": "Категория",
+    "rarity": "Редкость",
+    "spellcaster": "Заклинатель",
+    "class": "Класс",
+    "ability": "Характеристика",
+    "size": "Размер",
+    "type": "Тип",
+    "featureType": "Тип",
+    "optionType": "Тип",
+    "ruleType": "Тип",
+    "cantrip": "Заговор",
+    "levelShort": "{{level}} ур.",
+    "noCategory": "Без категории",
+    "yes": "Да",
+    "no": "Нет",
+    "conditionType": "Состояние",
+    "diseaseType": "Болезнь"
+  },
+  "rarityNames": {
+    "none": "Обычный",
+    "common": "Обычный",
+    "uncommon": "Необычный",
+    "rare": "Редкий",
+    "veryRare": "Очень редкий",
+    "legendary": "Легендарный",
+    "artifact": "Артефакт"
+  },
+  "categories": {
+    "spells": "Заклинания",
+    "feats": "Черты",
+    "species": "Виды",
+    "backgrounds": "Предыстории",
+    "conditions": "Состояния",
+    "senses": "Чувства",
+    "skills": "Навыки",
+    "rules": "Правила",
+    "optionalfeatures": "Способности",
+    "items": "Предметы",
+    "classes": "Классы",
+    "subclasses": "Подклассы",
+    "charoptions": "Опции создания",
+    "actions": "Действия"
+  },
+  "subclassList": {
+    "loading": "Загрузка подклассов...",
+    "title": "Подклассы ({{count}})",
+    "levelShort": "ур. {{level}}"
+  },
+  "spell": {
+    "time": {
+      "action": "действие",
+      "bonusAction": "бонусное действие",
+      "reaction": "реакция",
+      "minute_one": "минута",
+      "minute_other": "минут",
+      "hour_one": "час",
+      "hour_other": "часов"
+    },
+    "range": {
+      "notSpecified": "Не указана",
+      "feet": "{{amount}} фт.",
+      "special": "Особая",
+      "sight": "В пределах видимости",
+      "unlimited": "Неограниченная",
+      "selfRadius": "На себя (радиус {{amount}} фт.)",
+      "selfCone": "На себя (конус {{amount}} фт.)",
+      "selfLine": "На себя (линия {{amount}} фт.)",
+      "selfSphere": "На себя (сфера {{amount}} фт.)",
+      "self": "На себя",
+      "touch": "Касание",
+      "miles": "{{amount}} миль",
+      "feetUnit": "фт."
+    },
+    "components": {
+      "gold": "зм",
+      "consumed": "(расходуется)"
+    },
+    "duration": {
+      "instant": "Мгновенная",
+      "permanent": "Постоянная",
+      "untilX": "Пока не {{condition}}",
+      "special": "Особая",
+      "concentration": "Концентрация, ",
+      "round_one": "раунд",
+      "round_other": "раундов",
+      "minute_one": "минута",
+      "minute_other": "минут",
+      "hour_one": "час",
+      "hour_other": "часов",
+      "day_one": "день",
+      "day_other": "дней"
+    },
+    "or": " или ",
+    "castingTime": "Время накладывания:",
+    "distance": "Дистанция:",
+    "componentsLabel": "Компоненты:",
+    "durationLabel": "Длительность:",
+    "savingThrow": "Спасбросок:",
+    "damageType": "Тип урона:",
+    "higherLevels": "На более высоких уровнях",
+    "classes": "Классы:"
+  },
+  "feat": {
+    "prerequisites": "Требования:",
+    "abilityBonus": "Бонус характеристики:",
+    "hasSpells": "Заклинания: Да",
+    "levelReq": "{{level}}+ уровень",
+    "levelReqClass": "{{level}}+ уровень {{class}}",
+    "spellcasting": "Умение накладывать заклинания",
+    "pact": "Пакт: {{pact}}",
+    "patron": "Покровитель: {{patron}}",
+    "race": "Раса: {{races}}",
+    "feat": "Черта: {{feats}}",
+    "proficiency": "Владение: {{profs}}"
+  },
+  "abilityBonus": {
+    "chooseFrom": "+{{amount}} к одной из: {{options}}",
+    "chooseFromMulti": "+{{amount}} к одной из: {{options}} ({{count}} раза)",
+    "selectFrom": "Выбор из: {{options}}",
+    "selectAbility": "Выбор характеристики"
+  },
+  "abilities": {
+    "str": "Сила",
+    "dex": "Ловкость",
+    "con": "Телосложение",
+    "int": "Интеллект",
+    "wis": "Мудрость",
+    "cha": "Харизма"
+  },
+  "detail": {
+    "entry": "Запись",
+    "cantrip": "Заговор",
+    "levelN": "{{level}} уровень"
+  },
+  "species": {
+    "size": "Размер:",
+    "speed": "Скорость:",
+    "ft": "фт.",
+    "darkvision": "Тёмное зрение:",
+    "creatureType": "Тип существа:",
+    "resistance": "Сопротивление:",
+    "traits": "Особенности:"
+  },
+  "background": {
+    "abilities": "Характеристики:",
+    "skills": "Навыки:",
+    "tools": "Инструменты:",
+    "languages": "Языки:",
+    "anyChoice": "+{{count}} на выбор",
+    "feat": "Черта:",
+    "equipment": "Начальное снаряжение:",
+    "gold": "зм"
+  },
+  "item": {
+    "type": "Тип:",
+    "rarity": "Редкость:",
+    "weight": "Вес:",
+    "weightUnit": "фунт.",
+    "price": "Цена:",
+    "gold": "зм",
+    "copper": "мм",
+    "damage": "Урон:",
+    "versatile": "(универсальное {{dmg}})",
+    "range": "Дальность:",
+    "ac": "КД:",
+    "properties": "Свойства:",
+    "attunement": "Настройка:",
+    "attunementRequired": "Требуется",
+    "damageTypes": {
+      "S": "рубящий",
+      "P": "колющий",
+      "B": "дробящий",
+      "F": "огонь",
+      "C": "холод",
+      "L": "молния",
+      "T": "яд",
+      "N": "некротический",
+      "A": "кислота",
+      "Y": "психический",
+      "O": "силовое поле"
+    },
+    "propertyNames": {
+      "F": "Фехтовальное",
+      "L": "Лёгкое",
+      "H": "Тяжёлое",
+      "2H": "Двуручное",
+      "V": "Универсальное",
+      "T": "Метательное",
+      "AM": "Боеприпас",
+      "LD": "Перезарядка",
+      "R": "Досягаемость",
+      "S": "Особое"
+    }
+  },
+  "optionalFeature": {
+    "type": "Тип:"
+  },
+  "condition": {
+    "type": "Тип:",
+    "conditionLabel": "Состояние",
+    "diseaseLabel": "Болезнь"
+  },
+  "classDetail": {
+    "hitDie": "Кость хитов:",
+    "primaryAbility": "Основная характеристика:",
+    "savingThrows": "Спасброски:",
+    "spellcaster": "Заклинатель:",
+    "yes": "Да",
+    "no": "Нет",
+    "armor": "Доспехи:",
+    "weapons": "Оружие:",
+    "tools": "Инструменты:"
+  },
+  "subclassDetail": {
+    "class": "Класс:",
+    "level": "Уровень получения:",
+    "source": "Источник:"
+  },
+  "charOptionDetail": {
+    "type": "Тип:"
+  },
+  "classFeature": {
+    "levelLabel": "ур. {{level}}"
+  },
+  "ui": {
+    "back": "Назад",
+    "title": "База знаний",
+    "selectCategory": "Выберите категорию для просмотра. Данные загружаются по запросу.",
+    "entriesCount": "{{count}} записей",
+    "categories": "Категории",
+    "loadingData": "Загрузка данных...",
+    "loadError": "Ошибка загрузки",
+    "retry": "Повторить",
+    "search": "Поиск...",
+    "reset": "Сброс",
+    "noTitle": "Без названия",
+    "nothingFound": "Ничего не найдено",
+    "noEntries": "Нет записей"
+  }
+}

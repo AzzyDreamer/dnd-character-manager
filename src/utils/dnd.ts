@@ -1,4 +1,5 @@
 import type { AbilityScores, Character } from '../types';
+import i18n from '../i18n';
 
 // Вычислить модификатор характеристики
 export const getAbilityModifier = (score: number): number => {
@@ -53,46 +54,33 @@ export const SKILL_ABILITIES: Record<string, keyof AbilityScores> = {
   survival: 'wisdom'
 };
 
-// Русские названия навыков
-export const SKILL_NAMES: Record<string, string> = {
-  acrobatics: 'Акробатика',
-  animalHandling: 'Уход за животными',
-  arcana: 'Магия',
-  athletics: 'Атлетика',
-  deception: 'Обман',
-  history: 'История',
-  insight: 'Проницательность',
-  intimidation: 'Запугивание',
-  investigation: 'Анализ',
-  medicine: 'Медицина',
-  nature: 'Природа',
-  perception: 'Восприятие',
-  performance: 'Выступление',
-  persuasion: 'Убеждение',
-  religion: 'Религия',
-  sleightOfHand: 'Ловкость рук',
-  stealth: 'Скрытность',
-  survival: 'Выживание'
+// i18n-backed name getters (replace old static dictionaries)
+export const getSkillName = (key: string): string => {
+  return i18n.t(`skills.${key}`, { ns: 'game' });
 };
 
-// Русские названия характеристик
-export const ABILITY_NAMES: Record<keyof AbilityScores, string> = {
-  strength: 'Сила',
-  dexterity: 'Ловкость',
-  constitution: 'Телосложение',
-  intelligence: 'Интеллект',
-  wisdom: 'Мудрость',
-  charisma: 'Харизма'
+export const getAbilityName = (key: keyof AbilityScores): string => {
+  return i18n.t(`abilities.${key}`, { ns: 'game' });
 };
 
-// Сокращения характеристик
-export const ABILITY_SHORT: Record<keyof AbilityScores, string> = {
-  strength: 'СИЛ',
-  dexterity: 'ЛОВ',
-  constitution: 'ТЕЛ',
-  intelligence: 'ИНТ',
-  wisdom: 'МДР',
-  charisma: 'ХАР'
+export const getAbilityShort = (key: keyof AbilityScores): string => {
+  return i18n.t(`abilitiesShort.${key}`, { ns: 'game' });
+};
+
+// Backward-compatible getters that return full Record (for components iterating over all)
+export const getSkillNames = (): Record<string, string> => {
+  const keys = Object.keys(SKILL_ABILITIES);
+  return Object.fromEntries(keys.map(k => [k, getSkillName(k)]));
+};
+
+export const getAbilityNames = (): Record<keyof AbilityScores, string> => {
+  const keys: (keyof AbilityScores)[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+  return Object.fromEntries(keys.map(k => [k, getAbilityName(k)])) as Record<keyof AbilityScores, string>;
+};
+
+export const getAbilityShorts = (): Record<keyof AbilityScores, string> => {
+  const keys: (keyof AbilityScores)[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+  return Object.fromEntries(keys.map(k => [k, getAbilityShort(k)])) as Record<keyof AbilityScores, string>;
 };
 
 // Вычислить инициативу

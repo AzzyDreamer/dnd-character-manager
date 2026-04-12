@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Character, CharacterSpell, CustomAttack } from '../types';
-import { getAbilityModifier, formatModifier, ABILITY_NAMES } from '../utils/dnd';
+import { getAbilityModifier, formatModifier, getAbilityName } from '../utils/dnd';
 import { getEffectiveAbilityScores } from '../utils/classEffects';
 import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
@@ -13,6 +13,9 @@ import { ClickableDamage, ClickableAttackBonus } from './DiceRollProvider';
 import { SpellContextMenu } from './SpellContextMenu';
 import { SpellCastModal } from './SpellCastModal';
 import type { SpellData } from '../data/spells';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
+import { getSubclassDisplayName } from '../data/classes';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -33,33 +36,34 @@ interface LoadedModules {
   EntryRenderer: React.FC<any>;
 }
 
-const TIME_UNITS: Record<string, string> = {
-  action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.',
-};
-
 const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
 
-function getSpellMeta(spellData: SpellDataLocal | undefined) {
+function getTimeUnits(t: TFunction): Record<string, string> {
+  return { action: t('meta.timeUnits.action'), bonus: t('meta.timeUnits.bonus'), reaction: t('meta.timeUnits.reaction'), minute: t('meta.timeUnits.minute') };
+}
+
+function getSpellMeta(spellData: SpellDataLocal | undefined, t: TFunction) {
   if (!spellData) return {};
+  const timeUnits = getTimeUnits(t);
   const castingTime = spellData.time
-    ?.map(t => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`)
+    ?.map(ti => `${ti.number} ${timeUnits[ti.unit] || ti.unit}`)
     .join(', ');
   const range = spellData.range?.distance?.amount
-    ? `${spellData.range.distance.amount} фт.`
-    : spellData.range?.type === 'touch' ? 'Касание'
-      : spellData.range?.type === 'self' ? 'На себя'
+    ? t('meta.rangeFeet', { amount: spellData.range.distance.amount })
+    : spellData.range?.type === 'touch' ? t('meta.rangeTouch')
+      : spellData.range?.type === 'self' ? t('meta.rangeSelf')
         : spellData.range?.type || '';
   const components = spellData.components
     ? [
-        spellData.components.v ? 'В' : '',
-        spellData.components.s ? 'С' : '',
-        spellData.components.m ? 'М' : '',
+        spellData.components.v ? t('meta.componentV') : '',
+        spellData.components.s ? t('meta.componentS') : '',
+        spellData.components.m ? t('meta.componentM') : '',
       ].filter(Boolean).join(', ')
     : '';
   const duration = spellData.duration
     ?.map(d => {
-      if (d.type === 'instant') return 'Мгновенная';
-      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+      if (d.type === 'instant') return t('meta.durationInstant');
+      if (d.concentration) return t('meta.durationConcentration', { amount: d.duration?.amount || '', type: d.duration?.type || '' });
       return d.type;
     })
     .join(', ');
@@ -85,6 +89,7 @@ const SpellSlotTracker: React.FC<{
   character: Character;
   onUpdate: (character: Character) => void;
 }> = ({ character, onUpdate }) => {
+  const { t } = useTranslation('spells');
   const slots = character.spellcasting?.spellSlots;
   if (!slots) return null;
 
@@ -123,7 +128,7 @@ const SpellSlotTracker: React.FC<{
     <div className="glass-panel p-3">
       <h3 className="text-sm font-medieval text-gold mb-2 flex items-center gap-2">
         <Sparkles size={14} />
-        Ячейки заклинаний
+        {t('spellSlots.title')}
       </h3>
       <div className="flex flex-wrap gap-4">
         {slotEntries.map(({ level, total, used }) => {
@@ -143,7 +148,7 @@ const SpellSlotTracker: React.FC<{
                           ? 'bg-blue-500 border-blue-400 shadow-[0_0_6px_rgba(59,130,246,0.5)] hover:bg-blue-400'
                           : 'bg-bg-tertiary border-border-default hover:bg-bg-secondary'
                       }`}
-                      title={isAvailable ? 'Потратить ячейку' : 'Восстановить ячейку'}
+                      title={isAvailable ? t('spellSlots.useSlot') : t('spellSlots.restoreSlot')}
                     />
                   );
                 })}
@@ -163,6 +168,7 @@ const ResourceTokenTracker: React.FC<{
   character: Character;
   onUpdate: (character: Character) => void;
 }> = ({ resources, character, onUpdate }) => {
+  const { t } = useTranslation('spells');
   if (resources.length === 0) return null;
 
   const trackers = character.resourceTrackers ?? {};
@@ -185,7 +191,7 @@ const ResourceTokenTracker: React.FC<{
     <div className="glass-panel p-3">
       <h3 className="text-sm font-medieval text-gold mb-2 flex items-center gap-2">
         <Zap size={14} />
-        Ресурсы класса
+        {t('resources.title')}
       </h3>
       <div className="space-y-2">
         {resources.map(res => {
@@ -208,7 +214,7 @@ const ResourceTokenTracker: React.FC<{
                           ? 'bg-gold/80 border-gold shadow-[0_0_6px_rgba(212,175,55,0.4)] hover:bg-gold'
                           : 'bg-bg-tertiary border-border-default hover:bg-bg-secondary'
                       }`}
-                      title={isAvailable ? 'Использовать' : 'Восстановить'}
+                      title={isAvailable ? t('resources.use') : t('resources.restore')}
                     />
                   );
                 })}
@@ -228,6 +234,7 @@ const WeaponAttacksSection: React.FC<{
   character: Character;
   onUpdate: (character: Character) => void;
 }> = ({ character, onUpdate }) => {
+  const { t } = useTranslation('spells');
   const [showAddForm, setShowAddForm] = useState(false);
   const [newAttack, setNewAttack] = useState({ name: '', attackBonus: 0, damage: '', damageType: '', notes: '' });
   const [expandedMastery, setExpandedMastery] = useState<string | null>(null);
@@ -271,13 +278,13 @@ const WeaponAttacksSection: React.FC<{
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-medieval text-gold flex items-center gap-2">
           <Swords size={14} />
-          Атаки
+          {t('attacks.title')}
         </h3>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="text-xs text-text-muted hover:text-gold transition-colors flex items-center gap-1"
         >
-          <Plus size={12} /> Добавить
+          <Plus size={12} /> {t('attacks.add')}
         </button>
       </div>
 
@@ -295,10 +302,10 @@ const WeaponAttacksSection: React.FC<{
             <div className="flex-1 min-w-0">
               <div className="font-medium text-text-primary text-sm">{atk.name}</div>
               <div className="text-[10px] text-text-muted">{
-                        atk.slot === 'offhand' ? 'Вторая рука' :
-                        atk.slot === 'rangedMainhand' ? 'Дальний бой' :
-                        atk.slot === 'rangedOffhand' ? 'Дальний (2)' :
-                        'Основная рука'
+                        atk.slot === 'offhand' ? t('attacks.offhand') :
+                        atk.slot === 'rangedMainhand' ? t('attacks.rangedMainhand') :
+                        atk.slot === 'rangedOffhand' ? t('attacks.rangedOffhand') :
+                        t('attacks.mainhand')
                       }</div>
             </div>
             <ClickableAttackBonus bonus={atk.attackBonus} className="text-green-400 font-bold min-w-[40px] text-right" />
@@ -318,7 +325,7 @@ const WeaponAttacksSection: React.FC<{
           />
           <div className="flex-1 min-w-0">
             <div className="font-medium text-text-primary text-sm">{unarmedStrike.name}</div>
-            <div className="text-[10px] text-text-muted">Безоружная атака</div>
+            <div className="text-[10px] text-text-muted">{t('attacks.unarmed')}</div>
           </div>
           <ClickableAttackBonus bonus={unarmedStrike.attackBonus} className="text-green-400 font-bold min-w-[40px] text-right" />
           <ClickableDamage damage={unarmedStrike.damage} className="text-text-secondary min-w-[90px] text-right" />
@@ -350,7 +357,7 @@ const WeaponAttacksSection: React.FC<{
         <div className="mt-3 pt-3 border-t border-border-default">
           <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <Zap size={12} className="text-amber-400" />
-            Мастерство оружия
+            {t('attacks.weaponMastery')}
           </h4>
           <div className="space-y-1.5">
             {masteryActions.map(action => {
@@ -392,28 +399,28 @@ const WeaponAttacksSection: React.FC<{
           <div className="grid grid-cols-2 gap-2">
             <input
               type="text"
-              placeholder="Название"
+              placeholder={t('attacks.namePlaceholder')}
               value={newAttack.name}
               onChange={e => setNewAttack(p => ({ ...p, name: e.target.value }))}
               className="text-xs bg-bg-primary border border-border-default rounded px-2 py-1 text-text-primary"
             />
             <input
               type="number"
-              placeholder="Бонус атаки"
+              placeholder={t('attacks.attackBonusPlaceholder')}
               value={newAttack.attackBonus}
               onChange={e => setNewAttack(p => ({ ...p, attackBonus: parseInt(e.target.value) || 0 }))}
               className="text-xs bg-bg-primary border border-border-default rounded px-2 py-1 text-text-primary"
             />
             <input
               type="text"
-              placeholder="Урон (1d8 + 3)"
+              placeholder={t('attacks.damagePlaceholder')}
               value={newAttack.damage}
               onChange={e => setNewAttack(p => ({ ...p, damage: e.target.value }))}
               className="text-xs bg-bg-primary border border-border-default rounded px-2 py-1 text-text-primary"
             />
             <input
               type="text"
-              placeholder="Тип урона"
+              placeholder={t('attacks.damageTypePlaceholder')}
               value={newAttack.damageType}
               onChange={e => setNewAttack(p => ({ ...p, damageType: e.target.value }))}
               className="text-xs bg-bg-primary border border-border-default rounded px-2 py-1 text-text-primary"
@@ -424,13 +431,13 @@ const WeaponAttacksSection: React.FC<{
               onClick={addCustomAttack}
               className="text-xs px-3 py-1 bg-gold/20 text-gold border border-gold/30 rounded hover:bg-gold/30 transition-colors"
             >
-              Добавить
+              {t('attacks.add')}
             </button>
             <button
               onClick={() => setShowAddForm(false)}
               className="text-xs px-3 py-1 text-text-muted hover:text-text-primary transition-colors"
             >
-              Отмена
+              {t('common.cancel')}
             </button>
           </div>
         </div>
@@ -604,6 +611,7 @@ const ActionsSection: React.FC<{
   passiveStats: ClassPassiveStat[];
   EntryRenderer?: React.FC<any>;
 }> = ({ character, passiveStats, EntryRenderer: EntryRendererProp }) => {
+  const { t } = useTranslation('spells');
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [loadedFeatures, setLoadedFeatures] = useState<LoadedFeature[]>([]);
   const [speciesActions, setSpeciesActions] = useState<LoadedFeature[]>([]);
@@ -661,9 +669,9 @@ const ActionsSection: React.FC<{
             const subMod = await import('../data/classes/subclassJsonLoader');
             await subMod.init();
             if (cancelled) return;
-            const { getClassById, CLASS_REGISTRY } = await import('../data/classes');
+            const { getClassById, CLASS_REGISTRY, findSubclass } = await import('../data/classes');
             const classDef = getClassById(character.classId || '') ?? CLASS_REGISTRY.find(c => c.name === character.class);
-            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            const subDef = classDef && character.subclass ? findSubclass(classDef, character.subclass) : undefined;
             if (subDef) {
               const subData = subMod.getSubclassById(classDef!.id, subDef.id);
               if (subData?.features) {
@@ -770,7 +778,7 @@ const ActionsSection: React.FC<{
     <div className="glass-panel p-3">
       <h3 className="text-sm font-medieval text-gold mb-2 flex items-center gap-2">
         <Shield size={14} />
-        Действия и способности
+        {t('actions.title')}
       </h3>
 
       {/* Passive stat badges */}
@@ -836,6 +844,7 @@ interface ActionsSpellsTabProps {
 }
 
 export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, onUpdate }) => {
+  const { t } = useTranslation('spells');
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
@@ -875,9 +884,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           const basePassive = getClassPassiveStats(row);
           // Add subclass resources & passive stats (e.g. Battle Master superiority dice)
           if (character.subclass && character.classId) {
-            const { CLASS_REGISTRY: registry } = await import('../data/classes');
+            const { CLASS_REGISTRY: registry, findSubclass: findSub } = await import('../data/classes');
             const classDef = registry.find(c => c.id === character.classId);
-            const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+            const subDef = classDef && character.subclass ? findSub(classDef, character.subclass) : undefined;
             if (subDef) {
               baseResources.push(...getSubclassResources(character.classId, subDef.id, character.level));
               basePassive.push(...getSubclassPassiveStats(character.classId, subDef.id, character.level));
@@ -978,13 +987,13 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
     const result: SourceGroup[] = [];
     const classSpells = groups.get('__class__');
     if (classSpells?.length) {
-      result.push({ key: '__class__', type: 'class', label: `Заклинания класса`, color: 'text-blue-300', icon: BookOpen, spells: classSpells });
+      result.push({ key: '__class__', type: 'class', label: t('spellcasting.classSpells'), color: 'text-blue-300', icon: BookOpen, spells: classSpells });
     }
     groups.delete('__class__');
 
     // Subclass
     if (character.subclass && groups.has(character.subclass)) {
-      result.push({ key: character.subclass, type: 'subclass', label: `${character.subclass}`, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
+      result.push({ key: character.subclass, type: 'subclass', label: character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
       groups.delete(character.subclass);
     }
 
@@ -1055,22 +1064,22 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
         return (
         <div className="glass-panel p-3 flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
-            <span className="text-text-muted">Сл спасброска:</span>
+            <span className="text-text-muted">{t('spellcasting.saveDC')}</span>
             <span className="font-bold text-gold">{totalDC}</span>
-            {ib.bonusSpellSaveDc > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellSaveDc} предмет)</span>}
+            {ib.bonusSpellSaveDc > 0 && <span className="text-xs text-emerald-400">{t('spellcasting.itemBonus', { bonus: ib.bonusSpellSaveDc })}</span>}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-text-muted">Бонус атаки:</span>
+            <span className="text-text-muted">{t('spellcasting.attackBonus')}</span>
             <ClickableAttackBonus bonus={totalAttack} className="font-bold text-gold" />
-            {ib.bonusSpellAttack > 0 && <span className="text-xs text-emerald-400">(+{ib.bonusSpellAttack} предмет)</span>}
+            {ib.bonusSpellAttack > 0 && <span className="text-xs text-emerald-400">{t('spellcasting.itemBonus', { bonus: ib.bonusSpellAttack })}</span>}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-text-muted">Характеристика:</span>
-            <span className="font-bold text-gold">{ABILITY_NAMES[spellcasting.ability]}</span>
+            <span className="text-text-muted">{t('spellcasting.ability')}</span>
+            <span className="font-bold text-gold">{getAbilityName(spellcasting.ability)}</span>
           </div>
           {maxPrepared > 0 && (
             <div className="flex items-center gap-2">
-              <span className="text-text-muted">Подготовлено:</span>
+              <span className="text-text-muted">{t('spellcasting.prepared')}</span>
               <span className="font-bold text-gold">{preparedCount}/{maxPrepared}</span>
             </div>
           )}
@@ -1079,7 +1088,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
             className="ml-auto px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold text-xs font-medium hover:bg-gold/20 flex items-center gap-1.5 transition-colors"
           >
             <BookOpen size={13} />
-            Подготовка
+            {t('spellcasting.preparation')}
           </button>
         </div>
         );
@@ -1088,7 +1097,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       {/* ── Section F: Spells Grid ── */}
       {spellcasting && spellsLoading && (
         <div className="flex items-center justify-center py-8">
-          <div className="text-text-muted animate-pulse">Загрузка заклинаний...</div>
+          <div className="text-text-muted animate-pulse">{t('common.loadingSpells')}</div>
         </div>
       )}
 
@@ -1125,11 +1134,11 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                     {/* Cantrips within group */}
                     {groupCantrips.length > 0 && (
                       <div>
-                        <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">Заговоры ({groupCantrips.length})</div>
+                        <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">{t('spellcasting.cantripsCount', { count: groupCantrips.length })}</div>
                         <div className="flex flex-wrap gap-2">
                           {groupCantrips.map(spell => {
                             const data = modules.getSpellByName(spell.name);
-                            const meta = getSpellMeta(data);
+                            const meta = getSpellMeta(data, t);
                             return (
                               <SpellTooltip
                                 key={spell.spellId}
@@ -1164,11 +1173,11 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                       .sort(([a], [b]) => Number(a) - Number(b))
                       .map(([level, spells]) => (
                         <div key={level}>
-                          <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">{level} уровень ({spells.length})</div>
+                          <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1.5">{t('spellcasting.levelCount', { level, count: spells.length })}</div>
                           <div className="flex flex-wrap gap-2">
                             {spells.map(spell => {
                               const data = modules.getSpellByName(spell.name);
-                              const meta = getSpellMeta(data);
+                              const meta = getSpellMeta(data, t);
                               const isClassSpell = group.type === 'class';
                               return (
                                 <SpellTooltip
@@ -1222,11 +1231,11 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
                       : 'bg-bg-panel border border-border-default text-text-secondary hover:border-gold/40 hover:text-gold disabled:opacity-40'
                   }`}
                 >
-                  {expandedData.charSpell.prepared ? 'Снять подготовку' : 'Подготовить'}
+                  {expandedData.charSpell.prepared ? t('spellcasting.unprepare') : t('spellcasting.prepare')}
                 </button>
               )}
               {expandedData.charSpell.alwaysPrepared && (
-                <span className="px-2 py-1 rounded text-xs text-gold/70 bg-gold/10 border border-gold/20">Всегда подготовлено</span>
+                <span className="px-2 py-1 rounded text-xs text-gold/70 bg-gold/10 border border-gold/20">{t('common.alwaysPrepared')}</span>
               )}
               <button
                 onClick={() => setExpandedSpell(null)}
@@ -1235,16 +1244,16 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
             </div>
           </div>
           <div className="text-xs text-text-muted">
-            {expandedData.charSpell.level === 0 ? 'Заговор' : `${expandedData.charSpell.level} уровень`}
+            {expandedData.charSpell.level === 0 ? t('common.cantrip') : t('common.level', { level: expandedData.charSpell.level })}
             {expandedData.data.school && ` • ${modules.SCHOOL_NAMES[expandedData.data.school] || expandedData.data.school}`}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-            {(() => { const m = getSpellMeta(expandedData.data); return (<>
-              {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-              {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-              {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-              {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+            {(() => { const m = getSpellMeta(expandedData.data, t); return (<>
+              {m.castingTime && <div><span className="text-text-muted">{t('meta.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+              {m.range && <div><span className="text-text-muted">{t('meta.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+              {m.components && <div><span className="text-text-muted">{t('meta.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+              {m.duration && <div><span className="text-text-muted">{t('meta.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
             </>); })()}
           </div>
 
@@ -1264,7 +1273,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
               <div className="pt-2 border-t border-border-default flex items-center gap-2 text-xs">
                 <Zap size={12} className="text-amber-400" />
                 <span className="text-amber-400 font-medium">Agonizing Blast</span>
-                <span className="text-text-secondary">+{chaMod} к урону (Харизма)</span>
+                <span className="text-text-secondary">{t('spellcasting.agonizingBlast', { mod: chaMod })}</span>
               </div>
             );
           })()}
@@ -1274,7 +1283,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       {/* Empty state for spellcasters with no spells */}
       {spellcasting && allSpells.length === 0 && !spellsLoading && (
         <div className="text-center text-text-muted py-4 italic text-sm">
-          Заклинания не выбраны
+          {t('spellcasting.noSpellsSelected')}
         </div>
       )}
 

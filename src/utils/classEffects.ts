@@ -1,7 +1,8 @@
 import type { Character, AbilityScores, InventoryItem } from '../types';
 import { getAbilityModifier } from './dnd';
-import { getClassById } from '../data/classes';
+import { getClassById, findSubclass } from '../data/classes';
 import { FEAT_STAT_EFFECTS } from './featEffects';
+import i18n from '../i18n';
 
 // ── Effect definitions ──
 
@@ -65,7 +66,8 @@ function getSubclassKey(char: Character): string | null {
   if (!char.subclass || !char.classId) return null;
   const classDef = getClassById(char.classId);
   if (!classDef) return null;
-  const subDef = classDef.subclasses.find(s => s.name === char.subclass);
+  if (!char.subclass) return null;
+  const subDef = findSubclass(classDef, char.subclass);
   if (!subDef) return null;
   return `${char.classId}:${subDef.id}`;
 }
@@ -372,7 +374,7 @@ export function resolveACForCreation(
 export function getSubclassIdByName(classId: string, subclassName: string): string | null {
   const classDef = getClassById(classId);
   if (!classDef) return null;
-  const subDef = classDef.subclasses.find(s => s.name === subclassName);
+  const subDef = findSubclass(classDef, subclassName);
   return subDef?.id ?? null;
 }
 
@@ -417,57 +419,16 @@ export function applyLevelUpEffects(char: Character, newLevel: number): void {
 
 // ── Proficiency checks ──
 
-// English weapon name → Russian proficiency name mapping
-const WEAPON_NAME_TO_RU: Record<string, string> = {
-  // Простое рукопашное
-  'club': 'Дубинки',
-  'dagger': 'Кинжалы',
-  'greatclub': 'Большие дубины',
-  'handaxe': 'Ручные топоры',
-  'javelin': 'Дротики',
-  'light hammer': 'Лёгкие молоты',
-  'mace': 'Булавы',
-  'quarterstaff': 'Боевые посохи',
-  'sickle': 'Серпы',
-  'spear': 'Копья',
-  // Простое дальнобойное
-  'light crossbow': 'Лёгкие арбалеты',
-  'dart': 'Дротики',
-  'shortbow': 'Короткие луки',
-  'sling': 'Пращи',
-  // Воинское рукопашное
-  'battleaxe': 'Боевые топоры',
-  'flail': 'Цепы',
-  'glaive': 'Глефы',
-  'greataxe': 'Секиры',
-  'greatsword': 'Двуручные мечи',
-  'halberd': 'Алебарды',
-  'lance': 'Рыцарские копья',
-  'longsword': 'Длинные мечи',
-  'maul': 'Молоты',
-  'morningstar': 'Моргенштерны',
-  'pike': 'Пики',
-  'rapier': 'Рапиры',
-  'scimitar': 'Скимитары',
-  'shortsword': 'Короткие мечи',
-  'trident': 'Трезубцы',
-  'war pick': 'Боевые кирки',
-  'warhammer': 'Боевые молоты',
-  'whip': 'Кнуты',
-  // Воинское дальнобойное
-  'blowgun': 'Духовые трубки',
-  'hand crossbow': 'Ручные арбалеты',
-  'heavy crossbow': 'Тяжёлые арбалеты',
-  'longbow': 'Длинные луки',
-  'musket': 'Мушкеты',
-  'pistol': 'Пистолеты',
-};
+// English weapon name → localized proficiency name
+function getWeaponProficiencyName(weaponKey: string): string {
+  return i18n.t(`weaponProficiencies.${weaponKey}`, { ns: 'game' });
+}
 
 /**
  * Check if a character is proficient with an item.
  * D&D 5e rules:
- * - Armor: 'Лёгкие доспехи', 'Средние доспехи', 'Тяжёлые доспехи', 'Щиты', 'Все доспехи'
- * - Weapons: 'Простое оружие', 'Воинское оружие', or specific weapon names (in Russian)
+ * - Armor: light, medium, heavy, shields, all
+ * - Weapons: simple, martial, or specific weapon names
  */
 export function hasItemProficiency(char: Character, item: InventoryItem): boolean {
   const proficiencies = char.proficiencies;
@@ -475,17 +436,23 @@ export function hasItemProficiency(char: Character, item: InventoryItem): boolea
   // Armor proficiency check
   if (item.armorType) {
     const armorProfs = proficiencies.armor;
-    const hasAll = armorProfs.some(p => p === 'Все доспехи');
+    const allArmorStr = i18n.t('armorProficiencies.all', { ns: 'game' });
+    const hasAll = armorProfs.some(p => p === allArmorStr);
+
+    const lightStr = i18n.t('armorProficiencies.light', { ns: 'game' });
+    const mediumStr = i18n.t('armorProficiencies.medium', { ns: 'game' });
+    const heavyStr = i18n.t('armorProficiencies.heavy', { ns: 'game' });
+    const shieldStr = i18n.t('armorProficiencies.shield', { ns: 'game' });
 
     switch (item.armorType) {
       case 'light':
-        return hasAll || armorProfs.some(p => p === 'Лёгкие доспехи');
+        return hasAll || armorProfs.some(p => p === lightStr);
       case 'medium':
-        return hasAll || armorProfs.some(p => p === 'Средние доспехи');
+        return hasAll || armorProfs.some(p => p === mediumStr);
       case 'heavy':
-        return hasAll || armorProfs.some(p => p === 'Тяжёлые доспехи' || p === 'Тяжелые доспехи');
+        return hasAll || armorProfs.some(p => p === heavyStr);
       case 'shield':
-        return armorProfs.some(p => p.startsWith('Щит'));
+        return armorProfs.some(p => p === shieldStr || p.startsWith(shieldStr.split(/\s/)[0]));
       default:
         return true;
     }
@@ -496,14 +463,16 @@ export function hasItemProficiency(char: Character, item: InventoryItem): boolea
     const weaponProfs = proficiencies.weapons;
 
     // Check broad category first (if weaponCategory is known)
-    if (item.weaponCategory === 'simple' && weaponProfs.some(p => p === 'Простое оружие')) return true;
-    if (item.weaponCategory === 'martial' && weaponProfs.some(p => p === 'Воинское оружие')) return true;
+    const simpleStr = i18n.t('weaponCategories.simple', { ns: 'game' });
+    const martialStr = i18n.t('weaponCategories.martial', { ns: 'game' });
+    if (item.weaponCategory === 'simple' && weaponProfs.some(p => p === simpleStr)) return true;
+    if (item.weaponCategory === 'martial' && weaponProfs.some(p => p === martialStr)) return true;
 
-    // Check specific weapon name: translate English item name to Russian and compare
-    const ruName = WEAPON_NAME_TO_RU[item.name.toLowerCase()];
-    if (ruName && weaponProfs.some(p => p === ruName)) return true;
+    // Check specific weapon name: translate English item name and compare
+    const profName = getWeaponProficiencyName(item.name.toLowerCase());
+    if (profName && weaponProfs.some(p => p === profName)) return true;
 
-    // Fallback: direct name comparison (for items already in Russian or exact match)
+    // Fallback: direct name comparison (for items already matching or exact match)
     if (weaponProfs.some(p => p.toLowerCase() === item.name.toLowerCase())) return true;
 
     // If weaponCategory is not set (old items), don't block equipping

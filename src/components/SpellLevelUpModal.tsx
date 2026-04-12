@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, CharacterSpell, SpellSlots } from '../types';
 import { Search, Loader2, Wand2, Sparkles, ChevronDown, ChevronRight, Zap, BookOpen } from 'lucide-react';
 import { CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
+import { getClassName } from '../data/classes';
 
 // Минимальный тип данных заклинания (без полного импорта)
 interface SpellDataLocal {
@@ -40,8 +42,6 @@ interface SpellLevelUpModalProps {
   onCancel: () => void;
 }
 
-const TIME_UNITS: Record<string, string> = { action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.', hour: 'час' };
-
 function buildSpellSlots(slotsArr: number[], currentSlots?: SpellSlots): SpellSlots {
   return {
     level1: { total: slotsArr[0] || 0, used: currentSlots?.level1?.used || 0 },
@@ -56,22 +56,22 @@ function buildSpellSlots(slotsArr: number[], currentSlots?: SpellSlots): SpellSl
   };
 }
 
-function getSpellMeta(spell: SpellDataLocal) {
+function getSpellMeta(spell: SpellDataLocal, t: (key: string, opts?: any) => string) {
   const castingTime = spell.time
-    ?.map(t => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`)
+    ?.map(tm => `${tm.number} ${t(`meta.timeUnits.${tm.unit}`, { defaultValue: tm.unit })}`)
     .join(', ');
   const range = spell.range?.distance?.amount
-    ? `${spell.range.distance.amount} фт.`
-    : spell.range?.type === 'touch' ? 'Касание'
-      : spell.range?.type === 'self' ? 'На себя'
+    ? t('meta.rangeFeet', { amount: spell.range.distance.amount })
+    : spell.range?.type === 'touch' ? t('meta.rangeTouch')
+      : spell.range?.type === 'self' ? t('meta.rangeSelf')
         : spell.range?.type || '';
   const components = spell.components
-    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
+    ? [spell.components.v ? t('meta.componentV') : '', spell.components.s ? t('meta.componentS') : '', spell.components.m ? t('meta.componentM') : ''].filter(Boolean).join(', ')
     : '';
   const duration = spell.duration
     ?.map(d => {
-      if (d.type === 'instant') return 'Мгновенная';
-      if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+      if (d.type === 'instant') return t('meta.durationInstant');
+      if (d.concentration) return t('meta.durationConcentration', { amount: d.duration?.amount || '', type: d.duration?.type || '' });
       return d.type;
     })
     .join(', ');
@@ -94,6 +94,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  const { t } = useTranslation('spells');
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedNewCantrips, setSelectedNewCantrips] = useState<SpellDataLocal[]>([]);
@@ -253,20 +254,20 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
-              Уровень {newLevel}
+              {t('levelUp.title', { level: newLevel })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              {character.class} {newLevel} ур.
-              {newCantripsCount > 0 && ` • +${newCantripsCount} заговор(ов)`}
-              {newSpellsCount > 0 && ` • +${newSpellsCount} заклинаний`}
-              {` • Доступны до ${maxSpellLevel} уровня`}
+              {t('levelUp.subtitle', { class: character.classId ? getClassName(character.classId) : character.class, level: newLevel })}
+              {newCantripsCount > 0 && ` • ${t('levelUp.newCantrips', { count: newCantripsCount })}`}
+              {newSpellsCount > 0 && ` • ${t('levelUp.newSpells', { count: newSpellsCount })}`}
+              {` • ${t('levelUp.availableUpTo', { level: maxSpellLevel })}`}
             </p>
           </div>
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
           >
-            Отмена
+            {t('common.cancel')}
           </button>
         </div>
       </div>
@@ -278,20 +279,20 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           {!modules ? (
             <div className="flex items-center justify-center py-20">
               <Loader2 size={32} className="animate-spin text-gold" />
-              <span className="ml-3 text-text-secondary">Загрузка заклинаний...</span>
+              <span className="ml-3 text-text-secondary">{t('common.loadingSpells')}</span>
             </div>
           ) : (
             <>
               {/* "Вы получите следующее" section */}
               <div className="glass-panel ornate-border p-4 space-y-3">
-                <h3 className="text-base font-medieval text-gold">Вы получите следующее:</h3>
+                <h3 className="text-base font-medieval text-gold">{t('levelUp.youWillGain')}</h3>
                 <div className="space-y-2 text-sm">
                   {newCantripsCount > 0 && (
                     <div className="flex items-center gap-2 text-text-primary">
                       <span className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                         <Sparkles size={12} className="text-purple-400" />
                       </span>
-                      +{newCantripsCount} новых заговоров
+                      {t('levelUp.newCantripsGain', { count: newCantripsCount })}
                     </div>
                   )}
                   {newSpellsCount > 0 && (
@@ -299,7 +300,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                       <span className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
                         <Wand2 size={12} className="text-blue-400" />
                       </span>
-                      +{newSpellsCount} новых заклинаний
+                      {t('levelUp.newSpellsGain', { count: newSpellsCount })}
                     </div>
                   )}
                   {slotChanges.map(({ level, oldCount, newCount }) => (
@@ -307,7 +308,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                       <span className="w-5 h-5 rounded-full bg-gold/20 flex items-center justify-center shrink-0">
                         <Zap size={12} className="text-gold" />
                       </span>
-                      Ячейки {level} ур.: {oldCount} → {newCount}
+                      {t('spellSlots.slotsChange', { level, old: oldCount, new: newCount })}
                     </div>
                   ))}
                 </div>
@@ -318,7 +319,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
                 <input
                   type="text"
-                  placeholder="Поиск заклинаний..."
+                  placeholder={t('common.search')}
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-9 pr-4 py-2 bg-bg-primary border border-border-default rounded-lg text-text-primary text-sm focus:outline-none focus:border-gold/50 transition-colors"
@@ -337,7 +338,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                       : <ChevronDown size={16} className="text-text-muted" />}
                     <Sparkles size={16} className="text-purple-400" />
                     <span className="text-sm font-medieval text-purple-300">
-                      Новые заговоры ({selectedNewCantrips.length}/{newCantripsCount})
+                      {t('levelUp.newCantripSection', { selected: selectedNewCantrips.length, total: newCantripsCount })}
                     </span>
                   </button>
                   {!collapsedSections.has('cantrips') && (
@@ -345,7 +346,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                       {availableCantrips.map(spell => {
                         const isSelected = selectedNewCantrips.some(s => s.name === spell.name);
                         const disabled = !isSelected && selectedNewCantrips.length >= newCantripsCount;
-                        const meta = getSpellMeta(spell);
+                        const meta = getSpellMeta(spell, t);
                         return (
                           <SpellTooltip
                             key={spell.name}
@@ -376,7 +377,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                         );
                       })}
                       {availableCantrips.length === 0 && (
-                        <p className="text-sm text-text-muted py-2">Нет доступных заговоров</p>
+                        <p className="text-sm text-text-muted py-2">{t('common.noCantripsAvailable')}</p>
                       )}
                     </div>
                   )}
@@ -389,7 +390,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                   <div className="flex items-center gap-2 px-1">
                     <Wand2 size={16} className="text-blue-400" />
                     <span className="text-sm font-medieval text-blue-300">
-                      Новые заклинания ({selectedNewSpells.length}/{newSpellsCount})
+                      {t('levelUp.newSpellSection', { selected: selectedNewSpells.length, total: newSpellsCount })}
                     </span>
                   </div>
 
@@ -407,7 +408,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                               ? <ChevronRight size={14} className="text-text-muted" />
                               : <ChevronDown size={14} className="text-text-muted" />}
                             <span className="text-sm font-medieval text-blue-300">
-                              {level} уровень ({spells.length})
+                              {t('spellcasting.levelCount', { level, count: spells.length })}
                             </span>
                           </button>
                           {!collapsedSections.has(sectionKey) && (
@@ -415,7 +416,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                               {spells.map(spell => {
                                 const isSelected = selectedNewSpells.some(s => s.name === spell.name);
                                 const disabled = !isSelected && selectedNewSpells.length >= newSpellsCount;
-                                const meta = getSpellMeta(spell);
+                                const meta = getSpellMeta(spell, t);
                                 return (
                                   <SpellTooltip
                                     key={spell.name}
@@ -452,7 +453,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                     })}
 
                   {availableSpells.length === 0 && (
-                    <p className="text-sm text-text-muted text-center py-4">Нет доступных заклинаний</p>
+                    <p className="text-sm text-text-muted text-center py-4">{t('common.noSpellsAvailable')}</p>
                   )}
                 </div>
               )}
@@ -468,15 +469,15 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                     >✕</button>
                   </div>
                   <div className="text-xs text-text-muted">
-                    {expandedData.level === 0 ? 'Заговор' : `${expandedData.level} уровень`}
-                    {expandedData.school && ` • ${modules.SCHOOL_NAMES[expandedData.school] || expandedData.school}`}
+                    {expandedData.level === 0 ? t('common.cantrip') : t(`spellLevelLabels.${expandedData.level}`)}
+                    {expandedData.school && ` • ${t(`schoolLabels.${expandedData.school}`, { defaultValue: modules.SCHOOL_NAMES[expandedData.school] || expandedData.school })}`}
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    {(() => { const m = getSpellMeta(expandedData); return (<>
-                      {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-                      {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-                      {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-                      {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                    {(() => { const m = getSpellMeta(expandedData, t); return (<>
+                      {m.castingTime && <div><span className="text-text-muted">{t('meta.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+                      {m.range && <div><span className="text-text-muted">{t('meta.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+                      {m.components && <div><span className="text-text-muted">{t('meta.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+                      {m.duration && <div><span className="text-text-muted">{t('meta.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
                     </>); })()}
                   </div>
                   <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -490,13 +491,13 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                 <div className="glass-panel p-4">
                   <h4 className="text-sm font-medieval text-text-secondary mb-2 flex items-center gap-2">
                     <BookOpen size={14} />
-                    Ячейки заклинаний (уровень {newLevel})
+                    {t('spellSlots.slotsAtLevel', { level: newLevel })}
                   </h4>
                   <div className="flex gap-3 flex-wrap text-sm">
                     {newLevelData.spellSlots.map((count: number, idx: number) =>
                       count > 0 ? (
                         <div key={idx} className="flex items-center gap-1.5 px-2 py-1 rounded bg-bg-primary border border-border-default">
-                          <span className="text-text-muted text-xs">{idx + 1} ур.</span>
+                          <span className="text-text-muted text-xs">{t('common.levelInline', { level: idx + 1 })}</span>
                           <span className="text-text-primary font-bold">{count}</span>
                         </div>
                       ) : null
@@ -520,19 +521,19 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           {/* Selected spells summary */}
           {(selectedNewCantrips.length > 0 || selectedNewSpells.length > 0) && (
             <div className="glass-panel p-3 mt-3 space-y-2">
-              <h4 className="text-[10px] uppercase tracking-wider text-text-muted">Выбрано</h4>
+              <h4 className="text-[10px] uppercase tracking-wider text-text-muted">{t('common.selected')}</h4>
               {selectedNewCantrips.map(s => (
                 <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
                   <span className="truncate">{s.name}</span>
-                  <span className="text-purple-400 text-[10px] ml-auto">заг.</span>
+                  <span className="text-purple-400 text-[10px] ml-auto">{t('common.cantripShort')}</span>
                 </div>
               ))}
               {selectedNewSpells.map(s => (
                 <div key={s.name} className="flex items-center gap-2 text-xs text-text-secondary">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
                   <span className="truncate">{s.name}</span>
-                  <span className="text-blue-400 text-[10px] ml-auto">{s.level} ур.</span>
+                  <span className="text-blue-400 text-[10px] ml-auto">{t('common.levelInline', { level: s.level })}</span>
                 </div>
               ))}
             </div>
@@ -546,13 +547,13 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           <div className="text-sm text-text-muted">
             {newCantripsCount > 0 && (
               <span className={selectedNewCantrips.length === newCantripsCount ? 'text-green-bright' : ''}>
-                Заговоры: {selectedNewCantrips.length}/{newCantripsCount}
+                {t('levelUp.cantripsFooter', { selected: selectedNewCantrips.length, total: newCantripsCount })}
               </span>
             )}
             {newCantripsCount > 0 && newSpellsCount > 0 && <span className="mx-2">•</span>}
             {newSpellsCount > 0 && (
               <span className={selectedNewSpells.length === newSpellsCount ? 'text-green-bright' : ''}>
-                Заклинания: {selectedNewSpells.length}/{newSpellsCount}
+                {t('levelUp.spellsFooter', { selected: selectedNewSpells.length, total: newSpellsCount })}
               </span>
             )}
           </div>
@@ -563,7 +564,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
               hover:bg-gold/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all
               enabled:gold-glow"
           >
-            Подтвердить
+            {t('common.confirm')}
           </button>
         </div>
       </div>

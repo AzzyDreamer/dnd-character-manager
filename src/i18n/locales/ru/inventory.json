@@ -1,0 +1,101 @@
+{
+  "title": "Инвентарь",
+  "weight": "Вес:",
+  "weightValue": "{{value}} фнт.",
+  "addButton": "Добавить",
+  "equipment": "Экипировка",
+  "backpack": "Рюкзак",
+  "cellsCount": "{{count}} / {{total}} ячеек",
+  "backpackEmpty": "Рюкзак пуст",
+  "backpackHint": "Нажмите «Добавить предмет»",
+  "noFreeSpace": "Нет свободного места в рюкзаке!",
+
+  "currency": {
+    "title": "Валюта",
+    "platinum": "ПП",
+    "gold": "ЗМ",
+    "electrum": "ЭМ",
+    "silver": "СМ",
+    "copper": "ММ"
+  },
+
+  "potions": {
+    "label": "Зелий:"
+  },
+
+  "contextMenu": {
+    "equip": "Экипировать",
+    "equipOffhand": "Во вторую руку",
+    "unequip": "Снять",
+    "details": "Подробнее",
+    "remove": "Удалить"
+  },
+
+  "addModal": {
+    "title": "Добавить предмет",
+    "searchPlaceholder": "Поиск предметов...",
+    "allCategories": "Все",
+    "loading": "Загрузка предметов...",
+    "noResults": "Предметы не найдены",
+    "itemCount": "{{count}} предметов",
+    "showMore": "Показать ещё ({{count}} осталось)",
+    "quantity": "Количество:",
+    "addItem": "Добавить {{name}}"
+  },
+
+  "detail": {
+    "damage": "Урон:",
+    "twoHanded": "Двуручный:",
+    "range": "Дальность:",
+    "ac": "КД: ",
+    "acStealthDisadvantage": " (помеха Скрытности)",
+    "acStrength": "Сила {{value}}+",
+    "bonusAc": "КД: ",
+    "bonusSavingThrow": "Спасброски: ",
+    "bonusAttackDamage": "Атака/Урон: ",
+    "bonusSpellAttack": "Атака заклинанием: ",
+    "bonusSpellSaveDc": "Сл заклинаний: ",
+    "requiresAttunement": "Требуется настройка",
+    "requiresAttunementBy": "Требуется настройка ({{by}})",
+    "weightLabel": "Вес: {{value}} фнт.",
+    "valueGp": "{{value}} зм",
+    "valueSp": "{{value}} см",
+    "valueCp": "{{value}} мм",
+    "quantityLabel": "Кол-во: {{value}}",
+    "loadingEntries": "Загрузка..."
+  },
+
+  "tooltip": {
+    "weightLabel": "Вес: {{value}} фнт.",
+    "quantityLabel": "Кол-во: {{value}}"
+  },
+
+  "itemValue": {
+    "gp": "{{value}} зм",
+    "sp": "{{value}} см",
+    "cp": "{{value}} мм"
+  },
+
+  "profWarning": {
+    "title": "Нет владения",
+    "description": "У персонажа нет владения предметом <1>{{name}}</1>.",
+    "descriptionText": "У персонажа нет владения предметом",
+    "armorPenalty": "Без владения доспехом: помеха на проверки и спасброски СИЛ/ЛОВ, невозможность колдовать.",
+    "weaponPenalty": "Без владения оружием: бонус владения не добавляется к броскам атаки.",
+    "cancel": "Отмена",
+    "equipAnyway": "Экипировать всё равно"
+  },
+
+  "noProficiency": "Нет владения",
+
+  "mastery": {
+    "Cleave": "Рассечение",
+    "Graze": "Вскользь",
+    "Nick": "Порез",
+    "Push": "Толчок",
+    "Sap": "Оглушение",
+    "Slow": "Замедление",
+    "Topple": "Опрокидывание",
+    "Vex": "Досада"
+  }
+}

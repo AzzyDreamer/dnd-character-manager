@@ -1,5 +1,7 @@
 import { useState, useEffect, Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from './i18n';
 import { useCharacters } from './hooks/useCharacters';
 import { CharacterCreator } from './components/CharacterCreator';
 import { CharacterSheet } from './components/CharacterSheet';
@@ -35,7 +37,7 @@ class ErrorBoundary extends Component<
     if (this.state.hasError) {
       return (
         <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-          <h1 style={{ color: '#cc4444', fontSize: '24px' }}>Ошибка рендеринга приложения</h1>
+          <h1 style={{ color: '#cc4444', fontSize: '24px' }}>{i18n.t('errors.renderError')}</h1>
           <pre style={{ marginTop: '16px', padding: '16px', background: '#1a1a24', color: '#e8e6e3', borderRadius: '8px', whiteSpace: 'pre-wrap' }}>
             {this.state.error?.message}
             {'\n\n'}
@@ -50,30 +52,14 @@ class ErrorBoundary extends Component<
 
 type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary';
 
-const MAIN_TABS: NavTab[] = [
-  { key: 'main', label: 'Персонажи', icon: Users },
-  { key: 'creator', label: 'Создание', icon: Scroll },
-  { key: 'glossary', label: 'База знаний', icon: Library },
-];
-
-const GLOSSARY_SUB_TABS: NavTab[] = [
-  { key: 'spells', label: 'Заклинания' },
-  { key: 'classes', label: 'Классы' },
-  { key: 'subclasses', label: 'Подклассы' },
-  { key: 'species', label: 'Виды' },
-  { key: 'backgrounds', label: 'Предыстории' },
-  { key: 'feats', label: 'Черты' },
-  { key: 'items', label: 'Предметы' },
-  { key: 'optionalfeatures', label: 'Способности' },
-  { key: 'conditions', label: 'Состояния' },
-  { key: 'senses', label: 'Чувства' },
-  { key: 'skills', label: 'Навыки' },
-  { key: 'rules', label: 'Правила' },
-  { key: 'charoptions', label: 'Опции создания' },
-  { key: 'actions', label: 'Действия' },
-];
+const GLOSSARY_SUB_TAB_KEYS = [
+  'spells', 'classes', 'subclasses', 'species', 'backgrounds',
+  'feats', 'items', 'optionalfeatures', 'conditions', 'senses',
+  'skills', 'rules', 'charoptions', 'actions',
+] as const;
 
 function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
+  const { t } = useTranslation('common');
   const percent = progress ? Math.round((progress.loaded / progress.total) * 100) : 0;
 
   return (
@@ -87,7 +73,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
           />
         </div>
         <div className="text-text-secondary text-sm text-center">
-          {progress ? `${progress.phase}... (${progress.loaded}/${progress.total})` : 'Инициализация...'}
+          {progress ? t('loading.progress', { phase: progress.phase, loaded: progress.loaded, total: progress.total }) : t('loading.initializing')}
         </div>
       </div>
     </div>
@@ -95,6 +81,8 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
 }
 
 function AppContent() {
+  const { t } = useTranslation('common');
+
   const {
     characters,
     activeCharacter,
@@ -113,6 +101,17 @@ function AppContent() {
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
 
+  const mainTabs: NavTab[] = [
+    { key: 'main', label: t('nav.characters'), icon: Users },
+    { key: 'creator', label: t('nav.creation'), icon: Scroll },
+    { key: 'glossary', label: t('nav.glossary'), icon: Library },
+  ];
+
+  const glossarySubTabs: NavTab[] = GLOSSARY_SUB_TAB_KEYS.map(key => ({
+    key,
+    label: t(`glossaryTabs.${key}`),
+  }));
+
   useEffect(() => {
     initRegistry(setRegistryProgress)
       .then(() => setRegistryReady(true))
@@ -123,9 +122,9 @@ function AppContent() {
     try {
       const character = await importCharacter(file);
       addCharacter(character);
-      alert(`Персонаж "${character.name}" успешно импортирован!`);
+      alert(t('alerts.importSuccess', { name: character.name }));
     } catch (error) {
-      alert('Ошибка импорта персонажа: ' + (error as Error).message);
+      alert(t('errors.importError', { error: (error as Error).message }));
     }
   };
 
@@ -150,7 +149,7 @@ function AppContent() {
     if (registryError) {
       return (
         <div className="min-h-screen bg-bg-primary flex items-center justify-center">
-          <div className="text-red-400 text-lg">Ошибка загрузки: {registryError}</div>
+          <div className="text-red-400 text-lg">{t('errors.loadError', { error: registryError })}</div>
         </div>
       );
     }
@@ -160,11 +159,11 @@ function AppContent() {
   return (
     <div className="flex flex-col h-screen bg-bg-primary">
       <TopNavBar
-        tabs={MAIN_TABS}
+        tabs={mainTabs}
         activeTab={currentView === 'sheet' ? 'main' : currentView === 'home' ? '' : currentView}
         onTabChange={handleTabChange}
         onLogoClick={() => setCurrentView('home')}
-        subTabs={currentView === 'glossary' ? GLOSSARY_SUB_TABS : undefined}
+        subTabs={currentView === 'glossary' ? glossarySubTabs : undefined}
         activeSubTab={glossaryCategory ?? undefined}
         onSubTabChange={handleGlossarySubTab}
         rightContent={
@@ -174,7 +173,7 @@ function AppContent() {
               className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-md hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-all"
             >
               <PlusCircle size={16} />
-              <span className="hidden sm:inline">Создать</span>
+              <span className="hidden sm:inline">{t('buttons.create')}</span>
             </button>
           ) : undefined
         }

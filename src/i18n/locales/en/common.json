@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "characters": "Characters",
+    "creation": "Creation",
+    "glossary": "Knowledge Base"
+  },
+  "glossaryTabs": {
+    "spells": "Spells",
+    "classes": "Classes",
+    "subclasses": "Subclasses",
+    "species": "Species",
+    "backgrounds": "Backgrounds",
+    "feats": "Feats",
+    "items": "Items",
+    "optionalfeatures": "Features",
+    "conditions": "Conditions",
+    "senses": "Senses",
+    "skills": "Skills",
+    "rules": "Rules",
+    "charoptions": "Creation Options",
+    "actions": "Actions"
+  },
+  "buttons": {
+    "create": "Create"
+  },
+  "loading": {
+    "initializing": "Initializing...",
+    "progress": "{{phase}}... ({{loaded}}/{{total}})"
+  },
+  "errors": {
+    "renderError": "Application render error",
+    "loadError": "Loading error: {{error}}",
+    "importError": "Character import error: {{error}}"
+  },
+  "alerts": {
+    "importSuccess": "Character \"{{name}}\" imported successfully!"
+  },
+  "homePage": {
+    "title": "D&D Character Manager",
+    "createTitle": "Create",
+    "createDesc": "New character from scratch — race, class, abilities and equipment.",
+    "charactersTitle": "Characters",
+    "charactersCountOne": "{{count}} character created.",
+    "charactersCountFew": "{{count}} characters created.",
+    "charactersCountMany": "{{count}} characters created.",
+    "noCharactersYet": "No characters yet — time to create your first one!",
+    "knowledgeBaseTitle": "Knowledge Base",
+    "knowledgeBaseDesc": "Spells, classes, races, items, feats and D&D 5e rules.",
+    "recentCharacters": "Recent Characters",
+    "levelShort": "{{level}} lvl",
+    "noCharactersHero": "You don't have any characters yet. Create your first to begin the adventure!",
+    "createFirstCharacter": "Create first character"
+  },
+  "characterList": {
+    "title": "Character Selection",
+    "import": "Import",
+    "noCharacters": "No characters created",
+    "levelShort": "{{level}} lvl",
+    "exportTooltip": "Export",
+    "deleteTooltip": "Delete",
+    "deleteConfirm": "Delete character \"{{name}}\"?"
+  },
+  "sidebar": {
+    "levelLabel": "Level {{level}} {{class}}",
+    "portrait": "Portrait",
+    "configurePortrait": "Configure portrait",
+    "uploadPortrait": "Upload portrait",
+    "acLabel": "AC",
+    "hpLabel": "HP",
+    "initiativeLabel": "Initiative",
+    "speedLabel": "Speed",
+    "proficiencyLabel": "Proficiency",
+    "passivePerception": "Passive Perception",
+    "skillsLabel": "Skills",
+    "languagesLabel": "Languages",
+    "armorLabel": "Armor",
+    "weaponsLabel": "Weapons",
+    "toolsLabel": "Tools",
+    "spellsLabel": "Spells",
+    "cantripShort": "cant.",
+    "andMore": "...and {{count}} more"
+  }
+}

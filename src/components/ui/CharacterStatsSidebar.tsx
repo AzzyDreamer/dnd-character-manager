@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { AbilityScores, Character } from '../../types';
-import { getAbilityModifier, getSkillBonus, ABILITY_SHORT, SKILL_NAMES, SKILL_ABILITIES } from '../../utils/dnd';
+import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords, Eye } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
@@ -71,6 +72,7 @@ function SkillsPanel({
   character?: Character;
   profBonus: number;
 }) {
+  const { t } = useTranslation('common');
   const [expanded, setExpanded] = useState(false);
 
   if (!abilityScores) {
@@ -84,7 +86,7 @@ function SkillsPanel({
         >
           <Target size={12} className="text-gold/70" />
           <span className="text-[10px] text-text-muted uppercase tracking-wider flex-1">
-            Навыки ({skillProficiencies.length})
+            {t('sidebar.skillsLabel')} ({skillProficiencies.length})
           </span>
           <ChevronDown
             size={12}
@@ -100,7 +102,7 @@ function SkillsPanel({
                   alt=""
                   className="w-4 h-4 object-contain opacity-80 shrink-0"
                 />
-                <span className="truncate">{SKILL_NAMES[sk] || sk}</span>
+                <span className="truncate">{getSkillName(sk)}</span>
               </div>
             ))}
           </div>
@@ -118,7 +120,7 @@ function SkillsPanel({
       >
         <Target size={12} className="text-gold/70" />
         <span className="text-[10px] text-text-muted uppercase tracking-wider flex-1">
-          Навыки
+          {t('sidebar.skillsLabel')}
           {skillProficiencies.length > 0 && (
             <span className="text-gold ml-1">({skillProficiencies.length})</span>
           )}
@@ -140,7 +142,7 @@ function SkillsPanel({
             return (
               <div key={ability}>
                 <div className="text-[9px] uppercase tracking-wider text-text-muted/60 font-bold mb-0.5">
-                  {ABILITY_SHORT[ability]}
+                  {getAbilityShort(ability)}
                 </div>
                 <div className="space-y-px">
                   {skillsForAbility.map(sk => {
@@ -173,7 +175,7 @@ function SkillsPanel({
                         <span className={`flex-1 truncate ${
                           isProficient ? 'text-text-primary' : 'text-text-muted'
                         }`}>
-                          {SKILL_NAMES[sk]}
+                          {getSkillName(sk)}
                         </span>
                         <span className={`font-bold tabular-nums text-[10px] ${
                           isProficient
@@ -208,6 +210,7 @@ export function CharacterStatsSidebar({
   portraitPosition,
   onPortraitClick,
 }: CharacterStatsSidebarProps) {
+  const { t } = useTranslation('common');
   // Unify data from either character or creationStats
   const name = character?.name ?? creationStats?.name ?? '';
   const race = character?.race ?? creationStats?.race ?? '';
@@ -244,7 +247,7 @@ export function CharacterStatsSidebar({
         <button
           onClick={onPortraitClick}
           className="glass-panel overflow-hidden rounded-lg relative group cursor-pointer w-full"
-          title={portraitUrl ? 'Настроить портрет' : 'Загрузить портрет'}
+          title={portraitUrl ? t('sidebar.configurePortrait') : t('sidebar.uploadPortrait')}
         >
           {portraitUrl ? (
             <PortraitImage
@@ -273,7 +276,7 @@ export function CharacterStatsSidebar({
         <div className="glass-panel overflow-hidden">
           <img
             src={imageSrc}
-            alt={imageAlt || name || 'Портрет'}
+            alt={imageAlt || name || t('sidebar.portrait')}
             className="w-full max-h-72 object-contain"
             loading="lazy"
           />
@@ -292,7 +295,7 @@ export function CharacterStatsSidebar({
                 {race && <div>{race}</div>}
                 {cls && (
                   <div>
-                    Уровень {level} {cls}
+                    {t('sidebar.levelLabel', { level, class: cls })}
                     {subclass && ` \u2022 ${subclass}`}
                   </div>
                 )}
@@ -320,7 +323,7 @@ export function CharacterStatsSidebar({
               return (
                 <StatBadge
                   key={key}
-                  label={ABILITY_SHORT[key]}
+                  label={getAbilityShort(key)}
                   value={val}
                   modifier={getAbilityModifier(val)}
                   variant="circle"
@@ -340,7 +343,7 @@ export function CharacterStatsSidebar({
               <div className="flex flex-col items-center gap-1">
                 <Shield size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{ac}</span>
-                <span className="text-[10px] text-text-muted uppercase">КД</span>
+                <span className="text-[10px] text-text-muted uppercase">{t('sidebar.acLabel')}</span>
               </div>
             )}
             {hp !== undefined && (
@@ -349,34 +352,34 @@ export function CharacterStatsSidebar({
                 <span className="text-lg font-bold text-text-primary">
                   {hp}{hpMax !== undefined && `/${hpMax}`}
                 </span>
-                <span className="text-[10px] text-text-muted uppercase">ХП</span>
+                <span className="text-[10px] text-text-muted uppercase">{t('sidebar.hpLabel')}</span>
               </div>
             )}
             {initiative !== undefined && (
               <div className="flex flex-col items-center gap-1">
                 <Swords size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{initiative >= 0 ? '+' : ''}{initiative}</span>
-                <span className="text-[10px] text-text-muted uppercase">Инициатива</span>
+                <span className="text-[10px] text-text-muted uppercase">{t('sidebar.initiativeLabel')}</span>
               </div>
             )}
             {speed !== undefined && (
               <div className="flex flex-col items-center gap-1">
                 <Footprints size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{speed}</span>
-                <span className="text-[10px] text-text-muted uppercase">Скорость</span>
+                <span className="text-[10px] text-text-muted uppercase">{t('sidebar.speedLabel')}</span>
               </div>
             )}
           </div>
           {profBonus !== undefined && (
             <div className="mt-2 pt-2 border-t border-border-default text-center">
-              <span className="text-[10px] text-text-muted uppercase">Мастерство</span>
+              <span className="text-[10px] text-text-muted uppercase">{t('sidebar.proficiencyLabel')}</span>
               <span className="ml-2 text-sm font-bold text-gold">+{profBonus}</span>
             </div>
           )}
           {abilityScores?.wisdom !== undefined && profBonus !== undefined && (
             <div className="mt-2 pt-2 border-t border-border-default flex items-center justify-center gap-1.5">
               <Eye size={12} className="text-gold/70" />
-              <span className="text-[10px] text-text-muted uppercase">Пассивное внимание</span>
+              <span className="text-[10px] text-text-muted uppercase">{t('sidebar.passivePerception')}</span>
               <span className="text-sm font-bold text-text-primary">
                 {10 + getSkillBonus(
                   abilityScores.wisdom,
@@ -395,25 +398,25 @@ export function CharacterStatsSidebar({
         <div className="glass-panel p-3 space-y-2 text-xs">
           {proficiencies.languages && proficiencies.languages.length > 0 && (
             <div>
-              <span className="text-text-muted uppercase tracking-wider text-[10px]">Языки</span>
+              <span className="text-text-muted uppercase tracking-wider text-[10px]">{t('sidebar.languagesLabel')}</span>
               <div className="text-text-secondary mt-0.5">{proficiencies.languages.join(', ')}</div>
             </div>
           )}
           {proficiencies.armor && proficiencies.armor.length > 0 && (
             <div>
-              <span className="text-text-muted uppercase tracking-wider text-[10px]">Броня</span>
+              <span className="text-text-muted uppercase tracking-wider text-[10px]">{t('sidebar.armorLabel')}</span>
               <div className="text-text-secondary mt-0.5">{proficiencies.armor.join(', ')}</div>
             </div>
           )}
           {proficiencies.weapons && proficiencies.weapons.length > 0 && (
             <div>
-              <span className="text-text-muted uppercase tracking-wider text-[10px]">Оружие</span>
+              <span className="text-text-muted uppercase tracking-wider text-[10px]">{t('sidebar.weaponsLabel')}</span>
               <div className="text-text-secondary mt-0.5">{proficiencies.weapons.join(', ')}</div>
             </div>
           )}
           {proficiencies.tools && proficiencies.tools.length > 0 && (
             <div>
-              <span className="text-text-muted uppercase tracking-wider text-[10px]">Инструменты</span>
+              <span className="text-text-muted uppercase tracking-wider text-[10px]">{t('sidebar.toolsLabel')}</span>
               <div className="text-text-secondary mt-0.5">{proficiencies.tools.join(', ')}</div>
             </div>
           )}
@@ -435,18 +438,18 @@ export function CharacterStatsSidebar({
         <div className="glass-panel p-3 space-y-1.5">
           <div className="flex items-center gap-1.5 text-[10px] text-text-muted uppercase tracking-wider">
             <Sparkles size={12} />
-            <span>Заклинания ({spells.length})</span>
+            <span>{t('sidebar.spellsLabel')} ({spells.length})</span>
           </div>
           <div className="space-y-0.5 text-xs">
             {spells.slice(0, 12).map((sp, i) => (
               <div key={i} className="flex items-center gap-1.5 text-text-secondary">
                 <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0" />
                 <span className="truncate">{sp.name}</span>
-                {sp.level === 0 && <span className="text-purple-400 text-[10px]">заг.</span>}
+                {sp.level === 0 && <span className="text-purple-400 text-[10px]">{t('sidebar.cantripShort')}</span>}
               </div>
             ))}
             {spells.length > 12 && (
-              <div className="text-text-muted text-[10px]">...и ещё {spells.length - 12}</div>
+              <div className="text-text-muted text-[10px]">{t('sidebar.andMore', { count: spells.length - 12 })}</div>
             )}
           </div>
         </div>

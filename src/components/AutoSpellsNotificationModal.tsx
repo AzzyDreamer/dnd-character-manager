@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sparkles, BookOpen, Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { AutoSpellResult } from '../utils/autoSpells';
 
 interface AutoSpellsNotificationModalProps {
@@ -8,24 +9,12 @@ interface AutoSpellsNotificationModalProps {
   onConfirm: () => void;
 }
 
-const SPELL_LEVEL_LABELS: Record<number, string> = {
-  0: 'Заговор',
-  1: '1 уровень',
-  2: '2 уровень',
-  3: '3 уровень',
-  4: '4 уровень',
-  5: '5 уровень',
-  6: '6 уровень',
-  7: '7 уровень',
-  8: '8 уровень',
-  9: '9 уровень',
-};
-
 export const AutoSpellsNotificationModal: React.FC<AutoSpellsNotificationModalProps> = ({
   spells,
   newLevel,
   onConfirm,
 }) => {
+  const { t } = useTranslation('spells');
   // Group spells by source
   const grouped = spells.reduce<Record<string, AutoSpellResult[]>>((acc, spell) => {
     const key = spell.source;
@@ -41,10 +30,10 @@ export const AutoSpellsNotificationModal: React.FC<AutoSpellsNotificationModalPr
         <div className="shrink-0 border-b border-gold/30 bg-bg-panel-solid/95 px-6 py-4">
           <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
             <Sparkles className="text-gold" size={24} />
-            Новые заклинания
+            {t('autoSpells.title')}
           </h1>
           <p className="text-sm text-text-secondary mt-1">
-            На {newLevel} уровне вы получаете новые заклинания
+            {t('autoSpells.description', { level: newLevel })}
           </p>
         </div>
 
@@ -68,10 +57,10 @@ export const AutoSpellsNotificationModal: React.FC<AutoSpellsNotificationModalPr
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-text-secondary">
-                        {SPELL_LEVEL_LABELS[spell.level] ?? `${spell.level} ур.`}
+                        {SPELL_LEVEL_LABELS[spell.level] ?? t('common.levelInline', { level: spell.level })}
                       </span>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-gold/15 text-gold border border-gold/20">
-                        Авто
+                        {t('common.auto')}
                       </span>
                     </div>
                   </div>
@@ -89,7 +78,7 @@ export const AutoSpellsNotificationModal: React.FC<AutoSpellsNotificationModalPr
               className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
                 hover:bg-gold/30 transition-all gold-glow"
             >
-              Продолжить
+              {t('common.continue')}
             </button>
           </div>
         </div>

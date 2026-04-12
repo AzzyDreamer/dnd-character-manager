@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, CharacterSpell } from '../types';
 import type { FeatSpellConfig } from '../utils/featEffects';
 import { Search, Loader2, Check, X, Wand2 } from 'lucide-react';
@@ -34,21 +35,6 @@ interface FeatSpellPickerModalProps {
   onCancel: () => void;
 }
 
-const ABILITY_LABELS: Record<string, string> = {
-  int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
-  str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
-  intelligence: 'Интеллект', wisdom: 'Мудрость', charisma: 'Харизма',
-};
-
-const SCHOOL_LABELS: Record<string, string> = {
-  A: 'Ограждение', C: 'Вызов', D: 'Прорицание', E: 'Очарование',
-  V: 'Воплощение', I: 'Иллюзия', N: 'Некромантия', T: 'Преобразование',
-};
-
-const TIME_UNITS: Record<string, string> = {
-  action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.', hour: 'час',
-};
-
 function getFirstEntryText(entries: any[]): string {
   for (const e of entries) {
     if (typeof e === 'string') return e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1');
@@ -64,6 +50,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  const { t } = useTranslation('spells');
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [chosenAbility, setChosenAbility] = useState<string>(config.fixedAbility || '');
@@ -229,10 +216,10 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Wand2 className="text-gold" size={24} />
-              {featName} — Заклинания
+              {t('featSpells.title', { feat: featName })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              Выберите заклинания, которые даёт эта черта
+              {t('featSpells.chooseSpells')}
             </p>
           </div>
           <button
@@ -249,14 +236,14 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
         {!modules ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 size={32} className="animate-spin text-gold" />
-            <span className="ml-3 text-text-secondary">Загрузка заклинаний...</span>
+            <span className="ml-3 text-text-secondary">{t('common.loadingSpells')}</span>
           </div>
         ) : (
           <>
             {/* Class choice (Magic Initiate) */}
             {config.classOptions && config.classOptions.length > 1 && (
               <div className="glass-panel p-4">
-                <h3 className="text-sm font-medium text-text-primary mb-3">Выберите список заклинаний</h3>
+                <h3 className="text-sm font-medium text-text-primary mb-3">{t('featSpells.chooseSpellList')}</h3>
                 <div className="flex flex-wrap gap-2">
                   {config.classOptions.map(opt => (
                     <button
@@ -281,7 +268,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
             {/* Ability choice */}
             {config.abilityOptions && config.abilityOptions.length > 0 && (
               <div className="glass-panel p-4">
-                <h3 className="text-sm font-medium text-text-primary mb-3">Базовая характеристика заклинаний</h3>
+                <h3 className="text-sm font-medium text-text-primary mb-3">{t('featSpells.baseAbility')}</h3>
                 <div className="flex flex-wrap gap-2">
                   {config.abilityOptions.map(ab => (
                     <button
@@ -304,7 +291,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
             {fixedSpells.length > 0 && (
               <div className="glass-panel p-4">
                 <h3 className="text-sm font-medium text-text-primary mb-3">
-                  Вы автоматически получите:
+                  {t('featSpells.youWillAutoGet')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {fixedSpells.map(spell => (
@@ -323,7 +310,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                         />
                         <span className="text-sm text-green-400">{spell.name}</span>
                         <span className="text-[10px] text-text-muted">
-                          {spell.level === 0 ? 'заговор' : `${spell.level} ур.`}
+                          {spell.level === 0 ? t('common.cantripInline') : t('common.levelInline', { level: spell.level })}
                         </span>
                       </div>
                     </SpellTooltip>
@@ -340,7 +327,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                   type="text"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Поиск заклинаний..."
+                  placeholder={t('common.search')}
                   className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-bg-primary border border-border-default
                     text-text-primary placeholder-text-muted focus:border-gold/50 focus:outline-none"
                 />
@@ -351,7 +338,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
             {activeConfig.choices.map((choice, idx) => {
               const available = availableSpellsByChoice[idx] || [];
               const selectedCount = getSelectedCountForChoice(idx);
-              const levelLabel = choice.level === 0 ? 'Заговоры' : `Заклинания ${choice.level} уровня`;
+              const levelLabel = choice.level === 0 ? t('featSpells.cantripLabel') : t('featSpells.spellsOfLevel', { level: choice.level });
               const schoolLabel = choice.filterSchools?.map(s => SCHOOL_LABELS[s] || s).join(', ');
 
               return (
@@ -361,12 +348,12 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                     {schoolLabel && <span className="text-text-muted font-normal"> — {schoolLabel}</span>}
                   </h3>
                   <p className="text-xs text-text-muted mb-3">
-                    Выберите {choice.count} ({selectedCount}/{choice.count})
+                    {t('featSpells.chooseCount', { count: choice.count, selected: selectedCount })}
                   </p>
 
                   {available.length === 0 ? (
                     <div className="text-sm text-text-muted py-4 text-center">
-                      {searchQuery ? 'Ничего не найдено' : 'Нет доступных заклинаний'}
+                      {searchQuery ? t('common.nothingFound') : t('common.noSpellsAvailable')}
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-60 overflow-y-auto">
@@ -421,9 +408,9 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
         <div className="flex items-center justify-between">
           <div className="text-sm text-text-secondary">
             {fixedSpells.length > 0 && (
-              <span>{fixedSpells.length} авто + </span>
+              <span>{t('featSpells.autoPlus', { count: fixedSpells.length })}</span>
             )}
-            {Array.from(selectedSpells.values()).length} выбрано
+            {t('featSpells.selectedCount', { count: Array.from(selectedSpells.values()).length })}
           </div>
           <button
             onClick={handleConfirm}
@@ -431,7 +418,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
             className="px-8 py-2.5 rounded-lg bg-gold/20 text-gold border border-gold/30 font-medieval font-semibold text-lg
               hover:bg-gold/30 transition-all gold-glow disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gold/20"
           >
-            Подтвердить
+            {t('common.confirm')}
           </button>
         </div>
       </div>

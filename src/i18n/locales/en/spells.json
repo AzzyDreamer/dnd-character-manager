@@ -1,0 +1,211 @@
+{
+  "common": {
+    "cantrip": "Cantrip",
+    "cantripShort": "cntrp.",
+    "level": "{{level}} level",
+    "levelShort": "{{level}} lvl.",
+    "spellSlot": "Spell Slot",
+    "ritual": "Ritual",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "continue": "Continue",
+    "skip": "Skip",
+    "replace": "Replace",
+    "search": "Search spells...",
+    "loadingSpells": "Loading spells...",
+    "noSpellsAvailable": "No available spells",
+    "noCantripsAvailable": "No available cantrips",
+    "noSpellsFound": "No spells found",
+    "nothingFound": "Nothing found",
+    "selected": "Selected",
+    "auto": "Auto",
+    "alwaysPrepared": "Always prepared",
+    "cantripInline": "cantrip",
+    "levelInline": "{{level}} lvl."
+  },
+  "meta": {
+    "castingTime": "Time: ",
+    "range": "Range: ",
+    "components": "Components: ",
+    "duration": "Duration: ",
+    "timeUnits": {
+      "action": "action",
+      "bonus": "bonus",
+      "reaction": "reaction",
+      "minute": "min.",
+      "hour": "hour"
+    },
+    "rangeFeet": "{{amount}} ft.",
+    "rangeTouch": "Touch",
+    "rangeSelf": "Self",
+    "rangeSpecial": "Special",
+    "componentV": "V",
+    "componentS": "S",
+    "componentM": "M",
+    "durationInstant": "Instantaneous",
+    "durationPermanent": "Permanent",
+    "durationConcentration": "Conc., {{amount}} {{type}}"
+  },
+  "spellSlots": {
+    "title": "Spell Slots",
+    "useSlot": "Use slot",
+    "restoreSlot": "Restore slot",
+    "slotLevel": "{{roman}} level slot",
+    "slotsAtLevel": "Spell slots (level {{level}})",
+    "slotsChange": "Slots {{level}} lvl.: {{old}} → {{new}}"
+  },
+  "resources": {
+    "title": "Class Resources",
+    "use": "Use",
+    "restore": "Restore"
+  },
+  "attacks": {
+    "title": "Attacks",
+    "add": "Add",
+    "offhand": "Off-hand",
+    "rangedMainhand": "Ranged",
+    "rangedOffhand": "Ranged (2)",
+    "mainhand": "Main hand",
+    "unarmed": "Unarmed attack",
+    "weaponMastery": "Weapon Mastery",
+    "namePlaceholder": "Name",
+    "attackBonusPlaceholder": "Attack bonus",
+    "damagePlaceholder": "Damage (1d8 + 3)",
+    "damageTypePlaceholder": "Damage type"
+  },
+  "actions": {
+    "title": "Actions and Abilities"
+  },
+  "spellcasting": {
+    "saveDC": "Spell save DC:",
+    "attackBonus": "Attack bonus:",
+    "ability": "Ability:",
+    "prepared": "Prepared:",
+    "preparation": "Preparation",
+    "itemBonus": "(+{{bonus}} item)",
+    "classSpells": "Class Spells",
+    "cantripsCount": "Cantrips ({{count}})",
+    "levelCount": "{{level}} level ({{count}})",
+    "noSpellsSelected": "No spells selected",
+    "unprepare": "Unprepare",
+    "prepare": "Prepare",
+    "agonizingBlast": "+{{mod}} to damage (Charisma)"
+  },
+  "preparation": {
+    "title": "Spell Preparation",
+    "preparedCount": "Prepared: ",
+    "preparedShort": "{{count}} prep.",
+    "searchPlaceholder": "Search spells...",
+    "hint": "RMB on icon or button — prepare/unprepare spell",
+    "notFound": "No spells found"
+  },
+  "levelUp": {
+    "title": "Level {{level}}",
+    "subtitle": "{{class}} {{level}} lvl.",
+    "newCantrips": "+{{count}} cantrip(s)",
+    "newSpells": "+{{count}} spells",
+    "availableUpTo": "Available up to {{level}} level",
+    "youWillGain": "You will gain:",
+    "newCantripsGain": "+{{count}} new cantrips",
+    "newSpellsGain": "+{{count}} new spells",
+    "newCantripSection": "New cantrips ({{selected}}/{{total}})",
+    "newSpellSection": "New spells ({{selected}}/{{total}})",
+    "cantripsFooter": "Cantrips: {{selected}}/{{total}}",
+    "spellsFooter": "Spells: {{selected}}/{{total}}"
+  },
+  "cast": {
+    "spellSlot": "Spell slot",
+    "ritualOption": "Ritual (no slot, +10 min.)",
+    "attackRoll": "Attack roll",
+    "savingThrow": "Saving throw",
+    "dcLabel": "DC {{dc}}",
+    "healing": "Healing",
+    "damage": "Damage",
+    "conditions": "Conditions:",
+    "result": "Result",
+    "attack": "Attack",
+    "criticalHit": "Critical hit!",
+    "criticalMiss": "Critical miss!",
+    "cantripNoSlot": "Cantrip — no slot required",
+    "ritualNoSlot": "Ritual — slot not spent",
+    "slotOfLevel": "Slot {{roman}} level"
+  },
+  "swap": {
+    "title": "Feat Spell Swap",
+    "description": "On level up you can replace one feat spell with a spell from the feat's class list",
+    "spellToReplace": "Spell to replace",
+    "replaceWith": "Replace with ({{levelRange}} of class {{class}})",
+    "replaceWithCantrips": "cantrips",
+    "levelRangeSpells": "1–{{max}} lvl.",
+    "noReplacementSpells": "No available spells for replacement",
+    "clickToSeeDescription": "Click on a spell to see description"
+  },
+  "featSpells": {
+    "title": "{{feat}} — Spells",
+    "chooseSpells": "Choose spells granted by this feat",
+    "chooseSpellList": "Choose spell list",
+    "baseAbility": "Base spellcasting ability",
+    "youWillAutoGet": "You will automatically get:",
+    "cantripLabel": "Cantrips",
+    "spellsOfLevel": "Spells of level {{level}}",
+    "chooseCount": "Choose {{count}} ({{selected}}/{{count}})",
+    "autoPlus": "{{count}} auto + ",
+    "selectedCount": "{{count}} selected"
+  },
+  "autoSpells": {
+    "title": "New Spells",
+    "description": "At level {{level}} you gain new spells"
+  },
+  "tooltip": {
+    "schoolNames": {
+      "A": "Abjuration",
+      "C": "Conjuration",
+      "D": "Divination",
+      "E": "Enchantment",
+      "V": "Evocation",
+      "I": "Illusion",
+      "N": "Necromancy",
+      "T": "Transmutation"
+    }
+  },
+  "contextMenu": {
+    "info": "Info",
+    "cast": "Cast",
+    "unprepare": "Unprepare",
+    "prepare": "Prepare"
+  },
+  "abilityLabels": {
+    "int": "Intelligence",
+    "wis": "Wisdom",
+    "cha": "Charisma",
+    "str": "Strength",
+    "dex": "Dexterity",
+    "con": "Constitution",
+    "intelligence": "Intelligence",
+    "wisdom": "Wisdom",
+    "charisma": "Charisma"
+  },
+  "schoolLabels": {
+    "A": "Abjuration",
+    "C": "Conjuration",
+    "D": "Divination",
+    "E": "Enchantment",
+    "V": "Evocation",
+    "I": "Illusion",
+    "N": "Necromancy",
+    "T": "Transmutation"
+  },
+  "spellLevelLabels": {
+    "0": "Cantrip",
+    "1": "1st level",
+    "2": "2nd level",
+    "3": "3rd level",
+    "4": "4th level",
+    "5": "5th level",
+    "6": "6th level",
+    "7": "7th level",
+    "8": "8th level",
+    "9": "9th level"
+  }
+}

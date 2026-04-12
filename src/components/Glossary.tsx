@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2, ArrowUpDown, ArrowUp, ArrowDown, Filter, ChevronDown } from 'lucide-react';
 
 // ─── Типы ───
@@ -34,56 +35,62 @@ interface SortOption {
   getValue: (item: any, constants: Record<string, any>) => string | number;
 }
 
-const SORT_NAME: SortOption = { key: 'name', label: 'Имя', getValue: (item) => item.name?.toLowerCase() || '' };
-const SORT_SOURCE: SortOption = { key: 'source', label: 'Источник', getValue: (item) => item.source || '' };
+type TFunc = (key: string, options?: Record<string, any>) => string;
 
-const CATEGORY_SORT_OPTIONS: Partial<Record<GlossaryCategory, SortOption[]>> = {
-  spells: [
-    SORT_NAME,
-    { key: 'level', label: 'Уровень', getValue: (item) => item.level ?? 0 },
-    { key: 'school', label: 'Школа', getValue: (item, c) => c.SCHOOL_NAMES?.[item.school] || item.school || '' },
-    SORT_SOURCE,
-  ],
-  feats: [
-    SORT_NAME,
-    { key: 'category', label: 'Категория', getValue: (item, c) => c.FEAT_CATEGORY_NAMES?.[item.category || ''] || '' },
-    SORT_SOURCE,
-  ],
-  items: [
-    SORT_NAME,
-    { key: 'rarity', label: 'Редкость', getValue: (item) => {
-      const order: Record<string, number> = { common: 0, uncommon: 1, rare: 2, 'very rare': 3, legendary: 4, artifact: 5 };
-      return order[(item.rarity || 'common').toLowerCase()] ?? -1;
-    }},
-    { key: 'value', label: 'Цена', getValue: (item) => item.value ?? 0 },
-    { key: 'weight', label: 'Вес', getValue: (item) => item.weight ?? 0 },
-    SORT_SOURCE,
-  ],
-  classes: [
-    SORT_NAME,
-    { key: 'hitDie', label: 'Кость хитов', getValue: (item) => parseInt(item.hitDie?.replace(/\D/g, '') || '0') },
-    SORT_SOURCE,
-  ],
-  subclasses: [
-    SORT_NAME,
-    { key: 'classId', label: 'Класс', getValue: (item) => item.classId || '' },
-    { key: 'level', label: 'Уровень', getValue: (item) => item.level ?? 0 },
-    SORT_SOURCE,
-  ],
-  skills: [
-    SORT_NAME,
-    { key: 'ability', label: 'Характеристика', getValue: (item, c) => c.ABILITY_ABBR_NAMES?.[item.ability] || item.ability || '' },
-  ],
-  species: [
-    SORT_NAME,
-    SORT_SOURCE,
-  ],
-  optionalfeatures: [
-    SORT_NAME,
-    { key: 'featureType', label: 'Тип', getValue: (item, c) => item.featureType?.map((t: string) => c.FEATURE_TYPE_NAMES?.[t] || t).join(', ') || '' },
-    SORT_SOURCE,
-  ],
-};
+function buildSortOptions(t: TFunc) {
+  const SORT_NAME: SortOption = { key: 'name', label: t('sort.name'), getValue: (item) => item.name?.toLowerCase() || '' };
+  const SORT_SOURCE: SortOption = { key: 'source', label: t('sort.source'), getValue: (item) => item.source || '' };
+
+  const CATEGORY_SORT_OPTIONS: Partial<Record<GlossaryCategory, SortOption[]>> = {
+    spells: [
+      SORT_NAME,
+      { key: 'level', label: t('sort.level'), getValue: (item) => item.level ?? 0 },
+      { key: 'school', label: t('sort.school'), getValue: (item, c) => c.SCHOOL_NAMES?.[item.school] || item.school || '' },
+      SORT_SOURCE,
+    ],
+    feats: [
+      SORT_NAME,
+      { key: 'category', label: t('sort.category'), getValue: (item, c) => c.FEAT_CATEGORY_NAMES?.[item.category || ''] || '' },
+      SORT_SOURCE,
+    ],
+    items: [
+      SORT_NAME,
+      { key: 'rarity', label: t('sort.rarity'), getValue: (item) => {
+        const order: Record<string, number> = { common: 0, uncommon: 1, rare: 2, 'very rare': 3, legendary: 4, artifact: 5 };
+        return order[(item.rarity || 'common').toLowerCase()] ?? -1;
+      }},
+      { key: 'value', label: t('sort.value'), getValue: (item) => item.value ?? 0 },
+      { key: 'weight', label: t('sort.weight'), getValue: (item) => item.weight ?? 0 },
+      SORT_SOURCE,
+    ],
+    classes: [
+      SORT_NAME,
+      { key: 'hitDie', label: t('sort.hitDie'), getValue: (item) => parseInt(item.hitDie?.replace(/\D/g, '') || '0') },
+      SORT_SOURCE,
+    ],
+    subclasses: [
+      SORT_NAME,
+      { key: 'classId', label: t('sort.class'), getValue: (item) => item.classId || '' },
+      { key: 'level', label: t('sort.level'), getValue: (item) => item.level ?? 0 },
+      SORT_SOURCE,
+    ],
+    skills: [
+      SORT_NAME,
+      { key: 'ability', label: t('sort.ability'), getValue: (item, c) => c.ABILITY_ABBR_NAMES?.[item.ability] || item.ability || '' },
+    ],
+    species: [
+      SORT_NAME,
+      SORT_SOURCE,
+    ],
+    optionalfeatures: [
+      SORT_NAME,
+      { key: 'featureType', label: t('sort.featureType'), getValue: (item, c) => item.featureType?.map((ft: string) => c.FEATURE_TYPE_NAMES?.[ft] || ft).join(', ') || '' },
+      SORT_SOURCE,
+    ],
+  };
+
+  return { SORT_NAME, CATEGORY_SORT_OPTIONS };
+}
 
 // ─── Фильтры ───
 interface FilterDimension {
@@ -94,147 +101,115 @@ interface FilterDimension {
   order?: string[]; // фиксированный порядок значений
 }
 
-const CATEGORY_FILTERS: Partial<Record<GlossaryCategory, FilterDimension[]>> = {
-  spells: [
-    {
-      key: 'level', label: 'Уровень',
-      getLabel: (v) => v === '0' ? 'Заговор' : `${v} ур.`,
-      getValue: (item) => [String(item.level ?? 0)],
-      order: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    },
-    {
-      key: 'school', label: 'Школа',
-      getLabel: (v, c) => c.SCHOOL_NAMES?.[v] || v,
-      getValue: (item) => item.school ? [item.school] : [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  feats: [
-    {
-      key: 'category', label: 'Категория',
-      getLabel: (v, c) => c.FEAT_CATEGORY_NAMES?.[v] || v || 'Без категории',
-      getValue: (item) => [item.category || ''],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  items: [
-    {
-      key: 'rarity', label: 'Редкость',
-      getLabel: (v) => {
-        const names: Record<string, string> = { none: 'Обычный', common: 'Обычный', uncommon: 'Необычный', rare: 'Редкий', 'very rare': 'Очень редкий', legendary: 'Легендарный', artifact: 'Артефакт' };
-        return names[v] || v;
+function buildFilterConfigs(t: TFunc): Partial<Record<GlossaryCategory, FilterDimension[]>> {
+  const sourceFilter: FilterDimension = {
+    key: 'source', label: t('filter.source'),
+    getLabel: (v) => v,
+    getValue: (item) => item.source ? [item.source] : [],
+  };
+
+  return {
+    spells: [
+      {
+        key: 'level', label: t('filter.level'),
+        getLabel: (v) => v === '0' ? t('filter.cantrip') : t('filter.levelShort', { level: v }),
+        getValue: (item) => [String(item.level ?? 0)],
+        order: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       },
-      getValue: (item) => [item.rarity || 'none'],
-      order: ['none', 'common', 'uncommon', 'rare', 'very rare', 'legendary', 'artifact'],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  classes: [
-    {
-      key: 'spellcaster', label: 'Заклинатель',
-      getLabel: (v) => v === 'true' ? 'Да' : 'Нет',
-      getValue: (item) => [String(!!item.spellcaster)],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  subclasses: [
-    {
-      key: 'classId', label: 'Класс',
-      getLabel: (v) => v,
-      getValue: (item) => item.classId ? [item.classId] : [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  skills: [
-    {
-      key: 'ability', label: 'Характеристика',
-      getLabel: (v, c) => c.ABILITY_ABBR_NAMES?.[v] || v,
-      getValue: (item) => item.ability ? [item.ability] : [],
-    },
-  ],
-  species: [
-    {
-      key: 'size', label: 'Размер',
-      getLabel: (v, c) => c.SIZE_NAMES?.[v] || v,
-      getValue: (item) => item.size || [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  conditions: [
-    {
-      key: 'type', label: 'Тип',
-      getLabel: (v) => v === 'condition' ? 'Состояние' : v === 'disease' ? 'Болезнь' : v,
-      getValue: (item) => item.type ? [item.type] : [],
-    },
-  ],
-  optionalfeatures: [
-    {
-      key: 'featureType', label: 'Тип',
-      getLabel: (v, c) => c.FEATURE_TYPE_NAMES?.[v] || v,
-      getValue: (item) => item.featureType || [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  backgrounds: [
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  charoptions: [
-    {
-      key: 'optionType', label: 'Тип',
-      getLabel: (v, c) => c.OPTION_TYPE_NAMES?.[v] || v,
-      getValue: (item) => item.optionType || [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-  rules: [
-    {
-      key: 'ruleType', label: 'Тип',
-      getLabel: (v, c) => c.RULE_TYPE_NAMES?.[v] || v,
-      getValue: (item) => item.ruleType ? [item.ruleType] : [],
-    },
-    {
-      key: 'source', label: 'Источник',
-      getLabel: (v) => v,
-      getValue: (item) => item.source ? [item.source] : [],
-    },
-  ],
-};
+      {
+        key: 'school', label: t('filter.school'),
+        getLabel: (v, c) => c.SCHOOL_NAMES?.[v] || v,
+        getValue: (item) => item.school ? [item.school] : [],
+      },
+      sourceFilter,
+    ],
+    feats: [
+      {
+        key: 'category', label: t('filter.category'),
+        getLabel: (v, c) => c.FEAT_CATEGORY_NAMES?.[v] || v || t('filter.noCategory'),
+        getValue: (item) => [item.category || ''],
+      },
+      sourceFilter,
+    ],
+    items: [
+      {
+        key: 'rarity', label: t('filter.rarity'),
+        getLabel: (v) => {
+          const keyMap: Record<string, string> = { none: 'none', common: 'common', uncommon: 'uncommon', rare: 'rare', 'very rare': 'veryRare', legendary: 'legendary', artifact: 'artifact' };
+          return t(`rarityNames.${keyMap[v] || v}`, { defaultValue: v });
+        },
+        getValue: (item) => [item.rarity || 'none'],
+        order: ['none', 'common', 'uncommon', 'rare', 'very rare', 'legendary', 'artifact'],
+      },
+      sourceFilter,
+    ],
+    classes: [
+      {
+        key: 'spellcaster', label: t('filter.spellcaster'),
+        getLabel: (v) => v === 'true' ? t('filter.yes') : t('filter.no'),
+        getValue: (item) => [String(!!item.spellcaster)],
+      },
+      sourceFilter,
+    ],
+    subclasses: [
+      {
+        key: 'classId', label: t('filter.class'),
+        getLabel: (v) => v,
+        getValue: (item) => item.classId ? [item.classId] : [],
+      },
+      sourceFilter,
+    ],
+    skills: [
+      {
+        key: 'ability', label: t('filter.ability'),
+        getLabel: (v, c) => c.ABILITY_ABBR_NAMES?.[v] || v,
+        getValue: (item) => item.ability ? [item.ability] : [],
+      },
+    ],
+    species: [
+      {
+        key: 'size', label: t('filter.size'),
+        getLabel: (v, c) => c.SIZE_NAMES?.[v] || v,
+        getValue: (item) => item.size || [],
+      },
+      sourceFilter,
+    ],
+    conditions: [
+      {
+        key: 'type', label: t('filter.type'),
+        getLabel: (v) => v === 'condition' ? t('filter.conditionType') : v === 'disease' ? t('filter.diseaseType') : v,
+        getValue: (item) => item.type ? [item.type] : [],
+      },
+    ],
+    optionalfeatures: [
+      {
+        key: 'featureType', label: t('filter.featureType'),
+        getLabel: (v, c) => c.FEATURE_TYPE_NAMES?.[v] || v,
+        getValue: (item) => item.featureType || [],
+      },
+      sourceFilter,
+    ],
+    backgrounds: [
+      sourceFilter,
+    ],
+    charoptions: [
+      {
+        key: 'optionType', label: t('filter.optionType'),
+        getLabel: (v, c) => c.OPTION_TYPE_NAMES?.[v] || v,
+        getValue: (item) => item.optionType || [],
+      },
+      sourceFilter,
+    ],
+    rules: [
+      {
+        key: 'ruleType', label: t('filter.ruleType'),
+        getLabel: (v, c) => c.RULE_TYPE_NAMES?.[v] || v,
+        getValue: (item) => item.ruleType ? [item.ruleType] : [],
+      },
+      sourceFilter,
+    ],
+  };
+}
 
 // ─── Кеш загруженных данных по категориям ───
 interface CategoryData {
@@ -438,8 +413,10 @@ const SubclassListForClass: React.FC<{
     return () => { cancelled = true; };
   }, [classId]);
 
+  const { t } = useTranslation('glossary');
+
   if (!loaded) {
-    return <div className="text-sm text-text-muted animate-pulse py-2">Загрузка подклассов...</div>;
+    return <div className="text-sm text-text-muted animate-pulse py-2">{t('subclassList.loading')}</div>;
   }
   if (subclasses.length === 0) return null;
 
@@ -447,7 +424,7 @@ const SubclassListForClass: React.FC<{
     <div className="space-y-3">
       <h4 className="text-sm font-medium text-text-primary flex items-center gap-2">
         <Shield size={14} />
-        Подклассы ({subclasses.length})
+        {t('subclassList.title', { count: subclasses.length })}
       </h4>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {subclasses.map(sub => {
@@ -466,7 +443,7 @@ const SubclassListForClass: React.FC<{
               {sub.shortDescription && (
                 <div className="text-xs text-text-secondary mt-1 line-clamp-2">{sub.shortDescription}</div>
               )}
-              <div className="text-xs text-text-muted mt-1">ур. {sub.level} • {sub.source}</div>
+              <div className="text-xs text-text-muted mt-1">{t('subclassList.levelShort', { level: sub.level })} • {sub.source}</div>
             </button>
           );
         })}
@@ -475,25 +452,32 @@ const SubclassListForClass: React.FC<{
   );
 };
 
-// ─── Конфигурация категорий ───
-const CATEGORIES: CategoryConfig[] = [
-  { key: 'spells', label: 'Заклинания', icon: Wand2 },
-  { key: 'feats', label: 'Черты', icon: Star },
-  { key: 'species', label: 'Виды', icon: Sparkles },
-  { key: 'backgrounds', label: 'Предыстории', icon: BookOpen },
-  { key: 'conditions', label: 'Состояния', icon: Shield },
-  { key: 'senses', label: 'Чувства', icon: Eye },
-  { key: 'skills', label: 'Навыки', icon: Brain },
-  { key: 'rules', label: 'Правила', icon: Scroll },
-  { key: 'optionalfeatures', label: 'Способности', icon: Swords },
-  { key: 'items', label: 'Предметы', icon: Shield },
-  { key: 'classes', label: 'Классы', icon: Swords },
-  { key: 'subclasses', label: 'Подклассы', icon: Shield },
-  { key: 'charoptions', label: 'Опции создания', icon: Sparkles },
-  { key: 'actions', label: 'Действия', icon: Swords },
+// ─── Конфигурация категорий (иконки) ───
+const CATEGORY_ICONS: Record<GlossaryCategory, React.FC<{ size?: number; className?: string }>> = {
+  spells: Wand2, feats: Star, species: Sparkles, backgrounds: BookOpen,
+  conditions: Shield, senses: Eye, skills: Brain, rules: Scroll,
+  optionalfeatures: Swords, items: Shield, classes: Swords, subclasses: Shield,
+  charoptions: Sparkles, actions: Swords,
+};
+const CATEGORY_KEYS: GlossaryCategory[] = [
+  'spells', 'feats', 'species', 'backgrounds', 'conditions', 'senses',
+  'skills', 'rules', 'optionalfeatures', 'items', 'classes', 'subclasses',
+  'charoptions', 'actions',
 ];
+function buildCategories(t: TFunc): CategoryConfig[] {
+  return CATEGORY_KEYS.map(key => ({
+    key,
+    label: t(`categories.${key}`),
+    icon: CATEGORY_ICONS[key],
+  }));
+}
 
 export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange }) => {
+  const { t } = useTranslation('glossary');
+  const CATEGORIES = useMemo(() => buildCategories(t), [t]);
+  const { SORT_NAME, CATEGORY_SORT_OPTIONS } = useMemo(() => buildSortOptions(t), [t]);
+  const CATEGORY_FILTERS = useMemo(() => buildFilterConfigs(t), [t]);
+
   const [internalCategory, setInternalCategory] = useState<GlossaryCategory | null>(null);
   const activeCategory = (externalCategory as GlossaryCategory | null) ?? internalCategory;
   const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
@@ -531,7 +515,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       setEntryRenderer(() => renderer);
     } catch (err: any) {
       console.error('Failed to load category:', err);
-      setLoadError(err?.message || 'Ошибка загрузки');
+      setLoadError(err?.message || t('ui.loadError'));
     } finally {
       setLoading(false);
     }
@@ -653,7 +637,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
 
     switch (activeCategory) {
       case 'spells': {
-        const level = item.level === 0 ? 'Заговор' : `${item.level} ур.`;
+        const level = item.level === 0 ? t('filter.cantrip') : t('filter.levelShort', { level: item.level });
         const school = constants.SCHOOL_NAMES?.[item.school] || item.school;
         return `${level} • ${school}`;
       }
@@ -674,7 +658,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       case 'classes':
         return `${item.hitDie || ''} • ${item.source || ''}`;
       case 'subclasses':
-        return `${item.classId || ''} • ур. ${item.level || '?'} • ${item.source || ''}`;
+        return `${item.classId || ''} • ${t('subclassList.levelShort', { level: item.level || '?' })} • ${item.source || ''}`;
       case 'charoptions': {
         const optTypes = item.optionType?.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ');
         return optTypes || item.source || '';
@@ -697,63 +681,63 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
   // ─── Форматирование данных заклинания ───
   const formatSpellTime = (time: any[]): string => {
     if (!time?.length) return '';
-    return time.map(t => {
-      const num = t.number || 1;
-      const units: Record<string, string> = {
-        action: 'действие',
-        bonus: 'бонусное действие',
-        reaction: 'реакция',
-        minute: num === 1 ? 'минута' : 'минут',
-        hour: num === 1 ? 'час' : 'часов',
+    return time.map(ti => {
+      const num = ti.number || 1;
+      const unitMap: Record<string, string> = {
+        action: t('spell.time.action'),
+        bonus: t('spell.time.bonusAction'),
+        reaction: t('spell.time.reaction'),
+        minute: t('spell.time.minute', { count: num }),
+        hour: t('spell.time.hour', { count: num }),
       };
-      const unit = units[t.unit] || t.unit;
-      if (t.unit === 'action' || t.unit === 'bonus' || t.unit === 'reaction') {
+      const unit = unitMap[ti.unit] || ti.unit;
+      if (ti.unit === 'action' || ti.unit === 'bonus' || ti.unit === 'reaction') {
         return `1 ${unit}`;
       }
       return `${num} ${unit}`;
-    }).join(' или ');
+    }).join(t('spell.or'));
   };
 
   const formatSpellRange = (range: any): string => {
-    if (!range) return 'Не указана';
+    if (!range) return t('spell.range.notSpecified');
     if (typeof range === 'string') return range;
-    if (typeof range === 'number') return `${range} футов`;
-    if (range.type === 'special') return 'Особая';
-    if (range.type === 'sight') return 'В пределах видимости';
-    if (range.type === 'unlimited') return 'Неограниченная';
+    if (typeof range === 'number') return t('spell.range.feet', { amount: range });
+    if (range.type === 'special') return t('spell.range.special');
+    if (range.type === 'sight') return t('spell.range.sight');
+    if (range.type === 'unlimited') return t('spell.range.unlimited');
     if (range.type === 'self') {
-      if (range.distance?.type === 'radius') return `На себя (радиус ${range.distance.amount} фт.)`;
-      if (range.distance?.type === 'cone') return `На себя (конус ${range.distance.amount} фт.)`;
-      if (range.distance?.type === 'line') return `На себя (линия ${range.distance.amount} фт.)`;
-      if (range.distance?.type === 'sphere') return `На себя (сфера ${range.distance.amount} фт.)`;
-      return 'На себя';
+      if (range.distance?.type === 'radius') return t('spell.range.selfRadius', { amount: range.distance.amount });
+      if (range.distance?.type === 'cone') return t('spell.range.selfCone', { amount: range.distance.amount });
+      if (range.distance?.type === 'line') return t('spell.range.selfLine', { amount: range.distance.amount });
+      if (range.distance?.type === 'sphere') return t('spell.range.selfSphere', { amount: range.distance.amount });
+      return t('spell.range.self');
     }
-    if (range.type === 'touch') return 'Касание';
+    if (range.type === 'touch') return t('spell.range.touch');
     if (range.type === 'point' && range.distance) {
       const amt = range.distance.amount;
-      if (range.distance.type === 'feet') return `${amt} фт.`;
-      if (range.distance.type === 'miles') return `${amt} миль`;
-      if (range.distance.type === 'self') return 'На себя';
+      if (range.distance.type === 'feet') return t('spell.range.feet', { amount: amt });
+      if (range.distance.type === 'miles') return t('spell.range.miles', { amount: amt });
+      if (range.distance.type === 'self') return t('spell.range.self');
       return `${amt} ${range.distance.type}`;
     }
     // Fallback для любых других форматов
-    if (range.distance?.amount) return `${range.distance.amount} фт.`;
+    if (range.distance?.amount) return t('spell.range.feet', { amount: range.distance.amount });
     return JSON.stringify(range);
   };
 
   const formatSpellComponents = (comp: any): string => {
     if (!comp) return '';
     const parts: string[] = [];
-    if (comp.v) parts.push('В');
-    if (comp.s) parts.push('С');
+    if (comp.v) parts.push('V');
+    if (comp.s) parts.push('S');
     if (comp.m) {
       const mat = typeof comp.m === 'string' ? comp.m : comp.m?.text || '';
       if (mat) {
-        const cost = comp.m?.cost ? ` (${comp.m.cost / 100} зм)` : '';
-        const consumed = comp.m?.consume ? ' (расходуется)' : '';
-        parts.push(`М (${mat}${cost}${consumed})`);
+        const cost = comp.m?.cost ? ` (${comp.m.cost / 100} ${t('spell.components.gold')})` : '';
+        const consumed = comp.m?.consume ? ` ${t('spell.components.consumed')}` : '';
+        parts.push(`M (${mat}${cost}${consumed})`);
       } else {
-        parts.push('М');
+        parts.push('M');
       }
     }
     return parts.join(', ');
@@ -761,25 +745,26 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
 
   const formatSpellDuration = (duration: any[]): string => {
     if (!duration?.length) return '';
-    return duration.map(d => {
-      if (d.type === 'instant') return 'Мгновенная';
-      if (d.type === 'permanent') {
-        const ends = d.ends?.join(', ') || '';
-        return ends ? `Пока не ${ends}` : 'Постоянная';
+    return duration.map(dur => {
+      if (dur.type === 'instant') return t('spell.duration.instant');
+      if (dur.type === 'permanent') {
+        const ends = dur.ends?.join(', ') || '';
+        return ends ? t('spell.duration.untilX', { condition: ends }) : t('spell.duration.permanent');
       }
-      if (d.type === 'special') return 'Особая';
-      if (d.type === 'timed' && d.duration) {
-        const units: Record<string, string> = {
-          round: d.duration.amount === 1 ? 'раунд' : 'раундов',
-          minute: d.duration.amount === 1 ? 'минута' : 'минут',
-          hour: d.duration.amount === 1 ? 'час' : 'часов',
-          day: d.duration.amount === 1 ? 'день' : 'дней',
+      if (dur.type === 'special') return t('spell.duration.special');
+      if (dur.type === 'timed' && dur.duration) {
+        const amt = dur.duration.amount;
+        const unitMap: Record<string, string> = {
+          round: t('spell.duration.round', { count: amt }),
+          minute: t('spell.duration.minute', { count: amt }),
+          hour: t('spell.duration.hour', { count: amt }),
+          day: t('spell.duration.day', { count: amt }),
         };
-        const conc = d.concentration ? 'Концентрация, ' : '';
-        return `${conc}${d.duration.amount} ${units[d.duration.type] || d.duration.type}`;
+        const conc = dur.concentration ? t('spell.duration.concentration') : '';
+        return `${conc}${amt} ${unitMap[dur.duration.type] || dur.duration.type}`;
       }
       return '';
-    }).filter(Boolean).join(' или ');
+    }).filter(Boolean).join(t('spell.or'));
   };
 
   // ─── Форматирование требований черты ───
@@ -790,28 +775,24 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       // Уровень - может быть числом или объектом
       if (p.level) {
         if (typeof p.level === 'number') {
-          const cls = p.class ? ` ${p.class.name}` : '';
-          parts.push(`${p.level}+ уровень${cls}`);
+          const cls = p.class ? p.class.name : '';
+          parts.push(cls ? t('feat.levelReqClass', { level: p.level, class: cls }) : t('feat.levelReq', { level: p.level }));
         } else if (typeof p.level === 'object' && p.level.level) {
           const lvl = p.level.level;
-          const cls = p.level.class?.name ? ` ${p.level.class.name}` : '';
-          parts.push(`${lvl}+ уровень${cls}`);
+          const cls = p.level.class?.name || '';
+          parts.push(cls ? t('feat.levelReqClass', { level: lvl, class: cls }) : t('feat.levelReq', { level: lvl }));
         }
       }
       if (p.ability) {
-        const abilities: Record<string, string> = {
-          str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
-          int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
-        };
         const abReqs = p.ability.map((ab: any) =>
-          Object.entries(ab).map(([k, v]) => `${abilities[k] || k} ${v}+`).join(', ')
-        ).join(' или ');
+          Object.entries(ab).map(([k, v]) => `${t(`abilities.${k}`, { defaultValue: k })} ${v}+`).join(', ')
+        ).join(t('spell.or'));
         if (abReqs) parts.push(abReqs);
       }
-      if (p.spellcasting) parts.push('Умение накладывать заклинания');
-      if (p.spellcastingFeature) parts.push('Умение накладывать заклинания');
-      if (p.pact) parts.push(`Пакт: ${p.pact}`);
-      if (p.patron) parts.push(`Покровитель: ${p.patron}`);
+      if (p.spellcasting) parts.push(t('feat.spellcasting'));
+      if (p.spellcastingFeature) parts.push(t('feat.spellcasting'));
+      if (p.pact) parts.push(t('feat.pact', { pact: p.pact }));
+      if (p.patron) parts.push(t('feat.patron', { patron: p.patron }));
       if (p.spell) {
         // Требуется заклинание
         const spells = p.spell.map((s: any) => {
@@ -823,18 +804,18 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
         if (spells.length > 0) parts.push(spells.join(', '));
       }
       if (p.race) {
-        const races = p.race.map((r: any) => r.name || r).join(' или ');
-        parts.push(`Раса: ${races}`);
+        const races = p.race.map((r: any) => r.name || r).join(t('spell.or'));
+        parts.push(t('feat.race', { races }));
       }
       if (p.feat) {
         const feats = p.feat.map((f: any) => typeof f === 'string' ? f.split('|')[0] : f).join(', ');
-        parts.push(`Черта: ${feats}`);
+        parts.push(t('feat.feat', { feats }));
       }
       if (p.proficiency) {
         const profs = p.proficiency.map((pr: any) =>
           Object.entries(pr).map(([k]) => k).join(', ')
         ).join(', ');
-        if (profs) parts.push(`Владение: ${profs}`);
+        if (profs) parts.push(t('feat.proficiency', { profs }));
       }
       if (p.other) parts.push(p.other);
       return parts.join(', ');
@@ -844,29 +825,27 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
   // ─── Форматирование бонусов характеристик (для черт и предысторий) ───
   const formatAbilityBonus = (ability: any[]): string => {
     if (!ability?.length) return '';
-    const abilities: Record<string, string> = {
-      str: 'Сила', dex: 'Ловкость', con: 'Телосложение',
-      int: 'Интеллект', wis: 'Мудрость', cha: 'Харизма',
-    };
     return ability.map((a: any) => {
       // Выбор из нескольких
       if (a.choose) {
         if (a.choose.from) {
-          const opts = a.choose.from.map((ab: string) => abilities[ab] || ab).join('/');
+          const opts = a.choose.from.map((ab: string) => t(`abilities.${ab}`, { defaultValue: ab })).join('/');
           const count = a.choose.count || 1;
           const amount = a.choose.amount || 1;
-          return `+${amount} к одной из: ${opts}${count > 1 ? ` (${count} раза)` : ''}`;
+          return count > 1
+            ? t('abilityBonus.chooseFromMulti', { amount, options: opts, count })
+            : t('abilityBonus.chooseFrom', { amount, options: opts });
         }
         if (a.choose.weighted?.from) {
-          const opts = a.choose.weighted.from.map((ab: string) => abilities[ab] || ab).join('/');
-          return `Выбор из: ${opts}`;
+          const opts = a.choose.weighted.from.map((ab: string) => t(`abilities.${ab}`, { defaultValue: ab })).join('/');
+          return t('abilityBonus.selectFrom', { options: opts });
         }
-        return 'Выбор характеристики';
+        return t('abilityBonus.selectAbility');
       }
       // Фиксированные бонусы
       const fixed = Object.entries(a)
         .filter(([k]) => ['str', 'dex', 'con', 'int', 'wis', 'cha'].includes(k))
-        .map(([k, v]) => `${abilities[k]} +${v}`)
+        .map(([k, v]) => `${t(`abilities.${k}`, { defaultValue: k })} +${v}`)
         .join(', ');
       return fixed;
     }).filter(Boolean).join('; ');
@@ -906,17 +885,19 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             for (const sf of subFeats) {
               entries.push({
                 type: 'entries',
-                name: `${sf.name} (ур. ${sf.level}) — ${selectedSubclass.name}`,
+                name: `${sf.name} (${t('classFeature.levelLabel', { level: sf.level })}) — ${selectedSubclass.name}`,
                 entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
                 _isSubclass: true,
+                _level: sf.level,
               });
             }
             subFeaturesByLevel.delete(f.level);
           } else {
             entries.push({
               type: 'entries',
-              name: `${f.name} (ур. ${f.level})`,
+              name: `${f.name} (${t('classFeature.levelLabel', { level: f.level })})`,
               entries: [f.description, ...(f.details ? Object.values(f.details) : [])],
+              _level: f.level,
             });
           }
         }
@@ -925,16 +906,17 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
           for (const sf of feats) {
             entries.push({
               type: 'entries',
-              name: `${sf.name} (ур. ${sf.level}) — ${selectedSubclass.name}`,
+              name: `${sf.name} (${t('classFeature.levelLabel', { level: sf.level })}) — ${selectedSubclass.name}`,
               entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
               _isSubclass: true,
+              _level: sf.level,
             });
           }
         }
         // Сортируем по уровню
         entries.sort((a: any, b: any) => {
-          const lvlA = parseInt(a.name.match(/ур\. (\d+)/)?.[1] || '0');
-          const lvlB = parseInt(b.name.match(/ур\. (\d+)/)?.[1] || '0');
+          const lvlA = a._level ?? 0;
+          const lvlB = b._level ?? 0;
           return lvlA - lvlB;
         });
       } else {
@@ -943,8 +925,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
           .filter((f: any) => !isPlaceholder(f.name))
           .map((f: any) => ({
             type: 'entries',
-            name: `${f.name} (ур. ${f.level})`,
+            name: `${f.name} (${t('classFeature.levelLabel', { level: f.level })})`,
             entries: [f.description, ...(f.details ? Object.values(f.details) : [])],
+            _level: f.level,
           }));
       }
     }
@@ -952,7 +935,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
     if (type === 'subclasses' && d.features && !entries.length) {
       entries = d.features.map((f: any) => ({
         type: 'entries',
-        name: `${f.name} (ур. ${f.level})`,
+        name: `${f.name} (${t('classFeature.levelLabel', { level: f.level })})`,
         entries: [f.description, ...(f.details ? Object.values(f.details).filter(Boolean) : [])],
       }));
     }
@@ -975,7 +958,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                   />
                 ) : null;
               })()}
-              <h2 className="text-xl font-medieval text-gold">{d.name || 'Запись'}</h2>
+              <h2 className="text-xl font-medieval text-gold">{d.name || t('detail.entry')}</h2>
             </div>
             <button onClick={() => setSelectedEntry(null)} className="text-text-secondary hover:text-text-primary">
               <X size={24} />
@@ -989,7 +972,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
               )}
               {d.level !== undefined && type === 'spells' && (
                 <span className="px-2 py-1 bg-purple-900/40 text-purple-300 rounded text-xs">
-                  {d.level === 0 ? 'Заговор' : `${d.level} уровень`}
+                  {d.level === 0 ? t('detail.cantrip') : t('detail.levelN', { level: d.level })}
                 </span>
               )}
               {d.school && (
@@ -1011,18 +994,18 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'spells' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                  <div><span className="text-text-secondary">Время накладывания: </span><span className="text-text-primary">{formatSpellTime(d.time) || '—'}</span></div>
-                  <div><span className="text-text-secondary">Дистанция: </span><span className="text-text-primary">{formatSpellRange(d.range)}</span></div>
-                  <div><span className="text-text-secondary">Компоненты: </span><span className="text-text-primary">{formatSpellComponents(d.components) || '—'}</span></div>
-                  <div><span className="text-text-secondary">Длительность: </span><span className="text-text-primary">{formatSpellDuration(d.duration) || '—'}</span></div>
+                  <div><span className="text-text-secondary">{t('spell.castingTime')} </span><span className="text-text-primary">{formatSpellTime(d.time) || '—'}</span></div>
+                  <div><span className="text-text-secondary">{t('spell.distance')} </span><span className="text-text-primary">{formatSpellRange(d.range)}</span></div>
+                  <div><span className="text-text-secondary">{t('spell.componentsLabel')} </span><span className="text-text-primary">{formatSpellComponents(d.components) || '—'}</span></div>
+                  <div><span className="text-text-secondary">{t('spell.durationLabel')} </span><span className="text-text-primary">{formatSpellDuration(d.duration) || '—'}</span></div>
                 </div>
                 {(d.savingThrow || d.damageInflict) && (
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 pt-2 border-t border-border-default">
                     {d.savingThrow && (
-                      <div><span className="text-text-secondary">Спасбросок: </span><span className="text-text-primary">{d.savingThrow.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('spell.savingThrow')} </span><span className="text-text-primary">{d.savingThrow.join(', ')}</span></div>
                     )}
                     {d.damageInflict && (
-                      <div><span className="text-text-secondary">Тип урона: </span><span className="text-text-primary">{d.damageInflict.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('spell.damageType')} </span><span className="text-text-primary">{d.damageInflict.join(', ')}</span></div>
                     )}
                   </div>
                 )}
@@ -1033,15 +1016,15 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'feats' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-text-secondary">Требования: </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
                 )}
                 {d.ability && d.ability.length > 0 && (
-                  <div><span className="text-text-secondary">Бонус характеристики: </span><span className="text-text-primary">
+                  <div><span className="text-text-secondary">{t('feat.abilityBonus')} </span><span className="text-text-primary">
                     {formatAbilityBonus(d.ability)}
                   </span></div>
                 )}
                 {d.additionalSpells && (
-                  <div><span className="text-text-secondary">Заклинания: </span><span className="text-text-primary">Да</span></div>
+                  <div><span className="text-text-secondary">{t('feat.hasSpells')}</span></div>
                 )}
               </div>
             )}
@@ -1051,28 +1034,28 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                   {d.size && (
-                    <div><span className="text-text-secondary">Размер: </span><span className="text-text-primary">
-                      {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join(' или ')}
+                    <div><span className="text-text-secondary">{t('species.size')} </span><span className="text-text-primary">
+                      {d.size.map((s: string) => constants.SIZE_NAMES?.[s] || s).join(t('spell.or'))}
                     </span></div>
                   )}
                   {d.speed !== undefined && (
-                    <div><span className="text-text-secondary">Скорость: </span><span className="text-text-primary">
-                      {typeof d.speed === 'number' ? `${d.speed} фт.` :
-                        Object.entries(d.speed).map(([k, v]) => k === 'walk' ? `${v} фт.` : `${k}: ${v} фт.`).join(', ')}
+                    <div><span className="text-text-secondary">{t('species.speed')} </span><span className="text-text-primary">
+                      {typeof d.speed === 'number' ? `${d.speed} ${t('species.ft')}` :
+                        Object.entries(d.speed).map(([k, v]) => k === 'walk' ? `${v} ${t('species.ft')}` : `${k}: ${v} ${t('species.ft')}`).join(', ')}
                     </span></div>
                   )}
                   {d.darkvision && (
-                    <div><span className="text-text-secondary">Тёмное зрение: </span><span className="text-text-primary">{d.darkvision} фт.</span></div>
+                    <div><span className="text-text-secondary">{t('species.darkvision')} </span><span className="text-text-primary">{d.darkvision} {t('species.ft')}</span></div>
                   )}
                   {d.creatureTypes && (
-                    <div><span className="text-text-secondary">Тип существа: </span><span className="text-text-primary">{d.creatureTypes.join(', ')}</span></div>
+                    <div><span className="text-text-secondary">{t('species.creatureType')} </span><span className="text-text-primary">{d.creatureTypes.join(', ')}</span></div>
                   )}
                 </div>
                 {d.resist && (
-                  <div><span className="text-text-secondary">Сопротивление: </span><span className="text-text-primary">{d.resist.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('species.resistance')} </span><span className="text-text-primary">{d.resist.join(', ')}</span></div>
                 )}
                 {d.traitTags && (
-                  <div><span className="text-text-secondary">Особенности: </span><span className="text-text-primary">{d.traitTags.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('species.traits')} </span><span className="text-text-primary">{d.traitTags.join(', ')}</span></div>
                 )}
               </div>
             )}
@@ -1081,49 +1064,49 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'backgrounds' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.ability && d.ability.length > 0 && (
-                  <div><span className="text-text-secondary">Характеристики: </span><span className="text-text-primary">{formatAbilityBonus(d.ability)}</span></div>
+                  <div><span className="text-text-secondary">{t('background.abilities')} </span><span className="text-text-primary">{formatAbilityBonus(d.ability)}</span></div>
                 )}
                 {d.skillProficiencies && d.skillProficiencies.length > 0 && (
-                  <div><span className="text-text-secondary">Навыки: </span><span className="text-text-primary">
+                  <div><span className="text-text-secondary">{t('background.skills')} </span><span className="text-text-primary">
                     {d.skillProficiencies.map((sp: any) => Object.keys(sp).filter(k => k !== 'choose').join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.toolProficiencies && d.toolProficiencies.length > 0 && (
-                  <div><span className="text-text-secondary">Инструменты: </span><span className="text-text-primary">
+                  <div><span className="text-text-secondary">{t('background.tools')} </span><span className="text-text-primary">
                     {d.toolProficiencies.map((tp: any) => Object.keys(tp).filter(k => k !== 'choose').join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.languageProficiencies && d.languageProficiencies.length > 0 && (
-                  <div><span className="text-text-secondary">Языки: </span><span className="text-text-primary">
+                  <div><span className="text-text-secondary">{t('background.languages')} </span><span className="text-text-primary">
                     {d.languageProficiencies.map((lp: any) => {
                       const langs = Object.entries(lp).filter(([k]) => k !== 'anyStandard' && k !== 'choose');
                       const anyCount = lp.anyStandard || lp.choose?.count || 0;
                       const fixed = langs.map(([k]) => k).join(', ');
-                      const any = anyCount > 0 ? `+${anyCount} на выбор` : '';
-                      return [fixed, any].filter(Boolean).join(', ');
+                      const anyStr = anyCount > 0 ? t('background.anyChoice', { count: anyCount }) : '';
+                      return [fixed, anyStr].filter(Boolean).join(', ');
                     }).join('; ')}
                   </span></div>
                 )}
                 {d.feats && d.feats.length > 0 && (
-                  <div><span className="text-text-secondary">Черта: </span><span className="text-text-primary">
+                  <div><span className="text-text-secondary">{t('background.feat')} </span><span className="text-text-primary">
                     {d.feats.map((f: any) => Object.keys(f)[0]?.split('|')[0]).join(', ')}
                   </span></div>
                 )}
                 {d.startingEquipment && d.startingEquipment.length > 0 && (
                   <div className="pt-2 border-t border-border-default">
-                    <span className="text-text-secondary">Начальное снаряжение: </span>
+                    <span className="text-text-secondary">{t('background.equipment')} </span>
                     <span className="text-text-primary">
                       {d.startingEquipment.map((eq: any) => {
                         if (eq.A) {
                           return eq.A.map((item: any) => {
                             if (typeof item === 'string') return item;
                             if (item.item) return item.displayName || item.item.split('|')[0];
-                            if (item.value) return `${item.value / 100} зм`;
+                            if (item.value) return `${item.value / 100} ${t('background.gold')}`;
                             return '';
                           }).filter(Boolean).join(', ');
                         }
                         return '';
-                      }).filter(Boolean).join(' или ')}
+                      }).filter(Boolean).join(t('spell.or'))}
                     </span>
                   </div>
                 )}
@@ -1134,19 +1117,19 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'items' && (() => {
               const typeCode = (d.type || '').split('|')[0];
               const rarityLabel = d.rarity && d.rarity !== 'none' ? d.rarity : null;
-              const dmgTypes: Record<string, string> = { S: 'рубящий', P: 'колющий', B: 'дробящий', F: 'огонь', C: 'холод', L: 'молния', T: 'яд', N: 'некротический', A: 'кислота', Y: 'психический', O: 'силовое поле' };
-              const propNames: Record<string, string> = { F: 'Фехтовальное', L: 'Лёгкое', H: 'Тяжёлое', '2H': 'Двуручное', V: 'Универсальное', T: 'Метательное', AM: 'Боеприпас', LD: 'Перезарядка', R: 'Досягаемость', S: 'Особое' };
+              const dmgTypes: Record<string, string> = { S: t('item.damageTypes.S'), P: t('item.damageTypes.P'), B: t('item.damageTypes.B'), F: t('item.damageTypes.F'), C: t('item.damageTypes.C'), L: t('item.damageTypes.L'), T: t('item.damageTypes.T'), N: t('item.damageTypes.N'), A: t('item.damageTypes.A'), Y: t('item.damageTypes.Y'), O: t('item.damageTypes.O') };
+              const propNames: Record<string, string> = { F: t('item.propertyNames.F'), L: t('item.propertyNames.L'), H: t('item.propertyNames.H'), '2H': t('item.propertyNames.2H'), V: t('item.propertyNames.V'), T: t('item.propertyNames.T'), AM: t('item.propertyNames.AM'), LD: t('item.propertyNames.LD'), R: t('item.propertyNames.R'), S: t('item.propertyNames.S') };
               return (
                 <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
-                  {typeCode && <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">{typeCode}</span></div>}
-                  {rarityLabel && <div><span className="text-text-secondary">Редкость: </span><span className="text-text-primary">{rarityLabel}</span></div>}
-                  {d.weight != null && <div><span className="text-text-secondary">Вес: </span><span className="text-text-primary">{d.weight} фунт.</span></div>}
-                  {d.value != null && <div><span className="text-text-secondary">Цена: </span><span className="text-text-primary">{d.value >= 100 ? `${d.value / 100} зм` : `${d.value} мм`}</span></div>}
-                  {d.dmg1 && <div><span className="text-text-secondary">Урон: </span><span className="text-text-primary">{d.dmg1} {dmgTypes[d.dmgType] || d.dmgType || ''}{d.dmg2 ? ` (универсальное ${d.dmg2})` : ''}</span></div>}
-                  {d.range && <div><span className="text-text-secondary">Дальность: </span><span className="text-text-primary">{d.range} фт.</span></div>}
-                  {d.ac != null && <div><span className="text-text-secondary">КД: </span><span className="text-text-primary">{d.ac}</span></div>}
-                  {d.property?.length > 0 && <div><span className="text-text-secondary">Свойства: </span><span className="text-text-primary">{d.property.map((p: string) => propNames[p.split('|')[0]] || p.split('|')[0]).join(', ')}</span></div>}
-                  {d.reqAttune && <div><span className="text-text-secondary">Настройка: </span><span className="text-text-primary">{typeof d.reqAttune === 'string' ? d.reqAttune : 'Требуется'}</span></div>}
+                  {typeCode && <div><span className="text-text-secondary">{t('item.type')} </span><span className="text-text-primary">{typeCode}</span></div>}
+                  {rarityLabel && <div><span className="text-text-secondary">{t('item.rarity')} </span><span className="text-text-primary">{rarityLabel}</span></div>}
+                  {d.weight != null && <div><span className="text-text-secondary">{t('item.weight')} </span><span className="text-text-primary">{d.weight} {t('item.weightUnit')}</span></div>}
+                  {d.value != null && <div><span className="text-text-secondary">{t('item.price')} </span><span className="text-text-primary">{d.value >= 100 ? `${d.value / 100} ${t('item.gold')}` : `${d.value} ${t('item.copper')}`}</span></div>}
+                  {d.dmg1 && <div><span className="text-text-secondary">{t('item.damage')} </span><span className="text-text-primary">{d.dmg1} {dmgTypes[d.dmgType] || d.dmgType || ''}{d.dmg2 ? ` ${t('item.versatile', { dmg: d.dmg2 })}` : ''}</span></div>}
+                  {d.range && <div><span className="text-text-secondary">{t('item.range')} </span><span className="text-text-primary">{d.range} {t('spell.range.feetUnit')}</span></div>}
+                  {d.ac != null && <div><span className="text-text-secondary">{t('item.ac')} </span><span className="text-text-primary">{d.ac}</span></div>}
+                  {d.property?.length > 0 && <div><span className="text-text-secondary">{t('item.properties')} </span><span className="text-text-primary">{d.property.map((p: string) => propNames[p.split('|')[0]] || p.split('|')[0]).join(', ')}</span></div>}
+                  {d.reqAttune && <div><span className="text-text-secondary">{t('item.attunement')} </span><span className="text-text-primary">{typeof d.reqAttune === 'string' ? d.reqAttune : t('item.attunementRequired')}</span></div>}
                   {d._description && !entries.length && <div className="text-text-primary pt-1">{d._description}</div>}
                 </div>
               );
@@ -1156,12 +1139,12 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'optionalfeatures' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.featureType && (
-                  <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">
-                    {d.featureType.map((t: string) => constants.FEATURE_TYPE_NAMES?.[t] || t).join(', ')}
+                  <div><span className="text-text-secondary">{t('optionalFeature.type')} </span><span className="text-text-primary">
+                    {d.featureType.map((ft: string) => constants.FEATURE_TYPE_NAMES?.[ft] || ft).join(', ')}
                   </span></div>
                 )}
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-text-secondary">Требования: </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
                 )}
               </div>
             )}
@@ -1169,7 +1152,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {/* ═══════════ СОСТОЯНИЯ ═══════════ */}
             {type === 'conditions' && d.type && (
               <div className="bg-bg-panel rounded-lg p-4 text-sm">
-                <span className="text-text-secondary">Тип: </span><span className="text-text-primary">{d.type === 'condition' ? 'Состояние' : 'Болезнь'}</span>
+                <span className="text-text-secondary">{t('condition.type')} </span><span className="text-text-primary">{d.type === 'condition' ? t('condition.conditionLabel') : t('condition.diseaseLabel')}</span>
               </div>
             )}
 
@@ -1177,27 +1160,27 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'classes' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.hitDie && (
-                  <div><span className="text-text-secondary">Кость хитов: </span><span className="text-text-primary font-bold">{d.hitDie}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.hitDie')} </span><span className="text-text-primary font-bold">{d.hitDie}</span></div>
                 )}
                 {d.primaryAbility && (
-                  <div><span className="text-text-secondary">Основная характеристика: </span><span className="text-text-primary">{d.primaryAbility.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.primaryAbility')} </span><span className="text-text-primary">{d.primaryAbility.join(', ')}</span></div>
                 )}
                 {d.savingThrows && (
-                  <div><span className="text-text-secondary">Спасброски: </span><span className="text-text-primary">{d.savingThrows.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.savingThrows')} </span><span className="text-text-primary">{d.savingThrows.join(', ')}</span></div>
                 )}
                 {d.spellcaster !== undefined && (
-                  <div><span className="text-text-secondary">Заклинатель: </span><span className="text-text-primary">{d.spellcaster ? 'Да' : 'Нет'}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.spellcaster')} </span><span className="text-text-primary">{d.spellcaster ? t('classDetail.yes') : t('classDetail.no')}</span></div>
                 )}
                 {d.proficiencies && (
                   <>
                     {d.proficiencies.armor?.length > 0 && (
-                      <div><span className="text-text-secondary">Доспехи: </span><span className="text-text-primary">{d.proficiencies.armor.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('classDetail.armor')} </span><span className="text-text-primary">{d.proficiencies.armor.join(', ')}</span></div>
                     )}
                     {d.proficiencies.weapons?.length > 0 && (
-                      <div><span className="text-text-secondary">Оружие: </span><span className="text-text-primary">{d.proficiencies.weapons.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('classDetail.weapons')} </span><span className="text-text-primary">{d.proficiencies.weapons.join(', ')}</span></div>
                     )}
                     {d.proficiencies.tools?.length > 0 && (
-                      <div><span className="text-text-secondary">Инструменты: </span><span className="text-text-primary">{d.proficiencies.tools.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('classDetail.tools')} </span><span className="text-text-primary">{d.proficiencies.tools.join(', ')}</span></div>
                     )}
                   </>
                 )}
@@ -1220,13 +1203,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'subclasses' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.classId && (
-                  <div><span className="text-text-secondary">Класс: </span><span className="text-text-primary">{d.classId}</span></div>
+                  <div><span className="text-text-secondary">{t('subclassDetail.class')} </span><span className="text-text-primary">{d.classId}</span></div>
                 )}
                 {d.level && (
-                  <div><span className="text-text-secondary">Уровень получения: </span><span className="text-text-primary">{d.level}</span></div>
+                  <div><span className="text-text-secondary">{t('subclassDetail.level')} </span><span className="text-text-primary">{d.level}</span></div>
                 )}
                 {d.source && (
-                  <div><span className="text-text-secondary">Источник: </span><span className="text-text-primary">{d.source}</span></div>
+                  <div><span className="text-text-secondary">{t('subclassDetail.source')} </span><span className="text-text-primary">{d.source}</span></div>
                 )}
                 {d.shortDescription && (
                   <div className="text-text-primary italic mt-2">{d.shortDescription}</div>
@@ -1238,8 +1221,8 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'charoptions' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.optionType && (
-                  <div><span className="text-text-secondary">Тип: </span><span className="text-text-primary">
-                    {d.optionType.map((t: string) => constants.OPTION_TYPE_NAMES?.[t] || t).join(', ')}
+                  <div><span className="text-text-secondary">{t('charOptionDetail.type')} </span><span className="text-text-primary">
+                    {d.optionType.map((ot: string) => constants.OPTION_TYPE_NAMES?.[ot] || ot).join(', ')}
                   </span></div>
                 )}
               </div>
@@ -1263,7 +1246,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {/* EntriesHigherLevel для заклинаний */}
             {d.entriesHigherLevel?.length > 0 && (
               <div className="pt-4 border-t border-border-default">
-                <h4 className="text-sm font-medium text-text-primary mb-2">На более высоких уровнях</h4>
+                <h4 className="text-sm font-medium text-text-primary mb-2">{t('spell.higherLevels')}</h4>
                 <EntryRenderer entries={d.entriesHigherLevel} context={d.name || ''} onNavigate={handleNavigate} />
               </div>
             )}
@@ -1286,7 +1269,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {/* Классы для заклинаний */}
             {type === 'spells' && d.classes?.fromClassList && (
               <div className="pt-4 border-t border-border-default text-sm">
-                <span className="text-text-secondary">Классы: </span>
+                <span className="text-text-secondary">{t('spell.classes')} </span>
                 <span className="text-text-primary">{d.classes.fromClassList.map((c: any) => c.name).join(', ')}</span>
               </div>
             )}
@@ -1303,14 +1286,14 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
         <div className="flex items-center justify-between mb-6">
           <button onClick={onBack} className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors">
             <ArrowLeft size={20} />
-            <span>Назад</span>
+            <span>{t('ui.back')}</span>
           </button>
-          <h2 className="text-2xl font-medieval text-gold">База знаний</h2>
+          <h2 className="text-2xl font-medieval text-gold">{t('ui.title')}</h2>
           <div className="w-24" />
         </div>
 
         <p className="text-text-secondary text-sm mb-4 text-center">
-          Выберите категорию для просмотра. Данные загружаются по запросу.
+          {t('ui.selectCategory')}
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -1331,7 +1314,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                     {cat.label}
                   </div>
                   {cached && (
-                    <div className="text-xs text-text-muted mt-1">{cached.items.length} записей</div>
+                    <div className="text-xs text-text-muted mt-1">{t('ui.entriesCount', { count: cached.items.length })}</div>
                   )}
                 </div>
               </button>
@@ -1350,10 +1333,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       <div className="flex items-center justify-between mb-4">
         <button onClick={goBackToCategories} className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors">
           <ArrowLeft size={20} />
-          <span>Категории</span>
+          <span>{t('ui.categories')}</span>
         </button>
         <h2 className="text-xl font-medieval text-gold">
-          {activeCat?.label || 'База знаний'}
+          {activeCat?.label || t('ui.title')}
           {categoryData && <span className="text-sm font-normal text-text-secondary ml-2">({filteredItems.length})</span>}
         </h2>
         <div className="w-24" />
@@ -1363,7 +1346,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       {loading && (
         <div className="flex items-center justify-center py-12">
           <Loader2 size={32} className="animate-spin text-gold" />
-          <span className="ml-3 text-text-secondary">Загрузка данных...</span>
+          <span className="ml-3 text-text-secondary">{t('ui.loadingData')}</span>
         </div>
       )}
 
@@ -1372,7 +1355,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
         <div className="flex flex-col items-center justify-center py-12 gap-4">
           <div className="text-red-bright">{loadError}</div>
           <button onClick={() => selectCategory(activeCategory)} className="px-4 py-2 bg-bg-panel-solid text-text-primary rounded hover:bg-gray-600">
-            Повторить
+            {t('ui.retry')}
           </button>
         </div>
       )}
@@ -1386,7 +1369,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" size={18} />
               <input
                 type="text"
-                placeholder="Поиск..."
+                placeholder={t('ui.search')}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-bg-panel-solid border border-border-default rounded-lg text-text-primary focus:outline-none focus:border-gold/50 transition-colors text-sm"
@@ -1466,7 +1449,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                         className="flex items-center gap-1 px-2 py-1 rounded text-xs text-red-400 hover:text-red-300 border border-red-900/30 hover:border-red-700/40 bg-red-900/10 transition-colors"
                       >
                         <X size={12} />
-                        Сброс
+                        {t('ui.reset')}
                       </button>
                     )}
                   </div>
@@ -1523,7 +1506,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="text-sm text-text-primary group-hover:text-gold font-medium truncate">
-                      {item.name || 'Без названия'}
+                      {item.name || t('ui.noTitle')}
                     </div>
                     <div className="text-xs text-text-muted truncate">{getItemSubtitle(item)}</div>
                   </div>
@@ -1533,7 +1516,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             })}
             {filteredItems.length === 0 && (
               <div className="text-center text-text-muted py-8">
-                {searchQuery ? 'Ничего не найдено' : 'Нет записей'}
+                {searchQuery ? t('ui.nothingFound') : t('ui.noEntries')}
               </div>
             )}
           </div>

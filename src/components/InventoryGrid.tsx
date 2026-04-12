@@ -1,15 +1,16 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, InventoryItem, EquipmentSlot, Equipment } from '../types';
 import {
   ITEM_TEMPLATES,
   RARITY_COLORS,
   RARITY_BG_COLORS,
-  RARITY_NAMES,
-  EQUIPMENT_SLOT_NAMES,
+  getRarityName,
+  getEquipmentSlotName,
   EQUIPMENT_SLOT_ICONS,
-  CATEGORY_NAMES,
-  DAMAGE_TYPE_NAMES,
-  PROPERTY_NAMES,
+  getCategoryName,
+  getDamageTypeName,
+  getPropertyName,
   canEquipInOffhand,
   getArmorType,
   getArmorAC,
@@ -111,6 +112,7 @@ function canItemFitOffhand(item: InventoryItem): boolean {
 // ============================
 
 const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = ({ item, onClose }) => {
+  const { t } = useTranslation('inventory');
   const rarityColor = RARITY_COLORS[item.rarity];
   const raw = item.raw ?? {};
   const [EntryRendererComp, setEntryRendererComp] = useState<React.FC<any> | null>(null);
@@ -123,15 +125,14 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
 
   const properties = (raw.property ?? [])
     .filter((p: any) => typeof p === 'string')
-    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .map((p: string) => getPropertyName(p.split('|')[0]))
     .filter(Boolean);
 
   const masteries = (raw.mastery ?? [])
     .filter((m: any) => typeof m === 'string')
     .map((m: string) => {
       const key = m.split('|')[0];
-      const MASTERY: Record<string, string> = { Cleave: 'Рассечение', Graze: 'Вскользь', Nick: 'Порез', Push: 'Толчок', Sap: 'Оглушение', Slow: 'Замедление', Topple: 'Опрокидывание', Vex: 'Досада' };
-      return MASTERY[key] ?? key;
+      return t(`mastery.${key}`, key);
     });
 
   return (
@@ -154,7 +155,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
           <div>
             <h3 className="text-lg font-semibold" style={{ color: rarityColor }}>{item.name}</h3>
             <div className="text-sm text-text-secondary">{item.type}</div>
-            <div className="text-sm" style={{ color: rarityColor }}>{RARITY_NAMES[item.rarity]}</div>
+            <div className="text-sm" style={{ color: rarityColor }}>{getRarityName(item.rarity)}</div>
           </div>
           <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors ml-4">
             <X size={20} />
@@ -165,18 +166,18 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
         {raw.dmg1 && (
           <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
             <div className="flex gap-4">
-              <span className="text-text-secondary">Урон:</span>
-              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (DAMAGE_TYPE_NAMES[raw.dmgType] ?? raw.dmgType) : ''}</span>
+              <span className="text-text-secondary">{t('detail.damage')}</span>
+              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (getDamageTypeName(raw.dmgType)) : ''}</span>
             </div>
             {raw.dmg2 && (
               <div className="flex gap-4">
-                <span className="text-text-secondary">Двуручный:</span>
+                <span className="text-text-secondary">{t('detail.twoHanded')}</span>
                 <span className="text-text-primary">{raw.dmg2}</span>
               </div>
             )}
             {raw.range && (
               <div className="flex gap-4">
-                <span className="text-text-secondary">Дальность:</span>
+                <span className="text-text-secondary">{t('detail.range')}</span>
                 <span className="text-text-primary">{raw.range}</span>
               </div>
             )}
@@ -186,9 +187,9 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
         {/* КД для доспехов */}
         {raw.ac != null && (
           <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm">
-            <span className="text-text-secondary">КД: </span>
-            <span className="text-text-primary">{raw.ac}{raw.stealth ? ' (помеха Скрытности)' : ''}</span>
-            {raw.strength && <span className="text-text-secondary ml-2">Сила {raw.strength}+</span>}
+            <span className="text-text-secondary">{t('detail.ac')}</span>
+            <span className="text-text-primary">{raw.ac}{raw.stealth ? t('detail.acStealthDisadvantage') : ''}</span>
+            {raw.strength && <span className="text-text-secondary ml-2">{t('detail.acStrength', { value: raw.strength })}</span>}
           </div>
         )}
 
@@ -207,26 +208,26 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
         {/* Бонусы */}
         {(raw.bonusAc || raw.bonusSavingThrow || raw.bonusWeapon || raw.bonusSpellAttack || raw.bonusSpellSaveDc) && (
           <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
-            {raw.bonusAc && <div><span className="text-text-secondary">КД: </span><span className="text-green-400">{raw.bonusAc}</span></div>}
-            {raw.bonusSavingThrow && <div><span className="text-text-secondary">Спасброски: </span><span className="text-green-400">{raw.bonusSavingThrow}</span></div>}
-            {raw.bonusWeapon && <div><span className="text-text-secondary">Атака/Урон: </span><span className="text-green-400">{raw.bonusWeapon}</span></div>}
-            {raw.bonusSpellAttack && <div><span className="text-text-secondary">Атака заклинанием: </span><span className="text-green-400">{raw.bonusSpellAttack}</span></div>}
-            {raw.bonusSpellSaveDc && <div><span className="text-text-secondary">Сл заклинаний: </span><span className="text-green-400">{raw.bonusSpellSaveDc}</span></div>}
+            {raw.bonusAc && <div><span className="text-text-secondary">{t('detail.bonusAc')}</span><span className="text-green-400">{raw.bonusAc}</span></div>}
+            {raw.bonusSavingThrow && <div><span className="text-text-secondary">{t('detail.bonusSavingThrow')}</span><span className="text-green-400">{raw.bonusSavingThrow}</span></div>}
+            {raw.bonusWeapon && <div><span className="text-text-secondary">{t('detail.bonusAttackDamage')}</span><span className="text-green-400">{raw.bonusWeapon}</span></div>}
+            {raw.bonusSpellAttack && <div><span className="text-text-secondary">{t('detail.bonusSpellAttack')}</span><span className="text-green-400">{raw.bonusSpellAttack}</span></div>}
+            {raw.bonusSpellSaveDc && <div><span className="text-text-secondary">{t('detail.bonusSpellSaveDc')}</span><span className="text-green-400">{raw.bonusSpellSaveDc}</span></div>}
           </div>
         )}
 
         {/* Настройка */}
         {raw.reqAttune && (
           <div className="mb-3 text-xs text-amber-400">
-            Требуется настройка{typeof raw.reqAttune === 'string' ? ` (${raw.reqAttune})` : ''}
+            {typeof raw.reqAttune === 'string' ? t('detail.requiresAttunementBy', { by: raw.reqAttune }) : t('detail.requiresAttunement')}
           </div>
         )}
 
         {/* Вес и стоимость */}
         <div className="flex gap-4 text-xs text-text-muted mb-3">
-          {item.weight != null && <span>Вес: {item.weight} фнт.</span>}
-          {raw.value != null && <span>Стоимость: {raw.value >= 100 ? `${Math.floor(raw.value / 100)} зм` : raw.value >= 10 ? `${Math.floor(raw.value / 10)} см` : `${raw.value} мм`}</span>}
-          {item.quantity > 1 && <span>Кол-во: {item.quantity}</span>}
+          {item.weight != null && <span>{t('detail.weightLabel', { value: item.weight })}</span>}
+          {raw.value != null && <span>{raw.value >= 100 ? t('detail.valueGp', { value: Math.floor(raw.value / 100) }) : raw.value >= 10 ? t('detail.valueSp', { value: Math.floor(raw.value / 10) }) : t('detail.valueCp', { value: raw.value })}</span>}
+          {item.quantity > 1 && <span>{t('detail.quantityLabel', { value: item.quantity })}</span>}
         </div>
 
         {/* Описание (entries) — через EntryRenderer с интерактивными тегами */}
@@ -235,7 +236,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
             {EntryRendererComp ? (
               <EntryRendererComp entries={raw.entries} context="item-detail" />
             ) : (
-              <div className="text-sm text-text-secondary">Загрузка...</div>
+              <div className="text-sm text-text-secondary">{t('detail.loadingEntries')}</div>
             )}
           </div>
         )}
@@ -248,6 +249,7 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
 // Компонент: Тултип предмета
 // ============================
 const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }> = ({ item, style }) => {
+  const { t } = useTranslation('inventory');
   const rarityColor = RARITY_COLORS[item.rarity];
   return (
     <div
@@ -270,7 +272,7 @@ const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }
         </div>
         <div className="text-xs text-text-secondary mb-1">{item.type}</div>
         <div className="text-xs mb-2" style={{ color: rarityColor }}>
-          {RARITY_NAMES[item.rarity]}
+          {getRarityName(item.rarity)}
         </div>
         {item.description && (
           <div className="text-sm text-text-primary border-t border-border-default pt-2 mb-2">
@@ -278,8 +280,8 @@ const ItemTooltip: React.FC<{ item: InventoryItem; style?: React.CSSProperties }
           </div>
         )}
         <div className="flex gap-3 text-xs text-text-muted">
-          {item.weight != null && <span>Вес: {item.weight} фнт.</span>}
-          {item.quantity > 1 && <span>Кол-во: {item.quantity}</span>}
+          {item.weight != null && <span>{t('tooltip.weightLabel', { value: item.weight })}</span>}
+          {item.quantity > 1 && <span>{t('tooltip.quantityLabel', { value: item.quantity })}</span>}
         </div>
       </div>
     </div>
@@ -360,6 +362,7 @@ const EquipSlot: React.FC<{
   hideTooltip: () => void;
   onShowDetails?: (item: InventoryItem) => void;
 }> = ({ slot, item, notProficient, onUnequip, onDragOver, onDrop, showTooltip, hideTooltip, onShowDetails }) => {
+  const { t } = useTranslation('inventory');
   const ref = useRef<HTMLDivElement>(null);
   const borderColor = notProficient ? '#ef4444' : (item ? RARITY_COLORS[item.rarity] : '#4b5563');
   const rarityBg = item ? RARITY_BG_COLORS[item.rarity] : 'rgba(75, 85, 99, 0.1)';
@@ -404,7 +407,7 @@ const EquipSlot: React.FC<{
             )}
           </span>
           {notProficient && (
-            <span className="absolute top-0.5 right-0.5 text-xs text-red-400 leading-none" title="Нет владения">✗</span>
+            <span className="absolute top-0.5 right-0.5 text-xs text-red-400 leading-none" title={t('noProficiency')}>✗</span>
           )}
           <div className="absolute -bottom-4 left-0 right-0 text-center">
             <span className={`text-[9px] truncate block px-0.5 ${notProficient ? 'text-red-400' : 'text-text-secondary'}`}>{item.name}</span>
@@ -413,7 +416,7 @@ const EquipSlot: React.FC<{
       ) : (
         <>
           <span className="text-2xl opacity-30">{EQUIPMENT_SLOT_ICONS[slot]}</span>
-          <span className="text-[9px] text-text-muted mt-1">{EQUIPMENT_SLOT_NAMES[slot]}</span>
+          <span className="text-[9px] text-text-muted mt-1">{getEquipmentSlotName(slot)}</span>
         </>
       )}
     </div>
@@ -435,6 +438,7 @@ const ItemContextMenu: React.FC<{
   onDetails: () => void;
   showOffhand: boolean;
 }> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onRemove, onDetails, showOffhand }) => {
+  const { t } = useTranslation('inventory');
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
@@ -456,7 +460,7 @@ const ItemContextMenu: React.FC<{
             onClick={onEquip}
             className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
-            Экипировать
+            {t('contextMenu.equip')}
           </button>
         )}
         {showOffhand && !item.equipped && (
@@ -464,7 +468,7 @@ const ItemContextMenu: React.FC<{
             onClick={onEquipOffhand}
             className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
-            Во вторую руку
+            {t('contextMenu.equipOffhand')}
           </button>
         )}
         {item.equipped && (
@@ -472,20 +476,20 @@ const ItemContextMenu: React.FC<{
             onClick={onUnequip}
             className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors"
           >
-            Снять
+            {t('contextMenu.unequip')}
           </button>
         )}
         <button
           onClick={onDetails}
           className="w-full text-left px-3 py-1.5 text-sm text-text-primary hover:bg-white/10 transition-colors border-t border-border-default"
         >
-          Подробнее
+          {t('contextMenu.details')}
         </button>
         <button
           onClick={onRemove}
           className="w-full text-left px-3 py-1.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
         >
-          Удалить
+          {t('contextMenu.remove')}
         </button>
       </div>
     </>
@@ -499,6 +503,7 @@ const AddItemModal: React.FC<{
   onAdd: (template: ItemTemplate, quantity: number) => void;
   onClose: () => void;
 }> = ({ onAdd, onClose }) => {
+  const { t } = useTranslation('inventory');
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedItem, setSelectedItem] = useState<ItemTemplate | null>(null);
@@ -533,9 +538,9 @@ const AddItemModal: React.FC<{
   // Форматирование стоимости
   const formatValue = (value?: number) => {
     if (!value) return null;
-    if (value >= 100) return `${Math.floor(value / 100)} зм`;
-    if (value >= 10) return `${Math.floor(value / 10)} см`;
-    return `${value} мм`;
+    if (value >= 100) return t('itemValue.gp', { value: Math.floor(value / 100) });
+    if (value >= 10) return t('itemValue.sp', { value: Math.floor(value / 10) });
+    return t('itemValue.cp', { value });
   };
 
   return (
@@ -545,7 +550,7 @@ const AddItemModal: React.FC<{
         <div className="flex items-center justify-between p-4 border-b border-border-default">
           <h2 className="text-xl font-medieval text-gold flex items-center gap-2">
             <Plus size={20} />
-            Добавить предмет
+            {t('addModal.title')}
           </h2>
           <button onClick={onClose} className="text-text-secondary hover:text-text-primary transition-colors">
             <X size={24} />
@@ -560,7 +565,7 @@ const AddItemModal: React.FC<{
               type="text"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setDisplayLimit(50); }}
-              placeholder="Поиск предметов..."
+              placeholder={t('addModal.searchPlaceholder')}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-primary placeholder-text-muted"
               autoFocus
             />
@@ -576,7 +581,7 @@ const AddItemModal: React.FC<{
                     : 'bg-bg-panel-solid text-text-secondary hover:bg-bg-panel hover:text-text-primary'
                 }`}
               >
-                {cat === 'all' ? 'Все' : CATEGORY_NAMES[cat as keyof typeof CATEGORY_NAMES] || cat}
+                {cat === 'all' ? t('addModal.allCategories') : getCategoryName(cat)}
               </button>
             ))}
           </div>
@@ -585,13 +590,13 @@ const AddItemModal: React.FC<{
         {/* Список предметов */}
         <div className="flex-1 overflow-y-auto p-4">
           {loading && (
-            <div className="text-center text-text-muted py-2 text-xs mb-2">Загрузка предметов...</div>
+            <div className="text-center text-text-muted py-2 text-xs mb-2">{t('addModal.loading')}</div>
           )}
           {filtered.length === 0 ? (
-            <div className="text-center text-text-muted py-8">Предметы не найдены</div>
+            <div className="text-center text-text-muted py-8">{t('addModal.noResults')}</div>
           ) : (
             <>
-              <div className="text-xs text-text-muted mb-2">{filtered.length} предметов</div>
+              <div className="text-xs text-text-muted mb-2">{t('addModal.itemCount', { count: filtered.length })}</div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {filtered.slice(0, displayLimit).map((template) => {
                   const isSelected = selectedItem?.id === template.id;
@@ -640,8 +645,8 @@ const AddItemModal: React.FC<{
                           <div className="text-xs text-text-muted">{template.type}</div>
                           <div className="text-xs text-text-muted mt-0.5 line-clamp-2">{template.description}</div>
                           <div className="text-[10px] text-text-muted mt-1">
-                            {RARITY_NAMES[template.rarity]}
-                            {template.weight ? ` | ${template.weight} фнт.` : ''}
+                            {getRarityName(template.rarity)}
+                            {template.weight ? ` | ${t('weightValue', { value: template.weight })}` : ''}
                             {template.value ? ` | ${formatValue(template.value)}` : ''}
                           </div>
                         </div>
@@ -655,7 +660,7 @@ const AddItemModal: React.FC<{
                   onClick={() => setDisplayLimit(prev => prev + 50)}
                   className="w-full mt-3 py-2 text-sm text-gold hover:text-gold/80 bg-bg-secondary/50 rounded-lg transition-colors"
                 >
-                  Показать ещё ({filtered.length - displayLimit} осталось)
+                  {t('addModal.showMore', { count: filtered.length - displayLimit })}
                 </button>
               )}
             </>
@@ -666,7 +671,7 @@ const AddItemModal: React.FC<{
         {selectedItem && (
           <div className="p-4 border-t border-border-default flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-sm text-text-secondary">Количество:</span>
+              <span className="text-sm text-text-secondary">{t('addModal.quantity')}</span>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -697,7 +702,7 @@ const AddItemModal: React.FC<{
               }}
               className="px-6 py-2 bg-gold text-text-primary rounded-lg hover:bg-gold/80 font-semibold shadow-lg transition-colors"
             >
-              Добавить {selectedItem.name}
+              {t('addModal.addItem', { name: selectedItem.name })}
             </button>
           </div>
         )}
@@ -710,6 +715,7 @@ const AddItemModal: React.FC<{
 // ОСНОВНОЙ КОМПОНЕНТ
 // ============================
 export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdate }) => {
+  const { t } = useTranslation('inventory');
   const [showAddModal, setShowAddModal] = useState(false);
   const [dragItem, setDragItem] = useState<InventoryItem | null>(null);
   const [tooltipItem, setTooltipItem] = useState<{ item: InventoryItem; rect: DOMRect } | null>(null);
@@ -751,7 +757,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       const currentGrid = buildGrid(inventory);
       const pos = findFreePosition(currentGrid);
       if (!pos) {
-        alert('Нет свободного места в рюкзаке!');
+        alert(t('noFreeSpace'));
         return;
       }
 
@@ -943,7 +949,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       const currentGrid = buildGrid(inventory);
       const pos = findFreePosition(currentGrid);
       if (!pos) {
-        alert('Нет свободного места в рюкзаке!');
+        alert(t('noFreeSpace'));
         return;
       }
 
@@ -1045,9 +1051,9 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Backpack className="text-gold" size={24} />
-          <h2 className="text-xl font-medieval text-gold">Инвентарь</h2>
+          <h2 className="text-xl font-medieval text-gold">{t('title')}</h2>
           <span className="text-xs text-text-muted ml-1">
-            Вес: {totalWeight.toFixed(1)} фнт.
+            {t('weight')} {t('weightValue', { value: totalWeight.toFixed(1) })}
           </span>
         </div>
         <button
@@ -1055,7 +1061,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 flex items-center gap-1.5 font-semibold transition-colors text-sm"
         >
           <Plus size={14} />
-          Добавить
+          {t('addButton')}
         </button>
       </div>
 
@@ -1064,7 +1070,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         <div className="glass-panel p-5 flex-shrink-0" style={{ minWidth: 420 }}>
           <div className="flex items-center gap-2 mb-4">
             <Shield className="text-text-secondary" size={18} />
-            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Экипировка</h3>
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">{t('equipment')}</h3>
           </div>
 
           {/* Верхняя часть: броня (лево) + аксессуары (право) */}
@@ -1159,7 +1165,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           {inventory.filter(i => i.category === 'potion').length > 0 && (
             <div className="mt-4 pt-3 border-t border-border-default text-xs text-text-secondary flex items-center gap-2">
               <FlaskConical size={12} />
-              <span>Зелий: <span className="text-text-primary font-semibold">{inventory.filter(i => i.category === 'potion').reduce((s, i) => s + i.quantity, 0)}</span></span>
+              <span>{t('potions.label')} <span className="text-text-primary font-semibold">{inventory.filter(i => i.category === 'potion').reduce((s, i) => s + i.quantity, 0)}</span></span>
             </div>
           )}
         </div>
@@ -1168,9 +1174,9 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         <div className="glass-panel p-4 flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-4">
             <Package className="text-text-secondary" size={18} />
-            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Рюкзак</h3>
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">{t('backpack')}</h3>
             <span className="text-xs text-text-muted ml-auto">
-              {backpackItems.length} / {GRID_COLS * GRID_ROWS} ячеек
+              {t('cellsCount', { count: backpackItems.length, total: GRID_COLS * GRID_ROWS })}
             </span>
           </div>
 
@@ -1228,8 +1234,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
                     <Backpack className="mx-auto text-text-muted/30 mb-2" size={48} />
-                    <div className="text-text-muted text-sm">Рюкзак пуст</div>
-                    <div className="text-text-muted/50 text-xs mt-1">Нажмите «Добавить предмет»</div>
+                    <div className="text-text-muted text-sm">{t('backpackEmpty')}</div>
+                    <div className="text-text-muted/50 text-xs mt-1">{t('backpackHint')}</div>
                   </div>
                 </div>
               )}
@@ -1242,15 +1248,15 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       <div className="glass-panel p-4">
         <div className="flex items-center gap-2 mb-3">
           <Coins className="text-gold" size={16} />
-          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">Валюта</h3>
+          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">{t('currency.title')}</h3>
         </div>
         <div className="flex flex-wrap gap-3">
           {([
-            { key: 'platinum' as const, label: 'ПП', color: '#e5e7eb' },
-            { key: 'gold' as const, label: 'ЗМ', color: '#fbbf24' },
-            { key: 'electrum' as const, label: 'ЭМ', color: '#a3a3a3' },
-            { key: 'silver' as const, label: 'СМ', color: '#d1d5db' },
-            { key: 'copper' as const, label: 'ММ', color: '#d97706' },
+            { key: 'platinum' as const, label: t('currency.platinum'), color: '#e5e7eb' },
+            { key: 'gold' as const, label: t('currency.gold'), color: '#fbbf24' },
+            { key: 'electrum' as const, label: t('currency.electrum'), color: '#a3a3a3' },
+            { key: 'silver' as const, label: t('currency.silver'), color: '#d1d5db' },
+            { key: 'copper' as const, label: t('currency.copper'), color: '#d97706' },
           ]).map(({ key, label, color }) => (
             <div
               key={key}
@@ -1322,22 +1328,22 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             >
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-red-400 text-xl">⚠️</span>
-                <h3 className="text-red-400 font-semibold text-lg">Нет владения</h3>
+                <h3 className="text-red-400 font-semibold text-lg">{t('profWarning.title')}</h3>
               </div>
               <p className="text-text-secondary text-sm mb-2">
-                У персонажа нет владения предметом <span className="text-text-primary font-semibold">{profWarning.item.name}</span>.
+                {t('profWarning.descriptionText')} <span className="text-text-primary font-semibold">{profWarning.item.name}</span>.
               </p>
               <p className="text-text-muted text-xs mb-4">
                 {profWarning.item.armorType
-                  ? 'Без владения доспехом: помеха на проверки и спасброски СИЛ/ЛОВ, невозможность колдовать.'
-                  : 'Без владения оружием: бонус владения не добавляется к броскам атаки.'}
+                  ? t('profWarning.armorPenalty')
+                  : t('profWarning.weaponPenalty')}
               </p>
               <div className="flex gap-3 justify-end">
                 <button
                   onClick={() => setProfWarning(null)}
                   className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:bg-white/5 text-sm transition-colors"
                 >
-                  Отмена
+                  {t('profWarning.cancel')}
                 </button>
                 <button
                   onClick={() => {
@@ -1346,7 +1352,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                   }}
                   className="px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 text-sm font-semibold transition-colors"
                 >
-                  Экипировать всё равно
+                  {t('profWarning.equipAnyway')}
                 </button>
               </div>
             </div>

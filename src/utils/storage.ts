@@ -1,4 +1,5 @@
 import type { Character, CharacterStorage } from '../types';
+import i18n from '../i18n';
 
 const STORAGE_KEY = 'dnd-characters';
 
@@ -127,10 +128,10 @@ export const importCharacter = (file: File): Promise<Character> => {
         character.updatedAt = new Date().toISOString();
         resolve(character);
       } catch {
-        reject(new Error('Неверный формат файла персонажа'));
+        reject(new Error(i18n.t('storageErrors.invalidCharacterFile', { ns: 'game' })));
       }
     };
-    reader.onerror = () => reject(new Error('Ошибка чтения файла'));
+    reader.onerror = () => reject(new Error(i18n.t('storageErrors.fileReadError', { ns: 'game' })));
     reader.readAsText(file);
   });
 };

@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "characters": "Персонажи",
+    "creation": "Создание",
+    "glossary": "База знаний"
+  },
+  "glossaryTabs": {
+    "spells": "Заклинания",
+    "classes": "Классы",
+    "subclasses": "Подклассы",
+    "species": "Виды",
+    "backgrounds": "Предыстории",
+    "feats": "Черты",
+    "items": "Предметы",
+    "optionalfeatures": "Способности",
+    "conditions": "Состояния",
+    "senses": "Чувства",
+    "skills": "Навыки",
+    "rules": "Правила",
+    "charoptions": "Опции создания",
+    "actions": "Действия"
+  },
+  "buttons": {
+    "create": "Создать"
+  },
+  "loading": {
+    "initializing": "Инициализация...",
+    "progress": "{{phase}}... ({{loaded}}/{{total}})"
+  },
+  "errors": {
+    "renderError": "Ошибка рендеринга приложения",
+    "loadError": "Ошибка загрузки: {{error}}",
+    "importError": "Ошибка импорта персонажа: {{error}}"
+  },
+  "alerts": {
+    "importSuccess": "Персонаж \"{{name}}\" успешно импортирован!"
+  },
+  "homePage": {
+    "title": "D&D Character Manager",
+    "createTitle": "Создать",
+    "createDesc": "Новый персонаж с нуля — раса, класс, характеристики и снаряжение.",
+    "charactersTitle": "Персонажи",
+    "charactersCountOne": "{{count}} персонаж создано.",
+    "charactersCountFew": "{{count}} персонажа создано.",
+    "charactersCountMany": "{{count}} персонажей создано.",
+    "noCharactersYet": "Пока нет персонажей — самое время создать первого!",
+    "knowledgeBaseTitle": "База знаний",
+    "knowledgeBaseDesc": "Заклинания, классы, расы, предметы, черты и правила D&D 5e.",
+    "recentCharacters": "Последние персонажи",
+    "levelShort": "{{level}} ур.",
+    "noCharactersHero": "У вас пока нет персонажей. Создайте первого, чтобы начать приключение!",
+    "createFirstCharacter": "Создать первого персонажа"
+  },
+  "characterList": {
+    "title": "Выбор персонажа",
+    "import": "Импорт",
+    "noCharacters": "Нет созданных персонажей",
+    "levelShort": "{{level}} ур.",
+    "exportTooltip": "Экспортировать",
+    "deleteTooltip": "Удалить",
+    "deleteConfirm": "Удалить персонажа \"{{name}}\"?"
+  },
+  "sidebar": {
+    "levelLabel": "Уровень {{level}} {{class}}",
+    "portrait": "Портрет",
+    "configurePortrait": "Настроить портрет",
+    "uploadPortrait": "Загрузить портрет",
+    "acLabel": "КД",
+    "hpLabel": "ХП",
+    "initiativeLabel": "Инициатива",
+    "speedLabel": "Скорость",
+    "proficiencyLabel": "Мастерство",
+    "passivePerception": "Пассивное внимание",
+    "skillsLabel": "Навыки",
+    "languagesLabel": "Языки",
+    "armorLabel": "Броня",
+    "weaponsLabel": "Оружие",
+    "toolsLabel": "Инструменты",
+    "spellsLabel": "Заклинания",
+    "cantripShort": "заг.",
+    "andMore": "...и ещё {{count}}"
+  }
+}

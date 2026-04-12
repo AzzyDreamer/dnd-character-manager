@@ -1,7 +1,8 @@
 import type { Character } from '../types';
 import { getAbilityModifier, formatModifier } from './dnd';
-import { DAMAGE_TYPE_NAMES, PROPERTY_NAMES } from '../data/items/constants';
+import { getDamageTypeName, getPropertyName } from '../data/items/constants';
 import { getEffectiveAbilityScores } from './classEffects';
+import i18n from '../i18n';
 
 function parseItemBonus(val: any): number {
   if (typeof val === 'number') return val;
@@ -13,10 +14,10 @@ function parseItemBonus(val: any): number {
 function statsFromRaw(raw: Record<string, any>): WeaponStats | null {
   if (!raw.dmg1) return null;
   const dmgTypeCode = raw.dmgType ?? '';
-  const damageType = DAMAGE_TYPE_NAMES[dmgTypeCode] ?? dmgTypeCode;
+  const damageType = getDamageTypeName(dmgTypeCode);
   const properties = (raw.property ?? [])
     .filter((p: any) => typeof p === 'string')
-    .map((p: string) => PROPERTY_NAMES[p.split('|')[0]] ?? p.split('|')[0])
+    .map((p: string) => getPropertyName(p.split('|')[0]))
     .filter(Boolean);
   return { damage: raw.dmg1, damageType, properties };
 }
@@ -27,112 +28,142 @@ interface WeaponStats {
   properties: string[];
 }
 
-// Статическая таблица характеристик PHB оружия
-const WEAPON_STATS: Record<string, WeaponStats> = {
+// Внутреннее представление: коды типов урона и свойств (переводятся при отдаче)
+interface WeaponStatsInternal {
+  damage: string;
+  damageTypeCode: string;    // 'B', 'S', 'P'
+  propertyCodes: string[];   // ['L'], ['F', 'L', 'T'], etc.
+}
+
+// Статическая таблица характеристик PHB оружия (только английские ключи, коды свойств)
+const WEAPON_STATS_INTERNAL: Record<string, WeaponStatsInternal> = {
   // Простое рукопашное
-  'club': { damage: '1d4', damageType: 'дробящий', properties: ['лёгкое'] },
-  'дубинка': { damage: '1d4', damageType: 'дробящий', properties: ['лёгкое'] },
-  'dagger': { damage: '1d4', damageType: 'колющий', properties: ['фехтовальное', 'лёгкое', 'метательное'] },
-  'кинжал': { damage: '1d4', damageType: 'колющий', properties: ['фехтовальное', 'лёгкое', 'метательное'] },
-  'greatclub': { damage: '1d8', damageType: 'дробящий', properties: ['двуручное'] },
-  'большая дубина': { damage: '1d8', damageType: 'дробящий', properties: ['двуручное'] },
-  'handaxe': { damage: '1d6', damageType: 'рубящий', properties: ['лёгкое', 'метательное'] },
-  'ручной топор': { damage: '1d6', damageType: 'рубящий', properties: ['лёгкое', 'метательное'] },
-  'javelin': { damage: '1d6', damageType: 'колющий', properties: ['метательное'] },
-  'метательное копьё': { damage: '1d6', damageType: 'колющий', properties: ['метательное'] },
-  'light hammer': { damage: '1d4', damageType: 'дробящий', properties: ['лёгкое', 'метательное'] },
-  'лёгкий молот': { damage: '1d4', damageType: 'дробящий', properties: ['лёгкое', 'метательное'] },
-  'mace': { damage: '1d6', damageType: 'дробящий', properties: [] },
-  'булава': { damage: '1d6', damageType: 'дробящий', properties: [] },
-  'quarterstaff': { damage: '1d6', damageType: 'дробящий', properties: ['универсальное'] },
-  'боевой посох': { damage: '1d6', damageType: 'дробящий', properties: ['универсальное'] },
-  'sickle': { damage: '1d4', damageType: 'рубящий', properties: ['лёгкое'] },
-  'серп': { damage: '1d4', damageType: 'рубящий', properties: ['лёгкое'] },
-  'spear': { damage: '1d6', damageType: 'колющий', properties: ['метательное', 'универсальное'] },
-  'копьё': { damage: '1d6', damageType: 'колющий', properties: ['метательное', 'универсальное'] },
+  'club':            { damage: '1d4',  damageTypeCode: 'B', propertyCodes: ['L'] },
+  'dagger':          { damage: '1d4',  damageTypeCode: 'P', propertyCodes: ['F', 'L', 'T'] },
+  'greatclub':       { damage: '1d8',  damageTypeCode: 'B', propertyCodes: ['2H'] },
+  'handaxe':         { damage: '1d6',  damageTypeCode: 'S', propertyCodes: ['L', 'T'] },
+  'javelin':         { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['T'] },
+  'light hammer':    { damage: '1d4',  damageTypeCode: 'B', propertyCodes: ['L', 'T'] },
+  'mace':            { damage: '1d6',  damageTypeCode: 'B', propertyCodes: [] },
+  'quarterstaff':    { damage: '1d6',  damageTypeCode: 'B', propertyCodes: ['V'] },
+  'sickle':          { damage: '1d4',  damageTypeCode: 'S', propertyCodes: ['L'] },
+  'spear':           { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['T', 'V'] },
 
   // Простое дальнобойное
-  'light crossbow': { damage: '1d8', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'лёгкий арбалет': { damage: '1d8', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'dart': { damage: '1d4', damageType: 'колющий', properties: ['фехтовальное', 'метательное'] },
-  'дротик': { damage: '1d4', damageType: 'колющий', properties: ['фехтовальное', 'метательное'] },
-  'shortbow': { damage: '1d6', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'короткий лук': { damage: '1d6', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'sling': { damage: '1d4', damageType: 'дробящий', properties: ['боеприпасы'] },
-  'праща': { damage: '1d4', damageType: 'дробящий', properties: ['боеприпасы'] },
+  'light crossbow':  { damage: '1d8',  damageTypeCode: 'P', propertyCodes: ['AM', '2H'] },
+  'dart':            { damage: '1d4',  damageTypeCode: 'P', propertyCodes: ['F', 'T'] },
+  'shortbow':        { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['AM', '2H'] },
+  'sling':           { damage: '1d4',  damageTypeCode: 'B', propertyCodes: ['AM'] },
 
   // Воинское рукопашное
-  'battleaxe': { damage: '1d8', damageType: 'рубящий', properties: ['универсальное'] },
-  'боевой топор': { damage: '1d8', damageType: 'рубящий', properties: ['универсальное'] },
-  'flail': { damage: '1d8', damageType: 'дробящий', properties: [] },
-  'цеп': { damage: '1d8', damageType: 'дробящий', properties: [] },
-  'glaive': { damage: '1d10', damageType: 'рубящий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'глефа': { damage: '1d10', damageType: 'рубящий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'greataxe': { damage: '1d12', damageType: 'рубящий', properties: ['тяжёлое', 'двуручное'] },
-  'секира': { damage: '1d12', damageType: 'рубящий', properties: ['тяжёлое', 'двуручное'] },
-  'greatsword': { damage: '2d6', damageType: 'рубящий', properties: ['тяжёлое', 'двуручное'] },
-  'двуручный меч': { damage: '2d6', damageType: 'рубящий', properties: ['тяжёлое', 'двуручное'] },
-  'halberd': { damage: '1d10', damageType: 'рубящий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'алебарда': { damage: '1d10', damageType: 'рубящий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'lance': { damage: '1d12', damageType: 'колющий', properties: ['досягаемость'] },
-  'копьё рыцарское': { damage: '1d12', damageType: 'колющий', properties: ['досягаемость'] },
-  'longsword': { damage: '1d8', damageType: 'рубящий', properties: ['универсальное'] },
-  'длинный меч': { damage: '1d8', damageType: 'рубящий', properties: ['универсальное'] },
-  'maul': { damage: '2d6', damageType: 'дробящий', properties: ['тяжёлое', 'двуручное'] },
-  'молот': { damage: '2d6', damageType: 'дробящий', properties: ['тяжёлое', 'двуручное'] },
-  'morningstar': { damage: '1d8', damageType: 'колющий', properties: [] },
-  'моргенштерн': { damage: '1d8', damageType: 'колющий', properties: [] },
-  'pike': { damage: '1d10', damageType: 'колющий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'пика': { damage: '1d10', damageType: 'колющий', properties: ['тяжёлое', 'досягаемость', 'двуручное'] },
-  'rapier': { damage: '1d8', damageType: 'колющий', properties: ['фехтовальное'] },
-  'рапира': { damage: '1d8', damageType: 'колющий', properties: ['фехтовальное'] },
-  'scimitar': { damage: '1d6', damageType: 'рубящий', properties: ['фехтовальное', 'лёгкое'] },
-  'скимитар': { damage: '1d6', damageType: 'рубящий', properties: ['фехтовальное', 'лёгкое'] },
-  'shortsword': { damage: '1d6', damageType: 'колющий', properties: ['фехтовальное', 'лёгкое'] },
-  'короткий меч': { damage: '1d6', damageType: 'колющий', properties: ['фехтовальное', 'лёгкое'] },
-  'trident': { damage: '1d6', damageType: 'колющий', properties: ['метательное', 'универсальное'] },
-  'трезубец': { damage: '1d6', damageType: 'колющий', properties: ['метательное', 'универсальное'] },
-  'war pick': { damage: '1d8', damageType: 'колющий', properties: [] },
-  'боевая кирка': { damage: '1d8', damageType: 'колющий', properties: [] },
-  'warhammer': { damage: '1d8', damageType: 'дробящий', properties: ['универсальное'] },
-  'боевой молот': { damage: '1d8', damageType: 'дробящий', properties: ['универсальное'] },
-  'whip': { damage: '1d4', damageType: 'рубящий', properties: ['фехтовальное', 'досягаемость'] },
-  'кнут': { damage: '1d4', damageType: 'рубящий', properties: ['фехтовальное', 'досягаемость'] },
+  'battleaxe':       { damage: '1d8',  damageTypeCode: 'S', propertyCodes: ['V'] },
+  'flail':           { damage: '1d8',  damageTypeCode: 'B', propertyCodes: [] },
+  'glaive':          { damage: '1d10', damageTypeCode: 'S', propertyCodes: ['H', 'R', '2H'] },
+  'greataxe':        { damage: '1d12', damageTypeCode: 'S', propertyCodes: ['H', '2H'] },
+  'greatsword':      { damage: '2d6',  damageTypeCode: 'S', propertyCodes: ['H', '2H'] },
+  'halberd':         { damage: '1d10', damageTypeCode: 'S', propertyCodes: ['H', 'R', '2H'] },
+  'lance':           { damage: '1d12', damageTypeCode: 'P', propertyCodes: ['R'] },
+  'longsword':       { damage: '1d8',  damageTypeCode: 'S', propertyCodes: ['V'] },
+  'maul':            { damage: '2d6',  damageTypeCode: 'B', propertyCodes: ['H', '2H'] },
+  'morningstar':     { damage: '1d8',  damageTypeCode: 'P', propertyCodes: [] },
+  'pike':            { damage: '1d10', damageTypeCode: 'P', propertyCodes: ['H', 'R', '2H'] },
+  'rapier':          { damage: '1d8',  damageTypeCode: 'P', propertyCodes: ['F'] },
+  'scimitar':        { damage: '1d6',  damageTypeCode: 'S', propertyCodes: ['F', 'L'] },
+  'shortsword':      { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['F', 'L'] },
+  'trident':         { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['T', 'V'] },
+  'war pick':        { damage: '1d8',  damageTypeCode: 'P', propertyCodes: [] },
+  'warhammer':       { damage: '1d8',  damageTypeCode: 'B', propertyCodes: ['V'] },
+  'whip':            { damage: '1d4',  damageTypeCode: 'S', propertyCodes: ['F', 'R'] },
 
   // Воинское дальнобойное
-  'blowgun': { damage: '1', damageType: 'колющий', properties: ['боеприпасы'] },
-  'духовая трубка': { damage: '1', damageType: 'колющий', properties: ['боеприпасы'] },
-  'hand crossbow': { damage: '1d6', damageType: 'колющий', properties: ['боеприпасы', 'лёгкое'] },
-  'ручной арбалет': { damage: '1d6', damageType: 'колющий', properties: ['боеприпасы', 'лёгкое'] },
-  'heavy crossbow': { damage: '1d10', damageType: 'колющий', properties: ['боеприпасы', 'тяжёлое', 'двуручное'] },
-  'тяжёлый арбалет': { damage: '1d10', damageType: 'колющий', properties: ['боеприпасы', 'тяжёлое', 'двуручное'] },
-  'longbow': { damage: '1d8', damageType: 'колющий', properties: ['боеприпасы', 'тяжёлое', 'двуручное'] },
-  'длинный лук': { damage: '1d8', damageType: 'колющий', properties: ['боеприпасы', 'тяжёлое', 'двуручное'] },
-  'musket': { damage: '1d12', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'мушкет': { damage: '1d12', damageType: 'колющий', properties: ['боеприпасы', 'двуручное'] },
-  'pistol': { damage: '1d10', damageType: 'колющий', properties: ['боеприпасы'] },
-  'пистолет': { damage: '1d10', damageType: 'колющий', properties: ['боеприпасы'] },
+  'blowgun':         { damage: '1',    damageTypeCode: 'P', propertyCodes: ['AM'] },
+  'hand crossbow':   { damage: '1d6',  damageTypeCode: 'P', propertyCodes: ['AM', 'L'] },
+  'heavy crossbow':  { damage: '1d10', damageTypeCode: 'P', propertyCodes: ['AM', 'H', '2H'] },
+  'longbow':         { damage: '1d8',  damageTypeCode: 'P', propertyCodes: ['AM', 'H', '2H'] },
+  'musket':          { damage: '1d12', damageTypeCode: 'P', propertyCodes: ['AM', '2H'] },
+  'pistol':          { damage: '1d10', damageTypeCode: 'P', propertyCodes: ['AM'] },
+};
+
+// Маппинг русских названий оружия → английские (для поиска по имени из инвентаря)
+const RU_TO_EN_WEAPON: Record<string, string> = {
+  'дубинка': 'club',
+  'кинжал': 'dagger',
+  'большая дубина': 'greatclub',
+  'ручной топор': 'handaxe',
+  'метательное копьё': 'javelin',
+  'лёгкий молот': 'light hammer',
+  'булава': 'mace',
+  'боевой посох': 'quarterstaff',
+  'серп': 'sickle',
+  'копьё': 'spear',
+  'лёгкий арбалет': 'light crossbow',
+  'дротик': 'dart',
+  'короткий лук': 'shortbow',
+  'праща': 'sling',
+  'боевой топор': 'battleaxe',
+  'цеп': 'flail',
+  'глефа': 'glaive',
+  'секира': 'greataxe',
+  'двуручный меч': 'greatsword',
+  'алебарда': 'halberd',
+  'копьё рыцарское': 'lance',
+  'длинный меч': 'longsword',
+  'молот': 'maul',
+  'моргенштерн': 'morningstar',
+  'пика': 'pike',
+  'рапира': 'rapier',
+  'скимитар': 'scimitar',
+  'короткий меч': 'shortsword',
+  'трезубец': 'trident',
+  'боевая кирка': 'war pick',
+  'боевой молот': 'warhammer',
+  'кнут': 'whip',
+  'духовая трубка': 'blowgun',
+  'ручной арбалет': 'hand crossbow',
+  'тяжёлый арбалет': 'heavy crossbow',
+  'длинный лук': 'longbow',
+  'мушкет': 'musket',
+  'пистолет': 'pistol',
 };
 
 // Дальнобойное оружие (для определения использования DEX)
-const RANGED_KEYWORDS = ['лук', 'арбалет', 'праща', 'дротик', 'духовая', 'bow', 'crossbow', 'sling', 'dart', 'blowgun', 'musket', 'мушкет', 'pistol', 'пистолет'];
+const RANGED_KEYWORDS = ['bow', 'crossbow', 'sling', 'dart', 'blowgun', 'musket', 'pistol'];
 
 function isRanged(name: string): boolean {
   const lower = name.toLowerCase();
-  return RANGED_KEYWORDS.some(kw => lower.includes(kw));
+  // Нормализуем русское имя в английское для проверки
+  const enName = RU_TO_EN_WEAPON[lower] ?? lower;
+  return RANGED_KEYWORDS.some(kw => enName.includes(kw));
 }
 
-function isFinesse(stats: WeaponStats): boolean {
-  return stats.properties.some(p => p.toLowerCase() === 'фехтовальное' || p.toLowerCase() === 'finesse');
+function isFinesse(stats: WeaponStatsInternal): boolean {
+  return stats.propertyCodes.includes('F');
 }
 
-function lookupWeaponStats(name: string): WeaponStats | undefined {
+/** Translate internal stats to user-facing format */
+function translateStats(internal: WeaponStatsInternal): WeaponStats {
+  return {
+    damage: internal.damage,
+    damageType: getDamageTypeName(internal.damageTypeCode),
+    properties: internal.propertyCodes.map(c => getPropertyName(c)),
+  };
+}
+
+function lookupWeaponStats(name: string): { internal: WeaponStatsInternal; translated: WeaponStats } | undefined {
   const lower = name.toLowerCase();
+  // Нормализуем русское имя в английское
+  const enName = RU_TO_EN_WEAPON[lower] ?? lower;
+
   // Точное совпадение
-  if (WEAPON_STATS[lower]) return WEAPON_STATS[lower];
+  if (WEAPON_STATS_INTERNAL[enName]) {
+    const internal = WEAPON_STATS_INTERNAL[enName];
+    return { internal, translated: translateStats(internal) };
+  }
   // Частичное совпадение
-  for (const [key, val] of Object.entries(WEAPON_STATS)) {
-    if (lower.includes(key) || key.includes(lower)) return val;
+  for (const [key, val] of Object.entries(WEAPON_STATS_INTERNAL)) {
+    if (enName.includes(key) || key.includes(enName)) {
+      return { internal: val, translated: translateStats(val) };
+    }
   }
   return undefined;
 }
@@ -164,12 +195,12 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
     const martialDie = character.level >= 17 ? '1d12' : character.level >= 11 ? '1d10' : character.level >= 5 ? '1d8' : '1d6';
     damage = abilityMod >= 0 ? `${martialDie} + ${abilityMod}` : `${martialDie} - ${Math.abs(abilityMod)}`;
     return {
-      name: 'Безоружный удар',
+      name: i18n.t('weapons.unarmedStrike', { ns: 'game' }),
       slot: 'mainhand',
       attackBonus: monkBonus,
       attackBonusFormatted: formatModifier(monkBonus),
       damage,
-      damageType: 'дробящий',
+      damageType: getDamageTypeName('B'),
       properties: [],
       isRanged: false,
       image: '/images/Unarmed_Strike.webp',
@@ -177,12 +208,12 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
   }
   damage = strMod >= 0 ? `1 + ${strMod}` : `1 - ${Math.abs(strMod)}`;
   return {
-    name: 'Безоружный удар',
+    name: i18n.t('weapons.unarmedStrike', { ns: 'game' }),
     slot: 'mainhand',
     attackBonus,
     attackBonusFormatted: formatModifier(attackBonus),
     damage,
-    damageType: 'дробящий',
+    damageType: getDamageTypeName('B'),
     properties: [],
     isRanged: false,
     image: '/images/Unarmed_Strike.webp',
@@ -201,7 +232,9 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     const item = character.inventory.find(i => i.id === itemId);
     if (!item || item.category !== 'weapon') continue;
 
-    let stats = lookupWeaponStats(item.name) ?? (item.raw ? statsFromRaw(item.raw) : null);
+    const looked = lookupWeaponStats(item.name);
+    let stats: WeaponStats | null = looked?.translated ?? (item.raw ? statsFromRaw(item.raw) : null);
+    const internal = looked?.internal;
     const ranged = slot === 'rangedMainhand' || slot === 'rangedOffhand' || isRanged(item.name) || item.raw?.type === 'R';
     const isOffhand = slot === 'offhand' || slot === 'rangedOffhand';
 
@@ -239,7 +272,7 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     let abilityMod: number;
     if (ranged) {
       abilityMod = dexMod;
-    } else if (isFinesse(stats)) {
+    } else if (internal && isFinesse(internal)) {
       abilityMod = Math.max(strMod, dexMod);
     } else {
       abilityMod = strMod;
@@ -335,44 +368,44 @@ export function getMasteryInfo(masteryCode: string): MasteryInfo | undefined {
 
 // Mastery по базовому типу оружия (для предметов без собственного поля mastery)
 const BASE_WEAPON_MASTERY: Record<string, string[]> = {
-  club: ['Sap'], дубинка: ['Sap'],
-  dagger: ['Nick'], кинжал: ['Nick'],
-  greatclub: ['Push'], 'большая дубина': ['Push'],
-  handaxe: ['Vex'], 'ручной топор': ['Vex'],
-  javelin: ['Slow'], 'метательное копьё': ['Slow'],
-  'light hammer': ['Nick'], 'лёгкий молот': ['Nick'],
-  mace: ['Sap'], булава: ['Sap'],
-  quarterstaff: ['Topple'], 'боевой посох': ['Topple'],
-  sickle: ['Nick'], серп: ['Nick'],
-  spear: ['Sap'], копьё: ['Sap'],
-  'light crossbow': ['Slow'], 'лёгкий арбалет': ['Slow'],
-  dart: ['Vex'], дротик: ['Vex'],
-  shortbow: ['Vex'], 'короткий лук': ['Vex'],
-  sling: ['Slow'], праща: ['Slow'],
-  battleaxe: ['Topple'], 'боевой топор': ['Topple'],
-  flail: ['Sap'], цеп: ['Sap'],
-  glaive: ['Graze'], глефа: ['Graze'],
-  greataxe: ['Cleave'], секира: ['Cleave'],
-  greatsword: ['Graze'], 'двуручный меч': ['Graze'],
-  halberd: ['Cleave'], алебарда: ['Cleave'],
-  lance: ['Topple'], 'копьё рыцарское': ['Topple'],
-  longsword: ['Sap'], 'длинный меч': ['Sap'],
-  maul: ['Topple'], молот: ['Topple'],
-  morningstar: ['Sap'], моргенштерн: ['Sap'],
-  pike: ['Push'], пика: ['Push'],
-  rapier: ['Vex'], рапира: ['Vex'],
-  scimitar: ['Nick'], скимитар: ['Nick'],
-  shortsword: ['Vex'], 'короткий меч': ['Vex'],
-  trident: ['Topple'], трезубец: ['Topple'],
-  'war pick': ['Sap'], 'боевая кирка': ['Sap'],
-  warhammer: ['Push'], 'боевой молот': ['Push'],
-  whip: ['Slow'], кнут: ['Slow'],
-  blowgun: ['Vex'], 'духовая трубка': ['Vex'],
-  'hand crossbow': ['Vex'], 'ручной арбалет': ['Vex'],
-  'heavy crossbow': ['Push'], 'тяжёлый арбалет': ['Push'],
-  longbow: ['Slow'], 'длинный лук': ['Slow'],
-  musket: ['Slow'], мушкет: ['Slow'],
-  pistol: ['Vex'], пистолет: ['Vex'],
+  club: ['Sap'],
+  dagger: ['Nick'],
+  greatclub: ['Push'],
+  handaxe: ['Vex'],
+  javelin: ['Slow'],
+  'light hammer': ['Nick'],
+  mace: ['Sap'],
+  quarterstaff: ['Topple'],
+  sickle: ['Nick'],
+  spear: ['Sap'],
+  'light crossbow': ['Slow'],
+  dart: ['Vex'],
+  shortbow: ['Vex'],
+  sling: ['Slow'],
+  battleaxe: ['Topple'],
+  flail: ['Sap'],
+  glaive: ['Graze'],
+  greataxe: ['Cleave'],
+  greatsword: ['Graze'],
+  halberd: ['Cleave'],
+  lance: ['Topple'],
+  longsword: ['Sap'],
+  maul: ['Topple'],
+  morningstar: ['Sap'],
+  pike: ['Push'],
+  rapier: ['Vex'],
+  scimitar: ['Nick'],
+  shortsword: ['Vex'],
+  trident: ['Topple'],
+  'war pick': ['Sap'],
+  warhammer: ['Push'],
+  whip: ['Slow'],
+  blowgun: ['Vex'],
+  'hand crossbow': ['Vex'],
+  'heavy crossbow': ['Push'],
+  longbow: ['Slow'],
+  musket: ['Slow'],
+  pistol: ['Vex'],
 };
 
 /** Resolve mastery codes for an item, falling back to base weapon type */
@@ -386,13 +419,14 @@ function resolveItemMastery(item: { name: string; mastery?: string[]; raw?: any 
     if (BASE_WEAPON_MASTERY[baseName]) return BASE_WEAPON_MASTERY[baseName];
   }
 
-  // Try matching item name against known weapon names
+  // Try matching item name against known weapon names (normalize Russian names)
   const lowerName = item.name.toLowerCase();
-  if (BASE_WEAPON_MASTERY[lowerName]) return BASE_WEAPON_MASTERY[lowerName];
+  const enName = RU_TO_EN_WEAPON[lowerName] ?? lowerName;
+  if (BASE_WEAPON_MASTERY[enName]) return BASE_WEAPON_MASTERY[enName];
 
   // Partial match: check if item name contains a base weapon name
   for (const [weaponName, mastery] of Object.entries(BASE_WEAPON_MASTERY)) {
-    if (lowerName.includes(weaponName) || weaponName.includes(lowerName)) {
+    if (enName.includes(weaponName) || weaponName.includes(enName)) {
       return mastery;
     }
   }

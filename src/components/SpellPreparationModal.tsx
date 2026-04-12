@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, CharacterSpell } from '../types';
 import { Search, Loader2, ChevronDown, ChevronRight, BookOpen, Check } from 'lucide-react';
 import { SpellIconBadge, SpellTooltip } from './ui';
@@ -29,20 +30,18 @@ interface SpellPreparationModalProps {
   onCancel: () => void;
 }
 
-const TIME_UNITS: Record<string, string> = { action: 'действие', bonus: 'бонус', reaction: 'реакция', minute: 'мин.', hour: 'час' };
-
-function getSpellMeta(spell: SpellDataLocal) {
-  const castingTime = spell.time?.map(t => `${t.number} ${TIME_UNITS[t.unit] || t.unit}`).join(', ');
+function getSpellMeta(spell: SpellDataLocal, t: (key: string, opts?: any) => string) {
+  const castingTime = spell.time?.map(tm => `${tm.number} ${t(`meta.timeUnits.${tm.unit}`, { defaultValue: tm.unit })}`).join(', ');
   const range = spell.range?.distance?.amount
-    ? `${spell.range.distance.amount} фт.`
-    : spell.range?.type === 'touch' ? 'Касание'
-      : spell.range?.type === 'self' ? 'На себя' : spell.range?.type || '';
+    ? t('meta.rangeFeet', { amount: spell.range.distance.amount })
+    : spell.range?.type === 'touch' ? t('meta.rangeTouch')
+      : spell.range?.type === 'self' ? t('meta.rangeSelf') : spell.range?.type || '';
   const components = spell.components
-    ? [spell.components.v ? 'В' : '', spell.components.s ? 'С' : '', spell.components.m ? 'М' : ''].filter(Boolean).join(', ')
+    ? [spell.components.v ? t('meta.componentV') : '', spell.components.s ? t('meta.componentS') : '', spell.components.m ? t('meta.componentM') : ''].filter(Boolean).join(', ')
     : '';
   const duration = spell.duration?.map(d => {
-    if (d.type === 'instant') return 'Мгновенная';
-    if (d.concentration) return `Конц., ${d.duration?.amount || ''} ${d.duration?.type || ''}`;
+    if (d.type === 'instant') return t('meta.durationInstant');
+    if (d.concentration) return t('meta.durationConcentration', { amount: d.duration?.amount || '', type: d.duration?.type || '' });
     return d.type;
   }).join(', ');
   return { castingTime, range, components, duration };
@@ -61,6 +60,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  const { t } = useTranslation('spells');
   const [modules, setModules] = useState<LoadedModules | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [preparedNames, setPreparedNames] = useState<Set<string>>(() => {
@@ -190,11 +190,11 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
         <div className="p-4 border-b border-border-default flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <BookOpen size={20} className="text-gold" />
-            <h2 className="text-lg font-medieval text-gold">Подготовка заклинаний</h2>
+            <h2 className="text-lg font-medieval text-gold">{t('preparation.title')}</h2>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-text-secondary">
-              Подготовлено: <span className={`font-bold ${preparedNames.size >= maxPrepared ? 'text-red-bright' : 'text-gold'}`}>
+              {t('preparation.preparedCount')}<span className={`font-bold ${preparedNames.size >= maxPrepared ? 'text-red-bright' : 'text-gold'}`}>
                 {preparedNames.size}/{maxPrepared}
               </span>
             </span>
@@ -208,7 +208,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
             <input
               type="text"
-              placeholder="Поиск заклинаний..."
+              placeholder={t('preparation.searchPlaceholder')}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-8 pr-3 py-2 bg-bg-primary border border-border-default rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-gold/50"
@@ -221,7 +221,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
           {!modules ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="animate-spin text-gold mr-2" size={20} />
-              <span className="text-text-muted">Загрузка заклинаний...</span>
+              <span className="text-text-muted">{t('common.loadingSpells')}</span>
             </div>
           ) : (
             <div className="p-3 space-y-3">
@@ -241,11 +241,11 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
                           ? <ChevronRight size={14} className="text-text-muted" />
                           : <ChevronDown size={14} className="text-text-muted" />}
                         <span className="text-sm font-medieval text-blue-300">
-                          {level} уровень ({spells.length})
+                          {t('spellcasting.levelCount', { level, count: spells.length })}
                         </span>
                         {preparedInLevel > 0 && (
                           <span className="text-xs text-green-bright ml-1">
-                            {preparedInLevel} подг.
+                            {t('preparation.preparedShort', { count: preparedInLevel })}
                           </span>
                         )}
                       </button>
@@ -253,7 +253,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
                         <div className="flex flex-wrap gap-2">
                           {spells.map(spell => {
                             const isPrepared = preparedNames.has(spell.name);
-                            const meta = getSpellMeta(spell);
+                            const meta = getSpellMeta(spell, t);
                             return (
                               <SpellTooltip
                                 key={spell.name}
@@ -288,7 +288,7 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
 
               {availableSpells.length === 0 && searchQuery && (
                 <div className="text-center text-text-muted py-6 text-sm italic">
-                  Заклинания не найдены
+                  {t('preparation.notFound')}
                 </div>
               )}
             </div>
@@ -309,21 +309,21 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
                         : 'bg-bg-panel border border-border-default text-text-secondary hover:border-gold/40 hover:text-gold disabled:opacity-40'
                     }`}
                   >
-                    {preparedNames.has(expandedData.name) ? 'Снять подготовку' : 'Подготовить'}
+                    {preparedNames.has(expandedData.name) ? t('spellcasting.unprepare') : t('spellcasting.prepare')}
                   </button>
                   <button onClick={() => setExpandedSpell(null)} className="text-text-muted hover:text-text-primary text-sm">✕</button>
                 </div>
               </div>
               <div className="text-xs text-text-muted">
-                {expandedData.level} уровень
-                {expandedData.school && ` • ${modules.SCHOOL_NAMES[expandedData.school] || expandedData.school}`}
+                {t(`spellLevelLabels.${expandedData.level}`)}
+                {expandedData.school && ` • ${t(`schoolLabels.${expandedData.school}`, { defaultValue: modules.SCHOOL_NAMES[expandedData.school] || expandedData.school })}`}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                {(() => { const m = getSpellMeta(expandedData); return (<>
-                  {m.castingTime && <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{m.castingTime}</span></div>}
-                  {m.range && <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{m.range}</span></div>}
-                  {m.components && <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{m.components}</span></div>}
-                  {m.duration && <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{m.duration}</span></div>}
+                {(() => { const m = getSpellMeta(expandedData, t); return (<>
+                  {m.castingTime && <div><span className="text-text-muted">{t('meta.castingTime')}</span><span className="text-text-primary">{m.castingTime}</span></div>}
+                  {m.range && <div><span className="text-text-muted">{t('meta.range')}</span><span className="text-text-primary">{m.range}</span></div>}
+                  {m.components && <div><span className="text-text-muted">{t('meta.components')}</span><span className="text-text-primary">{m.components}</span></div>}
+                  {m.duration && <div><span className="text-text-muted">{t('meta.duration')}</span><span className="text-text-primary">{m.duration}</span></div>}
                 </>); })()}
               </div>
               <div className="pt-2 border-t border-border-default prose prose-invert prose-sm max-w-none text-xs">
@@ -341,21 +341,21 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
         {/* Footer */}
         <div className="p-4 border-t border-border-default flex items-center justify-between shrink-0">
           <p className="text-xs text-text-muted">
-            ПКМ по иконке или кнопка — подготовить/снять заклинание
+            {t('preparation.hint')}
           </p>
           <div className="flex gap-3">
             <button
               onClick={onCancel}
               className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover text-sm"
             >
-              Отмена
+              {t('common.cancel')}
             </button>
             <button
               onClick={handleConfirm}
               className="px-4 py-2 rounded-lg bg-gold/20 border border-gold/40 text-gold hover:bg-gold/30 text-sm font-medium flex items-center gap-2"
             >
               <Check size={14} />
-              Применить
+              {t('common.apply')}
             </button>
           </div>
         </div>

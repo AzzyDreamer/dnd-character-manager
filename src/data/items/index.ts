@@ -3,25 +3,25 @@ import {
   TYPE_TO_CATEGORY,
   TYPE_TO_EQUIP_SLOT,
   RARITY_MAP,
-  DAMAGE_TYPE_NAMES,
-  PROPERTY_NAMES,
-  MASTERY_NAMES,
-  WEAPON_CATEGORY_NAMES,
+  getDamageTypeName,
+  getPropertyName,
+  getMasteryName,
+  getWeaponCategoryName,
   getIconPlaceholder,
   type RawItemData,
 } from './constants';
 
-// Re-export constants
+// Re-export constants and i18n getters
 export {
-  CATEGORY_NAMES,
-  RARITY_NAMES,
+  getCategoryName,
+  getRarityName,
   RARITY_COLORS,
   RARITY_BG_COLORS,
-  EQUIPMENT_SLOT_NAMES,
+  getEquipmentSlotName,
   EQUIPMENT_SLOT_ICONS,
-  DAMAGE_TYPE_NAMES,
-  PROPERTY_NAMES,
-  MASTERY_NAMES,
+  getDamageTypeName,
+  getPropertyName,
+  getMasteryName,
 } from './constants';
 
 // === Ленивая загрузка всех предметов из корневых JSON (1700+ файлов с описаниями) ===
@@ -177,7 +177,7 @@ function buildDescription(raw: RawItemData): string {
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
     const dmgParts: string[] = [];
     if (raw.dmg1 && raw.dmgType) {
-      dmgParts.push(`${raw.dmg1} ${DAMAGE_TYPE_NAMES[raw.dmgType] ?? raw.dmgType}`);
+      dmgParts.push(`${raw.dmg1} ${getDamageTypeName(raw.dmgType)}`);
     }
     if (raw.dmg2) {
       dmgParts.push(`универсальное ${raw.dmg2}`);
@@ -185,7 +185,7 @@ function buildDescription(raw: RawItemData): string {
     if (dmgParts.length > 0) parts.push(dmgParts.join(', '));
 
     if (raw.weaponCategory) {
-      parts.push(WEAPON_CATEGORY_NAMES[raw.weaponCategory] ?? raw.weaponCategory);
+      parts.push(getWeaponCategoryName(raw.weaponCategory));
     }
 
     if (raw.property && raw.property.length > 0) {
@@ -193,7 +193,7 @@ function buildDescription(raw: RawItemData): string {
         .filter((p: any) => typeof p === 'string')
         .map((p: string) => {
           const code = p.split('|')[0];
-          return PROPERTY_NAMES[code] ?? code;
+          return getPropertyName(code);
         })
         .filter(Boolean);
       if (props.length > 0) parts.push(props.join(', '));
@@ -208,7 +208,7 @@ function buildDescription(raw: RawItemData): string {
         .filter((m: any) => typeof m === 'string')
         .map((m: string) => {
           const code = m.split('|')[0];
-          return MASTERY_NAMES[code] ?? code;
+          return getMasteryName(code);
         })
         .filter(Boolean);
       if (masteries.length > 0) parts.push(`Мастерство: ${masteries.join(', ')}`);
@@ -264,8 +264,8 @@ function buildDisplayType(raw: RawItemData): string {
 
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
     const cat = raw.weaponCategory
-      ? (WEAPON_CATEGORY_NAMES[raw.weaponCategory] ?? raw.weaponCategory)
-      : 'Оружие';
+      ? getWeaponCategoryName(raw.weaponCategory)
+      : 'Weapon';
     const ranged = typeCode === 'R' ? ' (дальнобойное)' : '';
     return cat + ranged;
   }

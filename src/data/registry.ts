@@ -1,5 +1,7 @@
 // Центральный реестр всех данных — предзагрузка при старте приложения
 
+import i18n from '../i18n';
+
 // ─── Типы ───
 export interface RegistryEntry {
   type: string;
@@ -35,99 +37,91 @@ let _actions: any = null;
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-const PHASES = [
-  { key: 'spells', label: 'Заклинания' },
-  { key: 'feats', label: 'Черты' },
-  { key: 'species', label: 'Виды' },
-  { key: 'conditions', label: 'Состояния' },
-  { key: 'senses', label: 'Чувства' },
-  { key: 'skills', label: 'Навыки' },
-  { key: 'rules', label: 'Правила' },
-  { key: 'optfeatures', label: 'Способности' },
-  { key: 'backgrounds', label: 'Предыстории' },
-  { key: 'classes', label: 'Классы' },
-  { key: 'subclasses', label: 'Подклассы' },
-  { key: 'itemsBase', label: 'Базовые предметы' },
-  { key: 'items', label: 'Предметы' },
-  { key: 'charOptions', label: 'Опции создания' },
-  { key: 'actions', label: 'Действия' },
+const PHASE_KEYS = [
+  'spells', 'feats', 'species', 'conditions', 'senses', 'skills',
+  'rules', 'optfeatures', 'backgrounds', 'classes', 'subclasses',
+  'itemsBase', 'items', 'charOptions', 'actions',
 ];
+
+function getPhaseLabel(key: string): string {
+  return i18n.t(`registry.${key}`, { ns: 'game' });
+}
 
 // ─── Инициализация с прогрессом ───
 export async function initRegistry(onProgress?: (p: LoadProgress) => void): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
-  const total = PHASES.length;
+  const total = PHASE_KEYS.length;
   let loaded = 0;
 
-  const report = (phase: string) => {
+  const report = (key: string) => {
     loaded++;
-    onProgress?.({ phase, loaded, total });
+    onProgress?.({ phase: getPhaseLabel(key), loaded, total });
   };
 
   _initializing = (async () => {
     try {
       _spells = await import('./spells');
       await _spells.init();
-      report('Заклинания');
+      report('spells');
 
       _feats = await import('./feats');
       await _feats.init();
-      report('Черты');
+      report('feats');
 
       _species = await import('./species');
       await _species.init();
-      report('Виды');
+      report('species');
 
       _conditions = await import('./conditionsdiseases');
       await _conditions.init();
-      report('Состояния');
+      report('conditions');
 
       _senses = await import('./senses');
       await _senses.init();
-      report('Чувства');
+      report('senses');
 
       _skills = await import('./skills');
       await _skills.init();
-      report('Навыки');
+      report('skills');
 
       _variantrule = await import('./variantrule');
       await _variantrule.init();
-      report('Правила');
+      report('rules');
 
       _optfeatures = await import('./optionalfeatures');
       await _optfeatures.init();
-      report('Способности');
+      report('optfeatures');
 
       _backgrounds = await import('./backgrounds/jsonBackgrounds');
       await _backgrounds.init();
-      report('Предыстории');
+      report('backgrounds');
 
       _classes = await import('./classes/classJsonLoader');
       await _classes.init();
-      report('Классы');
+      report('classes');
 
       _subclasses = await import('./classes/subclassJsonLoader');
       await _subclasses.init();
-      report('Подклассы');
+      report('subclasses');
 
       _itemsBase = await import('./items-base');
       await _itemsBase.init();
-      report('Базовые предметы');
+      report('itemsBase');
 
       _items = await import('./items');
       await _items.init();
       _items.buildAllTemplatesCache(_itemsBase);
-      report('Предметы');
+      report('items');
 
       _charCreationOptions = await import('./charactercreationoptions');
       await _charCreationOptions.init();
-      report('Опции создания');
+      report('charOptions');
 
       _actions = await import('./actions');
       await _actions.init();
-      report('Действия');
+      report('actions');
 
       _initialized = true;
     } catch (e) {

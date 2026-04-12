@@ -52,11 +52,23 @@ export function getSkillImageUrl(name: string): string {
   return `/images/skills/${toCamelCase(name)}.webp`;
 }
 
-export const ABILITY_ABBR_NAMES: Record<string, string> = {
-  str: 'Сила',
-  dex: 'Ловкость',
-  con: 'Телосложение',
-  int: 'Интеллект',
-  wis: 'Мудрость',
-  cha: 'Харизма',
+import i18n from '../../i18n';
+
+// Маппинг сокращений 5etools → полные ключи i18n
+const ABBR_TO_FULL: Record<string, string> = {
+  str: 'strength',
+  dex: 'dexterity',
+  con: 'constitution',
+  int: 'intelligence',
+  wis: 'wisdom',
+  cha: 'charisma',
 };
+
+// Объект-прокси для обратной совместимости (ABILITY_ABBR_NAMES['str'] → "Сила")
+export const ABILITY_ABBR_NAMES: Record<string, string> = new Proxy({} as Record<string, string>, {
+  get(_target, prop: string) {
+    const fullKey = ABBR_TO_FULL[prop];
+    if (fullKey) return i18n.t(`abilities.${fullKey}`, { ns: 'game' });
+    return prop;
+  },
+});

@@ -1,5 +1,7 @@
 // ─── Dice Rolling Utility ───
 
+import i18n from '../i18n';
+
 export interface DiceRollResult {
   expression: string;
   rolls: number[];
@@ -107,7 +109,7 @@ function evalDiceGroup(expr: string): { rolls: number[]; kept: number[]; dropped
     // Maybe just a number
     const num = parseFloat(expr);
     if (!isNaN(num)) return { rolls: [], kept: [], dropped: [], total: num, detail: String(num) };
-    throw new Error(`Не удалось разобрать: ${expr}`);
+    throw new Error(i18n.t('diceErrors.parseFailed', { ns: 'game', expr }));
   }
 
   let count = parseInt(m[1], 10);
@@ -172,7 +174,7 @@ function evalDiceGroup(expr: string): { rolls: number[]; kept: number[]; dropped
       case 'cs': { // count successes
         const check = makeCompare(cmp, val);
         const successes = rolls.filter(r => check(r)).length;
-        const detail = `[${rolls.join(', ')}] → ${successes} усп.`;
+        const detail = `[${rolls.join(', ')}] → ${successes} ${i18n.t('diceNotation.successes', { ns: 'game' })}`;
         return { rolls: allRolls, kept: rolls, dropped, total: successes, detail };
       }
       case 'ms': { // margin of success
@@ -189,7 +191,7 @@ function evalDiceGroup(expr: string): { rolls: number[]; kept: number[]; dropped
   if (dropped.length > 0) {
     const keptStr = rolls.map(r => String(r)).join(' + ');
     const droppedStr = dropped.map(r => `~~${r}~~`).join(', ');
-    detail = `[${keptStr}] (отброшено: ${droppedStr})`;
+    detail = `[${keptStr}] (${i18n.t('diceNotation.dropped', { ns: 'game' })}: ${droppedStr})`;
   } else {
     detail = `[${rolls.join(', ')}]`;
   }
@@ -267,7 +269,7 @@ function evalFunction(name: string, innerExpr: string): { total: number; detail:
       return { total: v.total, detail: `dmin(${v.detail}) = ${v.total}` };
     }
     default:
-      throw new Error(`Неизвестная функция: ${fn}`);
+      throw new Error(i18n.t('diceErrors.unknownFunction', { ns: 'game', fn }));
   }
 }
 
@@ -357,7 +359,7 @@ function evalFullExpression(expr: string): { total: number; detail: string } {
     } else {
       // Plain number
       val = parseFloat(token.value);
-      if (isNaN(val)) throw new Error(`Не удалось разобрать: ${token.value}`);
+      if (isNaN(val)) throw new Error(i18n.t('diceErrors.parseFailed', { ns: 'game', expr: token.value }));
       det = String(val);
     }
 
@@ -402,8 +404,8 @@ export function evalConsoleExpression(input: string): ConsoleRollResult {
     return {
       label,
       input: expr,
-      breakdown: e.message || 'Ошибка',
-      total: 'Ошибка',
+      breakdown: e.message || i18n.t('diceErrors.error', { ns: 'game' }),
+      total: i18n.t('diceErrors.error', { ns: 'game' }),
       isError: true,
     };
   }

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SpellTooltipProps {
   name: string;
@@ -12,17 +13,6 @@ interface SpellTooltipProps {
   children: ReactNode;
 }
 
-const SCHOOL_NAMES: Record<string, string> = {
-  A: 'Ограждение',
-  C: 'Вызов',
-  D: 'Прорицание',
-  E: 'Очарование',
-  V: 'Воплощение',
-  I: 'Иллюзия',
-  N: 'Некромантия',
-  T: 'Преобразование',
-};
-
 export function SpellTooltip({
   name,
   level,
@@ -34,6 +24,7 @@ export function SpellTooltip({
   description,
   children,
 }: SpellTooltipProps) {
+  const { t } = useTranslation('spells');
   const [show, setShow] = useState(false);
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -51,8 +42,8 @@ export function SpellTooltip({
     setPos({ x, y });
   }, [show]);
 
-  const schoolName = school ? SCHOOL_NAMES[school] ?? school : '';
-  const levelText = level === 0 ? 'Заговор' : `${level} уровень`;
+  const schoolName = school ? t(`tooltip.schoolNames.${school}`, school) : '';
+  const levelText = level === 0 ? t('common.cantrip') : t('common.level', { level });
 
   return (
     <div
@@ -77,16 +68,16 @@ export function SpellTooltip({
           {(castingTime || range || components || duration) && (
             <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2 text-xs border-t border-border-default pt-2">
               {castingTime && (
-                <div><span className="text-text-muted">Время: </span><span className="text-text-primary">{castingTime}</span></div>
+                <div><span className="text-text-muted">{t('meta.castingTime')}</span><span className="text-text-primary">{castingTime}</span></div>
               )}
               {range && (
-                <div><span className="text-text-muted">Дальность: </span><span className="text-text-primary">{range}</span></div>
+                <div><span className="text-text-muted">{t('meta.range')}</span><span className="text-text-primary">{range}</span></div>
               )}
               {components && (
-                <div><span className="text-text-muted">Компоненты: </span><span className="text-text-primary">{components}</span></div>
+                <div><span className="text-text-muted">{t('meta.components')}</span><span className="text-text-primary">{components}</span></div>
               )}
               {duration && (
-                <div><span className="text-text-muted">Длительность: </span><span className="text-text-primary">{duration}</span></div>
+                <div><span className="text-text-muted">{t('meta.duration')}</span><span className="text-text-primary">{duration}</span></div>
               )}
             </div>
           )}

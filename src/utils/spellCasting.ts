@@ -1,7 +1,7 @@
 import type { Character, SpellSlots } from '../types';
-import type { SpellData } from '../data/spells';
 import { getAbilityModifier } from './dnd';
 import { getEffectiveAbilityScores, getEquippedItemBonuses } from './classEffects';
+import i18n from '../i18n';
 
 // ─── Damage dice extraction ───
 
@@ -188,7 +188,7 @@ export function consumeSpellSlot(character: Character, slotLevel: number): Chara
 
 export interface DamageInfo {
   expression: string;
-  type: string;       // "fire", "force", etc. or "лечение"
+  type: string;       // "fire", "force", etc. or healing type
   isHealing: boolean;
 }
 
@@ -201,7 +201,7 @@ export function buildDamageExpression(
   const isCantrip = spellData.level === 0;
   const healing = isHealingSpell(spellData);
   const damageType = healing
-    ? 'лечение'
+    ? i18n.t('healingType', { ns: 'game' })
     : (spellData.damageInflict?.[0] ?? '');
 
   let baseDice: string | null = null;
@@ -260,37 +260,17 @@ export function buildDamageExpression(
 
 // ─── Save ability name translation ───
 
-const SAVE_ABILITY_NAMES: Record<string, string> = {
-  strength: 'Сила',
-  dexterity: 'Ловкость',
-  constitution: 'Телосложение',
-  intelligence: 'Интеллект',
-  wisdom: 'Мудрость',
-  charisma: 'Харизма',
-};
-
 export function translateSaveAbility(ability: string): string {
-  return SAVE_ABILITY_NAMES[ability.toLowerCase()] ?? ability;
+  const key = ability.toLowerCase();
+  const translated = i18n.t(`abilities.${key}`, { ns: 'game' });
+  // If key not found, i18next returns the key path — fall back to original
+  return translated !== `abilities.${key}` ? translated : ability;
 }
 
 // ─── Damage type translation ───
 
-const DAMAGE_TYPE_RU: Record<string, string> = {
-  acid: 'кислота',
-  bludgeoning: 'дробящий',
-  cold: 'холод',
-  fire: 'огонь',
-  force: 'сила',
-  lightning: 'молния',
-  necrotic: 'некротика',
-  piercing: 'колющий',
-  poison: 'яд',
-  psychic: 'психический',
-  radiant: 'свет',
-  slashing: 'рубящий',
-  thunder: 'гром',
-};
-
 export function translateDamageType(type: string): string {
-  return DAMAGE_TYPE_RU[type.toLowerCase()] ?? type;
+  const key = type.toLowerCase();
+  const translated = i18n.t(`damageTypesFull.${key}`, { ns: 'game' });
+  return translated !== `damageTypesFull.${key}` ? translated : type;
 }

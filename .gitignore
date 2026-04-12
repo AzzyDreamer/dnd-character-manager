@@ -31,3 +31,7 @@ INTERFACE_EXAMPLE/
 
 # Temp scripts
 tmp_*.mjs
+
+# Environment variables
+.env
+.env.local

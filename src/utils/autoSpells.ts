@@ -58,8 +58,9 @@ async function getSubclassSpells(
       import('../data/classes'),
     ]);
 
+    const { findSubclass } = await import('../data/classes');
     const classDef = getClassById(character.classId) ?? CLASS_REGISTRY.find(c => c.name === character.class);
-    const subDef = classDef?.subclasses.find(s => s.name === character.subclass);
+    const subDef = classDef && character.subclass ? findSubclass(classDef, character.subclass) : undefined;
     if (subDef && classDef) {
       const subData = subMod.getSubclassById(classDef.id, subDef.id);
       if (subData?.features) {

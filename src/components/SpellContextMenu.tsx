@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { BookOpen, Wand2, Check, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SpellContextMenuProps {
   x: number;
@@ -17,6 +18,7 @@ interface SpellContextMenuProps {
 export const SpellContextMenu: React.FC<SpellContextMenuProps> = ({
   x, y, spellName, canPrepare, isPrepared, onViewInfo, onCast, onTogglePrepare, onClose,
 }) => {
+  const { t } = useTranslation('spells');
   const menuRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = React.useState<{ x: number; y: number } | null>(null);
 
@@ -76,12 +78,12 @@ export const SpellContextMenu: React.FC<SpellContextMenuProps> = ({
 
         <button className={itemClass} onClick={() => { onViewInfo(); onClose(); }}>
           <BookOpen size={14} className="text-blue-400 flex-shrink-0" />
-          Информация
+          {t('contextMenu.info')}
         </button>
 
         <button className={itemClass} onClick={() => { onCast(); onClose(); }}>
           <Wand2 size={14} className="text-amber-400 flex-shrink-0" />
-          Применить
+          {t('contextMenu.cast')}
         </button>
 
         {canPrepare && onTogglePrepare && (
@@ -92,7 +94,7 @@ export const SpellContextMenu: React.FC<SpellContextMenuProps> = ({
                 ? <X size={14} className="text-red-400 flex-shrink-0" />
                 : <Check size={14} className="text-green-400 flex-shrink-0" />
               }
-              {isPrepared ? 'Снять подготовку' : 'Подготовить'}
+              {isPrepared ? t('contextMenu.unprepare') : t('contextMenu.prepare')}
             </button>
           </>
         )}
