@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
 import { getDamageTypeName } from '../data/items/constants';
-import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, findSubclass } from '../data/classes';
+import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
@@ -1138,14 +1138,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           />
           <img
             src={`/images/classes/${character.classId}.webp`}
-            alt={character.class}
+            alt={character.classId ? getClassName(character.classId) : character.class}
             className="w-10 h-10 object-contain shrink-0 opacity-80"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
           <div>
             <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
             <p className="text-sm text-text-secondary">
-              {character.race} {character.class}{character.subclass ? ` — ${character.subclass}` : ''} {t('sheet.header.levelDisplay', { level: character.level })}
+              {character.race} {character.classId ? getClassName(character.classId) : character.class}{character.subclass ? ` — ${character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass}` : ''} {t('sheet.header.levelDisplay', { level: character.level })}
             </p>
           </div>
         </div>
@@ -1963,12 +1963,12 @@ function FeaturesSection({ character }: { character: Character }) {
       features: raceTraits,
     }] : []),
     ...(classFeatures.length > 0 ? [{
-      label: `${character.class}`,
+      label: character.classId ? getClassName(character.classId) : character.class,
       icon: <Shield size={14} className="text-gold" />,
       features: classFeatures,
     }] : []),
     ...(subclassFeatures.length > 0 && character.subclass ? [{
-      label: character.subclass,
+      label: character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass,
       icon: subclassImageUrl
         ? <img src={subclassImageUrl} alt="" className="w-5 h-5 rounded object-cover shrink-0" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         : <BookOpen size={14} className="text-blue-400" />,
@@ -3219,7 +3219,7 @@ function SubclassPickerModal({ character, classDef, onSelect, onCancel }: Subcla
               {t('sheet.subclass.title')}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              {t('sheet.subclass.description', { class: character.class })}
+              {t('sheet.subclass.description', { class: character.classId ? getClassName(character.classId) : character.class })}
             </p>
           </div>
           <button

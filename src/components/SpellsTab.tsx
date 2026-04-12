@@ -15,6 +15,7 @@ import { SpellCastModal } from './SpellCastModal';
 import type { SpellData } from '../data/spells';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
+import { getSubclassDisplayName } from '../data/classes';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -992,7 +993,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
     // Subclass
     if (character.subclass && groups.has(character.subclass)) {
-      result.push({ key: character.subclass, type: 'subclass', label: `${character.subclass}`, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
+      result.push({ key: character.subclass, type: 'subclass', label: character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass, color: 'text-amber-300', icon: Star, spells: groups.get(character.subclass)! });
       groups.delete(character.subclass);
     }
 

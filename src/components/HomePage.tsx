@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import type { Character } from '../types';
 import { Scroll, Users, Library, Sparkles } from 'lucide-react';
 import { PortraitImage } from './ui/PortraitImage';
+import { getClassName } from '../data/classes';
 
 interface HomePageProps {
   characters: Character[];
@@ -117,7 +118,7 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
                         {char.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
-                        {char.race} • {char.class} {t('homePage.levelShort', { level: char.level })}
+                        {char.race} • {char.classId ? getClassName(char.classId) : char.class} {t('homePage.levelShort', { level: char.level })}
                       </div>
                     </div>
                   </div>

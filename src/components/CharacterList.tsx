@@ -4,6 +4,7 @@ import type { Character } from '../types';
 import { Users, Trash2, FileDown, FileUp } from 'lucide-react';
 import { exportCharacter } from '../utils/storage';
 import { PortraitImage } from './ui/PortraitImage';
+import { getClassName } from '../data/classes';
 
 interface CharacterListProps {
   characters: Character[];
@@ -171,7 +172,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                         {character.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
-                        {character.race} • {character.class} {t('characterList.levelShort', { level: character.level })}
+                        {character.race} • {character.classId ? getClassName(character.classId) : character.class} {t('characterList.levelShort', { level: character.level })}
                       </div>
                     </div>
 

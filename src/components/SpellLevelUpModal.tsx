@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Character, CharacterSpell, SpellSlots } from '../types';
 import { Search, Loader2, Wand2, Sparkles, ChevronDown, ChevronRight, Zap, BookOpen } from 'lucide-react';
 import { CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
+import { getClassName } from '../data/classes';
 
 // Минимальный тип данных заклинания (без полного импорта)
 interface SpellDataLocal {
@@ -256,7 +257,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
               {t('levelUp.title', { level: newLevel })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              {t('levelUp.subtitle', { class: character.class, level: newLevel })}
+              {t('levelUp.subtitle', { class: character.classId ? getClassName(character.classId) : character.class, level: newLevel })}
               {newCantripsCount > 0 && ` • ${t('levelUp.newCantrips', { count: newCantripsCount })}`}
               {newSpellsCount > 0 && ` • ${t('levelUp.newSpells', { count: newSpellsCount })}`}
               {` • ${t('levelUp.availableUpTo', { level: maxSpellLevel })}`}

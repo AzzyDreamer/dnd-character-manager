@@ -71,6 +71,15 @@ export function translateToolProficiency(key: string): string {
   return i18n.t(`toolProficiencies.${key}`, { ns: 'game' });
 }
 
+/** Translate a stored subclass name for display (resolves English canonical → current locale) */
+export function getSubclassDisplayName(classId: string, storedSubclassName: string | undefined): string {
+  if (!storedSubclassName) return '';
+  const classDef = getClassById(classId);
+  if (!classDef) return storedSubclassName;
+  const sub = findSubclass(classDef, storedSubclassName);
+  return sub ? getSubclassName(classId, sub.id) : storedSubclassName;
+}
+
 /** Find subclass by name — handles both English canonical and translated names (backward compat) */
 export function findSubclass(classDef: ClassDefinition, subclassDisplayName: string) {
   return classDef.subclasses.find(s =>
