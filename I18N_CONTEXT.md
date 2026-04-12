@@ -67,20 +67,26 @@
 - Alignment system: stores i18n keys ('lawfulGood') instead of Russian strings
 - Weapon stats: store damage type codes ('B','S','P') and property codes ('F','L','T'), translate at output time
 
+### Data files refactored (commit a3cb35d)
+- All 15 `src/data/classes/*.ts` files — Russian names/descriptions → English, proficiency arrays → short keys
+- `src/data/classes/index.ts` — added i18n helpers: getClassName(), getClassDescription(), getSubclassName(), translateArmorProficiency(), translateWeaponProficiency(), translateToolProficiency(), findSubclass(), translateProficiencies()
+- `src/data/registry.ts` — PHASES → PHASE_KEYS + getPhaseLabel() via i18n.t()
+- `src/data/feats/index.ts` — FEAT_CATEGORY_NAMES as Proxy via i18n.t()
+- `src/data/skills/index.ts` — ABILITY_ABBR_NAMES as Proxy via i18n.t()
+- `game.json` (en + ru) — added ~260 keys each: classes (15 name+description), subclasses (~170 names), toolProficiencies (6 keys), armorProficiencies.shieldNonmetal, weaponCategories.rangedMartial
+- Deleted 29 unused files: `src/data/backgrounds/*.ts` (18) + `src/data/races/*.ts` (11)
+
+### Key patterns for data files
+- **Key-based approach**: class files store short keys ('light', 'simple', 'dagger'), translated at display time
+- **CharacterCreator translates at creation time**: `translateProficiencies(classDef)` before storing in character object
+- **findSubclass() backward compat**: matches both English canonical name and translated name (for old saved characters)
+- **translateWeaponProficiency() dual lookup**: checks weaponCategories first ('simple'→'Simple Weapons'), then weaponProficiencies ('dagger'→'Dagger')
+
 ## What still needs to be done
 
-### Data files with Russian strings
-- `src/data/classes/` (~17 files) — class names, descriptions, subclass names, proficiency strings (armor, weapons, tools)
-- `src/data/races/` (~9 files) — race names, trait names/descriptions, languages, sizes, subrace info
-- `src/data/backgrounds/` (~17 files) — background names, feat names, skill proficiencies, tool proficiency, descriptions, equipment
-- `src/data/registry.ts` — PHASES labels ('Заклинания', 'Черты', etc.), report() calls
-- `src/data/feats/index.ts` — FEAT_CATEGORY_NAMES ('Общая черта', 'Черта происхождения', etc.)
-- `src/data/skills/index.ts` — ABILITY_ABBR_NAMES ('Сила', 'Ловкость', etc.)
-
-### Approach for data files
-Two possible strategies:
-1. **Key-based**: data files store i18n keys, translation happens via game.json — requires massive game.json expansion (hundreds of class/race/background descriptions)
-2. **Inline bilingual**: data files keep both `name` (English) and translation via i18n lookup by id — simpler but may need a new namespace
+### Display improvements
+- `character.subclass` on CharacterSheet (line ~1148) shows English canonical name for new characters — could add translation lookup for display
+- Glossary.tsx loads from 5etools JSON (classJsonLoader), independent of class definition files — no changes needed
 
 ### Crowdin setup (Etap 7 per CROWDIN_GUIDE.md)
 - Create Crowdin project
