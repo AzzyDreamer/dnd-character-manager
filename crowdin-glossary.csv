@@ -1,0 +1,154 @@
+Term,Description,Translation (ru)
+Strength,Ability score,Сила
+Dexterity,Ability score,Ловкость
+Constitution,Ability score,Телосложение
+Intelligence,Ability score,Интеллект
+Wisdom,Ability score,Мудрость
+Charisma,Ability score,Харизма
+Hit Points,Health resource (HP),Хиты
+Armor Class,Defense stat (AC),Класс Доспеха
+Saving Throw,Ability-based save,Спасбросок
+Proficiency Bonus,Level-based bonus,Бонус Мастерства
+Spell Slot,Resource for casting spells,Ячейка Заклинаний
+Cantrip,Level 0 spell,Заговор
+Concentration,Spell maintenance mechanic,Концентрация
+Long Rest,8-hour rest,Продолжительный Отдых
+Short Rest,1-hour rest,Короткий Отдых
+Bonus Action,Extra action on your turn,Бонусное Действие
+Reaction,Response to a trigger,Реакция
+Action,Main action on your turn,Действие
+Advantage,Roll 2d20 take higher,Преимущество
+Disadvantage,Roll 2d20 take lower,Помеха
+Resistance,Half damage from a type,Сопротивление
+Immunity,No damage from a type,Иммунитет
+Vulnerability,Double damage from a type,Уязвимость
+Unarmed Strike,Attack without weapon,Безоружный Удар
+Attunement,Bond with a magic item,Настройка
+Initiative,Turn order in combat,Инициатива
+Proficiency,Trained in a skill/tool,Владение
+Ability Check,Roll using ability score,Проверка Характеристики
+Attack Roll,Roll to hit a target,Бросок Атаки
+Damage Roll,Roll for damage dealt,Бросок Урона
+Death Saving Throw,Save when dying,Спасбросок от Смерти
+Hit Die,HP recovery die,Кость Хитов
+Spell Attack,Attack using spellcasting,Атака Заклинанием
+Spell Save DC,Difficulty to resist spell,СЛ Спасброска Заклинания
+Melee,Close range combat,Ближний бой
+Ranged,Long range combat,Дальний бой
+Level,Character progression tier,Уровень
+Experience Points,Progression currency (XP),Очки Опыта
+Feat,Special character ability,Черта
+Subclass,Class specialization,Подкласс
+Multiclassing,Taking levels in multiple classes,Мультиклассирование
+Ability Score Improvement,Level-up stat increase,Увеличение Характеристик
+Rage,Barbarian core feature,Ярость
+Sneak Attack,Rogue core feature,Скрытая Атака
+Wild Shape,Druid core feature,Дикий Облик
+Channel Divinity,Cleric/Paladin feature,Божественный Канал
+Spellcasting,Ability to cast spells,Использование Заклинаний
+Extra Attack,Additional attack per turn,Дополнительная Атака
+Fighting Style,Combat specialization,Боевой Стиль
+Eldritch Invocation,Warlock customization,Мистическое Воззвание
+Metamagic,Sorcerer spell modification,Метамагия
+Ki,Monk resource,Ки
+Bardic Inspiration,Bard support feature,Бардовское Вдохновение
+Lay on Hands,Paladin healing feature,Наложение Рук
+Favored Enemy,Ranger tracking feature,Избранный Враг
+Cunning Action,Rogue bonus action feature,Хитрое Действие
+Arcane Recovery,Wizard spell slot recovery,Тайное Восстановление
+Infusion,Artificer item enhancement,Инфузия
+Light Armor,Armor category,Лёгкие Доспехи
+Medium Armor,Armor category,Средние Доспехи
+Heavy Armor,Armor category,Тяжёлые Доспехи
+Shield,Defensive equipment,Щит
+Simple Weapon,Basic weapon category,Простое Оружие
+Martial Weapon,Advanced weapon category,Воинское Оружие
+Finesse,Weapon property: Str or Dex,Фехтовальное
+Versatile,Weapon property: one or two hands,Универсальное
+Two-Handed,Weapon property: requires both hands,Двуручное
+Thrown,Weapon property: can be thrown,Метательное
+Loading,Weapon property: one shot per action,Заряжаемое
+Reach,Weapon property: extra 5ft range,Досягаемость
+Heavy,Weapon property: small creatures penalized,Тяжёлое
+Charmed,"Condition: can't attack charmer, charmer has social advantage",Очарованный
+Frightened,"Condition: disadvantage on checks/attacks, can't approach source",Испуганный
+Poisoned,Condition: disadvantage on attacks and checks,Отравленный
+Stunned,"Condition: incapacitated, auto-fail Str/Dex saves",Ошеломлённый
+Paralyzed,"Condition: incapacitated, auto-fail Str/Dex saves, crits in 5ft",Парализованный
+Blinded,"Condition: can't see, auto-fail sight checks",Ослеплённый
+Deafened,"Condition: can't hear, auto-fail hearing checks",Оглушённый
+Invisible,"Condition: can't be seen, advantage on attacks",Невидимый
+Prone,"Condition: on the ground, disadvantage on attacks",Лежащий Ничком
+Restrained,"Condition: speed 0, disadvantage on Dex saves",Опутанный
+Incapacitated,Condition: can't take actions or reactions,Недееспособный
+Petrified,Condition: turned to stone,Окаменевший
+Grappled,Condition: speed becomes 0,Схваченный
+Exhaustion,Condition: cumulative fatigue levels,Истощение
+Unconscious,"Condition: incapacitated, prone, unaware",Без Сознания
+Abjuration,School of magic: protection,Ограждение
+Conjuration,School of magic: summoning,Вызов
+Divination,School of magic: knowledge,Прорицание
+Enchantment,School of magic: mind control,Очарование
+Evocation,School of magic: energy/damage,Воплощение
+Illusion,School of magic: deception,Иллюзия
+Necromancy,School of magic: death/undead,Некромантия
+Transmutation,School of magic: transformation,Преобразование
+Bludgeoning,Damage type,Дробящий
+Piercing,Damage type,Колющий
+Slashing,Damage type,Рубящий
+Fire,Damage type,Огонь
+Cold,Damage type,Холод
+Lightning,Damage type,Молния
+Thunder,Damage type,Гром
+Acid,Damage type,Кислота
+Poison,Damage type,Яд
+Necrotic,Damage type,Некротический
+Radiant,Damage type,Излучение
+Force,Damage type,Силовое поле
+Psychic,Damage type,Психический
+Barbarian,Character class,Варвар
+Bard,Character class,Бард
+Cleric,Character class,Жрец
+Druid,Character class,Друид
+Fighter,Character class,Воин
+Monk,Character class,Монах
+Paladin,Character class,Паладин
+Ranger,Character class,Следопыт
+Rogue,Character class,Плут
+Sorcerer,Character class,Чародей
+Warlock,Character class,Колдун
+Wizard,Character class,Волшебник
+Artificer,Character class,Изобретатель
+Darkvision,Sense: see in darkness,Тёмное Зрение
+Blindsight,Sense: perceive without sight,Слепое Зрение
+Tremorsense,Sense: detect vibrations,Чувство Вибрации
+Truesight,Sense: see through illusions,Истинное Зрение
+Opportunity Attack,Attack when creature leaves reach,Провоцированная Атака
+Grapple,Special melee attack: grab,Захват
+Shove,Special melee attack: push,Толчок
+Dash,Action: double movement,Рывок
+Disengage,Action: avoid opportunity attacks,Отход
+Dodge,Action: impose disadvantage on attacks,Уклонение
+Help,Action: give advantage to ally,Помощь
+Hide,Action: attempt stealth,Засада
+Ready,Action: prepare a reaction,Подготовка
+Search,Action: look for something,Поиск
+Use an Object,Action: interact with object,Использование Предмета
+Acrobatics,Skill (Dex),Акробатика
+Animal Handling,Skill (Wis),Уход за Животными
+Arcana,Skill (Int),Магия
+Athletics,Skill (Str),Атлетика
+Deception,Skill (Cha),Обман
+History,Skill (Int),История
+Insight,Skill (Wis),Проницательность
+Intimidation,Skill (Cha),Запугивание
+Investigation,Skill (Int),Расследование
+Medicine,Skill (Wis),Медицина
+Nature,Skill (Int),Природа
+Perception,Skill (Wis),Внимательность
+Performance,Skill (Cha),Выступление
+Persuasion,Skill (Cha),Убеждение
+Religion,Skill (Int),Религия
+Sleight of Hand,Skill (Dex),Ловкость Рук
+Stealth,Skill (Dex),Скрытность
+Survival,Skill (Wis),Выживание
