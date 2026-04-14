@@ -85,7 +85,7 @@
   "Grappled.entries.0": "Пока у вас есть состояние Схваченный, на вас действуют следующие эффекты.",
   "Grappled.entries.1.entries.0.entries.0": "Ваша {@variantrule Speed|XPHB|Скорость} равна 0 и не может быть увеличена.",
   "Grappled.entries.1.entries.0.name": "Скорость 0",
-  "Grappled.entries.1.entries.1.entries.0": "Вы совершаете с {@variantrule Disadvantage|XPHB|Помехой броски} атаки по всем целям, кроме той, что схватила вас.",
+  "Grappled.entries.1.entries.1.entries.0": "Вы совершаете с {@variantrule Disadvantage|XPHB|Помехой} броски атаки по всем целям, кроме той, что схватила вас.",
   "Grappled.entries.1.entries.1.name": "Влияние на атаки",
   "Grappled.entries.1.entries.2.entries.0": "Схватившее вас существо может при своём перемещении тащить или нести вас; при этом каждый фут перемещения стоит на 1 фут больше, если только вы не Крошечного размера или на две размера меньше его.",
   "Grappled.entries.1.entries.2.name": "Можете быть перемещены",
