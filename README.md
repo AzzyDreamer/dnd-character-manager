@@ -33,7 +33,7 @@ npm run dev
 
 Приложение откроется на `http://localhost:5173`.
 
-На Windows можно запустить `start.bat` — он установит зависимости и поднимет dev-сервер. Подробнее см. [WINDOWS_SETUP.md](WINDOWS_SETUP.md).
+На Windows можно запустить `start.bat` — он установит зависимости и поднимет dev-сервер.
 
 ## Скрипты npm
 
@@ -65,18 +65,7 @@ scripts/
 
 ## Локализация
 
-Проект интегрирован с Crowdin. Поддерживаемые языки: английский (исходный) и русский.
-
-- Руководство для переводчиков: [TRANSLATION_GUIDE.md](TRANSLATION_GUIDE.md)
-- Подробный гайд по настройке i18n и Crowdin: [CROWDIN_GUIDE.md](CROWDIN_GUIDE.md)
-- Контекст для переводчиков: [I18N_CONTEXT.md](I18N_CONTEXT.md)
-- Глоссарий терминов: [crowdin-glossary.csv](crowdin-glossary.csv)
-
-Конфигурация Crowdin CLI — [crowdin.yml](crowdin.yml).
-
-## Данные 5e
-
-Источники и правила работы с игровыми данными описаны в [DATA_GUIDE.md](DATA_GUIDE.md). Известные проблемные ссылки и отсутствующие записи отслеживаются в [BROKEN_LINKS.md](BROKEN_LINKS.md).
+Проект интегрирован с Crowdin. Поддерживаемые языки: английский (исходный) и русский. Строки интерфейса лежат в `src/i18n/locales/<lang>/`, локализованные игровые данные — в `src/i18n/gamedata/<lang>/`.
 
 ## Хранение данных
 
