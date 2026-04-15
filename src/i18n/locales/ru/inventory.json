@@ -9,7 +9,6 @@
   "backpackEmpty": "Рюкзак пуст",
   "backpackHint": "Нажмите «Добавить предмет»",
   "noFreeSpace": "Нет свободного места в рюкзаке!",
-
   "currency": {
     "title": "Валюта",
     "platinum": "ПП",
@@ -18,11 +17,9 @@
     "silver": "СМ",
     "copper": "ММ"
   },
-
   "potions": {
     "label": "Зелий:"
   },
-
   "contextMenu": {
     "equip": "Экипировать",
     "equipOffhand": "Во вторую руку",
@@ -30,7 +27,6 @@
     "details": "Подробнее",
     "remove": "Удалить"
   },
-
   "addModal": {
     "title": "Добавить предмет",
     "searchPlaceholder": "Поиск предметов...",
@@ -42,7 +38,6 @@
     "quantity": "Количество:",
     "addItem": "Добавить {{name}}"
   },
-
   "detail": {
     "damage": "Урон:",
     "twoHanded": "Двуручный:",
@@ -64,18 +59,15 @@
     "quantityLabel": "Кол-во: {{value}}",
     "loadingEntries": "Загрузка..."
   },
-
   "tooltip": {
     "weightLabel": "Вес: {{value}} фнт.",
     "quantityLabel": "Кол-во: {{value}}"
   },
-
   "itemValue": {
     "gp": "{{value}} зм",
     "sp": "{{value}} см",
     "cp": "{{value}} мм"
   },
-
   "profWarning": {
     "title": "Нет владения",
     "description": "У персонажа нет владения предметом <1>{{name}}</1>.",
@@ -85,9 +77,7 @@
     "cancel": "Отмена",
     "equipAnyway": "Экипировать всё равно"
   },
-
   "noProficiency": "Нет владения",
-
   "mastery": {
     "Cleave": "Рассечение",
     "Graze": "Вскользь",
