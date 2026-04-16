@@ -948,7 +948,8 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
               {(() => {
                 const getImageUrl = constants.getImageUrl as ((key: string) => string) | undefined;
                 const imageUrlField = (constants.imageUrlField as string) || 'name';
-                const detailImgSrc = getImageUrl && d[imageUrlField] ? getImageUrl(d[imageUrlField]) : null;
+                const lookupKey = imageUrlField === 'name' ? (d._origName ?? d.name) : d[imageUrlField];
+                const detailImgSrc = getImageUrl && lookupKey ? getImageUrl(lookupKey) : null;
                 return detailImgSrc ? (
                   <img
                     src={detailImgSrc}
@@ -1489,7 +1490,8 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {filteredItems.map((item: any, index: number) => {
               const getImageUrl = categoryData?.constants?.getImageUrl as ((key: string) => string) | undefined;
               const imageUrlField = (categoryData?.constants?.imageUrlField as string) || 'name';
-              const imgSrc = getImageUrl && item[imageUrlField] ? getImageUrl(item[imageUrlField]) : null;
+              const lookupKey = imageUrlField === 'name' ? (item._origName ?? item.name) : item[imageUrlField];
+              const imgSrc = getImageUrl && lookupKey ? getImageUrl(lookupKey) : null;
               return (
                 <button
                   key={`${item.name}-${index}`}

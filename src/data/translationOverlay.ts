@@ -91,6 +91,7 @@ function applyEntryTranslations(entries: any[] | undefined, keyPrefix: string, t
  */
 function applyStandardTranslations(item: any, stem: string, translations: Record<string, string>): void {
   if (translations[`${stem}.name`] !== undefined) {
+    if (item._origName === undefined) item._origName = item.name;
     item.name = translations[`${stem}.name`];
   }
   applyEntryTranslations(item.entries, `${stem}.entries`, translations);
@@ -129,7 +130,10 @@ function applyClassTranslations(item: any, translations: Record<string, string>)
   const stem = item.id;
   if (!stem) return;
 
-  if (translations[`${stem}.name`] !== undefined) item.name = translations[`${stem}.name`];
+  if (translations[`${stem}.name`] !== undefined) {
+    if (item._origName === undefined) item._origName = item.name;
+    item.name = translations[`${stem}.name`];
+  }
   if (translations[`${stem}.description`] !== undefined) item.description = translations[`${stem}.description`];
 
   // Starting equipment
@@ -193,7 +197,10 @@ function applySubclassTranslations(item: any, translations: Record<string, strin
   const stem = item.id;
   if (!stem) return;
 
-  if (translations[`${stem}.name`] !== undefined) item.name = translations[`${stem}.name`];
+  if (translations[`${stem}.name`] !== undefined) {
+    if (item._origName === undefined) item._origName = item.name;
+    item.name = translations[`${stem}.name`];
+  }
   if (translations[`${stem}.description`] !== undefined) item.description = translations[`${stem}.description`];
   if (translations[`${stem}.shortDescription`] !== undefined) item.shortDescription = translations[`${stem}.shortDescription`];
 
