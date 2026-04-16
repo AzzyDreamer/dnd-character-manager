@@ -240,7 +240,7 @@
   "Vehicle (Water).entries.2.entries.0": "The number of Small and Medium passengers the ship can accommodate using hammocks. A ship outfitted with private accommodations can carry one-fifth as many passengers. A passenger usually pays 5 SP per day for a hammock, but prices can vary from ship to ship. A small private cabin usually costs 2 GP per day.",
   "Vehicle (Water).entries.2.name": "Passengers",
   "Vehicle (Water).entries.3.entries.0": "See the {@variantrule Damage Threshold|XPHB|rules glossary}.",
-  "Vehicle (Water).entries.3.name": "Damage Threshold",
+  "Vehicle (Water).entries.3.name": "Порог урона",
   "Vehicle (Water).entries.4.entries.0": "Repairs to a damaged ship can be made while the vessel is berthed. Repairing 1 {@variantrule Hit Points|XPHB|Hit Point} of damage requires 1 day and costs 20 GP for materials and labor. If the repairs are made in a location where supplies and skilled labor are abundant, such as a city shipyard, the repair time and cost are halved.",
   "Vehicle (Water).entries.4.name": "Ship Repair",
   "Vehicle (Water).name": "Vehicle (Water)",
