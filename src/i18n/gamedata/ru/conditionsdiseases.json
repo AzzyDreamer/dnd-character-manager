@@ -235,7 +235,7 @@
   "Stunned.name": "Ошеломлённый",
   "Super-Tetanus.entries.0": "A creature that contracts the disease of super-tetanus is wracked with pain as its heart races and its muscles spasm hard enough to break its bones. The creature takes 11 ({@damage 2d10}) damage at the start of each of its turns. If a victim is not cured by other means, it can repeat the saving throw at the end of every minute after becoming exposed, ending the effect on itself with a successful save.",
   "Super-Tetanus.name": "Супер-столбняк",
-  "Surprised.entries.0": "If a creature is caught unawares by the start of combat, that creature is surprised, which causes it to have {@variantrule Disadvantage|XPHB} on its {@variantrule Initiative|XPHB} roll.",
+  "Surprised.entries.0": "Если существо не ожидает начала боя, оно застано врасплох, что приводит к тому, что оно совершает с {@variantrule Disadvantage|XPHB|Помехой} бросок {@variantrule Initiative|XPHB|Инициативы}.",
   "Surprised.name": "Застигнут врасплох",
   "The Gnawing Plague.entries.0": "The Gnawing Plague, also known as \"the Gnaws,\" is known in every corner of Richemulot.",
   "The Gnawing Plague.entries.1.entries.0": "The Gnaws is spread when a creature is bitten by a {@creature rat}, {@creature giant rat}, {@creature swarm of rats}, or {@creature wererat} that carries the disease, or by coming into physical contact with an infected creature.",
