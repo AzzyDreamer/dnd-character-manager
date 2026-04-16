@@ -71,7 +71,8 @@ export async function init(): Promise<void> {
 }
 
 export function getItemBaseByName(name: string): ItemBaseData | undefined {
-  return ALL_ITEMS_BASE.find(i => i.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_ITEMS_BASE.find(i => i.name.toLowerCase() === lc || (i as any)._origName?.toLowerCase() === lc);
 }
 
 export function getItemBaseImageUrl(name: string): string {

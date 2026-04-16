@@ -39,7 +39,8 @@ export async function init(): Promise<void> {
 }
 
 export function getVariantRuleByName(name: string): VariantRuleData | undefined {
-  return ALL_VARIANT_RULES.find(r => r.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_VARIANT_RULES.find(r => r.name.toLowerCase() === lc || (r as any)._origName?.toLowerCase() === lc);
 }
 
 export const RULE_TYPE_NAMES: Record<string, string> = {

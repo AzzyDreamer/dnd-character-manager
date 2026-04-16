@@ -39,7 +39,8 @@ export async function init(): Promise<void> {
 }
 
 export function getSkillByName(name: string): SkillData | undefined {
-  return ALL_SKILLS.find(s => s.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_SKILLS.find(s => s.name.toLowerCase() === lc || (s as any)._origName?.toLowerCase() === lc);
 }
 
 // Конвертирует "Animal Handling" → "animalHandling" (camelCase, как в файлах изображений)

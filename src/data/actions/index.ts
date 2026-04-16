@@ -39,5 +39,6 @@ export async function init(): Promise<void> {
 }
 
 export function getActionByName(name: string): ActionData | undefined {
-  return ALL_ACTIONS.find(a => a.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_ACTIONS.find(a => a.name.toLowerCase() === lc || (a as any)._origName?.toLowerCase() === lc);
 }

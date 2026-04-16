@@ -38,7 +38,8 @@ export async function init(): Promise<void> {
 }
 
 export function getConditionByName(name: string): ConditionDiseaseData | undefined {
-  return ALL_CONDITIONS.find(c => c.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_CONDITIONS.find(c => c.name.toLowerCase() === lc || (c as any)._origName?.toLowerCase() === lc);
 }
 
 export function getConditionImageUrl(name: string): string {

@@ -67,7 +67,8 @@ export async function init(): Promise<void> {
 }
 
 export function getOptionalFeatureByName(name: string): OptionalFeatureData | undefined {
-  return ALL_OPTIONAL_FEATURES.find(f => f.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_OPTIONAL_FEATURES.find(f => f.name.toLowerCase() === lc || (f as any)._origName?.toLowerCase() === lc);
 }
 
 export const FEATURE_TYPE_NAMES: Record<string, string> = {

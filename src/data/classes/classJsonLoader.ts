@@ -75,7 +75,8 @@ export async function init(): Promise<void> {
 }
 
 export function getClassDataByName(name: string): ClassJsonData | undefined {
-  return ALL_CLASS_DATA.find(c => c.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_CLASS_DATA.find(c => c.name.toLowerCase() === lc || (c as any)._origName?.toLowerCase() === lc);
 }
 
 export function getClassImageUrl(id: string): string {

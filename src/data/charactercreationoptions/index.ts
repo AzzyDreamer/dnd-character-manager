@@ -68,7 +68,8 @@ export async function init(): Promise<void> {
 }
 
 export function getCharacterCreationOptionByName(name: string): CharacterCreationOptionData | undefined {
-  return ALL_CHARACTER_CREATION_OPTIONS.find(o => o.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_CHARACTER_CREATION_OPTIONS.find(o => o.name.toLowerCase() === lc || (o as any)._origName?.toLowerCase() === lc);
 }
 
 export const OPTION_TYPE_NAMES: Record<string, string> = {

@@ -188,11 +188,13 @@ export async function init(): Promise<void> {
 const PREFERRED_SOURCES = ['XPHB', 'PHB'];
 
 export function getSpeciesByName(name: string, source?: string): SpeciesData | undefined {
+  const lc = name.toLowerCase();
+  const nameMatches = (s: SpeciesData) => s.name.toLowerCase() === lc || (s as any)._origName?.toLowerCase() === lc;
   if (source) {
-    return ALL_SPECIES.find(s => s.name.toLowerCase() === name.toLowerCase() && s.source === source);
+    return ALL_SPECIES.find(s => nameMatches(s) && s.source === source);
   }
   // Without source, prefer XPHB/PHB variants to avoid returning homebrew/3rd-party first
-  const matches = ALL_SPECIES.filter(s => s.name.toLowerCase() === name.toLowerCase());
+  const matches = ALL_SPECIES.filter(nameMatches);
   if (matches.length <= 1) return matches[0];
   return matches.find(s => PREFERRED_SOURCES.includes(s.source)) ?? matches[0];
 }

@@ -91,10 +91,12 @@ export async function init(): Promise<void> {
 }
 
 export function getItemByName(name: string, source?: string): ItemData | undefined {
+  const lc = name.toLowerCase();
+  const matches = (i: ItemData) => i.name.toLowerCase() === lc || (i as any)._origName?.toLowerCase() === lc;
   if (source) {
-    return ALL_ITEMS.find(i => i.name.toLowerCase() === name.toLowerCase() && i.source === source);
+    return ALL_ITEMS.find(i => matches(i) && i.source === source);
   }
-  return ALL_ITEMS.find(i => i.name.toLowerCase() === name.toLowerCase());
+  return ALL_ITEMS.find(matches);
 }
 
 // === Import all JSON item files ===

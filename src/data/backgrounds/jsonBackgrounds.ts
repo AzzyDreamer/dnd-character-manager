@@ -101,5 +101,6 @@ export async function init(): Promise<void> {
 }
 
 export function getJsonBackgroundByName(name: string): JsonBackgroundData | undefined {
-  return ALL_JSON_BACKGROUNDS.find(b => b.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_JSON_BACKGROUNDS.find(b => b.name.toLowerCase() === lc || (b as any)._origName?.toLowerCase() === lc);
 }

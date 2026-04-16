@@ -70,7 +70,8 @@ export async function init(): Promise<void> {
 }
 
 export function getFeatByName(name: string): FeatData | undefined {
-  return ALL_FEATS.find(f => f.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_FEATS.find(f => f.name.toLowerCase() === lc || (f as any)._origName?.toLowerCase() === lc);
 }
 
 export function getFeatImageUrl(name: string): string {

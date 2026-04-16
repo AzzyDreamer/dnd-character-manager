@@ -98,7 +98,8 @@ export async function init(): Promise<void> {
 }
 
 export function getSpellByName(name: string): SpellData | undefined {
-  return ALL_SPELLS.find(s => s.name.toLowerCase() === name.toLowerCase());
+  const lc = name.toLowerCase();
+  return ALL_SPELLS.find(s => s.name.toLowerCase() === lc || (s as any)._origName?.toLowerCase() === lc);
 }
 
 export function getSpellsByLevel(level: number): SpellData[] {
