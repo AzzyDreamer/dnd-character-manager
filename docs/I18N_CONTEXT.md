@@ -8,7 +8,7 @@
 - Installed `i18next`, `react-i18next`, `i18next-browser-languagedetector`
 - Created `src/i18n/index.ts` — config hub with LanguageDetector, fallbackLng: 'en', defaultNS: 'common'
 - 7 namespaces: common, character, spells, combat, inventory, glossary, game
-- Created `CROWDIN_GUIDE.md` at project root
+- Created `docs/CROWDIN_GUIDE.md`
 
 ### Locale files (src/i18n/locales/)
 - **en/** and **ru/** directories with 7 JSON files each
