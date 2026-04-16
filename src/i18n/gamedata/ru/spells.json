@@ -3411,7 +3411,7 @@
   "Syluné's Viper.entries.0": "A shimmering, spectral snake encircles your body for the duration. You gain 15 {@variantrule Temporary Hit Points|XPHB}; the spell ends early if you have no {@variantrule Temporary Hit Points|XPHB} left.",
   "Syluné's Viper.entries.1": "While the spell is active, you gain the following benefits:",
   "Syluné's Viper.entries.2.items.0.entries.0": "You gain a {@variantrule Climb Speed|XPHB} equal to your {@variantrule Speed|XPHB}.",
-  "Syluné's Viper.entries.2.items.0.name": "Climbing",
+  "Syluné's Viper.entries.2.items.0.name": "Лазание",
   "Syluné's Viper.entries.2.items.1.entries.0": "As a {@action Magic|XPHB} action, you can make a ranged spell attack using the snake against one creature within 50 feet. On a hit, the target takes {@damage 1d6} Force damage and has the {@condition Poisoned|XPHB} condition until the start of your next turn. While {@condition Poisoned|XPHB}, the target has the {@condition Incapacitated|XPHB} condition.",
   "Syluné's Viper.entries.2.items.1.name": "Venomous Bite",
   "Syluné's Viper.entriesHigherLevel.0.entries.0": "For each spell slot level above 3, the number of {@variantrule Temporary Hit Points|XPHB} you gain from this spell increases by 5, and the damage of Venomous Bite increases by {@scaledamage 1d6|3-9|1d6}.",
