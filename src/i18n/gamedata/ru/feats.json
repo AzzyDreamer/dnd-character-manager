@@ -1694,7 +1694,7 @@
   "Triage Expert.entries.2.name": "Blood and Bone",
   "Triage Expert.name": "Triage Expert",
   "Two-Weapon Fighting.entries.0": "When you make an extra attack as a result of using a weapon that has the {@itemProperty L|XPHB|Light} property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",
-  "Two-Weapon Fighting.name": "Two-Weapon Fighting",
+  "Two-Weapon Fighting.name": "Бой двумя оружиями",
   "Tyro of the Gauntlet.entries.0": "You gain the following benefits.",
   "Tyro of the Gauntlet.entries.1.entries.0": "When an ally within 5 feet of you is subjected to an effect that would push or pull it, you can take a {@variantrule Reaction|XPHB} to prevent that ally from being pushed or pulled. To receive this benefit, the ally can't have the {@condition Incapacitated|XPHB} condition.",
   "Tyro of the Gauntlet.entries.1.name": "Stand as One",
