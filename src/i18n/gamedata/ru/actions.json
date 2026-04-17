@@ -161,7 +161,7 @@
   "Two-Weapon Fighting.name": "Бой двумя оружиями",
   "Utilize.entries.0": "Обычно вы взаимодействуете с предметом в процессе выполнения другого действия, например, когда достаете меч частью действия {@action Attack|XPHB|Атака}. Когда для использования предмета требуется действие, вы совершаете действие Использование.",
   "Utilize.name": "Использование",
-  "Waking Someone.entries.0": "A creature that is naturally sleeping, as opposed to being in a magically or chemically induced sleep, wakes up if it takes any damage or if someone else uses an action to shake or slap the creature awake. A sudden loud noise—such as yelling, thunder, or a ringing bell—also awakens someone that is sleeping naturally.",
-  "Waking Someone.entries.1": "Whispers don't disturb sleep, unless a sleeper's passive Wisdom ({@skill Perception}) score is 20 or higher and the whispers are within 10 feet of the sleeper. Speech at a normal volume awakens a sleeper if the environment is otherwise silent (no wind, birdsong, crickets, street sounds, or the like) and the sleeper has a passive Wisdom ({@skill Perception}) score of 15 or higher.",
-  "Waking Someone.name": "Waking Someone"
+  "Waking Someone.entries.0": "Существо, которое спит естественным сном, в отличие от магического или химически вызванного сна, просыпается, если получает любой урон или если кто-то другой действием трясёт или хлопает его, чтобы разбудить. Внезапный громкий звук — такой как крик, гром или звон колокола — также пробуждает того, кто спит естественным сном.",
+  "Waking Someone.entries.1": "Шёпот не нарушает сон, если только пассивная Мудрость ({@skill Perception|Внимательность}) спящего не равна 20 или выше и шёпот не раздаётся в пределах 10 футов от спящего. Речь обычной громкости пробуждает спящего, если окружение в остальном тихое (нет ветра, пения птиц, стрёкота сверчков, уличных звуков и тому подобного) и пассивная Мудрость ({@skill Perception|Внимательность}) спящего равна 15 или выше.",
+  "Waking Someone.name": "Пробуждение спящего"
 }
