@@ -1830,7 +1830,7 @@
   "Superior Technique.entries.1": "You gain one superiority die, which is a {@dice d6} (this die is added to any superiority dice you have from another source). This die is used to fuel your maneuvers. A superiority die is expended when you use it. You regain your expended superiority dice when you finish a short or long rest.",
   "Superior Technique.name": "Superior Technique",
   "Supernatural Hide.entries.0": "{@b Cost:} {@i 5 Mutation Points}",
-  "Supernatural Hide.entries.1": "You have {@variantrule Resistance|XPHB} to Bludgeoning, Piercing, and Slashing damage.",
+  "Supernatural Hide.entries.1": "У вас есть {@variantrule Resistance|XPHB|Сопротивление} Дробящему, Колющему и Рубящему урону.",
   "Supernatural Hide.name": "Supernatural Hide",
   "Supple Squeeze.entries.0": "With an effort of will, you contort your body into the tightest spaces. You can squeeze through a space that is large enough for a creature two sizes smaller than you, rather than one size smaller.",
   "Supple Squeeze.entries.1.entries.0": "If you take this trait twice, squeezing does not cost you additional movement, and you do not have {@variantrule Disadvantage|XPHB} on attack rolls and Dexterity saving throws while squeezing.",

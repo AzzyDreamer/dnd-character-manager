@@ -193,7 +193,7 @@
   "armorer.features.2.name": "Arcane Armor",
   "armorer.features.3.description": "You can customize your Arcane Armor. When you do so, choose one of the following armor models: Dreadnaught, Guardian, or Infiltrator. The model you choose gives you special benefits while you wear it. Each model includes a special weapon. When you attack with that weapon, you can add your Intelligence modifier, instead of your Strength or Dexterity modifier, to the attack and damage rolls. You can change the armor's model whenever you finish a {@variantrule Short Rest|XPHB} or {@variantrule Long Rest|XPHB} if you have {@item Smith's Tools|XPHB} in hand.",
   "armorer.features.3.name": "Armor Model",
-  "armorer.features.4.description": "You can attack twice instead of once whenever you take the {@action Attack|XPHB} action on your turn.",
+  "armorer.features.4.description": "Когда в ваш ход вы совершаете действие {@action Attack|XPHB|Атака}, вы можете совершить не одну, а две атаки.",
   "armorer.features.4.name": "Дополнительная атака",
   "armorer.features.5.description": "Вы получаете следующие преимущества.",
   "armorer.features.5.details.armorReplication": "You learn an additional plan for your Replicate Magic Item feature, and it must be in the Armor category. If you replace that plan, you must replace it with another Armor plan.",
