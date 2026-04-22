@@ -540,7 +540,7 @@
   "Dungeon Delver.name": "Dungeon Delver",
   "Durable.entries.0": "Вы получаете следующие преимущества.",
   "Durable.entries.1.entries.0": "You have {@variantrule Advantage|XPHB} on {@variantrule Death Saving Throw|XPHB|Death Saving Throws}.",
-  "Durable.entries.1.name": "Defy Death",
+  "Durable.entries.1.name": "Бросающий вызов смерти",
   "Durable.entries.2.entries.0": "As a {@variantrule Bonus Action|XPHB}, you can expend one of your {@variantrule Hit Point Dice|XPHB}, roll the die, and regain a number of {@variantrule Hit Points|XPHB} equal to the roll.",
   "Durable.entries.2.name": "Speedy Recovery",
   "Durable.name": "Durable",
