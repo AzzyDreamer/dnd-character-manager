@@ -1,9 +1,9 @@
 {
   "Aberrant Heir.entries.0.items.0.entry": "Strength, Constitution, Charisma",
   "Aberrant Heir.entries.0.items.0.name": "Очки характеристик:",
-  "Aberrant Heir.entries.0.items.1.entry": "{@feat Aberrant Dragonmark|EFA}",
+  "Aberrant Heir.entries.0.items.1.entry": "{@feat Aberrant Dragonmark|EFA|Аберрантная Метка}",
   "Aberrant Heir.entries.0.items.1.name": "Черта:",
-  "Aberrant Heir.entries.0.items.2.entry": "{@skill History|XPHB} and {@skill Intimidation|XPHB}",
+  "Aberrant Heir.entries.0.items.2.entry": "{@skill History|XPHB|История} и {@skill Intimidation|XPHB|Запугивание}",
   "Aberrant Heir.entries.0.items.2.name": "Владение навыками:",
   "Aberrant Heir.entries.0.items.3.entry": "{@item Disguise Kit|XPHB}",
   "Aberrant Heir.entries.0.items.3.name": "Владение инструментом:",
