@@ -271,7 +271,8 @@
     "itemsBase": "Base Items",
     "items": "Items",
     "charOptions": "Creation Options",
-    "actions": "Actions"
+    "actions": "Actions",
+    "itemProperties": "Item Properties"
   },
   "featCategories": {
     "G": "General Feat",

@@ -271,7 +271,8 @@
     "itemsBase": "Базовые предметы",
     "items": "Предметы",
     "charOptions": "Опции создания",
-    "actions": "Действия"
+    "actions": "Действия",
+    "itemProperties": "Свойства предметов"
   },
   "featCategories": {
     "G": "Общая черта",

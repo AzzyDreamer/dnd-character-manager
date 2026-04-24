@@ -1,0 +1,12 @@
+{
+	"name": "Finesse",
+	"abbreviation": "F",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"When making an attack roll with a Finesse weapon, you use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls."
+	]
+}

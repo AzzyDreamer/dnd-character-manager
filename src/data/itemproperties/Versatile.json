@@ -1,0 +1,12 @@
+{
+	"name": "Versatile",
+	"abbreviation": "V",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property—the damage when the weapon is used with two hands to make a melee attack."
+	]
+}

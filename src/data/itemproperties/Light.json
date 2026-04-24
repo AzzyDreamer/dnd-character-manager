@@ -1,0 +1,12 @@
+{
+	"name": "Light",
+	"abbreviation": "L",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"When you take the {@action Attack|XPHB} action on your turn and attack with a Light weapon, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. See also the {@feat Two-Weapon Fighting|XPHB} feat and the {@itemProperty L|XPHB|Light} property entry on the Weapons table."
+	]
+}

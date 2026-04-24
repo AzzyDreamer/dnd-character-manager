@@ -33,6 +33,7 @@ let _charCreationOptions: any = null;
 let _classes: any = null;
 let _subclasses: any = null;
 let _actions: any = null;
+let _itemProperties: any = null;
 
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
@@ -40,7 +41,7 @@ let _initializing: Promise<void> | null = null;
 const PHASE_KEYS = [
   'spells', 'feats', 'species', 'conditions', 'senses', 'skills',
   'rules', 'optfeatures', 'backgrounds', 'classes', 'subclasses',
-  'itemsBase', 'items', 'charOptions', 'actions',
+  'itemsBase', 'items', 'charOptions', 'actions', 'itemProperties',
 ];
 
 function getPhaseLabel(key: string): string {
@@ -122,6 +123,10 @@ export async function initRegistry(onProgress?: (p: LoadProgress) => void): Prom
       _actions = await import('./actions');
       await _actions.init();
       report('actions');
+
+      _itemProperties = await import('./itemproperties');
+      await _itemProperties.init();
+      report('itemProperties');
 
       _initialized = true;
     } catch (e) {
@@ -236,11 +241,22 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (actionRule) return { type: 'action', name: actionRule.name, source: actionRule.source, entries: actionRule.entries, data: actionRule };
       break;
     }
+    case 'itemProperty': {
+      // Тег формата {@itemProperty CODE|SOURCE|DisplayName}, например L|XPHB|Light.
+      // Сначала ищем по коду свойства (case-insensitive, с предпочтением источника).
+      if (_itemProperties) {
+        const prop = _itemProperties.getItemPropertyByCode(entityName, entitySource);
+        if (prop) return { type: 'itemProperty', name: prop.name, source: prop.source, entries: prop.entries, data: prop };
+      }
+      // Фоллбэк на варианты правил — если кто-то использовал тег с полным именем правила.
+      const rule = _variantrule.getVariantRuleByName(entityName);
+      if (rule) return { type: 'itemProperty', name: rule.name, source: rule.source, entries: rule.entries, data: rule };
+      break;
+    }
     case 'hazard':
     case 'quickref':
     case 'creature':
-    case 'card':
-    case 'itemProperty': {
+    case 'card': {
       const rule = _variantrule.getVariantRuleByName(entityName);
       if (rule) return { type: tagType, name: rule.name, source: rule.source, entries: rule.entries, data: rule };
       break;
@@ -283,5 +299,6 @@ export function getLoadedModules() {
     items: _items,
     charCreationOptions: _charCreationOptions,
     actions: _actions,
+    itemProperties: _itemProperties,
   };
 }

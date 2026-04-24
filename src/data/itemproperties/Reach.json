@@ -1,0 +1,12 @@
+{
+	"name": "Reach",
+	"abbreviation": "R",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"A Reach weapon adds 5 feet to your reach when you make a melee attack with it, as well as when you take the {@action Opportunity Attack|XPHB} action with it."
+	]
+}

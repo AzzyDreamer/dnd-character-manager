@@ -1,0 +1,12 @@
+{
+	"name": "Two-Handed",
+	"abbreviation": "2H",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"A Two-Handed weapon requires two hands when you attack with it. You must use the weapon two-handed during the attack to gain the benefit of the property."
+	]
+}
