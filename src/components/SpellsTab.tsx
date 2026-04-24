@@ -16,6 +16,7 @@ import type { SpellData } from '../data/spells';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import { getSubclassDisplayName } from '../data/classes';
+import { resolveDisplayRace } from '../data/species';
 
 // Типы для данных заклинаний (без импорта модуля)
 interface SpellDataLocal {
@@ -997,9 +998,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       groups.delete(character.subclass);
     }
 
-    // Race
+    // Race — group key is canonical (matches autoSpells.source); label is localized for display.
     if (character.race && groups.has(character.race)) {
-      result.push({ key: character.race, type: 'race', label: `${character.race}`, color: 'text-emerald-300', icon: Sparkles, spells: groups.get(character.race)! });
+      result.push({ key: character.race, type: 'race', label: resolveDisplayRace(character.race, character.raceSource), color: 'text-emerald-300', icon: Sparkles, spells: groups.get(character.race)! });
       groups.delete(character.race);
     }
 

@@ -1,6 +1,7 @@
 import type { Character, AbilityScores, InventoryItem } from '../types';
 import { getAbilityModifier } from './dnd';
 import { getClassById, findSubclass } from '../data/classes';
+import { resolveCanonicalRace } from '../data/species';
 import { FEAT_STAT_EFFECTS } from './featEffects';
 import i18n from '../i18n';
 
@@ -100,8 +101,8 @@ function getActiveEffects(char: Character): StatEffect[] {
     }
   }
 
-  // Species effects
-  const speciesEffects = SPECIES_EFFECTS[char.race];
+  // Species effects — keyed by canonical English name; resolve in case stored race is localized.
+  const speciesEffects = SPECIES_EFFECTS[resolveCanonicalRace(char.race, char.raceSource)];
   if (speciesEffects) {
     for (const e of speciesEffects) {
       if (char.level >= (e.level ?? 1)) {
