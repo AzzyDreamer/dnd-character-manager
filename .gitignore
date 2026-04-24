@@ -31,6 +31,8 @@ INTERFACE_EXAMPLE/
 
 # Temp scripts
 tmp_*.mjs
+_batch*.py
+__pycache__/
 
 # Environment variables
 .env

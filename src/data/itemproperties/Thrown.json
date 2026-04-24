@@ -1,0 +1,12 @@
+{
+	"name": "Thrown",
+	"abbreviation": "T",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"If a weapon has the Thrown property, you can throw the weapon to make a ranged attack, and if the weapon is a Melee weapon, you use the same ability modifier for the attack and damage rolls that you would use for a melee attack with the weapon. For example, if you throw a {@item Handaxe|XPHB}, you use your Strength, but if you throw a {@item Dagger|XPHB}, you can use your Strength or Dexterity since the Dagger has the {@itemProperty F|XPHB|Finesse} property."
+	]
+}

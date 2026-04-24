@@ -1,0 +1,10 @@
+{
+	"name": "Reload",
+	"abbreviation": "RLD",
+	"source": "XDMG",
+	"page": 72,
+	"category": "weapon",
+	"entries": [
+		"A limited number of shots can be made with a weapon that has the Reload property. A character must then reload it using an action or a {@variantrule Bonus Action|XPHB} (the character's choice). The number of shots a weapon can make before being reloaded is shown in parentheses after the property's name."
+	]
+}

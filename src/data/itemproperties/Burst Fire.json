@@ -1,0 +1,10 @@
+{
+	"name": "Burst Fire",
+	"abbreviation": "BF",
+	"source": "XDMG",
+	"page": 72,
+	"category": "weapon",
+	"entries": [
+		"A weapon with the Burst Fire property can make a normal single-target attack, or it can spray a 10-foot-cube area within normal range with shots. Each creature in the area must succeed on a Dexterity saving throw (DC equal to 8 + your Proficiency Bonus + your Dexterity modifier) or take the weapon's normal damage. This action uses ten pieces of ammunition."
+	]
+}

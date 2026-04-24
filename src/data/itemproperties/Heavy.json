@@ -1,0 +1,12 @@
+{
+	"name": "Heavy",
+	"abbreviation": "H",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"Small creatures have {@variantrule Disadvantage|XPHB} on attack rolls with Heavy weapons. A Heavy weapon's size and bulk make it too large for a Small creature to use effectively."
+	]
+}

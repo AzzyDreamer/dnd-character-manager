@@ -5,6 +5,7 @@ import { Users, Trash2, FileDown, FileUp } from 'lucide-react';
 import { exportCharacter } from '../utils/storage';
 import { PortraitImage } from './ui/PortraitImage';
 import { getClassName } from '../data/classes';
+import { resolveCanonicalRace, resolveDisplayRace } from '../data/species';
 
 interface CharacterListProps {
   characters: Character[];
@@ -125,8 +126,11 @@ export const CharacterList: React.FC<CharacterListProps> = ({
           <div className="flex flex-wrap gap-4 justify-center content-center">
             {characters.map((character) => {
               const isActive = character.id === activeCharacterId;
-              const isHauntedOne = character.race === 'Dragonborn'
-                && character.raceVariant === 'Dragonborn (White)'
+              // Сравниваем canonical English-имена, чтобы пасхалка работала и после смены языка.
+              const canonicalRace = resolveCanonicalRace(character.race, character.raceSource);
+              const canonicalVariant = resolveCanonicalRace(character.raceVariant, character.raceSource);
+              const isHauntedOne = canonicalRace === 'Dragonborn'
+                && canonicalVariant === 'Dragonborn (White)'
                 && character.classId === 'sorcerer'
                 && character.background === 'Haunted One'
                 && ['lawfulEvil', 'neutralEvil', 'chaoticEvil'].includes(character.alignment ?? '');
@@ -172,7 +176,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                         {character.name}
                       </div>
                       <div className="text-xs text-white/60 truncate">
-                        {character.race} • {character.classId ? getClassName(character.classId) : character.class} {t('characterList.levelShort', { level: character.level })}
+                        {resolveDisplayRace(character.race, character.raceSource)} • {character.classId ? getClassName(character.classId) : character.class} {t('characterList.levelShort', { level: character.level })}
                       </div>
                     </div>
 

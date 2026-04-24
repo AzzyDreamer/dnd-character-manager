@@ -21,6 +21,7 @@ import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subc
 import { PortraitCropModal } from './PortraitCropModal';
 import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
+import { resolveDisplayRace } from '../data/species';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -1145,7 +1146,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           <div>
             <h1 className="text-2xl font-medieval text-gold">{character.name}</h1>
             <p className="text-sm text-text-secondary">
-              {character.race} {character.classId ? getClassName(character.classId) : character.class}{character.subclass ? ` — ${character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass}` : ''} {t('sheet.header.levelDisplay', { level: character.level })}
+              {resolveDisplayRace(character.race, character.raceSource)} {character.classId ? getClassName(character.classId) : character.class}{character.subclass ? ` — ${character.classId ? getSubclassDisplayName(character.classId, character.subclass) : character.subclass}` : ''} {t('sheet.header.levelDisplay', { level: character.level })}
             </p>
           </div>
         </div>
@@ -1958,7 +1959,7 @@ function FeaturesSection({ character }: { character: Character }) {
   // --- Особенности categories ---
   const featureCategories: FeatureCategory[] = [
     ...(raceTraits.length > 0 ? [{
-      label: t('sheet.features.raceLabel', { race: character.race }),
+      label: t('sheet.features.raceLabel', { race: resolveDisplayRace(character.race, character.raceSource) }),
       icon: <Sparkles size={14} className="text-purple-400" />,
       features: raceTraits,
     }] : []),

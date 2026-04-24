@@ -22,6 +22,7 @@ const OVERLAY_MODULES: Record<string, Record<string, () => Promise<{ default: Re
   senses: import.meta.glob('../i18n/gamedata/*/senses.json') as any,
   skills: import.meta.glob('../i18n/gamedata/*/skills.json') as any,
   variantrule: import.meta.glob('../i18n/gamedata/*/variantrule.json') as any,
+  itemproperties: import.meta.glob('../i18n/gamedata/*/itemproperties.json') as any,
   charactercreationoptions: import.meta.glob('../i18n/gamedata/*/charactercreationoptions.json') as any,
   classes: import.meta.glob('../i18n/gamedata/*/classes.json') as any,
   subclasses: import.meta.glob('../i18n/gamedata/*/subclasses.json') as any,

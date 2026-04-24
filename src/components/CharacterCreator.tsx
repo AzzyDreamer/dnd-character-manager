@@ -23,6 +23,7 @@ import {
 import { CLASS_REGISTRY, type ClassDefinition, getClassName, getClassDescription, getSubclassName, translateProficiencies, translateArmorProficiency, translateWeaponProficiency, translateToolProficiency } from '../data/classes';
 import { getSubclassImageUrl } from '../data/classes/subclassJsonLoader';
 import type { SpeciesData } from '../data/species';
+import { getCanonicalName as getSpeciesCanonicalName } from '../data/species';
 import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
 import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield, ChevronDown, ChevronRight, Zap } from 'lucide-react';
@@ -736,7 +737,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     let maxHP = calculateMaxHP(level, finalScores.constitution, selectedClass.hitDie);
 
     // Add species HP bonus (e.g. Dwarf: +1 HP per level)
-    const speciesEffects = SPECIES_EFFECTS[selectedSpecies.name];
+    const speciesEffects = SPECIES_EFFECTS[getSpeciesCanonicalName(selectedSpecies)];
     if (speciesEffects) {
       for (const e of speciesEffects) {
         if (e.hpPerLevel) maxHP += e.hpPerLevel * level;
@@ -761,9 +762,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const character: Character = {
       id: crypto.randomUUID(),
       name,
-      race: selectedSpecies.name,
+      // Сохраняем canonical English-имена, чтобы persisted-данные не зависели от текущей локали.
+      // Отображение прогоняем через resolveDisplayRace() в местах рендера.
+      race: getSpeciesCanonicalName(selectedSpecies),
       raceSource: selectedSpecies.source,
-      raceVariant: selectedVariant?.name,
+      raceVariant: selectedVariant ? getSpeciesCanonicalName(selectedVariant) : undefined,
       class: getClassName(selectedClass.id),
       classId: selectedClass.id,
       level,
@@ -996,6 +999,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         }
         // No spell config — just save
         wrappedOnSave(character);
+      }).catch(err => {
+        // Don't strand the user — log and save without bg-feat spells.
+        console.error('Failed to extract bg feat spell config:', err);
+        wrappedOnSave(character);
       });
       return;
     }
@@ -1066,7 +1073,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       : 10 + getAbilityModifier(getFinalScore('dexterity')),
     hitPoints: selectedClass
       ? calculateMaxHP(1, getFinalScore('constitution'), selectedClass.hitDie)
-        + (selectedSpecies && SPECIES_EFFECTS[selectedSpecies.name]?.reduce((sum, e) => sum + (e.hpPerLevel ?? 0) + (e.hpFlat ?? 0), 0) || 0)
+        + (selectedSpecies && SPECIES_EFFECTS[getSpeciesCanonicalName(selectedSpecies)]?.reduce((sum, e) => sum + (e.hpPerLevel ?? 0) + (e.hpFlat ?? 0), 0) || 0)
       : undefined,
     speed: selectedSpecies ? getSpeciesSpeed(selectedSpecies) : undefined,
     proficiencyBonus: getProficiencyBonus(1),
@@ -1122,7 +1129,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // Variants for currently selected species
   const speciesVariants = useMemo(() => {
     if (!selectedSpecies) return [];
-    return allSpecies.filter(sp => sp._isVariant && sp._parentSpecies === selectedSpecies.name && sp.source === selectedSpecies.source);
+    // _parentSpecies holds the canonical (English) name — compare against it.
+    const parentKey = getSpeciesCanonicalName(selectedSpecies);
+    return allSpecies.filter(sp => sp._isVariant && sp._parentSpecies === parentKey && sp.source === selectedSpecies.source);
   }, [allSpecies, selectedSpecies]);
 
   // Effective species = variant if selected, otherwise base
@@ -1652,8 +1661,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     _isEasterEgg: true,
   }), []);
 
-  const isWhiteDragonbornSorcerer = selectedSpecies?.name === 'Dragonborn'
-    && selectedVariant?.name === 'Dragonborn (White)'
+  const isWhiteDragonbornSorcerer = !!selectedSpecies
+    && getSpeciesCanonicalName(selectedSpecies) === 'Dragonborn'
+    && !!selectedVariant
+    && getSpeciesCanonicalName(selectedVariant) === 'Dragonborn (White)'
     && selectedClass?.id === 'sorcerer';
 
   const filteredBackgrounds = useMemo(() => {
@@ -3208,7 +3219,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <CharacterStatsSidebar
           creationStats={creationStats}
           showCombatStats={step >= 4}
-          imageSrc={selectedSpecies ? `/images/species/${encodeURIComponent(selectedSpecies.name)}.webp` : undefined}
+          imageSrc={selectedSpecies ? `/images/species/${encodeURIComponent(getSpeciesCanonicalName(selectedSpecies))}.webp` : undefined}
           imageAlt={selectedSpecies?.name}
           classIconSrc={selectedClass ? `/images/classes/${selectedClass.id}.webp` : undefined}
         />

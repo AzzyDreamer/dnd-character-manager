@@ -187,6 +187,11 @@ export async function init(): Promise<void> {
 
 const PREFERRED_SOURCES = ['XPHB', 'PHB'];
 
+/** Canonical (English) name — stable across locales for internal keying. */
+export function getCanonicalName(s: Pick<SpeciesData, 'name'> & { _origName?: string }): string {
+  return s._origName ?? s.name;
+}
+
 export function getSpeciesByName(name: string, source?: string): SpeciesData | undefined {
   const lc = name.toLowerCase();
   const nameMatches = (s: SpeciesData) => s.name.toLowerCase() === lc || (s as any)._origName?.toLowerCase() === lc;
@@ -201,6 +206,30 @@ export function getSpeciesByName(name: string, source?: string): SpeciesData | u
 
 export function getSpeciesBySource(source: string): SpeciesData[] {
   return ALL_SPECIES.filter(s => s.source === source);
+}
+
+/**
+ * Resolve a stored race string (from `Character.race`/`Character.raceVariant`) to its canonical
+ * English name. Works whether the stored string is canonical or already localized — `getSpeciesByName`
+ * matches against both `name` and `_origName`.
+ *
+ * Use this for any internal lookup, comparison, or persisted key (SPECIES_EFFECTS, easter eggs,
+ * spell source grouping, image filenames, etc.).
+ */
+export function resolveCanonicalRace(race: string | undefined, source?: string): string {
+  if (!race) return '';
+  const sp = getSpeciesByName(race, source);
+  return sp ? getCanonicalName(sp) : race;
+}
+
+/**
+ * Resolve a stored race string to its display name in the current locale (after the translation
+ * overlay has been applied). Falls back to the stored value if the species is no longer found.
+ */
+export function resolveDisplayRace(race: string | undefined, source?: string): string {
+  if (!race) return '';
+  const sp = getSpeciesByName(race, source);
+  return sp?.name ?? race;
 }
 
 /** Get expanded variants for a base species */

@@ -1,0 +1,12 @@
+{
+	"name": "Special",
+	"abbreviation": "S",
+	"source": "XPHB",
+	"page": 215,
+	"srd52": true,
+	"basicRules2024": true,
+	"category": "weapon",
+	"entries": [
+		"A weapon with the Special property has unusual rules governing its use, which are explained in the weapon's description."
+	]
+}
