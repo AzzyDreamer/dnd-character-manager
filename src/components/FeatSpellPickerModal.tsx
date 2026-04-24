@@ -280,7 +280,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                           : 'border-border-default bg-bg-primary/40 text-text-primary hover:border-border-hover'
                       }`}
                     >
-                      {ABILITY_LABELS[ab] || ab}
+                      {t(`abilityLabels.${ab}`, { defaultValue: ab })}
                     </button>
                   ))}
                 </div>

@@ -297,8 +297,24 @@ export interface FeatSpellConfig {
   classOptions?: { name: string; className: string }[];
 }
 
+// Detects { choose: { from: [...], count: N } } anywhere — not supported by the
+// current picker (e.g. Initiate of High Sorcery's "pick 2 of 4" leveled spells).
+function hasUnsupportedSpellChoose(node: any): boolean {
+  if (Array.isArray(node)) return node.some(hasUnsupportedSpellChoose);
+  if (node && typeof node === 'object') {
+    const c = (node as any).choose;
+    if (c && typeof c === 'object' && !Array.isArray(c) && 'from' in c) return true;
+    return Object.values(node).some(hasUnsupportedSpellChoose);
+  }
+  return false;
+}
+
 export function extractFeatSpellConfig(feat: FeatData): FeatSpellConfig | null {
   if (!feat.additionalSpells || feat.additionalSpells.length === 0) return null;
+
+  // Bail when feat structure is too complex — handleSubmit will save the
+  // character without these spells; user can add them manually.
+  if (hasUnsupportedSpellChoose(feat.additionalSpells)) return null;
 
   // Check if there are multiple named options (like Magic Initiate)
   const hasNamedOptions = feat.additionalSpells.some((s: any) => s.name);
@@ -355,9 +371,13 @@ function parseSingleSpellSet(spellSet: any): FeatSpellConfig {
               // Try to determine level from name (we'll resolve at runtime)
               config.fixedSpells.push({ name, level: -1 }); // level resolved later
             } else if (typeof spell === 'object' && spell.choose) {
-              // Choice: "level=1|school=I;N" or "level=1|class=Cleric"
-              const parsed = parseSpellFilter(spell.choose);
-              config.choices.push({ count: spell.count || 1, ...parsed });
+              if (typeof spell.choose === 'string') {
+                // Choice: "level=1|school=I;N" or "level=1|class=Cleric"
+                const parsed = parseSpellFilter(spell.choose);
+                config.choices.push({ count: spell.count || 1, ...parsed });
+              }
+              // Object form (e.g. { from: [...], count: N }) — picker does not
+              // currently support pick-from-list; user can add spells manually.
             }
           }
         }
@@ -373,8 +393,10 @@ function parseSingleSpellSet(spellSet: any): FeatSpellConfig {
           const name = spellEntry.split('|')[0];
           config.fixedSpells.push({ name, level: -1 });
         } else if (typeof spellEntry === 'object' && spellEntry.choose) {
-          const parsed = parseSpellFilter(spellEntry.choose);
-          config.choices.push({ count: spellEntry.count || 1, ...parsed });
+          if (typeof spellEntry.choose === 'string') {
+            const parsed = parseSpellFilter(spellEntry.choose);
+            config.choices.push({ count: spellEntry.count || 1, ...parsed });
+          }
         }
       }
     }
@@ -386,6 +408,7 @@ function parseSingleSpellSet(spellSet: any): FeatSpellConfig {
 function parseSpellFilter(filter: string): { level: number; filterClass?: string; filterSchools?: string[] } {
   const result: { level: number; filterClass?: string; filterSchools?: string[] } = { level: 0 };
 
+  if (typeof filter !== 'string') return result;
   const parts = filter.split('|');
   for (const part of parts) {
     const [key, value] = part.split('=');

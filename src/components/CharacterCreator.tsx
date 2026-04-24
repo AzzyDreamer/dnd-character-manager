@@ -996,6 +996,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         }
         // No spell config — just save
         wrappedOnSave(character);
+      }).catch(err => {
+        // Don't strand the user — log and save without bg-feat spells.
+        console.error('Failed to extract bg feat spell config:', err);
+        wrappedOnSave(character);
       });
       return;
     }
