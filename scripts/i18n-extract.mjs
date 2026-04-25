@@ -35,6 +35,7 @@ const CATEGORIES = [
   { id: 'senses',       dir: 'senses',                        pattern: '*.json' },
   { id: 'skills',       dir: 'skills',                        pattern: '*.json' },
   { id: 'variantrule',  dir: 'variantrule',                   pattern: '*.json' },
+  { id: 'itemproperties', dir: 'itemproperties',              pattern: '*.json' },
   { id: 'charactercreationoptions', dir: 'charactercreationoptions', pattern: '*.json' },
   // Classes and subclasses have special structure
   { id: 'classes',      dir: 'classes',                       pattern: '*/*.json', type: 'class' },
