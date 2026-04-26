@@ -23,8 +23,7 @@
   },
   "startingEquipment": {
     "optionA": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "{@item Shortsword|XPHB}", "{@item Shortbow|XPHB}", "20 {@item Arrows|XPHB}", "{@item Quiver|XPHB}", "{@item Thieves' Tools|XPHB}", "{@item Burglar's Pack|XPHB}", "8 GP"],
-    "optionB": ["{@item Leather Armor|XPHB}", "2 {@item Daggers|XPHB}", "{@item Shortsword|XPHB}", "{@item Shortbow|XPHB}", "20 {@item Arrows|XPHB}", "{@item Quiver|XPHB}", "{@item Thieves' Tools|XPHB}", "{@item Explorer's Pack|XPHB}", "8 GP"],
-    "optionC": ["110 GP"]
+    "optionB": ["100 GP"]
   },
   "multiclassing": {
     "prerequisite": "Dexterity 13",
@@ -43,7 +42,7 @@
     { "level": 10, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                                    "sneakAttack": "5d6" },
     { "level": 11, "proficiencyBonus": 4, "features": ["Improved Cunning Strike"],                                      "sneakAttack": "6d6" },
     { "level": 12, "proficiencyBonus": 4, "features": ["Ability Score Improvement"],                                    "sneakAttack": "6d6" },
-    { "level": 13, "proficiencyBonus": 5, "features": ["Subclass Feature", "Subtle Strikes"],                           "sneakAttack": "7d6" },
+    { "level": 13, "proficiencyBonus": 5, "features": ["Subclass Feature"],                                            "sneakAttack": "7d6" },
     { "level": 14, "proficiencyBonus": 5, "features": ["Devious Strikes"],                                              "sneakAttack": "7d6" },
     { "level": 15, "proficiencyBonus": 5, "features": ["Slippery Mind"],                                                "sneakAttack": "8d6" },
     { "level": 16, "proficiencyBonus": 5, "features": ["Ability Score Improvement"],                                    "sneakAttack": "8d6" },
@@ -166,12 +165,6 @@
       "level": 13,
       "source": "PHB'24",
       "description": "You gain a feature from your Rogue Subclass."
-    },
-    {
-      "name": "Subtle Strikes",
-      "level": 13,
-      "source": "PHB'24",
-      "description": "When you attack, you know how to exploit a target's distraction. You have {@variantrule Advantage|XPHB} on any attack roll that targets a creature that is within 5 feet of at least one of your allies who doesn't have the {@condition Incapacitated} condition."
     },
     {
       "name": "Devious Strikes",
