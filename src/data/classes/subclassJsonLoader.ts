@@ -1,5 +1,6 @@
 // Загрузка JSON данных подклассов для Glossary (ленивая batch загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const subclassModules = import.meta.glob('./*/subclasses/*.json');
 
 export interface SubclassJsonData {
@@ -149,5 +150,5 @@ const SUBCLASS_IMAGE_MAP: Record<string, string> = {
 
 export function getSubclassImageUrl(classId: string, subclassId: string): string | null {
   const file = SUBCLASS_IMAGE_MAP[`${classId}/${subclassId}`];
-  return file ? `/images/subclasses/${file}` : null;
+  return file ? asset(`/images/subclasses/${file}`) : null;
 }

@@ -1,5 +1,6 @@
 // Загрузка всех состояний и болезней из JSON файлов (ленивая загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const modules = import.meta.glob('./*.json');
 
 export interface ConditionDiseaseData {
@@ -44,5 +45,5 @@ export function getConditionByName(name: string): ConditionDiseaseData | undefin
 
 export function getConditionImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/conditionsdiseases/${filename}.webp`;
+  return asset(`/images/conditionsdiseases/${filename}.webp`);
 }

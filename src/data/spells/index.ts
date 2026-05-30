@@ -2,6 +2,7 @@
 // НЕ используем { eager: true } — это убивает Vite dev server
 
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 
 const spellModules = import.meta.glob('./*.json');
 
@@ -140,5 +141,5 @@ export const SCHOOL_NAMES: Record<string, string> = {
 
 export function getSpellImageUrl(spellName: string): string {
   const filename = spellName.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/spells/${filename}.webp`;
+  return asset(`/images/spells/${filename}.webp`);
 }

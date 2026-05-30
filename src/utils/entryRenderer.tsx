@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { lookupByTag, getTagDisplayName as registryGetTagDisplayName } from '../data/registry';
 import type { RegistryEntry } from '../data/registry';
 import { DiceRollContext } from '../components/DiceRollProvider';
+import { asset } from '../utils/asset';
 
 export type { RegistryEntry };
 
@@ -616,7 +617,7 @@ const EntryNode: React.FC<{
 // ─── Компонент изображения с PLACEHOLDER fallback ───
 const EntryImage: React.FC<{ entry: any }> = ({ entry }) => {
   const [failed, setFailed] = useState(false);
-  const placeholderSrc = '/images/PLACEHOLDER.webp';
+  const placeholderSrc = asset('/images/PLACEHOLDER.webp');
 
   // Определяем путь к изображению
   let src = placeholderSrc;

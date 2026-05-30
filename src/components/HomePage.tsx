@@ -4,6 +4,7 @@ import { Scroll, Users, Library, Sparkles } from 'lucide-react';
 import { PortraitImage } from './ui/PortraitImage';
 import { getClassName } from '../data/classes';
 import { resolveDisplayRace } from '../data/species';
+import { asset } from '../utils/asset';
 
 interface HomePageProps {
   characters: Character[];
@@ -105,7 +106,7 @@ export function HomePage({ characters, onNavigate, onSelectCharacter }: HomePage
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-bg-secondary to-bg-tertiary">
                         <img
-                          src={`/images/classes/${char.classId}.webp`}
+                          src={asset(`/images/classes/${char.classId}.webp`)}
                           alt={char.class}
                           className="w-10 h-10 object-contain opacity-30"
                           onError={(e) => {

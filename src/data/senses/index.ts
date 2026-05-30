@@ -1,5 +1,6 @@
 // Загрузка всех чувств из JSON файлов (ленивая загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const modules = import.meta.glob('./*.json');
 
 export interface SenseData {
@@ -43,5 +44,5 @@ export function getSenseByName(name: string): SenseData | undefined {
 }
 
 export function getSenseImageUrl(name: string): string {
-  return `/images/senses/${name}.webp`;
+  return asset(`/images/senses/${name}.webp`);
 }

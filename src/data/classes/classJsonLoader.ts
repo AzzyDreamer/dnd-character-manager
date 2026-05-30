@@ -1,5 +1,6 @@
 // Загрузка JSON данных классов для Glossary (ленивая batch загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const classModules = import.meta.glob('./*/*.json');
 
 export interface ClassJsonData {
@@ -80,5 +81,5 @@ export function getClassDataByName(name: string): ClassJsonData | undefined {
 }
 
 export function getClassImageUrl(id: string): string {
-  return `/images/classes/${id}.webp`;
+  return asset(`/images/classes/${id}.webp`);
 }
