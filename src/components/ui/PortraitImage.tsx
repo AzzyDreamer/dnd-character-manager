@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { portraitBgStyle, getPortraitPos } from '../../utils/portraitPosition';
+import { portraitBgStyle } from '../../utils/portraitPosition';
 import type { PortraitPos } from '../../utils/portraitPosition';
 
 interface PortraitImageProps {

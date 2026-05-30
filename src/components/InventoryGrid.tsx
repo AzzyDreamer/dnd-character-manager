@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Character, InventoryItem, EquipmentSlot, Equipment } from '../types';
+import type { Character, InventoryItem, EquipmentSlot, Equipment, ItemCategory } from '../types';
 import {
   ITEM_TEMPLATES,
   RARITY_COLORS,
@@ -196,10 +196,10 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
         {/* Свойства и мастерство */}
         {(properties.length > 0 || masteries.length > 0) && (
           <div className="mb-3 flex flex-wrap gap-1.5">
-            {properties.map((p, i) => (
+            {properties.map((p: string, i: number) => (
               <span key={i} className="px-2 py-0.5 rounded-full bg-bg-secondary text-xs text-text-secondary border border-border-default">{p}</span>
             ))}
-            {masteries.map((m, i) => (
+            {masteries.map((m: string, i: number) => (
               <span key={`m${i}`} className="px-2 py-0.5 rounded-full bg-purple-500/15 text-xs text-purple-300 border border-purple-500/30">{m}</span>
             ))}
           </div>
@@ -297,6 +297,7 @@ const GridItem: React.FC<{
   onRightClick: (item: InventoryItem, e: React.MouseEvent) => void;
   showTooltip: (item: InventoryItem, rect: DOMRect) => void;
   hideTooltip: () => void;
+  onShowDetails?: (item: InventoryItem) => void;
 }> = ({ item, onDragStart, onRightClick, showTooltip, hideTooltip }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rarityColor = RARITY_COLORS[item.rarity];
@@ -581,7 +582,7 @@ const AddItemModal: React.FC<{
                     : 'bg-bg-panel-solid text-text-secondary hover:bg-bg-panel hover:text-text-primary'
                 }`}
               >
-                {cat === 'all' ? t('addModal.allCategories') : getCategoryName(cat)}
+                {cat === 'all' ? t('addModal.allCategories') : getCategoryName(cat as ItemCategory)}
               </button>
             ))}
           </div>

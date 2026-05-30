@@ -57,7 +57,7 @@ export const AutoSpellsNotificationModal: React.FC<AutoSpellsNotificationModalPr
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-text-secondary">
-                        {SPELL_LEVEL_LABELS[spell.level] ?? t('common.levelInline', { level: spell.level })}
+                        {t(`spellLevelLabels.${spell.level}`, t('common.levelInline', { level: spell.level }))}
                       </span>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-gold/15 text-gold border border-gold/20">
                         {t('common.auto')}

@@ -1445,7 +1445,6 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           onReplace={(oldFeatName) => {
             let updated = { ...pendingFsReplace.updatedChar };
             // Remove old FS from features and feats
-            const oldFeat = updated.feats?.find(f => f.name === oldFeatName && f.category?.startsWith('FS'));
             updated.features = updated.features.filter(f => f.name !== oldFeatName);
             updated.feats = (updated.feats ?? []).filter(f => !(f.name === oldFeatName && f.category?.startsWith('FS')));
             // If old was Blessed/Druidic Warrior, we'd need to remove cantrips too — but for simplicity, keep them
@@ -3455,6 +3454,11 @@ function FsCantripPickerModal({
   onCancel: () => void;
 }) {
   const { t } = useTranslation('character');
+  // Character with effective ability scores for display purposes
+  const effectiveScores = getEffectiveAbilityScores(character);
+  const displayCharacter = effectiveScores === character.abilityScores
+    ? character
+    : { ...character, abilityScores: effectiveScores };
   const [available, setAvailable] = useState<any[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

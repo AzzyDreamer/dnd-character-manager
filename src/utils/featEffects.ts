@@ -1,4 +1,4 @@
-import type { Character, AbilityScores, DamageResistanceEntry } from '../types';
+import type { Character } from '../types';
 import { getAbilityModifier } from './dnd';
 import type { FeatData } from '../data/feats';
 

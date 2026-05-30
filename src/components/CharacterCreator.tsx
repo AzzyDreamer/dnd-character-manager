@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
 import {
@@ -190,38 +190,6 @@ const DEFAULT_SCORES: AbilityScores = {
   intelligence: 8, wisdom: 8, charisma: 8,
 };
 
-// ─── Image helper with fallback ───
-const EntityImage: React.FC<{
-  folder: string;
-  id: string;
-  name: string;
-  className?: string;
-}> = ({ folder, id, name, className = '' }) => {
-  const [failed, setFailed] = useState(false);
-  const src = `/images/${folder}/${encodeURIComponent(id)}.webp`;
-
-  // Сброс failed при смене изображения
-  useEffect(() => {
-    setFailed(false);
-  }, [folder, id]);
-
-  if (failed) {
-    return (
-      <div className={`flex items-center justify-center bg-bg-panel-solid/60 text-gold font-medieval text-lg ${className}`}>
-        {name.charAt(0)}
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={name}
-      onError={() => setFailed(true)}
-      className={`object-cover ${className}`}
-    />
-  );
-};
 
 export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCancel }) => {
   const { t } = useTranslation('character');
@@ -812,7 +780,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         id: `deathstalker_mantle_${Date.now()}`,
         name: 'The Deathstalker Mantle',
         type: 'Wondrous Item',
-        category: 'wondrous' as const,
+        category: 'misc' as const,
         quantity: 1,
         weight: 0.5,
         description: 'The Shadow Itself: Once per turn when you kill an enemy, shroud yourself in primeval darkness to become Invisible for 2 turns.',
@@ -1083,7 +1051,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   // ─── Step Indicator ───
   const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
   const [speciesSourceFilter, setSpeciesSourceFilter] = useState<string | null>(null);
-  const [classSearchQuery, setClassSearchQuery] = useState('');
+  const [classSearchQuery] = useState('');
   const [bgSearchQuery, setBgSearchQuery] = useState('');
   const [bgSourceFilter, setBgSourceFilter] = useState<string | null>(null);
   const stepTabs: Tab[] = useMemo(() =>
@@ -1828,29 +1796,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const { fixed, speciesChoose, bgChoose, bgChooseFrom, totalChoose } = languageInfo;
 
     // Build list of available languages for each slot type
-    const alreadyChosen = new Set([...fixed.map(l => l.toLowerCase()), ...selectedLanguages.filter(Boolean).map(l => l.toLowerCase())]);
-
     const speciesAvailable = ALL_CHOOSABLE_LANGUAGES.filter(l => !fixed.map(f => f.toLowerCase()).includes(l.toLowerCase()));
     const bgAvailable = bgChooseFrom
       ? bgChooseFrom.map(l => l.charAt(0).toUpperCase() + l.slice(1))
       : ALL_CHOOSABLE_LANGUAGES;
-
-    const handleToggleLanguage = (lang: string, slotIndex: number) => {
-      setSelectedLanguages(prev => {
-        if (prev[slotIndex] === lang) {
-          // Remove
-          const next = [...prev];
-          next.splice(slotIndex, 1);
-          return next;
-        }
-        // Set at specific index
-        const next = [...prev];
-        next[slotIndex] = lang;
-        return next;
-      });
-    };
-
-    let slotIdx = 0;
 
     return (
       <div className="space-y-4">

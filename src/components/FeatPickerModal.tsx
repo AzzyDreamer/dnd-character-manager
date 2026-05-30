@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Character, AbilityScores, CharacterSpell } from '../types';
+import type { Character, AbilityScores } from '../types';
 import { type FeatData, getFeatImageUrl } from '../data/feats';
 import { getAbilityModifier, getAbilityName, getAbilityShort, ABILITY_SHORT_TO_LONG, getSkillName, SKILL_ABILITIES } from '../utils/dnd';
 import { getDamageTypeName } from '../data/items/constants';
