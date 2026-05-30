@@ -1,0 +1,51 @@
+name: Release
+
+# Запускается, когда в репозиторий пушится тег вида v1.2.3.
+# Типичный цикл выпуска версии:
+#   npm version 1.0.0      # поднимает version в package.json + создаёт коммит и тег
+#   git push --follow-tags # пушит коммит и тег -> запускает этот workflow
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Нужно для создания GitHub Release (загрузка тега + ассетов).
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Сборка заодно служит проверкой типов (tsc -b) и сборки (vite):
+      # если тег указывает на сломанный коммит, build упадёт и релиз
+      # не будет создан.
+      - name: Build
+        run: npm run build
+
+      # Упаковываем собранное приложение (папку dist) в zip,
+      # чтобы приложить его к Release как скачиваемый артефакт.
+      - name: Package build artifact
+        run: |
+          cd dist
+          zip -r ../dnd-character-manager-${{ github.ref_name }}.zip .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # Заметки генерируются автоматически из заголовков
+          # коммитов/PR между этим и предыдущим тегом.
+          generate_release_notes: true
+          files: dnd-character-manager-${{ github.ref_name }}.zip
