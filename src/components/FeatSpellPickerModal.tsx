@@ -339,7 +339,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
               const available = availableSpellsByChoice[idx] || [];
               const selectedCount = getSelectedCountForChoice(idx);
               const levelLabel = choice.level === 0 ? t('featSpells.cantripLabel') : t('featSpells.spellsOfLevel', { level: choice.level });
-              const schoolLabel = choice.filterSchools?.map(s => SCHOOL_LABELS[s] || s).join(', ');
+              const schoolLabel = choice.filterSchools?.map(s => t(`schoolLabels.${s}`, s)).join(', ');
 
               return (
                 <div key={idx} className="glass-panel p-4">

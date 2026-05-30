@@ -65,8 +65,8 @@ export const DiceRollProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [toast, setToast] = useState<ToastData | null>(null);
   const [hiding, setHiding] = useState(false);
   const [rolling, setRolling] = useState(false);
-  const hideTimer = useRef<ReturnType<typeof setTimeout>>();
-  const hideAnimTimer = useRef<ReturnType<typeof setTimeout>>();
+  const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const hideAnimTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Config menu state
   const [configExpr, setConfigExpr] = useState<string | null>(null);

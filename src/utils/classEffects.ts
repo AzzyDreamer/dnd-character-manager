@@ -545,7 +545,6 @@ export function getEquippedItemBonuses(char: Character): EquippedItemBonuses {
   return result;
 }
 
-const ABILITY_KEYS: (keyof AbilityScores)[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 const ABILITY_ABBR_TO_FULL: Record<string, keyof AbilityScores> = {
   str: 'strength', dex: 'dexterity', con: 'constitution',
   int: 'intelligence', wis: 'wisdom', cha: 'charisma',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Character, CharacterSpell, CustomAttack } from '../types';
-import { getAbilityModifier, formatModifier, getAbilityName } from '../utils/dnd';
+import { getAbilityModifier, getAbilityName } from '../utils/dnd';
 import { getEffectiveAbilityScores } from '../utils/classEffects';
 import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
@@ -764,7 +764,7 @@ const ActionsSection: React.FC<{
     return () => { cancelled = true; };
   }, [character.race, character.raceVariant, character.raceSource, character.level]);
 
-  const displayFeatures = loadedFeatures.length > 0 ? loadedFeatures : features.map(f => ({
+  const displayFeatures: LoadedFeature[] = loadedFeatures.length > 0 ? loadedFeatures : features.map(f => ({
     id: f.id,
     name: f.name,
     source: f.source,

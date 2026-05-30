@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dices, Send, Trash2, ChevronUp, ChevronDown, HelpCircle } from 'lucide-react';
 import { rollDice, evalConsoleExpression } from '../utils/diceRoller';
-import type { DiceRollResult } from '../utils/diceRoller';
 import { useDiceRoll } from './DiceRollProvider';
 import type { GUIRollEntry, ConsoleEntry } from './DiceRollProvider';
 

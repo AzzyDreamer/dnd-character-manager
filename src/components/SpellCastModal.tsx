@@ -13,7 +13,6 @@ import {
   getSpellAttackBonus,
   getEffectiveSpellDC,
   isRitualSpell,
-  isHealingSpell,
   getAvailableSlots,
   translateSaveAbility,
   translateDamageType,
@@ -62,7 +61,6 @@ export const SpellCastModal: React.FC<SpellCastModalProps> = ({
 
   const isCantrip = spell.level === 0;
   const ritual = isRitualSpell(spellData);
-  const healing = isHealingSpell(spellData);
   const hasAttack = !!spellData.spellAttack?.length;
   const hasSave = !!spellData.savingThrow?.length;
   const conditions = spellData.conditionInflict;
@@ -89,7 +87,6 @@ export const SpellCastModal: React.FC<SpellCastModalProps> = ({
   const attackBonus = getSpellAttackBonus(character);
   const spellDC = getEffectiveSpellDC(character);
 
-  const selectedSlot = slots.find(s => s.level === selectedSlotLevel);
   const canCast = isCantrip || slots.length > 0 || isRitualCast;
 
   const handleCast = () => {

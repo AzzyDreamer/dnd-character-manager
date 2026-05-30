@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Character } from '../types';
-import { getSkillName, SKILL_ABILITIES, getAbilityName, type AbilityScores } from '../utils/dnd';
+import type { Character, AbilityScores } from '../types';
+import { getSkillName, SKILL_ABILITIES, getAbilityName } from '../utils/dnd';
 import { Star, X, Check } from 'lucide-react';
 
 interface ExpertisePickerModalProps {
