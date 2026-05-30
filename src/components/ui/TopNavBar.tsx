@@ -1,4 +1,5 @@
 import { type ReactNode, type FC, useState, useRef, useCallback } from 'react';
+import { asset } from '../../utils/asset';
 
 export interface NavTab {
   key: string;
@@ -45,7 +46,7 @@ export function TopNavBar({
       setEggActive(next);
       if (next) {
         if (!audioRef.current) {
-          audioRef.current = new Audio(`${E_SRC}.mp3`);
+          audioRef.current = new Audio(asset(`${E_SRC}.mp3`));
           audioRef.current.loop = false;
         }
         audioRef.current.currentTime = 0;
@@ -73,7 +74,7 @@ export function TopNavBar({
             className="flex items-center gap-2.5 shrink-0 cursor-pointer"
           >
             <img
-              src={eggActive ? `${E_SRC}.gif` : '/logo.svg'}
+              src={eggActive ? asset(`${E_SRC}.gif`) : asset('/logo.svg')}
               alt="Logo"
               className={`h-10 w-10${eggActive ? ' rounded-full' : ''}`}
             />
