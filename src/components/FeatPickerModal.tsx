@@ -8,6 +8,7 @@ import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisi
 import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
+import { asset } from '../utils/asset';
 
 // ── Types ──
 
@@ -384,7 +385,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
         </div>
 
         {/* Right Sidebar */}
-        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={`/images/classes/${character.classId}.webp`} />
+        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={asset(`/images/classes/${character.classId}.webp`)} />
       </div>
 
       {/* Footer */}

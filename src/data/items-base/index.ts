@@ -1,5 +1,6 @@
 // Загрузка всех базовых шаблонов предметов из JSON файлов (ленивая batch загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const modules = import.meta.glob('./*.json');
 
 export interface ItemBaseData {
@@ -77,5 +78,5 @@ export function getItemBaseByName(name: string): ItemBaseData | undefined {
 
 export function getItemBaseImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/items-base/${filename}.webp`;
+  return asset(`/images/items-base/${filename}.webp`);
 }

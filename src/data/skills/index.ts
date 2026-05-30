@@ -1,5 +1,6 @@
 // Загрузка всех навыков из JSON файлов (ленивая загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const modules = import.meta.glob('./*.json');
 
 export interface SkillData {
@@ -52,7 +53,7 @@ function toCamelCase(name: string): string {
 }
 
 export function getSkillImageUrl(name: string): string {
-  return `/images/skills/${toCamelCase(name)}.webp`;
+  return asset(`/images/skills/${toCamelCase(name)}.webp`);
 }
 
 import i18n from '../../i18n';

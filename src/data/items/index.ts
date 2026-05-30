@@ -1,5 +1,6 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 import {
   TYPE_TO_CATEGORY,
   TYPE_TO_EQUIP_SLOT,
@@ -342,7 +343,7 @@ function resolveCategory(raw: RawItemData): ItemCategory {
 
 function getItemImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/items-base/${filename}.webp`;
+  return asset(`/images/items-base/${filename}.webp`);
 }
 
 function toItemTemplate(raw: RawItemData): ItemTemplate {

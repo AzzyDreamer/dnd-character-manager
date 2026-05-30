@@ -22,6 +22,7 @@ import { PortraitCropModal } from './PortraitCropModal';
 import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 import { resolveDisplayRace } from '../data/species';
+import { asset } from '../utils/asset';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -1138,7 +1139,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             className="hidden"
           />
           <img
-            src={`/images/classes/${character.classId}.webp`}
+            src={asset(`/images/classes/${character.classId}.webp`)}
             alt={character.classId ? getClassName(character.classId) : character.class}
             className="w-10 h-10 object-contain shrink-0 opacity-80"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -1301,7 +1302,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         <CharacterStatsSidebar
           character={displayCharacter}
           showCombatStats
-          classIconSrc={`/images/classes/${character.classId}.webp`}
+          classIconSrc={asset(`/images/classes/${character.classId}.webp`)}
           hideSections={['identity', 'proficiencies', 'skills', 'spells']}
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
@@ -1631,7 +1632,7 @@ function SkillsSection({ character }: { character: Character }) {
 
                         {/* Skill icon */}
                         <img
-                          src={`/images/skills/${skillKey}.webp`}
+                          src={asset(`/images/skills/${skillKey}.webp`)}
                           alt=""
                           className={`w-7 h-7 object-contain shrink-0 ${isProficient ? 'opacity-90' : 'opacity-30 grayscale'}`}
                         />
@@ -2246,12 +2247,12 @@ const FEATURE_IMAGE_OVERRIDES: Record<string, string> = {
 function getFeatureImageUrl(name: string): string {
   const sanitized = name.replace(/[^a-zA-Z0-9]/g, '_');
   const filename = FEATURE_IMAGE_OVERRIDES[sanitized] || sanitized;
-  return `/images/misc/${filename}.webp`;
+  return asset(`/images/misc/${filename}.webp`);
 }
 
 function getConditionImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/conditionsdiseases/${filename}.webp`;
+  return asset(`/images/conditionsdiseases/${filename}.webp`);
 }
 
 // ── Condition Picker Modal ──
@@ -2360,7 +2361,7 @@ function ConditionPickerModal({
                     src={getConditionImageUrl(name)}
                     alt=""
                     className="w-6 h-6 object-contain opacity-70 shrink-0"
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = asset('/images/conditionsdiseases/PLACEHOLDER.webp'); }}
                   />
                   <div className="min-w-0">
                     <div className="truncate">{getConditionDisplayName(name, t)}</div>
@@ -2396,7 +2397,7 @@ const DAMAGE_TYPE_IMAGES: Record<string, string> = {
 };
 
 function getDamageTypeImageUrl(type: string): string {
-  return `/images/resistances/${DAMAGE_TYPE_IMAGES[type] || type + '.webp'}`;
+  return asset(`/images/resistances/${DAMAGE_TYPE_IMAGES[type] || type + '.webp'}`);
 }
 
 const ALL_DAMAGE_TYPES = Object.keys(DAMAGE_TYPE_IMAGES);
@@ -2805,7 +2806,7 @@ function ConditionsSection({
                     src={getConditionImageUrl(key)}
                     alt=""
                     className="w-5 h-5 object-contain"
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/conditionsdiseases/PLACEHOLDER.webp'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = asset('/images/conditionsdiseases/PLACEHOLDER.webp'); }}
                   />
                   {getConditionDisplayName(key, t)}
                   <button
@@ -3654,7 +3655,7 @@ function FsCantripPickerModal({
           <CharacterStatsSidebar
             character={displayCharacter}
             showCombatStats
-            classIconSrc={`/images/classes/${character.classId}.webp`}
+            classIconSrc={asset(`/images/classes/${character.classId}.webp`)}
             className="!w-full !flex !flex-col"
           />
 

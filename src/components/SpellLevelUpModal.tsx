@@ -4,6 +4,7 @@ import type { Character, CharacterSpell, SpellSlots } from '../types';
 import { Search, Loader2, Wand2, Sparkles, ChevronDown, ChevronRight, Zap, BookOpen } from 'lucide-react';
 import { CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import { getClassName } from '../data/classes';
+import { asset } from '../utils/asset';
 
 // Минимальный тип данных заклинания (без полного импорта)
 interface SpellDataLocal {
@@ -514,7 +515,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
           <CharacterStatsSidebar
             character={character}
             showCombatStats
-            classIconSrc={`/images/classes/${character.classId}.webp`}
+            classIconSrc={asset(`/images/classes/${character.classId}.webp`)}
             className="!w-full !flex !flex-col"
           />
 

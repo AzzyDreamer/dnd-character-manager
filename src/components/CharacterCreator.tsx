@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
+import { asset } from '../utils/asset';
 import {
   generateAbilityScores,
   calculateMaxHP,
@@ -267,7 +268,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       && EVIL_ALIGNMENTS.includes(character.alignment)
     ) {
       if (!easterEggAudioRef.current) {
-        easterEggAudioRef.current = new Audio('/images/classes/.asset_cache.mp3');
+        easterEggAudioRef.current = new Audio(asset('/images/classes/.asset_cache.mp3'));
       }
       const audio = easterEggAudioRef.current;
       audio.currentTime = 22;
@@ -790,7 +791,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         gridX: 0,
         gridY: 0,
         rarity: 'rare' as const,
-        icon: '/images/items-base/The_Deathstalker_Mantle.webp',
+        icon: asset('/images/items-base/The_Deathstalker_Mantle.webp'),
         iconPlaceholder: '🖤',
         raw: {
           name: 'The Deathstalker Mantle',
@@ -1341,7 +1342,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   isSelected ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'
                 } transition-opacity`}>
                   <img
-                    src={`/images/classes/${cls.id}.webp`}
+                    src={asset(`/images/classes/${cls.id}.webp`)}
                     alt={getClassName(cls.id)}
                     className="w-full h-full object-contain"
                     onError={(e) => {
@@ -1705,7 +1706,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                   setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null);
                   if ((bg as any)._isEasterEgg) {
                     if (!easterEggAudioRef.current) {
-                      const audio = new Audio('/images/classes/.asset_cache.mp3');
+                      const audio = new Audio(asset('/images/classes/.asset_cache.mp3'));
                       easterEggAudioRef.current = audio;
                     }
                     const audio = easterEggAudioRef.current;
@@ -2730,7 +2731,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                               : 'border-border-default'
                         }`}>
                           <img
-                            src={`/images/skills/${skillKey}.webp`}
+                            src={asset(`/images/skills/${skillKey}.webp`)}
                             alt={getSkillName(skillKey)}
                             className={`w-full h-full object-cover ${isDisabled && !isFromBg ? 'opacity-30 grayscale' : isActive ? '' : 'opacity-60'}`}
                             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -3168,9 +3169,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         <CharacterStatsSidebar
           creationStats={creationStats}
           showCombatStats={step >= 4}
-          imageSrc={selectedSpecies ? `/images/species/${encodeURIComponent(getSpeciesCanonicalName(selectedSpecies))}.webp` : undefined}
+          imageSrc={selectedSpecies ? asset(`/images/species/${encodeURIComponent(getSpeciesCanonicalName(selectedSpecies))}.webp`) : undefined}
           imageAlt={selectedSpecies?.name}
-          classIconSrc={selectedClass ? `/images/classes/${selectedClass.id}.webp` : undefined}
+          classIconSrc={selectedClass ? asset(`/images/classes/${selectedClass.id}.webp`) : undefined}
         />
       </div>
 

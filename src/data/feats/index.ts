@@ -1,5 +1,6 @@
 // Загрузка всех черт из JSON файлов (ленивая batch загрузка)
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 const featModules = import.meta.glob('./*.json');
 
 export interface FeatData {
@@ -76,7 +77,7 @@ export function getFeatByName(name: string): FeatData | undefined {
 
 export function getFeatImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/feats/${filename}.webp`;
+  return asset(`/images/feats/${filename}.webp`);
 }
 
 export function getFeatsByCategory(category: string): FeatData[] {

@@ -5,6 +5,7 @@ import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords, Eye } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
+import { asset } from '../../utils/asset';
 
 /** Partial data for creation mode (not a full Character yet) */
 export interface CreationStats {
@@ -98,7 +99,7 @@ function SkillsPanel({
             {skillProficiencies.map(sk => (
               <div key={sk} className="flex items-center gap-1.5 text-text-secondary">
                 <img
-                  src={`/images/skills/${sk}.webp`}
+                  src={asset(`/images/skills/${sk}.webp`)}
                   alt=""
                   className="w-4 h-4 object-contain opacity-80 shrink-0"
                 />
@@ -160,7 +161,7 @@ function SkillsPanel({
                       >
                         <div className="relative w-4 h-4 shrink-0">
                           <img
-                            src={`/images/skills/${sk}.webp`}
+                            src={asset(`/images/skills/${sk}.webp`)}
                             alt=""
                             className={`w-4 h-4 object-contain ${isProficient ? 'opacity-90' : 'opacity-30 grayscale'}`}
                           />
