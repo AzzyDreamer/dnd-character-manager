@@ -1,6 +1,5 @@
 // Загрузка всех опциональных способностей из JSON файлов (ленивая batch загрузка)
 import { applyOverlay } from '../translationOverlay';
-const modules = import.meta.glob('./*.json');
 
 export interface OptionalFeatureData {
   name: string;
@@ -17,44 +16,17 @@ export const ALL_OPTIONAL_FEATURES: OptionalFeatureData[] = [];
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-// Batch loading для dev-сервера
-const BATCH_SIZE = 10;
-const BATCH_DELAY_MS = 30;
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export async function init(): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(modules);
+    const mod = await import('../_bundles/optionalfeatures.json');
+    const items = (mod.default ?? mod) as OptionalFeatureData[];
 
-    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-      const batch = entries.slice(i, i + BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load optional feature:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        if (data && typeof data === 'object' && data.name) {
-          ALL_OPTIONAL_FEATURES.push(data as OptionalFeatureData);
-        }
-      }
-
-      if (i + BATCH_SIZE < entries.length) {
-        await delay(BATCH_DELAY_MS);
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name) {
+        ALL_OPTIONAL_FEATURES.push(data as OptionalFeatureData);
       }
     }
 

@@ -4,7 +4,10 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "bundle-data": "node scripts/bundle-data.mjs",
+    "predev": "node scripts/bundle-data.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/bundle-data.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
