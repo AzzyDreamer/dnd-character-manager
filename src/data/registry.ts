@@ -205,6 +205,45 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (opt) return { type: 'optfeature', name: opt.name, source: opt.source, entries: opt.entries, data: opt };
       break;
     }
+    case 'invocation': {
+      // @invocation — алиас @optfeature, неявно отфильтрованный по featureType=EI (Eldritch Invocation).
+      // Данные уже лежат в optionalfeatures, отдельной загрузки не нужно.
+      if (_optfeatures) {
+        const opt = _optfeatures.getOptionalFeatureByName(entityName);
+        if (opt) return { type: 'optfeature', name: opt.name, source: opt.source, entries: opt.entries, data: opt };
+      }
+      break;
+    }
+    case 'class': {
+      // {@class Wizard|XPHB|display|hash|Subclass|SubSource} — источник в parts[1] игнорируем (single-source).
+      if (_classes) {
+        const cls = _classes.getClassDataByName(entityName);
+        if (cls) {
+          const entries: any[] = Array.isArray(cls.fluff) ? cls.fluff : [];
+          return { type: 'class', name: cls.name, source: cls.source, entries, data: cls };
+        }
+      }
+      break;
+    }
+    case 'subclass': {
+      // {@subclass Bladesinger|Wizard|TCE|display} — parts[1] это ИМЯ КЛАССА, не источник.
+      if (_subclasses && _classes) {
+        const className = parts[1]?.trim();
+        if (className) {
+          const cls = _classes.getClassDataByName(className);
+          if (cls) {
+            const sub = _subclasses.getSubclassByName(cls.id, entityName);
+            if (sub) {
+              const entries: any[] = [];
+              if (sub.shortDescription) entries.push(sub.shortDescription);
+              else if (sub.description) entries.push(sub.description);
+              return { type: 'subclass', name: sub.name, source: sub.source, entries, data: sub };
+            }
+          }
+        }
+      }
+      break;
+    }
     case 'item': {
       const fullItem = _items.getItemByName(entityName, entitySource);
       if (fullItem) return { type: 'item', name: fullItem.name, source: fullItem.source, entries: fullItem.entries, data: fullItem };
@@ -269,8 +308,14 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
 }
 
 // ─── Получить отображаемое имя тега ───
-export function getTagDisplayName(_tagType: string, content: string): string {
+export function getTagDisplayName(tagType: string, content: string): string {
   const parts = content.split('|');
+  // {@subclass Name|className|source|displayText} — отображаемый текст в 4-м сегменте,
+  // parts[2] здесь это источник, а не текст ссылки.
+  if (tagType === 'subclass') {
+    if (parts.length >= 4 && parts[3].trim()) return parts[3].trim();
+    return parts[0].trim();
+  }
   if (parts.length >= 3 && parts[2].trim()) return parts[2].trim();
   let name = parts[0].trim();
   const bracketMatch = name.match(/^(.+?)\s*\[(.+?)\]$/);

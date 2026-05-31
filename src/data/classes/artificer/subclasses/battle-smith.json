@@ -1,6 +1,6 @@
 {
   "id": "battle-smith",
-  "name": "Боевой Кузнец",
+  "name": "Battle Smith",
   "classId": "artificer",
   "description": "A Battle Smith is a combination of protector and medic, an expert at defending others and repairing both materiel and personnel. To aid in their work, Battle Smiths are accompanied by a {@creature Steel Defender|EFA}, a protective companion of their own creation.",
   "shortDescription": "Command a Construct Guardian",

@@ -1,6 +1,6 @@
 {
   "id": "ranger",
-  "name": "Следопыт",
+  "name": "Ranger",
   "source": "PHB'24",
   "page": 120,
   "srd": true,
@@ -12,7 +12,10 @@
   "savingThrows": ["strength", "dexterity"],
   "spellcaster": true,
   "spellcastingAbility": "wisdom",
-  "description": "Воин дикой природы, мастер выживания и следопытства. Непревзойдённый охотник.",
+  "fluff": [
+    "Far from bustling cities, amid the trees of trackless forests and across wide plains, Rangers keep their unending watch in the wilderness. Rangers learn to track their quarry as a predator does, moving stealthily through the wilds and hiding themselves in brush and rubble.",
+    "Thanks to their connection with nature, Rangers can also cast spells that harness primal powers of the wilderness. A Ranger's talents and magic are honed with deadly focus to protect the world from the ravages of monsters and tyrants."
+  ],
   "proficiencies": {
     "armor": ["Light armor", "Medium armor", "Shields"],
     "weapons": ["Simple weapons", "Martial weapons"],

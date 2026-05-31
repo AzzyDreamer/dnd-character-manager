@@ -145,6 +145,13 @@
     color: var(--color-text-primary);
   }
 
+  /* Имя сущности, для которой нет данных (например, ловушки @trap): приглушённый
+     курсив, без подчёркивания и без интерактивности — чтобы отличать от ссылок. */
+  .tag-static-name {
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
   .tag-damage, .tag-dice, .tag-scaledamage, .tag-scaledice {
     color: #f87171;
     font-weight: 600;
@@ -373,8 +380,33 @@
     font-weight: 600;
   }
 
+  /* Кликабельный @filter — кнопка-ссылка (переход в глоссарий с префильтром). */
   .tag-filter {
     color: #c4b5fd;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    display: inline;
+    border-bottom: 1px dotted rgba(196, 181, 253, 0.4);
+    transition: all 0.15s;
+  }
+  .tag-filter:hover {
+    color: #ddd6fe;
+    border-bottom-color: #ddd6fe;
+  }
+  .tag-filter:focus-visible {
+    outline: 2px solid rgba(196, 181, 253, 0.7);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* @filter без поддерживаемой категории — обычный текст, без интерактивности. */
+  .tag-filter-static {
+    color: var(--color-text-primary);
   }
 
   .tag-note {

@@ -1,6 +1,6 @@
 {
   "id": "fighter",
-  "name": "Воин",
+  "name": "Fighter",
   "source": "PHB'24",
   "page": 90,
   "srd": true,
@@ -11,7 +11,10 @@
   "primaryAbility": ["strength", "dexterity"],
   "savingThrows": ["strength", "constitution"],
   "spellcaster": false,
-  "description": "Мастер боевых искусств, владеющий любым оружием и доспехами. Непревзойдённый тактик.",
+  "fluff": [
+    "Fighters rule many battlefields. Questing knights, royal champions, elite soldiers, and hardened mercenaries—as Fighters, they all share an unparalleled prowess with weapons and armor. And they are well acquainted with death, both meting it out and defying it.",
+    "Fighters master various weapon techniques, and a well-equipped Fighter always has the right tool at hand for any combat situation. Likewise, a Fighter is adept with every form of armor. Beyond that basic degree of familiarity, each Fighter specializes in certain styles of combat. Some concentrate on archery, some on fighting with two weapons at once, and some on augmenting their martial skills with magic. This combination of broad ability and extensive specialization makes Fighters superior combatants."
+  ],
   "proficiencies": {
     "armor": ["Light armor", "Medium armor", "Heavy armor", "Shields"],
     "weapons": ["Simple weapons", "Martial weapons"],

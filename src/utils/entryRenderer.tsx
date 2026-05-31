@@ -4,7 +4,10 @@ import { X } from 'lucide-react';
 import { lookupByTag, getTagDisplayName as registryGetTagDisplayName } from '../data/registry';
 import type { RegistryEntry } from '../data/registry';
 import { DiceRollContext } from '../components/DiceRollProvider';
+import { FilterNavContext } from '../components/FilterNavContext';
 import { asset } from '../utils/asset';
+import { parseScaledDamage, computeScaledDice } from './scaleDamage';
+import { parseFilterTag, mapFilterCategory } from './filterTag';
 
 export type { RegistryEntry };
 
@@ -29,10 +32,15 @@ export function getBrokenLinks() {
 // Теги, которые генерируют ссылки/тултипы
 const LINK_TAGS = new Set([
   'spell', 'item', 'condition', 'disease', 'skill', 'sense', 'status',
-  'variantrule', 'optfeature', 'feat', 'action', 'background',
+  'variantrule', 'optfeature', 'invocation', 'feat', 'action', 'background',
   'race', 'species', 'creature', 'hazard', 'quickref', 'itemProperty',
   'card', 'class', 'charoption', 'subclass',
 ]);
+
+// Теги известных сущностей, данных которых у нас нет (ловушки и т.п.).
+// Рендерим как «имя сущности» — приглушённый текст без клика, не как обычный текст
+// и не как битую ссылку.
+const STATIC_NAME_TAGS = new Set(['trap']);
 
 // Теги, которые просто отображают текст
 const TEXT_TAGS = new Set([
@@ -147,6 +155,8 @@ const TagTooltip: React.FC<{
       background: 'Предыстория',
       species: 'Вид',
       action: 'Действие',
+      class: 'Класс',
+      subclass: 'Подкласс',
     };
     if (typeLabels[entry.type]) {
       lines.push(`Тип: ${typeLabels[entry.type]}`);
@@ -246,6 +256,7 @@ const TagDetailModal: React.FC<{
     disease: 'Болезнь', skill: 'Навык', sense: 'Чувство',
     variantrule: 'Правило', optfeature: 'Способность',
     item: 'Предмет', background: 'Предыстория', species: 'Вид', action: 'Действие',
+    class: 'Класс', subclass: 'Подкласс',
   };
 
   const schoolNames: Record<string, string> = {
@@ -318,12 +329,13 @@ const TagDetailModal: React.FC<{
 // ─── Rollable dice tags ───
 const ROLLABLE_TAGS = new Set(['damage', 'dice', 'scaledamage', 'scaledice']);
 
-const DiceTag: React.FC<{ expression: string; tagType: string }> = ({ expression, tagType }) => {
+const DiceTag: React.FC<{ expression: string; tagType: string; title?: string }> = ({ expression, tagType, title }) => {
   const { roll, openConfig } = useContext(DiceRollContext);
 
   return (
     <span
       className={`tag-${tagType} tag-rollable`}
+      title={title}
       role="button"
       tabIndex={0}
       onClick={(e) => {
@@ -345,6 +357,61 @@ const DiceTag: React.FC<{ expression: string; tagType: string }> = ({ expression
     >
       {expression}
     </span>
+  );
+};
+
+// ─── Контекст уровня каста для пересчёта @scaledamage ───
+// Заполняется только там, где известен уровень ячейки (лист персонажа), и не задаётся
+// в глоссарии/тултипах, где показывается базовое значение.
+const SpellCastContext = React.createContext<{ baseLevel: number; castLevel: number } | null>(null);
+
+// ─── Тег {@scaledamage}/{@scaledice} ───
+// Вне контекста каста показывает базовое выражение (parts[0]); внутри — пересчитанное
+// под выбранный уровень ячейки, с формулой в нативном тултипе.
+const ScaleDamageTag: React.FC<{ content: string; tagType: string }> = ({ content, tagType }) => {
+  const ctx = useContext(SpellCastContext);
+  const parts = parseScaledDamage(content);
+  const base = parts?.base ?? content.split('|')[0].trim();
+
+  if (parts && ctx) {
+    const scaled = computeScaledDice(parts, ctx.baseLevel, ctx.castLevel);
+    const title = `базовый ${parts.base}, +${parts.perLevel} за каждый уровень ячейки выше ${ctx.baseLevel}-го`;
+    if (/\d+d\d+/.test(scaled)) {
+      return <DiceTag expression={scaled} tagType={tagType} title={title} />;
+    }
+    return <span className={`tag-${tagType}`} title={title}>{scaled}</span>;
+  }
+
+  if (/\d+d\d+/.test(base)) {
+    return <DiceTag expression={base} tagType={tagType} />;
+  }
+  return <span className={`tag-${tagType}`}>{base}</span>;
+};
+
+// ─── Тег {@filter} ───
+// Если категория поддерживается приложением и в контексте есть обработчик навигации —
+// рендерим кликабельную кнопку (переход в глоссарий с префильтром). Иначе — статический
+// текст без клика (чтобы не было «битой» навигации).
+const FilterTag: React.FC<{ content: string }> = ({ content }) => {
+  const navigate = useContext(FilterNavContext);
+  const parsed = parseFilterTag(content);
+  const appCategory = mapFilterCategory(parsed.category5etools);
+
+  if (!navigate || !appCategory) {
+    return <span className="tag-filter-static">{parsed.displayText}</span>;
+  }
+
+  return (
+    <button
+      type="button"
+      className="tag-filter"
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate({ category: appCategory, params: parsed.params });
+      }}
+    >
+      {parsed.displayText}
+    </button>
   );
 };
 
@@ -387,11 +454,13 @@ export function renderTaggedString(
         result.push(<span key={key}>{linkText}</span>);
       }
     } else if (tagType === 'filter') {
-      const displayText = tagContent.split('|')[0].trim();
-      result.push(<span key={key} className="tag-filter">{displayText}</span>);
+      result.push(<FilterTag key={key} content={tagContent} />);
     } else if (tagType === 'note') {
       // Рекурсивно рендерим содержимое @note
       result.push(<span key={key} className="tag-note">{renderTaggedString(tagContent, context, onNavigate)}</span>);
+    } else if (tagType === 'scaledamage' || tagType === 'scaledice') {
+      // Особый рендер: внутри SpellCastContext пересчитывает урон под уровень ячейки.
+      result.push(<ScaleDamageTag key={key} content={tagContent} tagType={tagType} />);
     } else if (TEXT_TAGS.has(tagType)) {
       const displayText = parseTagContent(tagType, tagContent);
       if (ROLLABLE_TAGS.has(tagType) && /\d+d\d+/.test(displayText)) {
@@ -413,6 +482,10 @@ export function renderTaggedString(
         // Нет данных — отображаем как обычный текст
         result.push(<span key={key} className="tag-text-only">{displayText}</span>);
       }
+    } else if (STATIC_NAME_TAGS.has(tagType)) {
+      // Известная сущность без данных (ловушка и т.п.) — приглушённое имя без клика.
+      const displayText = parseTagContent(tagType, tagContent);
+      result.push(<span key={key} className="tag-static-name">{displayText}</span>);
     } else {
       // Неизвестный тег — просто текст
       const displayText = parseTagContent(tagType, tagContent);
@@ -436,6 +509,8 @@ export interface EntryRendererProps {
   context?: string;
   onNavigate?: (entry: RegistryEntry) => void;
   className?: string;
+  /** Уровень каста для пересчёта {@scaledamage}. Задавать только там, где он известен. */
+  spellContext?: { baseLevel: number; castLevel: number };
 }
 
 export const EntryRenderer: React.FC<EntryRendererProps> = ({
@@ -443,14 +518,19 @@ export const EntryRenderer: React.FC<EntryRendererProps> = ({
   context = '',
   onNavigate,
   className = '',
+  spellContext,
 }) => {
-  return (
+  const content = (
     <div className={`entry-renderer ${className}`}>
       {entries.map((entry, index) => (
         <EntryNode key={index} entry={entry} context={context} onNavigate={onNavigate} />
       ))}
     </div>
   );
+
+  return spellContext
+    ? <SpellCastContext.Provider value={spellContext}>{content}</SpellCastContext.Provider>
+    : content;
 };
 
 const EntryNode: React.FC<{
