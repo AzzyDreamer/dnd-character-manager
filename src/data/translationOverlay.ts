@@ -236,6 +236,23 @@ function applySubclassTranslations(item: any, translations: Record<string, strin
  * @param getKey - Function to get the key prefix from an item (usually item.name or item.id)
  * @param type - 'standard' | 'class' | 'subclass'
  */
+/**
+ * Translation keys are derived from the source filename, which can differ from
+ * the item's runtime `name`: '/' is sanitized to '-' (e.g. "Antipathy/Sympathy"
+ * → "Antipathy-Sympathy") and apostrophes may be dropped (e.g. "Vampire's
+ * Plaything" → "Vampires Plaything"). Filenames aren't fully consistent (some
+ * keep the apostrophe), so probe candidate stems and use the first that has a
+ * matching translation, falling back to the raw name. See scripts/i18n-extract.mjs.
+ */
+function resolveStem(name: string, translations: Record<string, string>): string {
+  const candidates = [name];
+  const add = (s: string) => { if (s !== name && !candidates.includes(s)) candidates.push(s); };
+  add(name.replace(/\//g, '-'));
+  add(name.replace(/['’]/g, ''));
+  add(name.replace(/\//g, '-').replace(/['’]/g, ''));
+  return candidates.find(s => translations[`${s}.name`] !== undefined) ?? name;
+}
+
 export async function applyOverlay(
   categoryId: string,
   items: any[],
@@ -264,10 +281,7 @@ export async function applyOverlay(
       } else if (type === 'subclass') {
         applySubclassTranslations(item, translations);
       } else {
-        // Translation keys are derived from the source filename, where '/' in a
-        // name (e.g. "Antipathy/Sympathy") is sanitized to '-'. Mirror that here
-        // so name-keyed lookups match (see scripts/i18n-extract.mjs).
-        applyStandardTranslations(item, stem.replace(/\//g, '-'), translations);
+        applyStandardTranslations(item, resolveStem(stem, translations), translations);
       }
     }
   } catch (e) {
