@@ -1,5 +1,6 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
 import { applyOverlay } from '../translationOverlay';
+import { asset } from '../../utils/asset';
 import {
   TYPE_TO_CATEGORY,
   TYPE_TO_EQUIP_SLOT,
@@ -25,8 +26,7 @@ export {
   getMasteryName,
 } from './constants';
 
-// === Ленивая загрузка всех предметов из корневых JSON (1700+ файлов с описаниями) ===
-const itemModules = import.meta.glob('./*.json');
+// === Загрузка всех предметов из единого бандла (scripts/bundle-data.mjs) ===
 
 export interface ItemData {
   name: string;
@@ -46,39 +46,17 @@ export const ALL_ITEMS: ItemData[] = [];
 let _itemsInitialized = false;
 let _itemsInitializing: Promise<void> | null = null;
 
-const ITEMS_BATCH_SIZE = 50;
-const ITEMS_BATCH_DELAY_MS = 10;
-
 export async function init(): Promise<void> {
   if (_itemsInitialized) return;
   if (_itemsInitializing) return _itemsInitializing;
 
   _itemsInitializing = (async () => {
-    const entries = Object.entries(itemModules);
+    const mod = await import('../_bundles/items.json');
+    const items = (mod.default ?? mod) as ItemData[];
 
-    for (let i = 0; i < entries.length; i += ITEMS_BATCH_SIZE) {
-      const batch = entries.slice(i, i + ITEMS_BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load item:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        if (data && typeof data === 'object' && data.name) {
-          ALL_ITEMS.push(data as ItemData);
-        }
-      }
-
-      if (i + ITEMS_BATCH_SIZE < entries.length) {
-        await new Promise(r => setTimeout(r, ITEMS_BATCH_DELAY_MS));
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name) {
+        ALL_ITEMS.push(data as ItemData);
       }
     }
 
@@ -342,7 +320,7 @@ function resolveCategory(raw: RawItemData): ItemCategory {
 
 function getItemImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/items-base/${filename}.webp`;
+  return asset(`/images/items-base/${filename}.webp`);
 }
 
 function toItemTemplate(raw: RawItemData): ItemTemplate {

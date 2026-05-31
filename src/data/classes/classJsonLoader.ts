@@ -1,6 +1,6 @@
-// Загрузка JSON данных классов для Glossary (ленивая batch загрузка)
+// Загрузка JSON данных классов из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
-const classModules = import.meta.glob('./*/*.json');
+import { asset } from '../../utils/asset';
 
 export interface ClassJsonData {
   id: string;
@@ -26,43 +26,17 @@ export const ALL_CLASS_DATA: ClassJsonData[] = [];
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-const BATCH_SIZE = 5;
-const BATCH_DELAY_MS = 30;
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export async function init(): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(classModules);
+    const mod = await import('../_bundles/classes.json');
+    const items = (mod.default ?? mod) as ClassJsonData[];
 
-    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-      const batch = entries.slice(i, i + BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load class data:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        if (data && typeof data === 'object' && data.name && data.hitDie) {
-          ALL_CLASS_DATA.push(data as ClassJsonData);
-        }
-      }
-
-      if (i + BATCH_SIZE < entries.length) {
-        await delay(BATCH_DELAY_MS);
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name && data.hitDie) {
+        ALL_CLASS_DATA.push(data as ClassJsonData);
       }
     }
 
@@ -80,5 +54,5 @@ export function getClassDataByName(name: string): ClassJsonData | undefined {
 }
 
 export function getClassImageUrl(id: string): string {
-  return `/images/classes/${id}.webp`;
+  return asset(`/images/classes/${id}.webp`);
 }

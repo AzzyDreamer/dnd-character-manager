@@ -4,6 +4,7 @@ import type { Character } from '../types';
 import type { OptionalFeatureData } from '../data/optionalfeatures';
 import { Search, Check, X, Loader2, Sparkles, BookOpen, RefreshCw } from 'lucide-react';
 import { CharacterStatsSidebar } from './ui';
+import { asset } from '../utils/asset';
 
 // ── Types ──
 
@@ -159,7 +160,7 @@ const FEATURE_IMAGE_OVERRIDES: Record<string, string> = {
 function getFeatureImageUrl(name: string): string {
   const sanitized = name.replace(/[^a-zA-Z0-9]/g, '_');
   const filename = FEATURE_IMAGE_OVERRIDES[sanitized] || sanitized;
-  return `/images/misc/${filename}.webp`;
+  return asset(`/images/misc/${filename}.webp`);
 }
 
 function pluralize(n: number, singular: string, few: string, genitive: string): string {
@@ -539,7 +540,7 @@ export function OptionalFeaturePickerModal({
         </div>
 
         {/* Right Sidebar */}
-        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={`/images/classes/${character.classId}.webp`} />
+        <CharacterStatsSidebar character={character} showCombatStats classIconSrc={asset(`/images/classes/${character.classId}.webp`)} />
       </div>
 
       {/* Footer */}

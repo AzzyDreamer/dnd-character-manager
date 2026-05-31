@@ -3,6 +3,7 @@ import { getAbilityModifier, formatModifier } from './dnd';
 import { getDamageTypeName, getPropertyName } from '../data/items/constants';
 import { getEffectiveAbilityScores } from './classEffects';
 import i18n from '../i18n';
+import { asset } from '../utils/asset';
 
 function parseItemBonus(val: any): number {
   if (typeof val === 'number') return val;
@@ -203,7 +204,7 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
       damageType: getDamageTypeName('B'),
       properties: [],
       isRanged: false,
-      image: '/images/Unarmed_Strike.webp',
+      image: asset('/images/Unarmed_Strike.webp'),
     };
   }
   damage = strMod >= 0 ? `1 + ${strMod}` : `1 - ${Math.abs(strMod)}`;
@@ -216,7 +217,7 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
     damageType: getDamageTypeName('B'),
     properties: [],
     isRanged: false,
-    image: '/images/Unarmed_Strike.webp',
+    image: asset('/images/Unarmed_Strike.webp'),
   };
 }
 
@@ -246,8 +247,8 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
       }
     }
     const attackImage = isOffhand
-      ? (ranged ? '/images/Off-Hand_Attack_Ranged.webp' : '/images/Off-Hand_Attack_Melee.webp')
-      : (ranged ? '/images/Ranged_Attack.webp' : '/images/Main_Hand_Attack.webp');
+      ? (ranged ? asset('/images/Off-Hand_Attack_Ranged.webp') : asset('/images/Off-Hand_Attack_Melee.webp'))
+      : (ranged ? asset('/images/Ranged_Attack.webp') : asset('/images/Main_Hand_Attack.webp'));
 
     if (!stats) {
       const wb = parseItemBonus(item.raw?.bonusWeapon);
@@ -323,42 +324,42 @@ const MASTERY_DATA: Record<string, MasteryInfo> = {
   Cleave: {
     name: 'Cleave',
     description: 'If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon\'s damage, but don\'t add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.',
-    image: '/images/mastery/Cleave.webp',
+    image: asset('/images/mastery/Cleave.webp'),
   },
   Graze: {
     name: 'Graze',
     description: 'If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.',
-    image: '/images/mastery/Tenacity.webp',
+    image: asset('/images/mastery/Tenacity.webp'),
   },
   Nick: {
     name: 'Nick',
     description: 'When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.',
-    image: '/images/mastery/Lacerate.webp',
+    image: asset('/images/mastery/Lacerate.webp'),
   },
   Push: {
     name: 'Push',
     description: 'If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from you if it is Large or smaller.',
-    image: '/images/mastery/Concussive_Smash.webp',
+    image: asset('/images/mastery/Concussive_Smash.webp'),
   },
   Sap: {
     name: 'Sap',
     description: 'If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.',
-    image: '/images/mastery/Weakening_Strike.webp',
+    image: asset('/images/mastery/Weakening_Strike.webp'),
   },
   Slow: {
     name: 'Slow',
     description: 'If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn\'t exceed 10 feet.',
-    image: '/images/mastery/Crippling_Strike.webp',
+    image: asset('/images/mastery/Crippling_Strike.webp'),
   },
   Topple: {
     name: 'Topple',
     description: 'If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 + the ability modifier used to make the attack roll + your Proficiency Bonus). On a failed save, the creature has the Prone condition.',
-    image: '/images/mastery/Topple.webp',
+    image: asset('/images/mastery/Topple.webp'),
   },
   Vex: {
     name: 'Vex',
     description: 'If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.',
-    image: '/images/mastery/Prepare.webp',
+    image: asset('/images/mastery/Prepare.webp'),
   },
 };
 

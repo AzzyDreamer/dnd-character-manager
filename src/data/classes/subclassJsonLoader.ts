@@ -1,6 +1,6 @@
-// Загрузка JSON данных подклассов для Glossary (ленивая batch загрузка)
+// Загрузка JSON данных подклассов из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
-const subclassModules = import.meta.glob('./*/subclasses/*.json');
+import { asset } from '../../utils/asset';
 
 export interface SubclassJsonData {
   id: string;
@@ -27,43 +27,17 @@ export const ALL_SUBCLASS_DATA: SubclassJsonData[] = [];
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-const BATCH_SIZE = 10;
-const BATCH_DELAY_MS = 30;
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export async function init(): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(subclassModules);
+    const mod = await import('../_bundles/subclasses.json');
+    const items = (mod.default ?? mod) as SubclassJsonData[];
 
-    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-      const batch = entries.slice(i, i + BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load subclass data:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        if (data && typeof data === 'object' && data.name && data.classId) {
-          ALL_SUBCLASS_DATA.push(data as SubclassJsonData);
-        }
-      }
-
-      if (i + BATCH_SIZE < entries.length) {
-        await delay(BATCH_DELAY_MS);
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name && data.classId) {
+        ALL_SUBCLASS_DATA.push(data as SubclassJsonData);
       }
     }
 
@@ -149,5 +123,5 @@ const SUBCLASS_IMAGE_MAP: Record<string, string> = {
 
 export function getSubclassImageUrl(classId: string, subclassId: string): string | null {
   const file = SUBCLASS_IMAGE_MAP[`${classId}/${subclassId}`];
-  return file ? `/images/subclasses/${file}` : null;
+  return file ? asset(`/images/subclasses/${file}`) : null;
 }

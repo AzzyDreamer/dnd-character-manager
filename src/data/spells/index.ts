@@ -1,9 +1,6 @@
-// Загрузка всех заклинаний из JSON файлов (ленивая batch загрузка)
-// НЕ используем { eager: true } — это убивает Vite dev server
-
+// Загрузка всех заклинаний из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
-
-const spellModules = import.meta.glob('./*.json');
+import { asset } from '../../utils/asset';
 
 export interface SpellData {
   name: string;
@@ -45,44 +42,17 @@ export const ALL_SPELLS: SpellData[] = [];
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
 
-// Batch loading для dev-сервера
-const BATCH_SIZE = 10;
-const BATCH_DELAY_MS = 30;
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export async function init(): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(spellModules);
+    const mod = await import('../_bundles/spells.json');
+    const items = (mod.default ?? mod) as SpellData[];
 
-    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-      const batch = entries.slice(i, i + BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load spell:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        if (data && typeof data === 'object' && data.name && data.entries) {
-          ALL_SPELLS.push(data as SpellData);
-        }
-      }
-
-      if (i + BATCH_SIZE < entries.length) {
-        await delay(BATCH_DELAY_MS);
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name && data.entries) {
+        ALL_SPELLS.push(data as SpellData);
       }
     }
 
@@ -140,5 +110,5 @@ export const SCHOOL_NAMES: Record<string, string> = {
 
 export function getSpellImageUrl(spellName: string): string {
   const filename = spellName.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/spells/${filename}.webp`;
+  return asset(`/images/spells/${filename}.webp`);
 }

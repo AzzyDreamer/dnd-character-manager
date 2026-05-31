@@ -6,6 +6,7 @@ import { exportCharacter } from '../utils/storage';
 import { PortraitImage } from './ui/PortraitImage';
 import { getClassName } from '../data/classes';
 import { resolveCanonicalRace, resolveDisplayRace } from '../data/species';
+import { asset } from '../utils/asset';
 
 interface CharacterListProps {
   characters: Character[];
@@ -160,7 +161,7 @@ export const CharacterList: React.FC<CharacterListProps> = ({
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-bg-secondary to-bg-tertiary">
                         <img
-                          src={`/images/classes/${character.classId}.webp`}
+                          src={asset(`/images/classes/${character.classId}.webp`)}
                           alt={character.class}
                           className="w-14 h-14 object-contain opacity-30"
                           onError={(e) => {

@@ -2,6 +2,7 @@
 // Только trackable ресурсы (имеющие uses/charges, которые можно тратить и восстанавливать)
 
 import i18n from '../i18n';
+import { asset } from '../utils/asset';
 
 export interface ClassResourceDef {
   labelKey: string;
@@ -10,13 +11,13 @@ export interface ClassResourceDef {
 }
 
 const TRACKABLE_RESOURCES: Record<string, ClassResourceDef> = {
-  secondWind: { labelKey: 'secondWind', restoreOn: 'short', icon: '/images/resources/Second_Wind.webp' },
-  channelDivinity: { labelKey: 'channelDivinity', restoreOn: 'short', icon: '/images/resources/30px-Channel_Divinity_Charges_Icon.png.webp' },
-  channelOath: { labelKey: 'channelOath', restoreOn: 'short', icon: '/images/resources/30px-Channel_Oath_Icon.png.webp' },
-  rages: { labelKey: 'rages', restoreOn: 'long', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
-  focusPoints: { labelKey: 'focusPoints', restoreOn: 'short', icon: '/images/resources/30px-Monk_Ki_Icon.png.webp' },
-  sorceryPoints: { labelKey: 'sorceryPoints', restoreOn: 'long', icon: '/images/resources/30px-Sorcery_Points_Icons.png.webp' },
-  wildShape: { labelKey: 'wildShape', restoreOn: 'long', icon: '/images/resources/30px-Wild_Shape_Charges_Icon.png.webp' },
+  secondWind: { labelKey: 'secondWind', restoreOn: 'short', icon: asset('/images/resources/Second_Wind.webp') },
+  channelDivinity: { labelKey: 'channelDivinity', restoreOn: 'short', icon: asset('/images/resources/30px-Channel_Divinity_Charges_Icon.png.webp') },
+  channelOath: { labelKey: 'channelOath', restoreOn: 'short', icon: asset('/images/resources/30px-Channel_Oath_Icon.png.webp') },
+  rages: { labelKey: 'rages', restoreOn: 'long', icon: asset('/images/resources/32px-Rage_Charges_Icons.png.webp') },
+  focusPoints: { labelKey: 'focusPoints', restoreOn: 'short', icon: asset('/images/resources/30px-Monk_Ki_Icon.png.webp') },
+  sorceryPoints: { labelKey: 'sorceryPoints', restoreOn: 'long', icon: asset('/images/resources/30px-Sorcery_Points_Icons.png.webp') },
+  wildShape: { labelKey: 'wildShape', restoreOn: 'long', icon: asset('/images/resources/30px-Wild_Shape_Charges_Icon.png.webp') },
   pactSlots: { labelKey: 'pactSlots', restoreOn: 'short' },
 };
 
@@ -29,11 +30,11 @@ export interface ClassPassiveStat {
 }
 
 const PASSIVE_STAT_DEFS: Record<string, { labelKey: string; icon?: string }> = {
-  rageDamage: { labelKey: 'rageDamage', icon: '/images/resources/32px-Rage_Charges_Icons.png.webp' },
-  weaponMastery: { labelKey: 'weaponMastery', icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp' },
+  rageDamage: { labelKey: 'rageDamage', icon: asset('/images/resources/32px-Rage_Charges_Icons.png.webp') },
+  weaponMastery: { labelKey: 'weaponMastery', icon: asset('/images/resources/30px-Superiority_Die_d8_Icon.png.webp') },
   martialArts: { labelKey: 'martialArts' },
   sneakAttack: { labelKey: 'sneakAttack' },
-  bardicDie: { labelKey: 'bardicDie', icon: '/images/resources/30px-Bardic_Inspiration_Resource_Icon.png.webp' },
+  bardicDie: { labelKey: 'bardicDie', icon: asset('/images/resources/30px-Bardic_Inspiration_Resource_Icon.png.webp') },
   unarmoredMovement: { labelKey: 'unarmoredMovement' },
   invocations: { labelKey: 'invocations' },
   favoredEnemy: { labelKey: 'favoredEnemy' },
@@ -88,7 +89,7 @@ const SUBCLASS_RESOURCES: SubclassResourceDef[] = [
     key: 'superiorityDice',
     labelKey: 'superiorityDice',
     restoreOn: 'short',
-    icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
+    icon: asset('/images/resources/30px-Superiority_Die_d8_Icon.png.webp'),
     minLevel: 3,
     getMax: (level: number) => {
       if (level >= 15) return 6;
@@ -128,7 +129,7 @@ const SUBCLASS_PASSIVE_STATS: SubclassPassiveStatDef[] = [
     subclassId: 'battle-master',
     key: 'superiorityDieType',
     labelKey: 'superiorityDieType',
-    icon: '/images/resources/30px-Superiority_Die_d8_Icon.png.webp',
+    icon: asset('/images/resources/30px-Superiority_Die_d8_Icon.png.webp'),
     minLevel: 3,
     getValue: (level: number) => {
       if (level >= 18) return 'd12';

@@ -1,6 +1,6 @@
 // Загрузка всех состояний и болезней из JSON файлов (ленивая загрузка)
 import { applyOverlay } from '../translationOverlay';
-const modules = import.meta.glob('./*.json');
+import { asset } from '../../utils/asset';
 
 export interface ConditionDiseaseData {
   name: string;
@@ -21,10 +21,9 @@ export async function init(): Promise<void> {
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(modules);
-    for (const [, loader] of entries) {
-      const mod = await (loader as () => Promise<any>)();
-      const data = mod.default ?? mod;
+    const mod = await import('../_bundles/conditionsdiseases.json');
+    const items = (mod.default ?? mod) as ConditionDiseaseData[];
+    for (const data of items) {
       if (data && typeof data === 'object' && data.name) {
         ALL_CONDITIONS.push(data as ConditionDiseaseData);
       }
@@ -44,5 +43,5 @@ export function getConditionByName(name: string): ConditionDiseaseData | undefin
 
 export function getConditionImageUrl(name: string): string {
   const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return `/images/conditionsdiseases/${filename}.webp`;
+  return asset(`/images/conditionsdiseases/${filename}.webp`);
 }
