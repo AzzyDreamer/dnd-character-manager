@@ -1,6 +1,5 @@
-// Загрузка всех свойств предметов из JSON файлов
+// Загрузка всех свойств предметов из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
-const modules = import.meta.glob('./*.json');
 
 export interface ItemPropertyData {
   name: string;
@@ -24,16 +23,11 @@ export async function init(): Promise<void> {
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(modules);
-    for (const [, loader] of entries) {
-      try {
-        const mod = await (loader as () => Promise<any>)();
-        const data = mod.default ?? mod;
-        if (data && typeof data === 'object' && data.name && data.abbreviation) {
-          ALL_ITEM_PROPERTIES.push(data as ItemPropertyData);
-        }
-      } catch (e) {
-        console.warn('Failed to load item property:', e);
+    const mod = await import('../_bundles/itemproperties.json');
+    const items = (mod.default ?? mod) as ItemPropertyData[];
+    for (const data of items) {
+      if (data && typeof data === 'object' && data.name && data.abbreviation) {
+        ALL_ITEM_PROPERTIES.push(data as ItemPropertyData);
       }
     }
     ALL_ITEM_PROPERTIES.sort((a, b) => a.name.localeCompare(b.name));

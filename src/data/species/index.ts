@@ -1,6 +1,5 @@
-// Загрузка всех видов (рас) из JSON файлов (ленивая batch загрузка)
+// Загрузка всех видов (рас) из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
-const speciesModules = import.meta.glob('./*.json');
 
 export interface SpeciesData {
   name: string;
@@ -30,14 +29,6 @@ export const ALL_SPECIES: SpeciesData[] = [];
 
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
-
-// Batch loading для dev-сервера
-const BATCH_SIZE = 10;
-const BATCH_DELAY_MS = 30;
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 /** Extract short label from variant full name: "Elf; Drow Lineage" → "Drow Lineage", "Dragonborn (Black)" → "Black" */
 function variantLabel(fullName: string): string {
@@ -138,42 +129,23 @@ export async function init(): Promise<void> {
   if (_initializing) return _initializing;
 
   _initializing = (async () => {
-    const entries = Object.entries(speciesModules);
+    const mod = await import('../_bundles/species.json');
+    const items = (mod.default ?? mod) as any[];
 
-    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-      const batch = entries.slice(i, i + BATCH_SIZE);
-
-      const results = await Promise.all(
-        batch.map(async ([, loader]) => {
-          try {
-            const mod = await (loader as () => Promise<any>)();
-            return mod.default ?? mod;
-          } catch (e) {
-            console.warn('Failed to load species:', e);
-            return null;
-          }
-        })
-      );
-
-      for (const data of results) {
-        let base: SpeciesData | null = null;
-        if (Array.isArray(data)) {
-          if (data[0] && typeof data[0] === 'object' && data[0].name) {
-            base = data[0] as SpeciesData;
-          }
-        } else if (data && typeof data === 'object' && data.name) {
-          base = data as SpeciesData;
+    for (const data of items) {
+      let base: SpeciesData | null = null;
+      if (Array.isArray(data)) {
+        if (data[0] && typeof data[0] === 'object' && data[0].name) {
+          base = data[0] as SpeciesData;
         }
-        if (base) {
-          ALL_SPECIES.push(base);
-          // Expand variants into separate entries
-          const variants = expandVersions(base);
-          for (const v of variants) ALL_SPECIES.push(v);
-        }
+      } else if (data && typeof data === 'object' && data.name) {
+        base = data as SpeciesData;
       }
-
-      if (i + BATCH_SIZE < entries.length) {
-        await delay(BATCH_DELAY_MS);
+      if (base) {
+        ALL_SPECIES.push(base);
+        // Expand variants into separate entries
+        const variants = expandVersions(base);
+        for (const v of variants) ALL_SPECIES.push(v);
       }
     }
 

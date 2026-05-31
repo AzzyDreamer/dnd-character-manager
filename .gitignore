@@ -37,3 +37,6 @@ __pycache__/
 # Environment variables
 .env
 .env.local
+
+# Сгенерированные бандлы данных (scripts/bundle-data.mjs, на predev/prebuild)
+src/data/_bundles/
