@@ -135,7 +135,16 @@ function applyClassTranslations(item: any, translations: Record<string, string>)
     if (item._origName === undefined) item._origName = item.name;
     item.name = translations[`${stem}.name`];
   }
-  if (translations[`${stem}.description`] !== undefined) item.description = translations[`${stem}.description`];
+
+  // Fluff (многоабзацный лор) — заменил короткий root description
+  if (Array.isArray(item.fluff)) {
+    for (let i = 0; i < item.fluff.length; i++) {
+      const fKey = `${stem}.fluff.${i}`;
+      if (typeof item.fluff[i] === 'string' && translations[fKey] !== undefined) {
+        item.fluff[i] = translations[fKey];
+      }
+    }
+  }
 
   // Starting equipment
   if (item.startingEquipment) {

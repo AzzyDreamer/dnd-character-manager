@@ -1,4 +1,4 @@
-import { useState, useEffect, Component } from 'react';
+import { useState, useEffect, useCallback, Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
@@ -15,6 +15,8 @@ import { initRegistry } from './data/registry';
 import type { LoadProgress } from './data/registry';
 import { PlusCircle, Users, Scroll, Library } from 'lucide-react';
 import { DiceRollProvider } from './components/DiceRollProvider';
+import { FilterNavContext } from './components/FilterNavContext';
+import type { FilterNavRequest } from './components/FilterNavContext';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -100,6 +102,7 @@ function AppContent() {
 
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
+  const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
@@ -142,8 +145,16 @@ function AppContent() {
   };
 
   const handleGlossarySubTab = (key: string) => {
+    setGlossaryPrefilter(null); // ручная смена вкладки сбрасывает префильтр из @filter
     setGlossaryCategory(key);
   };
+
+  // Переход по тегу {@filter}: открыть глоссарий на нужной категории с префильтром.
+  const handleFilterNav = useCallback((req: FilterNavRequest) => {
+    setCurrentView('glossary');
+    setGlossaryCategory(req.category);
+    setGlossaryPrefilter(req);
+  }, []);
 
   if (!registryReady || loading) {
     if (registryError) {
@@ -157,6 +168,7 @@ function AppContent() {
   }
 
   return (
+    <FilterNavContext.Provider value={handleFilterNav}>
     <div className="flex flex-col h-screen bg-bg-primary">
       <TopNavBar
         tabs={mainTabs}
@@ -211,6 +223,7 @@ function AppContent() {
                 onBack={() => setCurrentView('main')}
                 activeCategory={glossaryCategory}
                 onCategoryChange={setGlossaryCategory}
+                prefilter={glossaryPrefilter}
               />
             ) : (
               /* Character selection screen — Dota 2 style */
@@ -228,6 +241,7 @@ function AppContent() {
         )}
       </main>
     </div>
+    </FilterNavContext.Provider>
   );
 }
 

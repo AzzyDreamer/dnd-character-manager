@@ -1,6 +1,7 @@
 import type { Character, SpellSlots } from '../types';
 import { getAbilityModifier } from './dnd';
 import { getEffectiveAbilityScores, getEquippedItemBonuses } from './classEffects';
+import { parseScaledDamage, scaleDiceExpression } from './scaleDamage';
 import i18n from '../i18n';
 
 // ─── Damage dice extraction ───
@@ -79,26 +80,19 @@ export function getUpcastBonusDice(
 ): string | null {
   if (!entriesHigherLevel || castLevel <= baseLevel) return null;
 
-  const levelDiff = castLevel - baseLevel;
-
-  // Search for {@scaledamage X|Y|BONUS} or {@scaledice X|Y|BONUS}
+  // Search for {@scaledamage BASE|RANGE|BONUS} or {@scaledice BASE|RANGE|BONUS}
   const text = JSON.stringify(entriesHigherLevel);
-  const match = text.match(/\{@(?:scaledamage|scaledice)\s+[^|]+\|[^|]+\|([^}|]+)\}/);
-  if (match) {
-    const bonusPerLevel = match[1].trim(); // e.g., "1d6", "2d8"
-    const diceMatch = bonusPerLevel.match(/^(\d+)d(\d+)$/);
-    if (diceMatch) {
-      const count = parseInt(diceMatch[1], 10) * levelDiff;
-      return `${count}d${diceMatch[2]}`;
-    }
-    // Simple modifier like "+5"
-    const modMatch = bonusPerLevel.match(/^(\d+)$/);
-    if (modMatch) {
-      return String(parseInt(modMatch[1], 10) * levelDiff);
-    }
-  }
+  const match = text.match(/\{@(?:scaledamage|scaledice)\s+([^}]+)\}/);
+  if (!match) return null;
 
-  return null;
+  const parts = parseScaledDamage(match[1]);
+  if (!parts) return null;
+
+  const effectiveCast = Math.min(castLevel, parts.range[1]);
+  const levelDiff = effectiveCast - baseLevel;
+  if (levelDiff <= 0) return null;
+
+  return scaleDiceExpression(parts.perLevel, levelDiff) || null;
 }
 
 // ─── Spell attack & DC ───

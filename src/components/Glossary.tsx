@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2, ArrowUpDown, ArrowUp, ArrowDown, Filter, ChevronDown } from 'lucide-react';
 
@@ -26,6 +26,8 @@ interface GlossaryProps {
   onBack: () => void;
   activeCategory?: string | null;
   onCategoryChange?: (category: string) => void;
+  // Префильтр из тега {@filter}: категория + «сырые» параметры 5etools.
+  prefilter?: { category: string; params: Record<string, string[]> } | null;
 }
 
 // ─── Сортировка ───
@@ -472,7 +474,17 @@ function buildCategories(t: TFunc): CategoryConfig[] {
   }));
 }
 
-export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange }) => {
+// Тип записи из registry → категория глоссария. Нужно для навигации по ссылкам
+// (@spell, @class, @subclass …) между категориями: детальная панель рендерится
+// по activeCategory, поэтому при переходе на чужой тип надо сменить категорию.
+const TYPE_TO_CATEGORY: Record<string, GlossaryCategory> = {
+  spell: 'spells', feat: 'feats', species: 'species', background: 'backgrounds',
+  condition: 'conditions', disease: 'conditions', sense: 'senses', skill: 'skills',
+  variantrule: 'rules', optfeature: 'optionalfeatures', item: 'items',
+  class: 'classes', subclass: 'subclasses', charoption: 'charoptions', action: 'actions',
+};
+
+export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange, prefilter }) => {
   const { t } = useTranslation('glossary');
   const CATEGORIES = useMemo(() => buildCategories(t), [t]);
   const { SORT_NAME, CATEGORY_SORT_OPTIONS } = useMemo(() => buildSortOptions(t), [t]);
@@ -527,6 +539,40 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
       selectCategory(externalCategory as GlossaryCategory);
     }
   }, [externalCategory]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Применяем префильтр из тега {@filter}: сопоставляем сырые параметры 5etools с
+  // измерениями фильтра по нормализованному ключу, а значения — case-insensitive с
+  // реальными значениями в данных. Что не сопоставилось — молча пропускаем (переход
+  // в категорию всё равно полезен). Срабатывает после загрузки данных нужной категории.
+  useEffect(() => {
+    if (!prefilter || !categoryData) return;
+    if (prefilter.category !== activeCategory) return; // ждём, пока категория переключится
+    const dims = CATEGORY_FILTERS[activeCategory as GlossaryCategory];
+    if (!dims) return;
+
+    const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '');
+    const constants = categoryData.constants;
+    const next: Record<string, Set<string>> = {};
+
+    for (const [pKey, pVals] of Object.entries(prefilter.params)) {
+      const dim = dims.find(d => norm(d.key) === norm(pKey));
+      if (!dim) continue;
+      const available = new Set<string>();
+      for (const item of categoryData.items) {
+        for (const v of dim.getValue(item, constants)) {
+          if (v !== undefined && v !== null) available.add(v);
+        }
+      }
+      const matched = new Set<string>();
+      for (const pv of pVals) {
+        const hit = [...available].find(av => av.toLowerCase() === pv.toLowerCase());
+        if (hit) matched.add(hit);
+      }
+      if (matched.size) next[dim.key] = matched;
+    }
+
+    setActiveFilters(Object.keys(next).length ? next : {});
+  }, [prefilter, categoryData, activeCategory, CATEGORY_FILTERS]);
 
   // Назад к списку категорий
   const goBackToCategories = useCallback(() => {
@@ -674,9 +720,29 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
   };
 
   // Обработка навигации по тегам
+  // Отложенный выбор записи после смены категории (categoryData грузится async).
+  const pendingSelectRef = useRef<{ type: string; data: any } | null>(null);
+
   const handleNavigate = useCallback((entry: RegistryEntry) => {
-    setSelectedEntry({ type: entry.type, data: entry.data });
-  }, []);
+    const targetCat = TYPE_TO_CATEGORY[entry.type];
+    if (targetCat && targetCat !== activeCategory) {
+      // Ссылка ведёт в другую категорию — переключаемся и выбираем запись после загрузки.
+      pendingSelectRef.current = { type: entry.type, data: entry.data };
+      selectCategory(targetCat);
+    } else {
+      setSelectedEntry({ type: entry.type, data: entry.data });
+      setSelectedSubclass(null);
+    }
+  }, [activeCategory, selectCategory]);
+
+  // Применяем отложенный выбор, когда данные новой категории загрузились.
+  useEffect(() => {
+    if (categoryData && pendingSelectRef.current) {
+      setSelectedEntry(pendingSelectRef.current);
+      setSelectedSubclass(null);
+      pendingSelectRef.current = null;
+    }
+  }, [categoryData]);
 
   // ─── Форматирование данных заклинания ───
   const formatSpellTime = (time: any[]): string => {
@@ -1185,8 +1251,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                     )}
                   </>
                 )}
-                {d.description && (
-                  <div className="pt-2 border-t border-border-default text-text-primary">{d.description}</div>
+                {Array.isArray(d.fluff) && d.fluff.length > 0 && (
+                  <div className="pt-2 border-t border-border-default text-text-primary prose prose-invert prose-sm max-w-none">
+                    <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
+                  </div>
                 )}
               </div>
             )}

@@ -151,7 +151,15 @@ function extractClassFile(data, output) {
   const stem = data.id || path.parse(data.name || 'unknown').name;
 
   if (typeof data.name === 'string') output[`${stem}.name`] = data.name;
-  if (typeof data.description === 'string') output[`${stem}.description`] = data.description;
+
+  // Fluff (многоабзацный лор класса) — заменил короткий root description
+  if (Array.isArray(data.fluff)) {
+    for (let i = 0; i < data.fluff.length; i++) {
+      if (typeof data.fluff[i] === 'string') {
+        output[`${stem}.fluff.${i}`] = data.fluff[i];
+      }
+    }
+  }
 
   // Starting equipment
   if (data.startingEquipment) {

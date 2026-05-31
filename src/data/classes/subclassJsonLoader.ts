@@ -60,6 +60,25 @@ export function getSubclassById(classId: string, subclassId: string): SubclassJs
   return ALL_SUBCLASS_DATA.find(s => s.classId === classId && s.id === subclassId);
 }
 
+/**
+ * Найти подкласс по имени (с учётом перевода через _origName) в рамках класса.
+ * classId стабилен (не переписывается оверлеем), поэтому матчим по нему,
+ * а имя сверяем и с переведённым name, и с оригинальным _origName.
+ */
+export function getSubclassByName(classId: string, subclassName: string): SubclassJsonData | undefined {
+  const lcSub = subclassName.toLowerCase();
+  // Имена подклассов в данных русские; английский идентификатор — только в id
+  // ("bladesinger", "battle-master"). Матчим по id с нормализацией дефисов/пробелов.
+  const normSub = lcSub.replace(/[^a-z0-9]/g, '');
+  return ALL_SUBCLASS_DATA.find(s =>
+    s.classId === classId &&
+    (s.name.toLowerCase() === lcSub ||
+     (s as any)._origName?.toLowerCase() === lcSub ||
+     s.id?.toLowerCase() === lcSub ||
+     s.id?.toLowerCase().replace(/[^a-z0-9]/g, '') === normSub)
+  );
+}
+
 // Mapping: "classId/subclassId" → image filename in /images/subclasses/
 const SUBCLASS_IMAGE_MAP: Record<string, string> = {
   'barbarian/berserker': 'Class_Barbarian_Berserker_Badge_Icon.png',

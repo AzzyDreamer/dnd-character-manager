@@ -11,7 +11,7 @@ export interface ClassJsonData {
   primaryAbility?: string[];
   savingThrows?: string[];
   spellcaster?: boolean;
-  description?: string;
+  fluff?: string[];
   proficiencies?: any;
   startingEquipment?: any;
   multiclassing?: any;
@@ -50,7 +50,16 @@ export async function init(): Promise<void> {
 
 export function getClassDataByName(name: string): ClassJsonData | undefined {
   const lc = name.toLowerCase();
-  return ALL_CLASS_DATA.find(c => c.name.toLowerCase() === lc || (c as any)._origName?.toLowerCase() === lc);
+  // Имена классов в данных русские (захардкожены в source), а английский идентификатор
+  // живёт только в id ("warlock", "wizard", "monster-hunter"). Поэтому теги вида
+  // {@class Warlock} матчим ещё и по id, нормализуя дефисы/пробелы ("Monster Hunter"→id).
+  const norm = lc.replace(/[^a-z0-9]/g, '');
+  return ALL_CLASS_DATA.find(c =>
+    c.name.toLowerCase() === lc ||
+    (c as any)._origName?.toLowerCase() === lc ||
+    c.id?.toLowerCase() === lc ||
+    c.id?.toLowerCase().replace(/[^a-z0-9]/g, '') === norm
+  );
 }
 
 export function getClassImageUrl(id: string): string {
