@@ -264,7 +264,10 @@ export async function applyOverlay(
       } else if (type === 'subclass') {
         applySubclassTranslations(item, translations);
       } else {
-        applyStandardTranslations(item, stem, translations);
+        // Translation keys are derived from the source filename, where '/' in a
+        // name (e.g. "Antipathy/Sympathy") is sanitized to '-'. Mirror that here
+        // so name-keyed lookups match (see scripts/i18n-extract.mjs).
+        applyStandardTranslations(item, stem.replace(/\//g, '-'), translations);
       }
     }
   } catch (e) {
