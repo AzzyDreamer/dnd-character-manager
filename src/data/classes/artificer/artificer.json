@@ -1,6 +1,6 @@
 {
   "id": "artificer",
-  "name": "Изобретатель",
+  "name": "Artificer",
   "source": "EFA",
   "page": 7,
   "hitDie": "d8",
@@ -10,7 +10,9 @@
   "savingThrows": ["constitution", "intelligence"],
   "spellcaster": true,
   "spellcastingAbility": "intelligence",
-  "description": "Мастер магических изобретений, вплетающий заклинания в предметы. Создаёт устройства, оружие и броню с магическими свойствами.",
+  "fluff": [
+    "Masters of invention, Artificers use ingenuity and magic to unlock extraordinary capabilities in objects. They see magic as a complex system waiting to be decoded and then harnessed in their spells and inventions."
+  ],
   "proficiencies": {
     "armor": ["Light armor", "Medium armor", "Shields"],
     "weapons": ["Simple weapons"],

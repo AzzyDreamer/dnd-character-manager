@@ -1,6 +1,6 @@
 {
   "id": "rogue",
-  "name": "Плут",
+  "name": "Rogue",
   "source": "PHB'24",
   "page": 128,
   "srd": true,
@@ -11,7 +11,11 @@
   "primaryAbility": ["dexterity"],
   "savingThrows": ["dexterity", "intelligence"],
   "spellcaster": false,
-  "description": "Ловкий специалист, полагающийся на хитрость и точные удары. Мастер скрытности и обмана.",
+  "fluff": [
+    "Rogues rely on cunning, stealth, and their foes' vulnerabilities to get the upper hand in any situation. They have a knack for finding the solution to just about any problem. A few even learn magical tricks to supplement their other abilities. Many Rogues focus on stealth and deception, while others refine skills that help them in a dungeon environment, such as climbing, finding and disarming traps, and opening locks.",
+    "In combat, Rogues prioritize subtle strikes over brute strength. They would rather make one precise strike than wear an opponent down with a barrage of blows.",
+    "Some Rogues began their careers as criminals, while others used their cunning to fight crime. Whatever a Rogue's relation to the law, no common criminal or officer of the law can match the subtle brilliance of the greatest Rogues."
+  ],
   "proficiencies": {
     "armor": ["Light armor"],
     "weapons": ["Simple weapons", "Martial weapons that have the Finesse or Light property"],
