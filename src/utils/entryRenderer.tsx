@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { lookupByTag, getTagDisplayName as registryGetTagDisplayName } from '../data/registry';
 import type { RegistryEntry } from '../data/registry';
 import { DiceRollContext } from '../components/DiceRollProvider';
+import { useSettings } from '../components/SettingsProvider';
 import { FilterNavContext } from '../components/FilterNavContext';
 import { asset } from '../utils/asset';
 import { parseScaledDamage, computeScaledDice } from './scaleDamage';
@@ -415,6 +416,83 @@ const FilterTag: React.FC<{ content: string }> = ({ content }) => {
   );
 };
 
+// ─── Битый тег (виден только в режиме разработчика) ───
+// Тег-ссылка, которая не разрешилась в данные, или вовсе неизвестный тег.
+// Вне dev-режима рендерится как обычный текст — поведение по умолчанию сохраняется.
+// В dev-режиме подсвечивается, при наведении показывает причину и исходный тег.
+const BrokenTag: React.FC<{
+  tagType: string;
+  tagContent: string;
+  displayText: string;
+  kind: 'link' | 'unknown';
+  fallbackClassName?: string;
+}> = ({ tagType, tagContent, displayText, kind, fallbackClassName }) => {
+  const { devMode } = useSettings();
+  const [show, setShow] = useState(false);
+  const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const ref = useRef<HTMLSpanElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (show && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      let x = rect.left + rect.width / 2;
+      let y = rect.top;
+
+      requestAnimationFrame(() => {
+        if (!tooltipRef.current) return;
+        const tt = tooltipRef.current.getBoundingClientRect();
+        const pad = 8;
+        if (x - tt.width / 2 < pad) x = tt.width / 2 + pad;
+        else if (x + tt.width / 2 > window.innerWidth - pad) x = window.innerWidth - tt.width / 2 - pad;
+        if (y - tt.height - pad < 0) y = rect.bottom + tt.height + pad;
+        setPos({ x, y });
+      });
+
+      setPos({ x, y });
+    }
+  }, [show]);
+
+  // Обычный режим — рендерим как раньше, ничего не подсвечивая.
+  if (!devMode) {
+    return <span className={fallbackClassName}>{displayText}</span>;
+  }
+
+  const reason = kind === 'link'
+    ? `Битая ссылка: @${tagType}`
+    : `Неизвестный тег: @${tagType}`;
+  const rawTag = `{@${tagType} ${tagContent}}`;
+
+  return (
+    <span
+      ref={ref}
+      className="tag-broken"
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      {displayText}
+      {show && (
+        <div
+          ref={tooltipRef}
+          className="tag-tooltip tag-tooltip-error"
+          style={{
+            position: 'fixed',
+            left: `${pos.x}px`,
+            top: `${pos.y - 8}px`,
+            transform: 'translate(-50%, -100%)',
+            zIndex: 9999,
+          }}
+        >
+          <div className="tag-tooltip-title tag-tooltip-error-title">{reason}</div>
+          <div className="tag-tooltip-line">
+            <code className="tag-broken-code">{rawTag}</code>
+          </div>
+        </div>
+      )}
+    </span>
+  );
+};
+
 // ─── Рендеринг строки с @тегами ───
 export function renderTaggedString(
   text: string,
@@ -479,17 +557,34 @@ export function renderTaggedString(
           </TagTooltip>
         );
       } else {
-        // Нет данных — отображаем как обычный текст
-        result.push(<span key={key} className="tag-text-only">{displayText}</span>);
+        // Нет данных — обычный текст, но в dev-режиме подсвечиваем как битую ссылку.
+        result.push(
+          <BrokenTag
+            key={key}
+            kind="link"
+            tagType={tagType}
+            tagContent={tagContent}
+            displayText={displayText}
+            fallbackClassName="tag-text-only"
+          />
+        );
       }
     } else if (STATIC_NAME_TAGS.has(tagType)) {
       // Известная сущность без данных (ловушка и т.п.) — приглушённое имя без клика.
       const displayText = parseTagContent(tagType, tagContent);
       result.push(<span key={key} className="tag-static-name">{displayText}</span>);
     } else {
-      // Неизвестный тег — просто текст
+      // Неизвестный тег — просто текст, в dev-режиме подсвечиваем.
       const displayText = parseTagContent(tagType, tagContent);
-      result.push(<span key={key}>{displayText}</span>);
+      result.push(
+        <BrokenTag
+          key={key}
+          kind="unknown"
+          tagType={tagType}
+          tagContent={tagContent}
+          displayText={displayText}
+        />
+      );
     }
 
     lastIndex = match.index + match[0].length;

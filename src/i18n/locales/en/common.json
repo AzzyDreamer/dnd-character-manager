@@ -23,6 +23,15 @@
   "buttons": {
     "create": "Create"
   },
+  "settings": {
+    "title": "Settings",
+    "close": "Close",
+    "language": "Language",
+    "devMode": "Developer mode",
+    "devModeDesc": "Show debug information and advanced diagnostics.",
+    "fullEdit": "Full character editing",
+    "fullEditDesc": "Edit any character field without rule restrictions."
+  },
   "loading": {
     "initializing": "Initializing...",
     "progress": "{{phase}}... ({{loaded}}/{{total}})"

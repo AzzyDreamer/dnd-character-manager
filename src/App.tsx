@@ -13,8 +13,10 @@ import type { NavTab } from './components/ui';
 import { importCharacter } from './utils/storage';
 import { initRegistry } from './data/registry';
 import type { LoadProgress } from './data/registry';
-import { PlusCircle, Users, Scroll, Library } from 'lucide-react';
+import { PlusCircle, Users, Scroll, Library, Settings } from 'lucide-react';
 import { DiceRollProvider } from './components/DiceRollProvider';
+import { SettingsProvider } from './components/SettingsProvider';
+import { SettingsModal } from './components/SettingsModal';
 import { FilterNavContext } from './components/FilterNavContext';
 import type { FilterNavRequest } from './components/FilterNavContext';
 
@@ -103,6 +105,7 @@ function AppContent() {
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
   const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
@@ -179,17 +182,29 @@ function AppContent() {
         activeSubTab={glossaryCategory ?? undefined}
         onSubTabChange={handleGlossarySubTab}
         rightContent={
-          currentView === 'main' || currentView === 'sheet' ? (
+          <>
+            {(currentView === 'main' || currentView === 'sheet') && (
+              <button
+                onClick={() => setCurrentView('creator')}
+                className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-md hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-all"
+              >
+                <PlusCircle size={16} />
+                <span className="hidden sm:inline">{t('buttons.create')}</span>
+              </button>
+            )}
             <button
-              onClick={() => setCurrentView('creator')}
-              className="px-3 py-1.5 bg-gold/20 text-gold border border-gold/30 rounded-md hover:bg-gold/30 flex items-center gap-2 text-sm font-medium transition-all"
+              onClick={() => setSettingsOpen(true)}
+              aria-label={t('settings.title')}
+              title={t('settings.title')}
+              className="p-1.5 text-text-secondary hover:text-gold transition-colors cursor-pointer"
             >
-              <PlusCircle size={16} />
-              <span className="hidden sm:inline">{t('buttons.create')}</span>
+              <Settings size={18} />
             </button>
-          ) : undefined
+          </>
         }
       />
+
+      {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
 
       {/* Main content */}
       <main className="flex-1 min-h-0 px-4 sm:px-6">
@@ -248,9 +263,11 @@ function AppContent() {
 function App() {
   return (
     <ErrorBoundary>
-      <DiceRollProvider>
-        <AppContent />
-      </DiceRollProvider>
+      <SettingsProvider>
+        <DiceRollProvider>
+          <AppContent />
+        </DiceRollProvider>
+      </SettingsProvider>
     </ErrorBoundary>
   );
 }

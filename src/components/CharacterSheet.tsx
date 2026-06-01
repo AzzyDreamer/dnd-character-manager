@@ -23,6 +23,10 @@ import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 import { resolveDisplayRace } from '../data/species';
 import { asset } from '../utils/asset';
+import { useSettings } from './SettingsProvider';
+import { FullEditPanel } from './FullEditPanel';
+import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
+import { stampManualEdit } from '../utils/manualEdit';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -38,6 +42,10 @@ interface CharacterSheetProps {
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
   const { t } = useTranslation('character');
+  const { fullEditMode } = useSettings();
+  const [showJsonEditor, setShowJsonEditor] = useState(false);
+  // Любая правка через режим полного редактирования проставляет скрытую пометку.
+  const commitFullEdit = (updated: Character) => onUpdate(stampManualEdit(updated));
   const [showSubclassModal, setShowSubclassModal] = useState(false);
   const [showSpellLevelUp, setShowSpellLevelUp] = useState(false);
   const [showHpChoiceModal, setShowHpChoiceModal] = useState(false);
@@ -1213,6 +1221,15 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Tab: Stats */}
           {activeTab === 'stats' && (
             <>
+              {/* Full edit panel — только в режиме полного редактирования */}
+              {fullEditMode && (
+                <FullEditPanel
+                  character={character}
+                  onCommit={commitFullEdit}
+                  onOpenJson={() => setShowJsonEditor(true)}
+                />
+              )}
+
               {/* HP Management + Hit Dice + Death Saves */}
               <div className="glass-panel p-4">
                 <div className="flex items-center gap-2 mb-3">
@@ -1316,6 +1333,15 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           }}
         />
       </div>
+
+      {/* Character JSON editor (full edit mode) */}
+      {showJsonEditor && (
+        <CharacterJsonEditorModal
+          character={character}
+          onSave={(next) => { commitFullEdit(next); setShowJsonEditor(false); }}
+          onClose={() => setShowJsonEditor(false)}
+        />
+      )}
 
       {/* HP Choice Modal */}
       {showHpChoiceModal && pendingHpChoice && (

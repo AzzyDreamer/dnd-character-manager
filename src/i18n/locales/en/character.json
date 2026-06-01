@@ -291,6 +291,30 @@
       "levelUpSubclass": "Lvl 3 (subclass)",
       "levelUp": "Level {{level}}"
     },
+    "fullEdit": {
+      "title": "Full editing",
+      "warning": "Manual override without rule checks. Every change is marked in the character.",
+      "name": "Name",
+      "level": "Level",
+      "abilityScores": "Ability scores",
+      "ac": "Armor Class",
+      "maxHp": "Max HP",
+      "currentHp": "Current HP",
+      "tempHp": "Temp HP",
+      "speed": "Speed",
+      "initiative": "Initiative",
+      "profBonus": "Proficiency bonus",
+      "editJson": "Edit raw JSON",
+      "editedMark": "Manually edited ({{count}}) · last {{date}}"
+    },
+    "jsonEditor": {
+      "title": "Character JSON",
+      "description": "Edit the whole character. The internal id is preserved on save.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "invalidJson": "Invalid JSON: {{error}}",
+      "notObject": "JSON must describe a character object"
+    },
     "loading": "Loading...",
     "health": {
       "title": "Health",
