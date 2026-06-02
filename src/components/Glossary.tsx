@@ -484,6 +484,19 @@ const TYPE_TO_CATEGORY: Record<string, GlossaryCategory> = {
   class: 'classes', subclass: 'subclasses', charoption: 'charoptions', action: 'actions',
 };
 
+// Превращает 5etools-теги {@tag id|src|display} в читаемый текст (логика как у
+// getTagDisplayName в registry). Нужно для строковых полей вроде prerequisite.other,
+// которые рендерятся как plain text, а не через EntryRenderer.
+const stripEntryTags = (s: string): string =>
+  s.replace(/\{@(\w+)\s+([^}]*)\}/g, (_m, tag: string, content: string) => {
+    const seg = content.split('|');
+    if (tag === 'subclass') return (seg[3]?.trim() || seg[0]?.trim() || '');
+    if (seg.length >= 3 && seg[2]?.trim()) return seg[2].trim();
+    const nm = (seg[0] || '').trim();
+    const bracket = nm.match(/^(.+?)\s*\[(.+?)\]$/);
+    return bracket ? bracket[2] : nm;
+  });
+
 export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: externalCategory, onCategoryChange, prefilter }) => {
   const { t } = useTranslation('glossary');
   const CATEGORIES = useMemo(() => buildCategories(t), [t]);
@@ -883,7 +896,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
         ).join(', ');
         if (profs) parts.push(t('feat.proficiency', { profs }));
       }
-      if (p.other) parts.push(p.other);
+      if (p.other) parts.push(stripEntryTags(p.other));
       return parts.join(', ');
     }).filter(Boolean).join('; ');
   };

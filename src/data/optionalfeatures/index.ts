@@ -43,14 +43,47 @@ export function getOptionalFeatureByName(name: string): OptionalFeatureData | un
   return ALL_OPTIONAL_FEATURES.find(f => f.name.toLowerCase() === lc || (f as any)._origName?.toLowerCase() === lc);
 }
 
+// Grim Hollow трансформации: префикс кода featureType → название трансформации
+// (например, "AH:TB" = Aberrant Horror + Transformation Boon).
+const TRANSFORMATION_NAMES: Record<string, string> = {
+  AH: 'Чуждый ужас',
+  F: 'Фея',
+  Fi: 'Исчадие',
+  H: 'Карга',
+  L: 'Лич',
+  Ly: 'Ликантроп',
+  O: 'Слизь',
+  P: 'Первобытный',
+  SG: 'Гуль Теневой стали',
+  Ser: 'Серафим',
+  Spec: 'Призрак',
+  V: 'Вампир',
+};
+// Суффикс кода: TB = дар трансформации (boon), TF = изъян трансформации (flaw)
+const TRANSFORMATION_KIND: Record<string, string> = {
+  TB: 'Дар трансформации',
+  TF: 'Изъян трансформации',
+};
+
 export const FEATURE_TYPE_NAMES: Record<string, string> = {
   EI: 'Воззвание',
   MM: 'Метамагия',
   MV: 'Манёвр',
+  'MV:B': 'Манёвр',
+  'MV:G': 'Манёвр',
   AS: 'Боевой стиль',
+  'FS:F': 'Боевой стиль',
   OG: 'Пакт',
   ED: 'Элементальная дисциплина',
   PB: 'Заклинание пакта',
   AI: 'Инфузия искусника',
   'EI:UA2022WL': 'Воззвание (UA)',
 };
+
+// Автозаполнение кодов трансформаций Grim Hollow вида "<префикс>:TB|TF"
+// → «<Трансформация>: Дар/Изъян трансформации» (иначе в UI висел сырой код «AH:TB»).
+for (const [prefix, tName] of Object.entries(TRANSFORMATION_NAMES)) {
+  for (const [suffix, kind] of Object.entries(TRANSFORMATION_KIND)) {
+    FEATURE_TYPE_NAMES[`${prefix}:${suffix}`] = `${tName}: ${kind}`;
+  }
+}
