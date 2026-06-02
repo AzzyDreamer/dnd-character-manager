@@ -115,6 +115,16 @@ function extractStandardFile(data, stem, output) {
     extractEntries(data.entries, `${stem}.entries`, output);
   }
 
+  // Prerequisite free-text (optional features: "Stage N of the {@charoption ...}", some feats)
+  if (Array.isArray(data.prerequisite)) {
+    for (let i = 0; i < data.prerequisite.length; i++) {
+      const p = data.prerequisite[i];
+      if (p && typeof p.other === 'string') {
+        output[`${stem}.prerequisite.${i}.other`] = p.other;
+      }
+    }
+  }
+
   // Higher level entries (spells)
   if (Array.isArray(data.entriesHigherLevel)) {
     extractEntries(data.entriesHigherLevel, `${stem}.entriesHigherLevel`, output);
