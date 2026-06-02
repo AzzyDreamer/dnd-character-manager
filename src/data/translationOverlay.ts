@@ -98,6 +98,16 @@ function applyStandardTranslations(item: any, stem: string, translations: Record
   applyEntryTranslations(item.entries, `${stem}.entries`, translations);
   applyEntryTranslations(item.entriesHigherLevel, `${stem}.entriesHigherLevel`, translations);
 
+  // Prerequisite free-text (optional features, some feats)
+  if (Array.isArray(item.prerequisite)) {
+    for (let i = 0; i < item.prerequisite.length; i++) {
+      const pKey = `${stem}.prerequisite.${i}.other`;
+      if (item.prerequisite[i] && typeof item.prerequisite[i].other === 'string' && translations[pKey] !== undefined) {
+        item.prerequisite[i].other = translations[pKey];
+      }
+    }
+  }
+
   // Material components
   if (item.components) {
     const mKey = `${stem}.components.m`;

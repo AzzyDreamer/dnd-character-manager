@@ -220,7 +220,11 @@ interface CategoryData {
 }
 
 const categoryCache: Partial<Record<GlossaryCategory, CategoryData>> = {};
-let entryRendererCache: { EntryRenderer: React.FC<any>; registerLoadedData: (type: string, items: any[]) => void } | null = null;
+let entryRendererCache: {
+  EntryRenderer: React.FC<any>;
+  registerLoadedData: (type: string, items: any[]) => void;
+  renderTaggedString: (text: string, context?: string, onNavigate?: (entry: RegistryEntry) => void) => React.ReactNode;
+} | null = null;
 
 // ─── Загрузчики категорий (ленивая загрузка по запросу) ───
 async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
@@ -384,6 +388,7 @@ async function loadEntryRenderer(): Promise<React.FC<any>> {
   entryRendererCache = {
     EntryRenderer: mod.EntryRenderer,
     registerLoadedData: mod.registerLoadedData,
+    renderTaggedString: mod.renderTaggedString,
   };
 
   // Регистрируем уже закешированные данные
@@ -888,6 +893,15 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
     }).filter(Boolean).join('; ');
   };
 
+  // Как formatPrerequisite, но прогоняет результат через renderTaggedString,
+  // чтобы 5etools-теги (например {@charoption ...} в требованиях трансформаций)
+  // стали кликабельными ссылками, а не сырым текстом.
+  const renderPrerequisite = (prereq: any[], context: string): React.ReactNode => {
+    const str = formatPrerequisite(prereq);
+    const rts = entryRendererCache?.renderTaggedString;
+    return rts ? rts(str, context, handleNavigate) : str;
+  };
+
   // ─── Форматирование бонусов характеристик (для черт и предысторий) ───
   const formatAbilityBonus = (ability: any[]): string => {
     if (!ability?.length) return '';
@@ -1083,7 +1097,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             {type === 'feats' && (
               <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{renderPrerequisite(d.prerequisite, d.name || '')}</span></div>
                 )}
                 {d.ability && d.ability.length > 0 && (
                   <div><span className="text-text-secondary">{t('feat.abilityBonus')} </span><span className="text-text-primary">
@@ -1211,7 +1225,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                   </span></div>
                 )}
                 {d.prerequisite && d.prerequisite.length > 0 && (
-                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{formatPrerequisite(d.prerequisite)}</span></div>
+                  <div><span className="text-text-secondary">{t('feat.prerequisites')} </span><span className="text-text-primary">{renderPrerequisite(d.prerequisite, d.name || '')}</span></div>
                 )}
               </div>
             )}
