@@ -48,7 +48,11 @@ export function getFeatByName(name: string): FeatData | undefined {
 }
 
 export function getFeatImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  // Resolve back to the English name (overlay preserves it as _origName) so
+  // translated names don't collapse to underscores and 404 the image.
+  const feat = getFeatByName(name);
+  const baseName = (feat as { _origName?: string } | undefined)?._origName ?? feat?.name ?? name;
+  const filename = baseName.replace(/[^a-zA-Z0-9]/g, '_');
   return asset(`/images/feats/${filename}.webp`);
 }
 

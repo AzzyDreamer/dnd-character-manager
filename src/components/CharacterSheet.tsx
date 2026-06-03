@@ -742,10 +742,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             if (subDef && classDef2) {
               const subData = subMod.getSubclassById(classDef2.id, subDef.id);
               if (subData?.features) {
-                hasFS = subData.features.some(f =>
-                  f.level === updated.level &&
-                  (f.name === 'Fighting Style' || f.name === 'Additional Fighting Style')
-                );
+                hasFS = subData.features.some(f => {
+                  // Match the English identifier — feature names are translated for display.
+                  const fname = (f as { _origName?: string })._origName ?? f.name;
+                  return f.level === updated.level &&
+                    (fname === 'Fighting Style' || fname === 'Additional Fighting Style');
+                });
               }
             }
           } catch (e) { /* ignore */ }

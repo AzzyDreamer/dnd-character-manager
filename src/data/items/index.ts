@@ -337,7 +337,9 @@ function toItemTemplate(raw: RawItemData): ItemTemplate {
     value: raw.value,
     equipSlot: resolveEquipSlot(raw),
     rarity: RARITY_MAP[raw.rarity ?? 'none'] ?? 'common',
-    icon: getItemImageUrl(name),
+    // Image files are named after the English item name; use _origName when the
+    // overlay has translated raw.name so the icon path stays valid under i18n.
+    icon: getItemImageUrl((raw as { _origName?: string })._origName ?? name),
     iconPlaceholder: getIconPlaceholder(raw),
     raw,
   };

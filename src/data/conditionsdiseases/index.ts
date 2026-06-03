@@ -42,6 +42,10 @@ export function getConditionByName(name: string): ConditionDiseaseData | undefin
 }
 
 export function getConditionImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  // Resolve back to the English name (overlay preserves it as _origName) so
+  // translated names don't collapse to underscores and 404 the image.
+  const cond = getConditionByName(name);
+  const baseName = (cond as { _origName?: string } | undefined)?._origName ?? cond?.name ?? name;
+  const filename = baseName.replace(/[^a-zA-Z0-9]/g, '_');
   return asset(`/images/conditionsdiseases/${filename}.webp`);
 }

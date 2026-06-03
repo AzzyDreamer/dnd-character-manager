@@ -4,6 +4,7 @@ import type { Character, CharacterSpell } from '../types';
 import type { FeatSpellConfig } from '../utils/featEffects';
 import { Search, Loader2, Check, X, Wand2 } from 'lucide-react';
 import { SpellIconBadge, SpellTooltip } from './ui';
+import { SpellDetailModal } from './SpellDetailModal';
 
 interface SpellDataLocal {
   name: string;
@@ -56,6 +57,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
   const [chosenAbility, setChosenAbility] = useState<string>(config.fixedAbility || '');
   const [chosenClass, setChosenClass] = useState<string>(config.classOptions?.[0]?.className || '');
   const [selectedSpells, setSelectedSpells] = useState<Map<string, SpellDataLocal>>(new Map()); // key = "cantrip-0" or "spell-0"
+  const [infoSpell, setInfoSpell] = useState<{ name: string; level: number } | null>(null);
   // (SpellTooltip wraps children, no explicit hover state needed)
 
   // Load spells
@@ -301,7 +303,10 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                       level={spell.level}
                       school={spell.school}
                     >
-                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-green-500/30 bg-green-500/5">
+                      <div
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-green-500/30 bg-green-500/5"
+                        onContextMenu={(e) => { e.preventDefault(); setInfoSpell({ name: spell.name, level: spell.level }); }}
+                      >
                         <SpellIconBadge
                           name={spell.name}
                           school={spell.school}
@@ -371,6 +376,7 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
                           >
                             <button
                               onClick={() => canSelect && toggleSpell(idx, spell)}
+                              onContextMenu={(e) => { e.preventDefault(); setInfoSpell({ name: spell.name, level: spell.level }); }}
                               disabled={!canSelect}
                               className={`flex items-center gap-2 p-2 rounded-lg border text-left text-xs transition-all w-full ${
                                 isSelected
@@ -424,6 +430,14 @@ export const FeatSpellPickerModal: React.FC<FeatSpellPickerModalProps> = ({
       </div>
 
     </div>
+
+    {infoSpell && (
+      <SpellDetailModal
+        spellName={infoSpell.name}
+        fallbackLevel={infoSpell.level}
+        onClose={() => setInfoSpell(null)}
+      />
+    )}
     </div>
   );
 };
