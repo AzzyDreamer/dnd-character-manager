@@ -171,20 +171,14 @@ function applyClassTranslations(item: any, translations: Record<string, string>)
     }
   }
 
-  // Level table features
-  if (Array.isArray(item.levelTable)) {
-    for (let li = 0; li < item.levelTable.length; li++) {
-      const row = item.levelTable[li];
-      if (Array.isArray(row.features)) {
-        for (let fi = 0; fi < row.features.length; fi++) {
-          const k = `${stem}.levelTable.${li}.features.${fi}`;
-          if (typeof row.features[fi] === 'string' && translations[k] !== undefined) {
-            row.features[fi] = translations[k];
-          }
-        }
-      }
-    }
-  }
+  // Level table features intentionally stay in English. They are gameplay
+  // identifiers, not display text — the level-up flow matches them against
+  // literal English strings ("Ability Score Improvement", "Fighting Style",
+  // "Expertise", "Metamagic", "Epic Boon") to decide which pickers to show.
+  // Nothing renders levelTable.features, so translating them only broke those
+  // checks. The "<class>.levelTable.*.features.*" keys remain in the gamedata
+  // JSON for any future localized level-table view, which should map them
+  // through i18n rather than mutating this array.
 
   // Class features
   if (Array.isArray(item.classFeatures)) {
@@ -229,6 +223,9 @@ function applySubclassTranslations(item: any, translations: Record<string, strin
       const feat = item.features[i];
       const fKey = `${stem}.features.${i}`;
       if (typeof feat.name === 'string' && translations[`${fKey}.name`] !== undefined) {
+        // Preserve the English name — the level-up flow matches subclass-granted
+        // features (e.g. "Fighting Style") by their original name.
+        if (feat._origName === undefined) feat._origName = feat.name;
         feat.name = translations[`${fKey}.name`];
       }
       if (typeof feat.description === 'string' && translations[`${fKey}.description`] !== undefined) {

@@ -49,6 +49,10 @@ export function getItemBaseByName(name: string): ItemBaseData | undefined {
 }
 
 export function getItemBaseImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
+  // Resolve back to the English name (overlay preserves it as _origName) so
+  // translated names don't collapse to underscores and 404 the image.
+  const item = getItemBaseByName(name);
+  const baseName = (item as { _origName?: string } | undefined)?._origName ?? item?.name ?? name;
+  const filename = baseName.replace(/[^a-zA-Z0-9]/g, '_');
   return asset(`/images/items-base/${filename}.webp`);
 }

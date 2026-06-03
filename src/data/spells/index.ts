@@ -109,6 +109,12 @@ export const SCHOOL_NAMES: Record<string, string> = {
 };
 
 export function getSpellImageUrl(spellName: string): string {
-  const filename = spellName.replace(/[^a-zA-Z0-9]/g, '_');
+  // Image files are named after the English spell name. Under a non-English
+  // locale the passed name is translated, so resolve back to the original
+  // English name (preserved as _origName by the i18n overlay) before building
+  // the filename — otherwise Cyrillic etc. collapses to underscores and 404s.
+  const spell = getSpellByName(spellName);
+  const baseName = (spell as { _origName?: string } | undefined)?._origName ?? spell?.name ?? spellName;
+  const filename = baseName.replace(/[^a-zA-Z0-9]/g, '_');
   return asset(`/images/spells/${filename}.webp`);
 }

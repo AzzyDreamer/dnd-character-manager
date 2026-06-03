@@ -12,6 +12,7 @@ import { SpellPreparationModal } from './SpellPreparationModal';
 import { ClickableDamage, ClickableAttackBonus } from './DiceRollProvider';
 import { SpellContextMenu } from './SpellContextMenu';
 import { SpellCastModal } from './SpellCastModal';
+import { SpellDetailModal } from './SpellDetailModal';
 import type { SpellData } from '../data/spells';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
@@ -867,6 +868,8 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
     spell: CharacterSpell;
     spellData: SpellData;
   } | null>(null);
+  // Full-description popup (opened from the spell context menu "Info" action)
+  const [infoSpell, setInfoSpell] = useState<{ name: string; level: number } | null>(null);
 
   // Load class resources from JSON
   useEffect(() => {
@@ -1313,7 +1316,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           canPrepare={contextMenu.isClassSpell && contextMenu.spell.level > 0 && !contextMenu.spell.alwaysPrepared}
           isPrepared={!!contextMenu.spell.prepared}
           onViewInfo={() => {
-            setExpandedSpell(contextMenu.spell.spellId);
+            setInfoSpell({ name: contextMenu.spell.name, level: contextMenu.spell.level });
             setContextMenu(null);
           }}
           onCast={() => {
@@ -1340,6 +1343,15 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           spell={castingSpell.spell}
           spellData={castingSpell.spellData}
           onClose={() => setCastingSpell(null)}
+        />
+      )}
+
+      {/* Full spell description popup */}
+      {infoSpell && (
+        <SpellDetailModal
+          spellName={infoSpell.name}
+          fallbackLevel={infoSpell.level}
+          onClose={() => setInfoSpell(null)}
         />
       )}
     </div>

@@ -42,5 +42,9 @@ export function getSenseByName(name: string): SenseData | undefined {
 }
 
 export function getSenseImageUrl(name: string): string {
-  return asset(`/images/senses/${name}.webp`);
+  // Resolve back to the English name (overlay preserves it as _origName) so
+  // translated names don't 404 the image.
+  const sense = getSenseByName(name);
+  const baseName = (sense as { _origName?: string } | undefined)?._origName ?? sense?.name ?? name;
+  return asset(`/images/senses/${baseName}.webp`);
 }
