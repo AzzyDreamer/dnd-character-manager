@@ -240,7 +240,9 @@
     "type": "Type:"
   },
   "classFeature": {
-    "levelLabel": "lvl. {{level}}"
+    "levelLabel": "lvl. {{level}}",
+    "spellTableLevel": "Level",
+    "spellTableSpells": "Spells"
   },
   "ui": {
     "back": "Back",
