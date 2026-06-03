@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell } from '../types';
 import { asset } from '../utils/asset';
+import { pushSub } from '../utils/navStack';
 import {
   generateAbilityScores,
   calculateMaxHP,
@@ -591,10 +592,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     });
   }, [bgHasFeat, isSpellcaster, needsLanguageStep, needsFightingStyle]);
 
-  // Clamp step when STEPS length changes
+  // Clamp step when STEPS length changes — route through history so the wizard
+  // step and the pushed history depth stay in sync.
   React.useEffect(() => {
-    setStep(s => Math.min(s, STEPS.length - 1));
-  }, [STEPS]);
+    const maxIdx = STEPS.length - 1;
+    if (step > maxIdx) window.history.go(-(step - maxIdx));
+  }, [STEPS, step]);
 
   const getEffectiveStep = (s: number): string => {
     return STEPS[s]?.key ?? 'review';
@@ -636,12 +639,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   const maxStep = STEPS.length - 1;
   const nextStep = () => {
-    if (canProceed()) {
-      setStep(s => Math.min(s + 1, maxStep));
-    }
+    if (!canProceed() || step >= maxStep) return;
+    // Each forward step adds a history entry, so the browser Back button walks
+    // the wizard one step back instead of leaving creation entirely.
+    pushSub(() => setStep(s => Math.max(s - 1, 0)));
+    setStep(s => Math.min(s + 1, maxStep));
   };
   const prevStep = () => {
-    setStep(s => Math.max(s - 1, 0));
+    // Route the in-app Back button through history so step ⇄ history stay synced.
+    if (step > 0) window.history.back();
   };
 
   // Ability methods
@@ -1067,7 +1073,9 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   const handleStepTabChange = (key: string) => {
     const realIndex = STEPS.findIndex(s => s.key === key);
-    if (realIndex >= 0 && realIndex <= step) setStep(realIndex);
+    // Only allow jumping back to an already-visited step; go through history so
+    // the corresponding wizard entries are popped.
+    if (realIndex >= 0 && realIndex < step) window.history.go(-(step - realIndex));
   };
 
   const renderStepIndicator = () => (

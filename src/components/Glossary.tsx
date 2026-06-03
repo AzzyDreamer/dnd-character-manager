@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2, ArrowUpDown, ArrowUp, ArrowDown, Filter, ChevronDown } from 'lucide-react';
+import { useBackDismiss } from '../hooks/useBackDismiss';
 
 // ─── Типы ───
 interface RegistryEntry {
@@ -509,6 +510,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
   const [activeFilters, setActiveFilters] = useState<Record<string, Set<string>>>({});
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
 
+  // Browser Back closes an open detail overlay instead of leaving the glossary.
+  useBackDismiss(selectedEntry !== null, () => setSelectedEntry(null));
+  useBackDismiss(selectedSubclass !== null, () => setSelectedSubclass(null));
+
   // Загрузка категории при выборе
   const selectCategory = useCallback(async (category: GlossaryCategory) => {
     setInternalCategory(category);
@@ -950,27 +955,70 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
         name === 'Subclass Feature' || name.endsWith(' Subclass');
 
       if (selectedSubclass) {
-        // Объединённый вид: заменяем плейсхолдеры реальными фичами подкласса
+        // Объединённый вид: заменяем плейсхолдеры реальными фичами подкласса.
+        // Уровень получения подкласса (мин. уровень плейсхолдеров, обычно 3) —
+        // фичи подкласса не должны показываться раньше него (часть данных хранит
+        // устаревшие уровни 1/2 из правил 2014 года).
+        const placeholderLevels = d.classFeatures
+          .filter((f: any) => isPlaceholder(f.name))
+          .map((f: any) => f.level as number);
+        const introLevel = placeholderLevels.length
+          ? Math.min(...placeholderLevels)
+          : (selectedSubclass.level ?? 3);
+
+        // Таблица заклинаний подкласса (домен/клятва/покровитель и т.п.):
+        // строки «уровень класса → заклинания». {@spell} рендерятся как ссылки.
+        const spellTableFor = (sf: any) => {
+          const list: any[] | null =
+            Array.isArray(sf.spellList) && sf.spellList.length ? sf.spellList
+            : Array.isArray(sf.spells) && sf.spells.length ? sf.spells
+            : null;
+          if (!list) return null;
+          const rows: string[][] = [];
+          for (const item of list) {
+            if (!item || typeof item !== 'object' || !Array.isArray(item.spells) || !item.spells.length) continue;
+            let lvl: number | undefined;
+            for (const [k, v] of Object.entries(item)) {
+              if (k !== 'spells' && typeof v === 'number') { lvl = v; break; }
+            }
+            rows.push([String(lvl ?? ''), item.spells.join(', ')]);
+          }
+          if (!rows.length) return null;
+          return {
+            type: 'table',
+            colLabels: [t('classFeature.spellTableLevel'), t('classFeature.spellTableSpells')],
+            rows,
+          };
+        };
+
+        const makeSubEntry = (sf: any) => {
+          const lvl = Math.max(sf.level ?? introLevel, introLevel);
+          const subEntries: any[] = [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])];
+          const table = spellTableFor(sf);
+          if (table) subEntries.push(table);
+          return {
+            type: 'entries',
+            name: `${sf.name} (${t('classFeature.levelLabel', { level: lvl })}) — ${selectedSubclass.name}`,
+            entries: subEntries,
+            _isSubclass: true,
+            _level: lvl,
+          };
+        };
+
+        // Группируем по «прижатому» уровню, чтобы фичи попадали в плейсхолдер 3-го ур.
         const subFeaturesByLevel = new Map<number, any[]>();
         for (const f of selectedSubclass.features) {
-          const arr = subFeaturesByLevel.get(f.level) || [];
+          const key = Math.max(f.level ?? introLevel, introLevel);
+          const arr = subFeaturesByLevel.get(key) || [];
           arr.push(f);
-          subFeaturesByLevel.set(f.level, arr);
+          subFeaturesByLevel.set(key, arr);
         }
 
         entries = [];
         for (const f of d.classFeatures) {
           if (isPlaceholder(f.name)) {
             const subFeats = subFeaturesByLevel.get(f.level) || [];
-            for (const sf of subFeats) {
-              entries.push({
-                type: 'entries',
-                name: `${sf.name} (${t('classFeature.levelLabel', { level: sf.level })}) — ${selectedSubclass.name}`,
-                entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
-                _isSubclass: true,
-                _level: sf.level,
-              });
-            }
+            for (const sf of subFeats) entries.push(makeSubEntry(sf));
             subFeaturesByLevel.delete(f.level);
           } else {
             entries.push({
@@ -981,24 +1029,12 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             });
           }
         }
-        // Добавить оставшиеся фичи подкласса, не попавшие в плейсхолдеры
+        // Оставшиеся фичи подкласса, не попавшие в плейсхолдеры
         for (const [, feats] of subFeaturesByLevel) {
-          for (const sf of feats) {
-            entries.push({
-              type: 'entries',
-              name: `${sf.name} (${t('classFeature.levelLabel', { level: sf.level })}) — ${selectedSubclass.name}`,
-              entries: [sf.description, ...(sf.details ? Object.values(sf.details).filter(Boolean) : [])],
-              _isSubclass: true,
-              _level: sf.level,
-            });
-          }
+          for (const sf of feats) entries.push(makeSubEntry(sf));
         }
         // Сортируем по уровню
-        entries.sort((a: any, b: any) => {
-          const lvlA = a._level ?? 0;
-          const lvlB = b._level ?? 0;
-          return lvlA - lvlB;
-        });
+        entries.sort((a: any, b: any) => (a._level ?? 0) - (b._level ?? 0));
       } else {
         // Без подкласса — скрываем плейсхолдеры
         entries = d.classFeatures

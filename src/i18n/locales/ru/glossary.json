@@ -240,7 +240,9 @@
     "type": "Тип:"
   },
   "classFeature": {
-    "levelLabel": "ур. {{level}}"
+    "levelLabel": "ур. {{level}}",
+    "spellTableLevel": "Уровень",
+    "spellTableSpells": "Заклинания"
   },
   "ui": {
     "back": "Назад",

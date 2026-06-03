@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
 import { StatBadge } from './StatBadge';
-import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, Camera, ImagePlus, Swords, Eye } from 'lucide-react';
+import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImagePlus, Swords, Eye, Star, type LucideIcon } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
 import { asset } from '../../utils/asset';
 
@@ -44,13 +44,15 @@ interface CharacterStatsSidebarProps {
   classIconSrc?: string;
   className?: string;
   /** Sections to hide (already shown elsewhere) */
-  hideSections?: ('identity' | 'proficiencies' | 'skills' | 'spells')[];
+  hideSections?: ('identity' | 'proficiencies' | 'skills' | 'spells' | 'abilities' | 'combat')[];
   /** Portrait data URL for top of sidebar */
   portraitUrl?: string;
   /** Portrait crop position */
   portraitPosition?: number | { x: number; y: number; zoom?: number };
   /** Click handler for portrait (upload/crop) */
   onPortraitClick?: () => void;
+  /** Reveal combat stats (AC, init, speed, proficiency, passive perception) as a hover overlay on the portrait */
+  showPortraitStats?: boolean;
 }
 
 const ABILITY_KEYS: (keyof AbilityScores)[] = [
@@ -210,6 +212,7 @@ export function CharacterStatsSidebar({
   portraitUrl,
   portraitPosition,
   onPortraitClick,
+  showPortraitStats = false,
 }: CharacterStatsSidebarProps) {
   const { t } = useTranslation('common');
   // Unify data from either character or creationStats
@@ -241,6 +244,44 @@ export function CharacterStatsSidebar({
   const initiative = character?.initiative;
   const profBonus = character?.proficiencyBonus ?? creationStats?.proficiencyBonus;
 
+  // Combat stats revealed on portrait hover (sheet only) — slide up + fade in over a dark veil.
+  const portraitStats: { icon: LucideIcon; label: string; value: string }[] = [];
+  if (showPortraitStats) {
+    if (ac !== undefined) portraitStats.push({ icon: Shield, label: t('sidebar.acLabel'), value: `${ac}` });
+    if (initiative !== undefined) portraitStats.push({ icon: Swords, label: t('sidebar.initiativeLabel'), value: `${initiative >= 0 ? '+' : ''}${initiative}` });
+    if (speed !== undefined) portraitStats.push({ icon: Footprints, label: t('sidebar.speedLabel'), value: `${speed}` });
+    if (profBonus !== undefined) portraitStats.push({ icon: Star, label: t('sidebar.proficiencyLabel'), value: `+${profBonus}` });
+    if (abilityScores?.wisdom !== undefined && profBonus !== undefined) {
+      const passive = 10 + getSkillBonus(
+        abilityScores.wisdom,
+        skillProficiencies.includes('perception'),
+        character?.skills?.perception?.expertise ?? false,
+        profBonus,
+      );
+      portraitStats.push({ icon: Eye, label: t('sidebar.passivePerception'), value: `${passive}` });
+    }
+  }
+
+  const portraitStatsOverlay = portraitStats.length > 0 ? (
+    <div
+      className="absolute inset-x-0 bottom-0 p-3 pt-10 pointer-events-none
+        bg-gradient-to-t from-black/90 via-black/75 to-transparent
+        translate-y-full opacity-0
+        group-hover:translate-y-0 group-hover:opacity-100
+        transition-all duration-300 ease-out"
+    >
+      <div className="space-y-1.5">
+        {portraitStats.map(({ icon: Icon, label, value }) => (
+          <div key={label} className="flex items-center gap-2 text-white">
+            <Icon size={13} className="text-gold/80 shrink-0" />
+            <span className="text-[11px] text-white/80 flex-1 leading-tight">{label}</span>
+            <span className="text-sm font-bold tabular-nums">{value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : null;
+
   return (
     <aside className={`w-72 shrink-0 hidden lg:flex flex-col gap-3 overflow-y-auto ${className}`}>
       {/* Character portrait — clickable for upload/crop */}
@@ -261,17 +302,16 @@ export function CharacterStatsSidebar({
               <ImagePlus size={32} className="text-text-muted/30" />
             </div>
           )}
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <Camera size={20} className="text-white" />
-          </div>
+          {portraitStatsOverlay}
         </button>
       ) : portraitUrl ? (
-        <div className="glass-panel overflow-hidden rounded-lg">
+        <div className="glass-panel overflow-hidden rounded-lg relative group">
           <PortraitImage
             src={portraitUrl}
             pos={portraitPosition}
             className="aspect-[9/21] w-full"
           />
+          {portraitStatsOverlay}
         </div>
       ) : imageSrc ? (
         <div className="glass-panel overflow-hidden">
@@ -315,7 +355,7 @@ export function CharacterStatsSidebar({
       )}
 
       {/* Ability Scores */}
-      {abilityScores && (
+      {abilityScores && !hideSections.includes('abilities') && (
         <div className="glass-panel p-3">
           <div className="grid grid-cols-3 gap-2 justify-items-center">
             {ABILITY_KEYS.map((key) => {
@@ -337,7 +377,7 @@ export function CharacterStatsSidebar({
       )}
 
       {/* Combat Stats */}
-      {showCombatStats && (ac !== undefined || hp !== undefined || speed !== undefined) && (
+      {showCombatStats && !hideSections.includes('combat') && (ac !== undefined || hp !== undefined || speed !== undefined) && (
         <div className="glass-panel p-3">
           <div className="grid grid-cols-2 gap-2 text-center">
             {ac !== undefined && (
