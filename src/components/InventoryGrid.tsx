@@ -2,7 +2,6 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, InventoryItem, EquipmentSlot, Equipment, ItemCategory } from '../types';
 import {
-  ITEM_TEMPLATES,
   RARITY_COLORS,
   RARITY_BG_COLORS,
   getRarityName,
@@ -11,7 +10,6 @@ import {
   getCategoryName,
   getDamageTypeName,
   getPropertyName,
-  canEquipInOffhand,
   getArmorType,
   getArmorAC,
   getWeaponCategory,
@@ -75,21 +73,16 @@ function isItemTwoHanded(item: InventoryItem): boolean {
   return props.some((p: any) => typeof p === 'string' && p.startsWith('2H'));
 }
 
-// Проверяет, является ли предмет полуторным (Versatile)
-function isItemVersatile(item: InventoryItem): boolean {
-  const props = item.raw?.property;
-  if (!Array.isArray(props)) return false;
-  return props.some((p: any) => typeof p === 'string' && p.startsWith('V'));
-}
-
-// Проверяет, блокирует ли оружие в mainhand использование offhand
+// Проверяет, блокирует ли оружие в mainhand использование offhand.
+// Только двуручное оружие занимает обе руки. Полуторное (Versatile) можно
+// держать одной рукой, оставляя offhand под щит (классический «меч + щит»).
 function isMainhandBlocking(item: InventoryItem, equipment: Equipment, inventory: InventoryItem[]): boolean {
   const isRanged = item.equipSlot === 'rangedMainhand' || item.equipSlot === 'rangedOffhand';
   const mainId = isRanged ? equipment.rangedMainhand : equipment.mainhand;
   if (!mainId) return false;
   const mainItem = inventory.find(i => i.id === mainId);
   if (!mainItem) return false;
-  return isItemTwoHanded(mainItem) || isItemVersatile(mainItem);
+  return isItemTwoHanded(mainItem);
 }
 
 // Проверяет, подходит ли предмет к слоту offhand (melee или ranged)
@@ -98,10 +91,8 @@ function canItemFitOffhand(item: InventoryItem): boolean {
   if (item.category === 'shield') return true;
   // Двуручное и полуторное — нельзя в offhand
   if (isItemTwoHanded(item)) return false;
-  // Melee оружие без Two-Handed
+  // Любое одноручное оружие (Two-Handed уже отсеяно выше) можно в offhand.
   if (item.category === 'weapon' && (item.equipSlot === 'mainhand' || item.equipSlot === 'rangedMainhand')) {
-    const template = ITEM_TEMPLATES.find(t => t.name === item.name);
-    if (template) return canEquipInOffhand(template);
     return true;
   }
   return false;
@@ -755,6 +746,29 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
   const handleAddItem = useCallback(
     (template: ItemTemplate, quantity: number) => {
+      // Stack identical non-equippable items (potions, ammo, scrolls, …) into an
+      // existing pile instead of taking a new grid cell. Equippable gear always
+      // gets its own entry so each piece can be equipped separately. Identity is
+      // matched on the English raw name so it stays stable across locales.
+      if (!template.equipSlot) {
+        const englishName = (template.raw as { name?: string } | undefined)?.name ?? template.name;
+        const existing = inventory.find(
+          (i) =>
+            !i.equipped &&
+            !i.equipSlot &&
+            i.category === template.category &&
+            (((i.raw as { name?: string } | undefined)?.name ?? i.name) === englishName),
+        );
+        if (existing) {
+          updateInventory(
+            inventory.map((i) =>
+              i.id === existing.id ? { ...i, quantity: i.quantity + quantity } : i,
+            ),
+          );
+          return;
+        }
+      }
+
       const currentGrid = buildGrid(inventory);
       const pos = findFreePosition(currentGrid);
       if (!pos) {
@@ -829,7 +843,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         const tempInv = newInventory.map(i =>
           i.id === currentEquippedId ? { ...i, equipped: false, attuned: false } : i
         );
-        const currentGrid = buildGrid(tempInv);
+        // Exclude the item being equipped — it vacates its backpack cell.
+        const currentGrid = buildGrid(tempInv.filter(i => i.id !== itemId));
         const currentItem = newInventory.find(i => i.id === currentEquippedId);
         if (currentItem) {
           const pos = findFreePosition(currentGrid);
@@ -855,7 +870,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         const offhandId = newEquipment.offhand;
         if (offhandId) {
           const tempInv2 = newInventory.map(i => i.id === offhandId ? { ...i, equipped: false, attuned: false } : i);
-          const grid2 = buildGrid(tempInv2);
+          const grid2 = buildGrid(tempInv2.filter(i => i.id !== itemId));
           const pos2 = findFreePosition(grid2);
           newInventory = newInventory.map(i =>
             i.id === offhandId ? { ...i, equipped: false, attuned: false, gridX: pos2?.x ?? 0, gridY: pos2?.y ?? 0 } : i,
@@ -867,7 +882,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         const offhandId = newEquipment.rangedOffhand;
         if (offhandId) {
           const tempInv2 = newInventory.map(i => i.id === offhandId ? { ...i, equipped: false, attuned: false } : i);
-          const grid2 = buildGrid(tempInv2);
+          const grid2 = buildGrid(tempInv2.filter(i => i.id !== itemId));
           const pos2 = findFreePosition(grid2);
           newInventory = newInventory.map(i =>
             i.id === offhandId ? { ...i, equipped: false, attuned: false, gridX: pos2?.x ?? 0, gridY: pos2?.y ?? 0 } : i,
@@ -1409,8 +1424,6 @@ function canDragToSlot(item: InventoryItem, slot: EquipmentSlot, equipment?: Equ
     if (item.equipSlot !== 'rangedMainhand' && item.equipSlot !== 'rangedOffhand') return false;
     if (isItemTwoHanded(item)) return false;
     if (equipment && inventory && isMainhandBlocking(item, equipment, inventory)) return false;
-    const template = ITEM_TEMPLATES.find(t => t.name === item.name);
-    if (template) return canEquipInOffhand(template);
     return true;
   }
 
