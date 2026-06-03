@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useBackDismiss } from '../hooks/useBackDismiss';
 
 interface SpellDataLocal {
   name: string;
@@ -80,6 +81,9 @@ export const SpellDetailModal: React.FC<SpellDetailModalProps> = ({ spellName, f
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
   }, [onClose]);
+
+  // Browser Back closes this popup before the surface underneath it.
+  useBackDismiss(true, onClose);
 
   const spell = modules?.getSpellByName(spellName);
   const level = spell?.level ?? fallbackLevel ?? 0;
