@@ -15,7 +15,7 @@ import { getAllItemTemplatesSync } from '../data/items';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
-import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
+import { TabBar, type Tab, CharacterStatsSidebar, StatBadge, SpellIconBadge, SpellTooltip } from './ui';
 import { useDiceRoll } from './DiceRollProvider';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { PortraitCropModal } from './PortraitCropModal';
@@ -27,6 +27,7 @@ import { useSettings } from './SettingsProvider';
 import { FullEditPanel } from './FullEditPanel';
 import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
 import { stampManualEdit } from '../utils/manualEdit';
+import { useBackDismiss } from '../hooks/useBackDismiss';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -1125,6 +1126,30 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const canLevelUp = character.level < 20;
   const needsSubclass = character.level === 2 && !character.subclass && classDef && classDef.subclasses.length > 0;
 
+  // Browser Back closes whichever modal/overlay is open instead of navigating
+  // away from the sheet. Closing = cancel/dismiss the topmost open modal.
+  const anyModalOpen = showCropModal || showJsonEditor || showFeatSpellPicker || showFeatPicker
+    || showOptionalFeaturePicker || showExpertisePicker || showFsCantripPicker || showFightingStylePicker
+    || showFsReplaceModal || showFeatSpellSwap || showAutoSpellsNotification || showSpellLevelUp
+    || showHpChoiceModal || showSubclassModal;
+  const closeTopModal = () => {
+    if (showCropModal) { setShowCropModal(false); setPendingPortraitUrl(null); return; }
+    if (showJsonEditor) { setShowJsonEditor(false); return; }
+    if (showFeatSpellPicker) { setShowFeatSpellPicker(false); setPendingFeatSpells(null); return; }
+    if (showFeatPicker) { setShowFeatPicker(false); setPendingFeatLevelUp(null); return; }
+    if (showOptionalFeaturePicker) { setShowOptionalFeaturePicker(false); setPendingOptionalFeature(null); return; }
+    if (showExpertisePicker) { setShowExpertisePicker(false); setPendingExpertise(null); return; }
+    if (showFsCantripPicker) { setShowFsCantripPicker(false); setPendingFsCantrips(null); return; }
+    if (showFightingStylePicker) { setShowFightingStylePicker(false); setPendingFightingStyleLevelUp(null); return; }
+    if (showFsReplaceModal) { setShowFsReplaceModal(false); setPendingFsReplace(null); return; }
+    if (showFeatSpellSwap) { setShowFeatSpellSwap(false); setPendingFeatSwapChar(null); return; }
+    if (showAutoSpellsNotification) { setShowAutoSpellsNotification(false); setPendingAutoSpells(null); return; }
+    if (showSpellLevelUp) { setShowSpellLevelUp(false); setPendingLevelUp(null); return; }
+    if (showHpChoiceModal) { setShowHpChoiceModal(false); setPendingHpChoice(null); return; }
+    if (showSubclassModal) { setShowSubclassModal(false); return; }
+  };
+  useBackDismiss(anyModalOpen, closeTopModal);
+
   const sheetTabs: Tab[] = [
     { key: 'stats', label: t('sheet.tabs.stats'), icon: ScrollText },
     { key: 'inventory', label: t('sheet.tabs.inventory'), icon: Backpack },
@@ -1230,8 +1255,11 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 />
               )}
 
-              {/* HP Management + Hit Dice + Death Saves */}
-              <div className="glass-panel p-4">
+              {/* HP Management (narrower) + Ability Scores to the right.
+                  Combat stats now live in the portrait hover overlay. */}
+              <div className="flex flex-col lg:flex-row gap-4 items-stretch">
+                {/* HP Management + Hit Dice + Death Saves */}
+                <div className="glass-panel p-4 flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="text-red-bright" size={20} />
                   <h2 className="text-lg font-medieval text-gold">{t('sheet.health.title')}</h2>
@@ -1302,6 +1330,23 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     <DeathSavesSection character={character} onUpdate={onUpdate} />
                   </div>
                 </div>
+                </div>
+
+                {/* Ability Scores — to the right of the Health panel */}
+                <div className="glass-panel p-4 flex items-center justify-center shrink-0">
+                  <div className="grid grid-cols-3 gap-3 justify-items-center">
+                    {ABILITY_ORDER.map((key) => (
+                      <StatBadge
+                        key={key}
+                        label={getAbilityShort(key)}
+                        value={displayCharacter.abilityScores[key]}
+                        modifier={getAbilityModifier(displayCharacter.abilityScores[key])}
+                        variant="circle"
+                        size="md"
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Conditions & Resistances */}
@@ -1320,7 +1365,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           character={displayCharacter}
           showCombatStats
           classIconSrc={asset(`/images/classes/${character.classId}.webp`)}
-          hideSections={['identity', 'proficiencies', 'skills', 'spells']}
+          hideSections={['identity', 'proficiencies', 'skills', 'spells', 'abilities', 'combat']}
+          showPortraitStats
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
           onPortraitClick={() => {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, Component } from 'react';
+import { useState, useEffect, useCallback, useRef, Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
@@ -19,6 +19,8 @@ import { SettingsProvider } from './components/SettingsProvider';
 import { SettingsModal } from './components/SettingsModal';
 import { FilterNavContext } from './components/FilterNavContext';
 import type { FilterNavRequest } from './components/FilterNavContext';
+import { setViewRestoreHandler, replaceView, pushView } from './utils/navStack';
+import { useBackDismiss } from './hooks/useBackDismiss';
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -62,6 +64,46 @@ const GLOSSARY_SUB_TAB_KEYS = [
   'skills', 'rules', 'charoptions', 'actions',
 ] as const;
 
+// --- Hash-based routing for top-level views -----------------------------------
+// Views are reflected in the URL hash so Back/Forward, refresh and bookmarks work.
+interface NavLoc {
+  view: AppView;
+  characterId: string | null;
+  glossaryCategory: string | null;
+}
+
+function urlForLoc(loc: NavLoc): string {
+  switch (loc.view) {
+    case 'main': return '#/characters';
+    case 'creator': return '#/create';
+    case 'sheet': return loc.characterId ? `#/sheet/${encodeURIComponent(loc.characterId)}` : '#/sheet';
+    case 'glossary': return loc.glossaryCategory ? `#/glossary/${loc.glossaryCategory}` : '#/glossary';
+    case 'home':
+    default: return '#/';
+  }
+}
+
+function parseLocFromHash(): NavLoc {
+  const raw = window.location.hash.replace(/^#\/?/, '');
+  const [seg, ...restParts] = raw.split('/');
+  const rest = restParts.join('/');
+  switch (seg) {
+    case 'characters': return { view: 'main', characterId: null, glossaryCategory: null };
+    case 'create': return { view: 'creator', characterId: null, glossaryCategory: null };
+    case 'sheet': return { view: 'sheet', characterId: rest ? decodeURIComponent(rest) : null, glossaryCategory: null };
+    case 'glossary': return { view: 'glossary', characterId: null, glossaryCategory: rest || 'spells' };
+    default: return { view: 'home', characterId: null, glossaryCategory: null };
+  }
+}
+
+// Only the view-relevant sub-state contributes to the key, so unrelated
+// background changes don't spawn phantom history entries.
+function navKeyFor(loc: NavLoc): string {
+  return loc.view === 'sheet' ? `sheet|${loc.characterId ?? ''}`
+    : loc.view === 'glossary' ? `glossary|${loc.glossaryCategory ?? ''}`
+    : loc.view;
+}
+
 function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   const { t } = useTranslation('common');
   const percent = progress ? Math.round((progress.loaded / progress.total) * 100) : 0;
@@ -102,8 +144,11 @@ function AppContent() {
   const [registryProgress, setRegistryProgress] = useState<LoadProgress | null>(null);
   const [registryError, setRegistryError] = useState<string | null>(null);
 
-  const [currentView, setCurrentView] = useState<AppView>('home');
-  const [glossaryCategory, setGlossaryCategory] = useState<string | null>(null);
+  const initialLocRef = useRef<NavLoc>(parseLocFromHash());
+  const [currentView, setCurrentView] = useState<AppView>(initialLocRef.current.view);
+  const [glossaryCategory, setGlossaryCategory] = useState<string | null>(
+    initialLocRef.current.view === 'glossary' ? initialLocRef.current.glossaryCategory : null,
+  );
   const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -123,6 +168,55 @@ function AppContent() {
       .then(() => setRegistryReady(true))
       .catch((e) => setRegistryError(String(e)));
   }, []);
+
+  // --- Browser Back/Forward integration ---------------------------------
+  // The app is a single page with state-driven views and no router. We mirror
+  // the current view into the History API (hash URL + entry) so Back/Forward,
+  // refresh and bookmarks work. Overlays and the creation wizard layer their own
+  // dismissible entries on top via the shared navStack.
+  const lastNavKeyRef = useRef<string | null>(null);
+  const navLoc: NavLoc = { view: currentView, characterId: activeCharacterId, glossaryCategory };
+  const navKey = navKeyFor(navLoc);
+
+  // Apply a character requested via a deep-linked #/sheet/<id> URL once loaded.
+  const appliedInitialCharRef = useRef(false);
+  useEffect(() => {
+    if (appliedInitialCharRef.current || loading) return;
+    appliedInitialCharRef.current = true;
+    const init = initialLocRef.current;
+    if (init.view === 'sheet' && init.characterId) setActiveCharacter(init.characterId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
+
+  // Sync the current view into history whenever it changes.
+  useEffect(() => {
+    if (lastNavKeyRef.current === null) {
+      // Anchor to the URL-derived initial location (preserves deep-linked id/category).
+      const init = initialLocRef.current;
+      replaceView(init, urlForLoc(init));
+      lastNavKeyRef.current = navKeyFor(init);
+    } else if (lastNavKeyRef.current !== navKey) {
+      pushView(navLoc, urlForLoc(navLoc));
+      lastNavKeyRef.current = navKey;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navKey]);
+
+  // Restore the view when Back/Forward reaches the base (non-overlay) level.
+  useEffect(() => {
+    setViewRestoreHandler((rawLoc) => {
+      const loc = (rawLoc ?? { view: 'home', characterId: null, glossaryCategory: null }) as NavLoc;
+      lastNavKeyRef.current = navKeyFor(loc);
+      if (loc.view === 'sheet' && loc.characterId) setActiveCharacter(loc.characterId);
+      setGlossaryPrefilter(null);
+      setGlossaryCategory(loc.view === 'glossary' ? (loc.glossaryCategory ?? 'spells') : null);
+      setCurrentView(loc.view);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Browser Back closes the settings modal instead of navigating views.
+  useBackDismiss(settingsOpen, () => setSettingsOpen(false));
 
   const handleImportCharacter = async (file: File) => {
     try {

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2, ArrowUpDown, ArrowUp, ArrowDown, Filter, ChevronDown } from 'lucide-react';
+import { useBackDismiss } from '../hooks/useBackDismiss';
 
 // ─── Типы ───
 interface RegistryEntry {
@@ -508,6 +509,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [activeFilters, setActiveFilters] = useState<Record<string, Set<string>>>({});
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
+
+  // Browser Back closes an open detail overlay instead of leaving the glossary.
+  useBackDismiss(selectedEntry !== null, () => setSelectedEntry(null));
+  useBackDismiss(selectedSubclass !== null, () => setSelectedSubclass(null));
 
   // Загрузка категории при выборе
   const selectCategory = useCallback(async (category: GlossaryCategory) => {
