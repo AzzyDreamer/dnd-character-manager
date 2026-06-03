@@ -5,6 +5,7 @@ import { Search, Loader2, Wand2, Sparkles, ChevronDown, ChevronRight, Zap, BookO
 import { CharacterStatsSidebar, SpellIconBadge, SpellTooltip } from './ui';
 import { getClassName } from '../data/classes';
 import { asset } from '../utils/asset';
+import { SpellDetailModal } from './SpellDetailModal';
 
 // Минимальный тип данных заклинания (без полного импорта)
 interface SpellDataLocal {
@@ -101,6 +102,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
   const [selectedNewCantrips, setSelectedNewCantrips] = useState<SpellDataLocal[]>([]);
   const [selectedNewSpells, setSelectedNewSpells] = useState<SpellDataLocal[]>([]);
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null);
+  const [infoSpell, setInfoSpell] = useState<{ name: string; level: number } | null>(null);
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
 
   const newCantripsCount = (newLevelData.cantrips ?? 0) - (oldLevelData.cantrips ?? 0);
@@ -372,6 +374,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                                   toggleCantrip(spell);
                                 }
                               }}
+                              onContextMenu={(e) => { e.preventDefault(); setInfoSpell({ name: spell.name, level: 0 }); }}
                               className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
                             />
                           </SpellTooltip>
@@ -442,6 +445,7 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
                                           toggleSpell(spell);
                                         }
                                       }}
+                                      onContextMenu={(e) => { e.preventDefault(); setInfoSpell({ name: spell.name, level: spell.level }); }}
                                       className={isSelected ? 'ring-2 ring-green-bright/60' : ''}
                                     />
                                   </SpellTooltip>
@@ -570,6 +574,14 @@ export const SpellLevelUpModal: React.FC<SpellLevelUpModalProps> = ({
         </div>
       </div>
     </div>
+
+    {infoSpell && (
+      <SpellDetailModal
+        spellName={infoSpell.name}
+        fallbackLevel={infoSpell.level}
+        onClose={() => setInfoSpell(null)}
+      />
+    )}
     </div>
   );
 };

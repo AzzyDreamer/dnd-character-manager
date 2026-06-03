@@ -51,7 +51,11 @@ function toCamelCase(name: string): string {
 }
 
 export function getSkillImageUrl(name: string): string {
-  return asset(`/images/skills/${toCamelCase(name)}.webp`);
+  // Resolve back to the English name (overlay preserves it as _origName) so
+  // translated names map to the correct camelCase image filename.
+  const skill = getSkillByName(name);
+  const baseName = (skill as { _origName?: string } | undefined)?._origName ?? skill?.name ?? name;
+  return asset(`/images/skills/${toCamelCase(baseName)}.webp`);
 }
 
 import i18n from '../../i18n';
