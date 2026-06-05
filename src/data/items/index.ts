@@ -239,9 +239,11 @@ function buildDescription(raw: RawItemData): string {
     }
   }
 
-  // Записи из entries
+  // Записи из entries — только строки. Объекты (таблицы, вложенные записи)
+  // в этом коротком описании не разворачиваем, иначе получаем "[object Object]";
+  // полный контент рендерится через EntryRenderer в детальном виде.
   if (raw.entries && raw.entries.length > 0) {
-    parts.push(...raw.entries);
+    parts.push(...raw.entries.filter((e: any) => typeof e === 'string'));
   }
 
   // Настройка
