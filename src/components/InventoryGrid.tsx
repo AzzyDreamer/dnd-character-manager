@@ -518,11 +518,17 @@ const AddItemModal: React.FC<{
   const categories = ['all', ...new Set(allItems.map((i) => i.category))];
 
   const filtered = allItems.filter((item) => {
+    const q = search.toLowerCase();
+    // Ищем и по переведённому имени, и по английскому оригиналу (_origName),
+    // чтобы поиск работал независимо от языка интерфейса — многие предметы
+    // ещё не переведены, и в RU их можно найти только по английскому названию.
+    const origName = (item.raw as { _origName?: string })._origName;
     const matchesSearch =
       search === '' ||
-      item.name.toLowerCase().includes(search.toLowerCase()) ||
-      item.type.toLowerCase().includes(search.toLowerCase()) ||
-      item.description.toLowerCase().includes(search.toLowerCase());
+      item.name.toLowerCase().includes(q) ||
+      (origName ? origName.toLowerCase().includes(q) : false) ||
+      item.type.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q);
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
