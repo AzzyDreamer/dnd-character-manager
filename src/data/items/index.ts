@@ -1,4 +1,5 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
+import i18n from '../../i18n';
 import { applyOverlay } from '../translationOverlay';
 import { asset } from '../../utils/asset';
 import {
@@ -52,7 +53,9 @@ export async function init(): Promise<void> {
 
   _itemsInitializing = (async () => {
     const mod = await import('../_bundles/items.json');
-    const items = (mod.default ?? mod) as ItemData[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as ItemData[];
 
     for (const data of items) {
       if (data && typeof data === 'object' && data.name) {
@@ -66,6 +69,20 @@ export async function init(): Promise<void> {
   })();
 
   return _itemsInitializing;
+}
+
+/**
+ * Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale).
+ * Помимо ALL_ITEMS чистим кеш шаблонов: он строится из переведённых названий
+ * items/items-base, поэтому registry пересоберёт его через buildAllTemplatesCache.
+ */
+export function reset(): void {
+  _itemsInitialized = false;
+  _itemsInitializing = null;
+  ALL_ITEMS.length = 0;
+  _allTemplatesCache = null;
+  _loadingPromise = null;
+  _staticTemplates = null;
 }
 
 export function getItemByName(name: string, source?: string): ItemData | undefined {
@@ -162,7 +179,7 @@ function buildDescription(raw: RawItemData): string {
       dmgParts.push(`${raw.dmg1} ${getDamageTypeName(raw.dmgType)}`);
     }
     if (raw.dmg2) {
-      dmgParts.push(`универсальное ${raw.dmg2}`);
+      dmgParts.push(i18n.t('itemDesc.versatile', { ns: 'game', dmg: raw.dmg2 }));
     }
     if (dmgParts.length > 0) parts.push(dmgParts.join(', '));
 
@@ -182,7 +199,7 @@ function buildDescription(raw: RawItemData): string {
     }
 
     if (raw.range) {
-      parts.push(`Дальность: ${raw.range} фт.`);
+      parts.push(i18n.t('itemDesc.range', { ns: 'game', range: raw.range }));
     }
 
     if (raw.mastery && raw.mastery.length > 0) {
@@ -193,32 +210,32 @@ function buildDescription(raw: RawItemData): string {
           return getMasteryName(code);
         })
         .filter(Boolean);
-      if (masteries.length > 0) parts.push(`Мастерство: ${masteries.join(', ')}`);
+      if (masteries.length > 0) parts.push(i18n.t('itemDesc.mastery', { ns: 'game', list: masteries.join(', ') }));
     }
 
     if (raw.bonusWeapon) {
-      parts.push(`Бонус: ${raw.bonusWeapon}`);
+      parts.push(i18n.t('itemDesc.bonus', { ns: 'game', bonus: raw.bonusWeapon }));
     }
   }
 
   // Доспехи — КД
   if (['LA', 'MA', 'HA', 'S'].includes(typeCode)) {
     if (typeCode === 'S') {
-      parts.push(`КД +${raw.ac ?? 2}`);
+      parts.push(i18n.t('itemDesc.acShield', { ns: 'game', ac: raw.ac ?? 2 }));
     } else if (typeCode === 'LA') {
-      parts.push(`КД ${raw.ac} + модификатор Ловкости`);
+      parts.push(i18n.t('itemDesc.acLight', { ns: 'game', ac: raw.ac }));
     } else if (typeCode === 'MA') {
-      parts.push(`КД ${raw.ac} + модификатор Ловкости (макс. 2)`);
+      parts.push(i18n.t('itemDesc.acMedium', { ns: 'game', ac: raw.ac }));
     } else if (typeCode === 'HA') {
-      parts.push(`КД ${raw.ac}`);
+      parts.push(i18n.t('itemDesc.acHeavy', { ns: 'game', ac: raw.ac }));
     }
 
     if (raw.strength) {
-      parts.push(`Требуется Сила ${raw.strength}`);
+      parts.push(i18n.t('itemDesc.reqStrength', { ns: 'game', str: raw.strength }));
     }
 
     if (raw.stealth) {
-      parts.push('Помеха Скрытности');
+      parts.push(i18n.t('itemDesc.stealthDisadvantage', { ns: 'game' }));
     }
   }
 
@@ -230,9 +247,9 @@ function buildDescription(raw: RawItemData): string {
   // Настройка
   if (raw.reqAttune) {
     if (typeof raw.reqAttune === 'string') {
-      parts.push(`Требуется настройка: ${raw.reqAttune}`);
+      parts.push(i18n.t('itemDesc.reqAttuneText', { ns: 'game', text: raw.reqAttune }));
     } else {
-      parts.push('Требуется настройка');
+      parts.push(i18n.t('itemDesc.reqAttune', { ns: 'game' }));
     }
   }
 
@@ -247,26 +264,26 @@ function buildDisplayType(raw: RawItemData): string {
   if (raw.weapon || typeCode === 'M' || typeCode === 'R') {
     const cat = raw.weaponCategory
       ? getWeaponCategoryName(raw.weaponCategory)
-      : 'Weapon';
-    const ranged = typeCode === 'R' ? ' (дальнобойное)' : '';
+      : i18n.t('itemDisplayTypes.weapon', { ns: 'game' });
+    const ranged = typeCode === 'R' ? i18n.t('itemDisplayTypes.rangedSuffix', { ns: 'game' }) : '';
     return cat + ranged;
   }
 
   switch (typeCode) {
-    case 'LA': return 'Лёгкий доспех';
-    case 'MA': return 'Средний доспех';
-    case 'HA': return 'Тяжёлый доспех';
-    case 'S': return 'Щит';
-    case 'P': return 'Зелье';
-    case 'SC': return 'Свиток';
-    case 'WD': return 'Жезл';
-    case 'RD': return 'Жезл';
-    case 'RG': return 'Кольцо';
-    case 'A': return 'Боеприпас';
-    case 'AT': return 'Инструменты';
-    case 'G': return 'Снаряжение';
-    case 'W': return 'Волшебный предмет';
-    default: return 'Предмет';
+    case 'LA': return i18n.t('itemDisplayTypes.LA', { ns: 'game' });
+    case 'MA': return i18n.t('itemDisplayTypes.MA', { ns: 'game' });
+    case 'HA': return i18n.t('itemDisplayTypes.HA', { ns: 'game' });
+    case 'S': return i18n.t('itemDisplayTypes.S', { ns: 'game' });
+    case 'P': return i18n.t('itemDisplayTypes.P', { ns: 'game' });
+    case 'SC': return i18n.t('itemDisplayTypes.SC', { ns: 'game' });
+    case 'WD': return i18n.t('itemDisplayTypes.WD', { ns: 'game' });
+    case 'RD': return i18n.t('itemDisplayTypes.WD', { ns: 'game' });
+    case 'RG': return i18n.t('itemDisplayTypes.RG', { ns: 'game' });
+    case 'A': return i18n.t('itemDisplayTypes.A', { ns: 'game' });
+    case 'AT': return i18n.t('itemDisplayTypes.AT', { ns: 'game' });
+    case 'G': return i18n.t('itemDisplayTypes.G', { ns: 'game' });
+    case 'W': return i18n.t('itemDisplayTypes.W', { ns: 'game' });
+    default: return i18n.t('itemDisplayTypes.default', { ns: 'game' });
   }
 }
 
@@ -433,7 +450,14 @@ const ALL_RAW: RawItemData[] = [
   flameTongue as unknown as RawItemData,
 ];
 
-export const ITEM_TEMPLATES: ItemTemplate[] = ALL_RAW.map(toItemTemplate);
+// Статические шаблоны (оружие/броня/снаряжение из локальных JSON).
+// Считаем лениво и мемоизируем: toItemTemplate → buildDescription дёргает i18n.t,
+// а вызывать его на верхнем уровне модуля нельзя — i18n к этому моменту может быть
+// ещё не готов (ломает HMR и порядок инициализации). Сбрасывается в reset().
+let _staticTemplates: ItemTemplate[] | null = null;
+export function getStaticItemTemplates(): ItemTemplate[] {
+  return _staticTemplates ?? (_staticTemplates = ALL_RAW.map(toItemTemplate));
+}
 
 // Все шаблоны предметов (статические + items-base + items корневые)
 let _allTemplatesCache: ItemTemplate[] | null = null;
@@ -451,8 +475,12 @@ let _loadingPromise: Promise<ItemTemplate[]> | null = null;
 export function buildAllTemplatesCache(itemsBaseMod: { ALL_ITEMS_BASE: any[] }): void {
   if (_allTemplatesCache) return;
 
-  const seen = new Set(ITEM_TEMPLATES.map(t => t.name.toLowerCase()));
-  const allTemplates = [...ITEM_TEMPLATES];
+  // Пересобираем статические шаблоны из сырых данных (а не переиспользуем
+  // ITEM_TEMPLATES), чтобы описания/типы строились под текущую локаль — нужно
+  // для смены языка в рантайме (см. registry.reloadForLocale + reset).
+  const staticTemplates = ALL_RAW.map(toItemTemplate);
+  const seen = new Set(staticTemplates.map(t => t.name.toLowerCase()));
+  const allTemplates = [...staticTemplates];
 
   for (const raw of itemsBaseMod.ALL_ITEMS_BASE) {
     const key = raw.name.toLowerCase();
@@ -482,8 +510,11 @@ export function loadAllItemTemplates(onProgress?: (items: ItemTemplate[]) => voi
   if (_loadingPromise) return _loadingPromise;
 
   _loadingPromise = (async () => {
-    const seen = new Set(ITEM_TEMPLATES.map(t => t.name.toLowerCase()));
-    const allTemplates = [...ITEM_TEMPLATES];
+    // Пересобираем статические шаблоны из сырых данных под текущую локаль
+    // (см. buildAllTemplatesCache).
+    const staticTemplates = ALL_RAW.map(toItemTemplate);
+    const seen = new Set(staticTemplates.map(t => t.name.toLowerCase()));
+    const allTemplates = [...staticTemplates];
 
     // Phase 1: load items-base (155 files — fast, base weapons/armor/gear)
     try {
@@ -522,7 +553,7 @@ export function loadAllItemTemplates(onProgress?: (items: ItemTemplate[]) => voi
 }
 
 export function getAllItemTemplatesSync(): ItemTemplate[] {
-  return _allTemplatesCache ?? ITEM_TEMPLATES;
+  return _allTemplatesCache ?? getStaticItemTemplates();
 }
 
 export async function getAllItemTemplates(): Promise<ItemTemplate[]> {
@@ -531,10 +562,10 @@ export async function getAllItemTemplates(): Promise<ItemTemplate[]> {
 
 // Получить шаблон предмета по ID
 export function getItemTemplate(id: string): ItemTemplate | undefined {
-  return (_allTemplatesCache ?? ITEM_TEMPLATES).find(item => item.id === id);
+  return (_allTemplatesCache ?? getStaticItemTemplates()).find(item => item.id === id);
 }
 
 // Получить предметы по категории
 export function getItemsByCategory(category: ItemCategory): ItemTemplate[] {
-  return (_allTemplatesCache ?? ITEM_TEMPLATES).filter(item => item.category === category);
+  return (_allTemplatesCache ?? getStaticItemTemplates()).filter(item => item.category === category);
 }

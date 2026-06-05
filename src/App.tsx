@@ -11,7 +11,7 @@ import { Glossary } from './components/Glossary';
 import { TopNavBar } from './components/ui';
 import type { NavTab } from './components/ui';
 import { importCharacter } from './utils/storage';
-import { initRegistry } from './data/registry';
+import { initRegistry, reloadForLocale, isInitialized } from './data/registry';
 import type { LoadProgress } from './data/registry';
 import { PlusCircle, Users, Scroll, Library, Settings } from 'lucide-react';
 import { DiceRollProvider } from './components/DiceRollProvider';
@@ -143,6 +143,9 @@ function AppContent() {
   const [registryReady, setRegistryReady] = useState(false);
   const [registryProgress, setRegistryProgress] = useState<LoadProgress | null>(null);
   const [registryError, setRegistryError] = useState<string | null>(null);
+  // Перезагрузка игровых данных под новую локаль (см. эффект ниже).
+  const [reloadingLang, setReloadingLang] = useState(false);
+  const lastLangRef = useRef((i18n.language || 'en').split('-')[0]);
 
   const initialLocRef = useRef<NavLoc>(parseLocFromHash());
   const [currentView, setCurrentView] = useState<AppView>(initialLocRef.current.view);
@@ -168,6 +171,38 @@ function AppContent() {
       .then(() => setRegistryReady(true))
       .catch((e) => setRegistryError(String(e)));
   }, []);
+
+  // Смена языка в рантайме. Игровые данные (spells/classes/…) переводятся
+  // оверлеем на месте при загрузке, поэтому при 'languageChanged' их нужно
+  // перезагрузить под новую локаль. На время перезагрузки показываем экран
+  // загрузки (ранний return ниже): контентная часть размонтируется и затем
+  // монтируется заново, перечитывая обновлённые данные. Сам AppContent
+  // остаётся смонтированным, поэтому текущий вид и история навигации
+  // сохраняются. См. data/registry.reloadForLocale.
+  useEffect(() => {
+    const handler = (lng: string) => {
+      const base = (lng || 'en').split('-')[0];
+      if (base === lastLangRef.current) return;
+      lastLangRef.current = base;
+      // До завершения первичной инициализации перезагрузка не нужна:
+      // initRegistry сам прочитает актуальный i18n.language.
+      if (isInitialized()) setReloadingLang(true);
+    };
+    i18n.on('languageChanged', handler);
+    return () => { i18n.off('languageChanged', handler); };
+  }, []);
+
+  // Запускаем перезагрузку только после того, как экран загрузки отрисован,
+  // чтобы дочерние компоненты не прочитали полупустые массивы данных в момент
+  // сброса модулей.
+  useEffect(() => {
+    if (!reloadingLang) return;
+    let cancelled = false;
+    reloadForLocale()
+      .catch((e) => console.error('Failed to reload data for locale:', e))
+      .finally(() => { if (!cancelled) setReloadingLang(false); });
+    return () => { cancelled = true; };
+  }, [reloadingLang]);
 
   // --- Browser Back/Forward integration ---------------------------------
   // The app is a single page with state-driven views and no router. We mirror
@@ -253,7 +288,7 @@ function AppContent() {
     setGlossaryPrefilter(req);
   }, []);
 
-  if (!registryReady || loading) {
+  if (!registryReady || loading || reloadingLang) {
     if (registryError) {
       return (
         <div className="min-h-screen bg-bg-primary flex items-center justify-center">
@@ -261,7 +296,7 @@ function AppContent() {
         </div>
       );
     }
-    return <LoadingScreen progress={registryProgress} />;
+    return <LoadingScreen progress={reloadingLang ? null : registryProgress} />;
   }
 
   return (

@@ -24,7 +24,9 @@ export async function init(): Promise<void> {
 
   _initializing = (async () => {
     const mod = await import('../_bundles/itemproperties.json');
-    const items = (mod.default ?? mod) as ItemPropertyData[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as ItemPropertyData[];
     for (const data of items) {
       if (data && typeof data === 'object' && data.name && data.abbreviation) {
         ALL_ITEM_PROPERTIES.push(data as ItemPropertyData);
@@ -36,6 +38,13 @@ export async function init(): Promise<void> {
   })();
 
   return _initializing;
+}
+
+/** Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale). */
+export function reset(): void {
+  _initialized = false;
+  _initializing = null;
+  ALL_ITEM_PROPERTIES.length = 0;
 }
 
 const PREFERRED_SOURCES = ['XPHB', 'XDMG', 'PHB'];

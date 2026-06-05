@@ -99,6 +99,13 @@ export const getDamageTypeName = (key: string): string => {
   return i18n.t(`damageTypes.${key}`, { ns: 'game' });
 };
 
+// Перевод по ПОЛНОМУ имени типа урона ("fire", "necrotic", …) — в отличие от
+// getDamageTypeName, который ждёт однобуквенный код 5etools ("F", "N"). Нужен
+// для устойчивостей на листе персонажа, где типы хранятся полными именами.
+export const getDamageTypeFullName = (key: string): string => {
+  return i18n.t(`damageTypesFull.${key}`, { ns: 'game', defaultValue: key });
+};
+
 export const getPropertyName = (key: string): string => {
   return i18n.t(`weaponProperties.${key}`, { ns: 'game' });
 };

@@ -104,6 +104,22 @@
     "slashing": "Slashing",
     "thunder": "Thunder"
   },
+  "creatureTypes": {
+    "aberration": "Aberration",
+    "beast": "Beast",
+    "celestial": "Celestial",
+    "construct": "Construct",
+    "dragon": "Dragon",
+    "elemental": "Elemental",
+    "fey": "Fey",
+    "fiend": "Fiend",
+    "giant": "Giant",
+    "humanoid": "Humanoid",
+    "monstrosity": "Monstrosity",
+    "ooze": "Ooze",
+    "plant": "Plant",
+    "undead": "Undead"
+  },
   "healingType": "healing",
   "weaponProperties": {
     "F": "Finesse",
@@ -131,6 +147,37 @@
     "simple": "Simple Weapons",
     "martial": "Martial Weapons",
     "rangedMartial": "Ranged Martial Weapons"
+  },
+  "itemDisplayTypes": {
+    "weapon": "Weapon",
+    "rangedSuffix": " (ranged)",
+    "LA": "Light Armor",
+    "MA": "Medium Armor",
+    "HA": "Heavy Armor",
+    "S": "Shield",
+    "P": "Potion",
+    "SC": "Scroll",
+    "WD": "Wand",
+    "RG": "Ring",
+    "A": "Ammunition",
+    "AT": "Tools",
+    "G": "Gear",
+    "W": "Wondrous Item",
+    "default": "Item"
+  },
+  "itemDesc": {
+    "versatile": "versatile {{dmg}}",
+    "range": "Range: {{range}} ft.",
+    "mastery": "Mastery: {{list}}",
+    "bonus": "Bonus: {{bonus}}",
+    "acShield": "AC +{{ac}}",
+    "acLight": "AC {{ac}} + Dexterity modifier",
+    "acMedium": "AC {{ac}} + Dexterity modifier (max 2)",
+    "acHeavy": "AC {{ac}}",
+    "reqStrength": "Requires Strength {{str}}",
+    "stealthDisadvantage": "Stealth Disadvantage",
+    "reqAttuneText": "Requires attunement: {{text}}",
+    "reqAttune": "Requires attunement"
   },
   "weapons": {
     "club": "Club",
@@ -279,6 +326,44 @@
     "O": "Origin Feat",
     "EB": "Epic Boon",
     "FS": "Fighting Style"
+  },
+  "ruleTypes": {
+    "O": "Optional Rule",
+    "V": "Variant Rule",
+    "C": "Core Rule",
+    "U": "Unclassified"
+  },
+  "featureTypes": {
+    "EI": "Invocation",
+    "MM": "Metamagic",
+    "MV": "Maneuver",
+    "MV_B": "Maneuver",
+    "MV_G": "Maneuver",
+    "AS": "Fighting Style",
+    "FS_F": "Fighting Style",
+    "OG": "Pact Boon",
+    "ED": "Elemental Discipline",
+    "PB": "Pact Spell",
+    "AI": "Artificer Infusion",
+    "EI_UA2022WL": "Invocation (UA)"
+  },
+  "transformations": {
+    "AH": "Aberrant Horror",
+    "F": "Fey",
+    "Fi": "Fiend",
+    "H": "Hag",
+    "L": "Lich",
+    "Ly": "Lycanthrope",
+    "O": "Ooze",
+    "P": "Primordial",
+    "SG": "Shadowsteel Ghoul",
+    "Ser": "Seraph",
+    "Spec": "Specter",
+    "V": "Vampire"
+  },
+  "transformationKinds": {
+    "TB": "Transformation Boon",
+    "TF": "Transformation Flaw"
   },
   "toolProficiencies": {
     "thieves_tools": "Thieves' Tools",

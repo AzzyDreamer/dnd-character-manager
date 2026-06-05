@@ -1,5 +1,6 @@
 // Загрузка всех заклинаний из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
+import { makeLabelProxy } from '../labelProxy';
 import { asset } from '../../utils/asset';
 
 export interface SpellData {
@@ -48,7 +49,9 @@ export async function init(): Promise<void> {
 
   _initializing = (async () => {
     const mod = await import('../_bundles/spells.json');
-    const items = (mod.default ?? mod) as SpellData[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as SpellData[];
 
     for (const data of items) {
       if (data && typeof data === 'object' && data.name && data.entries) {
@@ -65,6 +68,13 @@ export async function init(): Promise<void> {
   })();
 
   return _initializing;
+}
+
+/** Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale). */
+export function reset(): void {
+  _initialized = false;
+  _initializing = null;
+  ALL_SPELLS.length = 0;
 }
 
 export function getSpellByName(name: string): SpellData | undefined {
@@ -97,16 +107,9 @@ export function getSpellsBySchool(school: string): SpellData[] {
   return ALL_SPELLS.filter(s => s.school === school);
 }
 
-export const SCHOOL_NAMES: Record<string, string> = {
-  A: 'Ограждение',
-  C: 'Вызов',
-  D: 'Прорицание',
-  E: 'Очарование',
-  V: 'Воплощение',
-  I: 'Иллюзия',
-  N: 'Некромантия',
-  T: 'Преобразование',
-};
+// Названия школ магии берём из i18n (spells.schoolLabels), чтобы они переключались
+// вместе с языком. Доступ остаётся прежним: SCHOOL_NAMES[code].
+export const SCHOOL_NAMES: Record<string, string> = makeLabelProxy('schoolLabels', 'spells');
 
 export function getSpellImageUrl(spellName: string): string {
   // Image files are named after the English spell name. Under a non-English
