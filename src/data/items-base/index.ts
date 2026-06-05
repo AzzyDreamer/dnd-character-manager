@@ -27,7 +27,9 @@ export async function init(): Promise<void> {
 
   _initializing = (async () => {
     const mod = await import('../_bundles/items-base.json');
-    const items = (mod.default ?? mod) as ItemBaseData[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as ItemBaseData[];
 
     for (const data of items) {
       if (data && typeof data === 'object' && data.name) {
@@ -41,6 +43,13 @@ export async function init(): Promise<void> {
   })();
 
   return _initializing;
+}
+
+/** Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale). */
+export function reset(): void {
+  _initialized = false;
+  _initializing = null;
+  ALL_ITEMS_BASE.length = 0;
 }
 
 export function getItemBaseByName(name: string): ItemBaseData | undefined {

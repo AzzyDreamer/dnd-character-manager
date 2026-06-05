@@ -2,6 +2,15 @@ import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scroll, Star, Wand2, ChevronRight, X, Loader2, ArrowUpDown, ArrowUp, ArrowDown, Filter, ChevronDown } from 'lucide-react';
 import { useBackDismiss } from '../hooks/useBackDismiss';
+import { normalizeSkillKey } from '../utils/dnd';
+import { getClassById, translateProficiencies } from '../data/classes';
+
+// Приводит сырой ключ данных ("disguise kit", "aberrant dragonmark") к читаемому
+// виду с заглавных букв. Полная локализация инструментов/черт предыстории — за
+// пайплайном i18n gamedata; здесь хотя бы убираем «ключевой» вид.
+function prettifyDataKey(key: string): string {
+  return key.split(/\s+/).map(w => (w ? w.charAt(0).toUpperCase() + w.slice(1) : w)).join(' ');
+}
 
 // ─── Типы ───
 interface RegistryEntry {
@@ -324,7 +333,7 @@ async function loadCategory(category: GlossaryCategory): Promise<CategoryData> {
           allItems.push(item);
         }
       }
-      for (const t of items.ITEM_TEMPLATES) {
+      for (const t of items.getStaticItemTemplates()) {
         const key = t.name.toLowerCase();
         if (!seen.has(key)) {
           seen.add(key);
@@ -1119,10 +1128,10 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                 {(d.savingThrow || d.damageInflict) && (
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 pt-2 border-t border-border-default">
                     {d.savingThrow && (
-                      <div><span className="text-text-secondary">{t('spell.savingThrow')} </span><span className="text-text-primary">{d.savingThrow.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('spell.savingThrow')} </span><span className="text-text-primary">{d.savingThrow.map((s: string) => t(`abilities.${s}`, { ns: 'game', defaultValue: s })).join(', ')}</span></div>
                     )}
                     {d.damageInflict && (
-                      <div><span className="text-text-secondary">{t('spell.damageType')} </span><span className="text-text-primary">{d.damageInflict.join(', ')}</span></div>
+                      <div><span className="text-text-secondary">{t('spell.damageType')} </span><span className="text-text-primary">{d.damageInflict.map((dmg: string) => t(`damageTypesFull.${dmg}`, { ns: 'game', defaultValue: dmg })).join(', ')}</span></div>
                     )}
                   </div>
                 )}
@@ -1165,12 +1174,25 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                     <div><span className="text-text-secondary">{t('species.darkvision')} </span><span className="text-text-primary">{d.darkvision} {t('species.ft')}</span></div>
                   )}
                   {d.creatureTypes && (
-                    <div><span className="text-text-secondary">{t('species.creatureType')} </span><span className="text-text-primary">{d.creatureTypes.join(', ')}</span></div>
+                    <div><span className="text-text-secondary">{t('species.creatureType')} </span><span className="text-text-primary">{d.creatureTypes.map((ct: string) => t(`creatureTypes.${ct}`, { ns: 'game', defaultValue: ct })).join(', ')}</span></div>
                   )}
                 </div>
-                {d.resist && (
-                  <div><span className="text-text-secondary">{t('species.resistance')} </span><span className="text-text-primary">{d.resist.join(', ')}</span></div>
-                )}
+                {Array.isArray(d.resist) && (() => {
+                  // resist может содержать строки ("fire") и объекты ({ resist:[...] }
+                  // или { choose:{ from:[...] } }) — раньше объекты давали "[object Object]".
+                  const dt = (x: string) => t(`damageTypesFull.${x}`, { ns: 'game', defaultValue: x });
+                  const parts: string[] = [];
+                  for (const r of d.resist) {
+                    if (typeof r === 'string') parts.push(dt(r));
+                    else if (r && typeof r === 'object') {
+                      const arr = (r.resist || r.choose?.from) as string[] | undefined;
+                      if (Array.isArray(arr)) parts.push(arr.map(dt).join('/'));
+                    }
+                  }
+                  return parts.length > 0 ? (
+                    <div><span className="text-text-secondary">{t('species.resistance')} </span><span className="text-text-primary">{parts.join(', ')}</span></div>
+                  ) : null;
+                })()}
                 {d.traitTags && (
                   <div><span className="text-text-secondary">{t('species.traits')} </span><span className="text-text-primary">{d.traitTags.join(', ')}</span></div>
                 )}
@@ -1185,12 +1207,15 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                 )}
                 {d.skillProficiencies && d.skillProficiencies.length > 0 && (
                   <div><span className="text-text-secondary">{t('background.skills')} </span><span className="text-text-primary">
-                    {d.skillProficiencies.map((sp: any) => Object.keys(sp).filter(k => k !== 'choose').join(', ')).join('; ')}
+                    {d.skillProficiencies.map((sp: any) => Object.keys(sp).filter(k => k !== 'choose')
+                      .map(k => { const nk = normalizeSkillKey(k); return t(`skills.${nk}`, { ns: 'game', defaultValue: prettifyDataKey(k) }); })
+                      .join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.toolProficiencies && d.toolProficiencies.length > 0 && (
                   <div><span className="text-text-secondary">{t('background.tools')} </span><span className="text-text-primary">
-                    {d.toolProficiencies.map((tp: any) => Object.keys(tp).filter(k => k !== 'choose').join(', ')).join('; ')}
+                    {d.toolProficiencies.map((tp: any) => Object.keys(tp).filter(k => k !== 'choose')
+                      .map(k => prettifyDataKey(k)).join(', ')).join('; ')}
                   </span></div>
                 )}
                 {d.languageProficiencies && d.languageProficiencies.length > 0 && (
@@ -1206,7 +1231,7 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                 )}
                 {d.feats && d.feats.length > 0 && (
                   <div><span className="text-text-secondary">{t('background.feat')} </span><span className="text-text-primary">
-                    {d.feats.map((f: any) => Object.keys(f)[0]?.split('|')[0]).join(', ')}
+                    {d.feats.map((f: any) => prettifyDataKey(Object.keys(f)[0]?.split('|')[0] || '')).join(', ')}
                   </span></div>
                 )}
                 {d.startingEquipment && d.startingEquipment.length > 0 && (
@@ -1280,27 +1305,34 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
                   <div><span className="text-text-secondary">{t('classDetail.hitDie')} </span><span className="text-text-primary font-bold">{d.hitDie}</span></div>
                 )}
                 {d.primaryAbility && (
-                  <div><span className="text-text-secondary">{t('classDetail.primaryAbility')} </span><span className="text-text-primary">{d.primaryAbility.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.primaryAbility')} </span><span className="text-text-primary">{d.primaryAbility.map((a: string) => t(`abilities.${a.toLowerCase()}`, { ns: 'game', defaultValue: a })).join(', ')}</span></div>
                 )}
                 {d.savingThrows && (
-                  <div><span className="text-text-secondary">{t('classDetail.savingThrows')} </span><span className="text-text-primary">{d.savingThrows.join(', ')}</span></div>
+                  <div><span className="text-text-secondary">{t('classDetail.savingThrows')} </span><span className="text-text-primary">{d.savingThrows.map((a: string) => t(`abilities.${a.toLowerCase()}`, { ns: 'game', defaultValue: a })).join(', ')}</span></div>
                 )}
                 {d.spellcaster !== undefined && (
                   <div><span className="text-text-secondary">{t('classDetail.spellcaster')} </span><span className="text-text-primary">{d.spellcaster ? t('classDetail.yes') : t('classDetail.no')}</span></div>
                 )}
-                {d.proficiencies && (
-                  <>
-                    {d.proficiencies.armor?.length > 0 && (
-                      <div><span className="text-text-secondary">{t('classDetail.armor')} </span><span className="text-text-primary">{d.proficiencies.armor.join(', ')}</span></div>
-                    )}
-                    {d.proficiencies.weapons?.length > 0 && (
-                      <div><span className="text-text-secondary">{t('classDetail.weapons')} </span><span className="text-text-primary">{d.proficiencies.weapons.join(', ')}</span></div>
-                    )}
-                    {d.proficiencies.tools?.length > 0 && (
-                      <div><span className="text-text-secondary">{t('classDetail.tools')} </span><span className="text-text-primary">{d.proficiencies.tools.join(', ')}</span></div>
-                    )}
-                  </>
-                )}
+                {d.proficiencies && (() => {
+                  // Данные классов хранят владения английскими фразами ("Light armor").
+                  // В реестре CLASS_REGISTRY они лежат ключами с готовым переводом —
+                  // берём перевод оттуда по id, иначе показываем исходные фразы.
+                  const classDef = d.id ? getClassById(d.id) : undefined;
+                  const prof = classDef ? translateProficiencies(classDef) : d.proficiencies;
+                  return (
+                    <>
+                      {prof.armor?.length > 0 && (
+                        <div><span className="text-text-secondary">{t('classDetail.armor')} </span><span className="text-text-primary">{prof.armor.join(', ')}</span></div>
+                      )}
+                      {prof.weapons?.length > 0 && (
+                        <div><span className="text-text-secondary">{t('classDetail.weapons')} </span><span className="text-text-primary">{prof.weapons.join(', ')}</span></div>
+                      )}
+                      {prof.tools?.length > 0 && (
+                        <div><span className="text-text-secondary">{t('classDetail.tools')} </span><span className="text-text-primary">{prof.tools.join(', ')}</span></div>
+                      )}
+                    </>
+                  );
+                })()}
                 {Array.isArray(d.fluff) && d.fluff.length > 0 && (
                   <div className="pt-2 border-t border-border-default text-text-primary prose prose-invert prose-sm max-w-none">
                     <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
@@ -1370,26 +1402,32 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
               </div>
             )}
 
-            {/* Fluff текст */}
-            {d.fluff && (
-              <div className="pt-4 border-t border-border-default">
-                <div className="text-sm italic text-text-secondary">
-                  {Array.isArray(d.fluff) ? (
-                    <EntryRenderer entries={d.fluff} context={d.name || ''} onNavigate={handleNavigate} />
-                  ) : typeof d.fluff === 'object' && d.fluff.entries ? (
-                    <EntryRenderer entries={d.fluff.entries} context={d.name || ''} onNavigate={handleNavigate} />
-                  ) : (
-                    String(d.fluff)
-                  )}
+            {/* Fluff текст. У заклинаний fluff — это объект { images: [...] } без
+                entries, поэтому раньше тут рендерился "[object Object]". Берём
+                только реальный текст (массив строк или { entries: [...] }). */}
+            {(() => {
+              const fluffEntries = Array.isArray(d.fluff)
+                ? d.fluff
+                : (d.fluff && typeof d.fluff === 'object' && Array.isArray(d.fluff.entries))
+                  ? d.fluff.entries
+                  : typeof d.fluff === 'string'
+                    ? [d.fluff]
+                    : null;
+              if (!fluffEntries || fluffEntries.length === 0) return null;
+              return (
+                <div className="pt-4 border-t border-border-default">
+                  <div className="text-sm italic text-text-secondary">
+                    <EntryRenderer entries={fluffEntries} context={d.name || ''} onNavigate={handleNavigate} />
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Классы для заклинаний */}
             {type === 'spells' && d.classes?.fromClassList && (
               <div className="pt-4 border-t border-border-default text-sm">
                 <span className="text-text-secondary">{t('spell.classes')} </span>
-                <span className="text-text-primary">{d.classes.fromClassList.map((c: any) => c.name).join(', ')}</span>
+                <span className="text-text-primary">{d.classes.fromClassList.map((c: any) => t(`classes.${String(c.name).toLowerCase().replace(/\s+/g, '-')}.name`, { ns: 'game', defaultValue: c.name })).join(', ')}</span>
               </div>
             )}
           </div>

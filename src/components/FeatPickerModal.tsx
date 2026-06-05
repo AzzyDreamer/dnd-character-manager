@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores } from '../types';
 import { type FeatData, getFeatImageUrl } from '../data/feats';
 import { getAbilityModifier, getAbilityName, getAbilityShort, ABILITY_SHORT_TO_LONG, getSkillName, SKILL_ABILITIES } from '../utils/dnd';
-import { getDamageTypeName } from '../data/items/constants';
+import { getDamageTypeFullName } from '../data/items/constants';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
 import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
@@ -799,7 +799,7 @@ function FeatTab({
               <div className="border-t border-border-default pt-3">
                 <h4 className="text-sm font-medium text-text-primary mb-2">{t('featPicker.resistancesTitle')}</h4>
                 <div className="text-xs text-text-secondary">
-                  {featResists.fixed.map(r => getDamageTypeName(r)).join(', ')}
+                  {featResists.fixed.map(r => getDamageTypeFullName(r)).join(', ')}
                 </div>
               </div>
             )}
@@ -955,7 +955,7 @@ function FeatResistanceChoicePanel({
               }`}
             >
               {isChosen && <Check size={10} className="inline mr-1" />}
-              {getDamageTypeName(type)}
+              {getDamageTypeFullName(type)}
             </button>
           );
         })}

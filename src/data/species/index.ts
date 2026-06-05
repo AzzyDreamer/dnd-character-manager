@@ -1,5 +1,6 @@
 // Загрузка всех видов (рас) из единого бандла (scripts/bundle-data.mjs).
 import { applyOverlay } from '../translationOverlay';
+import { makeLabelProxy } from '../labelProxy';
 
 export interface SpeciesData {
   name: string;
@@ -130,7 +131,9 @@ export async function init(): Promise<void> {
 
   _initializing = (async () => {
     const mod = await import('../_bundles/species.json');
-    const items = (mod.default ?? mod) as any[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as any[];
 
     for (const data of items) {
       let base: SpeciesData | null = null;
@@ -155,6 +158,13 @@ export async function init(): Promise<void> {
   })();
 
   return _initializing;
+}
+
+/** Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale). */
+export function reset(): void {
+  _initialized = false;
+  _initializing = null;
+  ALL_SPECIES.length = 0;
 }
 
 const PREFERRED_SOURCES = ['XPHB', 'PHB'];
@@ -213,11 +223,6 @@ export function getVariantsFor(baseName: string, source?: string): SpeciesData[]
   );
 }
 
-export const SIZE_NAMES: Record<string, string> = {
-  T: 'Крошечный',
-  S: 'Маленький',
-  M: 'Средний',
-  L: 'Большой',
-  H: 'Огромный',
-  G: 'Гигантский',
-};
+// Названия размеров берём из i18n (character.creation.sizes), чтобы они
+// переключались вместе с языком. Доступ остаётся прежним: SIZE_NAMES[code].
+export const SIZE_NAMES: Record<string, string> = makeLabelProxy('creation.sizes', 'character');

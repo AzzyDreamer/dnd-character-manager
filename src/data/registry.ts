@@ -48,86 +48,94 @@ function getPhaseLabel(key: string): string {
   return i18n.t(`registry.${key}`, { ns: 'game' });
 }
 
+function makeReporter(onProgress?: (p: LoadProgress) => void): (key: string) => void {
+  const total = PHASE_KEYS.length;
+  let loaded = 0;
+  return (key: string) => {
+    loaded++;
+    onProgress?.({ phase: getPhaseLabel(key), loaded, total });
+  };
+}
+
+// Загрузка и инициализация всех модулей в фиксированном порядке.
+// Идемпотентна по отношению к dynamic import (модули кешируются рантаймом),
+// а init() каждого модуля сам решает, нужна ли повторная инициализация —
+// после reset() он переклонирует исходный JSON и применит оверлей текущего языка.
+async function loadModules(report: (key: string) => void): Promise<void> {
+  _spells = await import('./spells');
+  await _spells.init();
+  report('spells');
+
+  _feats = await import('./feats');
+  await _feats.init();
+  report('feats');
+
+  _species = await import('./species');
+  await _species.init();
+  report('species');
+
+  _conditions = await import('./conditionsdiseases');
+  await _conditions.init();
+  report('conditions');
+
+  _senses = await import('./senses');
+  await _senses.init();
+  report('senses');
+
+  _skills = await import('./skills');
+  await _skills.init();
+  report('skills');
+
+  _variantrule = await import('./variantrule');
+  await _variantrule.init();
+  report('rules');
+
+  _optfeatures = await import('./optionalfeatures');
+  await _optfeatures.init();
+  report('optfeatures');
+
+  _backgrounds = await import('./backgrounds/jsonBackgrounds');
+  await _backgrounds.init();
+  report('backgrounds');
+
+  _classes = await import('./classes/classJsonLoader');
+  await _classes.init();
+  report('classes');
+
+  _subclasses = await import('./classes/subclassJsonLoader');
+  await _subclasses.init();
+  report('subclasses');
+
+  _itemsBase = await import('./items-base');
+  await _itemsBase.init();
+  report('itemsBase');
+
+  _items = await import('./items');
+  await _items.init();
+  _items.buildAllTemplatesCache(_itemsBase);
+  report('items');
+
+  _charCreationOptions = await import('./charactercreationoptions');
+  await _charCreationOptions.init();
+  report('charOptions');
+
+  _actions = await import('./actions');
+  await _actions.init();
+  report('actions');
+
+  _itemProperties = await import('./itemproperties');
+  await _itemProperties.init();
+  report('itemProperties');
+}
+
 // ─── Инициализация с прогрессом ───
 export async function initRegistry(onProgress?: (p: LoadProgress) => void): Promise<void> {
   if (_initialized) return;
   if (_initializing) return _initializing;
 
-  const total = PHASE_KEYS.length;
-  let loaded = 0;
-
-  const report = (key: string) => {
-    loaded++;
-    onProgress?.({ phase: getPhaseLabel(key), loaded, total });
-  };
-
   _initializing = (async () => {
     try {
-      _spells = await import('./spells');
-      await _spells.init();
-      report('spells');
-
-      _feats = await import('./feats');
-      await _feats.init();
-      report('feats');
-
-      _species = await import('./species');
-      await _species.init();
-      report('species');
-
-      _conditions = await import('./conditionsdiseases');
-      await _conditions.init();
-      report('conditions');
-
-      _senses = await import('./senses');
-      await _senses.init();
-      report('senses');
-
-      _skills = await import('./skills');
-      await _skills.init();
-      report('skills');
-
-      _variantrule = await import('./variantrule');
-      await _variantrule.init();
-      report('rules');
-
-      _optfeatures = await import('./optionalfeatures');
-      await _optfeatures.init();
-      report('optfeatures');
-
-      _backgrounds = await import('./backgrounds/jsonBackgrounds');
-      await _backgrounds.init();
-      report('backgrounds');
-
-      _classes = await import('./classes/classJsonLoader');
-      await _classes.init();
-      report('classes');
-
-      _subclasses = await import('./classes/subclassJsonLoader');
-      await _subclasses.init();
-      report('subclasses');
-
-      _itemsBase = await import('./items-base');
-      await _itemsBase.init();
-      report('itemsBase');
-
-      _items = await import('./items');
-      await _items.init();
-      _items.buildAllTemplatesCache(_itemsBase);
-      report('items');
-
-      _charCreationOptions = await import('./charactercreationoptions');
-      await _charCreationOptions.init();
-      report('charOptions');
-
-      _actions = await import('./actions');
-      await _actions.init();
-      report('actions');
-
-      _itemProperties = await import('./itemproperties');
-      await _itemProperties.init();
-      report('itemProperties');
-
+      await loadModules(makeReporter(onProgress));
       _initialized = true;
     } catch (e) {
       console.error('Failed to initialize registry:', e);
@@ -137,6 +145,28 @@ export async function initRegistry(onProgress?: (p: LoadProgress) => void): Prom
   })();
 
   return _initializing;
+}
+
+// Сбросить все загруженные модули, чтобы следующий loadModules() переклонировал
+// исходный JSON и применил оверлей под новую локаль.
+function resetAllModules(): void {
+  for (const m of [
+    _spells, _feats, _species, _conditions, _senses, _skills,
+    _variantrule, _optfeatures, _backgrounds, _classes, _subclasses,
+    _itemsBase, _items, _charCreationOptions, _actions, _itemProperties,
+  ]) {
+    m?.reset?.();
+  }
+}
+
+// ─── Перезагрузка данных под текущую локаль i18n ───
+// Игровые данные мутируются оверлеем переводов на месте при загрузке, поэтому
+// смена языка требует сбросить модули и пройти init заново. Вызывается из
+// App при событии i18next 'languageChanged'. См. translationOverlay.ts.
+export async function reloadForLocale(onProgress?: (p: LoadProgress) => void): Promise<void> {
+  if (!_initialized) return initRegistry(onProgress);
+  resetAllModules();
+  await loadModules(makeReporter(onProgress));
 }
 
 export function isInitialized(): boolean {

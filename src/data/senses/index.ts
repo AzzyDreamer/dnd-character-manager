@@ -22,7 +22,9 @@ export async function init(): Promise<void> {
 
   _initializing = (async () => {
     const mod = await import('../_bundles/senses.json');
-    const items = (mod.default ?? mod) as SenseData[];
+    // Клонируем исходный JSON: оверлей переводов мутирует объекты на месте, а
+    // кешированный импорт должен оставаться английским для смены языка в рантайме.
+    const items = structuredClone(mod.default ?? mod) as SenseData[];
     for (const data of items) {
       if (data && typeof data === 'object' && data.name) {
         ALL_SENSES.push(data as SenseData);
@@ -34,6 +36,13 @@ export async function init(): Promise<void> {
   })();
 
   return _initializing;
+}
+
+/** Сброс для повторной загрузки под другую локаль (см. registry.reloadForLocale). */
+export function reset(): void {
+  _initialized = false;
+  _initializing = null;
+  ALL_SENSES.length = 0;
 }
 
 export function getSenseByName(name: string): SenseData | undefined {

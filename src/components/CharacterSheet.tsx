@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
-import { getDamageTypeName } from '../data/items/constants';
+import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
@@ -2579,7 +2579,7 @@ function ResistancePickerModal({
                       ? 'border-gold bg-gold/15 text-gold'
                       : 'border-border-default/50 bg-bg-primary/40 text-text-secondary hover:border-border-default hover:text-text-primary'
                   }`}
-                  title={getDamageTypeName(type)}
+                  title={getDamageTypeFullName(type)}
                 >
                   <img
                     src={getDamageTypeImageUrl(type)}
@@ -2588,7 +2588,7 @@ function ResistancePickerModal({
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                   <span className="text-[9px] leading-tight text-center truncate w-full">
-                    {getDamageTypeName(type)}
+                    {getDamageTypeFullName(type)}
                   </span>
                 </button>
               ))}
@@ -2981,7 +2981,7 @@ function ResistancesSection({
                       />
                       <ResistanceIndicator modifier={entry.modifier} />
                     </div>
-                    <span>{getDamageTypeName(entry.type)}</span>
+                    <span>{getDamageTypeFullName(entry.type)}</span>
                     <span className="text-[9px] opacity-60">({modInfo?.shortLabel})</span>
                     <button
                       onClick={() => removeResistance(idx)}

@@ -14,6 +14,7 @@ import {
   getAbilityShort,
   SKILL_ABILITIES,
   getSkillName,
+  normalizeSkillKey,
   POINT_BUY_TOTAL,
   POINT_BUY_MIN,
   POINT_BUY_MAX,
@@ -76,7 +77,9 @@ function getBgFeatDisplayName(bg: JsonBackgroundData): string {
 
 function getBgSkills(bg: JsonBackgroundData): string[] {
   if (!bg.skillProficiencies?.length) return [];
-  return Object.keys(bg.skillProficiencies[0]).filter(k => k !== 'choose');
+  // Данные предысторий хранят навыки в формате 5etools ("animal handling"),
+  // приводим к внутренним camelCase-ключам, иначе перевод/иконка/зачёт ломаются.
+  return Object.keys(bg.skillProficiencies[0]).filter(k => k !== 'choose').map(normalizeSkillKey);
 }
 
 function getBgToolProficiency(bg: JsonBackgroundData): string {
@@ -1762,7 +1765,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                       <span className="text-text-secondary">{t('creation.background.skills')}:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {getBgSkills(selectedBackground).map(s => (
-                          <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{s}</span>
+                          <span key={s} className="px-2 py-0.5 bg-blue-900/40 text-blue-300 rounded text-xs">{getSkillName(s)}</span>
                         ))}
                       </div>
                     </div>

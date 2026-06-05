@@ -54,6 +54,18 @@ export const SKILL_ABILITIES: Record<string, keyof AbilityScores> = {
   survival: 'wisdom'
 };
 
+// Нормализует ключ навыка из данных 5etools ("animal handling", "sleight of hand")
+// во внутренний camelCase-ключ ("animalHandling", "sleightOfHand"). Данные классов
+// уже в camelCase и возвращаются как есть. Нужно для предысторий, где навыки
+// записаны в формате 5etools — без этого перевод/иконка/зачёт по ним ломались.
+export function normalizeSkillKey(raw: string): string {
+  if (SKILL_ABILITIES[raw]) return raw;
+  const camel = raw.trim().toLowerCase().split(/\s+/)
+    .map((w, i) => (i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join('');
+  return SKILL_ABILITIES[camel] ? camel : raw;
+}
+
 // i18n-backed name getters (replace old static dictionaries)
 export const getSkillName = (key: string): string => {
   return i18n.t(`skills.${key}`, { ns: 'game' });
