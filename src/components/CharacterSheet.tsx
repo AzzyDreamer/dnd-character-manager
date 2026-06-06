@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
-import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
+import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier, ResourceTracker } from '../types';
+import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
@@ -10,8 +10,9 @@ import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
-import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores } from '../utils/classEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative } from '../utils/classEffects';
 import { getAllItemTemplatesSync } from '../data/items';
+import { isShortRestResource } from '../utils/classResources';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
@@ -180,6 +181,31 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     onUpdate(updated);
   }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Миграция: проставить стабильный английский ключ feat.nameEn у персонажей,
+  // созданных до его появления. Без него логика статов (FEAT_STAT_EFFECTS, Alert,
+  // Medium Armor Master, …) не матчит черты под локализованными именами (напр. RU).
+  // После заполнения пересчитываем КД и инициативу — производные статы, которые
+  // могли «потерять» эффекты черт. (HP/скорость не трогаем — они уже зафиксированы.)
+  useEffect(() => {
+    if (!character.feats?.length) return;
+    if (character.feats.every(f => f.nameEn)) return;
+    let cancelled = false;
+    import('../data/feats').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      const feats = character.feats!.map(f => {
+        if (f.nameEn) return f;
+        const resolved = mod.getFeatByName(f.name) as { _origName?: string } | undefined;
+        return { ...f, nameEn: resolved?._origName ?? f.name };
+      });
+      const updated = { ...character, feats };
+      updated.armorClass = resolveAC(updated);
+      updated.initiative = computeInitiative(updated);
+      onUpdate(updated);
+    });
+    return () => { cancelled = true; };
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -222,6 +248,56 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       ...character,
       hitPoints: { ...character.hitPoints, temporary: Math.max(0, temporary) }
     });
+  };
+
+  // ── Rest ──
+  const [confirmLongRest, setConfirmLongRest] = useState(false);
+
+  const restoreAllSlots = (char: Character): Character => {
+    if (!char.spellcasting?.spellSlots) return char;
+    const slots = { ...char.spellcasting.spellSlots };
+    for (const k of Object.keys(slots) as (keyof SpellSlots)[]) {
+      slots[k] = { ...slots[k], used: 0 };
+    }
+    return { ...char, spellcasting: { ...char.spellcasting, spellSlots: slots } };
+  };
+
+  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots. */
+  const applyShortRest = () => {
+    let updated: Character = { ...character, updatedAt: new Date().toISOString() };
+    if (updated.resourceTrackers) {
+      const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
+      for (const [key, val] of Object.entries(rt)) {
+        if (isShortRestResource(key)) rt[key] = { ...val, current: val.max };
+      }
+      updated.resourceTrackers = rt;
+    }
+    // Warlock Pact Magic returns on a short rest
+    if (updated.classId === 'warlock') updated = restoreAllSlots(updated);
+    onUpdate(updated);
+  };
+
+  /** Long rest: full HP, clear temp HP, regain half the hit dice, reset spell
+   *  slots, refill every class resource, reset death saves. */
+  const applyLongRest = () => {
+    setConfirmLongRest(false);
+    const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
+    let updated: Character = {
+      ...character,
+      hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
+      hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
+      deathSaves: { successes: 0, failures: 0 },
+      updatedAt: new Date().toISOString(),
+    };
+    updated = restoreAllSlots(updated);
+    if (updated.resourceTrackers) {
+      const rt: Record<string, ResourceTracker> = {};
+      for (const [key, val] of Object.entries(updated.resourceTrackers)) {
+        rt[key] = { ...val, current: val.max };
+      }
+      updated.resourceTrackers = rt;
+    }
+    onUpdate(updated);
   };
 
   const handleLevelUp = () => {
@@ -308,11 +384,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       };
     }
 
-    // Recalculate initiative if Alert feat is present (adds proficiency bonus)
-    const hasAlert = (updated.feats ?? []).some(f => f.name === 'Alert');
-    if (hasAlert) {
-      updated.initiative = getAbilityModifier(updated.abilityScores.dexterity) + newProfBonus;
-    }
+    // Recalculate initiative (Alert feat + class/subclass features like Dread Ambusher)
+    updated.initiative = computeInitiative(updated);
 
     return updated;
   };
@@ -427,26 +500,23 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           }
         }
 
-        // --- Battle Master: Maneuvers (subclass feature) ---
-        if (updated.subclass && updated.classId === 'fighter') {
-          try {
-            const subMod = await import('../data/classes/subclassJsonLoader');
-            await subMod.init();
-            const subData = subMod.getSubclassById('fighter', 'battle-master');
-            if (subData) {
-              // Battle Master gains maneuvers at levels 3, 7, 10, 15
-              const BM_MANEUVER_GAINS: Record<number, number> = { 3: 3, 7: 2, 10: 2, 15: 2 };
-              const gain = BM_MANEUVER_GAINS[updated.level] ?? 0;
-              const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MV:B');
-              if (gain > 0) {
-                picks.push({
-                  config: OPTIONAL_FEATURE_CONFIGS['MV:B'],
-                  gain,
-                  allowReplace: hasExisting,
-                });
-              }
-            }
-          } catch (e) { /* ignore */ }
+        // --- Battle Master: Maneuvers (only for the Battle Master subclass) ---
+        if (
+          updated.classId === 'fighter' &&
+          updated.subclass &&
+          getSubclassIdByName('fighter', updated.subclass) === 'battle-master'
+        ) {
+          // Battle Master gains maneuvers at levels 3, 7, 10, 15
+          const BM_MANEUVER_GAINS: Record<number, number> = { 3: 3, 7: 2, 10: 2, 15: 2 };
+          const gain = BM_MANEUVER_GAINS[updated.level] ?? 0;
+          if (gain > 0) {
+            const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MV:B');
+            picks.push({
+              config: OPTIONAL_FEATURE_CONFIGS['MV:B'],
+              gain,
+              allowReplace: hasExisting,
+            });
+          }
         }
 
         if (picks.length === 0) {
@@ -796,10 +866,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         source: result.feat.source,
       },
     ];
+    const fsNameEn = result.feat._origName ?? result.feat.name;
     updated.feats = [
       ...(updated.feats ?? []),
       {
         name: result.feat.name,
+        nameEn: fsNameEn,
         source: result.feat.source,
         category: result.feat.category || 'FS',
         levelAcquired: updated.level,
@@ -807,7 +879,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     ];
 
     // Apply stat effects from fighting style (e.g. Defense: +1 AC)
-    applyFeatStatEffects(updated, result.feat.name);
+    applyFeatStatEffects(updated, fsNameEn);
 
     setShowFightingStylePicker(false);
     setPendingFightingStyleLevelUp(null);
@@ -871,12 +943,22 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           newScores[key as keyof AbilityScores] += delta;
         }
       }
+      // Raising Constitution increases max HP retroactively (+1/level per +1 CON mod)
+      const conHp = getConHpAdjustment(updated.abilityScores.constitution, newScores.constitution, updated.level);
       updated = { ...updated, abilityScores: newScores };
+      if (conHp !== 0) {
+        updated.hitPoints = {
+          ...updated.hitPoints,
+          max: updated.hitPoints.max + conHp,
+          current: updated.hitPoints.current + conHp,
+        };
+      }
       // Add to feats list
       updated.feats = [
         ...(updated.feats ?? []),
         {
           name: 'Ability Score Improvement',
+          nameEn: 'Ability Score Improvement',
           source: 'XPHB',
           category: pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
           levelAcquired: updated.level,
@@ -892,7 +974,16 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             newScores[key as keyof AbilityScores] += delta;
           }
         }
+        // Raising Constitution (e.g. Durable, Infernal Constitution) bumps max HP
+        const conHp = getConHpAdjustment(updated.abilityScores.constitution, newScores.constitution, updated.level);
         updated = { ...updated, abilityScores: newScores };
+        if (conHp !== 0) {
+          updated.hitPoints = {
+            ...updated.hitPoints,
+            max: updated.hitPoints.max + conHp,
+            current: updated.hitPoints.current + conHp,
+          };
+        }
       }
       // Add feat to features and feats
       updated.features = [
@@ -910,6 +1001,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         ...(updated.feats ?? []),
         {
           name: result.feat.name,
+          nameEn: result.feat._origName ?? result.feat.name,
           source: result.feat.source,
           category: result.feat.category || (pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G'),
           levelAcquired: updated.level,
@@ -932,12 +1024,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
 
       // Apply stat effects (HP, AC, initiative, speed)
-      applyFeatStatEffects(updated, result.feat.name);
+      applyFeatStatEffects(updated, result.feat._origName ?? result.feat.name);
 
       // Check if feat grants spells — trigger spell picker
       if (result.spellConfig) {
         recalcDerivedStats(updated);
         updated.armorClass = resolveAC(updated);
+        updated.initiative = computeInitiative(updated);
         setShowFeatPicker(false);
         setPendingFeatLevelUp(null);
         setShowSubclassModal(false);
@@ -950,6 +1043,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     // Recalc derived stats (spell DC, attack bonus, AC)
     recalcDerivedStats(updated);
     updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
 
     onUpdate(updated);
     setShowFeatPicker(false);
@@ -981,6 +1075,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
     recalcDerivedStats(updated);
     updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
     onUpdate(updated);
     setShowFeatSpellPicker(false);
     setPendingFeatSpells(null);
@@ -1325,6 +1420,35 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                         <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
                       </div>
                     </div>
+                    {/* Rest */}
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-default">
+                      <span className="text-sm font-medium text-text-secondary mr-auto">{t('sheet.rest.title')}</span>
+                      <button
+                        onClick={applyShortRest}
+                        className="px-3 py-1.5 rounded border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
+                        title={t('sheet.rest.shortTooltip')}
+                      >
+                        {t('sheet.rest.short')}
+                      </button>
+                      {confirmLongRest ? (
+                        <button
+                          onClick={applyLongRest}
+                          onBlur={() => setConfirmLongRest(false)}
+                          autoFocus
+                          className="px-3 py-1.5 rounded border border-gold/60 bg-gold/20 text-gold transition-colors text-sm font-semibold"
+                        >
+                          {t('sheet.rest.confirm')}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmLongRest(true)}
+                          className="px-3 py-1.5 rounded border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors text-sm"
+                          title={t('sheet.rest.longTooltip')}
+                        >
+                          {t('sheet.rest.long')}
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Right: Death Saves */}
@@ -1635,6 +1759,8 @@ function SkillsSection({ character }: { character: Character }) {
   const profBonus = character.proficiencyBonus;
   const itemBonuses = getEquippedItemBonuses(character);
   const effectiveScores = getEffectiveAbilityScores(character);
+  // Flat save bonus from class features (e.g. Paladin Aura of Protection: +Cha mod).
+  const featureSaveBonus = getClassFeatureSaveBonus(character);
 
   return (
     <div className="glass-panel p-4">
@@ -1748,7 +1874,7 @@ function SkillsSection({ character }: { character: Character }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {ABILITY_ORDER.map(ability => {
                 const isProficient = character.savingThrows[ability]?.proficient ?? false;
-                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow;
+                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow + featureSaveBonus;
                 return (
                   <div
                     key={ability}

@@ -1,5 +1,5 @@
-import type { Character } from '../types';
-import { getAbilityModifier } from './dnd';
+import type { Character, AbilityScores } from '../types';
+import { getAbilityModifier, ABILITY_SHORT_TO_LONG } from './dnd';
 import type { FeatData } from '../data/feats';
 
 // ── Stat effect definitions ──
@@ -8,8 +8,13 @@ export interface FeatStatEffect {
   hpPerLevel?: number;         // e.g. Tough: +2 HP per character level
   hpFlat?: number;             // e.g. Boon of Fortitude: +40 HP
   acBonus?: number;            // e.g. Defense: +1 AC
+  acBonusRequiresArmor?: boolean; // e.g. Defense only applies while wearing armor
   speedBonus?: number;         // e.g. Speedy: +10, Boon of Speed: +30
   initiativeAddProficiency?: boolean; // e.g. Alert: add proficiency bonus to initiative
+  // Alternate unarmored-defense formula granted by a feat (e.g. Dragon Hide: AC = 13 + Dex).
+  // Resolved every render inside resolveAC — requires no armor; a shield may still be used.
+  unarmoredACBase?: number;                 // base AC value (e.g. 13)
+  unarmoredACAbilities?: (keyof AbilityScores)[]; // ability mods added on top (e.g. ['dexterity'])
 }
 
 /** Feats with special stat modifications that can't be read from JSON fields */
@@ -17,15 +22,49 @@ export const FEAT_STAT_EFFECTS: Record<string, FeatStatEffect> = {
   'Tough': { hpPerLevel: 2 },
   'Boon of Fortitude': { hpFlat: 40 },
   'Alert': { initiativeAddProficiency: true },
-  'Defense': { acBonus: 1 },
+  'Defense': { acBonus: 1, acBonusRequiresArmor: true },
   'Speedy': { speedBonus: 10 },
   'Boon of Speed': { speedBonus: 30 },
+  'Squat Nimbleness': { speedBonus: 5 },
+  'Mark of Passage': { speedBonus: 5 },
+  'Dragon Hide': { unarmoredACBase: 13, unarmoredACAbilities: ['dexterity'] },
 };
+
+/**
+ * Extract the FIXED ability-score increases a feat grants (entries like
+ * `{ "con": 1 }`, e.g. Durable, Great Weapon Master, Sharpshooter, Actor).
+ * "choose" entries are handled separately by the picker UI and are skipped here.
+ */
+export function extractFixedAbilityBonuses(feat: FeatData): Partial<AbilityScores> {
+  const result: Partial<AbilityScores> = {};
+  if (!feat.ability) return result;
+  for (const entry of feat.ability) {
+    if (!entry || typeof entry !== 'object') continue;
+    for (const [key, value] of Object.entries(entry)) {
+      if (key === 'choose' || key === 'max') continue;
+      const longKey = ABILITY_SHORT_TO_LONG[key];
+      if (longKey && typeof value === 'number') {
+        result[longKey] = (result[longKey] ?? 0) + value;
+      }
+    }
+  }
+  return result;
+}
 
 /**
  * Apply immediate stat effects when a feat is selected.
  * Mutates the character object in place.
  */
+/** Is the character wearing body armor (not just a shield)? Inlined here to
+ *  avoid a circular import with classEffects. */
+function isWearingArmorBasic(char: Character): boolean {
+  const armorId = char.equipment?.armor;
+  if (!armorId) return false;
+  const item = char.inventory?.find(i => i.id === armorId);
+  if (!item) return false;
+  return (!!item.armorType && item.armorType !== 'shield') || item.category === 'armor';
+}
+
 export function applyFeatStatEffects(char: Character, featName: string): void {
   const effect = FEAT_STAT_EFFECTS[featName];
   if (!effect) return;
@@ -47,7 +86,7 @@ export function applyFeatStatEffects(char: Character, featName: string): void {
     };
   }
 
-  if (effect.acBonus) {
+  if (effect.acBonus && (!effect.acBonusRequiresArmor || isWearingArmorBasic(char))) {
     char.armorClass += effect.acBonus;
   }
 
@@ -67,7 +106,7 @@ export function applyFeatStatEffects(char: Character, featName: string): void {
 export function getOngoingFeatHpBonus(char: Character): number {
   let bonus = 0;
   for (const feat of char.feats ?? []) {
-    const effect = FEAT_STAT_EFFECTS[feat.name];
+    const effect = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
     if (effect?.hpPerLevel) {
       bonus += effect.hpPerLevel;
     }

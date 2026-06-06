@@ -189,6 +189,13 @@ export const calculateMaxHP = (
   return firstLevelHP + additionalHP;
 };
 
+// HP-дельта при изменении Телосложения: +1 макс. HP за уровень на каждый +1
+// модификатора Тел. Используется при ASI/чертах, повышающих Con (модификатор
+// меняется только раз в 2 очка, поэтому считаем по разнице модификаторов).
+export function getConHpAdjustment(oldCon: number, newCon: number, level: number): number {
+  return (getAbilityModifier(newCon) - getAbilityModifier(oldCon)) * level;
+}
+
 // Маппинг коротких ключей характеристик к полным (для feat пререквизитов)
 export const ABILITY_SHORT_TO_LONG: Record<string, keyof AbilityScores> = {
   str: 'strength',
@@ -212,6 +219,6 @@ export function recalcDerivedStats(char: Character): void {
 
   // Recalculate initiative (includes Alert feat bonus)
   const dexMod = getAbilityModifier(char.abilityScores.dexterity);
-  const hasAlert = (char.feats ?? []).some(f => f.name === 'Alert');
+  const hasAlert = (char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Alert');
   char.initiative = dexMod + (hasAlert ? char.proficiencyBonus : 0);
 }

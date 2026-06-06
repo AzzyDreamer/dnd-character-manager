@@ -19,6 +19,13 @@ export interface StatEffect {
   resistances?: string[];                // permanent damage resistances
   savingThrowProficiencies?: (keyof AbilityScores)[];  // saving throw proficiencies gained
   allSavingThrows?: boolean;             // proficiency in ALL saving throws
+  // Flat bonus to ALL saving throws equal to an ability modifier (e.g. Paladin Aura
+  // of Protection: +Cha mod, min +1). Applied live in the saving-throw display.
+  saveBonusAbility?: keyof AbilityScores;
+  saveBonusMin?: number;                 // floor for the save bonus (Aura: 1)
+  // Flat bonus to initiative equal to an ability modifier (e.g. Gloom Stalker
+  // Dread Ambusher: +Wis mod).
+  initiativeBonusAbility?: keyof AbilityScores;
 }
 
 // ── Class-level effects (keyed by classId) ──
@@ -36,6 +43,9 @@ export const CLASS_EFFECTS: Record<string, StatEffect[]> = {
     { level: 14, speedBonus: 5, speedRequiresNoArmorOrShield: true, allSavingThrows: true },  // +25 + Disciplined Survivor
     { level: 18, speedBonus: 5, speedRequiresNoArmorOrShield: true },             // +30 total
   ],
+  paladin: [
+    { level: 6, saveBonusAbility: 'charisma', saveBonusMin: 1 },                  // Aura of Protection: +Cha mod (min +1) to all saves
+  ],
 };
 
 // ── Subclass effects (keyed by "classId:subclassId") ──
@@ -49,6 +59,7 @@ export const SUBCLASS_EFFECTS: Record<string, StatEffect[]> = {
     { level: 6, resistances: ['radiant'] },  // Radiant Soul
   ],
   'ranger:gloom-stalker': [
+    { level: 3, initiativeBonusAbility: 'wisdom' },      // Dread Ambusher: +Wis mod to initiative
     { level: 7, savingThrowProficiencies: ['wisdom'] },  // Iron Mind
   ],
 };
@@ -221,6 +232,20 @@ export function getCustomAC(char: Character): number | null {
     }
   }
 
+  // Feat-based unarmored formulas (e.g. Dragon Hide: AC = 13 + Dex; shield allowed).
+  for (const feat of char.feats ?? []) {
+    const fe = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
+    if (fe?.unarmoredACBase != null) {
+      let ac = fe.unarmoredACBase;
+      for (const ability of fe.unarmoredACAbilities ?? []) {
+        ac += getAbilityModifier(char.abilityScores[ability]);
+      }
+      if (bestAC === null || ac > bestAC) {
+        bestAC = ac;
+      }
+    }
+  }
+
   return bestAC;
 }
 
@@ -244,6 +269,36 @@ export function getClassSpeedBonus(char: Character): number {
     }
   }
   return bonus;
+}
+
+/**
+ * Flat bonus added to ALL saving throws from class/subclass features
+ * (e.g. Paladin Aura of Protection: +Cha modifier, minimum +1).
+ * Computed live in the saving-throw display alongside item bonuses.
+ */
+export function getClassFeatureSaveBonus(char: Character): number {
+  const scores = getEffectiveAbilityScores(char);
+  let bonus = 0;
+  for (const e of getActiveEffects(char)) {
+    if (e.saveBonusAbility) {
+      const mod = getAbilityModifier(scores[e.saveBonusAbility]);
+      bonus += Math.max(e.saveBonusMin ?? 0, mod);
+    }
+  }
+  return bonus;
+}
+
+/**
+ * Single source of truth for a character's initiative:
+ *   Dex modifier
+ *   + proficiency bonus if Alert (2024)
+ *   + ability-modifier bonuses from class/subclass features
+ *     (e.g. Gloom Stalker Dread Ambusher: +Wis modifier).
+ * Initiative is a stored stat, so call this wherever it can change
+ * (level-up, feat/ASI selection).
+ */
+export function computeInitiative(char: Character): number {
+  return getInitiativeBreakdown(char).reduce((sum, p) => sum + p.value, 0);
 }
 
 /**
@@ -276,8 +331,12 @@ function getArmorBasedAC(char: Character): number | null {
   switch (armor.armorType) {
     case 'light':
       return armor.armorAC + dexMod;
-    case 'medium':
-      return armor.armorAC + Math.min(dexMod, 2);
+    case 'medium': {
+      // Medium Armor Master raises the medium-armor Dex cap from +2 to +3.
+      // (Below Dex 16 the modifier is ≤2 anyway, so the feat's "Dex 16+" clause is implicit.)
+      const hasMediumArmorMaster = (char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Medium Armor Master');
+      return armor.armorAC + Math.min(dexMod, hasMediumArmorMaster ? 3 : 2);
+    }
     case 'heavy':
       return armor.armorAC;
     default:
@@ -296,52 +355,121 @@ function getShieldBonus(char: Character): number {
   return item.armorAC ?? 2;
 }
 
+// ── Stat breakdowns (for tooltips) ──
+
+/** One labelled component of a computed stat (AC, initiative, …). */
+export interface StatPart {
+  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof';
+  value: number;
+  ability?: keyof AbilityScores;  // set when key === 'ability'
+}
+
 /**
- * Resolve the full AC for a character considering:
- * 1. Equipped armor AC (by type: light/medium/heavy)
- * 2. Unarmored Defense formulas (class/subclass)
- * 3. Shield bonus
- * 4. Feat bonuses (e.g. Defense +1)
+ * Best Unarmored Defense formula (class/subclass + feat) as labelled parts.
+ * Mirrors getCustomAC's selection but keeps the components for display.
  */
-export function resolveAC(inputChar: Character): number {
-  // Use effective ability scores (with item overrides like Gauntlets of Ogre Power)
+function getBestUnarmoredFormulaParts(char: Character): { parts: StatPart[]; total: number } | null {
+  if (isWearingArmor(char)) return null;
+  const hasShield = isWieldingShield(char);
+  let best: { parts: StatPart[]; total: number } | null = null;
+  const consider = (parts: StatPart[]) => {
+    const total = parts.reduce((s, p) => s + p.value, 0);
+    if (!best || total > best.total) best = { parts, total };
+  };
+
+  for (const e of getActiveEffects(char)) {
+    if (e.acFormula) {
+      if (e.acRequiresNoShield && hasShield) continue;
+      const parts: StatPart[] = [{ key: 'base', value: 10 }];
+      for (const ability of e.acFormula) {
+        parts.push({ key: 'ability', ability, value: getAbilityModifier(char.abilityScores[ability]) });
+      }
+      consider(parts);
+    }
+  }
+  for (const feat of char.feats ?? []) {
+    const fe = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
+    if (fe?.unarmoredACBase != null) {
+      const parts: StatPart[] = [{ key: 'base', value: fe.unarmoredACBase }];
+      for (const ability of fe.unarmoredACAbilities ?? []) {
+        parts.push({ key: 'ability', ability, value: getAbilityModifier(char.abilityScores[ability]) });
+      }
+      consider(parts);
+    }
+  }
+  return best;
+}
+
+/**
+ * AC as an ordered list of labelled parts. `resolveAC` is just the sum of these,
+ * so the breakdown shown in tooltips always matches the displayed AC.
+ * Considers: armor (by type) or Unarmored Defense / natural-armor feat formula,
+ * shield, flat feat bonuses (Defense), and magic-item bonuses.
+ */
+export function getACBreakdown(inputChar: Character): StatPart[] {
   const char = { ...inputChar, abilityScores: getEffectiveAbilityScores(inputChar) };
   const dexMod = getAbilityModifier(char.abilityScores.dexterity);
-  const unarmoredBase = 10 + dexMod;
+  const parts: StatPart[] = [];
 
-  // Try armor-based AC
+  const armor = getEquippedArmor(char);
   const armorAC = getArmorBasedAC(char);
-
-  // Try custom AC formulas (Unarmored Defense) — only if not wearing armor
-  const customAC = getCustomAC(char);
-
-  let baseAC: number;
-  if (armorAC !== null) {
-    // Wearing armor — use armor AC (custom formulas already return null)
-    baseAC = armorAC;
-  } else if (customAC !== null) {
-    // Unarmored with a formula — take the better of standard and formula
-    baseAC = Math.max(unarmoredBase, customAC);
+  if (armor && armorAC !== null) {
+    parts.push({ key: 'armor', value: armor.armorAC ?? 0 });
+    // Heavy armor grants no Dex; light/medium add the (capped) Dex actually used.
+    if (armor.armorType !== 'heavy') {
+      parts.push({ key: 'ability', ability: 'dexterity', value: armorAC - (armor.armorAC ?? 0) });
+    }
   } else {
-    // No armor, no formula — standard 10 + DEX
-    baseAC = unarmoredBase;
-  }
-
-  // Add shield bonus
-  baseAC += getShieldBonus(char);
-
-  // Add flat AC bonuses from feats (e.g. Defense: +1)
-  for (const feat of char.feats ?? []) {
-    const effect = FEAT_STAT_EFFECTS[feat.name];
-    if (effect?.acBonus) {
-      baseAC += effect.acBonus;
+    const formula = getBestUnarmoredFormulaParts(char);
+    if (formula && formula.total > 10 + dexMod) {
+      parts.push(...formula.parts);
+    } else {
+      parts.push({ key: 'base', value: 10 });
+      parts.push({ key: 'ability', ability: 'dexterity', value: dexMod });
     }
   }
 
-  // Add AC bonuses from equipped magic items (Cloak of Protection, Ring of Protection, etc.)
-  baseAC += getEquippedItemBonuses(char).bonusAc;
+  const shield = getShieldBonus(char);
+  if (shield) parts.push({ key: 'shield', value: shield });
 
-  return baseAC;
+  let featAc = 0;
+  const wearingArmor = isWearingArmor(char);
+  for (const feat of char.feats ?? []) {
+    const effect = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
+    // Defense and similar bonuses only apply while wearing armor.
+    if (effect?.acBonus && (!effect.acBonusRequiresArmor || wearingArmor)) featAc += effect.acBonus;
+  }
+  if (featAc) parts.push({ key: 'feat', value: featAc });
+
+  const itemAc = getEquippedItemBonuses(char).bonusAc;
+  if (itemAc) parts.push({ key: 'item', value: itemAc });
+
+  return parts;
+}
+
+/**
+ * Resolve the full AC for a character (sum of the AC breakdown). Considers
+ * equipped armor, Unarmored Defense formulas, shield, feat and item bonuses.
+ */
+export function resolveAC(inputChar: Character): number {
+  return getACBreakdown(inputChar).reduce((sum, p) => sum + p.value, 0);
+}
+
+/** Initiative as labelled parts. `computeInitiative` is the sum of these. */
+export function getInitiativeBreakdown(char: Character): StatPart[] {
+  const scores = getEffectiveAbilityScores(char);
+  const parts: StatPart[] = [
+    { key: 'ability', ability: 'dexterity', value: getAbilityModifier(scores.dexterity) },
+  ];
+  if ((char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Alert')) {
+    parts.push({ key: 'prof', value: char.proficiencyBonus });
+  }
+  for (const e of getActiveEffects(char)) {
+    if (e.initiativeBonusAbility) {
+      parts.push({ key: 'ability', ability: e.initiativeBonusAbility, value: getAbilityModifier(scores[e.initiativeBonusAbility]) });
+    }
+  }
+  return parts;
 }
 
 /**

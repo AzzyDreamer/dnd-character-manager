@@ -321,6 +321,14 @@
       "temporaryHp": "Временные:",
       "hitDice": "Кости хитов"
     },
+    "rest": {
+      "title": "Отдых",
+      "short": "Короткий",
+      "long": "Длинный",
+      "confirm": "Точно?",
+      "shortTooltip": "Восстанавливает ресурсы короткого отдыха (и ячейки Пакта колдуна).",
+      "longTooltip": "Полное HP, возврат половины костей хитов, сброс ячеек заклинаний и всех ресурсов класса, сброс спасбросков от смерти."
+    },
     "skills": {
       "title": "Навыки",
       "rollTooltip": "Бросить {{skill}}: 1d20{{mod}}",
@@ -531,6 +539,8 @@
     "featWordFew": "черты",
     "featWordMany": "черт",
     "selectFeatFromList": "Выберите черту из списка слева",
+    "abilityIncrease": "Повышение характеристики",
+    "abilityMaxed": "макс. {{max}}",
     "chooseAbility": "Выберите характеристику (+{{amount}}, макс. {{max}})",
     "chooseSkills": "Выберите навыки ({{current}}/{{count}})",
     "chooseSavingThrow": "Выберите спасбросок",

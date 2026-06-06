@@ -174,3 +174,14 @@ export function getLevelTableRow(levelTable: any[] | undefined, level: number): 
   if (!levelTable) return undefined;
   return levelTable.find((row: any) => row.level === level);
 }
+
+/**
+ * Does a tracked resource recharge on a SHORT rest? (Long rest recharges
+ * everything.) Used by the rest buttons to restore the right resources.
+ */
+export function isShortRestResource(key: string): boolean {
+  const base = TRACKABLE_RESOURCES[key];
+  if (base) return base.restoreOn === 'short';
+  const sub = SUBCLASS_RESOURCES.find(d => d.key === key);
+  return sub ? sub.restoreOn === 'short' : false;
+}

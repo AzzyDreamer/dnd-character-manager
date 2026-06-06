@@ -388,7 +388,8 @@ export interface Character {
 
   // Черты (feats) — ASI, Origin, Epic Boon
   feats?: {
-    name: string;
+    name: string;              // отображаемое имя (может быть локализованным)
+    nameEn?: string;           // стабильный английский ключ для матчинга логики статов
     source: string;
     category: string;
     levelAcquired: number;

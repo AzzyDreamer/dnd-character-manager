@@ -734,6 +734,8 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     const { name: bgFeat, variant: bgFeatVariant } = parseBgFeat(selectedBackground);
     // Determine which feat to use — background feat or selected origin feat
     const featName = bgFeat || selectedOriginFeat?.name || '';
+    // Stable English key for stat-effect matching (bgFeat is already English).
+    const featNameEn = bgFeat || selectedOriginFeat?._origName || selectedOriginFeat?.name || '';
     const featDisplayName = bgFeatVariant ? `${bgFeat} (${bgFeatVariant})` : featName;
     const featSource = bgFeat ? selectedBackground.source : (selectedOriginFeat?.source || '');
 
@@ -835,12 +837,14 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       feats: [
         ...(featName ? [{
           name: featDisplayName,
+          nameEn: featNameEn,
           source: featSource,
           category: 'O',
           levelAcquired: 1,
         }] : []),
         ...(selectedFightingStyle ? [{
           name: selectedFightingStyle.name,
+          nameEn: selectedFightingStyle._origName ?? selectedFightingStyle.name,
           source: selectedFightingStyle.source || 'XPHB',
           category: selectedFightingStyle.category || 'FS',
           levelAcquired: 1,
@@ -924,7 +928,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     // Apply feat stat effects (Tough HP, Alert initiative, Defense AC, Speedy speed, etc.)
     // This works for both background feats (bgFeat) and manually selected origin feats
     if (featName) {
-      applyFeatStatEffects(character, featName);
+      applyFeatStatEffects(character, featNameEn);
     }
     // Apply proficiencies/resistances from feat JSON (only when we have full feat data)
     const originFeatData = selectedOriginFeat;
@@ -936,7 +940,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     }
     // Apply fighting style stat effects (e.g. Defense +1 AC)
     if (selectedFightingStyle) {
-      applyFeatStatEffects(character, selectedFightingStyle.name);
+      applyFeatStatEffects(character, selectedFightingStyle._origName ?? selectedFightingStyle.name);
     }
 
     // Check if background feat grants spells — show spell picker before saving
