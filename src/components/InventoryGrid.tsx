@@ -29,6 +29,9 @@ const GRID_ROWS = 8;
 const CELL_SIZE = 72; // px — backpack grid (same as equip slots)
 const EQUIP_SLOT_SIZE = 72; // px — equipment slots
 
+// D&D 5e: a character can be attuned to at most 3 magic items at once.
+const MAX_ATTUNEMENT = 3;
+
 // ============================
 // Props
 // ============================
@@ -897,10 +900,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         }
       }
 
-      // Экипируем (автоматически настраиваем предметы, требующие настройку)
+      // Экипируем. Предметы, требующие настройку, авто-настраиваются, но соблюдаем
+      // лимит D&D 5e в 3 настроенных предмета: при достижении лимита вещь надевается
+      // без настройки (магические бонусы не применяются — см. getEquippedItemBonuses).
       newEquipment[targetSlot] = itemId;
+      const attunedCount = newInventory.filter(i => i.id !== itemId && i.attuned).length;
+      const canAttune = !!item.raw?.reqAttune && attunedCount < MAX_ATTUNEMENT;
       newInventory = newInventory.map((i) =>
-        i.id === itemId ? { ...i, equipped: true, attuned: !!i.raw?.reqAttune, gridX: undefined, gridY: undefined } : i,
+        i.id === itemId ? { ...i, equipped: true, attuned: canAttune, gridX: undefined, gridY: undefined } : i,
       );
 
       updateInventory(newInventory, newEquipment);
@@ -1060,6 +1067,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
 
   // Общий вес инвентаря
   const totalWeight = inventory.reduce((sum, item) => sum + (item.weight ?? 0) * item.quantity, 0);
+  // Число настроенных предметов (лимит — 3)
+  const attunedCount = inventory.reduce((n, item) => n + (item.attuned ? 1 : 0), 0);
 
   // Группы слотов экипировки
   const armorSlots: EquipmentSlot[] = ['helmet', 'cloak', 'armor', 'gloves', 'boots'];
@@ -1077,6 +1086,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           <span className="text-xs text-text-muted ml-1">
             {t('weight')} {t('weightValue', { value: totalWeight.toFixed(1) })}
           </span>
+          {attunedCount > 0 && (
+            <span
+              className={`text-xs ml-1 ${attunedCount >= MAX_ATTUNEMENT ? 'text-gold' : 'text-text-muted'}`}
+              title={t('attunement.tooltip')}
+            >
+              {t('attunement.label')} {attunedCount}/{MAX_ATTUNEMENT}
+            </span>
+          )}
         </div>
         <button
           onClick={() => setShowAddModal(true)}
