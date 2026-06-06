@@ -531,6 +531,8 @@
     "featWordFew": "черты",
     "featWordMany": "черт",
     "selectFeatFromList": "Выберите черту из списка слева",
+    "abilityIncrease": "Повышение характеристики",
+    "abilityMaxed": "макс. {{max}}",
     "chooseAbility": "Выберите характеристику (+{{amount}}, макс. {{max}})",
     "chooseSkills": "Выберите навыки ({{current}}/{{count}})",
     "chooseSavingThrow": "Выберите спасбросок",

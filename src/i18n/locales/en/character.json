@@ -531,6 +531,8 @@
     "featWordFew": "feats",
     "featWordMany": "feats",
     "selectFeatFromList": "Select a feat from the list on the left",
+    "abilityIncrease": "Ability score increase",
+    "abilityMaxed": "max {{max}}",
     "chooseAbility": "Choose ability (+{{amount}}, max {{max}})",
     "chooseSkills": "Choose skills ({{current}}/{{count}})",
     "chooseSavingThrow": "Choose saving throw",

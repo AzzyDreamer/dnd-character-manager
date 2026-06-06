@@ -5,7 +5,7 @@ import { type FeatData, getFeatImageUrl } from '../data/feats';
 import { getAbilityModifier, getAbilityName, getAbilityShort, ABILITY_SHORT_TO_LONG, getSkillName, SKILL_ABILITIES } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { checkFeatPrerequisite, buildFeatContext } from '../utils/featPrerequisites';
-import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
+import { extractFeatProficiencies, extractFeatResistances, extractFeatSpellConfig, extractFixedAbilityBonuses, type ExtractedProficiencies, type ExtractedResistances, type FeatSpellConfig } from '../utils/featEffects';
 import { Search, Check, X, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar } from './ui';
 import { asset } from '../utils/asset';
@@ -220,6 +220,13 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
     return 1;
   }, [selectedFeat]);
 
+  // Fixed (non-choice) ability increases, e.g. Great Weapon Master +1 STR, Durable +1 CON.
+  // These apply automatically — no UI choice — and were previously dropped on the floor.
+  const featFixedAbility = useMemo<Partial<AbilityScores>>(() => {
+    if (!selectedFeat) return {};
+    return extractFixedAbilityBonuses(selectedFeat);
+  }, [selectedFeat]);
+
   // Extract proficiency/resistance/spell requirements from selected feat
   const featProfs = useMemo<ExtractedProficiencies | null>(() => {
     if (!selectedFeat) return null;
@@ -279,10 +286,25 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
       onConfirm({ type: 'asi', asiChanges });
     } else {
       if (!canConfirmFeat || !selectedFeat) return;
+      // Combine the player's chosen ability increase (if any) with the feat's
+      // fixed increases (e.g. Sharpshooter +1 DEX), capping each at the feat's max.
+      const combinedAbility: Partial<AbilityScores> = {};
+      for (const [k, v] of Object.entries(featFixedAbility)) {
+        const key = k as keyof AbilityScores;
+        if (v && character.abilityScores[key] + v <= featAbilityMax) {
+          combinedAbility[key] = (combinedAbility[key] ?? 0) + v;
+        }
+      }
+      if (featAbilityOptions.length > 0) {
+        for (const [k, v] of Object.entries(featAbilityChoice)) {
+          const key = k as keyof AbilityScores;
+          if (v) combinedAbility[key] = (combinedAbility[key] ?? 0) + v;
+        }
+      }
       onConfirm({
         type: 'feat',
         feat: selectedFeat,
-        abilityChoice: featAbilityOptions.length > 0 ? featAbilityChoice : undefined,
+        abilityChoice: Object.keys(combinedAbility).length > 0 ? combinedAbility : undefined,
         skillChoices: skillChoices.length > 0 ? skillChoices : undefined,
         savingThrowChoice: savingThrowChoice || undefined,
         resistanceChoices: resistanceChoices.length > 0 ? resistanceChoices : undefined,
@@ -368,6 +390,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
               featAbilityChoice={featAbilityChoice}
               featAbilityMax={featAbilityMax}
               featAbilityAmount={featAbilityAmount}
+              featFixedAbility={featFixedAbility}
               onFeatAbilityChange={handleFeatAbilityChange}
               character={character}
               featProfs={featProfs}
@@ -530,6 +553,7 @@ function FeatTab({
   featAbilityChoice,
   featAbilityMax,
   featAbilityAmount,
+  featFixedAbility,
   onFeatAbilityChange,
   character,
   featProfs,
@@ -556,6 +580,7 @@ function FeatTab({
   featAbilityChoice: Partial<AbilityScores>;
   featAbilityMax: number;
   featAbilityAmount: number;
+  featFixedAbility: Partial<AbilityScores>;
   onFeatAbilityChange: (shortKey: string) => void;
   character: Character;
   featProfs: ExtractedProficiencies | null;
@@ -689,6 +714,35 @@ function FeatTab({
                     {typeof e === 'string' ? cleanEntryRefs(e) : JSON.stringify(e)}
                   </p>
                 ))}
+              </div>
+            )}
+
+            {/* Fixed ability increase (applied automatically) */}
+            {Object.keys(featFixedAbility).length > 0 && (
+              <div className="border-t border-border-default pt-3">
+                <h4 className="text-sm font-medium text-text-primary mb-2">
+                  {t('featPicker.abilityIncrease')}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {(Object.entries(featFixedAbility) as [keyof AbilityScores, number][]).map(([key, amount]) => {
+                    const currentScore = character.abilityScores[key];
+                    const capped = currentScore + amount > featAbilityMax;
+                    return (
+                      <div
+                        key={key}
+                        className="px-3 py-2 rounded-lg border border-gold/50 bg-gold/10 text-gold text-sm"
+                      >
+                        <div className="font-medium">{getAbilityShort(key)} +{amount}</div>
+                        <div className="text-[10px] text-text-muted">
+                          {currentScore}
+                          {capped
+                            ? <span className="text-red-400"> ({t('featPicker.abilityMaxed', { max: featAbilityMax })})</span>
+                            : <span className="text-gold"> → {currentScore + amount}</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 

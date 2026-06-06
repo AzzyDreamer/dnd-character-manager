@@ -19,6 +19,13 @@ export interface StatEffect {
   resistances?: string[];                // permanent damage resistances
   savingThrowProficiencies?: (keyof AbilityScores)[];  // saving throw proficiencies gained
   allSavingThrows?: boolean;             // proficiency in ALL saving throws
+  // Flat bonus to ALL saving throws equal to an ability modifier (e.g. Paladin Aura
+  // of Protection: +Cha mod, min +1). Applied live in the saving-throw display.
+  saveBonusAbility?: keyof AbilityScores;
+  saveBonusMin?: number;                 // floor for the save bonus (Aura: 1)
+  // Flat bonus to initiative equal to an ability modifier (e.g. Gloom Stalker
+  // Dread Ambusher: +Wis mod).
+  initiativeBonusAbility?: keyof AbilityScores;
 }
 
 // ── Class-level effects (keyed by classId) ──
@@ -36,6 +43,9 @@ export const CLASS_EFFECTS: Record<string, StatEffect[]> = {
     { level: 14, speedBonus: 5, speedRequiresNoArmorOrShield: true, allSavingThrows: true },  // +25 + Disciplined Survivor
     { level: 18, speedBonus: 5, speedRequiresNoArmorOrShield: true },             // +30 total
   ],
+  paladin: [
+    { level: 6, saveBonusAbility: 'charisma', saveBonusMin: 1 },                  // Aura of Protection: +Cha mod (min +1) to all saves
+  ],
 };
 
 // ── Subclass effects (keyed by "classId:subclassId") ──
@@ -49,6 +59,7 @@ export const SUBCLASS_EFFECTS: Record<string, StatEffect[]> = {
     { level: 6, resistances: ['radiant'] },  // Radiant Soul
   ],
   'ranger:gloom-stalker': [
+    { level: 3, initiativeBonusAbility: 'wisdom' },      // Dread Ambusher: +Wis mod to initiative
     { level: 7, savingThrowProficiencies: ['wisdom'] },  // Iron Mind
   ],
 };
@@ -221,6 +232,20 @@ export function getCustomAC(char: Character): number | null {
     }
   }
 
+  // Feat-based unarmored formulas (e.g. Dragon Hide: AC = 13 + Dex; shield allowed).
+  for (const feat of char.feats ?? []) {
+    const fe = FEAT_STAT_EFFECTS[feat.name];
+    if (fe?.unarmoredACBase != null) {
+      let ac = fe.unarmoredACBase;
+      for (const ability of fe.unarmoredACAbilities ?? []) {
+        ac += getAbilityModifier(char.abilityScores[ability]);
+      }
+      if (bestAC === null || ac > bestAC) {
+        bestAC = ac;
+      }
+    }
+  }
+
   return bestAC;
 }
 
@@ -244,6 +269,46 @@ export function getClassSpeedBonus(char: Character): number {
     }
   }
   return bonus;
+}
+
+/**
+ * Flat bonus added to ALL saving throws from class/subclass features
+ * (e.g. Paladin Aura of Protection: +Cha modifier, minimum +1).
+ * Computed live in the saving-throw display alongside item bonuses.
+ */
+export function getClassFeatureSaveBonus(char: Character): number {
+  const scores = getEffectiveAbilityScores(char);
+  let bonus = 0;
+  for (const e of getActiveEffects(char)) {
+    if (e.saveBonusAbility) {
+      const mod = getAbilityModifier(scores[e.saveBonusAbility]);
+      bonus += Math.max(e.saveBonusMin ?? 0, mod);
+    }
+  }
+  return bonus;
+}
+
+/**
+ * Single source of truth for a character's initiative:
+ *   Dex modifier
+ *   + proficiency bonus if Alert (2024)
+ *   + ability-modifier bonuses from class/subclass features
+ *     (e.g. Gloom Stalker Dread Ambusher: +Wis modifier).
+ * Initiative is a stored stat, so call this wherever it can change
+ * (level-up, feat/ASI selection).
+ */
+export function computeInitiative(char: Character): number {
+  const scores = getEffectiveAbilityScores(char);
+  let init = getAbilityModifier(scores.dexterity);
+  if ((char.feats ?? []).some(f => f.name === 'Alert')) {
+    init += char.proficiencyBonus;
+  }
+  for (const e of getActiveEffects(char)) {
+    if (e.initiativeBonusAbility) {
+      init += getAbilityModifier(scores[e.initiativeBonusAbility]);
+    }
+  }
+  return init;
 }
 
 /**
@@ -276,8 +341,12 @@ function getArmorBasedAC(char: Character): number | null {
   switch (armor.armorType) {
     case 'light':
       return armor.armorAC + dexMod;
-    case 'medium':
-      return armor.armorAC + Math.min(dexMod, 2);
+    case 'medium': {
+      // Medium Armor Master raises the medium-armor Dex cap from +2 to +3.
+      // (Below Dex 16 the modifier is ≤2 anyway, so the feat's "Dex 16+" clause is implicit.)
+      const hasMediumArmorMaster = (char.feats ?? []).some(f => f.name === 'Medium Armor Master');
+      return armor.armorAC + Math.min(dexMod, hasMediumArmorMaster ? 3 : 2);
+    }
     case 'heavy':
       return armor.armorAC;
     default:

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
-import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats } from '../utils/dnd';
+import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
 import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
@@ -10,7 +10,7 @@ import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
-import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores } from '../utils/classEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative } from '../utils/classEffects';
 import { getAllItemTemplatesSync } from '../data/items';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
@@ -308,11 +308,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       };
     }
 
-    // Recalculate initiative if Alert feat is present (adds proficiency bonus)
-    const hasAlert = (updated.feats ?? []).some(f => f.name === 'Alert');
-    if (hasAlert) {
-      updated.initiative = getAbilityModifier(updated.abilityScores.dexterity) + newProfBonus;
-    }
+    // Recalculate initiative (Alert feat + class/subclass features like Dread Ambusher)
+    updated.initiative = computeInitiative(updated);
 
     return updated;
   };
@@ -871,7 +868,16 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           newScores[key as keyof AbilityScores] += delta;
         }
       }
+      // Raising Constitution increases max HP retroactively (+1/level per +1 CON mod)
+      const conHp = getConHpAdjustment(updated.abilityScores.constitution, newScores.constitution, updated.level);
       updated = { ...updated, abilityScores: newScores };
+      if (conHp !== 0) {
+        updated.hitPoints = {
+          ...updated.hitPoints,
+          max: updated.hitPoints.max + conHp,
+          current: updated.hitPoints.current + conHp,
+        };
+      }
       // Add to feats list
       updated.feats = [
         ...(updated.feats ?? []),
@@ -892,7 +898,16 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             newScores[key as keyof AbilityScores] += delta;
           }
         }
+        // Raising Constitution (e.g. Durable, Infernal Constitution) bumps max HP
+        const conHp = getConHpAdjustment(updated.abilityScores.constitution, newScores.constitution, updated.level);
         updated = { ...updated, abilityScores: newScores };
+        if (conHp !== 0) {
+          updated.hitPoints = {
+            ...updated.hitPoints,
+            max: updated.hitPoints.max + conHp,
+            current: updated.hitPoints.current + conHp,
+          };
+        }
       }
       // Add feat to features and feats
       updated.features = [
@@ -938,6 +953,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       if (result.spellConfig) {
         recalcDerivedStats(updated);
         updated.armorClass = resolveAC(updated);
+        updated.initiative = computeInitiative(updated);
         setShowFeatPicker(false);
         setPendingFeatLevelUp(null);
         setShowSubclassModal(false);
@@ -950,6 +966,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     // Recalc derived stats (spell DC, attack bonus, AC)
     recalcDerivedStats(updated);
     updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
 
     onUpdate(updated);
     setShowFeatPicker(false);
@@ -981,6 +998,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
     recalcDerivedStats(updated);
     updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
     onUpdate(updated);
     setShowFeatSpellPicker(false);
     setPendingFeatSpells(null);
@@ -1635,6 +1653,8 @@ function SkillsSection({ character }: { character: Character }) {
   const profBonus = character.proficiencyBonus;
   const itemBonuses = getEquippedItemBonuses(character);
   const effectiveScores = getEffectiveAbilityScores(character);
+  // Flat save bonus from class features (e.g. Paladin Aura of Protection: +Cha mod).
+  const featureSaveBonus = getClassFeatureSaveBonus(character);
 
   return (
     <div className="glass-panel p-4">
@@ -1748,7 +1768,7 @@ function SkillsSection({ character }: { character: Character }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {ABILITY_ORDER.map(ability => {
                 const isProficient = character.savingThrows[ability]?.proficient ?? false;
-                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow;
+                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow + featureSaveBonus;
                 return (
                   <div
                     key={ability}

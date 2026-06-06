@@ -1,5 +1,5 @@
-import type { Character } from '../types';
-import { getAbilityModifier } from './dnd';
+import type { Character, AbilityScores } from '../types';
+import { getAbilityModifier, ABILITY_SHORT_TO_LONG } from './dnd';
 import type { FeatData } from '../data/feats';
 
 // ── Stat effect definitions ──
@@ -10,6 +10,10 @@ export interface FeatStatEffect {
   acBonus?: number;            // e.g. Defense: +1 AC
   speedBonus?: number;         // e.g. Speedy: +10, Boon of Speed: +30
   initiativeAddProficiency?: boolean; // e.g. Alert: add proficiency bonus to initiative
+  // Alternate unarmored-defense formula granted by a feat (e.g. Dragon Hide: AC = 13 + Dex).
+  // Resolved every render inside resolveAC — requires no armor; a shield may still be used.
+  unarmoredACBase?: number;                 // base AC value (e.g. 13)
+  unarmoredACAbilities?: (keyof AbilityScores)[]; // ability mods added on top (e.g. ['dexterity'])
 }
 
 /** Feats with special stat modifications that can't be read from JSON fields */
@@ -20,7 +24,31 @@ export const FEAT_STAT_EFFECTS: Record<string, FeatStatEffect> = {
   'Defense': { acBonus: 1 },
   'Speedy': { speedBonus: 10 },
   'Boon of Speed': { speedBonus: 30 },
+  'Squat Nimbleness': { speedBonus: 5 },
+  'Mark of Passage': { speedBonus: 5 },
+  'Dragon Hide': { unarmoredACBase: 13, unarmoredACAbilities: ['dexterity'] },
 };
+
+/**
+ * Extract the FIXED ability-score increases a feat grants (entries like
+ * `{ "con": 1 }`, e.g. Durable, Great Weapon Master, Sharpshooter, Actor).
+ * "choose" entries are handled separately by the picker UI and are skipped here.
+ */
+export function extractFixedAbilityBonuses(feat: FeatData): Partial<AbilityScores> {
+  const result: Partial<AbilityScores> = {};
+  if (!feat.ability) return result;
+  for (const entry of feat.ability) {
+    if (!entry || typeof entry !== 'object') continue;
+    for (const [key, value] of Object.entries(entry)) {
+      if (key === 'choose' || key === 'max') continue;
+      const longKey = ABILITY_SHORT_TO_LONG[key];
+      if (longKey && typeof value === 'number') {
+        result[longKey] = (result[longKey] ?? 0) + value;
+      }
+    }
+  }
+  return result;
+}
 
 /**
  * Apply immediate stat effects when a feat is selected.
