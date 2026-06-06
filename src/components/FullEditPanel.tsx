@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil, Braces, ShieldAlert } from 'lucide-react';
 import type { Character, AbilityScores } from '../types';
-import { getAbilityShort } from '../utils/dnd';
+import { getAbilityShort, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
+import { resolveAC, computeInitiative } from '../utils/classEffects';
 import { isManuallyEdited } from '../utils/manualEdit';
 
 interface FullEditPanelProps {
@@ -36,8 +37,32 @@ const NumField: React.FC<{ label: string; value: number; onChange: (v: number) =
 export const FullEditPanel: React.FC<FullEditPanelProps> = ({ character, onCommit, onOpenJson }) => {
   const { t } = useTranslation('character');
 
+  // Commit an ability-score / proficiency change AND recompute the derived stored
+  // stats that depend on it: AC, initiative, spell save DC / attack, and Con→HP.
+  // (Saves and skills are computed live at render, so they update on their own.)
+  // The AC/initiative/speed/HP fields below stay direct manual overrides.
+  const commitDerived = (updated: Character) => {
+    const next: Character = { ...updated };
+    const conHp = getConHpAdjustment(
+      character.abilityScores.constitution,
+      next.abilityScores.constitution,
+      next.level,
+    );
+    if (conHp !== 0) {
+      next.hitPoints = {
+        ...next.hitPoints,
+        max: next.hitPoints.max + conHp,
+        current: next.hitPoints.current + conHp,
+      };
+    }
+    recalcDerivedStats(next);
+    next.armorClass = resolveAC(next);
+    next.initiative = computeInitiative(next);
+    onCommit(next);
+  };
+
   const setAbility = (key: keyof AbilityScores, v: number) =>
-    onCommit({ ...character, abilityScores: { ...character.abilityScores, [key]: v } });
+    commitDerived({ ...character, abilityScores: { ...character.abilityScores, [key]: v } });
 
   const setHp = (patch: Partial<Character['hitPoints']>) =>
     onCommit({ ...character, hitPoints: { ...character.hitPoints, ...patch } });
@@ -72,7 +97,7 @@ export const FullEditPanel: React.FC<FullEditPanelProps> = ({ character, onCommi
         <NumField label={t('sheet.fullEdit.level')} value={character.level}
           onChange={(v) => onCommit({ ...character, level: v })} />
         <NumField label={t('sheet.fullEdit.profBonus')} value={character.proficiencyBonus}
-          onChange={(v) => onCommit({ ...character, proficiencyBonus: v })} />
+          onChange={(v) => commitDerived({ ...character, proficiencyBonus: v })} />
       </div>
 
       {/* Ability scores */}
