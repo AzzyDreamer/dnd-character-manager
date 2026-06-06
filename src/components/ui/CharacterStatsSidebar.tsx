@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
+import { getACBreakdown, getInitiativeBreakdown, getClassSpeedBonus, type StatPart } from '../../utils/classEffects';
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImagePlus, Swords, Eye, Star, type LucideIcon } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
@@ -63,6 +64,34 @@ const ABILITY_KEYS: (keyof AbilityScores)[] = [
 const SIDEBAR_ABILITY_ORDER: (keyof AbilityScores)[] = [
   'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',
 ];
+
+/** Render labelled stat parts as a formula string, e.g. "10 + 3 (DEX) + 2 (Shield) = 15". */
+function formatStatParts(
+  parts: StatPart[],
+  t: (key: string) => string,
+): string {
+  const labelFor = (p: StatPart): string => {
+    switch (p.key) {
+      case 'base': return '';
+      case 'armor': return t('sidebar.breakdown.armor');
+      case 'shield': return t('sidebar.breakdown.shield');
+      case 'feat': return t('sidebar.breakdown.feat');
+      case 'item': return t('sidebar.breakdown.item');
+      case 'prof': return t('sidebar.breakdown.proficiency');
+      case 'ability': return p.ability ? getAbilityShort(p.ability) : '';
+    }
+  };
+  let total = 0;
+  let str = '';
+  parts.forEach((p, i) => {
+    total += p.value;
+    const lbl = labelFor(p);
+    const piece = lbl ? `${Math.abs(p.value)} (${lbl})` : `${Math.abs(p.value)}`;
+    if (i === 0) str = (p.value < 0 ? '−' : '') + piece;
+    else str += (p.value < 0 ? ' − ' : ' + ') + piece;
+  });
+  return `${str} = ${total}`;
+}
 
 function SkillsPanel({
   abilityScores,
@@ -244,13 +273,40 @@ export function CharacterStatsSidebar({
   const initiative = character?.initiative;
   const profBonus = character?.proficiencyBonus ?? creationStats?.proficiencyBonus;
 
+  // ── Formula breakdowns (shown as hover tooltips; full Character only) ──
+  const acTooltip = character ? formatStatParts(getACBreakdown(character), t) : undefined;
+  const initTooltip = character ? formatStatParts(getInitiativeBreakdown(character), t) : undefined;
+  const speedTooltip = (() => {
+    if (!character) return undefined;
+    const classBonus = getClassSpeedBonus(character);
+    if (!classBonus) return undefined;
+    const base = character.speed - classBonus;
+    return `${base} + ${classBonus} (${t('sidebar.breakdown.class')}) = ${character.speed}`;
+  })();
+  const hpTooltip = character ? (() => {
+    const conMod = getAbilityModifier(character.abilityScores.constitution);
+    let s = `${t('sidebar.breakdown.hpCurrent')} ${character.hitPoints.current} · ${t('sidebar.breakdown.hpMax')} ${character.hitPoints.max}`;
+    if (character.hitPoints.temporary > 0) s += ` · ${t('sidebar.breakdown.hpTemp')} ${character.hitPoints.temporary}`;
+    s += ` · ${t('sidebar.breakdown.hpCon')} ${conMod >= 0 ? '+' : ''}${conMod}`;
+    return s;
+  })() : undefined;
+  const ppTooltip = (abilityScores?.wisdom !== undefined && profBonus !== undefined) ? (() => {
+    const parts: StatPart[] = [
+      { key: 'base', value: 10 },
+      { key: 'ability', ability: 'wisdom', value: getAbilityModifier(abilityScores.wisdom) },
+    ];
+    if (skillProficiencies.includes('perception')) parts.push({ key: 'prof', value: profBonus });
+    if (character?.skills?.perception?.expertise) parts.push({ key: 'prof', value: profBonus });
+    return formatStatParts(parts, t);
+  })() : undefined;
+
   // Combat stats revealed on portrait hover (sheet only) — slide up + fade in over a dark veil.
-  const portraitStats: { icon: LucideIcon; label: string; value: string }[] = [];
+  const portraitStats: { icon: LucideIcon; label: string; value: string; tooltip?: string }[] = [];
   if (showPortraitStats) {
-    if (ac !== undefined) portraitStats.push({ icon: Shield, label: t('sidebar.acLabel'), value: `${ac}` });
-    if (initiative !== undefined) portraitStats.push({ icon: Swords, label: t('sidebar.initiativeLabel'), value: `${initiative >= 0 ? '+' : ''}${initiative}` });
-    if (speed !== undefined) portraitStats.push({ icon: Footprints, label: t('sidebar.speedLabel'), value: `${speed}` });
-    if (profBonus !== undefined) portraitStats.push({ icon: Star, label: t('sidebar.proficiencyLabel'), value: `+${profBonus}` });
+    if (ac !== undefined) portraitStats.push({ icon: Shield, label: t('sidebar.acLabel'), value: `${ac}`, tooltip: acTooltip });
+    if (initiative !== undefined) portraitStats.push({ icon: Swords, label: t('sidebar.initiativeLabel'), value: `${initiative >= 0 ? '+' : ''}${initiative}`, tooltip: initTooltip });
+    if (speed !== undefined) portraitStats.push({ icon: Footprints, label: t('sidebar.speedLabel'), value: `${speed}`, tooltip: speedTooltip });
+    if (profBonus !== undefined) portraitStats.push({ icon: Star, label: t('sidebar.proficiencyLabel'), value: `+${profBonus}`, tooltip: level !== undefined ? `${t('sidebar.breakdown.profByLevel')} ${level}` : undefined });
     if (abilityScores?.wisdom !== undefined && profBonus !== undefined) {
       const passive = 10 + getSkillBonus(
         abilityScores.wisdom,
@@ -258,7 +314,7 @@ export function CharacterStatsSidebar({
         character?.skills?.perception?.expertise ?? false,
         profBonus,
       );
-      portraitStats.push({ icon: Eye, label: t('sidebar.passivePerception'), value: `${passive}` });
+      portraitStats.push({ icon: Eye, label: t('sidebar.passivePerception'), value: `${passive}`, tooltip: ppTooltip });
     }
   }
 
@@ -271,8 +327,12 @@ export function CharacterStatsSidebar({
         transition-all duration-300 ease-out"
     >
       <div className="space-y-1.5">
-        {portraitStats.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="flex items-center gap-2 text-white">
+        {portraitStats.map(({ icon: Icon, label, value, tooltip }) => (
+          <div
+            key={label}
+            className={`flex items-center gap-2 text-white${tooltip ? ' pointer-events-auto cursor-help' : ''}`}
+            title={tooltip}
+          >
             <Icon size={13} className="text-gold/80 shrink-0" />
             <span className="text-[11px] text-white/80 flex-1 leading-tight">{label}</span>
             <span className="text-sm font-bold tabular-nums">{value}</span>
@@ -381,14 +441,14 @@ export function CharacterStatsSidebar({
         <div className="glass-panel p-3">
           <div className="grid grid-cols-2 gap-2 text-center">
             {ac !== undefined && (
-              <div className="flex flex-col items-center gap-1">
+              <div className={`flex flex-col items-center gap-1${acTooltip ? ' cursor-help' : ''}`} title={acTooltip}>
                 <Shield size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{ac}</span>
                 <span className="text-[10px] text-text-muted uppercase">{t('sidebar.acLabel')}</span>
               </div>
             )}
             {hp !== undefined && (
-              <div className="flex flex-col items-center gap-1">
+              <div className={`flex flex-col items-center gap-1${hpTooltip ? ' cursor-help' : ''}`} title={hpTooltip}>
                 <Heart size={16} className="text-red-bright" />
                 <span className="text-lg font-bold text-text-primary">
                   {hp}{hpMax !== undefined && `/${hpMax}`}
@@ -397,14 +457,14 @@ export function CharacterStatsSidebar({
               </div>
             )}
             {initiative !== undefined && (
-              <div className="flex flex-col items-center gap-1">
+              <div className={`flex flex-col items-center gap-1${initTooltip ? ' cursor-help' : ''}`} title={initTooltip}>
                 <Swords size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{initiative >= 0 ? '+' : ''}{initiative}</span>
                 <span className="text-[10px] text-text-muted uppercase">{t('sidebar.initiativeLabel')}</span>
               </div>
             )}
             {speed !== undefined && (
-              <div className="flex flex-col items-center gap-1">
+              <div className={`flex flex-col items-center gap-1${speedTooltip ? ' cursor-help' : ''}`} title={speedTooltip}>
                 <Footprints size={16} className="text-gold/70" />
                 <span className="text-lg font-bold text-text-primary">{speed}</span>
                 <span className="text-[10px] text-text-muted uppercase">{t('sidebar.speedLabel')}</span>
@@ -412,13 +472,14 @@ export function CharacterStatsSidebar({
             )}
           </div>
           {profBonus !== undefined && (
-            <div className="mt-2 pt-2 border-t border-border-default text-center">
+            <div className="mt-2 pt-2 border-t border-border-default text-center" title={level !== undefined ? `${t('sidebar.breakdown.profByLevel')} ${level}` : undefined}>
               <span className="text-[10px] text-text-muted uppercase">{t('sidebar.proficiencyLabel')}</span>
               <span className="ml-2 text-sm font-bold text-gold">+{profBonus}</span>
             </div>
           )}
           {abilityScores?.wisdom !== undefined && profBonus !== undefined && (
-            <div className="mt-2 pt-2 border-t border-border-default flex items-center justify-center gap-1.5">
+            <div className="mt-2 pt-2 border-t border-border-default flex items-center justify-center gap-1.5"
+              title={ppTooltip}>
               <Eye size={12} className="text-gold/70" />
               <span className="text-[10px] text-text-muted uppercase">{t('sidebar.passivePerception')}</span>
               <span className="text-sm font-bold text-text-primary">
