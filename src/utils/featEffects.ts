@@ -95,7 +95,7 @@ export function applyFeatStatEffects(char: Character, featName: string): void {
 export function getOngoingFeatHpBonus(char: Character): number {
   let bonus = 0;
   for (const feat of char.feats ?? []) {
-    const effect = FEAT_STAT_EFFECTS[feat.name];
+    const effect = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
     if (effect?.hpPerLevel) {
       bonus += effect.hpPerLevel;
     }

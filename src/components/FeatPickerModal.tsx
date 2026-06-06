@@ -133,7 +133,7 @@ export function FeatPickerModal({ character, mode, onConfirm, onCancel }: FeatPi
       } else {
         if (feat.category !== category) return false;
       }
-      if (feat.name === 'Ability Score Improvement') return false;
+      if ((feat._origName ?? feat.name) === 'Ability Score Improvement') return false;
       return true;
     });
   }, [allFeats, category, isFightingStyle, character.classId]);

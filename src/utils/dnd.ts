@@ -219,6 +219,6 @@ export function recalcDerivedStats(char: Character): void {
 
   // Recalculate initiative (includes Alert feat bonus)
   const dexMod = getAbilityModifier(char.abilityScores.dexterity);
-  const hasAlert = (char.feats ?? []).some(f => f.name === 'Alert');
+  const hasAlert = (char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Alert');
   char.initiative = dexMod + (hasAlert ? char.proficiencyBonus : 0);
 }

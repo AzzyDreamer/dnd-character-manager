@@ -234,7 +234,7 @@ export function getCustomAC(char: Character): number | null {
 
   // Feat-based unarmored formulas (e.g. Dragon Hide: AC = 13 + Dex; shield allowed).
   for (const feat of char.feats ?? []) {
-    const fe = FEAT_STAT_EFFECTS[feat.name];
+    const fe = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
     if (fe?.unarmoredACBase != null) {
       let ac = fe.unarmoredACBase;
       for (const ability of fe.unarmoredACAbilities ?? []) {
@@ -300,7 +300,7 @@ export function getClassFeatureSaveBonus(char: Character): number {
 export function computeInitiative(char: Character): number {
   const scores = getEffectiveAbilityScores(char);
   let init = getAbilityModifier(scores.dexterity);
-  if ((char.feats ?? []).some(f => f.name === 'Alert')) {
+  if ((char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Alert')) {
     init += char.proficiencyBonus;
   }
   for (const e of getActiveEffects(char)) {
@@ -344,7 +344,7 @@ function getArmorBasedAC(char: Character): number | null {
     case 'medium': {
       // Medium Armor Master raises the medium-armor Dex cap from +2 to +3.
       // (Below Dex 16 the modifier is ≤2 anyway, so the feat's "Dex 16+" clause is implicit.)
-      const hasMediumArmorMaster = (char.feats ?? []).some(f => f.name === 'Medium Armor Master');
+      const hasMediumArmorMaster = (char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Medium Armor Master');
       return armor.armorAC + Math.min(dexMod, hasMediumArmorMaster ? 3 : 2);
     }
     case 'heavy':
@@ -401,7 +401,7 @@ export function resolveAC(inputChar: Character): number {
 
   // Add flat AC bonuses from feats (e.g. Defense: +1)
   for (const feat of char.feats ?? []) {
-    const effect = FEAT_STAT_EFFECTS[feat.name];
+    const effect = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
     if (effect?.acBonus) {
       baseAC += effect.acBonus;
     }

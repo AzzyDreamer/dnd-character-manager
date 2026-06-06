@@ -181,6 +181,31 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     onUpdate(updated);
   }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Миграция: проставить стабильный английский ключ feat.nameEn у персонажей,
+  // созданных до его появления. Без него логика статов (FEAT_STAT_EFFECTS, Alert,
+  // Medium Armor Master, …) не матчит черты под локализованными именами (напр. RU).
+  // После заполнения пересчитываем КД и инициативу — производные статы, которые
+  // могли «потерять» эффекты черт. (HP/скорость не трогаем — они уже зафиксированы.)
+  useEffect(() => {
+    if (!character.feats?.length) return;
+    if (character.feats.every(f => f.nameEn)) return;
+    let cancelled = false;
+    import('../data/feats').then(async mod => {
+      await mod.init();
+      if (cancelled) return;
+      const feats = character.feats!.map(f => {
+        if (f.nameEn) return f;
+        const resolved = mod.getFeatByName(f.name) as { _origName?: string } | undefined;
+        return { ...f, nameEn: resolved?._origName ?? f.name };
+      });
+      const updated = { ...character, feats };
+      updated.armorClass = resolveAC(updated);
+      updated.initiative = computeInitiative(updated);
+      onUpdate(updated);
+    });
+    return () => { cancelled = true; };
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -844,10 +869,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         source: result.feat.source,
       },
     ];
+    const fsNameEn = result.feat._origName ?? result.feat.name;
     updated.feats = [
       ...(updated.feats ?? []),
       {
         name: result.feat.name,
+        nameEn: fsNameEn,
         source: result.feat.source,
         category: result.feat.category || 'FS',
         levelAcquired: updated.level,
@@ -855,7 +882,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     ];
 
     // Apply stat effects from fighting style (e.g. Defense: +1 AC)
-    applyFeatStatEffects(updated, result.feat.name);
+    applyFeatStatEffects(updated, fsNameEn);
 
     setShowFightingStylePicker(false);
     setPendingFightingStyleLevelUp(null);
@@ -934,6 +961,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         ...(updated.feats ?? []),
         {
           name: 'Ability Score Improvement',
+          nameEn: 'Ability Score Improvement',
           source: 'XPHB',
           category: pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G',
           levelAcquired: updated.level,
@@ -976,6 +1004,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         ...(updated.feats ?? []),
         {
           name: result.feat.name,
+          nameEn: result.feat._origName ?? result.feat.name,
           source: result.feat.source,
           category: result.feat.category || (pendingFeatLevelUp.mode === 'epicBoon' ? 'EB' : 'G'),
           levelAcquired: updated.level,
@@ -998,7 +1027,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       }
 
       // Apply stat effects (HP, AC, initiative, speed)
-      applyFeatStatEffects(updated, result.feat.name);
+      applyFeatStatEffects(updated, result.feat._origName ?? result.feat.name);
 
       // Check if feat grants spells — trigger spell picker
       if (result.spellConfig) {
