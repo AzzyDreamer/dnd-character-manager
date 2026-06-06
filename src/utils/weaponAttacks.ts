@@ -221,10 +221,26 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
   };
 }
 
+/** Does the character have a fighting style (matched by stable English key)? */
+function hasFightingStyle(char: Character, nameEn: string): boolean {
+  return (char.feats ?? []).some(f => (f.nameEn ?? f.name) === nameEn);
+}
+
 export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttack[] {
   const character = { ...inputCharacter, abilityScores: getEffectiveAbilityScores(inputCharacter) };
   const attacks: WeaponAttack[] = [];
   const slots = ['mainhand', 'offhand', 'rangedMainhand', 'rangedOffhand'] as const;
+
+  // Fighting styles that change attack/damage numbers.
+  const hasArchery = hasFightingStyle(inputCharacter, 'Archery');
+  const hasDueling = hasFightingStyle(inputCharacter, 'Dueling');
+  const hasTwoWeaponFighting = hasFightingStyle(inputCharacter, 'Two-Weapon Fighting');
+  // Dueling requires "no other weapon" — a shield in the off-hand is fine.
+  const hasOffhandWeapon = (['offhand', 'rangedOffhand'] as const).some(s => {
+    const id = character.equipment[s];
+    const it = id ? character.inventory.find(i => i.id === id) : null;
+    return it?.category === 'weapon';
+  });
 
   for (const slot of slots) {
     const itemId = character.equipment[slot];
@@ -282,11 +298,23 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     // Parse magic weapon bonus (+1, +2, +3)
     const weaponBonus = parseItemBonus(item.raw?.bonusWeapon);
 
-    const attackBonus = character.proficiencyBonus + abilityMod + weaponBonus;
-    const totalDamageMod = abilityMod + weaponBonus;
-    const damageStr = totalDamageMod >= 0
-      ? `${stats.damage} + ${totalDamageMod}`
-      : `${stats.damage} - ${Math.abs(totalDamageMod)}`;
+    const twoHanded = !!internal?.propertyCodes.includes('2H')
+      || (item.raw?.property ?? []).some((p: unknown) => typeof p === 'string' && p.split('|')[0] === '2H');
+
+    // Attack roll: Archery adds +2 with ranged weapons.
+    let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus;
+    if (hasArchery && ranged) attackBonus += 2;
+
+    // Damage: off-hand attacks add the ability modifier only with Two-Weapon Fighting.
+    let totalDamageMod = (isOffhand && !hasTwoWeaponFighting ? 0 : abilityMod) + weaponBonus;
+    // Dueling: +2 damage with a one-handed melee weapon and no other weapon.
+    if (hasDueling && !ranged && !isOffhand && !twoHanded && !hasOffhandWeapon) totalDamageMod += 2;
+
+    const damageStr = totalDamageMod === 0
+      ? stats.damage
+      : totalDamageMod > 0
+        ? `${stats.damage} + ${totalDamageMod}`
+        : `${stats.damage} - ${Math.abs(totalDamageMod)}`;
 
     attacks.push({
       name: item.name,
