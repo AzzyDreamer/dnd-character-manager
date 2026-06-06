@@ -500,26 +500,23 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           }
         }
 
-        // --- Battle Master: Maneuvers (subclass feature) ---
-        if (updated.subclass && updated.classId === 'fighter') {
-          try {
-            const subMod = await import('../data/classes/subclassJsonLoader');
-            await subMod.init();
-            const subData = subMod.getSubclassById('fighter', 'battle-master');
-            if (subData) {
-              // Battle Master gains maneuvers at levels 3, 7, 10, 15
-              const BM_MANEUVER_GAINS: Record<number, number> = { 3: 3, 7: 2, 10: 2, 15: 2 };
-              const gain = BM_MANEUVER_GAINS[updated.level] ?? 0;
-              const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MV:B');
-              if (gain > 0) {
-                picks.push({
-                  config: OPTIONAL_FEATURE_CONFIGS['MV:B'],
-                  gain,
-                  allowReplace: hasExisting,
-                });
-              }
-            }
-          } catch (e) { /* ignore */ }
+        // --- Battle Master: Maneuvers (only for the Battle Master subclass) ---
+        if (
+          updated.classId === 'fighter' &&
+          updated.subclass &&
+          getSubclassIdByName('fighter', updated.subclass) === 'battle-master'
+        ) {
+          // Battle Master gains maneuvers at levels 3, 7, 10, 15
+          const BM_MANEUVER_GAINS: Record<number, number> = { 3: 3, 7: 2, 10: 2, 15: 2 };
+          const gain = BM_MANEUVER_GAINS[updated.level] ?? 0;
+          if (gain > 0) {
+            const hasExisting = (updated.optionalFeatures ?? []).some(f => f.featureType === 'MV:B');
+            picks.push({
+              config: OPTIONAL_FEATURE_CONFIGS['MV:B'],
+              gain,
+              allowReplace: hasExisting,
+            });
+          }
         }
 
         if (picks.length === 0) {
