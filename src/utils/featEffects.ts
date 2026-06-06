@@ -8,6 +8,7 @@ export interface FeatStatEffect {
   hpPerLevel?: number;         // e.g. Tough: +2 HP per character level
   hpFlat?: number;             // e.g. Boon of Fortitude: +40 HP
   acBonus?: number;            // e.g. Defense: +1 AC
+  acBonusRequiresArmor?: boolean; // e.g. Defense only applies while wearing armor
   speedBonus?: number;         // e.g. Speedy: +10, Boon of Speed: +30
   initiativeAddProficiency?: boolean; // e.g. Alert: add proficiency bonus to initiative
   // Alternate unarmored-defense formula granted by a feat (e.g. Dragon Hide: AC = 13 + Dex).
@@ -21,7 +22,7 @@ export const FEAT_STAT_EFFECTS: Record<string, FeatStatEffect> = {
   'Tough': { hpPerLevel: 2 },
   'Boon of Fortitude': { hpFlat: 40 },
   'Alert': { initiativeAddProficiency: true },
-  'Defense': { acBonus: 1 },
+  'Defense': { acBonus: 1, acBonusRequiresArmor: true },
   'Speedy': { speedBonus: 10 },
   'Boon of Speed': { speedBonus: 30 },
   'Squat Nimbleness': { speedBonus: 5 },
@@ -54,6 +55,16 @@ export function extractFixedAbilityBonuses(feat: FeatData): Partial<AbilityScore
  * Apply immediate stat effects when a feat is selected.
  * Mutates the character object in place.
  */
+/** Is the character wearing body armor (not just a shield)? Inlined here to
+ *  avoid a circular import with classEffects. */
+function isWearingArmorBasic(char: Character): boolean {
+  const armorId = char.equipment?.armor;
+  if (!armorId) return false;
+  const item = char.inventory?.find(i => i.id === armorId);
+  if (!item) return false;
+  return (!!item.armorType && item.armorType !== 'shield') || item.category === 'armor';
+}
+
 export function applyFeatStatEffects(char: Character, featName: string): void {
   const effect = FEAT_STAT_EFFECTS[featName];
   if (!effect) return;
@@ -75,7 +86,7 @@ export function applyFeatStatEffects(char: Character, featName: string): void {
     };
   }
 
-  if (effect.acBonus) {
+  if (effect.acBonus && (!effect.acBonusRequiresArmor || isWearingArmorBasic(char))) {
     char.armorClass += effect.acBonus;
   }
 

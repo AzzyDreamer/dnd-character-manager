@@ -433,9 +433,11 @@ export function getACBreakdown(inputChar: Character): StatPart[] {
   if (shield) parts.push({ key: 'shield', value: shield });
 
   let featAc = 0;
+  const wearingArmor = isWearingArmor(char);
   for (const feat of char.feats ?? []) {
     const effect = FEAT_STAT_EFFECTS[feat.nameEn ?? feat.name];
-    if (effect?.acBonus) featAc += effect.acBonus;
+    // Defense and similar bonuses only apply while wearing armor.
+    if (effect?.acBonus && (!effect.acBonusRequiresArmor || wearingArmor)) featAc += effect.acBonus;
   }
   if (featAc) parts.push({ key: 'feat', value: featAc });
 
