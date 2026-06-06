@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier } from '../types';
+import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResistanceEntry, DamageResistanceModifier, ResourceTracker } from '../types';
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
@@ -12,6 +12,7 @@ import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
 import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative } from '../utils/classEffects';
 import { getAllItemTemplatesSync } from '../data/items';
+import { isShortRestResource } from '../utils/classResources';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
@@ -222,6 +223,56 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       ...character,
       hitPoints: { ...character.hitPoints, temporary: Math.max(0, temporary) }
     });
+  };
+
+  // ── Rest ──
+  const [confirmLongRest, setConfirmLongRest] = useState(false);
+
+  const restoreAllSlots = (char: Character): Character => {
+    if (!char.spellcasting?.spellSlots) return char;
+    const slots = { ...char.spellcasting.spellSlots };
+    for (const k of Object.keys(slots) as (keyof SpellSlots)[]) {
+      slots[k] = { ...slots[k], used: 0 };
+    }
+    return { ...char, spellcasting: { ...char.spellcasting, spellSlots: slots } };
+  };
+
+  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots. */
+  const applyShortRest = () => {
+    let updated: Character = { ...character, updatedAt: new Date().toISOString() };
+    if (updated.resourceTrackers) {
+      const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
+      for (const [key, val] of Object.entries(rt)) {
+        if (isShortRestResource(key)) rt[key] = { ...val, current: val.max };
+      }
+      updated.resourceTrackers = rt;
+    }
+    // Warlock Pact Magic returns on a short rest
+    if (updated.classId === 'warlock') updated = restoreAllSlots(updated);
+    onUpdate(updated);
+  };
+
+  /** Long rest: full HP, clear temp HP, regain half the hit dice, reset spell
+   *  slots, refill every class resource, reset death saves. */
+  const applyLongRest = () => {
+    setConfirmLongRest(false);
+    const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
+    let updated: Character = {
+      ...character,
+      hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
+      hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
+      deathSaves: { successes: 0, failures: 0 },
+      updatedAt: new Date().toISOString(),
+    };
+    updated = restoreAllSlots(updated);
+    if (updated.resourceTrackers) {
+      const rt: Record<string, ResourceTracker> = {};
+      for (const [key, val] of Object.entries(updated.resourceTrackers)) {
+        rt[key] = { ...val, current: val.max };
+      }
+      updated.resourceTrackers = rt;
+    }
+    onUpdate(updated);
   };
 
   const handleLevelUp = () => {
@@ -1342,6 +1393,35 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                         >+</button>
                         <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
                       </div>
+                    </div>
+                    {/* Rest */}
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-default">
+                      <span className="text-sm font-medium text-text-secondary mr-auto">{t('sheet.rest.title')}</span>
+                      <button
+                        onClick={applyShortRest}
+                        className="px-3 py-1.5 rounded border border-border-default text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors text-sm"
+                        title={t('sheet.rest.shortTooltip')}
+                      >
+                        {t('sheet.rest.short')}
+                      </button>
+                      {confirmLongRest ? (
+                        <button
+                          onClick={applyLongRest}
+                          onBlur={() => setConfirmLongRest(false)}
+                          autoFocus
+                          className="px-3 py-1.5 rounded border border-gold/60 bg-gold/20 text-gold transition-colors text-sm font-semibold"
+                        >
+                          {t('sheet.rest.confirm')}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmLongRest(true)}
+                          className="px-3 py-1.5 rounded border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors text-sm"
+                          title={t('sheet.rest.longTooltip')}
+                        >
+                          {t('sheet.rest.long')}
+                        </button>
+                      )}
                     </div>
                   </div>
 

@@ -321,6 +321,14 @@
       "temporaryHp": "Temporary:",
       "hitDice": "Hit Dice"
     },
+    "rest": {
+      "title": "Rest",
+      "short": "Short rest",
+      "long": "Long rest",
+      "confirm": "Confirm?",
+      "shortTooltip": "Recharge short-rest resources (and Warlock Pact Magic slots).",
+      "longTooltip": "Full HP, regain half your Hit Dice, reset spell slots and all class resources, reset death saves."
+    },
     "skills": {
       "title": "Skills",
       "rollTooltip": "Roll {{skill}}: 1d20{{mod}}",
