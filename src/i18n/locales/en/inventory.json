@@ -79,6 +79,22 @@
     "sp": "{{value}} sp",
     "cp": "{{value}} cp"
   },
+  "capacity": {
+    "overloaded": "Overloaded",
+    "tooltip": "Carrying capacity: {{capacity}} lbs. (STR × 15)",
+    "overTooltip": "Carrying more than your capacity (STR × 15)"
+  },
+  "buy": {
+    "deductGold": "Buy",
+    "tooltip": "Deduct the item's cost from your coins when adding it",
+    "noPrice": "This item has no listed price",
+    "cantAfford": "Not enough coin",
+    "buyItem": "Buy {{name}}"
+  },
+  "sell": {
+    "label": "Sell for half its value",
+    "button": "Sell ({{coins}})"
+  },
 
   "profWarning": {
     "title": "No Proficiency",

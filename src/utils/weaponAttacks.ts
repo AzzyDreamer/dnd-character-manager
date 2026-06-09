@@ -2,6 +2,8 @@ import type { Character } from '../types';
 import { getAbilityModifier, formatModifier } from './dnd';
 import { getDamageTypeName, getPropertyName } from '../data/items/constants';
 import { getEffectiveAbilityScores } from './classEffects';
+import { getClassById, findSubclass } from '../data/classes';
+import { getExhaustionD20Penalty } from './conditionEffects';
 import i18n from '../i18n';
 import { asset } from '../utils/asset';
 
@@ -179,12 +181,16 @@ export interface WeaponAttack {
   properties: string[];
   isRanged: boolean;
   image: string;
+  // Combat-math flags (for power-attack toggles / fighting-style markers)
+  heavy?: boolean;          // Heavy property — Great Weapon Master eligible
+  thrown?: boolean;         // Thrown property
+  greatWeaponFighting?: boolean; // GWF reroll-1s applies to this attack's damage dice
 }
 
 export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
   const character = { ...inputCharacter, abilityScores: getEffectiveAbilityScores(inputCharacter) };
+  const exhaustionPenalty = getExhaustionD20Penalty(inputCharacter);
   const strMod = getAbilityModifier(character.abilityScores.strength);
-  const attackBonus = character.proficiencyBonus + strMod;
   // Monk: martial arts die + DEX or STR
   const isMonk = character.classId === 'monk';
   let damage: string;
@@ -192,7 +198,7 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
   if (isMonk) {
     const dexMod = getAbilityModifier(character.abilityScores.dexterity);
     abilityMod = Math.max(strMod, dexMod);
-    const monkBonus = character.proficiencyBonus + abilityMod;
+    const monkBonus = character.proficiencyBonus + abilityMod + exhaustionPenalty;
     const martialDie = character.level >= 17 ? '1d12' : character.level >= 11 ? '1d10' : character.level >= 5 ? '1d8' : '1d6';
     damage = abilityMod >= 0 ? `${martialDie} + ${abilityMod}` : `${martialDie} - ${Math.abs(abilityMod)}`;
     return {
@@ -207,6 +213,7 @@ export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
       image: asset('/images/Unarmed_Strike.webp'),
     };
   }
+  const attackBonus = character.proficiencyBonus + strMod + exhaustionPenalty;
   damage = strMod >= 0 ? `1 + ${strMod}` : `1 - ${Math.abs(strMod)}`;
   return {
     name: i18n.t('weapons.unarmedStrike', { ns: 'game' }),
@@ -231,10 +238,14 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
   const attacks: WeaponAttack[] = [];
   const slots = ['mainhand', 'offhand', 'rangedMainhand', 'rangedOffhand'] as const;
 
+  const exhaustionPenalty = getExhaustionD20Penalty(inputCharacter);
+
   // Fighting styles that change attack/damage numbers.
   const hasArchery = hasFightingStyle(inputCharacter, 'Archery');
   const hasDueling = hasFightingStyle(inputCharacter, 'Dueling');
   const hasTwoWeaponFighting = hasFightingStyle(inputCharacter, 'Two-Weapon Fighting');
+  const hasThrownWeaponFighting = hasFightingStyle(inputCharacter, 'Thrown Weapon Fighting');
+  const hasGreatWeaponFighting = hasFightingStyle(inputCharacter, 'Great Weapon Fighting');
   // Dueling requires "no other weapon" — a shield in the off-hand is fine.
   const hasOffhandWeapon = (['offhand', 'rangedOffhand'] as const).some(s => {
     const id = character.equipment[s];
@@ -268,7 +279,7 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
 
     if (!stats) {
       const wb = parseItemBonus(item.raw?.bonusWeapon);
-      const ab = character.proficiencyBonus + wb;
+      const ab = character.proficiencyBonus + wb + exhaustionPenalty;
       attacks.push({
         name: item.name,
         slot,
@@ -298,17 +309,27 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     // Parse magic weapon bonus (+1, +2, +3)
     const weaponBonus = parseItemBonus(item.raw?.bonusWeapon);
 
-    const twoHanded = !!internal?.propertyCodes.includes('2H')
-      || (item.raw?.property ?? []).some((p: unknown) => typeof p === 'string' && p.split('|')[0] === '2H');
+    const hasProp = (code: string) => !!internal?.propertyCodes.includes(code)
+      || (item.raw?.property ?? []).some((p: unknown) => typeof p === 'string' && p.split('|')[0] === code);
+    const twoHanded = hasProp('2H');
+    const heavy = hasProp('H');
+    const thrown = hasProp('T');
 
-    // Attack roll: Archery adds +2 with ranged weapons.
-    let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus;
+    // Attack roll: Archery adds +2 with ranged weapons. Exhaustion subtracts 2/level.
+    let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus + exhaustionPenalty;
     if (hasArchery && ranged) attackBonus += 2;
 
     // Damage: off-hand attacks add the ability modifier only with Two-Weapon Fighting.
     let totalDamageMod = (isOffhand && !hasTwoWeaponFighting ? 0 : abilityMod) + weaponBonus;
     // Dueling: +2 damage with a one-handed melee weapon and no other weapon.
     if (hasDueling && !ranged && !isOffhand && !twoHanded && !hasOffhandWeapon) totalDamageMod += 2;
+    // Thrown Weapon Fighting: +2 damage when throwing a thrown weapon (melee throw).
+    if (hasThrownWeaponFighting && thrown && !ranged) totalDamageMod += 2;
+
+    // Great Weapon Fighting: reroll 1s/2s on the damage dice of a two-handed/versatile
+    // melee weapon — not a flat number, surfaced as a marker on the attack.
+    const greatWeaponFighting = hasGreatWeaponFighting && !ranged && !isOffhand
+      && (twoHanded || (item.raw?.dmg2 != null && !character.equipment.offhand));
 
     const damageStr = totalDamageMod === 0
       ? stats.damage
@@ -326,6 +347,9 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
       properties: stats.properties,
       isRanged: ranged,
       image: attackImage,
+      heavy,
+      thrown,
+      greatWeaponFighting,
     });
   }
 
@@ -461,6 +485,57 @@ function resolveItemMastery(item: { name: string; mastery?: string[]; raw?: any 
   }
 
   return undefined;
+}
+
+// ── Extra Attack ──
+
+// Classes that gain Extra Attack (2 attacks) at level 5.
+const EXTRA_ATTACK_AT_5 = new Set(['barbarian', 'fighter', 'monk', 'paladin', 'ranger']);
+// Subclasses that grant Extra Attack at level 6 to otherwise non-martial classes.
+const SUBCLASS_EXTRA_ATTACK_AT_6 = new Set([
+  'wizard:bladesinger', 'bard:swords', 'bard:valor',
+]);
+// Artificer subclasses gain Extra Attack at level 5.
+const SUBCLASS_EXTRA_ATTACK_AT_5 = new Set([
+  'artificer:battle-smith', 'artificer:armorer',
+]);
+
+/**
+ * How many attacks the character makes with the Attack action.
+ * Fighter scales to 4; other martials to 2; Warlock via the Thirsting Blade
+ * (2) / Devouring Blade (3) invocations; some subclasses grant a second attack.
+ * Returns 1 when the character has no Extra Attack feature.
+ */
+export function getAttacksPerAction(char: Character): number {
+  const level = char.level;
+  const classId = char.classId;
+
+  let count = 1;
+
+  if (classId === 'fighter') {
+    if (level >= 20) count = 4;
+    else if (level >= 11) count = 3;
+    else if (level >= 5) count = 2;
+  } else if (EXTRA_ATTACK_AT_5.has(classId) && level >= 5) {
+    count = 2;
+  }
+
+  // Subclass-granted Extra Attack (only raises to 2 if not already higher).
+  if (count < 2 && char.subclass) {
+    const classDef = getClassById(classId);
+    const subDef = classDef ? findSubclass(classDef, char.subclass) : undefined;
+    const subId = subDef ? `${classId}:${subDef.id}` : '';
+    if (level >= 6 && SUBCLASS_EXTRA_ATTACK_AT_6.has(subId)) count = 2;
+    if (level >= 5 && SUBCLASS_EXTRA_ATTACK_AT_5.has(subId)) count = 2;
+  }
+
+  // Warlock pact-weapon invocations.
+  const features = char.optionalFeatures ?? [];
+  const hasInvocation = (name: string) => features.some(f => f.name === name);
+  if (hasInvocation('Devouring Blade')) count = Math.max(count, 3);
+  else if (hasInvocation('Thirsting Blade')) count = Math.max(count, 2);
+
+  return count;
 }
 
 export function getEquippedMasteryActions(character: Character): MasteryAction[] {

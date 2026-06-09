@@ -421,6 +421,24 @@ export interface Character {
   // Активные состояния (Blinded, Charmed, etc.)
   conditions?: string[];
 
+  // Уровень истощения (0–6). Правила 2024: −2×уровень ко всем проверкам d20 и
+  // −5 фт×уровень к скорости; 6 = смерть.
+  exhaustion?: number;
+
+  // Героическое вдохновение (2024): можно перебросить любой d20.
+  heroicInspiration?: boolean;
+
+  // Чувства (в футах): тёмное зрение, слепое зрение и т.д.
+  senses?: {
+    darkvision?: number;
+    blindsight?: number;
+    tremorsense?: number;
+    truesight?: number;
+  };
+
+  // Концентрация: имя заклинания, на котором персонаж сейчас концентрируется.
+  concentratingOn?: string;
+
   // Устойчивости / уязвимости / иммунитеты к типам урона
   damageResistances?: DamageResistanceEntry[];
 

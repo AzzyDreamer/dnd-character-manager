@@ -319,7 +319,32 @@
     "health": {
       "title": "Health",
       "temporaryHp": "Temporary:",
-      "hitDice": "Hit Dice"
+      "hitDice": "Hit Dice",
+      "spendHitDie": "Heal",
+      "spendHitDieTooltip": "Spend a Hit Die: roll it + CON to regain HP"
+    },
+    "status": {
+      "exhaustion": "Exhaustion",
+      "exhaustionEffect": "−{{d20}} to d20 tests, −{{speed}} ft speed",
+      "exhaustionDeath": "Level 6 — death",
+      "heroicInspiration": "Inspiration",
+      "heroicInspirationTooltip": "Heroic Inspiration: you may reroll any d20"
+    },
+    "concentration": {
+      "title": "Concentration",
+      "placeholder": "Not concentrating — type a spell name",
+      "clear": "Drop",
+      "damageTaken": "Damage taken:",
+      "dc": "DC {{dc}}",
+      "rollSave": "CON save {{mod}}"
+    },
+    "senses": {
+      "title": "Senses",
+      "darkvision": "Darkvision",
+      "blindsight": "Blindsight",
+      "tremorsense": "Tremorsense",
+      "truesight": "Truesight",
+      "ft": "ft."
     },
     "rest": {
       "title": "Rest",
@@ -356,6 +381,32 @@
       "filterConditions": "Conditions",
       "filterDiseases": "Diseases",
       "nothingFound": "Nothing found",
+      "speedZeroTag": "Speed 0",
+      "effects": {
+        "cantSee": "Can't see; auto-fail sight checks",
+        "cantHear": "Can't hear; auto-fail hearing checks",
+        "attackDisadv": "Disadvantage on attack rolls",
+        "attackAdv": "Advantage on attack rolls",
+        "attackedAdv": "Attacks against you have advantage",
+        "attackedDisadv": "Attacks against you have disadvantage",
+        "attackDisadvOthers": "Disadvantage on attacks vs others",
+        "attackCheckDisadv": "Disadvantage on attack rolls and ability checks",
+        "checkAttackDisadv": "Disadvantage on ability checks and attacks while source is in sight",
+        "cantMoveCloser": "Can't willingly move closer to the source",
+        "cantTargetCharmer": "Can't attack the charmer",
+        "charmerSocialAdv": "Charmer has advantage on social checks against you",
+        "speedZero": "Speed becomes 0",
+        "noActions": "Incapacitated: no actions, bonus actions or reactions",
+        "concentrationBroken": "Concentration is broken",
+        "failStrDexSaves": "Auto-fail STR and DEX saving throws",
+        "dexSaveDisadv": "Disadvantage on DEX saving throws",
+        "critWithin5": "Attacks from within 5 ft are critical hits",
+        "resistAll": "Resistance to all damage",
+        "meleeAttackedAdv": "Melee attacks against you have advantage",
+        "rangedAttackedDisadv": "Ranged attacks against you have disadvantage",
+        "crawlHalfSpeed": "Movement is crawling at half speed",
+        "prone": "You have the Prone condition"
+      },
       "names": {
         "Blinded": "Blinded",
         "Charmed": "Charmed",

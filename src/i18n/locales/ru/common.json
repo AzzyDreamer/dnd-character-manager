@@ -91,7 +91,17 @@
       "hpMax": "Макс.:",
       "hpTemp": "Врем.:",
       "hpCon": "Тел/ур.:",
-      "profByLevel": "По уровню"
+      "profByLevel": "По уровню",
+      "exhaustion": "истощение",
+      "speedZeroCondition": "Скорость обнулена активным состоянием"
+    },
+    "sensesLabel": "Чувства",
+    "senses": {
+      "darkvision": "Тёмное зрение",
+      "blindsight": "Слепое зрение",
+      "tremorsense": "Чувство вибрации",
+      "truesight": "Истинное зрение",
+      "feet": "{{value}} фт."
     },
     "skillsLabel": "Навыки",
     "languagesLabel": "Языки",

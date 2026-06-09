@@ -6,7 +6,7 @@ export type { Tab } from './TabBar';
 export { GoldDivider } from './GoldDivider';
 export { StatBadge } from './StatBadge';
 export { CycleSelector } from './CycleSelector';
-export { CharacterStatsSidebar } from './CharacterStatsSidebar';
+export { CharacterStatsSidebar, formatStatParts } from './CharacterStatsSidebar';
 export type { CreationStats } from './CharacterStatsSidebar';
 export { SpellIconBadge } from './SpellIconBadge';
 export { SpellTooltip } from './SpellTooltip';

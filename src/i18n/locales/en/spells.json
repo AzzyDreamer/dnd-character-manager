@@ -72,7 +72,13 @@
     "namePlaceholder": "Name",
     "attackBonusPlaceholder": "Attack bonus",
     "damagePlaceholder": "Damage (1d8 + 3)",
-    "damageTypePlaceholder": "Damage type"
+    "damageTypePlaceholder": "Damage type",
+    "attacksPerAction": "{{count}}× attacks",
+    "extraAttackTooltip": "Extra Attack: number of attacks made with the Attack action",
+    "powerAttack": "−5/+10",
+    "powerAttackTooltip": "Power attack: −5 to hit, +10 damage (Sharpshooter / Great Weapon Master)",
+    "gwf": "GWF",
+    "gwfTooltip": "Great Weapon Fighting: reroll 1s and 2s on damage dice"
   },
   "actions": {
     "title": "Actions and Abilities"
