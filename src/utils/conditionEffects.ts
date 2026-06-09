@@ -1,0 +1,67 @@
+import type { Character } from '../types';
+
+// ── Condition mechanics ──
+//
+// Keyed by the canonical English condition name (lowercase). `speedZero` marks
+// conditions that reduce speed to 0; `effectKeys` are i18n keys (under
+// character:sheet.conditions.effects.*) describing the mechanical effects shown
+// on the condition chip. Only the standard PHB conditions carry mechanics;
+// diseases and homebrew states fall through with no entry.
+
+export interface ConditionMechanics {
+  speedZero?: boolean;
+  /** Breaks/incapacitates: no actions; also breaks Concentration. */
+  incapacitated?: boolean;
+  effectKeys: string[];
+}
+
+export const CONDITION_MECHANICS: Record<string, ConditionMechanics> = {
+  blinded: { effectKeys: ['cantSee', 'attackDisadv', 'attackedAdv'] },
+  charmed: { effectKeys: ['cantTargetCharmer', 'charmerSocialAdv'] },
+  deafened: { effectKeys: ['cantHear'] },
+  frightened: { effectKeys: ['checkAttackDisadv', 'cantMoveCloser'] },
+  grappled: { speedZero: true, effectKeys: ['speedZero', 'attackDisadvOthers'] },
+  incapacitated: { incapacitated: true, effectKeys: ['noActions', 'concentrationBroken'] },
+  invisible: { effectKeys: ['attackAdv', 'attackedDisadv'] },
+  paralyzed: { speedZero: true, incapacitated: true, effectKeys: ['speedZero', 'noActions', 'failStrDexSaves', 'attackedAdv', 'critWithin5'] },
+  petrified: { speedZero: true, incapacitated: true, effectKeys: ['speedZero', 'noActions', 'failStrDexSaves', 'attackedAdv', 'resistAll'] },
+  poisoned: { effectKeys: ['attackCheckDisadv'] },
+  prone: { effectKeys: ['attackDisadv', 'meleeAttackedAdv', 'rangedAttackedDisadv', 'crawlHalfSpeed'] },
+  restrained: { speedZero: true, effectKeys: ['speedZero', 'attackDisadv', 'attackedAdv', 'dexSaveDisadv'] },
+  stunned: { speedZero: true, incapacitated: true, effectKeys: ['speedZero', 'noActions', 'failStrDexSaves', 'attackedAdv'] },
+  unconscious: { speedZero: true, incapacitated: true, effectKeys: ['speedZero', 'noActions', 'prone', 'failStrDexSaves', 'attackedAdv', 'critWithin5'] },
+};
+
+export function getConditionMechanics(name: string): ConditionMechanics | undefined {
+  return CONDITION_MECHANICS[name.toLowerCase()];
+}
+
+/** Does any active condition reduce the character's speed to 0? */
+export function hasSpeedZeroCondition(char: Character): boolean {
+  return (char.conditions ?? []).some(c => getConditionMechanics(c)?.speedZero);
+}
+
+/** Current exhaustion level, clamped to 0–6. */
+export function getExhaustionLevel(char: Character): number {
+  return Math.max(0, Math.min(6, char.exhaustion ?? 0));
+}
+
+/**
+ * Flat penalty applied to every d20 test from Exhaustion (2024): −2 per level.
+ * Returns a non-positive number. Applied live to attacks, saves, skills and
+ * initiative — never baked into stored stats.
+ */
+export function getExhaustionD20Penalty(char: Character): number {
+  return -2 * getExhaustionLevel(char);
+}
+
+/**
+ * Effective speed after conditions and exhaustion. `baseSpeed` already includes
+ * class/feat bonuses (the stored `character.speed`). Speed-zeroing conditions
+ * win outright; otherwise Exhaustion subtracts 5 ft per level (floored at 0).
+ */
+export function getEffectiveSpeed(char: Character): number {
+  if (hasSpeedZeroCondition(char)) return 0;
+  const reduced = char.speed - 5 * getExhaustionLevel(char);
+  return Math.max(0, reduced);
+}

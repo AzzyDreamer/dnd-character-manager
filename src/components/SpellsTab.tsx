@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Character, CharacterSpell, CustomAttack } from '../types';
 import { getAbilityModifier, getAbilityName } from '../utils/dnd';
 import { getEffectiveAbilityScores } from '../utils/classEffects';
-import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike } from '../utils/weaponAttacks';
+import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike, getAttacksPerAction, type WeaponAttack } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
 import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { getAutoSpellsForLevel } from '../utils/autoSpells';
@@ -241,11 +241,40 @@ const WeaponAttacksSection: React.FC<{
   const [showAddForm, setShowAddForm] = useState(false);
   const [newAttack, setNewAttack] = useState({ name: '', attackBonus: 0, damage: '', damageType: '', notes: '' });
   const [expandedMastery, setExpandedMastery] = useState<string | null>(null);
+  const [powerAttack, setPowerAttack] = useState(false);
 
   const equippedAttacks = getEquippedWeaponAttacks(character);
   const unarmedStrike = getUnarmedStrike(character);
   const masteryActions = getEquippedMasteryActions(character);
   const customAttacks = character.customAttacks ?? [];
+  const attacksPerAction = getAttacksPerAction(character);
+
+  // Power-attack toggle (−5 to hit / +10 damage). Sharpshooter applies to ranged
+  // weapons, Great Weapon Master to Heavy melee weapons.
+  const hasFeat = (nameEn: string) => (character.feats ?? []).some(f => (f.nameEn ?? f.name) === nameEn);
+  const hasSharpshooter = hasFeat('Sharpshooter');
+  const hasGreatWeaponMaster = hasFeat('Great Weapon Master');
+  const canPowerAttack = hasSharpshooter || hasGreatWeaponMaster;
+  const isPowerAttackEligible = (atk: WeaponAttack) =>
+    (hasSharpshooter && atk.isRanged) || (hasGreatWeaponMaster && atk.heavy && !atk.isRanged);
+
+  /** Add a flat delta to a damage string's trailing modifier ("1d8 + 3" → "1d8 + 13"). */
+  const adjustDamageMod = (damage: string, delta: number): string => {
+    const m = damage.match(/^(.*?)(?:\s*([+-])\s*(\d+))?$/);
+    if (!m) return damage;
+    const base = m[1].trim();
+    const sign = m[2];
+    const cur = sign ? (sign === '-' ? -parseInt(m[3]) : parseInt(m[3])) : 0;
+    const next = cur + delta;
+    if (next === 0) return base;
+    return `${base} ${next > 0 ? '+' : '−'} ${Math.abs(next)}`;
+  };
+
+  /** Apply the active power-attack modifier to an attack for display. */
+  const applyPower = (atk: WeaponAttack): WeaponAttack => {
+    if (!powerAttack || !isPowerAttackEligible(atk)) return atk;
+    return { ...atk, attackBonus: atk.attackBonus - 5, damage: adjustDamageMod(atk.damage, 10) };
+  };
 
   const addCustomAttack = () => {
     if (!newAttack.name.trim()) return;
@@ -282,18 +311,44 @@ const WeaponAttacksSection: React.FC<{
         <h3 className="text-sm font-medieval text-gold flex items-center gap-2">
           <Swords size={14} />
           {t('attacks.title')}
+          {attacksPerAction > 1 && (
+            <span
+              className="text-[10px] font-sans px-1.5 py-0.5 rounded bg-gold/15 text-gold border border-gold/30"
+              title={t('attacks.extraAttackTooltip')}
+            >
+              {t('attacks.attacksPerAction', { count: attacksPerAction })}
+            </span>
+          )}
         </h3>
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="text-xs text-text-muted hover:text-gold transition-colors flex items-center gap-1"
-        >
-          <Plus size={12} /> {t('attacks.add')}
-        </button>
+        <div className="flex items-center gap-3">
+          {canPowerAttack && (
+            <button
+              onClick={() => setPowerAttack(p => !p)}
+              title={t('attacks.powerAttackTooltip')}
+              className={`text-xs flex items-center gap-1 px-1.5 py-0.5 rounded border transition-colors ${
+                powerAttack
+                  ? 'border-amber-400/60 bg-amber-400/15 text-amber-300'
+                  : 'border-border-default text-text-muted hover:text-text-secondary'
+              }`}
+            >
+              <Zap size={11} /> {t('attacks.powerAttack')}
+            </button>
+          )}
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="text-xs text-text-muted hover:text-gold transition-colors flex items-center gap-1"
+          >
+            <Plus size={12} /> {t('attacks.add')}
+          </button>
+        </div>
       </div>
 
       <div className="space-y-1.5">
         {/* Equipped weapon attacks */}
-        {equippedAttacks.map((atk, i) => (
+        {equippedAttacks.map((raw, i) => {
+          const atk = applyPower(raw);
+          const powered = powerAttack && isPowerAttackEligible(raw);
+          return (
           <div key={`eq-${i}`} className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">
             <img
               src={atk.image}
@@ -303,7 +358,19 @@ const WeaponAttacksSection: React.FC<{
               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-text-primary text-sm">{atk.name}</div>
+              <div className="font-medium text-text-primary text-sm flex items-center gap-1.5">
+                {atk.name}
+                {raw.greatWeaponFighting && (
+                  <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-bg-tertiary text-text-muted border border-border-default" title={t('attacks.gwfTooltip')}>
+                    {t('attacks.gwf')}
+                  </span>
+                )}
+                {powered && (
+                  <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-amber-400/15 text-amber-300 border border-amber-400/30">
+                    {t('attacks.powerAttack')}
+                  </span>
+                )}
+              </div>
               <div className="text-[10px] text-text-muted">{
                         atk.slot === 'offhand' ? t('attacks.offhand') :
                         atk.slot === 'rangedMainhand' ? t('attacks.rangedMainhand') :
@@ -315,7 +382,8 @@ const WeaponAttacksSection: React.FC<{
             <ClickableDamage damage={atk.damage} className="text-text-secondary min-w-[90px] text-right" />
             <span className="text-xs text-text-muted min-w-[60px]">{atk.damageType}</span>
           </div>
-        ))}
+          );
+        })}
 
         {/* Unarmed Strike (always available) */}
         <div className="flex items-center gap-2.5 text-sm py-1.5 px-2 rounded bg-bg-secondary/50">

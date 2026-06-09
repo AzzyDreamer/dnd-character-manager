@@ -72,7 +72,13 @@
     "namePlaceholder": "Название",
     "attackBonusPlaceholder": "Бонус атаки",
     "damagePlaceholder": "Урон (1d8 + 3)",
-    "damageTypePlaceholder": "Тип урона"
+    "damageTypePlaceholder": "Тип урона",
+    "attacksPerAction": "{{count}}× атаки",
+    "extraAttackTooltip": "Дополнительная атака: число атак за действие «Атака»",
+    "powerAttack": "−5/+10",
+    "powerAttackTooltip": "Силовая атака: −5 к попаданию, +10 к урону (Меткий стрелок / Мастер большого оружия)",
+    "gwf": "БО",
+    "gwfTooltip": "Сражение большим оружием: переброс единиц и двоек на костях урона"
   },
   "actions": {
     "title": "Действия и способности"

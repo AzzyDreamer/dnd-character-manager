@@ -91,7 +91,17 @@
       "hpMax": "Max:",
       "hpTemp": "Temp:",
       "hpCon": "CON/lvl:",
-      "profByLevel": "By level"
+      "profByLevel": "By level",
+      "exhaustion": "exhaustion",
+      "speedZeroCondition": "Speed reduced to 0 by an active condition"
+    },
+    "sensesLabel": "Senses",
+    "senses": {
+      "darkvision": "Darkvision",
+      "blindsight": "Blindsight",
+      "tremorsense": "Tremorsense",
+      "truesight": "Truesight",
+      "feet": "{{value}} ft."
     },
     "skillsLabel": "Skills",
     "languagesLabel": "Languages",

@@ -18,8 +18,9 @@ import {
   getAllItemTemplatesSync,
   type ItemTemplate,
 } from '../data/items';
-import { resolveAC, getClassSpeedBonus, hasItemProficiency } from '../utils/classEffects';
-import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins } from 'lucide-react';
+import { resolveAC, getClassSpeedBonus, hasItemProficiency, getEffectiveAbilityScores } from '../utils/classEffects';
+import { currencyToCopper, adjustCurrency } from '../utils/currency';
+import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins, AlertTriangle } from 'lucide-react';
 
 // ============================
 // Константы сетки (все предметы 1x1)
@@ -31,6 +32,13 @@ const EQUIP_SLOT_SIZE = 72; // px — equipment slots
 
 // D&D 5e: a character can be attuned to at most 3 magic items at once.
 const MAX_ATTUNEMENT = 3;
+
+/** Format a copper amount as the largest sensible coin (gp / sp / cp). */
+function formatCoins(cp: number, t: (key: string, opts?: { value: number | string }) => string): string {
+  if (cp >= 100) return t('itemValue.gp', { value: cp % 100 === 0 ? cp / 100 : (cp / 100).toFixed(1) });
+  if (cp >= 10) return t('itemValue.sp', { value: cp % 10 === 0 ? cp / 10 : (cp / 10).toFixed(1) });
+  return t('itemValue.cp', { value: cp });
+}
 
 // ============================
 // Props
@@ -105,10 +113,11 @@ function canItemFitOffhand(item: InventoryItem): boolean {
 // Компонент: Детальный просмотр предмета (модал)
 // ============================
 
-const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = ({ item, onClose }) => {
+const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void; onSell?: () => void }> = ({ item, onClose, onSell }) => {
   const { t } = useTranslation('inventory');
   const rarityColor = RARITY_COLORS[item.rarity];
   const raw = item.raw ?? {};
+  const sellValueCp = Math.floor(((raw.value as number | undefined) ?? 0) / 2);
   const [EntryRendererComp, setEntryRendererComp] = useState<React.FC<any> | null>(null);
 
   useEffect(() => {
@@ -232,6 +241,20 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void }> = 
             ) : (
               <div className="text-sm text-text-secondary">{t('detail.loadingEntries')}</div>
             )}
+          </div>
+        )}
+
+        {/* Продажа (за половину стоимости) */}
+        {onSell && sellValueCp > 0 && (
+          <div className="border-t border-border-default pt-3 mt-3 flex items-center justify-between">
+            <span className="text-xs text-text-muted">{t('sell.label')}</span>
+            <button
+              onClick={onSell}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold/40 bg-gold/10 text-gold hover:bg-gold/20 transition-colors text-sm font-semibold"
+            >
+              <Coins size={14} />
+              {t('sell.button', { coins: formatCoins(sellValueCp, t) })}
+            </button>
           </div>
         )}
       </div>
@@ -495,14 +518,16 @@ const ItemContextMenu: React.FC<{
 // Компонент: Модал добавления предмета
 // ============================
 const AddItemModal: React.FC<{
-  onAdd: (template: ItemTemplate, quantity: number) => void;
+  onAdd: (template: ItemTemplate, quantity: number, buy: boolean) => void;
   onClose: () => void;
-}> = ({ onAdd, onClose }) => {
+  currency: Character['currency'];
+}> = ({ onAdd, onClose, currency }) => {
   const { t } = useTranslation('inventory');
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedItem, setSelectedItem] = useState<ItemTemplate | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [buyMode, setBuyMode] = useState(false);
   const initialItems = getAllItemTemplatesSync();
   const [allItems, setAllItems] = useState<ItemTemplate[]>(initialItems);
   const [loading, setLoading] = useState(initialItems.length < 100);
@@ -669,9 +694,14 @@ const AddItemModal: React.FC<{
         </div>
 
         {/* Нижняя панель с кнопкой добавления */}
-        {selectedItem && (
-          <div className="p-4 border-t border-border-default flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        {selectedItem && (() => {
+          const totalCostCp = (selectedItem.value ?? 0) * quantity;
+          const affordable = currencyToCopper(currency) >= totalCostCp;
+          const hasCost = totalCostCp > 0;
+          const blocked = buyMode && hasCost && !affordable;
+          return (
+          <div className="p-4 border-t border-border-default flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <span className="text-sm text-text-secondary">{t('addModal.quantity')}</span>
               <div className="flex items-center gap-1">
                 <button
@@ -694,19 +724,41 @@ const AddItemModal: React.FC<{
                   +
                 </button>
               </div>
+              {/* Buy toggle — deducts the cost from the character's coins */}
+              <button
+                onClick={() => setBuyMode(b => !b)}
+                disabled={!hasCost}
+                title={hasCost ? t('buy.tooltip') : t('buy.noPrice')}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs transition-colors disabled:opacity-40 ${
+                  buyMode && hasCost
+                    ? 'border-gold/60 bg-gold/15 text-gold'
+                    : 'border-border-default text-text-muted hover:text-text-secondary'
+                }`}
+              >
+                <Coins size={13} />
+                {t('buy.deductGold')}
+                {hasCost && <span className="font-semibold">{formatCoins(totalCostCp, t)}</span>}
+              </button>
+              {blocked && (
+                <span className="text-xs text-red-bright flex items-center gap-1">
+                  <AlertTriangle size={12} /> {t('buy.cantAfford')}
+                </span>
+              )}
             </div>
             <button
+              disabled={blocked}
               onClick={() => {
-                onAdd(selectedItem, quantity);
+                onAdd(selectedItem, quantity, buyMode && hasCost);
                 setSelectedItem(null);
                 setQuantity(1);
               }}
-              className="px-6 py-2 bg-gold text-text-primary rounded-lg hover:bg-gold/80 font-semibold shadow-lg transition-colors"
+              className="px-6 py-2 bg-gold text-text-primary rounded-lg hover:bg-gold/80 font-semibold shadow-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {t('addModal.addItem', { name: selectedItem.name })}
+              {buyMode && hasCost ? t('buy.buyItem', { name: selectedItem.name }) : t('addModal.addItem', { name: selectedItem.name })}
             </button>
           </div>
-        )}
+          );
+        })()}
       </div>
     </div>
   );
@@ -735,11 +787,12 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   // === Обработчики ===
 
   const updateInventory = useCallback(
-    (newInventory: InventoryItem[], newEquipment?: Equipment) => {
+    (newInventory: InventoryItem[], newEquipment?: Equipment, newCurrency?: Character['currency']) => {
       const updated = {
         ...character,
         inventory: newInventory,
         equipment: newEquipment ?? equipment,
+        ...(newCurrency ? { currency: newCurrency } : {}),
         updatedAt: new Date().toISOString(),
       };
       // Recalculate AC and speed when equipment changes (armor affects Unarmored Defense, Fast Movement)
@@ -754,7 +807,11 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   );
 
   const handleAddItem = useCallback(
-    (template: ItemTemplate, quantity: number) => {
+    (template: ItemTemplate, quantity: number, buy = false) => {
+      // When buying, deduct the total cost from the character's coins.
+      const cost = buy ? (template.value ?? 0) * quantity : 0;
+      const newCurrency = cost > 0 ? adjustCurrency(character.currency, -cost) : undefined;
+
       // Stack identical non-equippable items (potions, ammo, scrolls, …) into an
       // existing pile instead of taking a new grid cell. Equippable gear always
       // gets its own entry so each piece can be equipped separately. Identity is
@@ -773,6 +830,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             inventory.map((i) =>
               i.id === existing.id ? { ...i, quantity: i.quantity + quantity } : i,
             ),
+            undefined,
+            newCurrency,
           );
           return;
         }
@@ -809,9 +868,35 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         raw: template.raw,
       };
 
-      updateInventory([...inventory, newItem]);
+      updateInventory([...inventory, newItem], undefined, newCurrency);
     },
-    [inventory, updateInventory],
+    [inventory, updateInventory, character.currency, t],
+  );
+
+  // Sell one unit of an item for half its value; removes it (and unequips) when
+  // the last unit is sold, crediting the refund to the character's coins.
+  const sellItem = useCallback(
+    (item: InventoryItem) => {
+      const unitValue = (item.raw?.value as number | undefined) ?? 0;
+      const refund = Math.floor(unitValue / 2);
+      const newCurrency = refund > 0 ? adjustCurrency(character.currency, refund) : undefined;
+
+      let newInventory: InventoryItem[];
+      let newEquipment: Equipment | undefined;
+      if (item.quantity > 1) {
+        newInventory = inventory.map((i) => (i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i));
+      } else {
+        newInventory = inventory.filter((i) => i.id !== item.id);
+        if (item.equipped || Object.values(equipment).includes(item.id)) {
+          newEquipment = { ...equipment };
+          for (const k of Object.keys(newEquipment) as (keyof Equipment)[]) {
+            if (newEquipment[k] === item.id) delete newEquipment[k];
+          }
+        }
+      }
+      updateInventory(newInventory, newEquipment, newCurrency);
+    },
+    [inventory, equipment, character.currency, updateInventory],
   );
 
   const handleRemoveItem = useCallback(
@@ -1065,8 +1150,10 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
     return inventory.find((i) => i.id === itemId);
   };
 
-  // Общий вес инвентаря
+  // Общий вес инвентаря и грузоподъёмность (Сила × 15, с учётом предметов на Силу)
   const totalWeight = inventory.reduce((sum, item) => sum + (item.weight ?? 0) * item.quantity, 0);
+  const carryCapacity = getEffectiveAbilityScores(character).strength * 15;
+  const overCapacity = totalWeight > carryCapacity;
   // Число настроенных предметов (лимит — 3)
   const attunedCount = inventory.reduce((n, item) => n + (item.attuned ? 1 : 0), 0);
 
@@ -1083,9 +1170,18 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         <div className="flex items-center gap-3">
           <Backpack className="text-gold" size={24} />
           <h2 className="text-xl font-medieval text-gold">{t('title')}</h2>
-          <span className="text-xs text-text-muted ml-1">
+          <span
+            className={`text-xs ml-1 ${overCapacity ? 'text-red-bright font-semibold' : 'text-text-muted'}`}
+            title={t('capacity.tooltip', { capacity: carryCapacity })}
+          >
             {t('weight')} {t('weightValue', { value: totalWeight.toFixed(1) })}
+            <span className="text-text-muted/70"> / {t('weightValue', { value: carryCapacity })}</span>
           </span>
+          {overCapacity && (
+            <span className="text-xs text-red-bright flex items-center gap-1" title={t('capacity.overTooltip')}>
+              <AlertTriangle size={12} /> {t('capacity.overloaded')}
+            </span>
+          )}
           {attunedCount > 0 && (
             <span
               className={`text-xs ml-1 ${attunedCount >= MAX_ATTUNEMENT ? 'text-gold' : 'text-text-muted'}`}
@@ -1402,17 +1498,22 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       {/* Модал добавления */}
       {showAddModal && (
         <AddItemModal
-          onAdd={(template, quantity) => {
-            handleAddItem(template, quantity);
+          onAdd={(template, quantity, buy) => {
+            handleAddItem(template, quantity, buy);
             setShowAddModal(false);
           }}
           onClose={() => setShowAddModal(false)}
+          currency={character.currency}
         />
       )}
 
       {/* Детали предмета */}
       {detailItem && (
-        <ItemDetailModal item={detailItem} onClose={() => setDetailItem(null)} />
+        <ItemDetailModal
+          item={detailItem}
+          onClose={() => setDetailItem(null)}
+          onSell={() => { sellItem(detailItem); setDetailItem(null); }}
+        />
       )}
     </div>
   );

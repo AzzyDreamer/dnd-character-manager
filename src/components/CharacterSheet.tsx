@@ -4,19 +4,20 @@ import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResist
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
-import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative } from '../utils/classEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative, getACBreakdown, getInitiativeBreakdown, type StatPart } from '../utils/classEffects';
+import { getExhaustionD20Penalty, getExhaustionLevel, getConditionMechanics, getEffectiveSpeed, hasSpeedZeroCondition } from '../utils/conditionEffects';
 import { getAllItemTemplatesSync } from '../data/items';
 import { isShortRestResource } from '../utils/classResources';
 import { ExpertisePickerModal } from './ExpertisePickerModal';
 import { FeatSpellSwapModal } from './FeatSpellSwapModal';
 import { OptionalFeaturePickerModal, OPTIONAL_FEATURE_CONFIGS, type OptionalFeaturePickerResult, type OptionalFeaturePickerConfig } from './InvocationPickerModal';
-import { TabBar, type Tab, CharacterStatsSidebar, StatBadge, SpellIconBadge, SpellTooltip } from './ui';
+import { TabBar, type Tab, CharacterStatsSidebar, SpellIconBadge, SpellTooltip, formatStatParts } from './ui';
 import { useDiceRoll } from './DiceRollProvider';
 import { getSubclassImageUrl, type SubclassJsonData } from '../data/classes/subclassJsonLoader';
 import { PortraitCropModal } from './PortraitCropModal';
@@ -44,6 +45,7 @@ interface CharacterSheetProps {
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
   const { t } = useTranslation('character');
+  const { t: tc } = useTranslation('common');
   const { fullEditMode } = useSettings();
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   // Любая правка через режим полного редактирования проставляет скрытую пометку.
@@ -124,6 +126,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
   const classDef = character.classId ? getClassById(character.classId) : CLASS_REGISTRY.find(c => c.name === character.class);
   const portraitInputRef = React.useRef<HTMLInputElement>(null);
+  const diceCtx = useDiceRoll();
   const effectiveScores = getEffectiveAbilityScores(character);
   // Character with effective ability scores for display purposes
   const displayCharacter = React.useMemo(() => {
@@ -247,6 +250,26 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     onUpdate({
       ...character,
       hitPoints: { ...character.hitPoints, temporary: Math.max(0, temporary) }
+    });
+  };
+
+  /** Spend one hit die: roll die + CON mod, heal that much (min 1, capped at max). */
+  const rollHitDie = (e?: React.MouseEvent) => {
+    const remaining = character.hitDice.total - character.hitDice.used;
+    if (remaining <= 0) return;
+    const conMod = getAbilityModifier(effectiveScores.constitution);
+    const expr = `1${character.hitDice.type}${conMod >= 0 ? `+${conMod}` : conMod}`;
+    const result = diceCtx.roll(expr, e);
+    if (!result) return;
+    const heal = Math.max(1, result.total);
+    onUpdate({
+      ...character,
+      hitPoints: {
+        ...character.hitPoints,
+        current: Math.min(character.hitPoints.max, character.hitPoints.current + heal),
+      },
+      hitDice: { ...character.hitDice, used: character.hitDice.used + 1 },
+      updatedAt: new Date().toISOString(),
     });
   };
 
@@ -1418,6 +1441,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                           className="px-2 py-0.5 bg-green-accent/80 text-white rounded hover:bg-green-accent transition-colors text-sm"
                         >+</button>
                         <span className="text-sm text-text-secondary">{character.hitDice.type}</span>
+                        <button
+                          onClick={(e) => rollHitDie(e)}
+                          disabled={character.hitDice.total - character.hitDice.used <= 0}
+                          className="ml-1 flex items-center gap-1 px-2 py-0.5 rounded border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors text-xs disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={t('sheet.health.spendHitDieTooltip')}
+                        >
+                          <Heart size={11} /> {t('sheet.health.spendHitDie')}
+                        </button>
                       </div>
                     </div>
                     {/* Rest */}
@@ -1449,6 +1480,45 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                         </button>
                       )}
                     </div>
+                    {/* Exhaustion + Heroic Inspiration */}
+                    {(() => {
+                      const exh = getExhaustionLevel(character);
+                      const setExh = (v: number) => onUpdate({ ...character, exhaustion: Math.max(0, Math.min(6, v)), updatedAt: new Date().toISOString() });
+                      return (
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-default flex-wrap">
+                          <span className="text-sm font-medium text-text-secondary">{t('sheet.status.exhaustion')}</span>
+                          <button
+                            onClick={() => setExh(exh - 1)}
+                            disabled={exh <= 0}
+                            className="px-2 py-0.5 bg-red-accent/80 text-white rounded hover:bg-red-accent transition-colors text-sm disabled:opacity-30"
+                          >−</button>
+                          <span className={`text-sm font-bold tabular-nums ${exh > 0 ? 'text-red-bright' : 'text-text-muted'}`}>{exh}<span className="text-text-muted font-normal"> / 6</span></span>
+                          <button
+                            onClick={() => setExh(exh + 1)}
+                            disabled={exh >= 6}
+                            className="px-2 py-0.5 bg-red-accent/80 text-white rounded hover:bg-red-accent transition-colors text-sm disabled:opacity-30"
+                          >+</button>
+                          {exh > 0 && exh < 6 && (
+                            <span className="text-[11px] text-red-bright">{t('sheet.status.exhaustionEffect', { d20: 2 * exh, speed: 5 * exh })}</span>
+                          )}
+                          {exh >= 6 && (
+                            <span className="text-[11px] text-red-bright font-bold">{t('sheet.status.exhaustionDeath')}</span>
+                          )}
+                          <button
+                            onClick={() => onUpdate({ ...character, heroicInspiration: !character.heroicInspiration, updatedAt: new Date().toISOString() })}
+                            title={t('sheet.status.heroicInspirationTooltip')}
+                            className={`ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded border transition-colors text-sm ${
+                              character.heroicInspiration
+                                ? 'border-gold/60 bg-gold/15 text-gold'
+                                : 'border-border-default text-text-muted hover:text-text-secondary'
+                            }`}
+                          >
+                            <Star size={14} className={character.heroicInspiration ? 'fill-gold' : ''} />
+                            {t('sheet.status.heroicInspiration')}
+                          </button>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Right: Death Saves */}
@@ -1458,25 +1528,72 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 </div>
                 </div>
 
-                {/* Ability Scores — to the right of the Health panel */}
-                <div className="glass-panel p-4 flex items-center justify-center shrink-0">
-                  <div className="grid grid-cols-3 gap-3 justify-items-center">
-                    {ABILITY_ORDER.map((key) => (
-                      <StatBadge
-                        key={key}
-                        label={getAbilityShort(key)}
-                        value={displayCharacter.abilityScores[key]}
-                        modifier={getAbilityModifier(displayCharacter.abilityScores[key])}
-                        variant="circle"
-                        size="md"
-                      />
-                    ))}
-                  </div>
+                {/* Combat stats — to the right of the Health panel.
+                    Swapped with ability scores, which now appear on portrait hover. */}
+                <div className="glass-panel p-4 flex shrink-0 items-center justify-center lg:w-64">
+                  {(() => {
+                    const exhaustionPen = getExhaustionD20Penalty(character);
+                    const ac = character.armorClass;
+                    const init = character.initiative + exhaustionPen;
+                    const spd = getEffectiveSpeed(character);
+                    const prof = character.proficiencyBonus;
+                    const wis = effectiveScores.wisdom;
+                    const percProf = character.skills?.perception?.proficient ?? false;
+                    const percExp = character.skills?.perception?.expertise ?? false;
+                    const passive = 10 + getSkillBonus(wis, percProf, percExp, prof) + exhaustionPen;
+
+                    // Hover breakdowns (reuse the same helpers as the sidebar).
+                    const acTooltip = formatStatParts(getACBreakdown(character), tc);
+                    let initTooltip = formatStatParts(getInitiativeBreakdown(character), tc);
+                    if (exhaustionPen) initTooltip += ` − ${Math.abs(exhaustionPen)} (${tc('sidebar.breakdown.exhaustion')}) = ${init}`;
+                    const speedTooltip = hasSpeedZeroCondition(character)
+                      ? tc('sidebar.breakdown.speedZeroCondition')
+                      : (() => {
+                          const classBonus = getClassSpeedBonus(character);
+                          const exhaustionCut = 5 * getExhaustionLevel(character);
+                          if (!classBonus && !exhaustionCut) return undefined;
+                          let s = `${character.speed - classBonus}`;
+                          if (classBonus) s += ` + ${classBonus} (${tc('sidebar.breakdown.class')})`;
+                          if (exhaustionCut) s += ` − ${exhaustionCut} (${tc('sidebar.breakdown.exhaustion')})`;
+                          return `${s} = ${spd}`;
+                        })();
+                    const profTooltip = `${tc('sidebar.breakdown.profByLevel')} ${character.level}`;
+                    const ppParts: StatPart[] = [
+                      { key: 'base', value: 10 },
+                      { key: 'ability', ability: 'wisdom', value: getAbilityModifier(wis) },
+                    ];
+                    if (percProf) ppParts.push({ key: 'prof', value: prof });
+                    if (percExp) ppParts.push({ key: 'prof', value: prof });
+                    if (exhaustionPen) ppParts.push({ key: 'feat', value: exhaustionPen });
+                    const ppTooltip = formatStatParts(ppParts, tc);
+
+                    const stats: { icon: typeof Shield; label: string; value: string; tooltip?: string }[] = [
+                      { icon: Shield, label: tc('sidebar.acLabel'), value: `${ac}`, tooltip: acTooltip },
+                      { icon: Swords, label: tc('sidebar.initiativeLabel'), value: `${init >= 0 ? '+' : ''}${init}`, tooltip: initTooltip },
+                      { icon: Footprints, label: tc('sidebar.speedLabel'), value: `${spd}`, tooltip: speedTooltip },
+                      { icon: Star, label: tc('sidebar.proficiencyLabel'), value: `+${prof}`, tooltip: profTooltip },
+                      { icon: Eye, label: tc('sidebar.passivePerception'), value: `${passive}`, tooltip: ppTooltip },
+                    ];
+
+                    return (
+                      <div className="w-full space-y-2.5">
+                        {stats.map(({ icon: Icon, label, value, tooltip }) => (
+                          <div key={label} className="flex items-center gap-3 cursor-help" title={tooltip}>
+                            <Icon size={18} className="text-gold/70 shrink-0" />
+                            <span className="text-sm text-text-secondary flex-1">{label}</span>
+                            <span className="text-lg font-bold text-text-primary tabular-nums">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
               {/* Conditions & Resistances */}
               <ConditionsSection character={character} onUpdate={onUpdate} />
+              <ConcentrationSection character={character} onUpdate={onUpdate} />
+              <SensesSection character={character} onUpdate={onUpdate} />
               <ResistancesSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
@@ -1493,6 +1610,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           classIconSrc={asset(`/images/classes/${character.classId}.webp`)}
           hideSections={['identity', 'proficiencies', 'skills', 'spells', 'abilities', 'combat']}
           showPortraitStats
+          portraitContent="abilities"
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
           onPortraitClick={() => {
@@ -1761,6 +1879,8 @@ function SkillsSection({ character }: { character: Character }) {
   const effectiveScores = getEffectiveAbilityScores(character);
   // Flat save bonus from class features (e.g. Paladin Aura of Protection: +Cha mod).
   const featureSaveBonus = getClassFeatureSaveBonus(character);
+  // Exhaustion (2024): −2 per level to every d20 test (skills, saves).
+  const exhaustionPenalty = getExhaustionD20Penalty(character);
 
   return (
     <div className="glass-panel p-4">
@@ -1798,7 +1918,7 @@ function SkillsSection({ character }: { character: Character }) {
                     const isProficient = skillData?.proficient ?? false;
                     const hasExpertise = skillData?.expertise ?? false;
                     const abilityScore = effectiveScores[ability];
-                    const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus);
+                    const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus) + exhaustionPenalty;
 
                     return (
                       <div
@@ -1874,7 +1994,7 @@ function SkillsSection({ character }: { character: Character }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {ABILITY_ORDER.map(ability => {
                 const isProficient = character.savingThrows[ability]?.proficient ?? false;
-                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow + featureSaveBonus;
+                const mod = getAbilityModifier(effectiveScores[ability]) + (isProficient ? profBonus : 0) + itemBonuses.bonusSavingThrow + featureSaveBonus + exhaustionPenalty;
                 return (
                   <div
                     key={ability}
@@ -2383,6 +2503,13 @@ function getConditionDisplayName(name: string, t: (key: string, opts?: any) => s
   const i18nKey = conditionNameToI18nKey(name);
   const translated = t(`sheet.conditions.names.${i18nKey}`, { defaultValue: '' });
   return translated || name;
+}
+
+/** Bulleted list of a condition's mechanical effects, or '' if it has none. */
+function getConditionEffectsText(name: string, t: (key: string) => string): string {
+  const mech = getConditionMechanics(name);
+  if (!mech) return '';
+  return mech.effectKeys.map(k => t(`sheet.conditions.effects.${k}`)).join(' • ');
 }
 
 // Override map for feature names that differ from image filenames
@@ -2996,27 +3123,41 @@ function ConditionsSection({
       {!collapsed && (
         <div className="mt-2">
           {activeConditions.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {activeConditions.map(key => (
-                <span
-                  key={key}
-                  className="flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg bg-red-900/30 border border-red-700/40 text-sm text-red-300"
-                >
-                  <img
-                    src={getConditionImageUrl(key)}
-                    alt=""
-                    className="w-5 h-5 object-contain"
-                    onError={(e) => { (e.target as HTMLImageElement).src = asset('/images/conditionsdiseases/PLACEHOLDER.webp'); }}
-                  />
-                  {getConditionDisplayName(key, t)}
-                  <button
-                    onClick={() => removeCondition(key)}
-                    className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
+            <div className="space-y-1.5">
+              {activeConditions.map(key => {
+                const effects = getConditionEffectsText(key, t);
+                const mech = getConditionMechanics(key);
+                return (
+                  <div
+                    key={key}
+                    className="rounded-lg bg-red-900/20 border border-red-700/40 px-2 py-1.5"
                   >
-                    <X size={12} />
-                  </button>
-                </span>
-              ))}
+                    <div className="flex items-center gap-1.5 text-sm text-red-300">
+                      <img
+                        src={getConditionImageUrl(key)}
+                        alt=""
+                        className="w-5 h-5 object-contain shrink-0"
+                        onError={(e) => { (e.target as HTMLImageElement).src = asset('/images/conditionsdiseases/PLACEHOLDER.webp'); }}
+                      />
+                      <span className="font-medium">{getConditionDisplayName(key, t)}</span>
+                      {mech?.speedZero && (
+                        <span className="text-[9px] uppercase tracking-wider px-1 py-0.5 rounded bg-red-800/40 text-red-200">
+                          {t('sheet.conditions.speedZeroTag')}
+                        </span>
+                      )}
+                      <button
+                        onClick={() => removeCondition(key)}
+                        className="ml-auto p-0.5 rounded hover:bg-red-800/50 transition-colors shrink-0"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                    {effects && (
+                      <p className="mt-1 ml-6 text-[11px] text-text-muted leading-snug">{effects}</p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <p className="text-xs text-text-muted italic">{t('sheet.conditions.noActiveConditions')}</p>
@@ -3030,6 +3171,150 @@ function ConditionsSection({
           onCancel={() => setShowConditionModal(false)}
           activeConditions={activeConditions}
         />
+      )}
+    </div>
+  );
+}
+
+// ── Concentration Section ──
+function ConcentrationSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (c: Character) => void;
+}) {
+  const { t } = useTranslation('character');
+  const diceCtx = useDiceRoll();
+  const [draft, setDraft] = useState(character.concentratingOn ?? '');
+  const [damage, setDamage] = useState('');
+
+  useEffect(() => { setDraft(character.concentratingOn ?? ''); }, [character.concentratingOn]);
+
+  const scores = getEffectiveAbilityScores(character);
+  const conProf = character.savingThrows.constitution?.proficient ?? false;
+  const conSave = getAbilityModifier(scores.constitution)
+    + (conProf ? character.proficiencyBonus : 0)
+    + getEquippedItemBonuses(character).bonusSavingThrow
+    + getClassFeatureSaveBonus(character)
+    + getExhaustionD20Penalty(character);
+
+  const dmg = Math.max(0, parseInt(damage) || 0);
+  // 2024 rules: DC = max(10, half the damage), capped at 30.
+  const dc = Math.min(30, Math.max(10, Math.floor(dmg / 2)));
+  const concentrating = character.concentratingOn;
+
+  const commit = () => {
+    const val = draft.trim();
+    if (val === (character.concentratingOn ?? '')) return;
+    onUpdate({ ...character, concentratingOn: val || undefined, updatedAt: new Date().toISOString() });
+  };
+  const clear = () => {
+    setDraft('');
+    onUpdate({ ...character, concentratingOn: undefined, updatedAt: new Date().toISOString() });
+  };
+  const saveExpr = `1d20${conSave >= 0 ? '+' : ''}${conSave}`;
+
+  return (
+    <div className="glass-panel p-3">
+      <div className="flex items-center gap-2 mb-2">
+        <Brain className="text-gold" size={20} />
+        <h2 className="text-lg font-medieval text-gold">{t('sheet.concentration.title')}</h2>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={draft}
+          onChange={e => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); }}
+          placeholder={t('sheet.concentration.placeholder')}
+          className="flex-1 min-w-0 px-2.5 py-1.5 text-sm bg-bg-primary border border-border-default rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-gold/50"
+        />
+        {concentrating && (
+          <button
+            onClick={clear}
+            className="shrink-0 px-2 py-1.5 rounded-lg border border-border-default text-text-muted hover:text-red-300 hover:border-red-700/50 transition-colors text-xs"
+            title={t('sheet.concentration.clear')}
+          >
+            {t('sheet.concentration.clear')}
+          </button>
+        )}
+      </div>
+
+      {/* Concentration save on damage */}
+      <div className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-border-default flex-wrap">
+        <span className="text-xs text-text-secondary">{t('sheet.concentration.damageTaken')}</span>
+        <input
+          type="number"
+          value={damage}
+          onChange={e => setDamage(e.target.value)}
+          className="w-16 text-center text-sm bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+        />
+        <span className="text-xs text-text-muted">{t('sheet.concentration.dc', { dc })}</span>
+        <button
+          onClick={(e) => diceCtx.roll(saveExpr, e)}
+          onContextMenu={(e) => { e.preventDefault(); diceCtx.openConfig(saveExpr, (e.currentTarget as HTMLElement).getBoundingClientRect()); }}
+          className="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 transition-colors text-xs"
+        >
+          <Dices size={12} />
+          {t('sheet.concentration.rollSave', { mod: `${conSave >= 0 ? '+' : ''}${conSave}` })}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Senses Section ──
+const SENSE_KEYS = ['darkvision', 'blindsight', 'tremorsense', 'truesight'] as const;
+
+function SensesSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (c: Character) => void;
+}) {
+  const { t } = useTranslation('character');
+  const [collapsed, setCollapsed] = useState(true);
+  const senses = character.senses ?? {};
+
+  const setSense = (key: typeof SENSE_KEYS[number], value: number) => {
+    const next = { ...senses, [key]: Math.max(0, value) || undefined };
+    onUpdate({ ...character, senses: next, updatedAt: new Date().toISOString() });
+  };
+
+  const activeCount = SENSE_KEYS.filter(k => (senses[k] ?? 0) > 0).length;
+
+  return (
+    <div className="glass-panel p-3">
+      <button onClick={() => setCollapsed(!collapsed)} className="flex items-center gap-2 w-full text-left">
+        <Eye className="text-gold" size={20} />
+        <h2 className="text-lg font-medieval text-gold flex-1">
+          {t('sheet.senses.title')}
+          {activeCount > 0 && <span className="text-gold/70 text-sm ml-1.5">({activeCount})</span>}
+        </h2>
+        <ChevronDown size={16} className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`} />
+      </button>
+
+      {!collapsed && (
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {SENSE_KEYS.map(key => (
+            <div key={key} className="flex items-center gap-2">
+              <label className="text-xs text-text-secondary flex-1">{t(`sheet.senses.${key}`)}</label>
+              <input
+                type="number"
+                min={0}
+                step={5}
+                value={senses[key] ?? 0}
+                onChange={e => setSense(key, parseInt(e.target.value) || 0)}
+                className="w-16 text-center text-sm bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+              />
+              <span className="text-[10px] text-text-muted w-6">{t('sheet.senses.ft')}</span>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
