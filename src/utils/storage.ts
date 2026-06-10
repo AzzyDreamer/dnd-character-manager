@@ -3,10 +3,15 @@ import i18n from '../i18n';
 
 const STORAGE_KEY = 'dnd-characters';
 
-// Миграция: добавить поля equipment к старым персонажам
+// Миграция: добавить недостающие поля к старым/импортированным персонажам
 function migrateCharacter(character: Character): Character {
   if (!character.equipment) {
     character.equipment = {};
+  }
+  // Currency обязателен в типе, но импортированный JSON может его не содержать —
+  // без дефолта таб инвентаря падает на character.currency[key].
+  if (!character.currency) {
+    character.currency = { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 };
   }
   return character;
 }

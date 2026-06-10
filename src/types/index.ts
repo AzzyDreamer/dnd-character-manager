@@ -412,7 +412,8 @@ export interface Character {
 
   // Опциональные способности класса (Воззвания, Метамагия и т.д.)
   optionalFeatures?: {
-    name: string;
+    name: string;              // отображаемое имя (может быть локализованным)
+    nameEn?: string;           // стабильный английский ключ для матчинга логики (Extra Attack, Agonizing Blast)
     source: string;
     featureType: string;  // "EI", "MM", etc.
     levelAcquired: number;

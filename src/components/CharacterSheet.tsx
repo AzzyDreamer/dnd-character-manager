@@ -699,6 +699,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     for (const feat of result.chosen) {
       newOptFeatures.push({
         name: feat.name,
+        nameEn: (feat as { _origName?: string })._origName ?? feat.name,
         source: feat.source,
         featureType: config.featureType,
         levelAcquired: updated.level,
@@ -713,6 +714,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       if (idx !== -1) {
         newOptFeatures[idx] = {
           name: result.replacement.name,
+          nameEn: (result.replacement as { _origName?: string })._origName ?? result.replacement.name,
           source: result.replacement.source,
           featureType: config.featureType,
           levelAcquired: updated.level,

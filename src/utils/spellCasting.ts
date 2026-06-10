@@ -226,7 +226,7 @@ export function buildDamageExpression(
   // Agonizing Blast (CHA mod for warlock cantrips)
   if (isCantrip) {
     const hasAgonizingBlast = (character.optionalFeatures ?? []).some(
-      f => f.name === 'Agonizing Blast' && f.featureType === 'EI'
+      f => (f.nameEn ?? f.name) === 'Agonizing Blast' && f.featureType === 'EI'
     );
     if (hasAgonizingBlast && spellData.damageInflict) {
       const effScores = getEffectiveAbilityScores(character);

@@ -1003,9 +1003,9 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
 
   const spellcasting = character.spellcasting;
 
-  // Detect Agonizing Blast invocation
+  // Detect Agonizing Blast invocation (match the stable English key for localized names)
   const hasAgonizingBlast = (character.optionalFeatures ?? []).some(
-    f => f.name === 'Agonizing Blast' && f.featureType === 'EI'
+    f => (f.nameEn ?? f.name) === 'Agonizing Blast' && f.featureType === 'EI'
   );
 
   const toggleSection = (key: string) => {

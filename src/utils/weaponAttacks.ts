@@ -531,7 +531,8 @@ export function getAttacksPerAction(char: Character): number {
 
   // Warlock pact-weapon invocations.
   const features = char.optionalFeatures ?? [];
-  const hasInvocation = (name: string) => features.some(f => f.name === name);
+  // Match on the stable English key (nameEn) so localized invocation names still resolve.
+  const hasInvocation = (name: string) => features.some(f => (f.nameEn ?? f.name) === name);
   if (hasInvocation('Devouring Blade')) count = Math.max(count, 3);
   else if (hasInvocation('Thirsting Blade')) count = Math.max(count, 2);
 
