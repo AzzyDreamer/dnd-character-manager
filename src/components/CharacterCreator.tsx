@@ -2720,10 +2720,12 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {/* Style grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
             {filtered.map(feat => {
-              const isSelected = selectedFightingStyle?.name === feat.name;
+              // Сравнение и key — по стабильному английскому имени: переводы могут
+              // совпадать для разных стилей (Defense/Protection), name недостаточно.
+              const isSelected = selectedFightingStyle === feat;
               return (
                 <button
-                  key={feat.name}
+                  key={`${feat._origName ?? feat.name}|${feat.source ?? ''}`}
                   onClick={() => setSelectedFightingStyle(isSelected ? null : feat)}
                   className={`text-left rounded-lg border p-3 transition-all ${
                     isSelected

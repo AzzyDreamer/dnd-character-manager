@@ -490,7 +490,7 @@
   "Deathbound.entries.2.name": "Восстановление сил",
   "Deathbound.name": "Связанный со смертью",
   "Defense.entries.0": "Пока вы носите лёгкий, средний или тяжёлый доспех, вы получаете бонус +1 к {@variantrule Armor Class|XPHB|Классу Доспеха}.",
-  "Defense.name": "Защита",
+  "Defense.name": "Оборона",
   "Defensive Duelist.entries.0": "Вы получаете следующие преимущества.",
   "Defensive Duelist.entries.1.entries.0": "Если вы держите Фехтовальное оружие и другое существо попадает по вам рукопашной атакой, вы можете использовать {@variantrule Reaction|XPHB|Реакцию}, чтобы прибавить свой {@variantrule Proficiency|XPHB|Бонус мастерства} к вашему {@variantrule Armor Class|XPHB|Классу Доспеха}, что может привести к промаху по вам. Вы получаете этот бонус к КД против рукопашных атак до начала вашего следующего хода.",
   "Defensive Duelist.entries.1.name": "Парирование",

@@ -1248,7 +1248,7 @@
   "Master of Myriad Forms.name": "Мастер мириад форм",
   "Master of Undeath.entries.0": "Существа Нежити под вашим контролем от Дара Преображения Лича получают {@variantrule Advantage|XPHB|Преимущество} на броски атаки, когда находятся в пределах 5 футов от вас.",
   "Master of Undeath.entries.1": "Кроме того, каждый раз, когда существо Нежити, контролируемое вами благодаря Дару Преображения Лича, понижается до 0 {@variantrule Hit Points|XPHB|хитов}, вы можете {@variantrule Reaction|XPHB|Реакцией} потратить заряд своего сосуда души. Если вы это делаете, это существо Нежити вместо этого остаётся на 1 хите и может немедленно переместиться на свою полную скорость и совершить действие {@action Attack|XPHB|Атака} с {@variantrule Advantage|XPHB|Преимуществом}. Эта особенность не действует, если существо было понижено до 0 {@variantrule Hit Points|XPHB|хитов} Излучаемым уроном.",
-  "Master of Undeath.name": "Властелин нежити",
+  "Master of Undeath.name": "Повелитель нежити",
   "Master of Undeath.prerequisite.0.other": "Этап 3 трансформации «{@charoption Lich|GrimHollowPG24|Лич}»",
   "Master of the Green Sisterhood.entries.0": "Вы вступаете в свою силу как Карга и развиваете свои способности.",
   "Master of the Green Sisterhood.entries.1.items.0": "Когда вы в свой ход совершаете действие {@action Attack|XPHB|Атака}, вы можете совершить дополнительную атаку Когтями. Ваши атаки Когтями наносят дополнительно {@damage 1d6} урона Ядом.",
