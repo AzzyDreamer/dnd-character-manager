@@ -185,9 +185,12 @@
     "originFeat": {
       "title": "Origin Feat",
       "loading": "Loading feats...",
-      "description": "Your background does not grant a feat. Choose an Origin Feat.",
+      "description": "Choose your Origin Feat(s).",
       "searchPlaceholder": "Search feat...",
-      "nothingFound": "Nothing found"
+      "nothingFound": "Nothing found",
+      "bgChoiceTitle": "Background feat — {{name}}: choose one",
+      "bgChoiceHint": "This background offers a choice of feats.",
+      "speciesExtra": "{{name}}: +{{count}} extra origin feat."
     },
     "fightingStyle": {
       "title": "Fighting Style",
@@ -210,7 +213,10 @@
       "fromBackground": "Background",
       "expertiseDouble": "Expertise ×2",
       "skillProficiencies": "Skill proficiencies:",
-      "selected": "Selected"
+      "selected": "Selected",
+      "speciesChoice": "Species skills — {{name}}",
+      "bgChoice": "Background skills — {{name}}",
+      "bgToolChoice": "Background tools — {{name}}"
     },
     "spells": {
       "youWillGet": "You will receive the following:",
@@ -276,6 +282,9 @@
     "bondsPlaceholder": "What or who is important to your character?",
     "flaws": "Flaws",
     "flawsPlaceholder": "What flaws does your character have?"
+  },
+  "pickOptions": {
+    "confirm": "Confirm"
   },
   "sheet": {
     "tabs": {
@@ -345,6 +354,39 @@
       "tremorsense": "Tremorsense",
       "truesight": "Truesight",
       "ft": "ft."
+    },
+    "movement": {
+      "title": "Movement",
+      "fly": "Fly",
+      "swim": "Swim",
+      "climb": "Climb",
+      "equalsWalk": "Equal to walking speed"
+    },
+    "statChoice": {
+      "resistanceTitle": "Choose damage resistance",
+      "saveProfTitle": "Choose saving throw proficiency",
+      "subtitle": "Granted by a level {{level}} feature"
+    },
+    "transformation": {
+      "chooseResistance": "Choose damage resistance",
+      "chooseSaveProf": "Choose saving throw proficiency",
+      "chooseAbilityPenalty": "Choose an ability to lose 2 points",
+      "title": "Transformation",
+      "stage": "Stage:",
+      "stageTooltip": "Transformation stage (1–4)",
+      "stageUp": "Advance stage",
+      "stageDown": "Lower stage",
+      "stageDownConfirm": "Remove this stage's boons and flaw?",
+      "yes": "Yes",
+      "no": "No",
+      "stageZeroHint": "The transformation has not begun. Advance to Stage 1 to gain its boons and flaw — their bonuses and drawbacks are applied to the sheet automatically.",
+      "nextStageHint": "Stage {{stage}} will grant new boons and the stage flaw.",
+      "pickBoonTitle": "{{name}} — Stage {{stage}}: choose a boon",
+      "boonSingular": "boon",
+      "boonPluralFew": "boons",
+      "boonPluralGenitive": "boons",
+      "hybridForm": "Hybrid form:",
+      "formActive": "active"
     },
     "rest": {
       "title": "Rest",

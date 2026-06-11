@@ -93,6 +93,8 @@
       "hpCon": "Тел/ур.:",
       "profByLevel": "По уровню",
       "exhaustion": "истощение",
+      "transformation": "трансформация",
+      "initiativeAdvantage": "преимущество на инициативу",
       "speedZeroCondition": "Скорость обнулена активным состоянием"
     },
     "sensesLabel": "Чувства",

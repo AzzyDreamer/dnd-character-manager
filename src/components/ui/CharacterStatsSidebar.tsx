@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
-import { getACBreakdown, getInitiativeBreakdown, getClassSpeedBonus, type StatPart } from '../../utils/classEffects';
+import { getACBreakdown, getInitiativeBreakdown, getClassSpeedBonus, hasInitiativeAdvantage, type StatPart } from '../../utils/classEffects';
+import { getTransformSpeedAdjust } from '../../utils/transformationEffects';
 import { getEffectiveSpeed, getExhaustionD20Penalty, getExhaustionLevel, hasSpeedZeroCondition } from '../../utils/conditionEffects';
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImagePlus, Swords, Eye, Star, Moon, type LucideIcon } from 'lucide-react';
@@ -81,6 +82,7 @@ export function formatStatParts(
       case 'feat': return t('sidebar.breakdown.feat');
       case 'item': return t('sidebar.breakdown.item');
       case 'prof': return t('sidebar.breakdown.proficiency');
+      case 'class': return t('sidebar.breakdown.class');
       case 'ability': return p.ability ? getAbilityShort(p.ability) : '';
     }
   };
@@ -287,16 +289,19 @@ export function CharacterStatsSidebar({
   const initTooltip = character ? (() => {
     let s = formatStatParts(getInitiativeBreakdown(character), t);
     if (d20Penalty) s += ` − ${Math.abs(d20Penalty)} (${t('sidebar.breakdown.exhaustion')}) = ${initiative}`;
+    if (hasInitiativeAdvantage(character)) s += ` · ${t('sidebar.breakdown.initiativeAdvantage')}`;
     return s;
   })() : undefined;
   const speedTooltip = (() => {
     if (!character) return undefined;
     if (hasSpeedZeroCondition(character)) return t('sidebar.breakdown.speedZeroCondition');
     const classBonus = getClassSpeedBonus(character);
+    const transformAdjust = getTransformSpeedAdjust(character);
     const exhaustionCut = 5 * exhaustionLevel;
-    if (!classBonus && !exhaustionCut) return undefined;
+    if (!classBonus && !exhaustionCut && !transformAdjust) return undefined;
     let s = `${character.speed - classBonus}`;
     if (classBonus) s += ` + ${classBonus} (${t('sidebar.breakdown.class')})`;
+    if (transformAdjust) s += ` ${transformAdjust > 0 ? '+' : '−'} ${Math.abs(transformAdjust)} (${t('sidebar.breakdown.transformation')})`;
     if (exhaustionCut) s += ` − ${exhaustionCut} (${t('sidebar.breakdown.exhaustion')})`;
     return `${s} = ${speed}`;
   })();

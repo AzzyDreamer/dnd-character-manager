@@ -27,11 +27,12 @@ import { CLASS_REGISTRY, type ClassDefinition, getClassName, getClassDescription
 import { getSubclassImageUrl } from '../data/classes/subclassJsonLoader';
 import type { SpeciesData } from '../data/species';
 import { getCanonicalName as getSpeciesCanonicalName } from '../data/species';
-import type { JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
+import { getBackgroundExpandedSpellNames, type JsonBackgroundData } from '../data/backgrounds/jsonBackgrounds';
+import type { FeatData } from '../data/feats';
 import type { CharacterCreationOptionData } from '../data/charactercreationoptions';
 import { ArrowLeft, ArrowRight, Dices, Wand2, Check, Sparkles, Swords, User, Eye, BookOpen, Search, Scroll, Loader2, Target, Star, Languages, Shield, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { TabBar, type Tab, CharacterStatsSidebar, type CreationStats, StatBadge, SpellTooltip, SpellIconBadge } from './ui';
-import { applyFeatStatEffects, extractFeatProficiencies, applyFeatProficiencies, extractFeatResistances, applyFeatResistances, extractFeatSpellConfig, type FeatSpellConfig } from '../utils/featEffects';
+import { applyFeatStatEffects, extractFeatProficiencies, applyFeatProficiencies, extractFeatResistances, applyFeatResistances, extractFeatSenses, applyFeatSenses, extractFeatSpellConfig, type FeatSpellConfig } from '../utils/featEffects';
 import { resolveACForCreation, SPECIES_EFFECTS } from '../utils/classEffects';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 
@@ -56,14 +57,40 @@ function getSpeciesLanguages(sp: SpeciesData): string[] {
 }
 
 // ─── Хелперы для JsonBackgroundData ───
-/** Parse bg feat key like "magic initiate; cleric|xphb" → { name: "Magic Initiate", variant: "Cleric" } */
+/** Parse bg feat key like "magic initiate; cleric|xphb" → { name: "Magic Initiate", variant: "Cleric" }.
+ *  Несколько записей (Rewarded/Ruined) = выбор игрока → авточерты нет (см. getBgFeatOptions). */
 function parseBgFeat(bg: JsonBackgroundData): { name: string; variant: string } {
-  if (!bg.feats?.length) return { name: '', variant: '' };
+  if (!bg.feats?.length || bg.feats.length > 1) return { name: '', variant: '' };
   const raw = Object.keys(bg.feats[0])[0]?.split('|')[0] || '';
   const parts = raw.split(';').map(s => s.trim());
   const name = parts[0].replace(/\b\w/g, (c: string) => c.toUpperCase());
   const variant = parts[1] ? parts[1].replace(/\b\w/g, (c: string) => c.toUpperCase()) : '';
   return { name, variant };
+}
+
+/** Варианты черты предыстории на выбор (Rewarded: Lucky/Magic Initiate/Skilled). */
+function getBgFeatOptions(bg: JsonBackgroundData): string[] {
+  if (!bg.feats || bg.feats.length <= 1) return [];
+  return bg.feats
+    .map(entry => Object.keys(entry)[0]?.split('|')[0]?.split(';')[0]?.trim() ?? '')
+    .filter(Boolean)
+    .map(n => n.replace(/\b\w/g, (c: string) => c.toUpperCase()));
+}
+
+/** Сколько дополнительных черт происхождения даёт вид (Human XPHB: 1). */
+function getSpeciesFeatCount(sp: SpeciesData | null | undefined): number {
+  let count = 0;
+  type FeatGrant = { anyFromCategory?: { category?: unknown[]; count?: number }; any?: number };
+  for (const entry of (sp?.feats ?? []) as FeatGrant[]) {
+    if (!entry || typeof entry !== 'object') continue;
+    const afc = entry.anyFromCategory;
+    if (afc && Array.isArray(afc.category)) {
+      count += afc.count ?? 1;
+    } else if (typeof entry.any === 'number') {
+      count += entry.any;
+    }
+  }
+  return count;
 }
 
 function getBgFeatName(bg: JsonBackgroundData): string {
@@ -82,9 +109,58 @@ function getBgSkills(bg: JsonBackgroundData): string[] {
   return Object.keys(bg.skillProficiencies[0]).filter(k => k !== 'choose').map(normalizeSkillKey);
 }
 
+// ─── Инструменты: кураторские списки для выборов anyArtisansTool / anyGamingSet / anyMusicalInstrument ───
+const ARTISANS_TOOLS = [
+  "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools",
+  "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools",
+  "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies",
+  "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",
+];
+const GAMING_SETS = ['Dice Set', 'Dragonchess Set', 'Playing Card Set', 'Three-Dragon Ante Set'];
+const MUSICAL_INSTRUMENTS = ['Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'];
+
+function toolTitleCase(s: string): string {
+  return s.replace(/(^|[\s(])([a-z])/g, (_, pre, ch) => pre + ch.toUpperCase());
+}
+
+/** Раскрыть псевдоимя инструмента в список вариантов выбора. */
+function expandToolToken(token: string): string[] {
+  const lc = token.toLowerCase();
+  if (lc === 'anyartisanstool' || lc === "artisan's tools") return ARTISANS_TOOLS;
+  if (lc === 'anygamingset' || lc === 'gaming set') return GAMING_SETS;
+  if (lc === 'anymusicalinstrument' || lc === 'musical instrument') return MUSICAL_INSTRUMENTS;
+  if (lc === 'any') return [...ARTISANS_TOOLS, ...GAMING_SETS, ...MUSICAL_INSTRUMENTS];
+  return [toolTitleCase(token)];
+}
+
+/** Parse toolProficiencies (5etools): фиксированные инструменты + группы выбора. */
+function parseToolChoiceInfo(toolProfs: Record<string, unknown>[] | undefined): {
+  fixed: string[];
+  groups: { count: number; from: string[] }[];
+} {
+  const fixed: string[] = [];
+  const groups: { count: number; from: string[] }[] = [];
+  for (const entry of toolProfs ?? []) {
+    if (!entry || typeof entry !== 'object') continue;
+    for (const [k, v] of Object.entries(entry)) {
+      if (k === 'choose' && v && typeof v === 'object') {
+        const ch = v as { from?: string[]; count?: number };
+        const from = [...new Set((ch.from ?? []).flatMap(expandToolToken))];
+        if (from.length > 0) groups.push({ count: ch.count ?? 1, from });
+      } else if (typeof v === 'number' && v > 0) {
+        const opts = expandToolToken(k);
+        if (opts.length > 1) groups.push({ count: v, from: opts });
+        else fixed.push(...opts);
+      } else if (v === true) {
+        fixed.push(toolTitleCase(k));
+      }
+    }
+  }
+  return { fixed, groups };
+}
+
 function getBgToolProficiency(bg: JsonBackgroundData): string {
-  if (!bg.toolProficiencies?.length) return '';
-  return Object.keys(bg.toolProficiencies[0]).filter(k => k !== 'choose').join(', ');
+  return parseToolChoiceInfo(bg.toolProficiencies).fixed.join(', ');
 }
 
 function getBgAbilityOptions(bg: JsonBackgroundData): (keyof AbilityScores)[] {
@@ -148,6 +224,35 @@ function parseLanguageProficiencies(langProfs: any[] | undefined): {
     }
   }
   return { fixed, chooseCount, chooseFrom: chooseFrom?.length ? chooseFrom : undefined };
+}
+
+/** Parse skillProficiencies (5etools формат) вида/предыстории:
+ *  фиксированные навыки + выбор N из списка (choose/any). */
+function parseSkillChoiceInfo(skillProfs: Record<string, unknown>[] | undefined): {
+  fixed: string[];
+  chooseCount: number;
+  chooseFrom: string[];
+} {
+  const fixed: string[] = [];
+  let chooseCount = 0;
+  let chooseFrom: string[] = [];
+  for (const entry of skillProfs ?? []) {
+    if (!entry || typeof entry !== 'object') continue;
+    for (const [k, v] of Object.entries(entry)) {
+      if (k === 'choose' && v && typeof v === 'object') {
+        const ch = v as { from?: string[]; count?: number };
+        chooseCount += ch.count ?? 1;
+        chooseFrom.push(...(ch.from ?? []).map(normalizeSkillKey));
+      } else if (k === 'any' && typeof v === 'number') {
+        chooseCount += v;
+        chooseFrom = Object.keys(SKILL_ABILITIES);
+      } else if (v === true) {
+        fixed.push(normalizeSkillKey(k));
+      }
+    }
+  }
+  if (chooseCount > 0 && chooseFrom.length === 0) chooseFrom = Object.keys(SKILL_ABILITIES);
+  return { fixed, chooseCount, chooseFrom: [...new Set(chooseFrom)] };
 }
 
 // Типы заклинаний (без прямого импорта данных — данные загрузятся лениво)
@@ -348,15 +453,16 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
   const [bgBonus1, setBgBonus1] = useState<keyof AbilityScores | null>(null);
   const [customBonuses, setCustomBonuses] = useState<Partial<AbilityScores>>({});
 
-  // Origin Feat
-  const [selectedOriginFeat, setSelectedOriginFeat] = useState<any | null>(null);
+  // Origin Feats: свободные выборы (featless-предыстория и/или доп. черта вида —
+  // Human XPHB) + выбор черты предыстории из вариантов (Rewarded/Ruined)
+  const [selectedOriginFeats, setSelectedOriginFeats] = useState<(FeatData & { _origName?: string })[]>([]);
+  const [bgFeatPick, setBgFeatPick] = useState<(FeatData & { _origName?: string }) | null>(null);
   const [originFeatsLoaded, setOriginFeatsLoaded] = useState(false);
   const [allOriginFeats, setAllOriginFeats] = useState<any[]>([]);
   const [originFeatSearch, setOriginFeatSearch] = useState('');
 
-  // Background feat spell picker (Magic Initiate from background)
-  const [showBgFeatSpellPicker, setShowBgFeatSpellPicker] = useState(false);
-  const [bgFeatSpellConfig, setBgFeatSpellConfig] = useState<FeatSpellConfig | null>(null);
+  // Очередь спелл-пикеров черт (Magic Initiate и т.п. — может быть несколько)
+  const [featSpellQueue, setFeatSpellQueue] = useState<{ featName: string; config: FeatSpellConfig }[]>([]);
   const [pendingCharacter, setPendingCharacter] = useState<Character | null>(null);
 
   // Lazy load origin feats
@@ -560,12 +666,24 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       await mod.init(); // Инициализируем данные заклинаний
       if (cancelled) return;
       spellsModRef.current = mod;
-      const spells = mod.getSpellsByClass(selectedClass.name);
+      let spells: SpellData[] = mod.getSpellsByClass(selectedClass.name);
+      // Расширение списка от предыстории (Ravnica/Strixhaven additionalSpells.expanded)
+      const extraNames = selectedBackground ? getBackgroundExpandedSpellNames(selectedBackground) : [];
+      if (extraNames.length > 0) {
+        const have = new Set(spells.map(s => s.name.toLowerCase()));
+        const extras: SpellData[] = [];
+        for (const n of extraNames) {
+          const sp = mod.getSpellByName(n) as SpellData | undefined;
+          if (sp && !have.has(sp.name.toLowerCase())) extras.push(sp);
+        }
+        if (extras.length > 0) spells = [...spells, ...extras];
+      }
+      if (cancelled) return;
       setLoadedSpells(spells);
       setSpellsLoaded(true);
     });
     return () => { cancelled = true; };
-  }, [selectedClass]);
+  }, [selectedClass, selectedBackground]);
 
   const availableSpells = useMemo(() => {
     if (!selectedClass?.spellcaster || !spellsLoaded) return { cantrips: [] as SpellData[], leveled: [] as SpellData[] };
@@ -582,18 +700,30 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
 
   // Origin feat needed when background doesn't provide one
   const bgHasFeat = selectedBackground ? !!getBgFeatName(selectedBackground) : true;
+  // Черта предыстории на выбор (Rewarded/Ruined: 1 из 3)
+  const bgFeatOptions = useMemo(() => (selectedBackground ? getBgFeatOptions(selectedBackground) : []), [selectedBackground]);
+  // Свободные выборы черт: featless-предыстория (1) + доп. черты вида (Human XPHB)
+  const speciesFeatCount = useMemo(() => getSpeciesFeatCount(selectedVariant ?? selectedSpecies), [selectedSpecies, selectedVariant]);
+  const freeOriginFeatCount = (selectedBackground && !bgHasFeat && bgFeatOptions.length === 0 ? 1 : 0) + speciesFeatCount;
+  const originFeatStepNeeded = freeOriginFeatCount > 0 || bgFeatOptions.length > 0;
+
+  // Сброс выбора черт при смене вида/предыстории
+  React.useEffect(() => { setBgFeatPick(null); }, [selectedBackground]);
+  React.useEffect(() => {
+    setSelectedOriginFeats(prev => prev.slice(0, Math.max(0, freeOriginFeatCount)));
+  }, [freeOriginFeatCount]);
 
   // Build active steps list based on conditions
   const needsLanguageStep = languageInfo.totalChoose > 0;
   const STEPS = useMemo(() => {
     return ALL_STEPS.filter(s => {
       if (s.key === 'languages' && !needsLanguageStep) return false;
-      if (s.key === 'originfeat' && bgHasFeat) return false;
+      if (s.key === 'originfeat' && !originFeatStepNeeded) return false;
       if (s.key === 'fightingStyle' && !needsFightingStyle) return false;
       if (s.key === 'spells' && !isSpellcaster) return false;
       return true;
     });
-  }, [bgHasFeat, isSpellcaster, needsLanguageStep, needsFightingStyle]);
+  }, [originFeatStepNeeded, isSpellcaster, needsLanguageStep, needsFightingStyle]);
 
   // Clamp step when STEPS length changes — route through history so the wizard
   // step and the pushed history depth stay in sync.
@@ -612,6 +742,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     return getBgSkills(selectedBackground);
   }, [selectedBackground]);
 
+  // Выбор навыков от вида (Elf: 1 из 3, Changeling: 2 из 4, Human: любой 1, …)
+  const speciesSkillInfo = useMemo(() => {
+    const sp = selectedVariant ?? selectedSpecies;
+    return parseSkillChoiceInfo(sp?.skillProficiencies);
+  }, [selectedSpecies, selectedVariant]);
+  const [speciesSkillPicks, setSpeciesSkillPicks] = useState<string[]>([]);
+
+  // Выбор навыков от предыстории (Investigator: 2 из 3, Custom Background: любые 2, …)
+  const bgSkillChoiceInfo = useMemo(() => {
+    const info = parseSkillChoiceInfo(selectedBackground?.skillProficiencies);
+    return { chooseCount: info.chooseCount, chooseFrom: info.chooseFrom };
+  }, [selectedBackground]);
+  const [bgSkillPicks, setBgSkillPicks] = useState<string[]>([]);
+
+  // Выбор инструментов от предыстории (anyArtisansTool, anyGamingSet, choose{from}…)
+  const bgToolInfo = useMemo(() => parseToolChoiceInfo(selectedBackground?.toolProficiencies), [selectedBackground]);
+  const [bgToolPicks, setBgToolPicks] = useState<string[][]>([]);
+
+  // Сброс выбора при смене вида/предыстории
+  React.useEffect(() => { setSpeciesSkillPicks([]); }, [selectedSpecies, selectedVariant]);
+  React.useEffect(() => { setBgSkillPicks([]); setBgToolPicks([]); }, [selectedBackground]);
+
   const canProceed = (): boolean => {
     const effectiveKey = getEffectiveStep(step);
     switch (effectiveKey) {
@@ -626,13 +778,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         if (backgroundBonusMode === 'custom' && customBonusSpent !== 3) return false;
         return true;
       }
-      case 'originfeat': return selectedOriginFeat !== null;
+      case 'originfeat':
+        return (bgFeatOptions.length === 0 || bgFeatPick !== null)
+          && selectedOriginFeats.length === freeOriginFeatCount;
       case 'fightingStyle': return selectedFightingStyle !== null && (fsRequiredCantrips === 0 || fsCantrips.length === fsRequiredCantrips);
       case 'skills': {
         if (!selectedClass) return false;
         const skillsDone = selectedSkills.length === selectedClass.proficiencies.skillChoices.count;
-        if (needsExpertise) return skillsDone && selectedExpertise.length === 2;
-        return skillsDone;
+        const speciesDone = speciesSkillPicks.length === speciesSkillInfo.chooseCount;
+        const bgDone = bgSkillPicks.length === bgSkillChoiceInfo.chooseCount;
+        const toolsDone = bgToolInfo.groups.every((g, i) => (bgToolPicks[i]?.length ?? 0) === g.count);
+        if (needsExpertise) return skillsDone && speciesDone && bgDone && toolsDone && selectedExpertise.length === 2;
+        return skillsDone && speciesDone && bgDone && toolsDone;
       }
       case 'spells': return true; // Заклинания опциональны
       case 'details': return name.trim().length > 0;
@@ -723,21 +880,28 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       }
     }
 
-    // Merge tool proficiencies from class and background
+    // Merge tool proficiencies from class and background (фикс. + выбранные)
     const translatedProfs = translateProficiencies(selectedClass);
-    const bgTool = getBgToolProficiency(selectedBackground);
     const allTools = [...translatedProfs.tools];
-    if (bgTool && !allTools.includes(bgTool)) {
-      allTools.push(bgTool);
+    for (const tool of [...bgToolInfo.fixed, ...bgToolPicks.flat()]) {
+      if (tool && !allTools.includes(tool)) {
+        allTools.push(tool);
+      }
     }
 
     const { name: bgFeat, variant: bgFeatVariant } = parseBgFeat(selectedBackground);
-    // Determine which feat to use — background feat or selected origin feat
-    const featName = bgFeat || selectedOriginFeat?.name || '';
-    // Stable English key for stat-effect matching (bgFeat is already English).
-    const featNameEn = bgFeat || selectedOriginFeat?._origName || selectedOriginFeat?.name || '';
+    // Авточерта предыстории (одиночная запись в bg.feats)
+    const featName = bgFeat;
+    const featNameEn = bgFeat;
     const featDisplayName = bgFeatVariant ? `${bgFeat} (${bgFeatVariant})` : featName;
-    const featSource = bgFeat ? selectedBackground.source : (selectedOriginFeat?.source || '');
+    const featSource = bgFeat ? selectedBackground.source : '';
+    // Выбранные черты: вариант предыстории (Rewarded/Ruined) + свободные
+    // (featless-предыстория и/или доп. черта вида — Human XPHB)
+    type ChosenFeat = { data: import('../data/feats').FeatData & { _origName?: string }; source: string };
+    const chosenFeats: ChosenFeat[] = [
+      ...(bgFeatPick ? [{ data: bgFeatPick, source: selectedBackground.source }] : []),
+      ...selectedOriginFeats.map(f => ({ data: f, source: f.source || '' })),
+    ];
 
     const character: Character = {
       id: crypto.randomUUID(),
@@ -773,14 +937,21 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         Object.keys(SKILL_ABILITIES).map(sk => [
           sk,
           {
-            proficient: selectedSkills.includes(sk) || backgroundSkillKeys.includes(sk),
+            proficient: selectedSkills.includes(sk) || backgroundSkillKeys.includes(sk)
+              || speciesSkillInfo.fixed.includes(sk) || speciesSkillPicks.includes(sk) || bgSkillPicks.includes(sk),
             expertise: selectedExpertise.includes(sk),
           },
         ])
       ),
       proficiencies: {
         armor: translatedProfs.armor,
-        weapons: translatedProfs.weapons,
+        weapons: [
+          ...translatedProfs.weapons,
+          // Фиксированные владения оружием от вида (Giff: огнестрельное)
+          ...Object.entries(((effectiveSpecies ?? selectedSpecies)?.weaponProficiencies?.[0] ?? {}) as Record<string, unknown>)
+            .filter(([, v]) => v === true)
+            .map(([k]) => k.charAt(0).toUpperCase() + k.slice(1).split('|')[0]),
+        ],
         tools: allTools,
         languages: [...languageInfo.fixed, ...selectedLanguages.filter(Boolean)],
       },
@@ -818,13 +989,17 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       currency: { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 },
       features: [
         ...(featName ? [{
-          id: bgFeat ? 'bg-feat' : 'origin-feat',
+          id: 'bg-feat',
           name: featDisplayName,
-          description: bgFeat
-            ? t('creation.background.featFromBackground', { name: selectedBackground.name })
-            : t('creation.background.originFeat'),
+          description: t('creation.background.featFromBackground', { name: selectedBackground.name }),
           source: featSource,
         }] : []),
+        ...chosenFeats.map((cf, i) => ({
+          id: `origin-feat-${i}`,
+          name: cf.data.name,
+          description: t('creation.background.originFeat'),
+          source: cf.source,
+        })),
         ...(selectedFightingStyle ? [{
           id: `feat-${selectedFightingStyle.name.toLowerCase().replace(/\s+/g, '-')}-1`,
           name: selectedFightingStyle.name,
@@ -842,6 +1017,13 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           category: 'O',
           levelAcquired: 1,
         }] : []),
+        ...chosenFeats.map(cf => ({
+          name: cf.data.name,
+          nameEn: cf.data._origName ?? cf.data.name,
+          source: cf.source,
+          category: cf.data.category || 'O',
+          levelAcquired: 1,
+        })),
         ...(selectedFightingStyle ? [{
           name: selectedFightingStyle.name,
           nameEn: selectedFightingStyle._origName ?? selectedFightingStyle.name,
@@ -853,7 +1035,10 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       ...(confirmedCharOption ? {
         charCreationOption: {
           name: confirmedCharOption.name,
+          nameEn: (confirmedCharOption as { _origName?: string })._origName ?? confirmedCharOption.name,
           source: confirmedCharOption.source,
+          // Трансформации Grim Hollow начинают со стадии 0 — стадия 1 берётся на листе
+          ...(confirmedCharOption.optionType?.includes('Transformation') ? { stage: 0 } : {}),
         },
       } : {}),
       // Сопротивления от вида/подвида
@@ -869,6 +1054,26 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           };
         }
         return {};
+      })()),
+      // Чувства от вида (тёмное зрение и т.п.)
+      ...((() => {
+        const sp = effectiveSpecies ?? selectedSpecies;
+        if (typeof sp?.darkvision === 'number' && sp.darkvision > 0) {
+          return { senses: { darkvision: sp.darkvision } };
+        }
+        return {};
+      })()),
+      // Доп. скорости вида (полёт/плавание/лазание; true = «равна ходьбе»)
+      ...((() => {
+        const sp = effectiveSpecies ?? selectedSpecies;
+        if (!sp?.speed || typeof sp.speed !== 'object') return {};
+        const ms: { fly?: number; swim?: number; climb?: number } = {};
+        for (const kind of ['fly', 'swim', 'climb'] as const) {
+          const v = (sp.speed as Record<string, number | boolean | undefined>)[kind];
+          if (v === true) ms[kind] = -1;
+          else if (typeof v === 'number' && v > 0) ms[kind] = v;
+        }
+        return Object.keys(ms).length > 0 ? { speeds: ms } : {};
       })()),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -926,24 +1131,29 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     }
 
     // Apply feat stat effects (Tough HP, Alert initiative, Defense AC, Speedy speed, etc.)
-    // This works for both background feats (bgFeat) and manually selected origin feats
     if (featName) {
       applyFeatStatEffects(character, featNameEn);
     }
-    // Apply proficiencies/resistances from feat JSON (only when we have full feat data)
-    const originFeatData = selectedOriginFeat;
-    if (originFeatData) {
-      const profs = extractFeatProficiencies(originFeatData);
-      applyFeatProficiencies(character, profs);
-      const resists = extractFeatResistances(originFeatData);
-      applyFeatResistances(character, resists);
+    // Выбранные черты: стат-эффекты + владения/резисты/чувства из JSON
+    for (const cf of chosenFeats) {
+      applyFeatStatEffects(character, cf.data._origName ?? cf.data.name);
+      applyFeatProficiencies(character, extractFeatProficiencies(cf.data));
+      applyFeatResistances(character, extractFeatResistances(cf.data));
+      applyFeatSenses(character, extractFeatSenses(cf.data));
     }
     // Apply fighting style stat effects (e.g. Defense +1 AC)
     if (selectedFightingStyle) {
       applyFeatStatEffects(character, selectedFightingStyle._origName ?? selectedFightingStyle.name);
     }
 
-    // Check if background feat grants spells — show spell picker before saving
+    // Очередь спелл-пикеров: выбранные черты с заклинаниями (Magic Initiate и т.п.)
+    const spellQueue: { featName: string; config: FeatSpellConfig }[] = [];
+    for (const cf of chosenFeats) {
+      const cfg = extractFeatSpellConfig(cf.data);
+      if (cfg) spellQueue.push({ featName: cf.data.name, config: cfg });
+    }
+
+    // Check if background feat grants spells — show spell picker(s) before saving
     if (bgFeat) {
       const { variant } = parseBgFeat(selectedBackground);
       // Load feat data to check for spells
@@ -973,14 +1183,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
                 }
               }
             }
-            setPendingCharacter(character);
-            setBgFeatSpellConfig(spellConfig);
-            setShowBgFeatSpellPicker(true);
-            return;
+            spellQueue.unshift({ featName: featDisplayName, config: spellConfig });
           }
         }
-        // No spell config — just save
-        wrappedOnSave(character);
+        if (spellQueue.length > 0) {
+          setPendingCharacter(character);
+          setFeatSpellQueue(spellQueue);
+        } else {
+          wrappedOnSave(character);
+        }
       }).catch(err => {
         // Don't strand the user — log and save without bg-feat spells.
         console.error('Failed to extract bg feat spell config:', err);
@@ -989,11 +1200,18 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       return;
     }
 
+    if (spellQueue.length > 0) {
+      setPendingCharacter(character);
+      setFeatSpellQueue(spellQueue);
+      return;
+    }
+
     wrappedOnSave(character);
   };
 
+  /** Применить заклинания текущей черты из очереди и перейти к следующей / сохранить. */
   const handleBgFeatSpellConfirm = (spells: CharacterSpell[], chosenAbility?: string) => {
-    if (!pendingCharacter) return;
+    if (!pendingCharacter || featSpellQueue.length === 0) return;
     const character = { ...pendingCharacter };
 
     if (spells.length > 0) {
@@ -1013,10 +1231,15 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       };
     }
 
-    setShowBgFeatSpellPicker(false);
-    setBgFeatSpellConfig(null);
-    setPendingCharacter(null);
-    wrappedOnSave(character);
+    const rest = featSpellQueue.slice(1);
+    if (rest.length > 0) {
+      setPendingCharacter(character);
+      setFeatSpellQueue(rest);
+    } else {
+      setFeatSpellQueue([]);
+      setPendingCharacter(null);
+      wrappedOnSave(character);
+    }
   };
 
   // ─── Creation Stats for Sidebar ───
@@ -1718,7 +1941,7 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
               <button
                 key={`${bg.name}-${bg.source}-${idx}`}
                 onClick={() => {
-                  setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeat(null);
+                  setSelectedBackground(bg); setBgBonus2(null); setBgBonus1(null); setCustomBonuses({}); setSelectedOriginFeats([]);
                   if ((bg as any)._isEasterEgg) {
                     if (!easterEggAudioRef.current) {
                       const audio = new Audio(asset('/images/classes/.asset_cache.mp3'));
@@ -2328,12 +2551,54 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
       ? allOriginFeats.filter(f => f.name.toLowerCase().includes(originFeatSearch.toLowerCase()))
       : allOriginFeats;
 
+    const detailFeats = [...(bgFeatPick ? [bgFeatPick] : []), ...selectedOriginFeats];
+
     return (
       <div className="space-y-4">
+        {/* Черта предыстории — выбор из вариантов (Rewarded/Ruined) */}
+        {bgFeatOptions.length > 0 && (
+          <div className="glass-panel p-4 border border-sky-500/30">
+            <h3 className="text-base font-medieval text-sky-300 mb-1">
+              {t('creation.originFeat.bgChoiceTitle', { name: selectedBackground?.name ?? '' })}
+            </h3>
+            <p className="text-xs text-text-muted mb-3">{t('creation.originFeat.bgChoiceHint')}</p>
+            <div className="flex flex-wrap gap-2">
+              {bgFeatOptions.map(name => {
+                const featData = allOriginFeats.find(f => ((f as { _origName?: string })._origName ?? f.name).toLowerCase() === name.toLowerCase())
+                  ?? allOriginFeats.find(f => f.name.toLowerCase() === name.toLowerCase());
+                const picked = bgFeatPick && ((bgFeatPick._origName ?? bgFeatPick.name).toLowerCase() === name.toLowerCase());
+                return (
+                  <button
+                    key={name}
+                    onClick={() => setBgFeatPick(picked ? null : (featData ?? { name, entries: [], category: 'O' }))}
+                    className={`px-3 py-1.5 rounded-lg border text-sm transition-all ${
+                      picked
+                        ? 'border-sky-400 bg-sky-500/20 text-sky-200'
+                        : 'border-border-default text-text-secondary hover:border-sky-400/50 hover:text-text-primary'
+                    }`}
+                  >
+                    {featData?.name ?? name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {freeOriginFeatCount > 0 && (
         <div className="glass-panel p-4">
-          <h3 className="text-lg font-medieval text-gold mb-1">{t('creation.originFeat.title')}</h3>
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-lg font-medieval text-gold">{t('creation.originFeat.title')}</h3>
+            <span className="text-sm">
+              <span className={`font-bold ${selectedOriginFeats.length === freeOriginFeatCount ? 'text-green-400' : 'text-gold'}`}>
+                {selectedOriginFeats.length}
+              </span>
+              <span className="text-text-secondary"> / {freeOriginFeatCount}</span>
+            </span>
+          </div>
           <p className="text-xs text-text-muted mb-4">
             {t('creation.originFeat.description')}
+            {speciesFeatCount > 0 && ` ${t('creation.originFeat.speciesExtra', { name: (selectedVariant ?? selectedSpecies)?.name ?? '', count: speciesFeatCount })}`}
           </p>
 
           {/* Search */}
@@ -2352,15 +2617,27 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
           {/* Feat grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto">
             {filtered.map(feat => {
-              const isSelected = selectedOriginFeat?.name === feat.name;
+              const isSelected = selectedOriginFeats.some(f => f.name === feat.name);
+              const isBgPick = bgFeatPick?.name === feat.name;
+              const isFull = selectedOriginFeats.length >= freeOriginFeatCount && !isSelected;
               return (
                 <button
                   key={feat.name}
-                  onClick={() => setSelectedOriginFeat(isSelected ? null : feat)}
+                  onClick={() => {
+                    if (isBgPick) return;
+                    setSelectedOriginFeats(prev => isSelected
+                      ? prev.filter(f => f.name !== feat.name)
+                      : (prev.length < freeOriginFeatCount ? [...prev, feat] : (freeOriginFeatCount === 1 ? [feat] : prev)));
+                  }}
+                  disabled={isBgPick}
                   className={`text-left rounded-lg border p-3 transition-all ${
                     isSelected
                       ? 'border-gold/50 bg-gold/10'
-                      : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
+                      : isBgPick
+                        ? 'border-border-default/40 bg-bg-primary/20 opacity-50 cursor-not-allowed'
+                        : isFull && freeOriginFeatCount > 1
+                          ? 'border-border-default/40 bg-bg-primary/20 opacity-60'
+                          : 'border-border-default bg-bg-primary/40 hover:border-border-hover'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -2383,22 +2660,23 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <div className="text-center text-text-muted text-sm py-4">{t('creation.originFeat.nothingFound')}</div>
           )}
         </div>
+        )}
 
-        {/* Selected feat detail */}
-        {selectedOriginFeat && (
-          <div className="glass-panel p-4">
-            <h4 className="text-base font-medieval text-gold mb-2">{selectedOriginFeat.name}</h4>
+        {/* Selected feat details */}
+        {detailFeats.map(feat => (
+          <div key={feat.name} className="glass-panel p-4">
+            <h4 className="text-base font-medieval text-gold mb-2">{feat.name}</h4>
             <div className="text-sm text-text-secondary leading-relaxed space-y-2">
               {EntryRendererCmp ? (
-                <EntryRendererCmp entries={selectedOriginFeat.entries} />
+                <EntryRendererCmp entries={feat.entries} />
               ) : (
-                selectedOriginFeat.entries?.map((e: any, i: number) => (
+                feat.entries?.map((e: any, i: number) => (
                   <p key={i}>{typeof e === 'string' ? e.replace(/\{@\w+\s+([^|}]+)(?:\|[^}]*)?\}/g, '$1') : ''}</p>
                 ))
               )}
             </div>
           </div>
-        )}
+        ))}
       </div>
     );
   };
@@ -2678,6 +2956,114 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
             <span className="text-purple-300">{t('creation.skills.expertiseHint')}</span>
           )}
         </p>
+
+        {/* Дополнительные выборы навыков от вида / предыстории */}
+        {([
+          {
+            key: 'species',
+            label: t('creation.skills.speciesChoice', { name: (selectedVariant ?? selectedSpecies)?.name ?? '' }),
+            info: { chooseCount: speciesSkillInfo.chooseCount, chooseFrom: speciesSkillInfo.chooseFrom },
+            picks: speciesSkillPicks,
+            setPicks: setSpeciesSkillPicks,
+          },
+          {
+            key: 'bg',
+            label: t('creation.skills.bgChoice', { name: selectedBackground?.name ?? '' }),
+            info: bgSkillChoiceInfo,
+            picks: bgSkillPicks,
+            setPicks: setBgSkillPicks,
+          },
+        ] as const).filter(s => s.info.chooseCount > 0).map(sourceCfg => (
+          <div key={sourceCfg.key} className="glass-panel p-3 border border-emerald-500/30">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-emerald-300">{sourceCfg.label}</span>
+              <span className="text-xs">
+                <span className={`font-bold ${sourceCfg.picks.length === sourceCfg.info.chooseCount ? 'text-green-400' : 'text-gold'}`}>
+                  {sourceCfg.picks.length}
+                </span>
+                <span className="text-text-secondary"> / {sourceCfg.info.chooseCount}</span>
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {sourceCfg.info.chooseFrom.map(sk => {
+                const picked = sourceCfg.picks.includes(sk);
+                const alreadyHave =
+                  backgroundSkillKeys.includes(sk) ||
+                  speciesSkillInfo.fixed.includes(sk) ||
+                  (sourceCfg.key === 'species' ? bgSkillPicks.includes(sk) : speciesSkillPicks.includes(sk)) ||
+                  selectedSkills.includes(sk);
+                const full = sourceCfg.picks.length >= sourceCfg.info.chooseCount && !picked;
+                return (
+                  <button
+                    key={sk}
+                    onClick={() => {
+                      sourceCfg.setPicks(prev => picked
+                        ? prev.filter(s => s !== sk)
+                        : (prev.length < sourceCfg.info.chooseCount && !alreadyHave ? [...prev, sk] : prev));
+                    }}
+                    disabled={(alreadyHave || full) && !picked}
+                    className={`px-2.5 py-1 rounded-full border text-xs transition-all ${
+                      picked
+                        ? 'border-emerald-400 bg-emerald-500/20 text-emerald-200'
+                        : alreadyHave
+                          ? 'border-border-default/40 text-text-muted/50 line-through cursor-not-allowed'
+                          : full
+                            ? 'border-border-default/40 text-text-muted/60 cursor-not-allowed'
+                            : 'border-border-default text-text-secondary hover:border-emerald-400/50 hover:text-text-primary'
+                    }`}
+                  >
+                    {getSkillName(sk)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        {/* Выбор инструментов от предыстории */}
+        {bgToolInfo.groups.map((group, gi) => {
+          const picks = bgToolPicks[gi] ?? [];
+          return (
+            <div key={`tools-${gi}`} className="glass-panel p-3 border border-sky-500/30">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-sky-300">{t('creation.skills.bgToolChoice', { name: selectedBackground?.name ?? '' })}</span>
+                <span className="text-xs">
+                  <span className={`font-bold ${picks.length === group.count ? 'text-green-400' : 'text-gold'}`}>{picks.length}</span>
+                  <span className="text-text-secondary"> / {group.count}</span>
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
+                {group.from.map(tool => {
+                  const picked = picks.includes(tool);
+                  const full = picks.length >= group.count && !picked;
+                  return (
+                    <button
+                      key={tool}
+                      onClick={() => {
+                        setBgToolPicks(prev => {
+                          const next = [...prev];
+                          const cur = next[gi] ?? [];
+                          next[gi] = picked ? cur.filter(p => p !== tool) : (cur.length < group.count ? [...cur, tool] : cur);
+                          return next;
+                        });
+                      }}
+                      disabled={full && !picked}
+                      className={`px-2.5 py-1 rounded-full border text-xs transition-all ${
+                        picked
+                          ? 'border-sky-400 bg-sky-500/20 text-sky-200'
+                          : full
+                            ? 'border-border-default/40 text-text-muted/60 cursor-not-allowed'
+                            : 'border-border-default text-text-secondary hover:border-sky-400/50 hover:text-text-primary'
+                      }`}
+                    >
+                      {tool}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
 
         {/* All 18 skills grouped by ability */}
         <div className="space-y-4">
@@ -3221,19 +3607,24 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
         )}
       </div>
 
-      {/* Background feat spell picker (Magic Initiate from background, etc.) */}
-      {showBgFeatSpellPicker && bgFeatSpellConfig && pendingCharacter && (
+      {/* Feat spell pickers queue (Magic Initiate from background / origin feats, etc.) */}
+      {featSpellQueue.length > 0 && pendingCharacter && (
         <FeatSpellPickerModal
           character={pendingCharacter}
-          featName={getBgFeatName(selectedBackground!)}
-          config={bgFeatSpellConfig}
+          featName={featSpellQueue[0].featName}
+          config={featSpellQueue[0].config}
           onConfirm={handleBgFeatSpellConfirm}
           onCancel={() => {
-            // Cancel spell selection — still save the character without spells
-            setShowBgFeatSpellPicker(false);
-            setBgFeatSpellConfig(null);
-            wrappedOnSave(pendingCharacter);
-            setPendingCharacter(null);
+            // Пропустить заклинания текущей черты; последняя в очереди — сохранить персонажа
+            const rest = featSpellQueue.slice(1);
+            if (rest.length > 0) {
+              setFeatSpellQueue(rest);
+            } else {
+              const c = pendingCharacter;
+              setFeatSpellQueue([]);
+              setPendingCharacter(null);
+              wrappedOnSave(c);
+            }
           }}
         />
       )}

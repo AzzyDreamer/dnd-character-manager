@@ -399,8 +399,14 @@ export interface Character {
   // Опция создания персонажа (Transformation, Supernatural Gift, etc.)
   charCreationOption?: {
     name: string;
+    nameEn?: string;           // стабильный английский ключ (для конфига трансформаций)
     source: string;
+    stage?: number;            // стадия трансформации Grim Hollow (0–4)
   };
+
+  // Активная форма трансформации (nameEn дара: Hybrid Wolf/Bear/Rat Form).
+  // Пока активна, применяются её модификаторы (floor характеристик, скорость).
+  activeTransformForm?: string;
 
   // Портрет персонажа (base64 data URL)
   portraitDataUrl?: string;
@@ -411,12 +417,20 @@ export interface Character {
   resourceTrackers?: Record<string, ResourceTracker>;
 
   // Опциональные способности класса (Воззвания, Метамагия и т.д.)
+  // и дары/изъяны трансформаций (featureType "V:TB", "O:TF", …)
   optionalFeatures?: {
     name: string;              // отображаемое имя (может быть локализованным)
     nameEn?: string;           // стабильный английский ключ для матчинга логики (Extra Attack, Agonizing Blast)
     source: string;
     featureType: string;  // "EI", "MM", etc.
     levelAcquired: number;
+    // Фактически применённые при получении бонусы (для точного отката
+    // при смене дара/снижении стадии трансформации)
+    abilityBonuses?: Partial<AbilityScores>;
+    hpFlatApplied?: number;
+    // Выбранные игроком резисты/спасброски от этого дара (для отката)
+    chosenResistances?: string[];
+    chosenSaveProficiencies?: string[];
   }[];
 
   // Активные состояния (Blinded, Charmed, etc.)
@@ -435,6 +449,14 @@ export interface Character {
     blindsight?: number;
     tremorsense?: number;
     truesight?: number;
+  };
+
+  // Дополнительные скорости передвижения (в футах). −1 = «равна скорости ходьбы»
+  // (Aarakocra fly 50, Triton swim 30, Roving climb/swim = скорости и т.п.)
+  speeds?: {
+    fly?: number;
+    swim?: number;
+    climb?: number;
   };
 
   // Концентрация: имя заклинания, на котором персонаж сейчас концентрируется.

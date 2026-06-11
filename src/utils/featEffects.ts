@@ -296,15 +296,15 @@ export function extractFeatProficiencies(feat: FeatData): ExtractedProficiencies
 
 export interface ExtractedResistances {
   fixed: string[];           // Fixed resistance types (e.g. ['fire', 'cold'])
+  immune: string[];          // Fixed damage immunities (e.g. Boon of Blazing Dawn: radiant)
   choiceFrom?: string[];     // Available types to choose from
   choiceCount?: number;      // How many to choose
 }
 
 export function extractFeatResistances(feat: FeatData): ExtractedResistances {
-  const result: ExtractedResistances = { fixed: [] };
-  if (!feat.resist) return result;
+  const result: ExtractedResistances = { fixed: [], immune: [] };
 
-  for (const entry of feat.resist) {
+  for (const entry of feat.resist ?? []) {
     if (typeof entry === 'string') {
       result.fixed.push(entry);
     } else if (typeof entry === 'object' && entry.choose) {
@@ -313,7 +313,43 @@ export function extractFeatResistances(feat: FeatData): ExtractedResistances {
     }
   }
 
+  for (const entry of feat.immune ?? []) {
+    if (typeof entry === 'string') result.immune.push(entry);
+  }
+
   return result;
+}
+
+// ── Senses extraction (Blind Fighting, Boon of Truesight, Keenness of the Stone Giant…) ──
+
+export type ExtractedSenses = Partial<Record<'darkvision' | 'blindsight' | 'tremorsense' | 'truesight', number>>;
+
+export function extractFeatSenses(feat: FeatData): ExtractedSenses {
+  const result: ExtractedSenses = {};
+  const sources = [...(feat.senses ?? []), ...(feat.bonusSenses ?? [])];
+  for (const entry of sources) {
+    if (!entry || typeof entry !== 'object') continue;
+    for (const [key, value] of Object.entries(entry)) {
+      if (typeof value !== 'number') continue;
+      const k = key.toLowerCase() as keyof ExtractedSenses;
+      if (k === 'darkvision' || k === 'blindsight' || k === 'tremorsense' || k === 'truesight') {
+        result[k] = Math.max(result[k] ?? 0, value);
+      }
+    }
+  }
+  return result;
+}
+
+/** Merge extracted senses into the character (keeps the larger range). Mutates char. */
+export function applyFeatSenses(char: Character, senses: ExtractedSenses): void {
+  const keys = Object.keys(senses) as (keyof ExtractedSenses)[];
+  if (keys.length === 0) return;
+  const current = { ...(char.senses ?? {}) };
+  for (const k of keys) {
+    const v = senses[k];
+    if (typeof v === 'number' && (current[k] ?? 0) < v) current[k] = v;
+  }
+  char.senses = current;
 }
 
 // ── Spell config extraction ──
@@ -580,6 +616,13 @@ export function applyFeatResistances(
     const alreadyHas = existing.some(r => r.type === type && r.modifier === 'resistance');
     if (!alreadyHas) {
       existing.push({ type, modifier: 'resistance' });
+    }
+  }
+
+  for (const type of resistances.immune) {
+    const alreadyHas = existing.some(r => r.type === type && r.modifier === 'immunity');
+    if (!alreadyHas) {
+      existing.push({ type, modifier: 'immunity' });
     }
   }
 
