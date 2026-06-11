@@ -405,8 +405,17 @@ export interface Character {
   };
 
   // Активная форма трансформации (nameEn дара: Hybrid Wolf/Bear/Rat Form).
-  // Пока активна, применяются её модификаторы (floor характеристик, скорость).
+  // @deprecated — мигрируется в activeEffects при синхронизации листа.
   activeTransformForm?: string;
+
+  // Активные эффекты (формы, стойки, ярость) — ключи реестра ACTIVATED_EFFECTS.
+  // Пока активны, их дельты (КД/скорость/резисты/floor характеристик) применяются
+  // ЖИВЬЁМ при отображении и никогда не вшиваются в хранимые статы.
+  activeEffects?: {
+    key: string;          // стабильный ключ из реестра ('rage', 'bladesong', …)
+    activatedAt: string;  // ISO — для отображения и сортировки
+    expiresAt?: string;   // ISO — для длительностей в минутах/часах
+  }[];
 
   // Портрет персонажа (base64 data URL)
   portraitDataUrl?: string;

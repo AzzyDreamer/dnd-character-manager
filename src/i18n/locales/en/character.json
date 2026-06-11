@@ -496,6 +496,41 @@
         "ThroatLeeches": "Throat Leeches"
       }
     },
+    "activeEffects": {
+      "title": "Active Forms & Stances",
+      "activate": "Activate",
+      "deactivate": "End",
+      "active": "Active",
+      "expired": "Expired",
+      "noResource": "No uses left",
+      "costTooltip": "Costs {{cost}} uses",
+      "temporarySpeed": "Temporary, from an active state",
+      "duration": {
+        "minutes": "{{n}} min",
+        "hours": "{{n}} h",
+        "untilRest": "until rest",
+        "manual": "manual"
+      },
+      "req": {
+        "noArmor": "requires: no armor",
+        "noHeavyArmor": "requires: no heavy armor",
+        "noMediumHeavyArmor": "requires: no medium/heavy armor",
+        "noShield": "requires: no shield",
+        "generic": "requirements not met"
+      },
+      "deltas": {
+        "acFlat": "AC {{value}}",
+        "acAbility": "AC +{{ability}} mod",
+        "speed": "speed {{value}} ft",
+        "move": "{{kind}} {{value}} ft",
+        "moveEqualsWalk": "{{kind}} = walking speed",
+        "resist": "resistance: {{types}}",
+        "resistAll": "resistance to all damage",
+        "resistAllExcept": "resistance to all damage except {{types}}",
+        "immune": "immunity: {{types}}",
+        "abilityFloor": "{{ability}} becomes {{value}} (if lower)"
+      }
+    },
     "resistances": {
       "title": "Resistances",
       "addResistance": "Add resistance",
@@ -505,6 +540,8 @@
       "alreadyAdded": "Already added",
       "cancel": "Cancel",
       "add": "Add",
+      "temporary": "Temporary",
+      "temporaryFrom": "Temporary — from: {{source}}",
       "modifiers": {
         "resistance": "Resistance",
         "resistanceShort": "Resist.",

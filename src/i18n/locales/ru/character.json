@@ -496,6 +496,41 @@
         "ThroatLeeches": "Горловые пиявки"
       }
     },
+    "activeEffects": {
+      "title": "Активные формы и стойки",
+      "activate": "Включить",
+      "deactivate": "Снять",
+      "active": "Активна",
+      "expired": "Истекла",
+      "noResource": "Использования закончились",
+      "costTooltip": "Стоит {{cost}} использования",
+      "temporarySpeed": "Временная, от активного состояния",
+      "duration": {
+        "minutes": "{{n}} мин",
+        "hours": "{{n}} ч",
+        "untilRest": "до отдыха",
+        "manual": "вручную"
+      },
+      "req": {
+        "noArmor": "нужно: без доспеха",
+        "noHeavyArmor": "нужно: без тяжёлого доспеха",
+        "noMediumHeavyArmor": "нужно: без среднего/тяжёлого доспеха",
+        "noShield": "нужно: без щита",
+        "generic": "условия не выполнены"
+      },
+      "deltas": {
+        "acFlat": "КД {{value}}",
+        "acAbility": "КД +мод {{ability}}",
+        "speed": "скорость {{value}} фт",
+        "move": "{{kind}} {{value}} фт",
+        "moveEqualsWalk": "{{kind}} = скорости ходьбы",
+        "resist": "устойчивость: {{types}}",
+        "resistAll": "устойчивость ко всему урону",
+        "resistAllExcept": "устойчивость ко всему урону, кроме: {{types}}",
+        "immune": "иммунитет: {{types}}",
+        "abilityFloor": "{{ability}} становится {{value}} (если ниже)"
+      }
+    },
     "resistances": {
       "title": "Устойчивости",
       "addResistance": "Добавить устойчивость",
@@ -505,6 +540,8 @@
       "alreadyAdded": "Уже добавлено",
       "cancel": "Отмена",
       "add": "Добавить",
+      "temporary": "Временная",
+      "temporaryFrom": "Временная — от: {{source}}",
       "modifiers": {
         "resistance": "Устойчивость",
         "resistanceShort": "Устойч.",

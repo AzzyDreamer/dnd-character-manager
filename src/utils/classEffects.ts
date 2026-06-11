@@ -3,7 +3,9 @@ import { getAbilityModifier } from './dnd';
 import { getClassById, findSubclass } from '../data/classes';
 import { resolveCanonicalRace } from '../data/species';
 import { FEAT_STAT_EFFECTS } from './featEffects';
-import { getTransformACBonus, getTransformHpPerLevel, getTransformUnarmoredFormulas, getHybridAbilityFloors } from './transformationEffects';
+import { getTransformACBonus, getTransformHpPerLevel, getTransformUnarmoredFormulas } from './transformationEffects';
+import { getActiveAbilityFloors, getActiveACBonus, stripActiveOverlays } from './activatedEffects';
+import { getEquippedArmor, isWearingArmor, isWearingHeavyArmor, isWieldingShield } from './equipment';
 import i18n from '../i18n';
 
 // ── Effect definitions ──
@@ -333,45 +335,6 @@ export function getOngoingClassHpBonus(char: Character): number {
 }
 
 /**
- * Get the equipped armor item (if any) from the armor slot.
- */
-function getEquippedArmor(char: Character) {
-  const armorSlotId = char.equipment?.armor;
-  if (!armorSlotId) return null;
-  const armorItem = char.inventory?.find(i => i.id === armorSlotId);
-  if (!armorItem) return null;
-  // Only count actual armor (not other items in the slot)
-  if (armorItem.armorType && armorItem.armorType !== 'shield') return armorItem;
-  if (armorItem.category === 'armor') return armorItem;
-  return null;
-}
-
-/**
- * Check if character is wearing armor.
- */
-function isWearingArmor(char: Character): boolean {
-  return getEquippedArmor(char) !== null;
-}
-
-/**
- * Check if character is wearing heavy armor.
- */
-function isWearingHeavyArmor(char: Character): boolean {
-  const armor = getEquippedArmor(char);
-  return armor?.armorType === 'heavy';
-}
-
-/**
- * Check if character is wielding a shield.
- */
-function isWieldingShield(char: Character): boolean {
-  const offhandId = char.equipment?.offhand;
-  if (!offhandId) return false;
-  const item = char.inventory?.find(i => i.id === offhandId);
-  return item?.armorType === 'shield' || item?.category === 'shield';
-}
-
-/**
  * Calculate custom AC based on class/subclass AC formulas (Unarmored Defense).
  * Returns the best custom AC, or null if no custom formula applies.
  * Checks per-effect conditions: all require no armor, some also require no shield.
@@ -539,7 +502,7 @@ function getShieldBonus(char: Character): number {
 
 /** One labelled component of a computed stat (AC, initiative, …). */
 export interface StatPart {
-  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof' | 'class';
+  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof' | 'class' | 'state';
   value: number;
   ability?: keyof AbilityScores;  // set when key === 'ability'
 }
@@ -641,14 +604,28 @@ export function getACBreakdown(inputChar: Character): StatPart[] {
   const itemAc = getEquippedItemBonuses(char).bonusAc;
   if (itemAc) parts.push({ key: 'item', value: itemAc });
 
+  // Живой бонус от активных эффектов (Песнь клинка +Инт, Chitinous Shell +2).
+  // Не входит в resolveAC — хранимый armorClass остаётся чистым от состояний.
+  const stateAc = getActiveACBonus(char, char.abilityScores);
+  if (stateAc) parts.push({ key: 'state', value: stateAc });
+
   return parts;
 }
 
 /**
- * Resolve the full AC for a character (sum of the AC breakdown). Considers
- * equipped armor, Unarmored Defense formulas, shield, feat and item bonuses.
+ * Resolve the STORED AC for a character. Active effects (Bladesong, hybrid-form
+ * ability floors…) are stripped first, so writers (level-up, sync, boon grants)
+ * never bake activated state into the stored stat.
  */
 export function resolveAC(inputChar: Character): number {
+  return getACBreakdown(stripActiveOverlays(inputChar)).reduce((sum, p) => sum + p.value, 0);
+}
+
+/**
+ * AC as displayed on the sheet: sum of the live breakdown, INCLUDING active
+ * effects. Always equals the tooltip formula from getACBreakdown.
+ */
+export function resolveDisplayAC(inputChar: Character): number {
   return getACBreakdown(inputChar).reduce((sum, p) => sum + p.value, 0);
 }
 
@@ -1040,8 +1017,8 @@ export function getEffectiveAbilityScores(char: Character): AbilityScores {
     }
   }
 
-  // Активная гибридная форма ликантропа: floor-замена характеристик
-  for (const [key, floor] of Object.entries(getHybridAbilityFloors(char))) {
+  // Активные эффекты с floor-заменой характеристик (гибридные формы ликантропа)
+  for (const [key, floor] of Object.entries(getActiveAbilityFloors(char))) {
     const k = key as keyof AbilityScores;
     if (typeof floor === 'number' && floor > base[k]) {
       base[k] = floor;

@@ -94,6 +94,7 @@
       "profByLevel": "По уровню",
       "exhaustion": "истощение",
       "transformation": "трансформация",
+      "state": "состояние",
       "initiativeAdvantage": "преимущество на инициативу",
       "speedZeroCondition": "Скорость обнулена активным состоянием"
     },

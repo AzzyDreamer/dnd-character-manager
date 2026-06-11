@@ -4,7 +4,9 @@
 // хранимые производные статы (КД, инициативу) по актуальным правилам.
 //
 // Принципы:
-//  - только аддитивные, повторяемые операции (ничего не удаляет);
+//  - только аддитивные, повторяемые операции (ничего не удаляет). Единственное
+//    исключение — activeEffects: миграция legacy activeTransformForm и удаление
+//    просроченных/осиротевших записей (syncActiveEffects);
 //  - HP/скорость/характеристики НЕ трогаем — это разовые изменения момента
 //    получения (применяются в левел-апе/выборе дара);
 //  - персонажи с ручными правками (manualEdit) пропускаются целиком.
@@ -12,6 +14,7 @@ import type { Character } from '../types';
 import { resolveAC, computeInitiative, syncPermanentClassEffects, addResistances, applySenses, applyMoveSpeeds, getClassSpeedBonus } from './classEffects';
 import { extractFeatResistances, extractFeatSenses, applyFeatResistances, applyFeatSenses, FEAT_STAT_EFFECTS } from './featEffects';
 import { getActiveTransformEffects } from './transformationEffects';
+import { syncActiveEffects } from './activatedEffects';
 import { normalizeSkillKey } from './dnd';
 
 /**
@@ -22,6 +25,10 @@ export async function syncCharacterEffects(char: Character): Promise<Character |
   if (char.manualEdit?.edited) return null;
 
   const updated: Character = structuredClone(char);
+
+  // 0) Активные эффекты: миграция activeTransformForm → activeEffects и
+  //    удаление просроченных записей (единственное место, где sync их касается).
+  syncActiveEffects(updated);
 
   // 1) Class / subclass / species wired effects (resists, saves, senses)
   syncPermanentClassEffects(updated);

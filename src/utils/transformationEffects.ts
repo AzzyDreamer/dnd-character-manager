@@ -1,8 +1,8 @@
 // Трансформации Grim Hollow (GrimHollowPG24): стадии 1–4, дары (TB) и изъяны (TF).
 // Конфиг стадий — какие дары фиксированы, сколько на выбор, какой изъян; таблица
 // TRANSFORM_STAT_EFFECTS — пассивные числовые эффекты даров/изъянов для листа.
-// Активируемые формы (Ooze Form, Hybrid-формы, Angelic Wings…) статов не меняют
-// и остаются текстом.
+// Активируемые формы (Ooze Form, Hybrid-формы, Angelic Wings…) живут в реестре
+// ACTIVATED_EFFECTS (src/utils/activatedEffects.ts) и включаются на листе.
 import type { Character, AbilityScores } from '../types';
 
 // ── Stage configuration ──
@@ -236,35 +236,6 @@ const SEASONAL_VULNERABILITY: Record<string, string> = {
   'Servant of the Winter Court': 'fire',
 };
 
-// ── Активируемые гибридные формы (ликантроп) ──
-
-export interface HybridFormEffect {
-  /** Характеристика становится N, если была ниже («Your Strength score becomes 20 unless it was higher») */
-  abilityFloor?: Partial<AbilityScores>;
-  /** Бонус к скорости ходьбы, пока форма активна (волк +10) */
-  speedBonus?: number;
-}
-
-export const HYBRID_FORM_EFFECTS: Record<string, HybridFormEffect> = {
-  'Hybrid Wolf Form': { abilityFloor: { strength: 18 }, speedBonus: 10 },
-  'Hybrid Bear Form': { abilityFloor: { strength: 20 } },
-  'Hybrid Rat Form': { abilityFloor: { dexterity: 18 } },
-};
-
-/** Активная гибридная форма персонажа (только если дар всё ещё во владении). */
-export function getActiveHybridForm(char: Character): string | null {
-  const form = char.activeTransformForm;
-  if (!form || !HYBRID_FORM_EFFECTS[form]) return null;
-  const owned = (char.optionalFeatures ?? []).some(f => (f.nameEn ?? f.name) === form);
-  return owned ? form : null;
-}
-
-/** Floor-модификаторы характеристик активной гибридной формы. */
-export function getHybridAbilityFloors(char: Character): Partial<AbilityScores> {
-  const form = getActiveHybridForm(char);
-  return form ? (HYBRID_FORM_EFFECTS[form].abilityFloor ?? {}) : {};
-}
-
 // ── Character helpers ──
 
 /** Current transformation stage (0 = трансформация выбрана, но стадия не взята). */
@@ -295,18 +266,14 @@ export function getActiveTransformEffects(char: Character): TransformStatEffect[
   return effects;
 }
 
-/** Live speed adjustment from transformation boons/flaws (not baked into char.speed). */
+/** Live speed adjustment from transformation boons/flaws (not baked into char.speed).
+ *  Скорость активных гибридных форм считает getActiveSpeedAdjust (activatedEffects). */
 export function getTransformSpeedAdjust(char: Character): number {
   const stage = getTransformationStage(char);
   let total = 0;
   for (const e of getActiveTransformEffects(char)) {
     if (e.speedBonus) total += e.speedBonus;
     if (e.speedPerStage) total += e.speedPerStage * stage;
-  }
-  // Активная гибридная форма (волк: +10)
-  const form = getActiveHybridForm(char);
-  if (form && HYBRID_FORM_EFFECTS[form].speedBonus) {
-    total += HYBRID_FORM_EFFECTS[form].speedBonus!;
   }
   return total;
 }

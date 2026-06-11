@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { AbilityScores, Character } from '../../types';
 import { getAbilityModifier, getSkillBonus, getAbilityShort, getSkillName, SKILL_ABILITIES } from '../../utils/dnd';
-import { getACBreakdown, getInitiativeBreakdown, getClassSpeedBonus, hasInitiativeAdvantage, type StatPart } from '../../utils/classEffects';
+import { getACBreakdown, getInitiativeBreakdown, getClassSpeedBonus, hasInitiativeAdvantage, resolveDisplayAC, type StatPart } from '../../utils/classEffects';
 import { getTransformSpeedAdjust } from '../../utils/transformationEffects';
+import { getActiveSpeedAdjust } from '../../utils/activatedEffects';
 import { getEffectiveSpeed, getExhaustionD20Penalty, getExhaustionLevel, hasSpeedZeroCondition } from '../../utils/conditionEffects';
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImagePlus, Swords, Eye, Star, Moon, type LucideIcon } from 'lucide-react';
@@ -83,6 +84,7 @@ export function formatStatParts(
       case 'item': return t('sidebar.breakdown.item');
       case 'prof': return t('sidebar.breakdown.proficiency');
       case 'class': return t('sidebar.breakdown.class');
+      case 'state': return t('sidebar.breakdown.state');
       case 'ability': return p.ability ? getAbilityShort(p.ability) : '';
     }
   };
@@ -274,7 +276,9 @@ export function CharacterStatsSidebar({
     return creationStats?.skills ?? [];
   })();
 
-  const ac = character?.armorClass ?? creationStats?.armorClass;
+  // КД отображается живым (с активными эффектами — Песнь клинка и т.п.);
+  // хранимый armorClass остаётся чистым от состояний.
+  const ac = character ? resolveDisplayAC(character) : creationStats?.armorClass;
   const hp = character ? character.hitPoints.current : creationStats?.hitPoints;
   const hpMax = character?.hitPoints.max;
   // Exhaustion (2024): −2 per level to every d20 test; speed already folds it in.
@@ -297,11 +301,13 @@ export function CharacterStatsSidebar({
     if (hasSpeedZeroCondition(character)) return t('sidebar.breakdown.speedZeroCondition');
     const classBonus = getClassSpeedBonus(character);
     const transformAdjust = getTransformSpeedAdjust(character);
+    const stateAdjust = getActiveSpeedAdjust(character);
     const exhaustionCut = 5 * exhaustionLevel;
-    if (!classBonus && !exhaustionCut && !transformAdjust) return undefined;
+    if (!classBonus && !exhaustionCut && !transformAdjust && !stateAdjust) return undefined;
     let s = `${character.speed - classBonus}`;
     if (classBonus) s += ` + ${classBonus} (${t('sidebar.breakdown.class')})`;
     if (transformAdjust) s += ` ${transformAdjust > 0 ? '+' : '−'} ${Math.abs(transformAdjust)} (${t('sidebar.breakdown.transformation')})`;
+    if (stateAdjust) s += ` ${stateAdjust > 0 ? '+' : '−'} ${Math.abs(stateAdjust)} (${t('sidebar.breakdown.state')})`;
     if (exhaustionCut) s += ` − ${exhaustionCut} (${t('sidebar.breakdown.exhaustion')})`;
     return `${s} = ${speed}`;
   })();

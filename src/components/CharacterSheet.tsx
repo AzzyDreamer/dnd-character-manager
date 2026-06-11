@@ -10,7 +10,7 @@ import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
 import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, applyFeatSenses, extractFeatProficiencies, extractFeatResistances, extractFeatSenses, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
-import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, applySubclassSelectionEffects, addResistances, getPendingStatChoicesAtLevel, hasInitiativeAdvantage, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative, getACBreakdown, getInitiativeBreakdown, type StatPart, type PendingStatChoice } from '../utils/classEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, resolveDisplayAC, getClassSpeedBonus, applyLevelUpEffects, applySubclassSelectionEffects, addResistances, getPendingStatChoicesAtLevel, hasInitiativeAdvantage, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative, getACBreakdown, getInitiativeBreakdown, type StatPart, type PendingStatChoice } from '../utils/classEffects';
 import { getExhaustionD20Penalty, getExhaustionLevel, getConditionMechanics, getEffectiveSpeed, hasSpeedZeroCondition } from '../utils/conditionEffects';
 import { getAllItemTemplatesSync } from '../data/items';
 import { isShortRestResource } from '../utils/classResources';
@@ -30,7 +30,9 @@ import { FullEditPanel } from './FullEditPanel';
 import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
 import { stampManualEdit } from '../utils/manualEdit';
 import { useBackDismiss } from '../hooks/useBackDismiss';
-import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, getActiveHybridForm, HYBRID_FORM_EFFECTS, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
+import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
+import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
+import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
 import { syncCharacterEffects } from '../utils/effectSync';
 import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 
@@ -418,9 +420,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return { ...char, spellcasting: { ...char.spellcasting, spellSlots: slots } };
   };
 
-  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots. */
+  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots.
+   *  Все активные формы/стойки снимаются (не переживают отдых). */
   const applyShortRest = () => {
-    let updated: Character = { ...character, updatedAt: new Date().toISOString() };
+    let updated: Character = clearAllActiveEffects({ ...character, updatedAt: new Date().toISOString() });
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
       for (const [key, val] of Object.entries(rt)) {
@@ -438,13 +441,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const applyLongRest = () => {
     setConfirmLongRest(false);
     const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
-    let updated: Character = {
+    let updated: Character = clearAllActiveEffects({
       ...character,
       hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
       hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
       deathSaves: { successes: 0, failures: 0 },
       updatedAt: new Date().toISOString(),
-    };
+    });
     updated = restoreAllSlots(updated);
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = {};
@@ -1612,7 +1615,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 <div className="glass-panel p-4 flex shrink-0 items-center justify-center lg:w-64">
                   {(() => {
                     const exhaustionPen = getExhaustionD20Penalty(character);
-                    const ac = character.armorClass;
+                    // КД живой (с активными эффектами); хранимый armorClass чист от состояний
+                    const ac = resolveDisplayAC(character);
                     const init = character.initiative + exhaustionPen;
                     const spd = getEffectiveSpeed(character);
                     const prof = character.proficiencyBonus;
@@ -1631,11 +1635,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                       : (() => {
                           const classBonus = getClassSpeedBonus(character);
                           const transformAdjust = getTransformSpeedAdjust(character);
+                          const stateAdjust = getActiveSpeedAdjust(character);
                           const exhaustionCut = 5 * getExhaustionLevel(character);
-                          if (!classBonus && !exhaustionCut && !transformAdjust) return undefined;
+                          if (!classBonus && !exhaustionCut && !transformAdjust && !stateAdjust) return undefined;
                           let s = `${character.speed - classBonus}`;
                           if (classBonus) s += ` + ${classBonus} (${tc('sidebar.breakdown.class')})`;
                           if (transformAdjust) s += ` ${transformAdjust > 0 ? '+' : '−'} ${Math.abs(transformAdjust)} (${tc('sidebar.breakdown.transformation')})`;
+                          if (stateAdjust) s += ` ${stateAdjust > 0 ? '+' : '−'} ${Math.abs(stateAdjust)} (${tc('sidebar.breakdown.state')})`;
                           if (exhaustionCut) s += ` − ${exhaustionCut} (${tc('sidebar.breakdown.exhaustion')})`;
                           return `${s} = ${spd}`;
                         })();
@@ -1666,6 +1672,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                             <span className="text-lg font-bold text-text-primary tabular-nums">{value}</span>
                           </div>
                         ))}
+                        {/* Активные формы/стойки — индикатор «почему КД 17» */}
+                        <ActiveEffectBadges character={character} />
                       </div>
                     );
                   })()}
@@ -1679,6 +1687,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <MovementSection character={character} onUpdate={onUpdate} />
               <ResistancesSection character={character} onUpdate={onUpdate} />
               <TransformationSection character={character} onUpdate={onUpdate} />
+              <ActiveFormsSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
@@ -3185,7 +3194,12 @@ function ConditionsSection({
 
   const addCondition = (name: string) => {
     if (!activeConditions.includes(name)) {
-      onUpdate({ ...character, conditions: [...activeConditions, name] });
+      let updated: Character = { ...character, conditions: [...activeConditions, name] };
+      // Недееспособность (и содержащие её состояния) прерывает Ярость, Песнь клинка и т.п.
+      if (getConditionMechanics(name)?.incapacitated) {
+        updated = removeIncapacitatedEffects(updated);
+      }
+      onUpdate(updated);
     }
     setShowConditionModal(false);
   };
@@ -3567,8 +3581,17 @@ function TransformationSection({
       removeTransformFeatureEffects(updated, entry);
     }
     updated.optionalFeatures = updated.optionalFeatures!.filter(f => !removed.includes(f));
-    // Активная форма пропала вместе с даром — сбросить
-    if (updated.activeTransformForm && removed.some(r => (r.nameEn ?? r.name) === updated.activeTransformForm)) {
+    // Активные эффекты, чей дар-источник пропал со стадией, — снять
+    const removedNamesEn = new Set(removed.map(r => r.nameEn ?? r.name));
+    if (updated.activeEffects?.length) {
+      const kept = updated.activeEffects.filter(e => {
+        const src = ACTIVATED_EFFECTS[e.key]?.source;
+        return !(src?.type === 'transformBoon' && removedNamesEn.has(src.boonNameEn));
+      });
+      updated.activeEffects = kept.length ? kept : undefined;
+    }
+    // Legacy-поле активной формы
+    if (updated.activeTransformForm && removedNamesEn.has(updated.activeTransformForm)) {
       updated.activeTransformForm = undefined;
     }
     // Drop spells granted by the removed boons
@@ -3650,43 +3673,7 @@ function TransformationSection({
           <p className="text-[11px] text-text-muted mt-2">{t('sheet.transformation.nextStageHint', { stage: stage + 1 })}</p>
         )}
 
-        {/* Активируемые гибридные формы (ликантроп) */}
-        {(() => {
-          const ownedForms = (character.optionalFeatures ?? [])
-            .filter(f => HYBRID_FORM_EFFECTS[f.nameEn ?? f.name])
-            .map(f => ({ nameEn: f.nameEn ?? f.name, display: f.name }));
-          if (ownedForms.length === 0) return null;
-          const active = getActiveHybridForm(character);
-          const toggleForm = (nameEn: string) => {
-            const updated: Character = {
-              ...character,
-              activeTransformForm: active === nameEn ? undefined : nameEn,
-              updatedAt: new Date().toISOString(),
-            };
-            updated.armorClass = resolveAC(updated);
-            updated.initiative = computeInitiative(updated);
-            onUpdate(updated);
-          };
-          return (
-            <div className="mt-3 pt-3 border-t border-border-default flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-text-secondary">{t('sheet.transformation.hybridForm')}</span>
-              {ownedForms.map(form => (
-                <button
-                  key={form.nameEn}
-                  onClick={() => toggleForm(form.nameEn)}
-                  className={`px-3 py-1 rounded-lg border text-xs transition-colors ${
-                    active === form.nameEn
-                      ? 'border-amber-400 bg-amber-500/20 text-amber-300'
-                      : 'border-border-default text-text-secondary hover:border-amber-400/50 hover:text-text-primary'
-                  }`}
-                >
-                  {form.display}
-                  {active === form.nameEn && ` · ${t('sheet.transformation.formActive')}`}
-                </button>
-              ))}
-            </div>
-          );
-        })()}
+        {/* Активируемые формы (гибридные и т.п.) переехали в секцию «Активные формы и стойки» */}
       </div>
 
       {/* Boon picker for the new stage */}
@@ -3808,13 +3795,16 @@ function MovementSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(true);
   const speeds = character.speeds ?? {};
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.) — оверлей
+  // поверх хранимых, в character.speeds не пишутся.
+  const activeMoveSpeeds = getActiveMoveSpeeds(character);
 
   const setSpeed = (key: typeof MOVE_KEYS[number], value: number) => {
     const next = { ...speeds, [key]: Math.max(0, value) || undefined };
     onUpdate({ ...character, speeds: next, updatedAt: new Date().toISOString() });
   };
 
-  const activeCount = MOVE_KEYS.filter(k => (speeds[k] ?? 0) !== 0).length;
+  const activeCount = MOVE_KEYS.filter(k => (speeds[k] ?? 0) !== 0 || (activeMoveSpeeds[k] ?? 0) !== 0).length;
 
   return (
     <div className="glass-panel p-3">
@@ -3828,31 +3818,54 @@ function MovementSection({
       </button>
 
       {!collapsed && (
-        <div className="mt-2 grid grid-cols-2 gap-2">
-          {MOVE_KEYS.map(key => {
-            const stored = speeds[key] ?? 0;
-            const resolved = stored === -1 ? character.speed : stored;
-            return (
-              <div key={key} className="flex items-center gap-2">
-                <label className="text-xs text-text-secondary flex-1">
-                  {t(`sheet.movement.${key}`)}
-                  {stored === -1 && (
-                    <span className="ml-1 text-[9px] text-emerald-400/80" title={t('sheet.movement.equalsWalk')}>≡</span>
-                  )}
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  step={5}
-                  value={resolved}
-                  onChange={e => setSpeed(key, parseInt(e.target.value) || 0)}
-                  className="w-16 text-center text-sm bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
-                />
-                <span className="text-[10px] text-text-muted w-6">{t('sheet.senses.ft')}</span>
-              </div>
-            );
-          })}
-        </div>
+        <>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {MOVE_KEYS.map(key => {
+              const stored = speeds[key] ?? 0;
+              const resolved = stored === -1 ? character.speed : stored;
+              return (
+                <div key={key} className="flex items-center gap-2">
+                  <label className="text-xs text-text-secondary flex-1">
+                    {t(`sheet.movement.${key}`)}
+                    {stored === -1 && (
+                      <span className="ml-1 text-[9px] text-emerald-400/80" title={t('sheet.movement.equalsWalk')}>≡</span>
+                    )}
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={5}
+                    value={resolved}
+                    onChange={e => setSpeed(key, parseInt(e.target.value) || 0)}
+                    className="w-16 text-center text-sm bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+                  />
+                  <span className="text-[10px] text-text-muted w-6">{t('sheet.senses.ft')}</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* Временные скорости от активных эффектов (поверх хранимых) */}
+          {MOVE_KEYS.some(k => (activeMoveSpeeds[k] ?? 0) !== 0) && (
+            <div className="mt-2 pt-2 border-t border-border-default flex flex-wrap gap-1.5">
+              {MOVE_KEYS.map(key => {
+                const active = activeMoveSpeeds[key];
+                if (!active) return null;
+                const resolvedActive = active === -1 ? character.speed : active;
+                const storedResolved = (speeds[key] ?? 0) === -1 ? character.speed : (speeds[key] ?? 0);
+                if (resolvedActive <= storedResolved) return null;
+                return (
+                  <span
+                    key={key}
+                    className="flex items-center gap-1 px-1.5 py-0.5 rounded border border-gold/40 bg-gold/10 text-gold text-[11px]"
+                    title={t('sheet.activeEffects.temporarySpeed')}
+                  >
+                    ⏳ {t(`sheet.movement.${key}`)}: {resolvedActive} {t('sheet.senses.ft')}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -3867,19 +3880,26 @@ function ResistancesSection({
   onUpdate: (c: Character) => void;
 }) {
   const { t } = useTranslation('character');
+  const { t: tg } = useTranslation('game');
   const MODIFIER_INFO = getModifierInfo(t);
   const [collapsed, setCollapsed] = useState(false);
   const [showResistanceModal, setShowResistanceModal] = useState(false);
 
-  const resistances = character.damageResistances ?? [];
+  const stored = character.damageResistances ?? [];
+  // Хранимые + временные от активных эффектов (Ярость и т.п.) — временные
+  // помечены ⏳, не редактируются и не пишутся в damageResistances.
+  const resistances = getEffectiveResistances(character);
 
   const addResistance = (entry: DamageResistanceEntry) => {
-    onUpdate({ ...character, damageResistances: [...resistances, entry] });
+    onUpdate({ ...character, damageResistances: [...stored, entry] });
     setShowResistanceModal(false);
   };
 
-  const removeResistance = (idx: number) => {
-    onUpdate({ ...character, damageResistances: resistances.filter((_, i) => i !== idx) });
+  const removeResistance = (entry: EffectiveResistanceEntry) => {
+    onUpdate({
+      ...character,
+      damageResistances: stored.filter(r => !(r.type === entry.type && r.modifier === entry.modifier)),
+    });
   };
 
   return (
@@ -3918,8 +3938,11 @@ function ResistancesSection({
                 const modInfo = MODIFIER_INFO.find(m => m.key === entry.modifier);
                 return (
                   <span
-                    key={`${entry.type}-${entry.modifier}-${idx}`}
-                    className={`flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg border text-sm ${getResistanceBadgeBg(entry.modifier)} ${getResistanceBadgeTextColor(entry.modifier)}`}
+                    key={`${entry.type}-${entry.modifier}-${entry.temporary ? 'tmp' : 'st'}-${idx}`}
+                    className={`flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg border text-sm ${getResistanceBadgeBg(entry.modifier)} ${getResistanceBadgeTextColor(entry.modifier)} ${entry.temporary ? 'border-dashed' : ''}`}
+                    title={entry.temporary && entry.sourceKey
+                      ? t('sheet.resistances.temporaryFrom', { source: getEffectName(entry.sourceKey, tg) })
+                      : undefined}
                   >
                     <div className={`relative w-5 h-5 shrink-0 rounded ${getResistanceRingClass(entry.modifier)}`}>
                       <img
@@ -3932,12 +3955,16 @@ function ResistancesSection({
                     </div>
                     <span>{getDamageTypeFullName(entry.type)}</span>
                     <span className="text-[9px] opacity-60">({modInfo?.shortLabel})</span>
-                    <button
-                      onClick={() => removeResistance(idx)}
-                      className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
-                    >
-                      <X size={12} />
-                    </button>
+                    {entry.temporary ? (
+                      <span className="ml-0.5 text-[10px]" aria-label={t('sheet.resistances.temporary')}>⏳</span>
+                    ) : (
+                      <button
+                        onClick={() => removeResistance(entry)}
+                        className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    )}
                   </span>
                 );
               })}
@@ -3952,7 +3979,7 @@ function ResistancesSection({
         <ResistancePickerModal
           onAdd={addResistance}
           onCancel={() => setShowResistanceModal(false)}
-          existing={resistances}
+          existing={stored}
         />
       )}
     </div>
