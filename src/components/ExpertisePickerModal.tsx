@@ -7,6 +7,8 @@ import { Star, X, Check } from 'lucide-react';
 interface ExpertisePickerModalProps {
   character: Character;
   count: number;
+  /** Restrict choices to these skill keys (e.g. Wizard Scholar) */
+  fromSkills?: string[];
   onConfirm: (skills: string[]) => void;
   onCancel: () => void;
 }
@@ -18,6 +20,7 @@ interface ExpertisePickerModalProps {
 export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
   character,
   count,
+  fromSkills,
   onConfirm,
   onCancel,
 }) => {
@@ -27,10 +30,10 @@ export const ExpertisePickerModal: React.FC<ExpertisePickerModalProps> = ({
   // Get proficient skills that don't already have expertise
   const availableSkills = useMemo(() => {
     return Object.entries(character.skills ?? {})
-      .filter(([, data]) => data.proficient && !data.expertise)
+      .filter(([key, data]) => data.proficient && !data.expertise && (!fromSkills || fromSkills.includes(key)))
       .map(([key]) => key)
       .sort((a, b) => getSkillName(a).localeCompare(getSkillName(b), 'ru'));
-  }, [character.skills]);
+  }, [character.skills, fromSkills]);
 
   const toggleSkill = (key: string) => {
     setSelected(prev => {

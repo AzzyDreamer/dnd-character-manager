@@ -9,7 +9,16 @@ import { asset } from '../utils/asset';
 // ── Types ──
 
 export interface OptionalFeaturePickerConfig {
-  featureType: string;          // "EI", "MM", "MV:B"
+  featureType: string;          // "EI", "MM", "MV:B", "V:TB", …
+  /** Restrict the list to these feature names (English/canonical), e.g. boons of one stage */
+  allowedNames?: string[];
+  /** Override the i18n-driven texts (used by transformation boon picks) */
+  labels?: {
+    title: string;
+    singular: string;
+    pluralFew: string;
+    pluralGenitive: string;
+  };
 }
 
 export interface OptionalFeaturePickerResult {
@@ -200,14 +209,21 @@ export function OptionalFeaturePickerModal({
       await mod.init();
       if (cancelled) return;
       const ft = config.featureType;
-      const filtered = mod.ALL_OPTIONAL_FEATURES.filter(
+      let filtered = mod.ALL_OPTIONAL_FEATURES.filter(
         f => f.featureType?.some(t => t === ft || t.startsWith(ft))
       );
+      if (config.allowedNames?.length) {
+        const allowed = new Set(config.allowedNames.map(n => n.toLowerCase()));
+        filtered = filtered.filter(f =>
+          allowed.has(f.name.toLowerCase()) ||
+          allowed.has(((f as { _origName?: string })._origName ?? '').toLowerCase())
+        );
+      }
       setAllFeatures(filtered);
       setLoading(false);
     })();
     return () => { cancelled = true; };
-  }, [config.featureType]);
+  }, [config.featureType, config.allowedNames]);
 
   useEffect(() => {
     if (!_EntryRenderer) {
@@ -340,13 +356,24 @@ export function OptionalFeaturePickerModal({
           <div>
             <h1 className="text-2xl font-medieval text-gold flex items-center gap-3">
               <Sparkles className="text-gold" size={24} />
-              {t('invocationPicker.titleLevel', { title: t(`invocationPicker.featureConfigs.${config.featureType}.title`), level: character.level })}
+              {config.labels
+                ? config.labels.title
+                : t('invocationPicker.titleLevel', { title: t(`invocationPicker.featureConfigs.${config.featureType}.title`), level: character.level })}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
-              {newSlots > 0
-                ? t('invocationPicker.chooseCount', { count: newSlots, word: pluralize(newSlots, t(`invocationPicker.featureConfigs.${config.featureType}.singular`), t(`invocationPicker.featureConfigs.${config.featureType}.pluralFew`), t(`invocationPicker.featureConfigs.${config.featureType}.pluralGenitive`)) })
-                : t('invocationPicker.canReplace', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}
-              {allowReplace && newSlots > 0 && t('invocationPicker.alsoReplace', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}
+              {(() => {
+                const singular = config.labels?.singular ?? t(`invocationPicker.featureConfigs.${config.featureType}.singular`);
+                const few = config.labels?.pluralFew ?? t(`invocationPicker.featureConfigs.${config.featureType}.pluralFew`);
+                const gen = config.labels?.pluralGenitive ?? t(`invocationPicker.featureConfigs.${config.featureType}.pluralGenitive`);
+                return (
+                  <>
+                    {newSlots > 0
+                      ? t('invocationPicker.chooseCount', { count: newSlots, word: pluralize(newSlots, singular, few, gen) })
+                      : t('invocationPicker.canReplace', { singular })}
+                    {allowReplace && newSlots > 0 && t('invocationPicker.alsoReplace', { singular })}
+                  </>
+                );
+              })()}
             </p>
           </div>
           <button
@@ -377,7 +404,7 @@ export function OptionalFeaturePickerModal({
               }`}
             >
               <RefreshCw size={14} />
-              <span>{t('invocationPicker.replaceButton', { singular: t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}</span>
+              <span>{t('invocationPicker.replaceButton', { singular: config.labels?.singular ?? t(`invocationPicker.featureConfigs.${config.featureType}.singular`) })}</span>
             </button>
           )}
 

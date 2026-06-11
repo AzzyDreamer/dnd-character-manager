@@ -9,8 +9,8 @@ import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
 import { FeatSpellPickerModal } from './FeatSpellPickerModal';
-import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, extractFeatProficiencies, extractFeatResistances, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
-import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, getClassSpeedBonus, applyLevelUpEffects, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative, getACBreakdown, getInitiativeBreakdown, type StatPart } from '../utils/classEffects';
+import { applyFeatStatEffects, applyFeatProficiencies, applyFeatResistances, applyFeatSenses, extractFeatProficiencies, extractFeatResistances, extractFeatSenses, getOngoingFeatHpBonus, type FeatSpellConfig } from '../utils/featEffects';
+import { getOngoingClassHpBonus, getSubclassHpFlatBonus, getSubclassIdByName, resolveAC, resolveDisplayAC, getClassSpeedBonus, applyLevelUpEffects, applySubclassSelectionEffects, addResistances, getPendingStatChoicesAtLevel, hasInitiativeAdvantage, getEquippedItemBonuses, getEffectiveAbilityScores, getClassFeatureSaveBonus, computeInitiative, getACBreakdown, getInitiativeBreakdown, type StatPart, type PendingStatChoice } from '../utils/classEffects';
 import { getExhaustionD20Penalty, getExhaustionLevel, getConditionMechanics, getEffectiveSpeed, hasSpeedZeroCondition } from '../utils/conditionEffects';
 import { getAllItemTemplatesSync } from '../data/items';
 import { isShortRestResource } from '../utils/classResources';
@@ -30,6 +30,11 @@ import { FullEditPanel } from './FullEditPanel';
 import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
 import { stampManualEdit } from '../utils/manualEdit';
 import { useBackDismiss } from '../hooks/useBackDismiss';
+import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
+import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
+import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
+import { syncCharacterEffects } from '../utils/effectSync';
+import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 
 // Ленивая загрузка SpellsTab (тянет за собой spells + entryRenderer + registry)
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
@@ -41,6 +46,116 @@ type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | '
 interface CharacterSheetProps {
   character: Character;
   onUpdate: (character: Character) => void;
+}
+
+/** Extract innate spell names from an optional feature's additionalSpells field */
+function extractInnateSpellNames(feat: any): string[] {
+  const spells: string[] = [];
+  const asList = feat.additionalSpells;
+  if (!Array.isArray(asList)) return spells;
+  for (const as of asList) {
+    const innate = as?.innate?._;
+    if (!innate) continue;
+    if (Array.isArray(innate)) {
+      // Simple list: ["speak with animals"]
+      for (const s of innate) {
+        if (typeof s === 'string') spells.push(s.split('|')[0]);
+      }
+    } else if (typeof innate === 'object') {
+      // Daily use: { daily: { "1e": ["compulsion"] } }
+      const daily = innate.daily;
+      if (daily) {
+        for (const arr of Object.values(daily)) {
+          if (Array.isArray(arr)) {
+            for (const s of arr) {
+              if (typeof s === 'string') spells.push(s.split('|')[0]);
+            }
+          }
+        }
+      }
+    }
+  }
+  return spells;
+}
+
+/** Apply spell and skill effects from an optional feature onto the character */
+async function applyOptionalFeatureEffects(char: Character, feat: any): Promise<Character> {
+  const updated = { ...char };
+
+  // 1) additionalSpells — add innate spells to character
+  const spellNames = extractInnateSpellNames(feat);
+  if (spellNames.length > 0) {
+    const spellsMod = await import('../data/spells');
+    await spellsMod.init();
+    const newSpells = spellNames
+      .filter(name => {
+        // Skip if already known
+        const existing = updated.spellcasting?.spells ?? [];
+        return !existing.some(s => s.name.toLowerCase() === name.toLowerCase());
+      })
+      .map(name => {
+        const spellData = spellsMod.getSpellByName(name);
+        return {
+          spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          name: spellData?.name ?? name.replace(/\b\w/g, c => c.toUpperCase()),
+          level: spellData?.level ?? 0,
+          prepared: true,
+          alwaysPrepared: true,
+          source: feat.name,
+        };
+      });
+    if (newSpells.length > 0 && updated.spellcasting) {
+      updated.spellcasting = {
+        ...updated.spellcasting,
+        spells: [...updated.spellcasting.spells, ...newSpells],
+      };
+    } else if (newSpells.length > 0 && !updated.spellcasting) {
+      // Warlock should always have spellcasting, but just in case
+      updated.spellcasting = {
+        ability: 'charisma',
+        spellSaveDC: 0,
+        spellAttackBonus: 0,
+        spells: newSpells,
+      };
+    }
+  }
+
+  // 2) skillProficiencies — add skill proficiencies
+  const skillProfs = feat.skillProficiencies;
+  if (Array.isArray(skillProfs)) {
+    updated.skills = { ...updated.skills };
+    for (const entry of skillProfs) {
+      if (typeof entry === 'object') {
+        for (const [skill, val] of Object.entries(entry)) {
+          if (val === true && updated.skills[skill]) {
+            updated.skills[skill] = { ...updated.skills[skill], proficient: true };
+          }
+        }
+      }
+    }
+  }
+
+  return updated;
+}
+
+/** Remove spell and skill effects of a replaced optional feature */
+function removeOptionalFeatureEffects(char: Character, featName: string, featData: any): Character {
+  const updated = { ...char };
+
+  // Remove innate spells sourced from this feature
+  const spellNames = extractInnateSpellNames(featData);
+  if (spellNames.length > 0 && updated.spellcasting) {
+    const nameLower = new Set(spellNames.map(n => n.toLowerCase()));
+    updated.spellcasting = {
+      ...updated.spellcasting,
+      spells: updated.spellcasting.spells.filter(s =>
+        !(nameLower.has(s.name.toLowerCase()) && s.source === featName)
+      ),
+    };
+  }
+
+  // Note: we don't remove skill proficiencies since they may overlap with other sources
+  return updated;
 }
 
 export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
@@ -73,6 +188,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const [pendingExpertise, setPendingExpertise] = useState<{
     updatedChar: Character;
     count: number;
+    fromSkills?: string[];
+  } | null>(null);
+  // Очередь выборов (резисты/спасброски), открытых эффектами уровня
+  const [pendingStatChoices, setPendingStatChoices] = useState<{
+    updatedChar: Character;
+    queue: PendingStatChoice[];
+    newLevel: number;
   } | null>(null);
   const [showFightingStylePicker, setShowFightingStylePicker] = useState(false);
   const [pendingFightingStyleLevelUp, setPendingFightingStyleLevelUp] = useState<{
@@ -209,6 +331,19 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return () => { cancelled = true; };
   }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Синхронизация постоянных эффектов (резисты/спасброски/чувства от вида,
+  // класса, подкласса, черт и трансформаций) + пересчёт КД/инициативы.
+  // Идемпотентна; персонажи с ручными правками пропускаются внутри.
+  useEffect(() => {
+    let cancelled = false;
+    syncCharacterEffects(character)
+      .then(updated => {
+        if (updated && !cancelled) onUpdate(updated);
+      })
+      .catch(e => console.warn('Effect sync failed:', e));
+    return () => { cancelled = true; };
+  }, [character.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -285,9 +420,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return { ...char, spellcasting: { ...char.spellcasting, spellSlots: slots } };
   };
 
-  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots. */
+  /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots.
+   *  Все активные формы/стойки снимаются (не переживают отдых). */
   const applyShortRest = () => {
-    let updated: Character = { ...character, updatedAt: new Date().toISOString() };
+    let updated: Character = clearAllActiveEffects({ ...character, updatedAt: new Date().toISOString() });
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
       for (const [key, val] of Object.entries(rt)) {
@@ -305,13 +441,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   const applyLongRest = () => {
     setConfirmLongRest(false);
     const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
-    let updated: Character = {
+    let updated: Character = clearAllActiveEffects({
       ...character,
       hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
       hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
       deathSaves: { successes: 0, failures: 0 },
       updatedAt: new Date().toISOString(),
-    };
+    });
     updated = restoreAllSlots(updated);
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = {};
@@ -373,10 +509,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     if (subclass) {
       updated.subclass = subclass;
 
-      // Apply flat HP bonus when subclass is first selected (e.g. Draconic Resilience +3)
+      // Apply flat HP bonus already due when subclass is first selected (e.g. Draconic Resilience +3)
       const subId = getSubclassIdByName(character.classId, subclass);
       if (subId) {
-        const flatHp = getSubclassHpFlatBonus(character.classId, subId);
+        const flatHp = getSubclassHpFlatBonus(character.classId, subId, newLevel);
         if (flatHp > 0) {
           updated.hitPoints = {
             ...updated.hitPoints,
@@ -385,6 +521,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           };
         }
       }
+
+      // Apply all permanent subclass effects due at this level (resistances,
+      // saving throws, senses — including ones wired below the selection level)
+      applySubclassSelectionEffects(updated, newLevel);
     }
 
     // Recalculate AC considering class/subclass formulas (e.g. Barbarian/Monk Unarmored Defense, Draconic Resilience)
@@ -394,8 +534,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     const baseSpeed = character.speed - getClassSpeedBonus(character);
     updated.speed = baseSpeed + getClassSpeedBonus(updated);
 
-    // Apply permanent effects gained at this level (resistances, saving throw proficiencies)
-    applyLevelUpEffects(updated, newLevel);
+    // Apply permanent effects gained at this level (resistances, saving throw
+    // proficiencies, senses, later-level flat HP). When the subclass was just
+    // selected its flat HP is already in — skip to avoid double-adding.
+    applyLevelUpEffects(updated, newLevel, { skipHpFlat: !!subclass });
 
     // Update spellcasting stats if applicable
     if (updated.spellcasting) {
@@ -423,6 +565,42 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     }
     const updated = buildUpdatedChar(newLevel, hpGain, subclass);
 
+    // Выборы, открытые эффектами этого уровня (резисты Elemental Affinity,
+    // Storm Soul и т.п.) — сначала спрашиваем игрока, потом продолжаем цепочку.
+    const statChoices = getPendingStatChoicesAtLevel(updated, newLevel, { subclassJustSelected: !!subclass });
+    if (statChoices.length > 0) {
+      setPendingStatChoices({ updatedChar: updated, queue: statChoices, newLevel });
+      setShowSubclassModal(false);
+      return;
+    }
+
+    await continueLevelUp(updated, newLevel);
+  };
+
+  const handleStatChoiceConfirm = (values: string[]) => {
+    if (!pendingStatChoices) return;
+    const { queue, newLevel } = pendingStatChoices;
+    const [current, ...rest] = queue;
+    const updated = { ...pendingStatChoices.updatedChar };
+    if (current.kind === 'resistance') {
+      addResistances(updated, values, 'resistance');
+    } else {
+      const saves = { ...updated.savingThrows };
+      for (const v of values) {
+        const k = v as keyof AbilityScores;
+        if (saves[k]) saves[k] = { proficient: true };
+      }
+      updated.savingThrows = saves;
+    }
+    if (rest.length > 0) {
+      setPendingStatChoices({ updatedChar: updated, queue: rest, newLevel });
+    } else {
+      setPendingStatChoices(null);
+      continueLevelUp(updated, newLevel);
+    }
+  };
+
+  const continueLevelUp = async (updated: Character, newLevel: number) => {
     // Проверяем изменения в заклинаниях через levelTable
     if (updated.spellcasting && classDef?.spellcaster) {
       try {
@@ -579,116 +757,6 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     return true;
   };
 
-  /** Extract innate spell names from an optional feature's additionalSpells field */
-  const extractInnateSpellNames = (feat: any): string[] => {
-    const spells: string[] = [];
-    const asList = feat.additionalSpells;
-    if (!Array.isArray(asList)) return spells;
-    for (const as of asList) {
-      const innate = as?.innate?._;
-      if (!innate) continue;
-      if (Array.isArray(innate)) {
-        // Simple list: ["speak with animals"]
-        for (const s of innate) {
-          if (typeof s === 'string') spells.push(s.split('|')[0]);
-        }
-      } else if (typeof innate === 'object') {
-        // Daily use: { daily: { "1e": ["compulsion"] } }
-        const daily = innate.daily;
-        if (daily) {
-          for (const arr of Object.values(daily)) {
-            if (Array.isArray(arr)) {
-              for (const s of arr) {
-                if (typeof s === 'string') spells.push(s.split('|')[0]);
-              }
-            }
-          }
-        }
-      }
-    }
-    return spells;
-  };
-
-  /** Apply spell and skill effects from an optional feature onto the character */
-  const applyOptionalFeatureEffects = async (char: Character, feat: any): Promise<Character> => {
-    let updated = { ...char };
-
-    // 1) additionalSpells — add innate spells to character
-    const spellNames = extractInnateSpellNames(feat);
-    if (spellNames.length > 0) {
-      const spellsMod = await import('../data/spells');
-      await spellsMod.init();
-      const newSpells = spellNames
-        .filter(name => {
-          // Skip if already known
-          const existing = updated.spellcasting?.spells ?? [];
-          return !existing.some(s => s.name.toLowerCase() === name.toLowerCase());
-        })
-        .map(name => {
-          const spellData = spellsMod.getSpellByName(name);
-          return {
-            spellId: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-            name: spellData?.name ?? name.replace(/\b\w/g, c => c.toUpperCase()),
-            level: spellData?.level ?? 0,
-            prepared: true,
-            alwaysPrepared: true,
-            source: feat.name,
-          };
-        });
-      if (newSpells.length > 0 && updated.spellcasting) {
-        updated.spellcasting = {
-          ...updated.spellcasting,
-          spells: [...updated.spellcasting.spells, ...newSpells],
-        };
-      } else if (newSpells.length > 0 && !updated.spellcasting) {
-        // Warlock should always have spellcasting, but just in case
-        updated.spellcasting = {
-          ability: 'charisma',
-          spellSaveDC: 0,
-          spellAttackBonus: 0,
-          spells: newSpells,
-        };
-      }
-    }
-
-    // 2) skillProficiencies — add skill proficiencies
-    const skillProfs = feat.skillProficiencies;
-    if (Array.isArray(skillProfs)) {
-      updated.skills = { ...updated.skills };
-      for (const entry of skillProfs) {
-        if (typeof entry === 'object') {
-          for (const [skill, val] of Object.entries(entry)) {
-            if (val === true && updated.skills[skill]) {
-              updated.skills[skill] = { ...updated.skills[skill], proficient: true };
-            }
-          }
-        }
-      }
-    }
-
-    return updated;
-  };
-
-  /** Remove spell and skill effects of a replaced optional feature */
-  const removeOptionalFeatureEffects = (char: Character, featName: string, featData: any): Character => {
-    let updated = { ...char };
-
-    // Remove innate spells sourced from this feature
-    const spellNames = extractInnateSpellNames(featData);
-    if (spellNames.length > 0 && updated.spellcasting) {
-      const nameLower = new Set(spellNames.map(n => n.toLowerCase()));
-      updated.spellcasting = {
-        ...updated.spellcasting,
-        spells: updated.spellcasting.spells.filter(s =>
-          !(nameLower.has(s.name.toLowerCase()) && s.source === featName)
-        ),
-      };
-    }
-
-    // Note: we don't remove skill proficiencies since they may overlap with other sources
-    return updated;
-  };
-
   const handleOptionalFeatureConfirm = (result: OptionalFeaturePickerResult) => {
     if (!pendingOptionalFeature) return;
     const { config, remainingChecks } = pendingOptionalFeature;
@@ -772,8 +840,17 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         }
         const levelRow = data.levelTable.find((r: any) => r.level === updated.level);
         const features: string[] = levelRow?.features ?? [];
-        if (features.includes('Expertise')) {
+        if (features.includes('Expertise') || features.includes('Deft Explorer')) {
+          // Bard/Rogue Expertise and Ranger Deft Explorer: expertise in 2 skills
           setPendingExpertise({ updatedChar: updated, count: 2 });
+          setShowExpertisePicker(true);
+        } else if (features.includes('Scholar')) {
+          // Wizard Scholar: expertise in 1 skill from a fixed list
+          setPendingExpertise({
+            updatedChar: updated,
+            count: 1,
+            fromSkills: ['arcana', 'history', 'investigation', 'medicine', 'nature', 'religion'],
+          });
           setShowExpertisePicker(true);
         } else {
           checkAndShowFsReplace(updated);
@@ -1042,11 +1119,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         expertise: result.expertiseChoice ? [result.expertiseChoice] : undefined,
       });
 
-      // Apply resistances
+      // Apply resistances and immunities
       const resists = extractFeatResistances(result.feat);
-      if (resists.fixed.length > 0 || (result.resistanceChoices && result.resistanceChoices.length > 0)) {
+      if (resists.fixed.length > 0 || resists.immune.length > 0 || (result.resistanceChoices && result.resistanceChoices.length > 0)) {
         applyFeatResistances(updated, resists, result.resistanceChoices);
       }
+
+      // Apply senses (Blind Fighting, Boon of Truesight, …)
+      applyFeatSenses(updated, extractFeatSenses(result.feat));
 
       // Apply stat effects (HP, AC, initiative, speed)
       applyFeatStatEffects(updated, result.feat._origName ?? result.feat.name);
@@ -1535,7 +1615,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                 <div className="glass-panel p-4 flex shrink-0 items-center justify-center lg:w-64">
                   {(() => {
                     const exhaustionPen = getExhaustionD20Penalty(character);
-                    const ac = character.armorClass;
+                    // КД живой (с активными эффектами); хранимый armorClass чист от состояний
+                    const ac = resolveDisplayAC(character);
                     const init = character.initiative + exhaustionPen;
                     const spd = getEffectiveSpeed(character);
                     const prof = character.proficiencyBonus;
@@ -1548,14 +1629,19 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     const acTooltip = formatStatParts(getACBreakdown(character), tc);
                     let initTooltip = formatStatParts(getInitiativeBreakdown(character), tc);
                     if (exhaustionPen) initTooltip += ` − ${Math.abs(exhaustionPen)} (${tc('sidebar.breakdown.exhaustion')}) = ${init}`;
+                    if (hasInitiativeAdvantage(character)) initTooltip += ` · ${tc('sidebar.breakdown.initiativeAdvantage')}`;
                     const speedTooltip = hasSpeedZeroCondition(character)
                       ? tc('sidebar.breakdown.speedZeroCondition')
                       : (() => {
                           const classBonus = getClassSpeedBonus(character);
+                          const transformAdjust = getTransformSpeedAdjust(character);
+                          const stateAdjust = getActiveSpeedAdjust(character);
                           const exhaustionCut = 5 * getExhaustionLevel(character);
-                          if (!classBonus && !exhaustionCut) return undefined;
+                          if (!classBonus && !exhaustionCut && !transformAdjust && !stateAdjust) return undefined;
                           let s = `${character.speed - classBonus}`;
                           if (classBonus) s += ` + ${classBonus} (${tc('sidebar.breakdown.class')})`;
+                          if (transformAdjust) s += ` ${transformAdjust > 0 ? '+' : '−'} ${Math.abs(transformAdjust)} (${tc('sidebar.breakdown.transformation')})`;
+                          if (stateAdjust) s += ` ${stateAdjust > 0 ? '+' : '−'} ${Math.abs(stateAdjust)} (${tc('sidebar.breakdown.state')})`;
                           if (exhaustionCut) s += ` − ${exhaustionCut} (${tc('sidebar.breakdown.exhaustion')})`;
                           return `${s} = ${spd}`;
                         })();
@@ -1586,6 +1672,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                             <span className="text-lg font-bold text-text-primary tabular-nums">{value}</span>
                           </div>
                         ))}
+                        {/* Активные формы/стойки — индикатор «почему КД 17» */}
+                        <ActiveEffectBadges character={character} />
                       </div>
                     );
                   })()}
@@ -1596,7 +1684,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <ConditionsSection character={character} onUpdate={onUpdate} />
               <ConcentrationSection character={character} onUpdate={onUpdate} />
               <SensesSection character={character} onUpdate={onUpdate} />
+              <MovementSection character={character} onUpdate={onUpdate} />
               <ResistancesSection character={character} onUpdate={onUpdate} />
+              <TransformationSection character={character} onUpdate={onUpdate} />
+              <ActiveFormsSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
@@ -1688,11 +1779,29 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         />
       )}
 
+      {/* Stat choice modal (resistances / save proficiencies from level effects) */}
+      {pendingStatChoices && pendingStatChoices.queue.length > 0 && (() => {
+        const current = pendingStatChoices.queue[0];
+        const options: PickOption[] = current.kind === 'resistance'
+          ? current.from.map(type => ({ value: type, label: getDamageTypeFullName(type), iconUrl: getDamageTypeImageUrl(type) }))
+          : current.from.map(ab => ({ value: ab, label: getAbilityName(ab as keyof AbilityScores) }));
+        return (
+          <PickOptionsModal
+            title={current.kind === 'resistance' ? t('sheet.statChoice.resistanceTitle') : t('sheet.statChoice.saveProfTitle')}
+            subtitle={t('sheet.statChoice.subtitle', { level: pendingStatChoices.newLevel })}
+            options={options}
+            count={current.count}
+            onConfirm={handleStatChoiceConfirm}
+          />
+        );
+      })()}
+
       {/* Expertise Picker Modal */}
       {showExpertisePicker && pendingExpertise && (
         <ExpertisePickerModal
           character={pendingExpertise.updatedChar}
           count={pendingExpertise.count}
+          fromSkills={pendingExpertise.fromSkills}
           onConfirm={handleExpertiseConfirm}
           onCancel={() => {
             setShowExpertisePicker(false);
@@ -3085,7 +3194,12 @@ function ConditionsSection({
 
   const addCondition = (name: string) => {
     if (!activeConditions.includes(name)) {
-      onUpdate({ ...character, conditions: [...activeConditions, name] });
+      let updated: Character = { ...character, conditions: [...activeConditions, name] };
+      // Недееспособность (и содержащие её состояния) прерывает Ярость, Песнь клинка и т.п.
+      if (getConditionMechanics(name)?.incapacitated) {
+        updated = removeIncapacitatedEffects(updated);
+      }
+      onUpdate(updated);
     }
     setShowConditionModal(false);
   };
@@ -3268,6 +3382,352 @@ function ConcentrationSection({
   );
 }
 
+// ── Transformation Section (Grim Hollow stages, boons & flaws) ──
+
+function TransformationSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (char: Character) => void;
+}) {
+  const { t } = useTranslation('character');
+  const [config, setConfig] = useState<TransformationConfig | null>(null);
+  const [pendingPick, setPendingPick] = useState<{
+    updatedChar: Character;
+    stageCfg: TransformationStage;
+    newStage: number;
+    granted: string[];
+  } | null>(null);
+  // Очередь выборов от полученных даров/изъянов (резисты, спасброски, −2 к характеристике)
+  const [pendingBoonChoices, setPendingBoonChoices] = useState<{
+    updatedChar: Character;
+    queue: { entryName: string; kind: 'resistance' | 'saveProf' | 'abilityPenalty'; count: number; from: string[] }[];
+  } | null>(null);
+  const [confirmDown, setConfirmDown] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const ccoName = character.charCreationOption?.name;
+  const ccoNameEn = character.charCreationOption?.nameEn;
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!ccoName) { setConfig(null); return; }
+      // Try the stable key first; fall back to resolving _origName from data
+      let cfg = getTransformationConfig(ccoNameEn ?? ccoName) ?? getTransformationConfig(ccoName);
+      if (!cfg) {
+        try {
+          const mod = await import('../data/charactercreationoptions');
+          await mod.init();
+          const data = mod.getCharacterCreationOptionByName(ccoName);
+          const orig = (data as { _origName?: string } | undefined)?._origName ?? data?.name;
+          if (orig) cfg = getTransformationConfig(orig);
+        } catch { /* not a transformation */ }
+      }
+      if (!cancelled) setConfig(cfg ?? null);
+    })();
+    return () => { cancelled = true; };
+  }, [ccoName, ccoNameEn]);
+
+  if (!config || !character.charCreationOption) return null;
+
+  const stage = getTransformationStage(character);
+  const ownedNames = new Set((character.optionalFeatures ?? []).map(f => f.nameEn ?? f.name));
+
+  /** Add a boon/flaw entry with its baked stat effects and data-driven spells/skills. */
+  const grantFeature = async (
+    char: Character,
+    nameEn: string,
+    kind: 'TB' | 'TF',
+    ofMod: typeof import('../data/optionalfeatures'),
+    granted?: string[],
+  ): Promise<Character> => {
+    const alreadyOwned = (char.optionalFeatures ?? []).some(f => (f.nameEn ?? f.name) === nameEn);
+    if (alreadyOwned) return char;
+    const data = ofMod.getOptionalFeatureByName(nameEn);
+    const entry = {
+      name: data?.name ?? nameEn,
+      nameEn,
+      source: data?.source ?? 'GrimHollowPG24',
+      featureType: `${config.code}:${kind}`,
+      levelAcquired: char.level,
+    };
+    let updated: Character = { ...char, optionalFeatures: [...(char.optionalFeatures ?? []), entry] };
+    applyTransformFeatureEffects(updated, entry);
+    if (data) updated = await applyOptionalFeatureEffects(updated, data);
+    granted?.push(nameEn);
+    return updated;
+  };
+
+  /** После выдачи даров: если они требуют выборов (резист/спасбросок/−2) — спросить, иначе сохранить. */
+  const finalizeGrants = (updated: Character, grantedNames: string[]) => {
+    const queue: NonNullable<typeof pendingBoonChoices>['queue'] = [];
+    const ABILITIES = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+    for (const name of grantedNames) {
+      const ch = getTransformFeatureChoices(name);
+      if (ch.resistanceChoice) queue.push({ entryName: name, kind: 'resistance', count: ch.resistanceChoice.count, from: ch.resistanceChoice.from });
+      if (ch.saveProfChoice) queue.push({ entryName: name, kind: 'saveProf', count: ch.saveProfChoice.count, from: ch.saveProfChoice.from });
+      if (ch.abilityPenaltyChoice) queue.push({ entryName: name, kind: 'abilityPenalty', count: 1, from: ABILITIES });
+    }
+    if (queue.length > 0) {
+      setPendingBoonChoices({ updatedChar: updated, queue });
+    } else {
+      onUpdate(updated);
+    }
+  };
+
+  const handleBoonChoiceConfirm = (values: string[]) => {
+    if (!pendingBoonChoices) return;
+    const [current, ...rest] = pendingBoonChoices.queue;
+    const updated: Character = {
+      ...pendingBoonChoices.updatedChar,
+      optionalFeatures: [...(pendingBoonChoices.updatedChar.optionalFeatures ?? [])],
+    };
+    const idx = updated.optionalFeatures!.findIndex(f => (f.nameEn ?? f.name) === current.entryName);
+    if (idx >= 0) {
+      const entryCopy = { ...updated.optionalFeatures![idx] };
+      updated.optionalFeatures![idx] = entryCopy;
+      applyTransformFeatureChoices(
+        updated,
+        entryCopy,
+        current.kind === 'resistance'
+          ? { resistances: values }
+          : current.kind === 'saveProf'
+            ? { saveProficiencies: values }
+            : { abilityPenalty: values[0] as keyof AbilityScores },
+      );
+    }
+    updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
+    updated.updatedAt = new Date().toISOString();
+    if (rest.length > 0) {
+      setPendingBoonChoices({ updatedChar: updated, queue: rest });
+    } else {
+      setPendingBoonChoices(null);
+      onUpdate(updated);
+    }
+  };
+
+  const handleStageUp = async () => {
+    if (stage >= 4 || busy) return;
+    setBusy(true);
+    try {
+      const newStage = stage + 1;
+      const stageCfg = config.stages[newStage - 1];
+      const ofMod = await import('../data/optionalfeatures');
+      await ofMod.init();
+
+      const granted: string[] = [];
+      let updated: Character = {
+        ...character,
+        charCreationOption: { ...character.charCreationOption!, nameEn: config.name, stage: newStage },
+      };
+      for (const boon of stageCfg.fixed) {
+        updated = await grantFeature(updated, boon, 'TB', ofMod, granted);
+      }
+      updated = await grantFeature(updated, stageCfg.flaw, 'TF', ofMod, granted);
+
+      updated.armorClass = resolveAC(updated);
+      updated.initiative = computeInitiative(updated);
+      updated.updatedAt = new Date().toISOString();
+
+      const remainingChoices = stageCfg.options.filter(o => !ownedNames.has(o));
+      if (stageCfg.choose > 0 && remainingChoices.length > 0) {
+        setPendingPick({ updatedChar: updated, stageCfg, newStage, granted });
+      } else {
+        finalizeGrants(updated, granted);
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handlePickConfirm = async (result: OptionalFeaturePickerResult) => {
+    if (!pendingPick) return;
+    setBusy(true);
+    try {
+      const ofMod = await import('../data/optionalfeatures');
+      await ofMod.init();
+      const granted = [...pendingPick.granted];
+      let updated = pendingPick.updatedChar;
+      for (const feat of result.chosen) {
+        const nameEn = (feat as { _origName?: string })._origName ?? feat.name;
+        updated = await grantFeature(updated, nameEn, 'TB', ofMod, granted);
+      }
+      updated.armorClass = resolveAC(updated);
+      updated.initiative = computeInitiative(updated);
+      updated.updatedAt = new Date().toISOString();
+      setPendingPick(null);
+      finalizeGrants(updated, granted);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleStageDown = () => {
+    if (stage <= 0) return;
+    const stageCfg = config.stages[stage - 1];
+    const namesToRemove = new Set([...stageCfg.fixed, ...stageCfg.options, stageCfg.flaw]);
+    const updated: Character = {
+      ...character,
+      charCreationOption: { ...character.charCreationOption!, nameEn: config.name, stage: stage - 1 },
+      optionalFeatures: [...(character.optionalFeatures ?? [])],
+    };
+    const removed = updated.optionalFeatures!.filter(
+      f => /:(TB|TF)$/.test(f.featureType) && namesToRemove.has(f.nameEn ?? f.name),
+    );
+    for (const entry of removed) {
+      removeTransformFeatureEffects(updated, entry);
+    }
+    updated.optionalFeatures = updated.optionalFeatures!.filter(f => !removed.includes(f));
+    // Активные эффекты, чей дар-источник пропал со стадией, — снять
+    const removedNamesEn = new Set(removed.map(r => r.nameEn ?? r.name));
+    if (updated.activeEffects?.length) {
+      const kept = updated.activeEffects.filter(e => {
+        const src = ACTIVATED_EFFECTS[e.key]?.source;
+        return !(src?.type === 'transformBoon' && removedNamesEn.has(src.boonNameEn));
+      });
+      updated.activeEffects = kept.length ? kept : undefined;
+    }
+    // Legacy-поле активной формы
+    if (updated.activeTransformForm && removedNamesEn.has(updated.activeTransformForm)) {
+      updated.activeTransformForm = undefined;
+    }
+    // Drop spells granted by the removed boons
+    if (updated.spellcasting) {
+      const removedNames = new Set(removed.map(r => r.name));
+      updated.spellcasting = {
+        ...updated.spellcasting,
+        spells: updated.spellcasting.spells.filter(s => !(s.source && removedNames.has(s.source))),
+      };
+    }
+    updated.armorClass = resolveAC(updated);
+    updated.initiative = computeInitiative(updated);
+    updated.updatedAt = new Date().toISOString();
+    setConfirmDown(false);
+    onUpdate(updated);
+  };
+
+  const displayName = character.charCreationOption.name;
+  const nextStageCfg = stage < 4 ? config.stages[stage] : null;
+
+  return (
+    <>
+      <div className="glass-panel p-4">
+        <h3 className="text-sm font-medieval text-gold mb-3 flex items-center gap-2">
+          <Sparkles size={14} className="text-emerald-400" />
+          {t('sheet.transformation.title')}: {displayName}
+        </h3>
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Stage indicator */}
+          <div className="flex items-center gap-1.5" title={t('sheet.transformation.stageTooltip')}>
+            <span className="text-xs text-text-secondary">{t('sheet.transformation.stage')}</span>
+            {[1, 2, 3, 4].map(s => (
+              <div
+                key={s}
+                className={`w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-bold ${
+                  s <= stage
+                    ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300'
+                    : 'border-border-default text-text-muted'
+                }`}
+              >
+                {s}
+              </div>
+            ))}
+          </div>
+
+          {stage < 4 && (
+            <button
+              onClick={handleStageUp}
+              disabled={busy}
+              className="px-3 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs hover:bg-emerald-500/20 transition-colors disabled:opacity-40"
+            >
+              {busy ? '…' : t('sheet.transformation.stageUp')}
+            </button>
+          )}
+          {stage > 0 && !confirmDown && (
+            <button
+              onClick={() => setConfirmDown(true)}
+              className="px-3 py-1 rounded-lg border border-border-default text-text-muted text-xs hover:text-text-secondary hover:border-border-hover transition-colors"
+            >
+              {t('sheet.transformation.stageDown')}
+            </button>
+          )}
+          {confirmDown && (
+            <span className="flex items-center gap-2 text-xs">
+              <span className="text-red-400">{t('sheet.transformation.stageDownConfirm')}</span>
+              <button onClick={handleStageDown} className="px-2 py-0.5 rounded bg-red-accent/80 text-white hover:bg-red-accent transition-colors">
+                {t('sheet.transformation.yes')}
+              </button>
+              <button onClick={() => setConfirmDown(false)} className="px-2 py-0.5 rounded border border-border-default text-text-secondary hover:text-text-primary transition-colors">
+                {t('sheet.transformation.no')}
+              </button>
+            </span>
+          )}
+        </div>
+        {stage === 0 && (
+          <p className="text-xs text-text-muted mt-2">{t('sheet.transformation.stageZeroHint')}</p>
+        )}
+        {stage > 0 && nextStageCfg && (
+          <p className="text-[11px] text-text-muted mt-2">{t('sheet.transformation.nextStageHint', { stage: stage + 1 })}</p>
+        )}
+
+        {/* Активируемые формы (гибридные и т.п.) переехали в секцию «Активные формы и стойки» */}
+      </div>
+
+      {/* Boon picker for the new stage */}
+      {pendingPick && (
+        <OptionalFeaturePickerModal
+          character={pendingPick.updatedChar}
+          config={{
+            featureType: `${config.code}:TB`,
+            allowedNames: pendingPick.stageCfg.options,
+            labels: {
+              title: t('sheet.transformation.pickBoonTitle', { name: displayName, stage: pendingPick.newStage }),
+              singular: t('sheet.transformation.boonSingular'),
+              pluralFew: t('sheet.transformation.boonPluralFew'),
+              pluralGenitive: t('sheet.transformation.boonPluralGenitive'),
+            },
+          }}
+          newSlots={Math.min(pendingPick.stageCfg.choose, pendingPick.stageCfg.options.filter(o => !ownedNames.has(o)).length)}
+          allowReplace={false}
+          onConfirm={handlePickConfirm}
+          onCancel={() => {
+            // Стадия уже повышена с фикс. дарами и изъяном; выбор можно сделать позже —
+            // сохраняем без выбранных даров (но спрашиваем выборы фикс. даров).
+            const { updatedChar, granted } = pendingPick;
+            setPendingPick(null);
+            finalizeGrants(updatedChar, granted);
+          }}
+        />
+      )}
+
+      {/* Выборы от полученных даров/изъянов: резисты, спасброски, −2 к характеристике */}
+      {pendingBoonChoices && pendingBoonChoices.queue.length > 0 && (() => {
+        const current = pendingBoonChoices.queue[0];
+        const options: PickOption[] = current.kind === 'resistance'
+          ? current.from.map(type => ({ value: type, label: getDamageTypeFullName(type), iconUrl: getDamageTypeImageUrl(type) }))
+          : current.from.map(ab => ({ value: ab, label: getAbilityName(ab as keyof AbilityScores) }));
+        const titleKey = current.kind === 'resistance'
+          ? 'sheet.transformation.chooseResistance'
+          : current.kind === 'saveProf'
+            ? 'sheet.transformation.chooseSaveProf'
+            : 'sheet.transformation.chooseAbilityPenalty';
+        return (
+          <PickOptionsModal
+            title={t(titleKey)}
+            subtitle={current.entryName}
+            options={options}
+            count={current.count}
+            onConfirm={handleBoonChoiceConfirm}
+          />
+        );
+      })()}
+    </>
+  );
+}
+
 // ── Senses Section ──
 const SENSE_KEYS = ['darkvision', 'blindsight', 'tremorsense', 'truesight'] as const;
 
@@ -3322,6 +3782,95 @@ function SensesSection({
   );
 }
 
+// ── Movement Section (полёт / плавание / лазание) ──
+const MOVE_KEYS = ['fly', 'swim', 'climb'] as const;
+
+function MovementSection({
+  character,
+  onUpdate,
+}: {
+  character: Character;
+  onUpdate: (c: Character) => void;
+}) {
+  const { t } = useTranslation('character');
+  const [collapsed, setCollapsed] = useState(true);
+  const speeds = character.speeds ?? {};
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.) — оверлей
+  // поверх хранимых, в character.speeds не пишутся.
+  const activeMoveSpeeds = getActiveMoveSpeeds(character);
+
+  const setSpeed = (key: typeof MOVE_KEYS[number], value: number) => {
+    const next = { ...speeds, [key]: Math.max(0, value) || undefined };
+    onUpdate({ ...character, speeds: next, updatedAt: new Date().toISOString() });
+  };
+
+  const activeCount = MOVE_KEYS.filter(k => (speeds[k] ?? 0) !== 0 || (activeMoveSpeeds[k] ?? 0) !== 0).length;
+
+  return (
+    <div className="glass-panel p-3">
+      <button onClick={() => setCollapsed(!collapsed)} className="flex items-center gap-2 w-full text-left">
+        <Footprints className="text-gold" size={20} />
+        <h2 className="text-lg font-medieval text-gold flex-1">
+          {t('sheet.movement.title')}
+          {activeCount > 0 && <span className="text-gold/70 text-sm ml-1.5">({activeCount})</span>}
+        </h2>
+        <ChevronDown size={16} className={`text-text-muted transition-transform ${collapsed ? '-rotate-90' : ''}`} />
+      </button>
+
+      {!collapsed && (
+        <>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {MOVE_KEYS.map(key => {
+              const stored = speeds[key] ?? 0;
+              const resolved = stored === -1 ? character.speed : stored;
+              return (
+                <div key={key} className="flex items-center gap-2">
+                  <label className="text-xs text-text-secondary flex-1">
+                    {t(`sheet.movement.${key}`)}
+                    {stored === -1 && (
+                      <span className="ml-1 text-[9px] text-emerald-400/80" title={t('sheet.movement.equalsWalk')}>≡</span>
+                    )}
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={5}
+                    value={resolved}
+                    onChange={e => setSpeed(key, parseInt(e.target.value) || 0)}
+                    className="w-16 text-center text-sm bg-bg-primary border border-border-default text-text-primary rounded px-1 py-0.5"
+                  />
+                  <span className="text-[10px] text-text-muted w-6">{t('sheet.senses.ft')}</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* Временные скорости от активных эффектов (поверх хранимых) */}
+          {MOVE_KEYS.some(k => (activeMoveSpeeds[k] ?? 0) !== 0) && (
+            <div className="mt-2 pt-2 border-t border-border-default flex flex-wrap gap-1.5">
+              {MOVE_KEYS.map(key => {
+                const active = activeMoveSpeeds[key];
+                if (!active) return null;
+                const resolvedActive = active === -1 ? character.speed : active;
+                const storedResolved = (speeds[key] ?? 0) === -1 ? character.speed : (speeds[key] ?? 0);
+                if (resolvedActive <= storedResolved) return null;
+                return (
+                  <span
+                    key={key}
+                    className="flex items-center gap-1 px-1.5 py-0.5 rounded border border-gold/40 bg-gold/10 text-gold text-[11px]"
+                    title={t('sheet.activeEffects.temporarySpeed')}
+                  >
+                    ⏳ {t(`sheet.movement.${key}`)}: {resolvedActive} {t('sheet.senses.ft')}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 // ── Resistances Section ──
 function ResistancesSection({
   character,
@@ -3331,19 +3880,26 @@ function ResistancesSection({
   onUpdate: (c: Character) => void;
 }) {
   const { t } = useTranslation('character');
+  const { t: tg } = useTranslation('game');
   const MODIFIER_INFO = getModifierInfo(t);
   const [collapsed, setCollapsed] = useState(false);
   const [showResistanceModal, setShowResistanceModal] = useState(false);
 
-  const resistances = character.damageResistances ?? [];
+  const stored = character.damageResistances ?? [];
+  // Хранимые + временные от активных эффектов (Ярость и т.п.) — временные
+  // помечены ⏳, не редактируются и не пишутся в damageResistances.
+  const resistances = getEffectiveResistances(character);
 
   const addResistance = (entry: DamageResistanceEntry) => {
-    onUpdate({ ...character, damageResistances: [...resistances, entry] });
+    onUpdate({ ...character, damageResistances: [...stored, entry] });
     setShowResistanceModal(false);
   };
 
-  const removeResistance = (idx: number) => {
-    onUpdate({ ...character, damageResistances: resistances.filter((_, i) => i !== idx) });
+  const removeResistance = (entry: EffectiveResistanceEntry) => {
+    onUpdate({
+      ...character,
+      damageResistances: stored.filter(r => !(r.type === entry.type && r.modifier === entry.modifier)),
+    });
   };
 
   return (
@@ -3382,8 +3938,11 @@ function ResistancesSection({
                 const modInfo = MODIFIER_INFO.find(m => m.key === entry.modifier);
                 return (
                   <span
-                    key={`${entry.type}-${entry.modifier}-${idx}`}
-                    className={`flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg border text-sm ${getResistanceBadgeBg(entry.modifier)} ${getResistanceBadgeTextColor(entry.modifier)}`}
+                    key={`${entry.type}-${entry.modifier}-${entry.temporary ? 'tmp' : 'st'}-${idx}`}
+                    className={`flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded-lg border text-sm ${getResistanceBadgeBg(entry.modifier)} ${getResistanceBadgeTextColor(entry.modifier)} ${entry.temporary ? 'border-dashed' : ''}`}
+                    title={entry.temporary && entry.sourceKey
+                      ? t('sheet.resistances.temporaryFrom', { source: getEffectName(entry.sourceKey, tg) })
+                      : undefined}
                   >
                     <div className={`relative w-5 h-5 shrink-0 rounded ${getResistanceRingClass(entry.modifier)}`}>
                       <img
@@ -3396,12 +3955,16 @@ function ResistancesSection({
                     </div>
                     <span>{getDamageTypeFullName(entry.type)}</span>
                     <span className="text-[9px] opacity-60">({modInfo?.shortLabel})</span>
-                    <button
-                      onClick={() => removeResistance(idx)}
-                      className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
-                    >
-                      <X size={12} />
-                    </button>
+                    {entry.temporary ? (
+                      <span className="ml-0.5 text-[10px]" aria-label={t('sheet.resistances.temporary')}>⏳</span>
+                    ) : (
+                      <button
+                        onClick={() => removeResistance(entry)}
+                        className="ml-0.5 p-0.5 rounded hover:bg-red-800/50 transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    )}
                   </span>
                 );
               })}
@@ -3416,7 +3979,7 @@ function ResistancesSection({
         <ResistancePickerModal
           onAdd={addResistance}
           onCancel={() => setShowResistanceModal(false)}
-          existing={resistances}
+          existing={stored}
         />
       )}
     </div>

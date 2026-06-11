@@ -697,7 +697,7 @@
   "Baldurs Gate Criminal.entries.4.entries.4.rows.5.0": "6",
   "Baldurs Gate Criminal.entries.4.entries.4.rows.5.1": "Despite my best efforts, I am unreliable to my friends.",
   "Baldurs Gate Criminal.entries.4.name": "Рекомендуемые черты характера",
-  "Baldurs Gate Criminal.name": "Baldur's Gate Entertainer",
+  "Baldurs Gate Criminal.name": "Baldur's Gate Criminal",
   "Baldurs Gate Entertainer.entries.0.items.0.entry": "{@skill Acrobatics}, {@skill Performance}",
   "Baldurs Gate Entertainer.entries.0.items.0.name": "Владение навыками:",
   "Baldurs Gate Entertainer.entries.0.items.1.entry": "{@item Disguise kit|phb}, one type of {@filter musical instrument|items|source=phb|miscellaneous=mundane|type=instrument}",

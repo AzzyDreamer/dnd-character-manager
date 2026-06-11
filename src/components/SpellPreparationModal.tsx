@@ -98,15 +98,31 @@ export const SpellPreparationModal: React.FC<SpellPreparationModalProps> = ({
       const entryMod = await import('../utils/entryRenderer');
       if (cancelled) return;
       const classSpells = spellsMod.getSpellsByClass(character.class);
+      // Расширение списка от предыстории (Ravnica/Strixhaven additionalSpells.expanded)
+      let allSpells = classSpells;
+      if (character.background) {
+        try {
+          const bgMod = await import('../data/backgrounds/jsonBackgrounds');
+          await bgMod.init();
+          if (cancelled) return;
+          const bg = bgMod.getJsonBackgroundByName(character.background);
+          const extraNames = bgMod.getBackgroundExpandedSpellNames(bg);
+          const have = new Set(classSpells.map(s => s.name.toLowerCase()));
+          const extras = extraNames
+            .map(n => spellsMod.getSpellByName(n))
+            .filter((s): s is NonNullable<typeof s> => !!s && !have.has(s.name.toLowerCase()));
+          if (extras.length > 0) allSpells = [...classSpells, ...extras];
+        } catch { /* предыстория без расширений — ок */ }
+      }
       setModules({
-        spells: classSpells,
+        spells: allSpells,
         getSpellImageUrl: spellsMod.getSpellImageUrl,
         SCHOOL_NAMES: spellsMod.SCHOOL_NAMES,
         EntryRenderer: entryMod.EntryRenderer,
       });
     })();
     return () => { cancelled = true; };
-  }, [character.class]);
+  }, [character.class, character.background]);
 
   // All leveled class spells the character can access
   const availableSpells = useMemo(() => {

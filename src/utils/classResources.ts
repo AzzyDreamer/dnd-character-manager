@@ -3,6 +3,7 @@
 
 import i18n from '../i18n';
 import { asset } from '../utils/asset';
+import { getProficiencyBonus } from './dnd';
 
 export interface ClassResourceDef {
   labelKey: string;
@@ -96,6 +97,62 @@ const SUBCLASS_RESOURCES: SubclassResourceDef[] = [
       if (level >= 7) return 5;
       return 4;
     },
+  },
+  // Ресурсы активируемых состояний (см. src/utils/activatedEffects.ts)
+  {
+    classId: 'wizard',
+    subclassId: 'bladesinger',
+    key: 'bladesong',
+    labelKey: 'bladesong',
+    restoreOn: 'long',
+    minLevel: 3,
+    getMax: getProficiencyBonus,
+  },
+  {
+    classId: 'warlock',
+    subclassId: 'undead',
+    key: 'formOfDread',
+    labelKey: 'formOfDread',
+    restoreOn: 'long',
+    minLevel: 3,
+    getMax: getProficiencyBonus,
+  },
+  {
+    classId: 'fighter',
+    subclassId: 'rune-knight',
+    key: 'giantsMight',
+    labelKey: 'giantsMight',
+    restoreOn: 'long',
+    minLevel: 3,
+    getMax: getProficiencyBonus,
+  },
+  // Аватары паладина L20: 1/длинный отдых
+  {
+    classId: 'paladin',
+    subclassId: 'conquest',
+    key: 'invincibleConqueror',
+    labelKey: 'invincibleConqueror',
+    restoreOn: 'long',
+    minLevel: 20,
+    getMax: () => 1,
+  },
+  {
+    classId: 'paladin',
+    subclassId: 'crown',
+    key: 'exaltedChampion',
+    labelKey: 'exaltedChampion',
+    restoreOn: 'long',
+    minLevel: 20,
+    getMax: () => 1,
+  },
+  {
+    classId: 'paladin',
+    subclassId: 'vengeance',
+    key: 'avengingAngel',
+    labelKey: 'avengingAngel',
+    restoreOn: 'long',
+    minLevel: 20,
+    getMax: () => 1,
   },
 ];
 

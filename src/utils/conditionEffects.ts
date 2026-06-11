@@ -1,4 +1,6 @@
 import type { Character } from '../types';
+import { getTransformSpeedAdjust } from './transformationEffects';
+import { getActiveSpeedAdjust } from './activatedEffects';
 
 // ── Condition mechanics ──
 //
@@ -56,12 +58,19 @@ export function getExhaustionD20Penalty(char: Character): number {
 }
 
 /**
- * Effective speed after conditions and exhaustion. `baseSpeed` already includes
- * class/feat bonuses (the stored `character.speed`). Speed-zeroing conditions
- * win outright; otherwise Exhaustion subtracts 5 ft per level (floored at 0).
+ * Effective speed after conditions, exhaustion, transformation boons/flaws and
+ * activated effects. `baseSpeed` already includes class/feat bonuses (the stored
+ * `character.speed`); transformation deltas (Fzeg Bloodline +10, Sluggish
+ * −5×стадия) and activated-state deltas (Rage forms, Bladesong +10, Chitinous
+ * Shell −10) are applied live and never baked into the stored stat.
+ * Speed-zeroing conditions win outright; Exhaustion subtracts 5 ft per level
+ * (floored at 0).
  */
 export function getEffectiveSpeed(char: Character): number {
   if (hasSpeedZeroCondition(char)) return 0;
-  const reduced = char.speed - 5 * getExhaustionLevel(char);
+  const reduced = char.speed
+    + getTransformSpeedAdjust(char)
+    + getActiveSpeedAdjust(char)
+    - 5 * getExhaustionLevel(char);
   return Math.max(0, reduced);
 }

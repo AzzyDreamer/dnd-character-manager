@@ -81,3 +81,26 @@ export function getJsonBackgroundByName(name: string): JsonBackgroundData | unde
   const lc = name.toLowerCase();
   return ALL_JSON_BACKGROUNDS.find(b => b.name.toLowerCase() === lc || (b as any)._origName?.toLowerCase() === lc);
 }
+
+/**
+ * Заклинания, которыми предыстория расширяет список класса (Ravnica/Strixhaven:
+ * additionalSpells.expanded). Возвращает имена в нижнем регистре без тегов
+ * источника/заговора ("encode thoughts|ggr#c" → "encode thoughts").
+ */
+export function getBackgroundExpandedSpellNames(bg: JsonBackgroundData | undefined): string[] {
+  if (!bg?.additionalSpells) return [];
+  const names: string[] = [];
+  for (const group of bg.additionalSpells as { expanded?: Record<string, unknown[]> }[]) {
+    const exp = group?.expanded;
+    if (!exp) continue;
+    for (const arr of Object.values(exp)) {
+      if (!Array.isArray(arr)) continue;
+      for (const raw of arr) {
+        if (typeof raw === 'string') {
+          names.push(raw.replace(/#c$/, '').split('|')[0].trim().toLowerCase());
+        }
+      }
+    }
+  }
+  return [...new Set(names)];
+}

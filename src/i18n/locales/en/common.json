@@ -93,6 +93,9 @@
       "hpCon": "CON/lvl:",
       "profByLevel": "By level",
       "exhaustion": "exhaustion",
+      "transformation": "transformation",
+      "state": "state",
+      "initiativeAdvantage": "advantage on initiative",
       "speedZeroCondition": "Speed reduced to 0 by an active condition"
     },
     "sensesLabel": "Senses",

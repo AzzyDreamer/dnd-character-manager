@@ -185,9 +185,12 @@
     "originFeat": {
       "title": "Черта происхождения",
       "loading": "Загрузка черт...",
-      "description": "Ваша предыстория не даёт черту. Выберите черту происхождения (Origin Feat).",
+      "description": "Выберите черту (черты) происхождения.",
       "searchPlaceholder": "Поиск черты...",
-      "nothingFound": "Ничего не найдено"
+      "nothingFound": "Ничего не найдено",
+      "bgChoiceTitle": "Черта предыстории — {{name}}: выберите одну",
+      "bgChoiceHint": "Эта предыстория предлагает черту на выбор.",
+      "speciesExtra": "{{name}}: +{{count}} доп. черта происхождения."
     },
     "fightingStyle": {
       "title": "Боевой стиль",
@@ -210,7 +213,10 @@
       "fromBackground": "Предыстория",
       "expertiseDouble": "Мастерство ×2",
       "skillProficiencies": "Владение навыками:",
-      "selected": "Выбрано"
+      "selected": "Выбрано",
+      "speciesChoice": "Навыки вида — {{name}}",
+      "bgChoice": "Навыки предыстории — {{name}}",
+      "bgToolChoice": "Инструменты предыстории — {{name}}"
     },
     "spells": {
       "youWillGet": "Вы получите следующее:",
@@ -276,6 +282,9 @@
     "bondsPlaceholder": "Что или кто важен для вашего персонажа?",
     "flaws": "Слабости",
     "flawsPlaceholder": "Какие слабости есть у вашего персонажа?"
+  },
+  "pickOptions": {
+    "confirm": "Подтвердить"
   },
   "sheet": {
     "tabs": {
@@ -345,6 +354,39 @@
       "tremorsense": "Чувство вибрации",
       "truesight": "Истинное зрение",
       "ft": "фт."
+    },
+    "movement": {
+      "title": "Передвижение",
+      "fly": "Полёт",
+      "swim": "Плавание",
+      "climb": "Лазание",
+      "equalsWalk": "Равна скорости ходьбы"
+    },
+    "statChoice": {
+      "resistanceTitle": "Выберите устойчивость к урону",
+      "saveProfTitle": "Выберите владение спасброском",
+      "subtitle": "Даётся способностью уровня {{level}}"
+    },
+    "transformation": {
+      "chooseResistance": "Выберите устойчивость к урону",
+      "chooseSaveProf": "Выберите владение спасброском",
+      "chooseAbilityPenalty": "Выберите характеристику, теряющую 2 очка",
+      "title": "Трансформация",
+      "stage": "Стадия:",
+      "stageTooltip": "Стадия трансформации (1–4)",
+      "stageUp": "Повысить стадию",
+      "stageDown": "Понизить стадию",
+      "stageDownConfirm": "Убрать дары и изъян этой стадии?",
+      "yes": "Да",
+      "no": "Нет",
+      "stageZeroHint": "Трансформация ещё не начата. Повысьте до стадии 1, чтобы получить её дары и изъян — их бонусы и недостатки применятся к листу автоматически.",
+      "nextStageHint": "Стадия {{stage}} даст новые дары и изъян стадии.",
+      "pickBoonTitle": "{{name}} — стадия {{stage}}: выберите дар",
+      "boonSingular": "дар",
+      "boonPluralFew": "дара",
+      "boonPluralGenitive": "даров",
+      "hybridForm": "Гибридная форма:",
+      "formActive": "активна"
     },
     "rest": {
       "title": "Отдых",
@@ -454,6 +496,41 @@
         "ThroatLeeches": "Горловые пиявки"
       }
     },
+    "activeEffects": {
+      "title": "Активные формы и стойки",
+      "activate": "Включить",
+      "deactivate": "Снять",
+      "active": "Активна",
+      "expired": "Истекла",
+      "noResource": "Использования закончились",
+      "costTooltip": "Стоит {{cost}} использования",
+      "temporarySpeed": "Временная, от активного состояния",
+      "duration": {
+        "minutes": "{{n}} мин",
+        "hours": "{{n}} ч",
+        "untilRest": "до отдыха",
+        "manual": "вручную"
+      },
+      "req": {
+        "noArmor": "нужно: без доспеха",
+        "noHeavyArmor": "нужно: без тяжёлого доспеха",
+        "noMediumHeavyArmor": "нужно: без среднего/тяжёлого доспеха",
+        "noShield": "нужно: без щита",
+        "generic": "условия не выполнены"
+      },
+      "deltas": {
+        "acFlat": "КД {{value}}",
+        "acAbility": "КД +мод {{ability}}",
+        "speed": "скорость {{value}} фт",
+        "move": "{{kind}} {{value}} фт",
+        "moveEqualsWalk": "{{kind}} = скорости ходьбы",
+        "resist": "устойчивость: {{types}}",
+        "resistAll": "устойчивость ко всему урону",
+        "resistAllExcept": "устойчивость ко всему урону, кроме: {{types}}",
+        "immune": "иммунитет: {{types}}",
+        "abilityFloor": "{{ability}} становится {{value}} (если ниже)"
+      }
+    },
     "resistances": {
       "title": "Устойчивости",
       "addResistance": "Добавить устойчивость",
@@ -463,6 +540,8 @@
       "alreadyAdded": "Уже добавлено",
       "cancel": "Отмена",
       "add": "Добавить",
+      "temporary": "Временная",
+      "temporaryFrom": "Временная — от: {{source}}",
       "modifiers": {
         "resistance": "Устойчивость",
         "resistanceShort": "Устойч.",

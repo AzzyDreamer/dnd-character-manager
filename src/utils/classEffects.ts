@@ -3,6 +3,9 @@ import { getAbilityModifier } from './dnd';
 import { getClassById, findSubclass } from '../data/classes';
 import { resolveCanonicalRace } from '../data/species';
 import { FEAT_STAT_EFFECTS } from './featEffects';
+import { getTransformACBonus, getTransformHpPerLevel, getTransformUnarmoredFormulas } from './transformationEffects';
+import { getActiveAbilityFloors, getActiveACBonus, stripActiveOverlays } from './activatedEffects';
+import { getEquippedArmor, isWearingArmor, isWearingHeavyArmor, isWieldingShield } from './equipment';
 import i18n from '../i18n';
 
 // ── Effect definitions ──
@@ -13,10 +16,16 @@ export interface StatEffect {
   hpFlat?: number;                       // flat HP bonus when effect first applies
   acFormula?: (keyof AbilityScores)[];   // custom AC = 10 + sum of these ability mods (requires no armor)
   acRequiresNoShield?: boolean;          // AC formula also requires no shield (Monk)
+  acBonus?: number;                      // flat AC bonus (e.g. Forge cleric +1 in heavy armor)
+  acBonusRequiresHeavyArmor?: boolean;   // AC bonus applies only while wearing heavy armor
   speedBonus?: number;                   // flat speed bonus
   speedRequiresNoHeavyArmor?: boolean;   // speed bonus disabled in heavy armor (Barbarian Fast Movement)
   speedRequiresNoArmorOrShield?: boolean; // speed bonus disabled with any armor or shield (Monk)
   resistances?: string[];                // permanent damage resistances
+  immunities?: string[];                 // permanent damage immunities (e.g. Storm sorcerer L18)
+  senses?: { darkvision?: number; blindsight?: number; tremorsense?: number; truesight?: number }; // permanent senses (max-merged)
+  // Additional movement speeds; −1 = «равна скорости ходьбы» (Roving: climb/swim)
+  moveSpeeds?: { fly?: number; swim?: number; climb?: number };
   savingThrowProficiencies?: (keyof AbilityScores)[];  // saving throw proficiencies gained
   allSavingThrows?: boolean;             // proficiency in ALL saving throws
   // Flat bonus to ALL saving throws equal to an ability modifier (e.g. Paladin Aura
@@ -26,6 +35,16 @@ export interface StatEffect {
   // Flat bonus to initiative equal to an ability modifier (e.g. Gloom Stalker
   // Dread Ambusher: +Wis mod).
   initiativeBonusAbility?: keyof AbilityScores;
+  // Add proficiency bonus to initiative (Watchers paladin Aura of the Sentinel).
+  initiativeAddProficiency?: boolean;
+  // Advantage on initiative rolls (Champion, Assassin, Feral Instinct…) — shown
+  // as a tooltip note; advantage itself is not a numeric stat.
+  initiativeAdvantage?: boolean;
+  // Resistance to N damage types of the player's choice (Draconic Elemental
+  // Affinity, Storm Soul…). Prompted via a picker when the effect activates.
+  resistanceChoice?: { count: number; from: string[] };
+  // Saving-throw proficiency choice (e.g. Hag Form: Str/Int/Cha).
+  saveProfChoice?: { count: number; from: (keyof AbilityScores)[] };
 }
 
 // ── Class-level effects (keyed by classId) ──
@@ -34,6 +53,10 @@ export const CLASS_EFFECTS: Record<string, StatEffect[]> = {
   barbarian: [
     { level: 1, acFormula: ['dexterity', 'constitution'] },                       // Unarmored Defense
     { level: 5, speedBonus: 10, speedRequiresNoHeavyArmor: true },               // Fast Movement (not in heavy armor)
+    { level: 7, initiativeAdvantage: true },                                      // Feral Instinct
+  ],
+  gunslinger: [
+    { level: 1, initiativeAdvantage: true },                                      // Quick Draw
   ],
   monk: [
     { level: 1, acFormula: ['dexterity', 'wisdom'], acRequiresNoShield: true },   // Unarmored Defense (no armor, no shield)
@@ -46,21 +69,165 @@ export const CLASS_EFFECTS: Record<string, StatEffect[]> = {
   paladin: [
     { level: 6, saveBonusAbility: 'charisma', saveBonusMin: 1 },                  // Aura of Protection: +Cha mod (min +1) to all saves
   ],
+  ranger: [
+    { level: 6, speedBonus: 10, speedRequiresNoHeavyArmor: true, moveSpeeds: { climb: -1, swim: -1 } },  // Roving (not in heavy armor)
+  ],
+  rogue: [
+    { level: 15, savingThrowProficiencies: ['wisdom', 'charisma'] },             // Slippery Mind
+  ],
 };
 
 // ── Subclass effects (keyed by "classId:subclassId") ──
+// Only always-on passive effects are wired here. Activated forms (Bladesong,
+// Rage of the Gods…), aura buffs for allies, and per-rest choices stay as text.
 
 export const SUBCLASS_EFFECTS: Record<string, StatEffect[]> = {
+  'artificer:alchemist': [
+    { level: 15, resistances: ['acid', 'poison'] },      // Chemical Mastery
+  ],
+  'barbarian:storm-herald': [
+    { level: 6, resistanceChoice: { count: 1, from: ['fire', 'lightning', 'cold'] } },  // Storm Soul (по выбранной среде)
+  ],
+  'bard:adventurers': [
+    { level: 3, acFormula: ['dexterity', 'charisma'] },  // Talented Adventurer (unarmored defense)
+  ],
+  'bard:dance': [
+    { level: 3, acFormula: ['dexterity', 'charisma'] },  // Dazzling Footwork (unarmored defense)
+  ],
+  'cleric:eldritch': [
+    { level: 6, resistances: ['psychic'] },              // Otherworldly Calm
+  ],
+  'cleric:forge': [
+    { level: 6, resistances: ['fire'], acBonus: 1, acBonusRequiresHeavyArmor: true },  // Soul of the Forge
+    { level: 17, immunities: ['fire'] },                 // Saint of Forge and Fire
+  ],
+  'cleric:knowledge': [
+    { level: 6, savingThrowProficiencies: ['intelligence'] },  // Unfettered Mind
+  ],
+  'cleric:twilight': [
+    { level: 3, senses: { darkvision: 300 } },           // Eyes of Night
+  ],
+  'cleric:war': [
+    { level: 17, resistances: ['bludgeoning', 'piercing', 'slashing'] },  // Avatar of Battle (nonmagical)
+  ],
+  'fighter:champion': [
+    { level: 3, initiativeAdvantage: true },             // Remarkable Athlete
+  ],
+  'fighter:nightwatcher': [
+    { level: 3, senses: { darkvision: 60 }, initiativeAdvantage: true },  // Ever Vigilant
+  ],
+  'fighter:psi-warrior': [
+    { level: 10, resistances: ['psychic'] },             // Guarded Mind
+  ],
+  'fighter:samurai': [
+    { level: 7, savingThrowProficiencies: ['wisdom'] },  // Elegant Courtier
+  ],
+  'monk:elements': [
+    // Elemental Epitome: тип можно менять после отдыха — начальный выбор
+    { level: 17, resistanceChoice: { count: 1, from: ['acid', 'cold', 'fire', 'lightning', 'thunder'] } },
+  ],
+  'monk:shadow': [
+    { level: 3, senses: { darkvision: 60 } },            // Shadow Arts
+  ],
+  'paladin:ancients': [
+    { level: 7, resistances: ['necrotic', 'psychic', 'radiant'] },  // Aura of Warding
+  ],
+  'paladin:glory': [
+    { level: 7, speedBonus: 10 },                        // Aura of Alacrity
+  ],
+  'paladin:noble-genie': [
+    { level: 3, acFormula: ['dexterity', 'charisma'] },  // Genie's Splendor (unarmored defense)
+  ],
+  'paladin:watchers': [
+    { level: 7, initiativeAddProficiency: true },        // Aura of the Sentinel
+  ],
+  'druid:land': [
+    { level: 10, resistanceChoice: { count: 1, from: ['cold', 'fire', 'lightning', 'poison'] } },  // Nature's Ward (по выбранной земле)
+  ],
+  'ranger:drakewarden': [
+    { level: 7, resistanceChoice: { count: 1, from: ['acid', 'cold', 'fire', 'lightning', 'poison'] } },  // Bond of Fang and Scale
+  ],
+  'ranger:green-reaper': [
+    { level: 7, resistances: ['poison'] },               // Poison Control
+  ],
+  'ranger:gloom-stalker': [
+    { level: 3, initiativeBonusAbility: 'wisdom', senses: { darkvision: 60 } },  // Dread Ambusher + Umbral Sight
+    { level: 7, savingThrowProficiencies: ['wisdom'] },  // Iron Mind
+  ],
+  'ranger:vermin-lord': [
+    { level: 7, savingThrowProficiencies: ['constitution'] },  // Filth and Fortitude
+  ],
+  'ranger:winter-walker': [
+    { level: 3, resistances: ['cold'] },                 // Frigid Explorer
+  ],
+  'rogue:assassin': [
+    { level: 3, initiativeAdvantage: true },             // Assassinate
+  ],
+  'rogue:scion-of-the-three': [
+    { level: 3, resistanceChoice: { count: 1, from: ['psychic', 'poison', 'necrotic'] } },  // Dread Allegiance (по божеству)
+  ],
+  'rogue:scout': [
+    { level: 9, speedBonus: 10 },                        // Superior Mobility
+    { level: 13, initiativeAdvantage: true },            // Ambush Master
+  ],
+  'rogue:swashbuckler': [
+    { level: 3, initiativeBonusAbility: 'charisma' },    // Rakish Audacity
+  ],
+  'sorcerer:aberrant-mind': [
+    { level: 6, resistances: ['psychic'] },              // Psychic Defenses
+  ],
+  'sorcerer:apocalypse': [
+    { level: 6, resistances: ['force'] },                // Bear Witness
+  ],
   'sorcerer:draconic': [
     { level: 3, hpFlat: 3, hpPerLevel: 1, acFormula: ['dexterity', 'charisma'] },  // Draconic Resilience
-    // Elemental Affinity (L6): resistance to chosen type — applied via level-up choice UI
+    { level: 6, resistanceChoice: { count: 1, from: ['acid', 'cold', 'fire', 'lightning', 'poison'] } },  // Elemental Affinity
+  ],
+  'sorcerer:haunted': [
+    { level: 6, resistances: ['necrotic'] },             // Deathly Pallor
+  ],
+  'sorcerer:shadow': [
+    { level: 3, senses: { darkvision: 120 } },           // Eyes of the Dark
+  ],
+  'sorcerer:storm': [
+    { level: 6, resistances: ['lightning', 'thunder'] }, // Heart of the Storm
+    { level: 18, immunities: ['lightning', 'thunder'] }, // Wind Soul
+  ],
+  'sorcerer:wretched': [
+    { level: 3, hpFlat: 1, hpPerLevel: 1, resistances: ['necrotic'] },  // Wretched Curse
   ],
   'warlock:celestial': [
     { level: 6, resistances: ['radiant'] },  // Radiant Soul
   ],
-  'ranger:gloom-stalker': [
-    { level: 3, initiativeBonusAbility: 'wisdom' },      // Dread Ambusher: +Wis mod to initiative
-    { level: 7, savingThrowProficiencies: ['wisdom'] },  // Iron Mind
+  'warlock:fathomless': [
+    { level: 6, resistances: ['cold'] },                 // Oceanic Soul
+  ],
+  'warlock:fiend': [
+    // Fiendish Resilience: тип меняется после отдыха — начальный выбор, дальше можно менять вручную
+    { level: 10, resistanceChoice: { count: 1, from: ['acid', 'cold', 'fire', 'force', 'lightning', 'necrotic', 'poison', 'psychic', 'radiant', 'thunder'] } },
+  ],
+  'warlock:genie': [
+    { level: 6, resistanceChoice: { count: 1, from: ['bludgeoning', 'thunder', 'fire', 'cold'] } },  // Elemental Gift (по виду патрона)
+  ],
+  'warlock:first-vampire': [
+    { level: 3, senses: { darkvision: 60 } },            // Nocturnal Predator
+    { level: 14, resistances: ['necrotic'] },            // Eternal Night
+  ],
+  'warlock:great-old-one': [
+    { level: 10, resistances: ['psychic'] },             // Thought Shield
+  ],
+  'warlock:parasite': [
+    // Physical Specimen (L3) — выбираемые за отдых бенефиты, не моделируются
+    { level: 6, initiativeAdvantage: true },             // Symbiotic Sentinel
+  ],
+  'warlock:undead': [
+    { level: 10, resistances: ['necrotic'] },            // Necrotic Husk
+  ],
+  'wizard:sangromancer': [
+    { level: 6, hpFlat: 6, hpPerLevel: 1 },              // Sanguine Vigor
+  ],
+  'wizard:war': [
+    { level: 3, initiativeBonusAbility: 'intelligence' }, // Tactical Wit
   ],
 };
 
@@ -162,46 +329,9 @@ export function getOngoingClassHpBonus(char: Character): number {
   for (const e of effects) {
     if (e.hpPerLevel) bonus += e.hpPerLevel;
   }
+  // Дары трансформаций с ростом HP за уровень (Bestial Vigor)
+  bonus += getTransformHpPerLevel(char);
   return bonus;
-}
-
-/**
- * Get the equipped armor item (if any) from the armor slot.
- */
-function getEquippedArmor(char: Character) {
-  const armorSlotId = char.equipment?.armor;
-  if (!armorSlotId) return null;
-  const armorItem = char.inventory?.find(i => i.id === armorSlotId);
-  if (!armorItem) return null;
-  // Only count actual armor (not other items in the slot)
-  if (armorItem.armorType && armorItem.armorType !== 'shield') return armorItem;
-  if (armorItem.category === 'armor') return armorItem;
-  return null;
-}
-
-/**
- * Check if character is wearing armor.
- */
-function isWearingArmor(char: Character): boolean {
-  return getEquippedArmor(char) !== null;
-}
-
-/**
- * Check if character is wearing heavy armor.
- */
-function isWearingHeavyArmor(char: Character): boolean {
-  const armor = getEquippedArmor(char);
-  return armor?.armorType === 'heavy';
-}
-
-/**
- * Check if character is wielding a shield.
- */
-function isWieldingShield(char: Character): boolean {
-  const offhandId = char.equipment?.offhand;
-  if (!offhandId) return false;
-  const item = char.inventory?.find(i => i.id === offhandId);
-  return item?.armorType === 'shield' || item?.category === 'shield';
 }
 
 /**
@@ -243,6 +373,17 @@ export function getCustomAC(char: Character): number | null {
       if (bestAC === null || ac > bestAC) {
         bestAC = ac;
       }
+    }
+  }
+
+  // Transformation boon formulas (e.g. Hag Form: AC = 13 + Dex; shield allowed).
+  for (const formula of getTransformUnarmoredFormulas(char)) {
+    let ac = formula.base;
+    for (const ability of formula.abilities) {
+      ac += getAbilityModifier(char.abilityScores[ability]);
+    }
+    if (bestAC === null || ac > bestAC) {
+      bestAC = ac;
     }
   }
 
@@ -303,15 +444,17 @@ export function computeInitiative(char: Character): number {
 
 /**
  * Get flat HP bonus to apply when a subclass is first selected.
- * Returns the hpFlat value from matching subclass effects.
+ * Sums hpFlat from subclass effects already active at the given level
+ * (later-level hpFlat, e.g. Sanguine Vigor at L6, is applied by
+ * applyLevelUpEffects when that level is reached).
  */
-export function getSubclassHpFlatBonus(classId: string, subclassId: string): number {
+export function getSubclassHpFlatBonus(classId: string, subclassId: string, atLevel: number = 20): number {
   const key = `${classId}:${subclassId}`;
   const effects = SUBCLASS_EFFECTS[key];
   if (!effects) return 0;
   let flat = 0;
   for (const e of effects) {
-    if (e.hpFlat) flat += e.hpFlat;
+    if (e.hpFlat && (e.level ?? 1) <= atLevel) flat += e.hpFlat;
   }
   return flat;
 }
@@ -359,7 +502,7 @@ function getShieldBonus(char: Character): number {
 
 /** One labelled component of a computed stat (AC, initiative, …). */
 export interface StatPart {
-  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof';
+  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof' | 'class' | 'state';
   value: number;
   ability?: keyof AbilityScores;  // set when key === 'ability'
 }
@@ -396,6 +539,13 @@ function getBestUnarmoredFormulaParts(char: Character): { parts: StatPart[]; tot
       }
       consider(parts);
     }
+  }
+  for (const formula of getTransformUnarmoredFormulas(char)) {
+    const parts: StatPart[] = [{ key: 'base', value: formula.base }];
+    for (const ability of formula.abilities) {
+      parts.push({ key: 'ability', ability, value: getAbilityModifier(char.abilityScores[ability]) });
+    }
+    consider(parts);
   }
   return best;
 }
@@ -441,17 +591,41 @@ export function getACBreakdown(inputChar: Character): StatPart[] {
   }
   if (featAc) parts.push({ key: 'feat', value: featAc });
 
+  // Flat AC bonuses from class/subclass features (e.g. Forge cleric +1 in heavy armor)
+  let classAc = 0;
+  const heavyArmor = isWearingHeavyArmor(char);
+  for (const e of getActiveEffects(char)) {
+    if (e.acBonus && (!e.acBonusRequiresHeavyArmor || heavyArmor)) classAc += e.acBonus;
+  }
+  // Flat AC bonuses from transformation boons (e.g. Shadowsteel Absorption, unarmored only)
+  classAc += getTransformACBonus(char, wearingArmor);
+  if (classAc) parts.push({ key: 'class', value: classAc });
+
   const itemAc = getEquippedItemBonuses(char).bonusAc;
   if (itemAc) parts.push({ key: 'item', value: itemAc });
+
+  // Живой бонус от активных эффектов (Песнь клинка +Инт, Chitinous Shell +2).
+  // Не входит в resolveAC — хранимый armorClass остаётся чистым от состояний.
+  const stateAc = getActiveACBonus(char, char.abilityScores);
+  if (stateAc) parts.push({ key: 'state', value: stateAc });
 
   return parts;
 }
 
 /**
- * Resolve the full AC for a character (sum of the AC breakdown). Considers
- * equipped armor, Unarmored Defense formulas, shield, feat and item bonuses.
+ * Resolve the STORED AC for a character. Active effects (Bladesong, hybrid-form
+ * ability floors…) are stripped first, so writers (level-up, sync, boon grants)
+ * never bake activated state into the stored stat.
  */
 export function resolveAC(inputChar: Character): number {
+  return getACBreakdown(stripActiveOverlays(inputChar)).reduce((sum, p) => sum + p.value, 0);
+}
+
+/**
+ * AC as displayed on the sheet: sum of the live breakdown, INCLUDING active
+ * effects. Always equals the tooltip formula from getACBreakdown.
+ */
+export function resolveDisplayAC(inputChar: Character): number {
   return getACBreakdown(inputChar).reduce((sum, p) => sum + p.value, 0);
 }
 
@@ -467,6 +641,9 @@ export function getInitiativeBreakdown(char: Character): StatPart[] {
   for (const e of getActiveEffects(char)) {
     if (e.initiativeBonusAbility) {
       parts.push({ key: 'ability', ability: e.initiativeBonusAbility, value: getAbilityModifier(scores[e.initiativeBonusAbility]) });
+    }
+    if (e.initiativeAddProficiency) {
+      parts.push({ key: 'prof', value: char.proficiencyBonus });
     }
   }
   return parts;
@@ -507,43 +684,171 @@ export function getSubclassIdByName(classId: string, subclassName: string): stri
   return subDef?.id ?? null;
 }
 
+/** Add permanent damage resistances, skipping duplicates. Mutates char. */
+export function addResistances(char: Character, types: string[], modifier: 'resistance' | 'immunity' | 'vulnerability' = 'resistance'): void {
+  const existing = char.damageResistances ?? [];
+  for (const type of types) {
+    const alreadyHas = existing.some(r => r.type === type && r.modifier === modifier);
+    if (!alreadyHas) {
+      existing.push({ type, modifier });
+    }
+  }
+  char.damageResistances = existing;
+}
+
+/** Merge permanent senses into the character (keeps the larger range). Mutates char. */
+export function applySenses(char: Character, senses: NonNullable<StatEffect['senses']>): void {
+  const current = { ...(char.senses ?? {}) };
+  for (const [key, value] of Object.entries(senses)) {
+    if (typeof value !== 'number') continue;
+    const k = key as keyof NonNullable<Character['senses']>;
+    if ((current[k] ?? 0) < value) current[k] = value;
+  }
+  char.senses = current;
+}
+
 /**
- * Apply permanent resistances and saving throw proficiencies gained at a new level.
- * Called during level-up after building the updated character.
- * Mutates the character object in place.
+ * Merge additional movement speeds into the character (keeps the faster one).
+ * −1 = «равна скорости ходьбы»; сравнивается по разрешённому значению. Mutates char.
  */
-export function applyLevelUpEffects(char: Character, newLevel: number): void {
-  const newEffects = getNewEffectsAtLevel(char, newLevel);
-
-  for (const e of newEffects) {
-    // Apply permanent resistances
-    if (e.resistances) {
-      const existing = char.damageResistances ?? [];
-      for (const type of e.resistances) {
-        const alreadyHas = existing.some(r => r.type === type && r.modifier === 'resistance');
-        if (!alreadyHas) {
-          existing.push({ type, modifier: 'resistance' });
-        }
-      }
-      char.damageResistances = existing;
+export function applyMoveSpeeds(char: Character, speeds: NonNullable<StatEffect['moveSpeeds']>): void {
+  const walk = char.speed;
+  const resolve = (v: number | undefined) => (v === -1 ? walk : (v ?? 0));
+  const current = { ...(char.speeds ?? {}) };
+  for (const [key, value] of Object.entries(speeds)) {
+    if (typeof value !== 'number') continue;
+    const k = key as keyof NonNullable<Character['speeds']>;
+    if (resolve(value) >= resolve(current[k]) && resolve(value) > 0) {
+      current[k] = value;
     }
+  }
+  char.speeds = current;
+}
 
-    // Apply saving throw proficiencies
-    if (e.savingThrowProficiencies) {
-      for (const ability of e.savingThrowProficiencies) {
-        if (char.savingThrows[ability]) {
-          char.savingThrows[ability].proficient = true;
-        }
-      }
-    }
+/** Resolve a stored movement speed (−1 → текущая скорость ходьбы). */
+export function resolveMoveSpeed(char: Character, kind: 'fly' | 'swim' | 'climb'): number {
+  const v = char.speeds?.[kind];
+  if (v == null || v === 0) return 0;
+  return v === -1 ? char.speed : v;
+}
 
-    // Apply all saving throw proficiencies
-    if (e.allSavingThrows) {
-      for (const ability of Object.keys(char.savingThrows) as (keyof AbilityScores)[]) {
+/** Apply a single permanent stat effect (resists/immunities/saves/senses). Mutates char. */
+function applyPermanentEffect(char: Character, e: StatEffect): void {
+  if (e.resistances) addResistances(char, e.resistances, 'resistance');
+  if (e.immunities) addResistances(char, e.immunities, 'immunity');
+  if (e.senses) applySenses(char, e.senses);
+  if (e.moveSpeeds) applyMoveSpeeds(char, e.moveSpeeds);
+
+  if (e.savingThrowProficiencies) {
+    for (const ability of e.savingThrowProficiencies) {
+      if (char.savingThrows[ability]) {
         char.savingThrows[ability].proficient = true;
       }
     }
   }
+
+  if (e.allSavingThrows) {
+    for (const ability of Object.keys(char.savingThrows) as (keyof AbilityScores)[]) {
+      char.savingThrows[ability].proficient = true;
+    }
+  }
+}
+
+/**
+ * Apply permanent effects (resistances, immunities, saving throw proficiencies,
+ * senses, later-level flat HP) gained at a new level.
+ * Called during level-up after building the updated character.
+ * `skipHpFlat` is set when the subclass was just selected on this same level-up —
+ * its flat HP was already added via getSubclassHpFlatBonus.
+ * Mutates the character object in place.
+ */
+export function applyLevelUpEffects(char: Character, newLevel: number, opts?: { skipHpFlat?: boolean }): void {
+  const newEffects = getNewEffectsAtLevel(char, newLevel);
+
+  for (const e of newEffects) {
+    applyPermanentEffect(char, e);
+
+    if (e.hpFlat && !opts?.skipHpFlat) {
+      char.hitPoints = {
+        ...char.hitPoints,
+        max: char.hitPoints.max + e.hpFlat,
+        current: char.hitPoints.current + e.hpFlat,
+      };
+    }
+  }
+}
+
+/**
+ * Apply all permanent subclass effects already due at the given level.
+ * Called once when a subclass is first selected (covers effects whose level
+ * is below the selection level, e.g. darkvision wired at L3 data level).
+ * Flat HP is handled separately via getSubclassHpFlatBonus.
+ */
+export function applySubclassSelectionEffects(char: Character, atLevel: number): void {
+  const subKey = getSubclassKey(char);
+  if (!subKey) return;
+  for (const e of SUBCLASS_EFFECTS[subKey] ?? []) {
+    if ((e.level ?? 1) <= atLevel) {
+      applyPermanentEffect(char, e);
+    }
+  }
+}
+
+/**
+ * Idempotently re-apply the permanent parts (resistances, immunities, saving
+ * throw proficiencies, senses) of ALL class/subclass/species effects active at
+ * the character's current level. Used by the effect-sync pass so existing
+ * characters pick up newly wired effects without re-levelling. HP and speed are
+ * deliberately not touched here (they are acquisition-time adjustments).
+ */
+export function syncPermanentClassEffects(char: Character): void {
+  for (const e of getActiveEffects(char)) {
+    applyPermanentEffect(char, e);
+  }
+}
+
+/** Does any active class/subclass effect grant advantage on initiative rolls? */
+export function hasInitiativeAdvantage(char: Character): boolean {
+  return getActiveEffects(char).some(e => e.initiativeAdvantage);
+}
+
+// ── Player choices unlocked by effects (resistance / save proficiency) ──
+
+export interface PendingStatChoice {
+  kind: 'resistance' | 'saveProf';
+  count: number;
+  from: string[];
+}
+
+/**
+ * Stat choices unlocked at exactly `newLevel` — or, when the subclass was just
+ * selected on this level-up, all subclass choices due at or below it.
+ * The character must already have the (new) subclass set.
+ */
+export function getPendingStatChoicesAtLevel(
+  char: Character,
+  newLevel: number,
+  opts?: { subclassJustSelected?: boolean },
+): PendingStatChoice[] {
+  const out: PendingStatChoice[] = [];
+  const collect = (e: StatEffect) => {
+    if (e.resistanceChoice) out.push({ kind: 'resistance', count: e.resistanceChoice.count, from: e.resistanceChoice.from });
+    if (e.saveProfChoice) out.push({ kind: 'saveProf', count: e.saveProfChoice.count, from: e.saveProfChoice.from });
+  };
+  if (opts?.subclassJustSelected) {
+    const subKey = getSubclassKey(char);
+    if (subKey) {
+      for (const e of SUBCLASS_EFFECTS[subKey] ?? []) {
+        if ((e.level ?? 1) <= newLevel) collect(e);
+      }
+    }
+    for (const e of CLASS_EFFECTS[char.classId] ?? []) {
+      if ((e.level ?? 1) === newLevel) collect(e);
+    }
+  } else {
+    for (const e of getNewEffectsAtLevel(char, newLevel)) collect(e);
+  }
+  return out;
 }
 
 // ── Proficiency checks ──
@@ -679,33 +984,44 @@ const ABILITY_ABBR_TO_FULL: Record<string, keyof AbilityScores> = {
 };
 
 /**
- * Get effective ability scores after applying equipped item overrides.
+ * Get effective ability scores after applying equipped item overrides and
+ * active transformation forms.
  * Handles ability.static (set to fixed value, e.g. Gauntlets of Ogre Power → STR 19)
- * Uses the higher of base score and item override (per D&D rules).
+ * and hybrid-form floors (Hybrid Bear Form → STR becomes 20 unless higher).
+ * Uses the higher of base score and override (per D&D rules).
  */
 export function getEffectiveAbilityScores(char: Character): AbilityScores {
   const base = { ...char.abilityScores };
-  if (!char.equipment || !char.inventory) return base;
 
-  const equippedIds = new Set(
-    Object.values(char.equipment).filter((id): id is string => !!id)
-  );
+  if (char.equipment && char.inventory) {
+    const equippedIds = new Set(
+      Object.values(char.equipment).filter((id): id is string => !!id)
+    );
 
-  for (const item of char.inventory) {
-    if (!equippedIds.has(item.id)) continue;
-    if (!item.raw?.ability) continue;
-    if (item.raw.reqAttune && !item.attuned) continue;
+    for (const item of char.inventory) {
+      if (!equippedIds.has(item.id)) continue;
+      if (!item.raw?.ability) continue;
+      if (item.raw.reqAttune && !item.attuned) continue;
 
-    const ability = item.raw.ability;
+      const ability = item.raw.ability;
 
-    // ability.static: { str: 19 } → set score to value (if higher than current)
-    if (ability.static) {
-      for (const [abbr, val] of Object.entries(ability.static)) {
-        const key = ABILITY_ABBR_TO_FULL[abbr];
-        if (key && typeof val === 'number' && val > base[key]) {
-          base[key] = val;
+      // ability.static: { str: 19 } → set score to value (if higher than current)
+      if (ability.static) {
+        for (const [abbr, val] of Object.entries(ability.static)) {
+          const key = ABILITY_ABBR_TO_FULL[abbr];
+          if (key && typeof val === 'number' && val > base[key]) {
+            base[key] = val;
+          }
         }
       }
+    }
+  }
+
+  // Активные эффекты с floor-заменой характеристик (гибридные формы ликантропа)
+  for (const [key, floor] of Object.entries(getActiveAbilityFloors(char))) {
+    const k = key as keyof AbilityScores;
+    if (typeof floor === 'number' && floor > base[k]) {
+      base[k] = floor;
     }
   }
 
