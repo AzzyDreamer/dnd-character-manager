@@ -46,15 +46,19 @@ export function SpellIconBadge({
   const borderColor = SCHOOL_COLORS[school] ?? 'border-border-default';
   const bgColor = SCHOOL_BG[school] ?? 'bg-bg-panel';
   const initial = (name || '?').charAt(0).toUpperCase();
+  // Без обработчиков бейдж декоративный и часто лежит внутри чужой кнопки —
+  // вложенный <button> в <button> невалиден, поэтому рендерим <div>.
+  const interactive = Boolean(onClick || onContextMenu);
+  const Tag: React.ElementType = interactive ? 'button' : 'div';
 
   return (
-    <button
+    <Tag
       onClick={onClick}
       onContextMenu={onContextMenu}
       title={name}
       className={`
         relative w-10 h-10 rounded-md border-2 flex items-center justify-center
-        overflow-hidden transition-all shrink-0 cursor-pointer
+        overflow-hidden transition-all shrink-0 ${interactive ? 'cursor-pointer' : ''}
         ${borderColor}
         ${!imageSrc ? bgColor : ''}
         ${selected ? 'ring-2 ring-gold/60 scale-110' : ''}
@@ -84,6 +88,6 @@ export function SpellIconBadge({
       {prepared && (
         <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-bright z-10" />
       )}
-    </button>
+    </Tag>
   );
 }
