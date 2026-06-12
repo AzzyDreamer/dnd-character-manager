@@ -408,7 +408,7 @@ export function CharacterStatsSidebar({
       className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50"
       title={beastForm.creature.name}
     >
-      <CreatureToken name={beastForm.form} size={44} />
+      <CreatureToken name={beastForm.form} size={88} />
     </span>
   ) : hybridTokenUrl ? (
     <span className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50">
@@ -416,7 +416,7 @@ export function CharacterStatsSidebar({
         src={hybridTokenUrl}
         alt=""
         className="rounded-full object-cover bg-bg-primary"
-        style={{ width: 44, height: 44 }}
+        style={{ width: 88, height: 88 }}
       />
     </span>
   ) : null;
