@@ -4,7 +4,7 @@ import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResist
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -33,6 +33,10 @@ import { useBackDismiss } from '../hooks/useBackDismiss';
 import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
 import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
 import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
+import { WildShapeSection } from './WildShapeSection';
+import { getWildShapeMoveSpeeds } from '../utils/wildShape';
+import { KindredFormSection } from './KindredFormSection';
+import { deactivateKindredForm, getKindredMoveSpeeds } from '../utils/kindredForm';
 import { syncCharacterEffects } from '../utils/effectSync';
 import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 
@@ -423,12 +427,17 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots.
    *  Все активные формы/стойки снимаются (не переживают отдых). */
   const applyShortRest = () => {
-    let updated: Character = clearAllActiveEffects({ ...character, updatedAt: new Date().toISOString() });
+    // Kindred Form снимаем отдельно ДО остального: выход из неё восстанавливает
+    // сохранённые хиты (Полиморф), а clearAllActiveEffects хиты не трогает.
+    let updated: Character = clearAllActiveEffects({ ...deactivateKindredForm(character), updatedAt: new Date().toISOString() });
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
       for (const [key, val] of Object.entries(rt)) {
         if (isShortRestResource(key)) rt[key] = { ...val, current: val.max };
       }
+      // Дикий облик 2024: короткий отдых возвращает одно использование
+      const ws = rt.wildShape;
+      if (ws && ws.current < ws.max) rt.wildShape = { ...ws, current: ws.current + 1 };
       updated.resourceTrackers = rt;
     }
     // Warlock Pact Magic returns on a short rest
@@ -440,11 +449,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
    *  slots, refill every class resource, reset death saves. */
   const applyLongRest = () => {
     setConfirmLongRest(false);
-    const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
+    // Сначала выйти из Kindred Form (вернёт СВОИ хиты/максимум) — иначе
+    // полный отхил посчитается от хитов зверя.
+    const base = deactivateKindredForm(character);
+    const regainedDice = Math.max(1, Math.floor(base.hitDice.total / 2));
     let updated: Character = clearAllActiveEffects({
-      ...character,
-      hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
-      hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
+      ...base,
+      hitPoints: { ...base.hitPoints, current: base.hitPoints.max, temporary: 0 },
+      hitDice: { ...base.hitDice, used: Math.max(0, base.hitDice.used - regainedDice) },
       deathSaves: { successes: 0, failures: 0 },
       updatedAt: new Date().toISOString(),
     });
@@ -1688,6 +1700,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <ResistancesSection character={character} onUpdate={onUpdate} />
               <TransformationSection character={character} onUpdate={onUpdate} />
               <ActiveFormsSection character={character} onUpdate={onUpdate} />
+              <KindredFormSection character={character} onUpdate={onUpdate} />
+              <WildShapeSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
@@ -1962,6 +1976,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
 interface FeatureItem {
   name: string;
+  /** Английский оригинал имени (стабильный ключ картинки в /images/misc/) */
+  nameEn?: string;
   description: string;
   rawEntries?: any[];
   level?: number;
@@ -2210,6 +2226,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
             .map((e: any) => ({
               name: e.name,
+              nameEn: e._origName ?? e.name,
               description: '',
               rawEntries: e.entries,
             }));
@@ -2221,12 +2238,16 @@ function FeaturesSection({ character }: { character: Character }) {
           const entries: any[] = [];
           if (f.description) entries.push(f.description);
           if (f.details && typeof f.details === 'object') {
-            for (const val of Object.values(f.details)) {
+            for (const [key, val] of Object.entries(f.details)) {
               if (typeof val === 'string') {
                 // Extract bold name like {@b Careful Spell.} or just "Name. ..."
                 const match = val.match(/\{@b\s+([^.}]+)\.\s*\}/);
                 if (match) {
-                  entries.push({ _detailName: match[1], _detailText: val });
+                  // Имя картинки — из английского оригинала детали (оверлей
+                  // сохраняет его в _origDetails; переведённое имя даёт 404)
+                  const origVal = f._origDetails?.[key];
+                  const origMatch = typeof origVal === 'string' ? origVal.match(/\{@b\s+([^.}]+)\.\s*\}/) : null;
+                  entries.push({ _detailName: match[1], _detailImageName: origMatch?.[1], _detailText: val });
                 } else {
                   entries.push(val);
                 }
@@ -2243,6 +2264,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .filter((f: any) => f.level <= character.level)
             .map((f: any) => ({
               name: f.name,
+              nameEn: f._origName ?? f.name,
               description: f.description || '',
               rawEntries: buildRawEntries(f),
               level: f.level,
@@ -2267,6 +2289,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter(f => f.level <= character.level)
                 .map(f => ({
                   name: f.name,
+                  nameEn: (f as { _origName?: string })._origName ?? f.name,
                   description: (f as any).description || '',
                   rawEntries: buildRawEntries(f),
                   level: f.level,
@@ -2288,6 +2311,7 @@ function FeaturesSection({ character }: { character: Character }) {
             const featData = featsMod.getFeatByName(cf.name);
             return {
               name: cf.name,
+              nameEn: cf.nameEn ?? (featData as { _origName?: string } | undefined)?._origName ?? cf.name,
               description: '',
               rawEntries: featData?.entries ?? [],
               level: cf.levelAcquired,
@@ -2321,6 +2345,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
                 .map((e: any) => ({
                   name: e.name,
+                  nameEn: e._origName ?? e.name,
                   description: '',
                   rawEntries: e.entries,
                 }));
@@ -2329,7 +2354,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 if (e?.type === 'section' && Array.isArray(e.entries)) {
                   for (const sub of e.entries) {
                     if (sub && typeof sub === 'object' && sub.name && Array.isArray(sub.entries) && sub.type === 'entries') {
-                      traits.push({ name: sub.name, description: '', rawEntries: sub.entries });
+                      traits.push({ name: sub.name, nameEn: sub._origName ?? sub.name, description: '', rawEntries: sub.entries });
                     }
                   }
                 }
@@ -2359,6 +2384,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 const data = ofMod.getOptionalFeatureByName(f.name);
                 return {
                   name: f.name,
+                  nameEn: f.nameEn ?? (data as { _origName?: string } | undefined)?._origName ?? f.name,
                   description: '',
                   rawEntries: data?.entries,
                   level: f.levelAcquired,
@@ -2470,7 +2496,7 @@ function FeaturesSection({ character }: { character: Character }) {
               {detailEntries.map((d: any, i: number) => (
                 <div key={i} className="flex gap-2 items-start">
                   <img
-                    src={getFeatureImageUrl(d._detailName)}
+                    src={getFeatureImageUrl(d._detailImageName ?? d._detailName)}
                     alt=""
                     className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel mt-0.5"
                     onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -2530,7 +2556,7 @@ function FeaturesSection({ character }: { character: Character }) {
                     >
                       <div className="flex items-center gap-2">
                         <img
-                          src={getFeatureImageUrl(feat.name)}
+                          src={getFeatureImageUrl(feat.nameEn ?? feat.name)}
                           alt=""
                           className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel"
                           onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -3435,6 +3461,16 @@ function TransformationSection({
   const stage = getTransformationStage(character);
   const ownedNames = new Set((character.optionalFeatures ?? []).map(f => f.nameEn ?? f.name));
 
+  /** Сколько обязательных даров стадии ещё не выбрано (дар по правилам ровно один). */
+  const missingBoonCount = (cfg: TransformationStage) =>
+    Math.max(0, cfg.choose - cfg.options.filter(o => ownedNames.has(o)).length);
+
+  // Достигнутые стадии с недобранным даром (отменённый пикер у старых персонажей)
+  const stagesMissingBoon = config.stages
+    .slice(0, stage)
+    .map((cfg, i) => ({ cfg, stageNo: i + 1 }))
+    .filter(({ cfg }) => missingBoonCount(cfg) > 0);
+
   /** Add a boon/flaw entry with its baked stat effects and data-driven spells/skills. */
   const grantFeature = async (
     char: Character,
@@ -3673,6 +3709,20 @@ function TransformationSection({
           <p className="text-[11px] text-text-muted mt-2">{t('sheet.transformation.nextStageHint', { stage: stage + 1 })}</p>
         )}
 
+        {/* Недобранные обязательные дары достигнутых стадий (персонажи, отменившие пикер раньше) */}
+        {stagesMissingBoon.map(({ cfg, stageNo }) => (
+          <div key={stageNo} className="flex items-center gap-2 mt-2 text-[11px] text-amber-400">
+            <AlertTriangle size={12} className="shrink-0" />
+            <span>{t('sheet.transformation.missingBoon', { stage: stageNo })}</span>
+            <button
+              onClick={() => setPendingPick({ updatedChar: character, stageCfg: cfg, newStage: stageNo, granted: [] })}
+              className="px-2 py-0.5 rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 transition-colors"
+            >
+              {t('sheet.transformation.pickMissingBoon')}
+            </button>
+          </div>
+        ))}
+
         {/* Активируемые формы (гибридные и т.п.) переехали в секцию «Активные формы и стойки» */}
       </div>
 
@@ -3690,15 +3740,14 @@ function TransformationSection({
               pluralGenitive: t('sheet.transformation.boonPluralGenitive'),
             },
           }}
-          newSlots={Math.min(pendingPick.stageCfg.choose, pendingPick.stageCfg.options.filter(o => !ownedNames.has(o)).length)}
+          newSlots={Math.min(missingBoonCount(pendingPick.stageCfg), pendingPick.stageCfg.options.filter(o => !ownedNames.has(o)).length)}
           allowReplace={false}
           onConfirm={handlePickConfirm}
           onCancel={() => {
-            // Стадия уже повышена с фикс. дарами и изъяном; выбор можно сделать позже —
-            // сохраняем без выбранных даров (но спрашиваем выборы фикс. даров).
-            const { updatedChar, granted } = pendingPick;
+            // Дар стадии обязателен. До подтверждения выбора ничего не сохранено
+            // (onUpdate ещё не вызывался), поэтому отмена прерывает весь стейдж-ап
+            // целиком — стадия, фикс. дары и изъян не применяются.
             setPendingPick(null);
-            finalizeGrants(updatedChar, granted);
           }}
         />
       )}
@@ -3795,9 +3844,17 @@ function MovementSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(true);
   const speeds = character.speeds ?? {};
-  // Временные скорости от активных эффектов (Крылья ангела и т.п.) — оверлей
-  // поверх хранимых, в character.speeds не пишутся.
-  const activeMoveSpeeds = getActiveMoveSpeeds(character);
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.), Дикого
+  // облика и Kindred Form — оверлей поверх хранимых, в character.speeds не пишутся.
+  const activeMoveSpeeds = { ...getActiveMoveSpeeds(character) };
+  const wildShapeMoveSpeeds = getWildShapeMoveSpeeds(character);
+  const kindredMoveSpeeds = getKindredMoveSpeeds(character);
+  for (const k of MOVE_KEYS) {
+    const beast = Math.max(wildShapeMoveSpeeds[k] ?? 0, kindredMoveSpeeds[k] ?? 0);
+    if (!beast) continue;
+    const current = activeMoveSpeeds[k] === -1 ? character.speed : (activeMoveSpeeds[k] ?? 0);
+    if (beast > current) activeMoveSpeeds[k] = beast;
+  }
 
   const setSpeed = (key: typeof MOVE_KEYS[number], value: number) => {
     const next = { ...speeds, [key]: Math.max(0, value) || undefined };

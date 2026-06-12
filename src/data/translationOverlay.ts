@@ -19,6 +19,7 @@ const OVERLAY_MODULES: Record<string, Record<string, () => Promise<{ default: Re
   optionalfeatures: import.meta.glob('../i18n/gamedata/*/optionalfeatures.json') as any,
   actions: import.meta.glob('../i18n/gamedata/*/actions.json') as any,
   conditionsdiseases: import.meta.glob('../i18n/gamedata/*/conditionsdiseases.json') as any,
+  creatures: import.meta.glob('../i18n/gamedata/*/creatures.json') as any,
   senses: import.meta.glob('../i18n/gamedata/*/senses.json') as any,
   skills: import.meta.glob('../i18n/gamedata/*/skills.json') as any,
   variantrule: import.meta.glob('../i18n/gamedata/*/variantrule.json') as any,
@@ -45,6 +46,8 @@ function applyEntryTranslations(entries: any[] | undefined, keyPrefix: string, t
       }
     } else if (entry && typeof entry === 'object') {
       if (typeof entry.name === 'string' && translations[`${key}.name`] !== undefined) {
+        // Английский оригинал — стабильный ключ для картинок/матчинга логики
+        if (entry._origName === undefined) entry._origName = entry.name;
         entry.name = translations[`${key}.name`];
       }
       if (typeof entry.entry === 'string' && translations[`${key}.entry`] !== undefined) {
@@ -186,6 +189,8 @@ function applyClassTranslations(item: any, translations: Record<string, string>)
       const feat = item.classFeatures[i];
       const fKey = `${stem}.classFeatures.${i}`;
       if (typeof feat.name === 'string' && translations[`${fKey}.name`] !== undefined) {
+        // Английский оригинал — стабильный ключ для картинок (/images/misc/*)
+        if (feat._origName === undefined) feat._origName = feat.name;
         feat.name = translations[`${fKey}.name`];
       }
       if (typeof feat.description === 'string' && translations[`${fKey}.description`] !== undefined) {
@@ -195,6 +200,9 @@ function applyClassTranslations(item: any, translations: Record<string, string>)
         for (const dk of Object.keys(feat.details)) {
           const dKey = `${fKey}.details.${dk}`;
           if (typeof feat.details[dk] === 'string' && translations[dKey] !== undefined) {
+            // Оригиналы деталей — из них берутся имена картинок суб-опций ({@b X.})
+            if (feat._origDetails === undefined) feat._origDetails = {};
+            if (feat._origDetails[dk] === undefined) feat._origDetails[dk] = feat.details[dk];
             feat.details[dk] = translations[dKey];
           }
         }
@@ -235,6 +243,9 @@ function applySubclassTranslations(item: any, translations: Record<string, strin
         for (const dk of Object.keys(feat.details)) {
           const dKey = `${fKey}.details.${dk}`;
           if (typeof feat.details[dk] === 'string' && translations[dKey] !== undefined) {
+            // Оригиналы деталей — из них берутся имена картинок суб-опций ({@b X.})
+            if (feat._origDetails === undefined) feat._origDetails = {};
+            if (feat._origDetails[dk] === undefined) feat._origDetails[dk] = feat.details[dk];
             feat.details[dk] = translations[dKey];
           }
         }

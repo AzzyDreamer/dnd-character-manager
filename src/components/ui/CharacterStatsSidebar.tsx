@@ -9,6 +9,9 @@ import { getEffectiveSpeed, getExhaustionD20Penalty, getExhaustionLevel, hasSpee
 import { StatBadge } from './StatBadge';
 import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImagePlus, Swords, Eye, Star, Moon, type LucideIcon } from 'lucide-react';
 import { PortraitImage } from './PortraitImage';
+import { CreatureToken } from './CreatureToken';
+import { getActiveWildShapeForm } from '../../utils/wildShape';
+import { getActiveKindredForm, getHybridFormTokenUrl } from '../../utils/kindredForm';
 import { asset } from '../../utils/asset';
 
 /** Partial data for creation mode (not a full Character yet) */
@@ -85,6 +88,7 @@ export function formatStatParts(
       case 'prof': return t('sidebar.breakdown.proficiency');
       case 'class': return t('sidebar.breakdown.class');
       case 'state': return t('sidebar.breakdown.state');
+      case 'form': return t('sidebar.breakdown.form');
       case 'ability': return p.ability ? getAbilityShort(p.ability) : '';
     }
   };
@@ -391,6 +395,32 @@ export function CharacterStatsSidebar({
     </div>
   ) : null;
 
+  // Активная форма — токен бейджем в углу портрета. Приоритет: звериная форма
+  // ликантропа (полное превращение) → Дикий облик → гибридная форма.
+  const kindredForm = character ? getActiveKindredForm(character) : null;
+  const wildShapeForm = !kindredForm && character ? getActiveWildShapeForm(character) : null;
+  const hybridTokenUrl = !kindredForm && !wildShapeForm && character
+    ? (character.activeEffects ?? []).map(e => getHybridFormTokenUrl(e.key)).find(Boolean) ?? null
+    : null;
+  const beastForm = kindredForm ?? wildShapeForm;
+  const wildShapeBadge = beastForm ? (
+    <span
+      className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50"
+      title={beastForm.creature.name}
+    >
+      <CreatureToken name={beastForm.form} size={88} />
+    </span>
+  ) : hybridTokenUrl ? (
+    <span className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50">
+      <img
+        src={hybridTokenUrl}
+        alt=""
+        className="rounded-full object-cover bg-bg-primary"
+        style={{ width: 88, height: 88 }}
+      />
+    </span>
+  ) : null;
+
   return (
     <aside className={`w-72 shrink-0 hidden lg:flex flex-col gap-3 overflow-y-auto ${className}`}>
       {/* Character portrait — clickable for upload/crop */}
@@ -411,6 +441,7 @@ export function CharacterStatsSidebar({
               <ImagePlus size={32} className="text-text-muted/30" />
             </div>
           )}
+          {wildShapeBadge}
           {portraitStatsOverlay}
         </button>
       ) : portraitUrl ? (
@@ -420,6 +451,7 @@ export function CharacterStatsSidebar({
             pos={portraitPosition}
             className="aspect-[9/21] w-full"
           />
+          {wildShapeBadge}
           {portraitStatsOverlay}
         </div>
       ) : imageSrc ? (

@@ -1,0 +1,74 @@
+{
+	"name": "Dimetrodon",
+	"source": "MPMM",
+	"page": 95,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 139
+		}
+	],
+	"size": [
+		"M"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"dinosaur"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 12,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 19,
+		"formula": "3d8 + 6"
+	},
+	"speed": {
+		"walk": 30,
+		"swim": 20
+	},
+	"str": 14,
+	"dex": 10,
+	"con": 15,
+	"int": 2,
+	"wis": 10,
+	"cha": 5,
+	"skill": {
+		"perception": "+2"
+	},
+	"passive": 12,
+	"cr": "1/4",
+	"action": [
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}9 ({@damage 2d6 + 2}) piercing damage."
+			]
+		}
+	],
+	"environment": [
+		"coastal",
+		"swamp"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/dimetrodon.opus"
+	},
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true
+}

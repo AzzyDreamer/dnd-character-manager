@@ -1,0 +1,75 @@
+{
+	"name": "Moorbounder",
+	"source": "EGW",
+	"page": 295,
+	"otherSources": [
+		{
+			"source": "CRCotN",
+			"page": 295
+		}
+	],
+	"referenceSources": [
+		"CRCotN"
+	],
+	"size": [
+		"L"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 13,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 30,
+		"formula": "4d10 + 8"
+	},
+	"speed": {
+		"walk": 70
+	},
+	"str": 18,
+	"dex": 14,
+	"con": 14,
+	"int": 2,
+	"wis": 13,
+	"cha": 5,
+	"senses": [
+		"darkvision 60 ft."
+	],
+	"passive": 11,
+	"cr": "1",
+	"trait": [
+		{
+			"name": "Standing Leap",
+			"entries": [
+				"The moorbounder's long jump is up to 40 feet and its high jump is up to 20 feet, with or without a running start."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Claws",
+			"entries": [
+				"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}14 ({@damage 4d4 + 4}) slashing damage."
+			]
+		}
+	],
+	"senseTags": [
+		"D"
+	],
+	"damageTags": [
+		"S"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

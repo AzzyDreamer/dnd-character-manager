@@ -360,7 +360,52 @@
       "fly": "Fly",
       "swim": "Swim",
       "climb": "Climb",
+      "burrow": "Burrow",
       "equalsWalk": "Equal to walking speed"
+    },
+    "wildShape": {
+      "title": "Wild Shape",
+      "knownForms": "Forms {{current}}/{{max}}",
+      "maxCR": "max CR {{cr}}",
+      "flyAllowed": "fly allowed",
+      "flyFrom8": "fly from level 8",
+      "tempHp": "{{hp}} temp HP",
+      "duration": "{{hours}} h",
+      "moonAc": "Circle of the Moon: form AC = 13 + WIS modifier, if higher than the beast's AC",
+      "editForms": "Edit",
+      "activate": "Transform",
+      "deactivate": "Revert",
+      "active": "Active",
+      "expired": "Expired",
+      "remaining": "{{hours}} h left",
+      "adjustTime": "Game time remaining in this form — adjust manually (±30 min)",
+      "noResource": "No Wild Shape uses left",
+      "noForms": "No known forms — press \"Edit\" to learn up to {{max}} forms.",
+      "crBadge": "CR {{cr}}",
+      "traits": "Traits",
+      "attacks": "Actions",
+      "senses": "Senses",
+      "skills": "Skills",
+      "statline": {
+        "ac": "AC",
+        "speed": "Speed"
+      },
+      "picker": {
+        "title": "Known Forms",
+        "search": "Search beasts…",
+        "selected": "{{current}}/{{max}}",
+        "save": "Save",
+        "cancel": "Cancel",
+        "empty": "No creatures match the current limits",
+        "details": "Stat block"
+      }
+    },
+    "kindredForm": {
+      "title": "Kindred Form",
+      "typeUnknown": "Lycanthropy type is undetermined — choose a Stage 1 hybrid boon in the Transformation section.",
+      "beastHp": "beast HP: {{hp}}",
+      "hpNote": "Per Polymorph: your HP are replaced by the beast's (yours are saved and restored when you revert). Equipment falls off; you can't speak or cast spells.",
+      "activeHpNote": "The sheet shows the beast's HP. At 0 HP the form ends and excess damage carries over to your normal form (revert and apply it manually)."
     },
     "statChoice": {
       "resistanceTitle": "Choose damage resistance",
@@ -385,6 +430,8 @@
       "boonSingular": "boon",
       "boonPluralFew": "boons",
       "boonPluralGenitive": "boons",
+      "missingBoon": "Stage {{stage}} boon not chosen",
+      "pickMissingBoon": "Choose",
       "hybridForm": "Hybrid form:",
       "formActive": "active"
     },

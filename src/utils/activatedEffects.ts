@@ -514,8 +514,15 @@ export function getActiveDeltas(char: Character): ActiveStatDelta[] {
  * статов (resolveAC в sync/левел-апе). Гарантия «ничего не бейкается».
  */
 export function stripActiveOverlays(char: Character): Character {
-  if (!char.activeEffects?.length && !char.activeTransformForm) return char;
-  return { ...char, activeEffects: undefined, activeTransformForm: undefined };
+  if (!char.activeEffects?.length && !char.activeTransformForm && !char.wildShape?.active && !char.kindredForm?.active) return char;
+  return {
+    ...char,
+    activeEffects: undefined,
+    activeTransformForm: undefined,
+    wildShape: char.wildShape ? { ...char.wildShape, active: undefined } : undefined,
+    // Хиты не трогаем — это копия только для расчёта хранимых производных статов
+    kindredForm: undefined,
+  };
 }
 
 /** Части КД от активных эффектов (для getACBreakdown; key = 'state'). */
@@ -699,17 +706,27 @@ export function deactivateEffect(char: Character, key: string): Character {
   };
 }
 
-/** Снять все активные эффекты (отдых). Возвращает НОВЫЙ объект. */
+/** Снять все активные эффекты (отдых), включая Дикий облик. Возвращает НОВЫЙ объект. */
 export function clearAllActiveEffects(char: Character): Character {
-  if (!char.activeEffects?.length && !char.activeTransformForm) return char;
-  return { ...char, activeEffects: undefined, activeTransformForm: undefined };
+  if (!char.activeEffects?.length && !char.activeTransformForm && !char.wildShape?.active) return char;
+  return {
+    ...char,
+    activeEffects: undefined,
+    activeTransformForm: undefined,
+    wildShape: char.wildShape ? { ...char.wildShape, active: undefined } : undefined,
+  };
 }
 
-/** Снять эффекты, прерываемые состоянием Incapacitated (Rage, Bladesong…). Мутирует копию. */
+/** Снять эффекты, прерываемые состоянием Incapacitated (Rage, Bladesong, Дикий облик…). Мутирует копию. */
 export function removeIncapacitatedEffects(char: Character): Character {
   const remaining = (char.activeEffects ?? []).filter(e => !ACTIVATED_EFFECTS[e.key]?.endsIfIncapacitated);
-  if (remaining.length === (char.activeEffects ?? []).length) return char;
-  return { ...char, activeEffects: remaining.length ? remaining : undefined };
+  const wildShapeActive = !!char.wildShape?.active;
+  if (remaining.length === (char.activeEffects ?? []).length && !wildShapeActive) return char;
+  return {
+    ...char,
+    activeEffects: remaining.length ? remaining : undefined,
+    wildShape: char.wildShape ? { ...char.wildShape, active: undefined } : undefined,
+  };
 }
 
 /**

@@ -23,6 +23,7 @@ import {
   type TranslateFn,
 } from '../utils/activatedEffects';
 import { getClassResources, getSubclassResources, getLevelTableRow } from '../utils/classResources';
+import { getHybridFormTokenUrl, deactivateKindredForm } from '../utils/kindredForm';
 import { getAbilityName, getAbilityShort } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import {
@@ -238,7 +239,10 @@ export function ActiveFormsSection({
     const res = getResourceState(def);
     const cost = def.resourceCost ?? 1;
     if (def.resourceKey && res && res.current < cost) return;
-    onUpdate(activateEffect(character, def.key, res?.max).char);
+    // Гибридные формы несовместимы со звериной (Kindred Form) — снять её
+    // с возвратом сохранённых хитов перед активацией
+    const base = def.exclusiveGroup === 'transform-form' ? deactivateKindredForm(character) : character;
+    onUpdate(activateEffect(base, def.key, res?.max).char);
   };
 
   return (
@@ -265,6 +269,7 @@ export function ActiveFormsSection({
             const cost = def.resourceCost ?? 1;
             const noResource = !isActive && !!def.resourceKey && !!res && res.current < cost;
             const Icon = EFFECT_ICONS[def.key] ?? Sparkles;
+            const tokenUrl = getHybridFormTokenUrl(def.key);
             const duration = getEffectDuration(character, def);
             const canActivate = !unmetCondition && !noResource;
 
@@ -292,7 +297,18 @@ export function ActiveFormsSection({
                 }`}
               >
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Icon size={16} className={isActive ? 'text-gold' : 'text-text-muted'} />
+                  {tokenUrl ? (
+                    <img
+                      src={tokenUrl}
+                      alt=""
+                      className={`w-7 h-7 rounded-full object-cover shrink-0 border ${
+                        isActive ? 'border-gold/60' : 'border-border-default'
+                      }`}
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  ) : (
+                    <Icon size={16} className={isActive ? 'text-gold' : 'text-text-muted'} />
+                  )}
                   <span className={`text-sm font-medium ${isActive ? 'text-gold' : 'text-text-primary'}`}>
                     {getEffectName(def.key, tg)}
                   </span>

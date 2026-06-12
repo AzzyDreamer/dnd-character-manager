@@ -417,6 +417,36 @@ export interface Character {
     expiresAt?: string;   // ISO — для длительностей в минутах/часах
   }[];
 
+  // Дикий облик друида (PHB'24): выученные формы (английские имена существ из
+  // бестиария — стабильные ключи) и активная форма. Статы зверя применяются
+  // живьём (см. utils/wildShape.ts) и не вшиваются в хранимые статы.
+  wildShape?: {
+    knownForms: string[];
+    active?: {
+      form: string;            // английское имя существа
+      activatedAt: string;     // ISO
+      // Оставшееся ИГРОВОЕ время в часах — меняется вручную с листа,
+      // к реальному времени не привязано (стартует с уровень/2 часов).
+      remainingHours?: number;
+      // @deprecated реальное время истечения — мигрируется в remainingHours в sync
+      expiresAt?: string;
+    };
+  };
+
+  // Kindred Form ликантропа (GH:PG24, дар 2-й стадии): полное превращение в
+  // зверя по правилам Полиморфа. Зверь определяется гибридным даром 1-й стадии.
+  // Характеристики/КД/скорости применяются живьём (utils/kindredForm.ts), а вот
+  // ХИТЫ заменяются хитами зверя по правилам — свои сохраняются в savedHp и
+  // восстанавливаются при выходе из формы.
+  kindredForm?: {
+    active?: {
+      form: string;            // английское имя существа (Wolf/Black Bear/Giant Rat)
+      activatedAt: string;     // ISO
+      remainingHours?: number; // ручной трекер игрового времени (дефолт 1 ч)
+      savedHp: { current: number; max: number; temporary: number };
+    };
+  };
+
   // Портрет персонажа (base64 data URL)
   portraitDataUrl?: string;
   // Позиция обрезки портрета {x: 0-100, y: 0-100, zoom: 1-3} или число (legacy, только Y)

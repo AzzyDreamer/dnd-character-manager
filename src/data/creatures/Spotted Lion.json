@@ -1,0 +1,80 @@
+{
+	"name": "Spotted Lion",
+	"source": "BGG",
+	"page": 177,
+	"size": [
+		"H"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 15,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 66,
+		"formula": "7d12 + 21"
+	},
+	"speed": {
+		"walk": 60
+	},
+	"str": 23,
+	"dex": 14,
+	"con": 17,
+	"int": 5,
+	"wis": 13,
+	"cha": 10,
+	"skill": {
+		"perception": "+5",
+		"stealth": "+6"
+	},
+	"senses": [
+		"darkvision 60 ft."
+	],
+	"passive": 15,
+	"cr": "3",
+	"trait": [
+		{
+			"name": "Pack Tactics",
+			"entries": [
+				"The lion has advantage on an attack roll against a creature if at least one of the lion's allies is within 5 feet of the target and the ally doesn't have the {@condition incapacitated} condition."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Rend",
+			"entries": [
+				"{@atk mw} {@hit 8} to hit, reach 10 ft., one target. {@h}15 ({@damage 2d8 + 6}) piercing damage. If the lion moved at least 20 feet straight toward the target immediately before the hit, the target must succeed on a {@dc 16} Strength saving throw or have the {@condition prone} condition. If the target has the {@condition prone} condition, the lion can make another Rend attack against it as a bonus action."
+			]
+		}
+	],
+	"traitTags": [
+		"Pack Tactics"
+	],
+	"senseTags": [
+		"D"
+	],
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW",
+		"RCH"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrowForced": [
+		"strength"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}
