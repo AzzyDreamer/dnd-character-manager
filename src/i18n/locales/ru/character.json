@@ -423,6 +423,8 @@
       "boonSingular": "дар",
       "boonPluralFew": "дара",
       "boonPluralGenitive": "даров",
+      "missingBoon": "Дар стадии {{stage}} не выбран",
+      "pickMissingBoon": "Выбрать",
       "hybridForm": "Гибридная форма:",
       "formActive": "активна"
     },

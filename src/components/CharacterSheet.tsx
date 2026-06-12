@@ -4,7 +4,7 @@ import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResist
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -3441,6 +3441,16 @@ function TransformationSection({
   const stage = getTransformationStage(character);
   const ownedNames = new Set((character.optionalFeatures ?? []).map(f => f.nameEn ?? f.name));
 
+  /** Сколько обязательных даров стадии ещё не выбрано (дар по правилам ровно один). */
+  const missingBoonCount = (cfg: TransformationStage) =>
+    Math.max(0, cfg.choose - cfg.options.filter(o => ownedNames.has(o)).length);
+
+  // Достигнутые стадии с недобранным даром (отменённый пикер у старых персонажей)
+  const stagesMissingBoon = config.stages
+    .slice(0, stage)
+    .map((cfg, i) => ({ cfg, stageNo: i + 1 }))
+    .filter(({ cfg }) => missingBoonCount(cfg) > 0);
+
   /** Add a boon/flaw entry with its baked stat effects and data-driven spells/skills. */
   const grantFeature = async (
     char: Character,
@@ -3679,6 +3689,20 @@ function TransformationSection({
           <p className="text-[11px] text-text-muted mt-2">{t('sheet.transformation.nextStageHint', { stage: stage + 1 })}</p>
         )}
 
+        {/* Недобранные обязательные дары достигнутых стадий (персонажи, отменившие пикер раньше) */}
+        {stagesMissingBoon.map(({ cfg, stageNo }) => (
+          <div key={stageNo} className="flex items-center gap-2 mt-2 text-[11px] text-amber-400">
+            <AlertTriangle size={12} className="shrink-0" />
+            <span>{t('sheet.transformation.missingBoon', { stage: stageNo })}</span>
+            <button
+              onClick={() => setPendingPick({ updatedChar: character, stageCfg: cfg, newStage: stageNo, granted: [] })}
+              className="px-2 py-0.5 rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 transition-colors"
+            >
+              {t('sheet.transformation.pickMissingBoon')}
+            </button>
+          </div>
+        ))}
+
         {/* Активируемые формы (гибридные и т.п.) переехали в секцию «Активные формы и стойки» */}
       </div>
 
@@ -3696,15 +3720,14 @@ function TransformationSection({
               pluralGenitive: t('sheet.transformation.boonPluralGenitive'),
             },
           }}
-          newSlots={Math.min(pendingPick.stageCfg.choose, pendingPick.stageCfg.options.filter(o => !ownedNames.has(o)).length)}
+          newSlots={Math.min(missingBoonCount(pendingPick.stageCfg), pendingPick.stageCfg.options.filter(o => !ownedNames.has(o)).length)}
           allowReplace={false}
           onConfirm={handlePickConfirm}
           onCancel={() => {
-            // Стадия уже повышена с фикс. дарами и изъяном; выбор можно сделать позже —
-            // сохраняем без выбранных даров (но спрашиваем выборы фикс. даров).
-            const { updatedChar, granted } = pendingPick;
+            // Дар стадии обязателен. До подтверждения выбора ничего не сохранено
+            // (onUpdate ещё не вызывался), поэтому отмена прерывает весь стейдж-ап
+            // целиком — стадия, фикс. дары и изъян не применяются.
             setPendingPick(null);
-            finalizeGrants(updatedChar, granted);
           }}
         />
       )}

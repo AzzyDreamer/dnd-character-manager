@@ -423,6 +423,8 @@
       "boonSingular": "boon",
       "boonPluralFew": "boons",
       "boonPluralGenitive": "boons",
+      "missingBoon": "Stage {{stage}} boon not chosen",
+      "pickMissingBoon": "Choose",
       "hybridForm": "Hybrid form:",
       "formActive": "active"
     },
