@@ -11,6 +11,7 @@ import { Shield, Heart, Footprints, Sparkles, Target, ChevronDown, Check, ImageP
 import { PortraitImage } from './PortraitImage';
 import { CreatureToken } from './CreatureToken';
 import { getActiveWildShapeForm } from '../../utils/wildShape';
+import { getActiveKindredForm, getHybridFormTokenUrl } from '../../utils/kindredForm';
 import { asset } from '../../utils/asset';
 
 /** Partial data for creation mode (not a full Character yet) */
@@ -394,14 +395,29 @@ export function CharacterStatsSidebar({
     </div>
   ) : null;
 
-  // Активная форма Дикого облика — токен зверя бейджем в углу портрета
-  const wildShapeForm = character ? getActiveWildShapeForm(character) : null;
-  const wildShapeBadge = wildShapeForm ? (
+  // Активная форма — токен бейджем в углу портрета. Приоритет: звериная форма
+  // ликантропа (полное превращение) → Дикий облик → гибридная форма.
+  const kindredForm = character ? getActiveKindredForm(character) : null;
+  const wildShapeForm = !kindredForm && character ? getActiveWildShapeForm(character) : null;
+  const hybridTokenUrl = !kindredForm && !wildShapeForm && character
+    ? (character.activeEffects ?? []).map(e => getHybridFormTokenUrl(e.key)).find(Boolean) ?? null
+    : null;
+  const beastForm = kindredForm ?? wildShapeForm;
+  const wildShapeBadge = beastForm ? (
     <span
       className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50"
-      title={wildShapeForm.creature.name}
+      title={beastForm.creature.name}
     >
-      <CreatureToken name={wildShapeForm.form} size={44} />
+      <CreatureToken name={beastForm.form} size={44} />
+    </span>
+  ) : hybridTokenUrl ? (
+    <span className="absolute top-2 right-2 z-10 rounded-full ring-2 ring-gold shadow-lg shadow-black/50">
+      <img
+        src={hybridTokenUrl}
+        alt=""
+        className="rounded-full object-cover bg-bg-primary"
+        style={{ width: 44, height: 44 }}
+      />
     </span>
   ) : null;
 

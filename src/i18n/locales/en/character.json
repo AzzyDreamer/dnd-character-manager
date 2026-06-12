@@ -400,6 +400,13 @@
         "details": "Stat block"
       }
     },
+    "kindredForm": {
+      "title": "Kindred Form",
+      "typeUnknown": "Lycanthropy type is undetermined — choose a Stage 1 hybrid boon in the Transformation section.",
+      "beastHp": "beast HP: {{hp}}",
+      "hpNote": "Per Polymorph: your HP are replaced by the beast's (yours are saved and restored when you revert). Equipment falls off; you can't speak or cast spells.",
+      "activeHpNote": "The sheet shows the beast's HP. At 0 HP the form ends and excess damage carries over to your normal form (revert and apply it manually)."
+    },
     "statChoice": {
       "resistanceTitle": "Choose damage resistance",
       "saveProfTitle": "Choose saving throw proficiency",

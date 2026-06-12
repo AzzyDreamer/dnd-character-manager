@@ -35,6 +35,8 @@ import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, g
 import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
 import { WildShapeSection } from './WildShapeSection';
 import { getWildShapeMoveSpeeds } from '../utils/wildShape';
+import { KindredFormSection } from './KindredFormSection';
+import { deactivateKindredForm, getKindredMoveSpeeds } from '../utils/kindredForm';
 import { syncCharacterEffects } from '../utils/effectSync';
 import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 
@@ -425,7 +427,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   /** Short rest: recharge short-rest class resources; Warlock Pact Magic slots.
    *  Все активные формы/стойки снимаются (не переживают отдых). */
   const applyShortRest = () => {
-    let updated: Character = clearAllActiveEffects({ ...character, updatedAt: new Date().toISOString() });
+    // Kindred Form снимаем отдельно ДО остального: выход из неё восстанавливает
+    // сохранённые хиты (Полиморф), а clearAllActiveEffects хиты не трогает.
+    let updated: Character = clearAllActiveEffects({ ...deactivateKindredForm(character), updatedAt: new Date().toISOString() });
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
       for (const [key, val] of Object.entries(rt)) {
@@ -445,11 +449,14 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
    *  slots, refill every class resource, reset death saves. */
   const applyLongRest = () => {
     setConfirmLongRest(false);
-    const regainedDice = Math.max(1, Math.floor(character.hitDice.total / 2));
+    // Сначала выйти из Kindred Form (вернёт СВОИ хиты/максимум) — иначе
+    // полный отхил посчитается от хитов зверя.
+    const base = deactivateKindredForm(character);
+    const regainedDice = Math.max(1, Math.floor(base.hitDice.total / 2));
     let updated: Character = clearAllActiveEffects({
-      ...character,
-      hitPoints: { ...character.hitPoints, current: character.hitPoints.max, temporary: 0 },
-      hitDice: { ...character.hitDice, used: Math.max(0, character.hitDice.used - regainedDice) },
+      ...base,
+      hitPoints: { ...base.hitPoints, current: base.hitPoints.max, temporary: 0 },
+      hitDice: { ...base.hitDice, used: Math.max(0, base.hitDice.used - regainedDice) },
       deathSaves: { successes: 0, failures: 0 },
       updatedAt: new Date().toISOString(),
     });
@@ -1693,6 +1700,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <ResistancesSection character={character} onUpdate={onUpdate} />
               <TransformationSection character={character} onUpdate={onUpdate} />
               <ActiveFormsSection character={character} onUpdate={onUpdate} />
+              <KindredFormSection character={character} onUpdate={onUpdate} />
               <WildShapeSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
@@ -3836,15 +3844,16 @@ function MovementSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(true);
   const speeds = character.speeds ?? {};
-  // Временные скорости от активных эффектов (Крылья ангела и т.п.) и Дикого
-  // облика — оверлей поверх хранимых, в character.speeds не пишутся.
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.), Дикого
+  // облика и Kindred Form — оверлей поверх хранимых, в character.speeds не пишутся.
   const activeMoveSpeeds = { ...getActiveMoveSpeeds(character) };
   const wildShapeMoveSpeeds = getWildShapeMoveSpeeds(character);
+  const kindredMoveSpeeds = getKindredMoveSpeeds(character);
   for (const k of MOVE_KEYS) {
-    const ws = wildShapeMoveSpeeds[k];
-    if (!ws) continue;
+    const beast = Math.max(wildShapeMoveSpeeds[k] ?? 0, kindredMoveSpeeds[k] ?? 0);
+    if (!beast) continue;
     const current = activeMoveSpeeds[k] === -1 ? character.speed : (activeMoveSpeeds[k] ?? 0);
-    if (ws > current) activeMoveSpeeds[k] = ws;
+    if (beast > current) activeMoveSpeeds[k] = beast;
   }
 
   const setSpeed = (key: typeof MOVE_KEYS[number], value: number) => {

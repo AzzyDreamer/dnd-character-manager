@@ -27,6 +27,7 @@ import {
   type CreatureAction,
 } from '../data/creatures';
 import { getClassResources, getLevelTableRow } from '../utils/classResources';
+import { deactivateKindredForm } from '../utils/kindredForm';
 import { getAbilityModifier, getAbilityShort } from '../utils/dnd';
 import { EntryRenderer } from '../utils/entryRenderer';
 import { CreatureToken } from './ui/CreatureToken';
@@ -49,8 +50,8 @@ function speedSummary(c: CreatureData, t: (k: string) => string): string {
   return parts.join(', ');
 }
 
-/** Статы, черты и действия зверя — общее для карточки активной формы и пикера. */
-function CreatureDetails({ creature, ac }: { creature: CreatureData; ac: number }) {
+/** Статы, черты и действия зверя — карточка формы и пикер; переиспользуется Kindred Form. */
+export function CreatureDetails({ creature, ac }: { creature: CreatureData; ac: number }) {
   const { t } = useTranslation('character');
   const c = creature;
 
@@ -290,7 +291,8 @@ export function WildShapeSection({
 
   const handleActivate = (name: string) => {
     if (noResource) return;
-    onUpdate(activateWildShape(character, name, max));
+    // Kindred Form несовместима с Диким обликом — снять с возвратом хитов
+    onUpdate(activateWildShape(deactivateKindredForm(character), name, max));
   };
 
   // Ручной трекер игрового времени: −30 мин на нуле снимает форму

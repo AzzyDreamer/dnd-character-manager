@@ -6,6 +6,7 @@ import { FEAT_STAT_EFFECTS } from './featEffects';
 import { getTransformACBonus, getTransformHpPerLevel, getTransformUnarmoredFormulas } from './transformationEffects';
 import { getActiveAbilityFloors, getActiveACBonus, stripActiveOverlays } from './activatedEffects';
 import { applyWildShapeAbilityOverride, getWildShapeAC } from './wildShape';
+import { applyKindredAbilityOverride, getKindredAC } from './kindredForm';
 import { getEquippedArmor, isWearingArmor, isWearingHeavyArmor, isWieldingShield } from './equipment';
 import i18n from '../i18n';
 
@@ -564,6 +565,9 @@ export function getACBreakdown(inputChar: Character): StatPart[] {
   // Для Луны getWildShapeAC уже вернул max(КД зверя, 13 + Мдр).
   const formAC = getWildShapeAC(inputChar);
   if (formAC !== null) return [{ key: 'form', value: formAC }];
+  // Kindred Form ликантропа: КД зверя (экипировка падает при превращении)
+  const kindredAC = getKindredAC(inputChar);
+  if (kindredAC !== null) return [{ key: 'form', value: kindredAC }];
 
   const char = { ...inputChar, abilityScores: getEffectiveAbilityScores(inputChar) };
   const dexMod = getAbilityModifier(char.abilityScores.dexterity);
@@ -1033,6 +1037,7 @@ export function getEffectiveAbilityScores(char: Character): AbilityScores {
     }
   }
 
-  // Дикий облик: СИЛ/ЛОВ/ТЕЛ зверя заменяют свои полностью (даже если ниже)
-  return applyWildShapeAbilityOverride(char, base);
+  // Дикий облик: СИЛ/ЛОВ/ТЕЛ зверя заменяют свои полностью (даже если ниже).
+  // Kindred Form (Полиморф): заменяются все шесть. Формы взаимоисключающие.
+  return applyKindredAbilityOverride(char, applyWildShapeAbilityOverride(char, base));
 }

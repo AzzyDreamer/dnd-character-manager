@@ -433,6 +433,20 @@ export interface Character {
     };
   };
 
+  // Kindred Form ликантропа (GH:PG24, дар 2-й стадии): полное превращение в
+  // зверя по правилам Полиморфа. Зверь определяется гибридным даром 1-й стадии.
+  // Характеристики/КД/скорости применяются живьём (utils/kindredForm.ts), а вот
+  // ХИТЫ заменяются хитами зверя по правилам — свои сохраняются в savedHp и
+  // восстанавливаются при выходе из формы.
+  kindredForm?: {
+    active?: {
+      form: string;            // английское имя существа (Wolf/Black Bear/Giant Rat)
+      activatedAt: string;     // ISO
+      remainingHours?: number; // ручной трекер игрового времени (дефолт 1 ч)
+      savedHp: { current: number; max: number; temporary: number };
+    };
+  };
+
   // Портрет персонажа (base64 data URL)
   portraitDataUrl?: string;
   // Позиция обрезки портрета {x: 0-100, y: 0-100, zoom: 1-3} или число (legacy, только Y)

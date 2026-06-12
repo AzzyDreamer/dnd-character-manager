@@ -514,12 +514,14 @@ export function getActiveDeltas(char: Character): ActiveStatDelta[] {
  * статов (resolveAC в sync/левел-апе). Гарантия «ничего не бейкается».
  */
 export function stripActiveOverlays(char: Character): Character {
-  if (!char.activeEffects?.length && !char.activeTransformForm && !char.wildShape?.active) return char;
+  if (!char.activeEffects?.length && !char.activeTransformForm && !char.wildShape?.active && !char.kindredForm?.active) return char;
   return {
     ...char,
     activeEffects: undefined,
     activeTransformForm: undefined,
     wildShape: char.wildShape ? { ...char.wildShape, active: undefined } : undefined,
+    // Хиты не трогаем — это копия только для расчёта хранимых производных статов
+    kindredForm: undefined,
   };
 }
 

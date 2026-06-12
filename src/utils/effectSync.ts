@@ -16,6 +16,7 @@ import { extractFeatResistances, extractFeatSenses, applyFeatResistances, applyF
 import { getActiveTransformEffects } from './transformationEffects';
 import { syncActiveEffects } from './activatedEffects';
 import { syncWildShape } from './wildShape';
+import { syncKindredForm } from './kindredForm';
 import { normalizeSkillKey } from './dnd';
 
 /**
@@ -31,6 +32,7 @@ export async function syncCharacterEffects(char: Character): Promise<Character |
   //    удаление просроченных записей (единственное место, где sync их касается).
   syncActiveEffects(updated);
   syncWildShape(updated);
+  syncKindredForm(updated);
 
   // 1) Class / subclass / species wired effects (resists, saves, senses)
   syncPermanentClassEffects(updated);
