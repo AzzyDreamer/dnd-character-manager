@@ -1,0 +1,87 @@
+{
+	"name": "Dolphin",
+	"source": "MPMM",
+	"page": 97,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 208
+		}
+	],
+	"size": [
+		"M"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 12,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 11,
+		"formula": "2d8 + 2"
+	},
+	"speed": {
+		"walk": 0,
+		"swim": 60
+	},
+	"str": 14,
+	"dex": 13,
+	"con": 13,
+	"int": 6,
+	"wis": 12,
+	"cha": 7,
+	"skill": {
+		"perception": "+3"
+	},
+	"senses": [
+		"blindsight 60 ft."
+	],
+	"passive": 13,
+	"cr": "1/8",
+	"trait": [
+		{
+			"name": "Hold Breath",
+			"entries": [
+				"The dolphin can hold its breath for 20 minutes."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Slam",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d6 + 2}) bludgeoning damage. If the dolphin moved at least 30 feet straight toward the target immediately before the hit, the target takes an extra 3 ({@damage 1d6}) bludgeoning damage."
+			]
+		}
+	],
+	"environment": [
+		"coastal",
+		"underwater"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/dolphin.opus"
+	},
+	"traitTags": [
+		"Hold Breath"
+	],
+	"senseTags": [
+		"B"
+	],
+	"damageTags": [
+		"B"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

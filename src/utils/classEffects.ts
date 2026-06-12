@@ -5,6 +5,7 @@ import { resolveCanonicalRace } from '../data/species';
 import { FEAT_STAT_EFFECTS } from './featEffects';
 import { getTransformACBonus, getTransformHpPerLevel, getTransformUnarmoredFormulas } from './transformationEffects';
 import { getActiveAbilityFloors, getActiveACBonus, stripActiveOverlays } from './activatedEffects';
+import { applyWildShapeAbilityOverride, getWildShapeAC } from './wildShape';
 import { getEquippedArmor, isWearingArmor, isWearingHeavyArmor, isWieldingShield } from './equipment';
 import i18n from '../i18n';
 
@@ -439,7 +440,9 @@ export function getClassFeatureSaveBonus(char: Character): number {
  * (level-up, feat/ASI selection).
  */
 export function computeInitiative(char: Character): number {
-  return getInitiativeBreakdown(char).reduce((sum, p) => sum + p.value, 0);
+  // Хранимый стат: как и resolveAC, срезаем живые оверлеи (Дикий облик,
+  // floor-формы), чтобы ЛОВ зверя не запекалась в initiative.
+  return getInitiativeBreakdown(stripActiveOverlays(char)).reduce((sum, p) => sum + p.value, 0);
 }
 
 /**
@@ -502,7 +505,7 @@ function getShieldBonus(char: Character): number {
 
 /** One labelled component of a computed stat (AC, initiative, …). */
 export interface StatPart {
-  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof' | 'class' | 'state';
+  key: 'armor' | 'base' | 'ability' | 'shield' | 'feat' | 'item' | 'prof' | 'class' | 'state' | 'form';
   value: number;
   ability?: keyof AbilityScores;  // set when key === 'ability'
 }
@@ -557,6 +560,11 @@ function getBestUnarmoredFormulaParts(char: Character): { parts: StatPart[]; tot
  * shield, flat feat bonuses (Defense), and magic-item bonuses.
  */
 export function getACBreakdown(inputChar: Character): StatPart[] {
+  // Дикий облик: КД зверя целиком заменяет расчёт (экипировка слита с формой).
+  // Для Луны getWildShapeAC уже вернул max(КД зверя, 13 + Мдр).
+  const formAC = getWildShapeAC(inputChar);
+  if (formAC !== null) return [{ key: 'form', value: formAC }];
+
   const char = { ...inputChar, abilityScores: getEffectiveAbilityScores(inputChar) };
   const dexMod = getAbilityModifier(char.abilityScores.dexterity);
   const parts: StatPart[] = [];
@@ -1025,5 +1033,6 @@ export function getEffectiveAbilityScores(char: Character): AbilityScores {
     }
   }
 
-  return base;
+  // Дикий облик: СИЛ/ЛОВ/ТЕЛ зверя заменяют свои полностью (даже если ниже)
+  return applyWildShapeAbilityOverride(char, base);
 }

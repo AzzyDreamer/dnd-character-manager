@@ -1,0 +1,75 @@
+{
+	"name": "Stegosaurus",
+	"source": "MPMM",
+	"page": 96,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 140
+		}
+	],
+	"referenceSources": [
+		"BMT"
+	],
+	"size": [
+		"H"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"dinosaur"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 13,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 76,
+		"formula": "8d12 + 24"
+	},
+	"speed": {
+		"walk": 40
+	},
+	"str": 20,
+	"dex": 9,
+	"con": 17,
+	"int": 2,
+	"wis": 11,
+	"cha": 5,
+	"passive": 10,
+	"cr": "4",
+	"action": [
+		{
+			"name": "Tail",
+			"entries": [
+				"{@atk mw} {@hit 7} to hit, reach 10 ft., one target. {@h}26 ({@damage 6d6 + 5}) piercing damage."
+			]
+		}
+	],
+	"environment": [
+		"forest",
+		"grassland"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/stegosaurus.opus"
+	},
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW",
+		"RCH"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

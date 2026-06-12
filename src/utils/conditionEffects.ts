@@ -1,6 +1,7 @@
 import type { Character } from '../types';
 import { getTransformSpeedAdjust } from './transformationEffects';
 import { getActiveSpeedAdjust } from './activatedEffects';
+import { getWildShapeWalkSpeed } from './wildShape';
 
 // ── Condition mechanics ──
 //
@@ -68,6 +69,12 @@ export function getExhaustionD20Penalty(char: Character): number {
  */
 export function getEffectiveSpeed(char: Character): number {
   if (hasSpeedZeroCondition(char)) return 0;
+  // Дикий облик: скорость ходьбы зверя заменяет свою (бонусы гуманоидной формы
+  // не применяются); истощение продолжает действовать.
+  const wildShapeWalk = getWildShapeWalkSpeed(char);
+  if (wildShapeWalk !== null) {
+    return Math.max(0, wildShapeWalk - 5 * getExhaustionLevel(char));
+  }
   const reduced = char.speed
     + getTransformSpeedAdjust(char)
     + getActiveSpeedAdjust(char)

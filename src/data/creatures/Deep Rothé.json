@@ -1,0 +1,99 @@
+{
+	"name": "Deep Rothé",
+	"source": "MPMM",
+	"page": 71,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 208
+		}
+	],
+	"size": [
+		"M"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"cattle"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		10
+	],
+	"hp": {
+		"average": 13,
+		"formula": "2d8 + 4"
+	},
+	"speed": {
+		"walk": 30
+	},
+	"str": 18,
+	"dex": 10,
+	"con": 14,
+	"int": 2,
+	"wis": 10,
+	"cha": 4,
+	"senses": [
+		"darkvision 60 ft."
+	],
+	"passive": 10,
+	"cr": "1/4",
+	"spellcasting": [
+		{
+			"name": "Dancing Lights",
+			"type": "spellcasting",
+			"headerEntries": [
+				"The rothé casts {@spell dancing lights}, requiring no spell components and using Wisdom as the spellcasting ability."
+			],
+			"will": [
+				"{@spell dancing lights}"
+			],
+			"ability": "wis",
+			"displayAs": "action",
+			"hidden": [
+				"will"
+			]
+		}
+	],
+	"trait": [
+		{
+			"name": "Beast of Burden",
+			"entries": [
+				"The rothé is considered to be one size larger for the purpose of determining its carrying capacity."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Gore",
+			"entries": [
+				"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d6 + 4}) piercing damage. If the rothé moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 7 ({@damage 2d6}) piercing damage."
+			]
+		}
+	],
+	"environment": [
+		"underdark"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/rothe.opus"
+	},
+	"traitTags": [
+		"Beast of Burden"
+	],
+	"senseTags": [
+		"D"
+	],
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

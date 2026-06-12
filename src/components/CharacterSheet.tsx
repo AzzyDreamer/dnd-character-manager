@@ -33,6 +33,8 @@ import { useBackDismiss } from '../hooks/useBackDismiss';
 import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
 import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
 import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
+import { WildShapeSection } from './WildShapeSection';
+import { getWildShapeMoveSpeeds } from '../utils/wildShape';
 import { syncCharacterEffects } from '../utils/effectSync';
 import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 
@@ -429,6 +431,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       for (const [key, val] of Object.entries(rt)) {
         if (isShortRestResource(key)) rt[key] = { ...val, current: val.max };
       }
+      // Дикий облик 2024: короткий отдых возвращает одно использование
+      const ws = rt.wildShape;
+      if (ws && ws.current < ws.max) rt.wildShape = { ...ws, current: ws.current + 1 };
       updated.resourceTrackers = rt;
     }
     // Warlock Pact Magic returns on a short rest
@@ -1688,6 +1693,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
               <ResistancesSection character={character} onUpdate={onUpdate} />
               <TransformationSection character={character} onUpdate={onUpdate} />
               <ActiveFormsSection character={character} onUpdate={onUpdate} />
+              <WildShapeSection character={character} onUpdate={onUpdate} />
 
               {/* Features — BG3 style categorized list */}
               <FeaturesSection character={character} />
@@ -3795,9 +3801,16 @@ function MovementSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(true);
   const speeds = character.speeds ?? {};
-  // Временные скорости от активных эффектов (Крылья ангела и т.п.) — оверлей
-  // поверх хранимых, в character.speeds не пишутся.
-  const activeMoveSpeeds = getActiveMoveSpeeds(character);
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.) и Дикого
+  // облика — оверлей поверх хранимых, в character.speeds не пишутся.
+  const activeMoveSpeeds = { ...getActiveMoveSpeeds(character) };
+  const wildShapeMoveSpeeds = getWildShapeMoveSpeeds(character);
+  for (const k of MOVE_KEYS) {
+    const ws = wildShapeMoveSpeeds[k];
+    if (!ws) continue;
+    const current = activeMoveSpeeds[k] === -1 ? character.speed : (activeMoveSpeeds[k] ?? 0);
+    if (ws > current) activeMoveSpeeds[k] = ws;
+  }
 
   const setSpeed = (key: typeof MOVE_KEYS[number], value: number) => {
     const next = { ...speeds, [key]: Math.max(0, value) || undefined };

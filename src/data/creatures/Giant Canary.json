@@ -1,0 +1,47 @@
+{
+	"name": "Giant Canary",
+	"source": "FTD",
+	"page": 23,
+	"size": [
+		"L"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		12
+	],
+	"hp": {
+		"average": 26,
+		"formula": "4d10 + 4"
+	},
+	"speed": {
+		"walk": 30,
+		"fly": 60
+	},
+	"str": 10,
+	"dex": 14,
+	"con": 12,
+	"int": 2,
+	"wis": 10,
+	"cha": 6,
+	"passive": 10,
+	"cr": "1/2",
+	"action": [
+		{
+			"name": "Peck",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d10 + 2}) piercing damage."
+			]
+		}
+	],
+	"tokenCustom": true,
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true
+}

@@ -360,7 +360,45 @@
       "fly": "Fly",
       "swim": "Swim",
       "climb": "Climb",
+      "burrow": "Burrow",
       "equalsWalk": "Equal to walking speed"
+    },
+    "wildShape": {
+      "title": "Wild Shape",
+      "knownForms": "Forms {{current}}/{{max}}",
+      "maxCR": "max CR {{cr}}",
+      "flyAllowed": "fly allowed",
+      "flyFrom8": "fly from level 8",
+      "tempHp": "{{hp}} temp HP",
+      "duration": "{{hours}} h",
+      "moonAc": "Circle of the Moon: form AC = 13 + WIS modifier, if higher than the beast's AC",
+      "editForms": "Edit",
+      "activate": "Transform",
+      "deactivate": "Revert",
+      "active": "Active",
+      "expired": "Expired",
+      "remaining": "{{hours}} h left",
+      "adjustTime": "Game time remaining in this form — adjust manually (±30 min)",
+      "noResource": "No Wild Shape uses left",
+      "noForms": "No known forms — press \"Edit\" to learn up to {{max}} forms.",
+      "crBadge": "CR {{cr}}",
+      "traits": "Traits",
+      "attacks": "Actions",
+      "senses": "Senses",
+      "skills": "Skills",
+      "statline": {
+        "ac": "AC",
+        "speed": "Speed"
+      },
+      "picker": {
+        "title": "Known Forms",
+        "search": "Search beasts…",
+        "selected": "{{current}}/{{max}}",
+        "save": "Save",
+        "cancel": "Cancel",
+        "empty": "No creatures match the current limits",
+        "details": "Stat block"
+      }
     },
     "statChoice": {
       "resistanceTitle": "Choose damage resistance",

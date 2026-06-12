@@ -1,0 +1,96 @@
+{
+	"name": "Bristled Moorbounder",
+	"source": "EGW",
+	"page": 295,
+	"otherSources": [
+		{
+			"source": "CRCotN",
+			"page": 295
+		}
+	],
+	"referenceSources": [
+		"CRCotN"
+	],
+	"size": [
+		"L"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 15,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 52,
+		"formula": "7d10 + 14"
+	},
+	"speed": {
+		"walk": 70
+	},
+	"str": 18,
+	"dex": 14,
+	"con": 14,
+	"int": 2,
+	"wis": 13,
+	"cha": 5,
+	"senses": [
+		"darkvision 60 ft."
+	],
+	"passive": 11,
+	"cr": "3",
+	"trait": [
+		{
+			"name": "Bladed Hide",
+			"entries": [
+				"At the start of each of its turns, the moorbounder deals 5 ({@damage 2d4}) piercing damage to any creature grappling it."
+			]
+		},
+		{
+			"name": "Standing Leap",
+			"entries": [
+				"The moorbounder's long jump is up to 40 feet and its high jump is up to 20 feet, with or without a running start."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Multiattack",
+			"entries": [
+				"The moorbounder makes two attacks: one with its blades and one with its claws."
+			]
+		},
+		{
+			"name": "Blades",
+			"entries": [
+				"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}11 ({@damage 2d6 + 4}) slashing damage."
+			]
+		},
+		{
+			"name": "Claws",
+			"entries": [
+				"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}14 ({@damage 4d4 + 4}) slashing damage."
+			]
+		}
+	],
+	"senseTags": [
+		"D"
+	],
+	"actionTags": [
+		"Multiattack"
+	],
+	"damageTags": [
+		"P",
+		"S"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true
+}

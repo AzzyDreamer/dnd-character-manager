@@ -34,6 +34,7 @@ let _classes: any = null;
 let _subclasses: any = null;
 let _actions: any = null;
 let _itemProperties: any = null;
+let _creatures: any = null;
 
 let _initialized = false;
 let _initializing: Promise<void> | null = null;
@@ -41,7 +42,7 @@ let _initializing: Promise<void> | null = null;
 const PHASE_KEYS = [
   'spells', 'feats', 'species', 'conditions', 'senses', 'skills',
   'rules', 'optfeatures', 'backgrounds', 'classes', 'subclasses',
-  'itemsBase', 'items', 'charOptions', 'actions', 'itemProperties',
+  'itemsBase', 'items', 'charOptions', 'actions', 'itemProperties', 'creatures',
 ];
 
 function getPhaseLabel(key: string): string {
@@ -126,6 +127,10 @@ async function loadModules(report: (key: string) => void): Promise<void> {
   _itemProperties = await import('./itemproperties');
   await _itemProperties.init();
   report('itemProperties');
+
+  _creatures = await import('./creatures');
+  await _creatures.init();
+  report('creatures');
 }
 
 // ─── Инициализация с прогрессом ───
@@ -154,6 +159,7 @@ function resetAllModules(): void {
     _spells, _feats, _species, _conditions, _senses, _skills,
     _variantrule, _optfeatures, _backgrounds, _classes, _subclasses,
     _itemsBase, _items, _charCreationOptions, _actions, _itemProperties,
+    _creatures,
   ]) {
     m?.reset?.();
   }
@@ -322,9 +328,27 @@ export function lookupByTag(tagType: string, name: string): RegistryEntry | unde
       if (rule) return { type: 'itemProperty', name: rule.name, source: rule.source, entries: rule.entries, data: rule };
       break;
     }
+    case 'creature': {
+      // {@creature Wolf|XMM|display} — статблок из бестиария.
+      if (_creatures) {
+        const creature = _creatures.getCreatureByName(entityName);
+        if (creature) {
+          return {
+            type: 'creature',
+            name: creature.name,
+            source: creature.source,
+            entries: _creatures.creatureToEntries(creature),
+            data: creature,
+          };
+        }
+      }
+      // Фоллбэк на варианты правил (исторически {@creature} резолвился туда).
+      const creatureRule = _variantrule.getVariantRuleByName(entityName);
+      if (creatureRule) return { type: 'creature', name: creatureRule.name, source: creatureRule.source, entries: creatureRule.entries, data: creatureRule };
+      break;
+    }
     case 'hazard':
     case 'quickref':
-    case 'creature':
     case 'card': {
       const rule = _variantrule.getVariantRuleByName(entityName);
       if (rule) return { type: tagType, name: rule.name, source: rule.source, entries: rule.entries, data: rule };

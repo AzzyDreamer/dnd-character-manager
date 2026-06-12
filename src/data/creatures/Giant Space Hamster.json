@@ -1,0 +1,48 @@
+{
+	"name": "Giant Space Hamster",
+	"source": "BAM",
+	"page": 56,
+	"size": [
+		"L"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		11
+	],
+	"hp": {
+		"average": 22,
+		"formula": "4d10"
+	},
+	"speed": {
+		"walk": 30,
+		"burrow": 10
+	},
+	"str": 14,
+	"dex": 12,
+	"con": 10,
+	"int": 2,
+	"wis": 12,
+	"cha": 4,
+	"passive": 11,
+	"cr": "1/4",
+	"action": [
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}7 ({@damage 2d4 + 2}) piercing damage."
+			]
+		}
+	],
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

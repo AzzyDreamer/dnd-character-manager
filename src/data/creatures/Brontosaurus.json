@@ -1,0 +1,86 @@
+{
+	"name": "Brontosaurus",
+	"source": "MPMM",
+	"page": 95,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 139
+		}
+	],
+	"size": [
+		"G"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"dinosaur"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 15,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 121,
+		"formula": "9d20 + 27"
+	},
+	"speed": {
+		"walk": 30
+	},
+	"str": 21,
+	"dex": 9,
+	"con": 17,
+	"int": 2,
+	"wis": 10,
+	"cha": 7,
+	"save": {
+		"con": "+6"
+	},
+	"passive": 10,
+	"cr": "5",
+	"action": [
+		{
+			"name": "Stomp",
+			"entries": [
+				"{@atk mw} {@hit 8} to hit, reach 20 ft., one target. {@h}27 ({@damage 5d8 + 5}) bludgeoning damage, and the target must succeed on a {@dc 14} Strength saving throw or be knocked {@condition prone}."
+			]
+		},
+		{
+			"name": "Tail",
+			"entries": [
+				"{@atk mw} {@hit 8} to hit, reach 20 ft., one target. {@h}32 ({@damage 6d8 + 5}) bludgeoning damage."
+			]
+		}
+	],
+	"environment": [
+		"forest",
+		"grassland"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/brontosaurus.opus"
+	},
+	"damageTags": [
+		"B"
+	],
+	"miscTags": [
+		"MW",
+		"RCH"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrowForced": [
+		"strength"
+	],
+	"hasToken": true,
+	"hasFluff": true
+}

@@ -1,0 +1,73 @@
+{
+	"name": "Hadrosaurus",
+	"source": "MPMM",
+	"page": 96,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 140
+		}
+	],
+	"size": [
+		"L"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"dinosaur"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 11,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 19,
+		"formula": "3d10 + 3"
+	},
+	"speed": {
+		"walk": 40
+	},
+	"str": 15,
+	"dex": 10,
+	"con": 13,
+	"int": 2,
+	"wis": 10,
+	"cha": 5,
+	"skill": {
+		"perception": "+2"
+	},
+	"passive": 12,
+	"cr": "1/4",
+	"action": [
+		{
+			"name": "Tail",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d10 + 2}) bludgeoning damage."
+			]
+		}
+	],
+	"environment": [
+		"grassland",
+		"swamp"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/hadrosaurus.opus"
+	},
+	"damageTags": [
+		"B"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true
+}

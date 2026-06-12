@@ -1,0 +1,104 @@
+{
+	"name": "Giant Squid",
+	"source": "XMM",
+	"page": 360,
+	"size": [
+		"H"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		12
+	],
+	"hp": {
+		"average": 120,
+		"formula": "16d12 + 16"
+	},
+	"speed": {
+		"walk": 5,
+		"swim": 80
+	},
+	"str": 23,
+	"dex": 14,
+	"con": 12,
+	"int": 5,
+	"wis": 11,
+	"cha": 4,
+	"save": {
+		"str": "+9",
+		"dex": "+5"
+	},
+	"skill": {
+		"perception": "+6"
+	},
+	"senses": [
+		"Darkvision 120 ft."
+	],
+	"passive": 16,
+	"cr": "6",
+	"trait": [
+		{
+			"name": "Water Breathing",
+			"entries": [
+				"The squid can breathe only underwater."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Multiattack",
+			"entries": [
+				"The squid makes one Bite attack and one Tentacle attack."
+			]
+		},
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atkr m} {@hit 9}, reach 5 ft. {@h}28 ({@damage 4d10 + 6}) Piercing damage."
+			]
+		},
+		{
+			"name": "Tentacle",
+			"entries": [
+				"{@atkr m} {@hit 9}, reach 15 ft. {@h}19 ({@damage 3d8 + 6}) Bludgeoning damage. If the target is a Huge or smaller creature, it has the {@condition Grappled|XPHB} condition (escape {@dc 16}) from one of two tentacles, and the squid can pull the target up to 10 feet straight toward itself."
+			]
+		}
+	],
+	"reaction": [
+		{
+			"name": "Ink Cloud (1/Day)",
+			"entries": [
+				"{@actTrigger} The squid takes damage while underwater. {@actResponse} The squid releases ink that fills a 15-foot {@variantrule Cube [Area of Effect]|XPHB|Cube} centered on itself, and the squid moves up to its {@variantrule Swim Speed|XPHB}. The {@variantrule Cube [Area of Effect]|XPHB|Cube} is {@variantrule Heavily Obscured|XPHB} for 1 minute or until a strong current or similar effect disperses the ink."
+			]
+		}
+	],
+	"environment": [
+		"underwater"
+	],
+	"traitTags": [
+		"Water Breathing"
+	],
+	"senseTags": [
+		"SD"
+	],
+	"actionTags": [
+		"Multiattack",
+		"Tentacles"
+	],
+	"damageTags": [
+		"B",
+		"P"
+	],
+	"miscTags": [
+		"MA",
+		"RCH"
+	],
+	"conditionInflict": [
+		"grappled"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

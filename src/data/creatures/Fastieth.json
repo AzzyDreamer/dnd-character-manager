@@ -1,0 +1,58 @@
+{
+	"name": "Fastieth",
+	"group": [
+		"Dinosaurs"
+	],
+	"source": "ERLW",
+	"page": 289,
+	"size": [
+		"M"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		14
+	],
+	"hp": {
+		"average": 9,
+		"formula": "2d8"
+	},
+	"speed": {
+		"walk": 50
+	},
+	"str": 12,
+	"dex": 18,
+	"con": 10,
+	"int": 4,
+	"wis": 11,
+	"cha": 4,
+	"passive": 10,
+	"cr": "1/4",
+	"trait": [
+		{
+			"name": "Quickness {@recharge 5}",
+			"entries": [
+				"The fastieth can take the {@action Dodge} action as a bonus action."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}8 ({@damage 1d8 + 4}) piercing damage."
+			]
+		}
+	],
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

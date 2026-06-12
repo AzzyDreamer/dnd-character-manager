@@ -1,0 +1,78 @@
+{
+	"name": "Aurochs",
+	"source": "MPMM",
+	"page": 71,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 207
+		}
+	],
+	"size": [
+		"L"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"cattle"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 11,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 38,
+		"formula": "4d10 + 16"
+	},
+	"speed": {
+		"walk": 50
+	},
+	"str": 20,
+	"dex": 10,
+	"con": 19,
+	"int": 2,
+	"wis": 12,
+	"cha": 5,
+	"passive": 11,
+	"cr": "2",
+	"action": [
+		{
+			"name": "Gore",
+			"entries": [
+				"{@atk mw} {@hit 7} to hit, reach 5 ft., one target. {@h}14 ({@damage 2d8 + 5}) piercing damage. If the aurochs moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 9 ({@damage 2d8}) piercing damage, and the target must succeed on a {@dc 15} Strength saving throw or be knocked {@condition prone} if it is a creature."
+			]
+		}
+	],
+	"environment": [
+		"grassland",
+		"hill",
+		"mountain"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/aurochs.opus"
+	},
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrowForced": [
+		"strength"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

@@ -417,6 +417,22 @@ export interface Character {
     expiresAt?: string;   // ISO — для длительностей в минутах/часах
   }[];
 
+  // Дикий облик друида (PHB'24): выученные формы (английские имена существ из
+  // бестиария — стабильные ключи) и активная форма. Статы зверя применяются
+  // живьём (см. utils/wildShape.ts) и не вшиваются в хранимые статы.
+  wildShape?: {
+    knownForms: string[];
+    active?: {
+      form: string;            // английское имя существа
+      activatedAt: string;     // ISO
+      // Оставшееся ИГРОВОЕ время в часах — меняется вручную с листа,
+      // к реальному времени не привязано (стартует с уровень/2 часов).
+      remainingHours?: number;
+      // @deprecated реальное время истечения — мигрируется в remainingHours в sync
+      expiresAt?: string;
+    };
+  };
+
   // Портрет персонажа (base64 data URL)
   portraitDataUrl?: string;
   // Позиция обрезки портрета {x: 0-100, y: 0-100, zoom: 1-3} или число (legacy, только Y)

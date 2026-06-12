@@ -1,0 +1,70 @@
+{
+	"name": "Titanothere",
+	"source": "BGG",
+	"page": 185,
+	"size": [
+		"H"
+	],
+	"type": "beast",
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 16,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 136,
+		"formula": "13d12 + 52"
+	},
+	"speed": {
+		"walk": 50
+	},
+	"str": 25,
+	"dex": 10,
+	"con": 19,
+	"int": 2,
+	"wis": 12,
+	"cha": 6,
+	"passive": 11,
+	"cr": "5",
+	"trait": [
+		{
+			"name": "Beast of Burden",
+			"entries": [
+				"The titanothere is considered to be one size larger for the purpose of determining its carrying capacity."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Stomp",
+			"entries": [
+				"{@atk mw} {@hit 10} to hit, reach 10 ft., one target. {@h}20 ({@damage 3d8 + 7}) bludgeoning damage. If the titanothere moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 13 ({@damage 3d8}) bludgeoning damage, and the target must succeed on a {@dc 18} Strength saving throw or have the {@condition prone} condition if it is a creature."
+			]
+		}
+	],
+	"traitTags": [
+		"Beast of Burden"
+	],
+	"damageTags": [
+		"B"
+	],
+	"miscTags": [
+		"MW",
+		"RCH"
+	],
+	"conditionInflict": [
+		"prone"
+	],
+	"savingThrowForced": [
+		"strength"
+	],
+	"hasToken": true,
+	"hasFluff": true,
+	"hasFluffImages": true
+}

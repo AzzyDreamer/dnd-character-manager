@@ -1,0 +1,87 @@
+{
+	"name": "Quetzalcoatlus",
+	"source": "MPMM",
+	"page": 96,
+	"otherSources": [
+		{
+			"source": "VGM",
+			"page": 140
+		}
+	],
+	"size": [
+		"H"
+	],
+	"type": {
+		"type": "beast",
+		"tags": [
+			"dinosaur"
+		]
+	},
+	"alignment": [
+		"U"
+	],
+	"ac": [
+		{
+			"ac": 13,
+			"from": [
+				"natural armor"
+			]
+		}
+	],
+	"hp": {
+		"average": 30,
+		"formula": "4d12 + 4"
+	},
+	"speed": {
+		"walk": 10,
+		"fly": 80
+	},
+	"str": 15,
+	"dex": 13,
+	"con": 13,
+	"int": 2,
+	"wis": 10,
+	"cha": 5,
+	"skill": {
+		"perception": "+2"
+	},
+	"passive": 12,
+	"cr": "2",
+	"trait": [
+		{
+			"name": "Flyby",
+			"entries": [
+				"The quetzalcoatlus doesn't provoke an {@action opportunity attack} when it flies out of an enemy's reach."
+			]
+		}
+	],
+	"action": [
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atk mw} {@hit 4} to hit, reach 10 ft., one creature. {@h}12 ({@damage 3d6 + 2}) piercing damage. If the quetzalcoatlus flew least 30 feet toward the target immediately before the hit, the target takes an extra 10 ({@damage 3d6}) piercing damage."
+			]
+		}
+	],
+	"environment": [
+		"coastal",
+		"hill",
+		"mountain"
+	],
+	"soundClip": {
+		"type": "internal",
+		"path": "bestiary/quetzalcoatlus.opus"
+	},
+	"traitTags": [
+		"Flyby"
+	],
+	"damageTags": [
+		"P"
+	],
+	"miscTags": [
+		"MW",
+		"RCH"
+	],
+	"hasToken": true,
+	"hasFluff": true
+}

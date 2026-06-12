@@ -41,6 +41,7 @@ const CATEGORIES = {
   actions:                  () => flat('actions'),
   charactercreationoptions: () => flat('charactercreationoptions'),
   conditionsdiseases:       () => flat('conditionsdiseases'),
+  creatures:                () => flat('creatures'),
   feats:                    () => flat('feats'),
   itemproperties:           () => flat('itemproperties'),
   items:                    () => flat('items'),

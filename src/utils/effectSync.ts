@@ -15,6 +15,7 @@ import { resolveAC, computeInitiative, syncPermanentClassEffects, addResistances
 import { extractFeatResistances, extractFeatSenses, applyFeatResistances, applyFeatSenses, FEAT_STAT_EFFECTS } from './featEffects';
 import { getActiveTransformEffects } from './transformationEffects';
 import { syncActiveEffects } from './activatedEffects';
+import { syncWildShape } from './wildShape';
 import { normalizeSkillKey } from './dnd';
 
 /**
@@ -29,6 +30,7 @@ export async function syncCharacterEffects(char: Character): Promise<Character |
   // 0) Активные эффекты: миграция activeTransformForm → activeEffects и
   //    удаление просроченных записей (единственное место, где sync их касается).
   syncActiveEffects(updated);
+  syncWildShape(updated);
 
   // 1) Class / subclass / species wired effects (resists, saves, senses)
   syncPermanentClassEffects(updated);

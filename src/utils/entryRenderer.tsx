@@ -9,6 +9,7 @@ import { FilterNavContext } from '../components/FilterNavContext';
 import { asset } from '../utils/asset';
 import { parseScaledDamage, computeScaledDice } from './scaleDamage';
 import { parseFilterTag, mapFilterCategory } from './filterTag';
+import i18n from '../i18n';
 
 export type { RegistryEntry };
 
@@ -47,13 +48,31 @@ const STATIC_NAME_TAGS = new Set(['trap']);
 const TEXT_TAGS = new Set([
   'damage', 'dice', 'dc', 'scaledamage', 'hit', 'chance',
   'recharge', 'coinflip', 'scaledice',
+  // Боевая стенография статблоков (бестиарий): {@atkr m} {@hit 4} … {@h}5
+  'atk', 'atkr', 'h', 'hom', 'actSave', 'actSaveFail', 'actSaveSuccess',
+  'actTrigger', 'actResponse',
 ]);
+
+// Подписи боевых тегов берём из i18n (game.combatTags), чтобы переключались с языком
+function combatTagLabel(key: string, options?: Record<string, unknown>): string {
+  return i18n.t(`combatTags.${key}`, { ns: 'game', defaultValue: key, ...options });
+}
+
+// {@atk mw} (2014) / {@atkr m} (2024): коды через запятую — m, r, mw, rw…
+function attackLabel(tagType: string, codes: string): string {
+  const set = new Set(codes.split(',').map(c => c.trim().toLowerCase()));
+  const melee = set.has('m') || set.has('mw') || set.has('ms');
+  const ranged = set.has('r') || set.has('rw') || set.has('rs');
+  const suffix = melee && ranged ? 'MR' : ranged ? 'R' : 'M';
+  return combatTagLabel(`${tagType}${suffix}`);
+}
 
 // Теги книг — удаляем
 const BOOK_TAGS = new Set(['book', 'adventure']);
 
 // ─── Парсер тегов ───
-const TAG_REGEX = /\{@(\w+)\s+([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
+// Контент опционален: {@h} и {@actSaveFail} — валидные безаргументные теги
+const TAG_REGEX = /\{@(\w+)(?:\s+([^{}]*(?:\{[^{}]*\}[^{}]*)*))?\}/g;
 
 function parseTagContent(tagType: string, content: string): string {
   const parts = content.split('|');
@@ -81,6 +100,42 @@ function parseTagContent(tagType: string, content: string): string {
   // Для @dc — возвращаем "СЛ X"
   if (tagType === 'dc') {
     return `СЛ ${parts[0].trim()}`;
+  }
+
+  // Боевая стенография статблоков (2014 {@atk mw} / 2024 {@atkr m})
+  if (tagType === 'atk' || tagType === 'atkr') {
+    return attackLabel(tagType, parts[0]);
+  }
+  if (tagType === 'h') {
+    return `${combatTagLabel('hit')} `;
+  }
+  if (tagType === 'hom') {
+    return `${combatTagLabel('hitOrMiss')} `;
+  }
+  if (tagType === 'hit') {
+    const v = parts[0].trim();
+    return v.startsWith('+') || v.startsWith('-') ? v : `+${v}`;
+  }
+  if (tagType === 'recharge') {
+    const n = parts[0]?.trim();
+    return combatTagLabel('recharge', { n: n || '6' });
+  }
+  if (tagType === 'actSave') {
+    const code = parts[0]?.trim().toLowerCase() ?? '';
+    const ability = i18n.t(`combatTags.saveAbility.${code}`, { ns: 'game', defaultValue: code.toUpperCase() });
+    return combatTagLabel('actSave', { ability });
+  }
+  if (tagType === 'actSaveFail') {
+    return combatTagLabel('actSaveFail');
+  }
+  if (tagType === 'actSaveSuccess') {
+    return combatTagLabel('actSaveSuccess');
+  }
+  if (tagType === 'actTrigger') {
+    return combatTagLabel('actTrigger');
+  }
+  if (tagType === 'actResponse') {
+    return combatTagLabel('actResponse');
   }
 
   // Для @damage, @dice, @scaledamage, @hit — возвращаем бросок
@@ -511,7 +566,7 @@ export function renderTaggedString(
     }
 
     const tagType = match[1];
-    const tagContent = match[2];
+    const tagContent = match[2] ?? '';
     const key = `tag-${match.index}`;
 
     if (BOOK_TAGS.has(tagType)) {

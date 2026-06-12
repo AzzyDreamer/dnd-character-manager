@@ -405,7 +405,32 @@
     "items": "Items",
     "charOptions": "Creation Options",
     "actions": "Actions",
-    "itemProperties": "Item Properties"
+    "itemProperties": "Item Properties",
+    "creatures": "Creatures"
+  },
+  "combatTags": {
+    "atkMW": "Melee Weapon Attack:",
+    "atkRW": "Ranged Weapon Attack:",
+    "atkMRW": "Melee or Ranged Weapon Attack:",
+    "atkrM": "Melee Attack Roll:",
+    "atkrR": "Ranged Attack Roll:",
+    "atkrMR": "Melee or Ranged Attack Roll:",
+    "hit": "Hit:",
+    "hitOrMiss": "Hit or Miss:",
+    "recharge": "(Recharge {{n}}–6)",
+    "actSave": "{{ability}} Saving Throw:",
+    "actSaveFail": "Failure:",
+    "actSaveSuccess": "Success:",
+    "actTrigger": "Trigger:",
+    "actResponse": "Response:",
+    "saveAbility": {
+      "str": "Strength",
+      "dex": "Dexterity",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Wisdom",
+      "cha": "Charisma"
+    }
   },
   "featCategories": {
     "G": "General Feat",
