@@ -482,7 +482,7 @@ export function OptionalFeaturePickerModal({
                   <div className="flex items-center gap-2">
                     {(isSelected || isReplacement) && <Check size={14} className="text-gold shrink-0" />}
                     <img
-                      src={getFeatureImageUrl(inv.name)}
+                      src={getFeatureImageUrl(inv._origName ?? inv.name)}
                       alt=""
                       className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel"
                       onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -525,7 +525,7 @@ export function OptionalFeaturePickerModal({
             <div className="glass-panel p-4 space-y-4">
               <div className="flex items-center gap-3">
                 <img
-                  src={getFeatureImageUrl(focusedFeature.name)}
+                  src={getFeatureImageUrl(focusedFeature._origName ?? focusedFeature.name)}
                   alt=""
                   className="w-12 h-12 rounded-lg object-cover bg-bg-panel shrink-0"
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}

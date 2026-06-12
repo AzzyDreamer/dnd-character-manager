@@ -1968,6 +1968,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
 interface FeatureItem {
   name: string;
+  /** Английский оригинал имени (стабильный ключ картинки в /images/misc/) */
+  nameEn?: string;
   description: string;
   rawEntries?: any[];
   level?: number;
@@ -2216,6 +2218,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
             .map((e: any) => ({
               name: e.name,
+              nameEn: e._origName ?? e.name,
               description: '',
               rawEntries: e.entries,
             }));
@@ -2227,12 +2230,16 @@ function FeaturesSection({ character }: { character: Character }) {
           const entries: any[] = [];
           if (f.description) entries.push(f.description);
           if (f.details && typeof f.details === 'object') {
-            for (const val of Object.values(f.details)) {
+            for (const [key, val] of Object.entries(f.details)) {
               if (typeof val === 'string') {
                 // Extract bold name like {@b Careful Spell.} or just "Name. ..."
                 const match = val.match(/\{@b\s+([^.}]+)\.\s*\}/);
                 if (match) {
-                  entries.push({ _detailName: match[1], _detailText: val });
+                  // Имя картинки — из английского оригинала детали (оверлей
+                  // сохраняет его в _origDetails; переведённое имя даёт 404)
+                  const origVal = f._origDetails?.[key];
+                  const origMatch = typeof origVal === 'string' ? origVal.match(/\{@b\s+([^.}]+)\.\s*\}/) : null;
+                  entries.push({ _detailName: match[1], _detailImageName: origMatch?.[1], _detailText: val });
                 } else {
                   entries.push(val);
                 }
@@ -2249,6 +2256,7 @@ function FeaturesSection({ character }: { character: Character }) {
             .filter((f: any) => f.level <= character.level)
             .map((f: any) => ({
               name: f.name,
+              nameEn: f._origName ?? f.name,
               description: f.description || '',
               rawEntries: buildRawEntries(f),
               level: f.level,
@@ -2273,6 +2281,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter(f => f.level <= character.level)
                 .map(f => ({
                   name: f.name,
+                  nameEn: (f as { _origName?: string })._origName ?? f.name,
                   description: (f as any).description || '',
                   rawEntries: buildRawEntries(f),
                   level: f.level,
@@ -2294,6 +2303,7 @@ function FeaturesSection({ character }: { character: Character }) {
             const featData = featsMod.getFeatByName(cf.name);
             return {
               name: cf.name,
+              nameEn: cf.nameEn ?? (featData as { _origName?: string } | undefined)?._origName ?? cf.name,
               description: '',
               rawEntries: featData?.entries ?? [],
               level: cf.levelAcquired,
@@ -2327,6 +2337,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
                 .map((e: any) => ({
                   name: e.name,
+                  nameEn: e._origName ?? e.name,
                   description: '',
                   rawEntries: e.entries,
                 }));
@@ -2335,7 +2346,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 if (e?.type === 'section' && Array.isArray(e.entries)) {
                   for (const sub of e.entries) {
                     if (sub && typeof sub === 'object' && sub.name && Array.isArray(sub.entries) && sub.type === 'entries') {
-                      traits.push({ name: sub.name, description: '', rawEntries: sub.entries });
+                      traits.push({ name: sub.name, nameEn: sub._origName ?? sub.name, description: '', rawEntries: sub.entries });
                     }
                   }
                 }
@@ -2365,6 +2376,7 @@ function FeaturesSection({ character }: { character: Character }) {
                 const data = ofMod.getOptionalFeatureByName(f.name);
                 return {
                   name: f.name,
+                  nameEn: f.nameEn ?? (data as { _origName?: string } | undefined)?._origName ?? f.name,
                   description: '',
                   rawEntries: data?.entries,
                   level: f.levelAcquired,
@@ -2476,7 +2488,7 @@ function FeaturesSection({ character }: { character: Character }) {
               {detailEntries.map((d: any, i: number) => (
                 <div key={i} className="flex gap-2 items-start">
                   <img
-                    src={getFeatureImageUrl(d._detailName)}
+                    src={getFeatureImageUrl(d._detailImageName ?? d._detailName)}
                     alt=""
                     className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel mt-0.5"
                     onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -2536,7 +2548,7 @@ function FeaturesSection({ character }: { character: Character }) {
                     >
                       <div className="flex items-center gap-2">
                         <img
-                          src={getFeatureImageUrl(feat.name)}
+                          src={getFeatureImageUrl(feat.nameEn ?? feat.name)}
                           alt=""
                           className="w-6 h-6 rounded object-cover shrink-0 bg-bg-panel"
                           onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
