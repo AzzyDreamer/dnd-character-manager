@@ -16,97 +16,102 @@ function migrateCharacter(character: Character): Character {
   return character;
 }
 
-// Получить все персонажи из localStorage
-export const getCharacters = (): Character[] => {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return [];
-    const storage: CharacterStorage = JSON.parse(data);
-    return (storage.characters || []).map(migrateCharacter);
-  } catch (error) {
-    console.error('Ошибка при загрузке персонажей:', error);
-    return [];
-  }
-};
+/**
+ * Async-шов хранилища персонажей. Весь персистентный доступ идёт через этот
+ * интерфейс — это единственная точка подмены локального хранилища на сетевое
+ * (см. docs/PLAN_PARTY.md, этапы 0 и 3). Методы async с самого начала, чтобы
+ * переезд на сетевой стор (RemoteCharacterStore) не менял сигнатуры.
+ */
+export interface CharacterStore {
+  list(): Promise<Character[]>;
+  upsert(character: Character): Promise<Character>;
+  remove(characterId: string): Promise<void>;
+  getActiveId(): Promise<string | null>;
+  setActiveId(characterId: string): Promise<void>;
+}
 
-// Получить активного персонажа
-export const getActiveCharacterId = (): string | null => {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return null;
-    const storage: CharacterStorage = JSON.parse(data);
-    return storage.activeCharacterId;
-  } catch (error) {
-    console.error('Ошибка при получении активного персонажа:', error);
-    return null;
-  }
-};
+const EMPTY_STORAGE: CharacterStorage = { characters: [], activeCharacterId: null };
 
-// Сохранить персонажа
-export const saveCharacter = (character: Character): void => {
-  try {
-    const characters = getCharacters();
-    const index = characters.findIndex(c => c.id === character.id);
-    
-    const updatedCharacter = {
-      ...character,
-      updatedAt: new Date().toISOString()
-    };
-    
-    if (index >= 0) {
-      characters[index] = updatedCharacter;
-    } else {
-      characters.push(updatedCharacter);
+/** Текущая реализация: один JSON-ключ в localStorage. */
+export class LocalCharacterStore implements CharacterStore {
+  private read(): CharacterStorage {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      if (!data) return { ...EMPTY_STORAGE };
+      return JSON.parse(data) as CharacterStorage;
+    } catch (error) {
+      console.error('Ошибка при чтении хранилища персонажей:', error);
+      return { ...EMPTY_STORAGE };
     }
-    
-    const storage: CharacterStorage = {
-      characters,
-      activeCharacterId: getActiveCharacterId() || character.id
-    };
-    
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
-  } catch (error) {
-    console.error('Ошибка при сохранении персонажа:', error);
-    throw error;
   }
-};
 
-// Удалить персонажа
-export const deleteCharacter = (characterId: string): void => {
-  try {
-    const characters = getCharacters();
-    const filtered = characters.filter(c => c.id !== characterId);
-    
-    let activeId = getActiveCharacterId();
-    if (activeId === characterId) {
-      activeId = filtered.length > 0 ? filtered[0].id : null;
+  private write(storage: CharacterStorage): void {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+  }
+
+  async list(): Promise<Character[]> {
+    return (this.read().characters || []).map(migrateCharacter);
+  }
+
+  async getActiveId(): Promise<string | null> {
+    return this.read().activeCharacterId ?? null;
+  }
+
+  async upsert(character: Character): Promise<Character> {
+    try {
+      const storage = this.read();
+      const characters = (storage.characters || []).map(migrateCharacter);
+      const updated: Character = { ...character, updatedAt: new Date().toISOString() };
+
+      const index = characters.findIndex(c => c.id === character.id);
+      if (index >= 0) {
+        characters[index] = updated;
+      } else {
+        characters.push(updated);
+      }
+
+      this.write({
+        characters,
+        // первый сохранённый персонаж становится активным
+        activeCharacterId: storage.activeCharacterId || character.id,
+      });
+      return updated;
+    } catch (error) {
+      console.error('Ошибка при сохранении персонажа:', error);
+      throw error;
     }
-    
-    const storage: CharacterStorage = {
-      characters: filtered,
-      activeCharacterId: activeId
-    };
-    
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
-  } catch (error) {
-    console.error('Ошибка при удалении персонажа:', error);
-    throw error;
   }
-};
 
-// Установить активного персонажа
-export const setActiveCharacter = (characterId: string): void => {
-  try {
-    const storage: CharacterStorage = {
-      characters: getCharacters(),
-      activeCharacterId: characterId
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
-  } catch (error) {
-    console.error('Ошибка при установке активного персонажа:', error);
-    throw error;
+  async remove(characterId: string): Promise<void> {
+    try {
+      const storage = this.read();
+      const filtered = (storage.characters || []).filter(c => c.id !== characterId);
+
+      let activeId = storage.activeCharacterId;
+      if (activeId === characterId) {
+        activeId = filtered.length > 0 ? filtered[0].id : null;
+      }
+
+      this.write({ characters: filtered, activeCharacterId: activeId });
+    } catch (error) {
+      console.error('Ошибка при удалении персонажа:', error);
+      throw error;
+    }
   }
-};
+
+  async setActiveId(characterId: string): Promise<void> {
+    try {
+      const storage = this.read();
+      this.write({ characters: storage.characters || [], activeCharacterId: characterId });
+    } catch (error) {
+      console.error('Ошибка при установке активного персонажа:', error);
+      throw error;
+    }
+  }
+}
+
+/** Синглтон локального стора — дефолт для useCharacters в локальном режиме. */
+export const localCharacterStore: CharacterStore = new LocalCharacterStore();
 
 // Экспорт персонажа в JSON
 export const exportCharacter = (character: Character): void => {
