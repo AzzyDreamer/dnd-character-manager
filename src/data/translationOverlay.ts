@@ -126,15 +126,9 @@ function applyStandardTranslations(item: any, stem: string, translations: Record
   // Fluff text (species)
   applyEntryTranslations(item._fluffText, `${stem}._fluffText`, translations);
 
-  // Fluff (backgrounds)
-  if (Array.isArray(item.fluff)) {
-    for (let i = 0; i < item.fluff.length; i++) {
-      const fKey = `${stem}.fluff.${i}`;
-      if (typeof item.fluff[i] === 'string' && translations[fKey] !== undefined) {
-        item.fluff[i] = translations[fKey];
-      }
-    }
-  }
+  // Fluff (backgrounds) — recurse to mirror the extractor: structured lore
+  // (nested {type:"entries"} sections) as well as flat string paragraphs.
+  applyEntryTranslations(item.fluff, `${stem}.fluff`, translations);
 }
 
 /**
