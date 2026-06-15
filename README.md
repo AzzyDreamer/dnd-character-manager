@@ -1,7 +1,7 @@
 <!-- i18n:badges:start -->
 ![i18n RU](https://img.shields.io/badge/i18n%20RU-86.3%25-green)
 
-![actions](https://img.shields.io/badge/actions-100%25-brightgreen) ![conditionsdiseases](https://img.shields.io/badge/conditionsdiseases-100%25-brightgreen) ![creatures](https://img.shields.io/badge/creatures-100%25-brightgreen) ![itemproperties](https://img.shields.io/badge/itemproperties-100%25-brightgreen) ![items-base](https://img.shields.io/badge/items--base-100%25-brightgreen) ![senses](https://img.shields.io/badge/senses-100%25-brightgreen) ![skills](https://img.shields.io/badge/skills-100%25-brightgreen) ![subclasses](https://img.shields.io/badge/subclasses-99.9%25-green) ![optionalfeatures](https://img.shields.io/badge/optionalfeatures-98.5%25-green) ![spells](https://img.shields.io/badge/spells-97.3%25-green) ![classes](https://img.shields.io/badge/classes-96.9%25-green) ![species](https://img.shields.io/badge/species-91.6%25-green) ![feats](https://img.shields.io/badge/feats-89.9%25-green) ![variantrule](https://img.shields.io/badge/variantrule-86%25-green) ![charactercreationoptions](https://img.shields.io/badge/charactercreationoptions-85.9%25-green) ![backgrounds](https://img.shields.io/badge/backgrounds-68%25-yellowgreen)
+![actions](https://img.shields.io/badge/actions-100%25-brightgreen) ![conditionsdiseases](https://img.shields.io/badge/conditionsdiseases-100%25-brightgreen) ![creatures](https://img.shields.io/badge/creatures-100%25-brightgreen) ![itemproperties](https://img.shields.io/badge/itemproperties-100%25-brightgreen) ![items-base](https://img.shields.io/badge/items--base-100%25-brightgreen) ![senses](https://img.shields.io/badge/senses-100%25-brightgreen) ![skills](https://img.shields.io/badge/skills-100%25-brightgreen) ![subclasses](https://img.shields.io/badge/subclasses-99.9%25-green) ![optionalfeatures](https://img.shields.io/badge/optionalfeatures-98.5%25-green) ![spells](https://img.shields.io/badge/spells-97.3%25-green) ![classes](https://img.shields.io/badge/classes-96.9%25-green) ![species](https://img.shields.io/badge/species-91.6%25-green) ![feats](https://img.shields.io/badge/feats-89.9%25-green) ![variantrule](https://img.shields.io/badge/variantrule-86%25-green) ![charactercreationoptions](https://img.shields.io/badge/charactercreationoptions-85.9%25-green) ![backgrounds](https://img.shields.io/badge/backgrounds-68.7%25-yellowgreen)
 <!-- i18n:badges:end -->
 
 # D&D Character Manager
@@ -101,8 +101,8 @@ npm run i18n:status
 | `feats.json` | `████████████████░░` 89.9% | 1597 / 1776 |
 | `variantrule.json` | `███████████████░░░` 86% | 1805 / 2098 |
 | `charactercreationoptions.json` | `███████████████░░░` 85.9% | 942 / 1096 |
-| `backgrounds.json` | `████████████░░░░░░` 68% | 5523 / 8123 |
-| **Всего** | `████████████████░░` **86.3%** | **22513 / 26097** |
+| `backgrounds.json` | `████████████░░░░░░` 68.7% | 5728 / 8342 |
+| **Всего** | `████████████████░░` **86.3%** | **22718 / 26316** |
 <!-- i18n:status:end -->
 
 ## Хранение данных
