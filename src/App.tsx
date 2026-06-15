@@ -256,7 +256,7 @@ function AppContent() {
   const handleImportCharacter = async (file: File) => {
     try {
       const character = await importCharacter(file);
-      addCharacter(character);
+      await addCharacter(character);
       alert(t('alerts.importSuccess', { name: character.name }));
     } catch (error) {
       alert(t('errors.importError', { error: (error as Error).message }));
@@ -356,9 +356,13 @@ function AppContent() {
           <div className="h-full overflow-y-auto py-4">
             {currentView === 'creator' ? (
               <CharacterCreator
-                onSave={(character) => {
-                  addCharacter(character);
-                  setCurrentView('main');
+                onSave={async (character) => {
+                  try {
+                    await addCharacter(character);
+                    setCurrentView('main');
+                  } catch {
+                    // ошибка уже залогирована в хуке; остаёмся в редакторе
+                  }
                 }}
                 onCancel={() => setCurrentView('main')}
               />
