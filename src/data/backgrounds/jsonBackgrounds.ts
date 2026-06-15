@@ -13,6 +13,8 @@ export interface JsonBackgroundData {
   startingEquipment?: any[];
   entries: any[];
   fluff?: string[];
+  /** Имя исходного файла = ключ перевода (см. scripts/bundle-data.mjs). */
+  _i18nStem?: string;
   [key: string]: any;
 }
 
@@ -63,7 +65,10 @@ export async function init(): Promise<void> {
     }
 
     ALL_JSON_BACKGROUNDS.sort((a, b) => a.name.localeCompare(b.name));
-    await applyOverlay('backgrounds', ALL_JSON_BACKGROUNDS, b => b.name);
+    // Ключ перевода — стем файла (_i18nStem), а не name: иначе предыстории с
+    // одинаковым name (Courtier SCAG/GHPG24, Baldur's Gate Criminal/Entertainer)
+    // схлопывались бы в один перевод. Фоллбек на name — для устаревшего бандла.
+    await applyOverlay('backgrounds', ALL_JSON_BACKGROUNDS, b => b._i18nStem ?? b.name);
     _initialized = true;
   })();
 
