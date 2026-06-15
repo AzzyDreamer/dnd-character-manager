@@ -10,7 +10,9 @@ import { HomePage } from './components/HomePage';
 import { Glossary } from './components/Glossary';
 import { TopNavBar } from './components/ui';
 import type { NavTab } from './components/ui';
-import { importCharacter } from './utils/storage';
+import { importCharacter, localCharacterStore } from './utils/storage';
+import type { CharacterStore } from './utils/storage';
+import { isTauri } from './utils/isTauri';
 import { initRegistry, reloadForLocale, isInitialized } from './data/registry';
 import type { LoadProgress } from './data/registry';
 import { PlusCircle, Users, Scroll, Library, Settings } from 'lucide-react';
@@ -126,7 +128,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   );
 }
 
-function AppContent() {
+function AppContent({ store }: { store: CharacterStore }) {
   const { t } = useTranslation('common');
 
   const {
@@ -138,7 +140,7 @@ function AppContent() {
     updateCharacter,
     removeCharacter,
     setActiveCharacter,
-  } = useCharacters();
+  } = useCharacters(store);
 
   const [registryReady, setRegistryReady] = useState(false);
   const [registryProgress, setRegistryProgress] = useState<LoadProgress | null>(null);
@@ -394,11 +396,26 @@ function AppContent() {
 }
 
 function App() {
+  // Веб-режим берёт localStorage сразу (синхронно, без мигания загрузки).
+  // Под Tauri подменяем на файловый стор через динамический импорт — так
+  // @tauri-apps/* не попадает в веб-бандл (см. utils/fileCharacterStore).
+  const [store, setStore] = useState<CharacterStore | null>(
+    () => (isTauri() ? null : localCharacterStore),
+  );
+  useEffect(() => {
+    if (store) return;
+    let cancelled = false;
+    import('./utils/fileCharacterStore').then(({ fileCharacterStore }) => {
+      if (!cancelled) setStore(fileCharacterStore);
+    });
+    return () => { cancelled = true; };
+  }, [store]);
+
   return (
     <ErrorBoundary>
       <SettingsProvider>
         <DiceRollProvider>
-          <AppContent />
+          {store ? <AppContent store={store} /> : <LoadingScreen progress={null} />}
         </DiceRollProvider>
       </SettingsProvider>
     </ErrorBoundary>
