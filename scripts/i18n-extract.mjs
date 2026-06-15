@@ -145,13 +145,11 @@ function extractStandardFile(data, stem, output) {
     extractEntries(data._fluffText, `${stem}._fluffText`, output);
   }
 
-  // Fluff (backgrounds)
+  // Fluff (backgrounds) — recurse so structured lore (nested {type:"entries"}
+  // sections with sub-headings, e.g. Faction Agent's "The Harpers") is captured,
+  // not just flat string paragraphs. Flat strings still emit `${stem}.fluff.${i}`.
   if (Array.isArray(data.fluff)) {
-    for (let i = 0; i < data.fluff.length; i++) {
-      if (typeof data.fluff[i] === 'string') {
-        output[`${stem}.fluff.${i}`] = data.fluff[i];
-      }
-    }
+    extractEntries(data.fluff, `${stem}.fluff`, output);
   }
 }
 
