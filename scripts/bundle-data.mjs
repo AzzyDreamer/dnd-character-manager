@@ -11,7 +11,7 @@
 // (см. .gitignore). Скрипт запускается автоматически на predev/prebuild.
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, parse } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -87,7 +87,14 @@ for (const [name, finder] of Object.entries(CATEGORIES)) {
   const items = [];
   for (const file of files) {
     try {
-      items.push(JSON.parse(readFileSync(file, 'utf8')));
+      const obj = JSON.parse(readFileSync(file, 'utf8'));
+      // Для backgrounds ключ перевода = имя файла (см. i18n-extract.mjs), а не
+      // obj.name: несколько предысторий делят одно name (Courtier из SCAG и
+      // GHPG24; баг данных у "Baldurs Gate Criminal", где name="...Entertainer").
+      // Прокидываем стем файла, чтобы оверлей переводов сопоставлял каждый файл
+      // с его собственным ключом, а не валил двойников в один перевод.
+      if (name === 'backgrounds') obj._i18nStem = parse(file).name;
+      items.push(obj);
     } catch (e) {
       console.warn(`[bundle-data] не удалось разобрать ${file}: ${e.message}`);
     }
