@@ -15,7 +15,7 @@ import type { CharacterStore } from './utils/storage';
 import { isTauri } from './utils/isTauri';
 import { initRegistry, reloadForLocale, isInitialized } from './data/registry';
 import type { LoadProgress } from './data/registry';
-import { PlusCircle, Users, Scroll, Library, Settings } from 'lucide-react';
+import { PlusCircle, Users, Scroll, Library, Settings, Wifi } from 'lucide-react';
 import { DiceRollProvider } from './components/DiceRollProvider';
 import { SettingsProvider } from './components/SettingsProvider';
 import { SettingsModal } from './components/SettingsModal';
@@ -29,6 +29,10 @@ import { useBackDismiss } from './hooks/useBackDismiss';
 // в веб-бандл.
 const TitleBar = lazy(() => import('./components/desktop/TitleBar'));
 const WindowResizers = lazy(() => import('./components/desktop/WindowResizers'));
+
+// Онлайн-партии — десктоп-онли (LP0). Ленивый импорт под isTauri(), чтобы
+// сетевой код и @tauri-apps/* не попадали в веб-бандл (см. scripts/check-web-imports.mjs).
+const PartyPanel = lazy(() => import('./online/PartyPanel'));
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -64,7 +68,14 @@ class ErrorBoundary extends Component<
   }
 }
 
-type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary';
+type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary' | 'party';
+
+// Онлайн-партия (LP2). Union дублируется локально: App не может СТАТИЧЕСКИ
+// импортировать из src/online (десктоп-онли, см. scripts/check-web-imports.mjs);
+// сам сетевой вызов идёт через динамический import под isTauri().
+type PartyVisibility = 'party' | 'gm' | 'hidden';
+interface PartyBinding { characterId: string; visibility: PartyVisibility }
+interface PartySnapshotCard { characterName?: string; characterId?: string; data: unknown }
 
 const GLOSSARY_SUB_TAB_KEYS = [
   'spells', 'classes', 'subclasses', 'species', 'backgrounds',
@@ -86,6 +97,7 @@ function urlForLoc(loc: NavLoc): string {
     case 'creator': return '#/create';
     case 'sheet': return loc.characterId ? `#/sheet/${encodeURIComponent(loc.characterId)}` : '#/sheet';
     case 'glossary': return loc.glossaryCategory ? `#/glossary/${loc.glossaryCategory}` : '#/glossary';
+    case 'party': return '#/party';
     case 'home':
     default: return '#/';
   }
@@ -100,6 +112,9 @@ function parseLocFromHash(): NavLoc {
     case 'create': return { view: 'creator', characterId: null, glossaryCategory: null };
     case 'sheet': return { view: 'sheet', characterId: rest ? decodeURIComponent(rest) : null, glossaryCategory: null };
     case 'glossary': return { view: 'glossary', characterId: null, glossaryCategory: rest || 'spells' };
+    // Party — десктоп-онли: в вебе #/party схлопывается в home, чтобы браузер
+    // никогда не подгружал онлайн-чанк.
+    case 'party': return { view: isTauri() ? 'party' : 'home', characterId: null, glossaryCategory: null };
     default: return { view: 'home', characterId: null, glossaryCategory: null };
   }
 }
@@ -162,10 +177,19 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
   );
   const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
 
+  // Онлайн-партия: «каким персонажем делюсь» (привязка) + снимки чужих листов.
+  // Живут на уровне App, а не в PartyPanel: снимок должен уходить при правке листа
+  // на ЛЮБОМ экране (PartyPanel тогда размонтирован), а входящие снимки — переживать
+  // уход с экрана партии. Десктоп-онли; сетевой код грузится динамически.
+  const [partyBinding, setPartyBinding] = useState<PartyBinding | null>(null);
+  const [partySnapshots, setPartySnapshots] = useState<Record<string, PartySnapshotCard>>({});
+
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
     { key: 'creator', label: t('nav.creation'), icon: Scroll },
     { key: 'glossary', label: t('nav.glossary'), icon: Library },
+    // Онлайн-партии доступны только на десктопе (хост слушает порт — браузер так не умеет).
+    ...(isTauri() ? [{ key: 'party', label: t('nav.party'), icon: Wifi }] : []),
   ];
 
   const glossarySubTabs: NavTab[] = GLOSSARY_SUB_TAB_KEYS.map(key => ({
@@ -257,6 +281,45 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Подписка на снимки чужих листов (party://snapshot). На уровне App, чтобы не
+  // терять их при уходе с экрана партии. `data: null` → участник снял свой лист.
+  useEffect(() => {
+    if (!isTauri()) return;
+    let unlisten: (() => void) | undefined;
+    let cancelled = false;
+    import('./online/party')
+      .then(({ subscribeParty }) =>
+        subscribeParty({
+          onSnapshot: (s) =>
+            setPartySnapshots((prev) => {
+              const next = { ...prev };
+              if (s.data == null) delete next[s.from];
+              else next[s.from] = { characterName: s.characterName, characterId: s.characterId, data: s.data };
+              return next;
+            }),
+        }),
+      )
+      .then((u) => { if (cancelled) u(); else unlisten = u; });
+    return () => { cancelled = true; unlisten?.(); };
+  }, []);
+
+  // Публикуем снимок привязанного персонажа при изменении листа/привязки — на
+  // любом экране. Вне партии party_share вернёт ошибку «no active party», глотаем.
+  useEffect(() => {
+    if (!isTauri() || !partyBinding) return;
+    const char = characters.find((c) => c.id === partyBinding.characterId);
+    let cancelled = false;
+    import('./online/party').then(({ shareCharacter, unshareCharacter }) => {
+      if (cancelled) return;
+      if (char) {
+        void shareCharacter({ id: char.id, name: char.name, visibility: partyBinding.visibility, data: char }).catch(() => {});
+      } else {
+        void unshareCharacter(partyBinding.characterId, '').catch(() => {});
+      }
+    });
+    return () => { cancelled = true; };
+  }, [characters, partyBinding]);
+
   const handleImportCharacter = async (file: File) => {
     try {
       const character = await importCharacter(file);
@@ -341,7 +404,24 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
 
       {/* Main content */}
       <main className="flex-1 min-h-0 px-4 sm:px-6">
-        {currentView === 'sheet' && activeCharacter ? (
+        {/* Party-экран остаётся СМОНТИРОВАННЫМ при смене вкладок (прячем через
+            display:none), иначе активная сессия — роль/состав/лог живут в стейте
+            PartyPanel — терялась бы при уходе с вкладки, что выглядело как «выбило
+            из онлайна» (Rust-соединение при этом не рвётся). Десктоп-онли. */}
+        {isTauri() && (
+          <div className={currentView === 'party' ? 'h-full overflow-y-auto py-4' : 'hidden'}>
+            <Suspense fallback={<LoadingScreen progress={null} />}>
+              <PartyPanel
+                characters={characters}
+                binding={partyBinding}
+                onChangeBinding={(b) => setPartyBinding(b)}
+                snapshots={partySnapshots}
+                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); }}
+              />
+            </Suspense>
+          </div>
+        )}
+        {currentView !== 'party' && (currentView === 'sheet' && activeCharacter ? (
           <div className="h-full py-4">
             <CharacterSheet
               character={activeCharacter}
@@ -390,7 +470,7 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
               </div>
             )}
           </div>
-        )}
+        ))}
       </main>
     </div>
     </FilterNavContext.Provider>

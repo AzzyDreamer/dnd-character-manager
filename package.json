@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
+    "check:web-imports": "node scripts/check-web-imports.mjs",
     "i18n:extract": "node scripts/i18n-extract.mjs",
     "i18n:status": "node scripts/i18n-status.mjs",
     "tauri": "tauri"

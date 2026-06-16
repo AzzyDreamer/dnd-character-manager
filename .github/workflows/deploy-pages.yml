@@ -42,6 +42,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Десктоп-онли код (@tauri-apps/*, src/online/*) не должен статически
+      # импортироваться в веб-бандл — иначе Pages-сборка распухнет/упадёт.
+      - name: Check web-bundle purity
+        run: npm run check:web-imports
+
       - name: Build
         run: npm run build
 
