@@ -33,7 +33,7 @@ export default function WindowResizers() {
             if (e.button !== 0) return;
             void appWindow.startResizeDragging(h.dir);
           }}
-          style={{ position: 'fixed', zIndex: 9999, ...h.style }}
+          style={{ position: 'fixed', zIndex: 40, ...h.style }}
         />
       ))}
     </>

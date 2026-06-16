@@ -30,7 +30,19 @@
     "devMode": "Developer mode",
     "devModeDesc": "Show debug information and advanced diagnostics.",
     "fullEdit": "Full character editing",
-    "fullEditDesc": "Edit any character field without rule restrictions."
+    "fullEditDesc": "Edit any character field without rule restrictions.",
+    "dataFolder": "Data folder",
+    "dataFolderDesc": "Where this app stores your characters on this device.",
+    "openDataFolder": "Open folder"
+  },
+  "window": {
+    "back": "Back",
+    "forward": "Forward",
+    "settings": "Settings",
+    "minimize": "Minimize",
+    "maximize": "Maximize",
+    "restore": "Restore",
+    "close": "Close"
   },
   "loading": {
     "initializing": "Initializing...",

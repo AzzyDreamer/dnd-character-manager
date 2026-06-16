@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Settings, X, Globe, Code2, Pencil } from 'lucide-react';
+import { Settings, X, Globe, Code2, Pencil, FolderOpen } from 'lucide-react';
 import i18n from '../i18n';
 import { useSettings } from './SettingsProvider';
+import { isTauri } from '../utils/isTauri';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -122,6 +123,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
             </div>
             <Toggle checked={fullEditMode} onChange={toggleFullEditMode} />
           </div>
+
+          {/* Папка с данными (только десктоп) */}
+          {isTauri() && (
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 text-sm font-semibold text-text-primary">
+                  <FolderOpen size={16} className="text-gold/70" />
+                  {t('settings.dataFolder')}
+                </div>
+                <p className="text-xs text-text-muted mt-1">{t('settings.dataFolderDesc')}</p>
+              </div>
+              <button
+                onClick={() => { void import('../utils/openDataFolder').then((m) => m.openDataFolder()); }}
+                className="shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium bg-gold/20 text-gold border border-gold/40 hover:bg-gold/30 transition-all cursor-pointer"
+              >
+                {t('settings.openDataFolder')}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>,

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ArrowLeft, ArrowRight, Settings, Minus, Square, Copy, X } from 'lucide-react';
 
@@ -11,6 +12,7 @@ const NAV_BTN =
   'px-3 flex items-center text-gold/80 hover:text-gold-light hover:bg-gold/15 transition-colors cursor-pointer';
 
 export default function TitleBar({ onOpenSettings }: { onOpenSettings: () => void }) {
+  const { t } = useTranslation('common');
   const [maximized, setMaximized] = useState(false);
 
   // Иконка «развернуть/восстановить» должна реагировать и на системные действия
@@ -28,19 +30,20 @@ export default function TitleBar({ onOpenSettings }: { onOpenSettings: () => voi
   }, []);
 
   return (
+    // relative z-50 — чтобы кнопки бара были над ресайз-полосками (см. WindowResizers).
     <div
       data-tauri-drag-region
-      className="flex items-stretch h-9 shrink-0 select-none bg-bg-secondary border-b border-border-default"
+      className="relative z-50 flex items-stretch h-9 shrink-0 select-none bg-bg-secondary border-b border-border-default"
     >
       {/* Левый блок: браузерные назад/вперёд + настройки. */}
       <div className="flex items-stretch h-full">
-        <button onClick={() => window.history.back()} aria-label="Назад" title="Назад" className={NAV_BTN}>
+        <button onClick={() => window.history.back()} aria-label={t('window.back')} title={t('window.back')} className={NAV_BTN}>
           <ArrowLeft size={16} />
         </button>
-        <button onClick={() => window.history.forward()} aria-label="Вперёд" title="Вперёд" className={NAV_BTN}>
+        <button onClick={() => window.history.forward()} aria-label={t('window.forward')} title={t('window.forward')} className={NAV_BTN}>
           <ArrowRight size={16} />
         </button>
-        <button onClick={onOpenSettings} aria-label="Настройки" title="Настройки" className={NAV_BTN}>
+        <button onClick={onOpenSettings} aria-label={t('window.settings')} title={t('window.settings')} className={NAV_BTN}>
           <Settings size={16} />
         </button>
       </div>
@@ -53,19 +56,21 @@ export default function TitleBar({ onOpenSettings }: { onOpenSettings: () => voi
 
       {/* Правый блок: управление окном. */}
       <div className="flex items-stretch h-full">
-        <button onClick={() => { void appWindow.minimize(); }} aria-label="Свернуть" className={NAV_BTN}>
+        <button onClick={() => { void appWindow.minimize(); }} aria-label={t('window.minimize')} title={t('window.minimize')} className={NAV_BTN}>
           <Minus size={15} />
         </button>
         <button
           onClick={() => { void appWindow.toggleMaximize(); }}
-          aria-label={maximized ? 'Восстановить' : 'Развернуть'}
+          aria-label={maximized ? t('window.restore') : t('window.maximize')}
+          title={maximized ? t('window.restore') : t('window.maximize')}
           className={NAV_BTN}
         >
           {maximized ? <Copy size={13} /> : <Square size={13} />}
         </button>
         <button
           onClick={() => { void appWindow.close(); }}
-          aria-label="Закрыть"
+          aria-label={t('window.close')}
+          title={t('window.close')}
           className="px-3 flex items-center text-gold/80 hover:text-white hover:bg-red-bright transition-colors cursor-pointer"
         >
           <X size={16} />
