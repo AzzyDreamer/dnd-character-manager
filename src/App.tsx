@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, Component } from 'react';
+import { useState, useEffect, useCallback, useRef, Component, lazy, Suspense } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
@@ -23,6 +23,12 @@ import { FilterNavContext } from './components/FilterNavContext';
 import type { FilterNavRequest } from './components/FilterNavContext';
 import { setViewRestoreHandler, replaceView, pushView } from './utils/navStack';
 import { useBackDismiss } from './hooks/useBackDismiss';
+
+// Десктоп-онли хром окна (кастомный тайтлбар + ресайз-хендлы frameless-окна).
+// Грузится лениво только под Tauri, чтобы @tauri-apps/* (window API) не попадал
+// в веб-бандл.
+const TitleBar = lazy(() => import('./components/desktop/TitleBar'));
+const WindowResizers = lazy(() => import('./components/desktop/WindowResizers'));
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -111,7 +117,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   const percent = progress ? Math.round((progress.loaded / progress.total) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center gap-6">
+    <div className="h-full bg-bg-primary flex flex-col items-center justify-center gap-6">
       <h1 className="text-text-primary text-3xl font-medieval">D&D Character Manager</h1>
       <div className="w-80 flex flex-col gap-3">
         <div className="w-full h-3 bg-bg-secondary rounded-full overflow-hidden border border-border-primary">
@@ -128,7 +134,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   );
 }
 
-function AppContent({ store }: { store: CharacterStore }) {
+function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSettings: () => void }) {
   const { t } = useTranslation('common');
 
   const {
@@ -155,7 +161,6 @@ function AppContent({ store }: { store: CharacterStore }) {
     initialLocRef.current.view === 'glossary' ? initialLocRef.current.glossaryCategory : null,
   );
   const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
-  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
@@ -252,9 +257,6 @@ function AppContent({ store }: { store: CharacterStore }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Browser Back closes the settings modal instead of navigating views.
-  useBackDismiss(settingsOpen, () => setSettingsOpen(false));
-
   const handleImportCharacter = async (file: File) => {
     try {
       const character = await importCharacter(file);
@@ -303,7 +305,7 @@ function AppContent({ store }: { store: CharacterStore }) {
 
   return (
     <FilterNavContext.Provider value={handleFilterNav}>
-    <div className="flex flex-col h-screen bg-bg-primary">
+    <div className="flex flex-col h-full bg-bg-primary">
       <TopNavBar
         tabs={mainTabs}
         activeTab={currentView === 'sheet' ? 'main' : currentView === 'home' ? '' : currentView}
@@ -323,19 +325,19 @@ function AppContent({ store }: { store: CharacterStore }) {
                 <span className="hidden sm:inline">{t('buttons.create')}</span>
               </button>
             )}
-            <button
-              onClick={() => setSettingsOpen(true)}
-              aria-label={t('settings.title')}
-              title={t('settings.title')}
-              className="p-1.5 text-text-secondary hover:text-gold transition-colors cursor-pointer"
-            >
-              <Settings size={18} />
-            </button>
+            {!isTauri() && (
+              <button
+                onClick={onOpenSettings}
+                aria-label={t('settings.title')}
+                title={t('settings.title')}
+                className="p-1.5 text-text-secondary hover:text-gold transition-colors cursor-pointer"
+              >
+                <Settings size={18} />
+              </button>
+            )}
           </>
         }
       />
-
-      {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
 
       {/* Main content */}
       <main className="flex-1 min-h-0 px-4 sm:px-6">
@@ -411,11 +413,37 @@ function App() {
     return () => { cancelled = true; };
   }, [store]);
 
+  // Состояние модалки настроек поднято в App: на десктопе шестерёнка живёт в
+  // тайтлбаре (вне AppContent), на вебе — в навбаре. Браузерный Back закрывает её.
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const openSettings = () => setSettingsOpen(true);
+  useBackDismiss(settingsOpen, () => setSettingsOpen(false));
+
+  const tauri = isTauri();
+  const content = store
+    ? <AppContent store={store} onOpenSettings={openSettings} />
+    : <LoadingScreen progress={null} />;
+
   return (
     <ErrorBoundary>
       <SettingsProvider>
         <DiceRollProvider>
-          {store ? <AppContent store={store} /> : <LoadingScreen progress={null} />}
+          <div className="flex flex-col h-screen overflow-hidden">
+            {tauri && (
+              <Suspense
+                fallback={<div className="h-9 shrink-0 bg-bg-secondary border-b border-border-default" />}
+              >
+                <TitleBar onOpenSettings={openSettings} />
+              </Suspense>
+            )}
+            <div className="flex-1 min-h-0">{content}</div>
+          </div>
+          {tauri && (
+            <Suspense fallback={null}>
+              <WindowResizers />
+            </Suspense>
+          )}
+          {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
         </DiceRollProvider>
       </SettingsProvider>
     </ErrorBoundary>
