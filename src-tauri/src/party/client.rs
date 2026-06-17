@@ -91,6 +91,9 @@ pub async fn start<E: PartyEvents>(
                         Ok(val) if val.get("type").and_then(|v| v.as_str()) == Some("party-snapshot") => {
                             events_r.emit("party://snapshot", val);
                         }
+                        Ok(val) if val.get("type").and_then(|v| v.as_str()) == Some("party-event") => {
+                            events_r.emit("party://event", val.get("event").cloned().unwrap_or(val));
+                        }
                         Ok(val) => events_r.emit("party://message", json!({ "data": val })),
                         Err(_) => events_r.emit("party://message", json!({ "data": raw })),
                     }

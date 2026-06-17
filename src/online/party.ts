@@ -119,10 +119,21 @@ export interface PartySnapshot {
   data: unknown | null;
 }
 
+/** Запись игрового лога (LP3), приходит по `party://event`. Хост штампует id/ts/актора. */
+export interface PartyLogEvent {
+  id: number;
+  ts: number;
+  from: string;
+  actor: string;
+  kind: string;
+  payload: unknown;
+}
+
 export interface PartyEventHandlers {
   onStatus?: (status: PartyStatus) => void;
   onState?: (state: PartyStateSnapshot) => void;
   onSnapshot?: (snapshot: PartySnapshot) => void;
+  onEvent?: (event: PartyLogEvent) => void;
   onPeer?: (peer: PartyPeer) => void;
   onMessage?: (msg: PartyMessage) => void;
   onError?: (err: { message: string }) => void;
@@ -139,6 +150,9 @@ export async function subscribeParty(handlers: PartyEventHandlers): Promise<Unli
   }
   if (handlers.onSnapshot) {
     unlisteners.push(await listen('party://snapshot', (e) => handlers.onSnapshot!(e.payload as PartySnapshot)));
+  }
+  if (handlers.onEvent) {
+    unlisteners.push(await listen('party://event', (e) => handlers.onEvent!(e.payload as PartyLogEvent)));
   }
   if (handlers.onPeer) {
     unlisteners.push(await listen('party://peer', (e) => handlers.onPeer!(e.payload as PartyPeer)));

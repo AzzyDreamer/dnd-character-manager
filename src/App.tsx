@@ -76,6 +76,8 @@ type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary' | 'party';
 type PartyVisibility = 'party' | 'gm' | 'hidden';
 interface PartyBinding { characterId: string; visibility: PartyVisibility }
 interface PartySnapshotCard { characterName?: string; characterId?: string; data: unknown }
+interface PartyLogEntry { id: number; ts: number; from: string; actor: string; kind: string; payload: unknown }
+const PARTY_LOG_CAP = 300;
 
 const GLOSSARY_SUB_TAB_KEYS = [
   'spells', 'classes', 'subclasses', 'species', 'backgrounds',
@@ -183,6 +185,7 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
   // уход с экрана партии. Десктоп-онли; сетевой код грузится динамически.
   const [partyBinding, setPartyBinding] = useState<PartyBinding | null>(null);
   const [partySnapshots, setPartySnapshots] = useState<Record<string, PartySnapshotCard>>({});
+  const [partyLog, setPartyLog] = useState<PartyLogEntry[]>([]);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
@@ -297,6 +300,10 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
               else next[s.from] = { characterName: s.characterName, characterId: s.characterId, data: s.data };
               return next;
             }),
+          onEvent: (e) =>
+            setPartyLog((prev) =>
+              prev.some((x) => x.id === e.id) ? prev : [...prev.slice(-(PARTY_LOG_CAP - 1)), e],
+            ),
         }),
       )
       .then((u) => { if (cancelled) u(); else unlisten = u; });
@@ -416,7 +423,8 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
                 binding={partyBinding}
                 onChangeBinding={(b) => setPartyBinding(b)}
                 snapshots={partySnapshots}
-                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); }}
+                gameLog={partyLog}
+                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); }}
               />
             </Suspense>
           </div>

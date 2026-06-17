@@ -127,6 +127,27 @@ pub fn party_share(
 }
 
 #[tauri::command]
+pub fn party_event(
+    state: State<'_, PartyState>,
+    kind: String,
+    payload: serde_json::Value,
+) -> Result<(), String> {
+    match state.inner.lock().unwrap().as_ref() {
+        // ГМ-локально: кладём событие в очередь хоста (штамп + рассылка всем).
+        Some(Active::Host(h)) => h
+            .event_tx
+            .send(host::EventReq { kind, payload })
+            .map_err(|_| "host channel closed".to_string()),
+        // Игрок: шлём event хосту, дальше он штампует и ретранслирует.
+        Some(Active::Client(c)) => {
+            let msg = serde_json::json!({ "type": "event", "kind": kind, "payload": payload });
+            c.out_tx.send(msg.to_string()).map_err(|_| "client channel closed".to_string())
+        }
+        None => Err("no active party".to_string()),
+    }
+}
+
+#[tauri::command]
 pub fn party_send(state: State<'_, PartyState>, msg: String) -> Result<(), String> {
     match state.inner.lock().unwrap().as_ref() {
         Some(Active::Host(h)) => h.broadcast_tx.send(msg).map_err(|_| "host channel closed".to_string()),
@@ -200,6 +221,12 @@ mod tests {
             self.matching("party://snapshot")
                 .iter()
                 .any(|p| p["from"] == from && p["data"].is_null())
+        }
+        /// Было ли получено событие лога данного вида от данного актора.
+        fn has_event(&self, kind: &str, actor: &str) -> bool {
+            self.matching("party://event")
+                .iter()
+                .any(|e| e["kind"] == kind && e["actor"] == actor)
         }
         /// Участники из последнего полученного `party://state`.
         fn latest_members(&self) -> Vec<serde_json::Value> {
@@ -469,6 +496,61 @@ mod tests {
             .await
             .expect("carol connects");
             assert!(until(|| c_ev.snapshot_named("PartyAgain")).await, "late joiner gets replay");
+        });
+    }
+
+    #[test]
+    fn event_log_broadcasts_to_all_and_replays() {
+        tauri::async_runtime::block_on(async {
+            let host_ev = TestEvents::default();
+            let host = start_host(host_ev.clone(), "code").await;
+
+            let a_ev = TestEvents::default();
+            let alice = client::start(
+                a_ev.clone(),
+                "127.0.0.1".to_string(),
+                host.port,
+                "code".to_string(),
+                "Alice".to_string(),
+            )
+            .await
+            .expect("alice connects");
+            let b_ev = TestEvents::default();
+            let _bob = client::start(
+                b_ev.clone(),
+                "127.0.0.1".to_string(),
+                host.port,
+                "code".to_string(),
+                "Bob".to_string(),
+            )
+            .await
+            .expect("bob connects");
+
+            // Игрок бросает кубик → событие видят ВСЕ (ГМ, Bob и сама Alice по эху).
+            let roll = serde_json::json!({ "type": "event", "kind": "roll", "payload": { "total": 17 } });
+            alice.out_tx.send(roll.to_string()).unwrap();
+            assert!(until(|| host_ev.has_event("roll", "Alice")).await, "GM sees the roll");
+            assert!(until(|| b_ev.has_event("roll", "Alice")).await, "Bob sees the roll");
+            assert!(until(|| a_ev.has_event("roll", "Alice")).await, "author sees own roll (echo)");
+
+            // ГМ публикует системное событие → видят клиенты.
+            host.event_tx
+                .send(host::EventReq { kind: "system".to_string(), payload: serde_json::json!({ "msg": "hi" }) })
+                .unwrap();
+            assert!(until(|| b_ev.has_event("system", "GM")).await, "Bob sees GM event");
+
+            // Поздний клиент догоняет историю лога.
+            let c_ev = TestEvents::default();
+            let _carol = client::start(
+                c_ev.clone(),
+                "127.0.0.1".to_string(),
+                host.port,
+                "code".to_string(),
+                "Carol".to_string(),
+            )
+            .await
+            .expect("carol connects");
+            assert!(until(|| c_ev.has_event("roll", "Alice")).await, "late joiner replays the log");
         });
     }
 

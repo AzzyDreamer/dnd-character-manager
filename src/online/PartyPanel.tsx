@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Check, Copy, Crown, Heart, LogIn, Server, Shield, User, Wifi, X } from 'lucide-react';
+import { ArrowLeft, Check, Copy, Crown, Dices, Heart, LogIn, Server, Shield, User, Wifi, X } from 'lucide-react';
 import type { Character } from '../types';
 import { CharacterSheet } from '../components/CharacterSheet';
 import { useBackDismiss } from '../hooks/useBackDismiss';
+import { arePrivateRolls, setPrivateRolls } from '../utils/partyLog';
 import { DEFAULT_PORT } from './protocol';
 import {
   hostParty,
@@ -11,6 +12,7 @@ import {
   leaveParty,
   subscribeParty,
   type HostResult,
+  type PartyLogEvent,
   type PartyMember,
   type PartyStateSnapshot,
   type PartyStatus,
@@ -36,7 +38,9 @@ interface PartyPanelProps {
   onChangeBinding: (binding: PartyBinding | null) => void;
   /** Снимки чужих листов (копятся в App), ключ — id участника. */
   snapshots: Record<string, SnapshotCard>;
-  /** Выход из партии — App чистит привязку и снимки. */
+  /** Игровой лог партии (копится в App). */
+  gameLog: PartyLogEvent[];
+  /** Выход из партии — App чистит привязку, снимки и лог. */
   onLeave: () => void;
 }
 
@@ -70,9 +74,16 @@ export default function PartyPanel({
   binding,
   onChangeBinding,
   snapshots,
+  gameLog,
   onLeave,
 }: PartyPanelProps) {
   const { t } = useTranslation('common');
+  // Тумблер «приватный бросок» (флаг живёт в utils/partyLog, см. DiceRollProvider).
+  const [privateRolls, setPrivateRollsState] = useState(() => arePrivateRolls());
+  const togglePrivateRolls = (v: boolean) => {
+    setPrivateRolls(v);
+    setPrivateRollsState(v);
+  };
 
   const [screen, setScreen] = useState<Screen>('menu');
   const [session, setSession] = useState<Session>(null);
@@ -279,6 +290,7 @@ export default function PartyPanel({
         <ShareControls characters={characters} binding={binding} onChange={onChangeBinding} t={t} />
         <Roster members={members} selfId={selfId} t={t} />
         <SummaryGrid snapshots={snapshots} selfId={selfId} onOpen={setViewing} t={t} />
+        <GameLogFeed log={gameLog} privateRolls={privateRolls} onTogglePrivate={togglePrivateRolls} t={t} />
         <EventLog log={log} emptyLabel={t('party.log.empty')} />
 
         <div className="flex justify-end">
@@ -620,6 +632,74 @@ function Header({
         {subtitle && <p className="text-text-muted text-sm">{subtitle}</p>}
       </div>
     </div>
+  );
+}
+
+function GameLogFeed({
+  log,
+  privateRolls,
+  onTogglePrivate,
+  t,
+}: {
+  log: PartyLogEvent[];
+  privateRolls: boolean;
+  onTogglePrivate: (v: boolean) => void;
+  t: TFn;
+}) {
+  const endRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ block: 'nearest' });
+  }, [log]);
+  return (
+    <div className="glass-panel p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <Dices size={14} className="text-gold" />
+        <span className="text-text-secondary text-sm">{t('party.gameLog')}</span>
+        <label className="ml-auto flex items-center gap-1.5 text-xs text-text-muted cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={privateRolls}
+            onChange={(e) => onTogglePrivate(e.target.checked)}
+            className="accent-gold"
+          />
+          {t('party.privateRolls')}
+        </label>
+      </div>
+      <div className="max-h-56 overflow-y-auto text-sm space-y-1">
+        {log.length === 0 ? (
+          <p className="text-text-muted text-xs">{t('party.gameLogEmpty')}</p>
+        ) : (
+          log.map((e) => <GameLogLine key={e.id} e={e} t={t} />)
+        )}
+        <div ref={endRef} />
+      </div>
+    </div>
+  );
+}
+
+function GameLogLine({ e, t }: { e: PartyLogEvent; t: TFn }) {
+  const time = new Date(e.ts).toLocaleTimeString();
+  return (
+    <div className="flex gap-2 items-baseline">
+      <span className="text-text-muted text-xs shrink-0 tabular-nums">{time}</span>
+      <span className="text-gold shrink-0 font-medium">{e.actor}</span>
+      <span className="min-w-0 text-text-secondary">
+        {e.kind === 'roll' ? <RollLine payload={e.payload} t={t} /> : e.kind}
+      </span>
+    </div>
+  );
+}
+
+function RollLine({ payload, t }: { payload: unknown; t: TFn }) {
+  const p = (payload ?? {}) as { expression?: string; total?: number | string; mode?: string };
+  const mode =
+    p.mode === 'advantage' ? ` · ${t('party.advShort')}` : p.mode === 'disadvantage' ? ` · ${t('party.disShort')}` : '';
+  return (
+    <>
+      <span className="text-text-primary">{p.expression}</span> ={' '}
+      <span className="text-gold font-semibold">{p.total}</span>
+      {mode && <span className="text-text-muted">{mode}</span>}
+    </>
   );
 }
 

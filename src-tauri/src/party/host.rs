@@ -8,7 +8,7 @@
 //! с догоном для поздно подключившихся. Сетевой слой не зависит от Tauri: события
 //! идут в абстрактный `PartyEvents`.
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, VecDeque};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
@@ -47,6 +47,25 @@ struct Room {
     gm_name: String,
     members: BTreeMap<u64, Member>,
     snapshots: HashMap<String, StoredSnapshot>,
+    /// Игровой лог (LP3): кольцевой буфер последних событий для догона поздних.
+    events: VecDeque<Value>,
+    event_seq: u64,
+}
+
+/// Сколько последних событий лога хранит хост для догона поздно подключившихся.
+const EVENT_HISTORY_CAP: usize = 200;
+
+fn now_millis() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis() as u64)
+        .unwrap_or(0)
+}
+
+/// Запрос на публикацию события лога от ГМ-локально.
+pub struct EventReq {
+    pub kind: String,
+    pub payload: Value,
 }
 
 impl Room {
@@ -81,6 +100,8 @@ pub struct HostHandle {
     pub broadcast_tx: mpsc::UnboundedSender<String>,
     /// ГМ делится своим листом локально (без WS).
     pub snapshot_tx: mpsc::UnboundedSender<SnapshotReq>,
+    /// ГМ публикует событие лога локально (без WS).
+    pub event_tx: mpsc::UnboundedSender<EventReq>,
     /// Долгоживущие задачи; обрываются при выходе из партии.
     pub tasks: Vec<JoinHandle<()>>,
 }
@@ -101,10 +122,13 @@ pub async fn start<E: PartyEvents>(
         gm_name,
         members: BTreeMap::new(),
         snapshots: HashMap::new(),
+        events: VecDeque::new(),
+        event_seq: 0,
     }));
     let next_id = Arc::new(AtomicU64::new(1));
     let (broadcast_tx, mut broadcast_rx) = mpsc::unbounded_channel::<String>();
     let (snapshot_tx, mut snapshot_rx) = mpsc::unbounded_channel::<SnapshotReq>();
+    let (event_tx, mut event_rx) = mpsc::unbounded_channel::<EventReq>();
 
     // Начальный состав (только ГМ) — сразу в UI хоста.
     let initial = room.lock().await.state();
@@ -132,6 +156,16 @@ pub async fn start<E: PartyEvents>(
                 req.character_id, req.character_name, req.visibility, req.data,
             )
             .await;
+        }
+    });
+
+    // ГМ публикует события лога (from = "gm").
+    let events_ev = events.clone();
+    let clients_ev = clients.clone();
+    let room_ev = room.clone();
+    let event_task = tauri::async_runtime::spawn(async move {
+        while let Some(req) = event_rx.recv().await {
+            ingest_event(&events_ev, &clients_ev, &room_ev, "gm".to_string(), req.kind, req.payload).await;
         }
     });
 
@@ -184,7 +218,8 @@ pub async fn start<E: PartyEvents>(
         port,
         broadcast_tx,
         snapshot_tx,
-        tasks: vec![broadcast_task, snapshot_task, accept_task],
+        event_tx,
+        tasks: vec![broadcast_task, snapshot_task, event_task, accept_task],
     })
 }
 
@@ -267,6 +302,49 @@ async fn ingest_snapshot<E: PartyEvents>(
     }
 }
 
+/// Принять событие лога от `from_id`, проштамповать (id/ts/актор) и разослать
+/// ВСЕМ (включая автора — хост источник истины и порядка) + локально ГМу.
+async fn ingest_event<E: PartyEvents>(
+    events: &E,
+    clients: &Clients,
+    room: &AsyncMutex<Room>,
+    from_id: String,
+    kind: String,
+    payload: Value,
+) {
+    let entry = {
+        let mut r = room.lock().await;
+        r.event_seq += 1;
+        let actor = if from_id == "gm" {
+            r.gm_name.clone()
+        } else {
+            from_id
+                .parse::<u64>()
+                .ok()
+                .and_then(|id| r.members.get(&id))
+                .map(|m| m.display_name.clone())
+                .unwrap_or_else(|| from_id.clone())
+        };
+        let entry = json!({
+            "id": r.event_seq, "ts": now_millis(), "from": from_id,
+            "actor": actor, "kind": kind, "payload": payload,
+        });
+        r.events.push_back(entry.clone());
+        while r.events.len() > EVENT_HISTORY_CAP {
+            r.events.pop_front();
+        }
+        entry
+    };
+
+    events.emit("party://event", entry.clone());
+    let frame = json!({ "type": "party-event", "event": entry });
+    let text = serde_json::to_string(&frame).unwrap_or_default();
+    let map = clients.lock().await;
+    for tx in map.values() {
+        let _ = tx.send(Message::text(text.clone()));
+    }
+}
+
 async fn handle_client<E: PartyEvents>(
     events: &E,
     id: u64,
@@ -324,7 +402,7 @@ async fn handle_client<E: PartyEvents>(
         }
     });
 
-    // Догон поздно подключившегося: уже опубликованные party-снимки → ему.
+    // Догон поздно подключившегося: уже опубликованные party-снимки + история лога → ему.
     {
         let r = room.lock().await;
         for (from, snap) in r.snapshots.iter() {
@@ -335,6 +413,10 @@ async fn handle_client<E: PartyEvents>(
                 });
                 let _ = tx.send(Message::text(serde_json::to_string(&frame).unwrap_or_default()));
             }
+        }
+        for entry in r.events.iter() {
+            let frame = json!({ "type": "party-event", "event": entry });
+            let _ = tx.send(Message::text(serde_json::to_string(&frame).unwrap_or_default()));
         }
     }
 
@@ -377,6 +459,17 @@ async fn handle_client<E: PartyEvents>(
                             val.get("characterName").and_then(|v| v.as_str()).unwrap_or("").to_string(),
                             val.get("visibility").and_then(|v| v.as_str()).unwrap_or("hidden").to_string(),
                             val.get("data").cloned().unwrap_or(Value::Null),
+                        )
+                        .await;
+                    }
+                    Ok(val) if val.get("type").and_then(|v| v.as_str()) == Some("event") => {
+                        ingest_event(
+                            events,
+                            clients,
+                            room,
+                            id.to_string(),
+                            val.get("kind").and_then(|v| v.as_str()).unwrap_or("system").to_string(),
+                            val.get("payload").cloned().unwrap_or(Value::Null),
                         )
                         .await;
                     }

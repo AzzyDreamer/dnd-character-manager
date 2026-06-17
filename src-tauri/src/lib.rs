@@ -10,6 +10,7 @@ pub fn run() {
       party::party_host_start,
       party::party_join,
       party::party_share,
+      party::party_event,
       party::party_send,
       party::party_leave,
     ])
