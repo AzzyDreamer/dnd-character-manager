@@ -50,7 +50,13 @@ type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | '
 interface CharacterSheetProps {
   character: Character;
   onUpdate: (character: Character) => void;
+  /** Просмотр чужого листа в партии: глушит все мутации и блокирует контролы. */
+  readOnly?: boolean;
 }
+
+// Глушитель мутаций для read-only режима. Модульная константа — стабильная
+// идентичность (не плодит ре-рендеры дочерних компонентов).
+const NOOP_UPDATE: (c: Character) => void = () => {};
 
 /** Extract innate spell names from an optional feature's additionalSpells field */
 function extractInnateSpellNames(feat: any): string[] {
@@ -162,9 +168,13 @@ function removeOptionalFeatureEffects(char: Character, featName: string, featDat
   return updated;
 }
 
-export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
+export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate: rawOnUpdate, readOnly = false }) => {
   const { t } = useTranslation('character');
   const { t: tc } = useTranslation('common');
+  // Единая точка глушения: ВСЕ правки листа идут через onUpdate (см. инвентаризацию
+  // LP2), поэтому no-op здесь делает чужой лист неизменяемым целиком — даже если
+  // какой-то контрол не спрятан. Плюс блокировка контролов ниже (fieldset).
+  const onUpdate = readOnly ? NOOP_UPDATE : rawOnUpdate;
   const { fullEditMode } = useSettings();
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   // Любая правка через режим полного редактирования проставляет скрытую пометку.
@@ -1375,6 +1385,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
 
   return (
     <div className="flex flex-col h-full">
+      {readOnly && (
+        <div className="shrink-0 px-3 py-1.5 bg-gold/10 border-b border-gold/20 text-gold text-xs flex items-center gap-2">
+          <Eye size={14} />
+          {tc('party.readOnlyBanner', { name: character.name })}
+        </div>
+      )}
       {/* Compact Header */}
       <div className="shrink-0 py-3 flex items-center justify-between border-b border-border-default">
         <div className="flex items-center gap-3">
@@ -1398,7 +1414,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             </p>
           </div>
         </div>
-        {canLevelUp && (
+        {canLevelUp && !readOnly && (
           <button
             onClick={handleLevelUp}
             className="flex items-center gap-2 px-4 py-2 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold transition-colors text-sm"
@@ -1419,7 +1435,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         />
       </div>
 
-      {/* Content + Sidebar */}
+      {/* Content + Sidebar. Read-only НЕ блокирует контролы целиком (иначе нельзя
+          раскрыть способности, чувства, скорости и т.п.) — мутации глушит единая
+          точка onUpdate=no-op (правки не сохраняются и до владельца не доходят), а
+          просмотр/раскрытие работают как обычно. */}
       <div className="flex flex-1 min-h-0 gap-4 py-4">
         {/* Left content — changes per tab */}
         <div className="flex-1 min-h-0 overflow-y-auto space-y-4">
@@ -1460,8 +1479,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Tab: Stats */}
           {activeTab === 'stats' && (
             <>
-              {/* Full edit panel — только в режиме полного редактирования */}
-              {fullEditMode && (
+              {/* Full edit panel — только в режиме полного редактирования (не в read-only) */}
+              {fullEditMode && !readOnly && (
                 <FullEditPanel
                   character={character}
                   onCommit={commitFullEdit}
@@ -1720,7 +1739,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           portraitContent="abilities"
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
-          onPortraitClick={() => {
+          onPortraitClick={readOnly ? undefined : () => {
             if (character.portraitDataUrl) {
               setPendingPortraitUrl(character.portraitDataUrl);
               setShowCropModal(true);

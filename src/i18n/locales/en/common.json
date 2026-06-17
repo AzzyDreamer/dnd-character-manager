@@ -56,6 +56,8 @@
     "sharedSheets": "Shared character sheets",
     "noShared": "No shared sheets yet.",
     "lvl": "Lv {{level}}",
+    "readOnlyBanner": "Read-only — {{name}}'s sheet",
+    "close": "Close",
     "statusConnected": "Connected to host",
     "statusPending": "Connecting to host…",
     "statusDisconnected": "Disconnected from host",

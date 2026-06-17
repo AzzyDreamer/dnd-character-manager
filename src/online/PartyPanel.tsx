@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Check, Copy, Crown, Heart, LogIn, Server, Shield, User, Wifi } from 'lucide-react';
+import { ArrowLeft, Check, Copy, Crown, Heart, LogIn, Server, Shield, User, Wifi, X } from 'lucide-react';
 import type { Character } from '../types';
+import { CharacterSheet } from '../components/CharacterSheet';
+import { useBackDismiss } from '../hooks/useBackDismiss';
 import { DEFAULT_PORT } from './protocol';
 import {
   hostParty,
@@ -85,6 +87,15 @@ export default function PartyPanel({
   const [partyNameInput, setPartyNameInput] = useState('');
   const [codeInput, setCodeInput] = useState('');
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  // Открытый на просмотр чужой лист (read-only) — храним ID участника, а данные
+  // берём из snapshots на КАЖДОМ рендере, чтобы лист обновлялся живо при правках
+  // владельца (а не только при переоткрытии). Браузерный Back/Esc закрывает.
+  const [viewing, setViewing] = useState<string | null>(null);
+  useBackDismiss(viewing !== null, () => setViewing(null));
+  // Если участник перестал делиться (снимок исчез) — закрываем оверлей.
+  useEffect(() => {
+    if (viewing !== null && !snapshots[viewing]) setViewing(null);
+  }, [viewing, snapshots]);
 
   const appendLog = useCallback((line: string) => {
     setLog((prev) => [...prev.slice(-(MAX_LOG - 1)), `${new Date().toLocaleTimeString()}  ${line}`]);
@@ -206,8 +217,11 @@ export default function PartyPanel({
     const selfId = isHost ? 'gm' : status?.selfId ?? null;
     const members = partyState?.members ?? [];
     const title = partyState?.partyName || (isHost ? t('party.hostingTitle') : t('party.connectedTitle'));
+    // Текущий снимок открытого листа — берём по id из актуальных snapshots (живое обновление).
+    const viewingSnap = viewing !== null ? snapshots[viewing] ?? null : null;
 
     return (
+      <>
       <div className="max-w-2xl mx-auto w-full space-y-5">
         <Header icon={isHost ? Server : Wifi} title={title} />
 
@@ -264,7 +278,7 @@ export default function PartyPanel({
 
         <ShareControls characters={characters} binding={binding} onChange={onChangeBinding} t={t} />
         <Roster members={members} selfId={selfId} t={t} />
-        <SummaryGrid snapshots={snapshots} selfId={selfId} t={t} />
+        <SummaryGrid snapshots={snapshots} selfId={selfId} onOpen={setViewing} t={t} />
         <EventLog log={log} emptyLabel={t('party.log.empty')} />
 
         <div className="flex justify-end">
@@ -273,6 +287,10 @@ export default function PartyPanel({
           </button>
         </div>
       </div>
+      {viewingSnap && viewingSnap.data != null && (
+        <ReadOnlySheetOverlay snap={viewingSnap} onClose={() => setViewing(null)} t={t} />
+      )}
+      </>
     );
   }
 
@@ -447,10 +465,12 @@ function ShareControls({
 function SummaryGrid({
   snapshots,
   selfId,
+  onOpen,
   t,
 }: {
   snapshots: Record<string, SnapshotCard>;
   selfId: string | null;
+  onOpen: (from: string) => void;
   t: TFn;
 }) {
   // Свой лист в сводке не показываем — он и так локально у владельца.
@@ -463,7 +483,7 @@ function SummaryGrid({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {cards.map(([from, snap]) => (
-            <SummaryCard key={from} snap={snap} t={t} />
+            <SummaryCard key={from} snap={snap} onClick={() => onOpen(from)} t={t} />
           ))}
         </div>
       )}
@@ -471,12 +491,13 @@ function SummaryGrid({
   );
 }
 
-function SummaryCard({ snap, t }: { snap: SnapshotCard; t: TFn }) {
+function SummaryCard({ snap, t, onClick }: { snap: SnapshotCard; t: TFn; onClick?: () => void }) {
   const c = snap.data as Character | undefined;
   const hp = c?.hitPoints;
   const conditions = c?.conditions ?? [];
-  return (
-    <div className="bg-bg-secondary border border-border-default rounded-md p-3">
+  const base = 'bg-bg-secondary border border-border-default rounded-md p-3 w-full text-left';
+  const body = (
+    <>
       <div className="text-text-primary text-sm font-medium truncate">{snap.characterName || c?.name || '—'}</div>
       {c && (
         <div className="text-text-muted text-xs truncate">
@@ -499,6 +520,43 @@ function SummaryCard({ snap, t }: { snap: SnapshotCard; t: TFn }) {
       {conditions.length > 0 && (
         <div className="text-amber-400 text-xs mt-1 truncate">{conditions.join(', ')}</div>
       )}
+    </>
+  );
+  // Карточка в сводке кликабельна (открывает полный лист read-only); превью в
+  // ShareControls — нет (это свой лист).
+  return onClick ? (
+    <button onClick={onClick} className={`${base} hover:ring-1 hover:ring-gold/40 transition-all cursor-pointer`}>
+      {body}
+    </button>
+  ) : (
+    <div className={base}>{body}</div>
+  );
+}
+
+/** Полноэкранный read-only просмотр чужого листа из снимка. */
+function ReadOnlySheetOverlay({
+  snap,
+  onClose,
+  t,
+}: {
+  snap: SnapshotCard;
+  onClose: () => void;
+  t: TFn;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 bg-bg-primary flex flex-col">
+      <div className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-border-default">
+        <span className="text-text-secondary text-sm truncate">
+          {snap.characterName || (snap.data as Character | undefined)?.name || ''}
+        </span>
+        <button onClick={onClose} className={GHOST_BTN} title={t('party.close')}>
+          <X size={16} />
+          <span className="hidden sm:inline">{t('party.close')}</span>
+        </button>
+      </div>
+      <div className="flex-1 min-h-0 px-4 pb-4">
+        <CharacterSheet character={snap.data as Character} onUpdate={() => {}} readOnly />
+      </div>
     </div>
   );
 }

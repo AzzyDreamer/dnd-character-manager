@@ -56,6 +56,8 @@
     "sharedSheets": "Листы участников",
     "noShared": "Пока никто не делится листом.",
     "lvl": "Ур. {{level}}",
+    "readOnlyBanner": "Только чтение — лист {{name}}",
+    "close": "Закрыть",
     "statusConnected": "Подключено к хосту",
     "statusPending": "Подключение к хосту…",
     "statusDisconnected": "Отключено от хоста",
