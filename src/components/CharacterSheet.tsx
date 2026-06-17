@@ -29,6 +29,7 @@ import { useSettings } from './SettingsProvider';
 import { FullEditPanel } from './FullEditPanel';
 import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
 import { stampManualEdit } from '../utils/manualEdit';
+import { logPartyEvent } from '../utils/partyLog';
 import { useBackDismiss } from '../hooks/useBackDismiss';
 import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
 import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
@@ -175,6 +176,48 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   // LP2), поэтому no-op здесь делает чужой лист неизменяемым целиком — даже если
   // какой-то контрол не спрятан. Плюс блокировка контролов ниже (fieldset).
   const onUpdate = readOnly ? NOOP_UPDATE : rawOnUpdate;
+  // Эмит событий листа в игровой лог партии (LP3). No-op вне партии; и НЕ из
+  // read-only — чужой лист правит не зритель (там character меняется от снимков).
+  const emitSheetEvent = (kind: string, payload: unknown) => {
+    if (!readOnly) logPartyEvent(kind, payload);
+  };
+  // Левел-ап ловим целевым диффом по character.level: флоу левел-апа многошаговый
+  // (модалки заклинаний/черт/инвокаций), единой точки коммита нет. Сброс при смене
+  // персонажа (тот же инстанс листа переиспользуется) — иначе ложный левел-ап.
+  const prevLevelRef = React.useRef(character.level);
+  const prevIdRef = React.useRef(character.id);
+  useEffect(() => {
+    if (prevIdRef.current !== character.id) {
+      prevIdRef.current = character.id;
+    } else if (!readOnly && character.level > prevLevelRef.current) {
+      logPartyEvent('levelup', { level: character.level, name: character.name });
+    }
+    prevLevelRef.current = character.level;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [character.id, character.level]);
+
+  // Буфер HP-событий лога: частые клики −/+ по 1 хп коалесцируем в ОДНО
+  // сообщение «−N/+N» через дебаунс. На снимок/отображение не влияет —
+  // там HP обновляется мгновенно, буферизуется только запись в игровой лог.
+  const hpBufRef = React.useRef<{
+    startHp: number;
+    latestHp: number;
+    max: number;
+    name: string;
+    timer: ReturnType<typeof setTimeout> | null;
+  }>({ startHp: 0, latestHp: 0, max: 0, name: '', timer: null });
+  useEffect(() => {
+    const buf = hpBufRef.current;
+    return () => {
+      // Флаш незавершённого HP-события при размонтировании листа.
+      if (buf.timer) {
+        clearTimeout(buf.timer);
+        buf.timer = null;
+        const d = buf.latestHp - buf.startHp;
+        if (d !== 0) logPartyEvent('hp', { delta: d, current: buf.latestHp, max: buf.max, name: buf.name });
+      }
+    };
+  }, []);
   const { fullEditMode } = useSettings();
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   // Любая правка через режим полного редактирования проставляет скрытую пометку.
@@ -389,10 +432,24 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   };
 
   const updateHP = (current: number) => {
+    const clamped = Math.max(0, Math.min(current, character.hitPoints.max));
     onUpdate({
       ...character,
-      hitPoints: { ...character.hitPoints, current: Math.max(0, Math.min(current, character.hitPoints.max)) }
+      hitPoints: { ...character.hitPoints, current: clamped }
     });
+    if (readOnly) return;
+    // Дебаунс: серию правок HP сворачиваем в одно событие лога с суммарной дельтой.
+    const buf = hpBufRef.current;
+    if (buf.timer === null) buf.startHp = character.hitPoints.current; // HP до начала серии
+    buf.latestHp = clamped;
+    buf.max = character.hitPoints.max;
+    buf.name = character.name;
+    if (buf.timer) clearTimeout(buf.timer);
+    buf.timer = setTimeout(() => {
+      buf.timer = null;
+      const d = buf.latestHp - buf.startHp;
+      if (d !== 0) logPartyEvent('hp', { delta: d, current: buf.latestHp, max: buf.max, name: buf.name });
+    }, 1200);
   };
 
   const updateTempHP = (temporary: number) => {
@@ -411,15 +468,22 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     const result = diceCtx.roll(expr, e);
     if (!result) return;
     const heal = Math.max(1, result.total);
+    const newCurrent = Math.min(character.hitPoints.max, character.hitPoints.current + heal);
     onUpdate({
       ...character,
       hitPoints: {
         ...character.hitPoints,
-        current: Math.min(character.hitPoints.max, character.hitPoints.current + heal),
+        current: newCurrent,
       },
       hitDice: { ...character.hitDice, used: character.hitDice.used + 1 },
       updatedAt: new Date().toISOString(),
     });
+    // Лечение костью хитов идёт мимо updateHP — логируем HP-событие отдельно
+    // (бросок кости уже залогирован через diceCtx.roll).
+    const delta = newCurrent - character.hitPoints.current;
+    if (delta !== 0) {
+      emitSheetEvent('hp', { delta, current: newCurrent, max: character.hitPoints.max, name: character.name });
+    }
   };
 
   // ── Rest ──
@@ -453,6 +517,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     // Warlock Pact Magic returns on a short rest
     if (updated.classId === 'warlock') updated = restoreAllSlots(updated);
     onUpdate(updated);
+    emitSheetEvent('rest', { kind: 'short', name: character.name });
   };
 
   /** Long rest: full HP, clear temp HP, regain half the hit dice, reset spell
@@ -479,6 +544,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       updated.resourceTrackers = rt;
     }
     onUpdate(updated);
+    emitSheetEvent('rest', { kind: 'long', name: character.name });
   };
 
   const handleLevelUp = () => {

@@ -462,8 +462,9 @@ function ShareControls({
         <>
           <p className="text-text-muted text-xs">{t(`party.visHint.${visibility}`)}</p>
           {/* Превью того, чем делишься — иначе на своём экране правок не видно:
-              хост свой лист в сводке прячет, клиент свой снимок назад не получает. */}
-          {boundChar && (
+              хост свой лист в сводке прячет, клиент свой снимок назад не получает.
+              При «Скрыто» превью не показываем — лист никто не видит. */}
+          {boundChar && visibility !== 'hidden' && (
             <SummaryCard snap={{ characterName: boundChar.name, characterId: boundChar.id, data: boundChar }} t={t} />
           )}
         </>
@@ -684,10 +685,39 @@ function GameLogLine({ e, t }: { e: PartyLogEvent; t: TFn }) {
       <span className="text-text-muted text-xs shrink-0 tabular-nums">{time}</span>
       <span className="text-gold shrink-0 font-medium">{e.actor}</span>
       <span className="min-w-0 text-text-secondary">
-        {e.kind === 'roll' ? <RollLine payload={e.payload} t={t} /> : e.kind}
+        <EventBody e={e} t={t} />
       </span>
     </div>
   );
+}
+
+function EventBody({ e, t }: { e: PartyLogEvent; t: TFn }) {
+  switch (e.kind) {
+    case 'roll':
+      return <RollLine payload={e.payload} t={t} />;
+    case 'hp': {
+      const p = (e.payload ?? {}) as { delta?: number; current?: number; max?: number };
+      const dmg = (p.delta ?? 0) < 0;
+      return (
+        <span>
+          <span className={dmg ? 'text-red-400' : 'text-emerald-400'}>
+            {dmg ? t('party.ev.damage', { n: Math.abs(p.delta ?? 0) }) : t('party.ev.heal', { n: p.delta ?? 0 })}
+          </span>{' '}
+          <span className="text-text-muted">({p.current}/{p.max})</span>
+        </span>
+      );
+    }
+    case 'rest': {
+      const p = (e.payload ?? {}) as { kind?: string };
+      return <>{p.kind === 'long' ? t('party.ev.longRest') : t('party.ev.shortRest')}</>;
+    }
+    case 'levelup': {
+      const p = (e.payload ?? {}) as { level?: number };
+      return <span className="text-gold">{t('party.ev.levelup', { level: p.level })}</span>;
+    }
+    default:
+      return <>{e.kind}</>;
+  }
 }
 
 function RollLine({ payload, t }: { payload: unknown; t: TFn }) {

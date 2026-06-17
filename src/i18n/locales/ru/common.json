@@ -63,6 +63,13 @@
     "privateRolls": "Приватные броски",
     "advShort": "пре",
     "disShort": "пом",
+    "ev": {
+      "damage": "получает {{n}} урона",
+      "heal": "восстанавливает {{n}} ХП",
+      "shortRest": "короткий отдых",
+      "longRest": "долгий отдых",
+      "levelup": "получает {{level}} уровень"
+    },
     "statusConnected": "Подключено к хосту",
     "statusPending": "Подключение к хосту…",
     "statusDisconnected": "Отключено от хоста",

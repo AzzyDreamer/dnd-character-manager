@@ -63,6 +63,13 @@
     "privateRolls": "Private rolls",
     "advShort": "adv",
     "disShort": "dis",
+    "ev": {
+      "damage": "took {{n}} damage",
+      "heal": "healed {{n}} HP",
+      "shortRest": "took a short rest",
+      "longRest": "took a long rest",
+      "levelup": "reached level {{level}}"
+    },
     "statusConnected": "Connected to host",
     "statusPending": "Connecting to host…",
     "statusDisconnected": "Disconnected from host",

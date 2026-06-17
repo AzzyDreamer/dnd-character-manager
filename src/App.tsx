@@ -186,6 +186,8 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
   const [partyBinding, setPartyBinding] = useState<PartyBinding | null>(null);
   const [partySnapshots, setPartySnapshots] = useState<Record<string, PartySnapshotCard>>({});
   const [partyLog, setPartyLog] = useState<PartyLogEntry[]>([]);
+  // Что сейчас расшарено — чтобы при снятии привязки СНЯТЬ снимок у других.
+  const partySharedIdRef = useRef<string | null>(null);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
@@ -313,15 +315,19 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
   // Публикуем снимок привязанного персонажа при изменении листа/привязки — на
   // любом экране. Вне партии party_share вернёт ошибку «no active party», глотаем.
   useEffect(() => {
-    if (!isTauri() || !partyBinding) return;
-    const char = characters.find((c) => c.id === partyBinding.characterId);
+    if (!isTauri()) return;
     let cancelled = false;
     import('./online/party').then(({ shareCharacter, unshareCharacter }) => {
       if (cancelled) return;
-      if (char) {
+      const prevId = partySharedIdRef.current;
+      const char = partyBinding ? characters.find((c) => c.id === partyBinding.characterId) : undefined;
+      if (partyBinding && char) {
         void shareCharacter({ id: char.id, name: char.name, visibility: partyBinding.visibility, data: char }).catch(() => {});
+        partySharedIdRef.current = char.id;
       } else {
-        void unshareCharacter(partyBinding.characterId, '').catch(() => {});
+        // Привязки нет (или персонаж пропал) — снимаем то, чем делились ранее.
+        if (prevId) void unshareCharacter(prevId, '').catch(() => {});
+        partySharedIdRef.current = null;
       }
     });
     return () => { cancelled = true; };
@@ -424,7 +430,7 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
                 onChangeBinding={(b) => setPartyBinding(b)}
                 snapshots={partySnapshots}
                 gameLog={partyLog}
-                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); }}
+                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); partySharedIdRef.current = null; }}
               />
             </Suspense>
           </div>
