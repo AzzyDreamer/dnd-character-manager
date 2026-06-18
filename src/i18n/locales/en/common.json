@@ -26,6 +26,7 @@
     "leave": "Leave party",
     "hostingTitle": "Hosting",
     "connectedTitle": "Connected",
+    "inviteTitle": "Invite players",
     "shareHint": "Share one of these codes with your players. They paste it to join.",
     "boundPort": "Listening on port {{port}}",
     "copyCode": "Copy",
@@ -45,13 +46,17 @@
     "shareCharacter": "Share your character",
     "shareNone": "Don't share",
     "shareNoneHint": "Pick a character to share with the party.",
-    "visParty": "Everyone",
-    "visGm": "GM only",
-    "visHidden": "Hidden",
-    "visHint": {
-      "party": "Everyone in the party can view your sheet.",
-      "gm": "Only the GM can view your sheet.",
-      "hidden": "No one can view your sheet."
+    "modeFull": "Full",
+    "modePartial": "Partial",
+    "modeMinimal": "Minimal",
+    "modeHint": {
+      "full": "Everyone in the party can open your full sheet.",
+      "partial": "Others see HP, class, conditions and active forms — but can't open your sheet.",
+      "minimal": "Others see only your player name and your active form. The GM always sees everything."
+    },
+    "sidebar": {
+      "collapse": "Hide party",
+      "expand": "Show party"
     },
     "sharedSheets": "Shared character sheets",
     "noShared": "No shared sheets yet.",
@@ -59,6 +64,8 @@
     "readOnlyBanner": "Read-only — {{name}}'s sheet",
     "close": "Close",
     "gameLog": "Game log",
+    "systemLog": "Connection log",
+    "exhaustion": "Exhaustion",
     "gameLogEmpty": "No rolls yet.",
     "privateRolls": "Private rolls",
     "advShort": "adv",

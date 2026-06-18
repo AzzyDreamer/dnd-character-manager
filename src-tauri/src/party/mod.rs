@@ -105,20 +105,20 @@ pub fn party_share(
     state: State<'_, PartyState>,
     character_id: String,
     character_name: String,
-    visibility: String,
+    mode: String,
     data: serde_json::Value,
 ) -> Result<(), String> {
     match state.inner.lock().unwrap().as_ref() {
-        // ГМ-локально: кладём снимок в очередь хоста (ретрансляция по видимости).
+        // ГМ-локально: кладём снимок в очередь хоста (рассылка всем + режим).
         Some(Active::Host(h)) => h
             .snapshot_tx
-            .send(host::SnapshotReq { character_id, character_name, visibility, data })
+            .send(host::SnapshotReq { character_id, character_name, mode, data })
             .map_err(|_| "host channel closed".to_string()),
         // Игрок: шлём member-snapshot хосту, дальше он ретранслирует.
         Some(Active::Client(c)) => {
             let msg = serde_json::json!({
                 "type": "member-snapshot", "characterId": character_id,
-                "characterName": character_name, "visibility": visibility, "data": data
+                "characterName": character_name, "mode": mode, "data": data
             });
             c.out_tx.send(msg.to_string()).map_err(|_| "client channel closed".to_string())
         }
@@ -423,7 +423,7 @@ mod tests {
     }
 
     #[test]
-    fn snapshot_visibility_matrix_and_replay() {
+    fn snapshot_broadcast_and_replay() {
         tauri::async_runtime::block_on(async {
             let host_ev = TestEvents::default();
             let host = host::start(
@@ -458,33 +458,33 @@ mod tests {
             .await
             .expect("bob connects");
 
-            let share = |name: &str, vis: &str| {
+            let share = |name: &str, mode: &str, data: serde_json::Value| {
                 let msg = serde_json::json!({
                     "type": "member-snapshot", "characterId": "c1", "characterName": name,
-                    "visibility": vis, "data": { "name": name, "hitPoints": { "current": 5, "max": 10 } }
+                    "mode": mode, "data": data
                 });
                 alice.out_tx.send(msg.to_string()).unwrap();
             };
+            let sheet = || serde_json::json!({ "name": "x", "hitPoints": { "current": 5, "max": 10 } });
 
-            // party → видят и ГМ, и Bob.
-            share("PartyChar", "party");
-            assert!(until(|| host_ev.snapshot_named("PartyChar")).await, "GM sees party snapshot");
-            assert!(until(|| b_ev.snapshot_named("PartyChar")).await, "Bob sees party snapshot");
+            // Полные данные уходят ВСЕМ (ГМ + Bob) при любом режиме — режут на отображении.
+            share("PartialChar", "partial", sheet());
+            assert!(until(|| host_ev.snapshot_named("PartialChar")).await, "GM sees snapshot");
+            assert!(until(|| b_ev.snapshot_named("PartialChar")).await, "Bob receives full data even in partial mode");
 
-            // gm → видит только ГМ; у Bob прежний party-снимок СНИМАЕТСЯ, и данных gm он не видит.
-            share("GmChar", "gm");
-            assert!(until(|| host_ev.snapshot_named("GmChar")).await, "GM sees gm snapshot");
-            assert!(until(|| b_ev.cleared_from("1")).await, "Bob's prior snapshot must be cleared on switch to gm");
-            assert!(!until(|| b_ev.snapshot_named("GmChar")).await, "Bob must NOT see gm snapshot data");
+            // Смена режима на minimal НЕ снимает снимок у других — данные всё ещё идут.
+            share("MinimalChar", "minimal", sheet());
+            assert!(until(|| host_ev.snapshot_named("MinimalChar")).await, "GM sees minimal snapshot");
+            assert!(until(|| b_ev.snapshot_named("MinimalChar")).await, "Bob still receives data in minimal mode");
 
-            // hidden → снятие (data: null) у ГМ и Bob.
-            share("HiddenChar", "hidden");
+            // Снятие шеринга — data: null → снимок снят у ГМ и Bob.
+            share("Gone", "minimal", serde_json::Value::Null);
             assert!(until(|| host_ev.cleared_from("1")).await, "GM gets cleared snapshot");
             assert!(until(|| b_ev.cleared_from("1")).await, "Bob gets cleared snapshot");
 
-            // Догон: новый клиент получает уже опубликованный party-снимок.
-            share("PartyAgain", "party");
-            assert!(until(|| host_ev.snapshot_named("PartyAgain")).await, "GM sees re-share");
+            // Догон: новый клиент получает уже опубликованный снимок.
+            share("Replayed", "full", sheet());
+            assert!(until(|| host_ev.snapshot_named("Replayed")).await, "GM sees re-share");
             let c_ev = TestEvents::default();
             let _carol = client::start(
                 c_ev.clone(),
@@ -495,7 +495,7 @@ mod tests {
             )
             .await
             .expect("carol connects");
-            assert!(until(|| c_ev.snapshot_named("PartyAgain")).await, "late joiner gets replay");
+            assert!(until(|| c_ev.snapshot_named("Replayed")).await, "late joiner gets replay");
         });
     }
 

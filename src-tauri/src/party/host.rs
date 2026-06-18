@@ -3,10 +3,11 @@
 //! ретранслируя их по правилам видимости. Топология «звезда»: хост = хаб и
 //! источник истины (см. docs/PLAN_PARTY_LOCAL.md).
 //!
-//! LP1: членство + presence (`party-state`). LP2: снимки листов (`member-snapshot`
-//! от игрока → хост → `party-snapshot` получателям по видимости `party/gm/hidden`),
-//! с догоном для поздно подключившихся. Сетевой слой не зависит от Tauri: события
-//! идут в абстрактный `PartyEvents`.
+//! LP1: членство + presence (`party-state`). LP2/LPD: снимки листов (`member-snapshot`
+//! от игрока → хост → `party-snapshot` ВСЕМ), с догоном для поздно подключившихся.
+//! Режим отображения `full/partial/minimal` едет полем `mode` и режется на стороне
+//! отображения (ГМ всегда видит полный лист), поэтому хост — тупое полное реле; снятие
+//! снимка — это `data: null`. Сетевой слой не зависит от Tauri: события идут в `PartyEvents`.
 
 use std::collections::{BTreeMap, HashMap, VecDeque};
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -20,7 +21,7 @@ use tokio::sync::mpsc;
 use tokio::sync::Mutex as AsyncMutex;
 use tokio_tungstenite::tungstenite::Message;
 
-use super::protocol::{Handshake, Hello, PROTOCOL_VERSION};
+use super::protocol::{Handshake, Hello, HEARTBEAT_INTERVAL_SECS, PROTOCOL_VERSION};
 use super::PartyEvents;
 
 /// Карта подключённых клиентов: id → канал исходящих кадров этому клиенту.
@@ -32,11 +33,12 @@ struct Member {
 }
 
 /// Последний снимок листа участника, который хост хранит для догона поздних
-/// клиентов. `visibility`: `party` | `gm` (hidden не хранится — снимок снимается).
+/// клиентов. `mode`: `full` | `partial` | `minimal` — режим ОТОБРАЖЕНИЯ (что видят
+/// другие игроки); данные всегда полные, режет их получатель. Снятие снимка — `data: null`.
 struct StoredSnapshot {
     character_id: String,
     character_name: String,
-    visibility: String,
+    mode: String,
     data: Value,
 }
 
@@ -89,7 +91,7 @@ impl Room {
 pub struct SnapshotReq {
     pub character_id: String,
     pub character_name: String,
-    pub visibility: String,
+    pub mode: String,
     pub data: Value,
 }
 
@@ -115,6 +117,10 @@ pub async fn start<E: PartyEvents>(
 ) -> Result<HostHandle, String> {
     let listener = bind_with_fallback(port_pref.unwrap_or(super::DEFAULT_PORT)).await?;
     let port = listener.local_addr().map_err(|e| e.to_string())?.port();
+
+    // Сообщаем своему вебвью, что хост поднят (ГМ, selfId="gm"). Нужно фронту, чтобы
+    // глобально знать о роли/активности сессии (сайдбар-HUD на других экранах, LPD).
+    events.emit("party://status", json!({ "state": "hosting", "selfId": "gm", "port": port }));
 
     let clients: Clients = Arc::new(AsyncMutex::new(HashMap::new()));
     let room = Arc::new(AsyncMutex::new(Room {
@@ -145,6 +151,21 @@ pub async fn start<E: PartyEvents>(
         }
     });
 
+    // Heartbeat → всем клиентам, чтобы они отличали живой хост от молчания и
+    // закрывали соединение по таймауту при обрыве (см. protocol::HEARTBEAT_*).
+    let clients_hb = clients.clone();
+    let heartbeat_task = tauri::async_runtime::spawn(async move {
+        let mut ticker = tokio::time::interval(std::time::Duration::from_secs(HEARTBEAT_INTERVAL_SECS));
+        let frame = Message::text("{\"type\":\"heartbeat\"}".to_string());
+        loop {
+            ticker.tick().await;
+            let map = clients_hb.lock().await;
+            for tx in map.values() {
+                let _ = tx.send(frame.clone());
+            }
+        }
+    });
+
     // ГМ делится своим листом (from = "gm").
     let events_s = events.clone();
     let clients_s = clients.clone();
@@ -153,7 +174,7 @@ pub async fn start<E: PartyEvents>(
         while let Some(req) = snapshot_rx.recv().await {
             ingest_snapshot(
                 &events_s, &clients_s, &room_s, "gm".to_string(),
-                req.character_id, req.character_name, req.visibility, req.data,
+                req.character_id, req.character_name, req.mode, req.data,
             )
             .await;
         }
@@ -219,7 +240,7 @@ pub async fn start<E: PartyEvents>(
         broadcast_tx,
         snapshot_tx,
         event_tx,
-        tasks: vec![broadcast_task, snapshot_task, event_task, accept_task],
+        tasks: vec![broadcast_task, snapshot_task, event_task, accept_task, heartbeat_task],
     })
 }
 
@@ -244,9 +265,10 @@ async fn broadcast_snapshot_cleared(clients: &Clients, from: String) {
     }
 }
 
-/// Принять снимок листа от участника `from_id` и ретранслировать по видимости:
-/// `party` — всем (кроме автора) + ГМ; `gm` — только ГМ (локальный эмит);
-/// `hidden` — никому (снимок снимается у всех, кто его видел).
+/// Принять снимок листа от участника `from_id` и разослать ВСЕМ (кроме автора) +
+/// ГМу. Режим (`full/partial/minimal`) едет полем `mode` и режется на отображении —
+/// хост шлёт полные данные всегда. Снятие снимка — это `data: null` (игрок перестал
+/// делиться); сам режим данные не снимает.
 async fn ingest_snapshot<E: PartyEvents>(
     events: &E,
     clients: &Clients,
@@ -254,13 +276,13 @@ async fn ingest_snapshot<E: PartyEvents>(
     from_id: String,
     character_id: String,
     character_name: String,
-    visibility: String,
+    mode: String,
     data: Value,
 ) {
-    let hidden = visibility == "hidden";
+    let removed = data.is_null();
     {
         let mut r = room.lock().await;
-        if hidden {
+        if removed {
             r.snapshots.remove(&from_id);
         } else {
             r.snapshots.insert(
@@ -268,28 +290,23 @@ async fn ingest_snapshot<E: PartyEvents>(
                 StoredSnapshot {
                     character_id: character_id.clone(),
                     character_name: character_name.clone(),
-                    visibility: visibility.clone(),
+                    mode: mode.clone(),
                     data: data.clone(),
                 },
             );
         }
     }
 
-    // ГМ (локально) видит party и gm; при hidden — снятие (data: null).
-    let local_data = if hidden { Value::Null } else { data.clone() };
+    // ГМ (локально) всегда видит полный лист; при снятии — data: null.
     events.emit(
         "party://snapshot",
-        json!({ "from": from_id, "characterId": character_id, "characterName": character_name, "data": local_data }),
+        json!({ "from": from_id, "characterId": character_id, "characterName": character_name, "mode": mode, "data": data.clone() }),
     );
 
-    // Клиентам: при `party` — полные данные; при `gm`/`hidden` — СНЯТИЕ
-    // (`data: null`). Снятие при `gm` обязательно: иначе у клиента остался бы
-    // прежний party-снимок этого участника (баг «переключил Все → Только ГМ, а
-    // другой инстанс всё ещё видит лист»). Шлём всем, кроме автора.
-    let client_data = if visibility == "party" { data } else { Value::Null };
+    // Клиентам — полные данные + режим (режут на отображении). Шлём всем, кроме автора.
     let frame = json!({
         "type": "party-snapshot", "from": from_id, "characterId": character_id,
-        "characterName": character_name, "data": client_data
+        "characterName": character_name, "mode": mode, "data": data
     });
     let text = serde_json::to_string(&frame).unwrap_or_default();
     let sender = from_id.parse::<u64>().ok();
@@ -406,13 +423,11 @@ async fn handle_client<E: PartyEvents>(
     {
         let r = room.lock().await;
         for (from, snap) in r.snapshots.iter() {
-            if snap.visibility == "party" {
-                let frame = json!({
-                    "type": "party-snapshot", "from": from, "characterId": snap.character_id,
-                    "characterName": snap.character_name, "data": snap.data
-                });
-                let _ = tx.send(Message::text(serde_json::to_string(&frame).unwrap_or_default()));
-            }
+            let frame = json!({
+                "type": "party-snapshot", "from": from, "characterId": snap.character_id,
+                "characterName": snap.character_name, "mode": snap.mode, "data": snap.data
+            });
+            let _ = tx.send(Message::text(serde_json::to_string(&frame).unwrap_or_default()));
         }
         for entry in r.events.iter() {
             let frame = json!({ "type": "party-event", "event": entry });
@@ -457,7 +472,7 @@ async fn handle_client<E: PartyEvents>(
                             id.to_string(),
                             val.get("characterId").and_then(|v| v.as_str()).unwrap_or("").to_string(),
                             val.get("characterName").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-                            val.get("visibility").and_then(|v| v.as_str()).unwrap_or("hidden").to_string(),
+                            val.get("mode").and_then(|v| v.as_str()).unwrap_or("full").to_string(),
                             val.get("data").cloned().unwrap_or(Value::Null),
                         )
                         .await;

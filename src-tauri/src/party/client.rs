@@ -9,7 +9,7 @@ use tauri::async_runtime::JoinHandle;
 use tokio::sync::mpsc;
 use tokio_tungstenite::tungstenite::Message;
 
-use super::protocol::{Handshake, Hello, PROTOCOL_VERSION};
+use super::protocol::{Handshake, Hello, HEARTBEAT_TIMEOUT_SECS, PROTOCOL_VERSION};
 use super::PartyEvents;
 
 /// Дескриптор активного клиента, который держит `PartyState`.
@@ -80,11 +80,19 @@ pub async fn start<E: PartyEvents>(
     // По завершению цикла — пометить партию закрытой.
     let events_r = events.clone();
     let reader = tauri::async_runtime::spawn(async move {
-        while let Some(frame) = read.next().await {
+        let timeout = std::time::Duration::from_secs(HEARTBEAT_TIMEOUT_SECS);
+        loop {
+            // Молчание дольше таймаута (нет даже heartbeat) → хост отвалился.
+            let frame = match tokio::time::timeout(timeout, read.next()).await {
+                Ok(Some(frame)) => frame,
+                Ok(None) | Err(_) => break,
+            };
             match frame {
                 Ok(Message::Text(t)) => {
                     let raw = t.as_str().to_string();
                     match serde_json::from_str::<serde_json::Value>(&raw) {
+                        // Heartbeat — только признак жизни хоста, наверх не отдаём.
+                        Ok(val) if val.get("type").and_then(|v| v.as_str()) == Some("heartbeat") => {}
                         Ok(val) if val.get("type").and_then(|v| v.as_str()) == Some("party-state") => {
                             events_r.emit("party://state", val);
                         }

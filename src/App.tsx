@@ -33,6 +33,8 @@ const WindowResizers = lazy(() => import('./components/desktop/WindowResizers'))
 // Онлайн-партии — десктоп-онли (LP0). Ленивый импорт под isTauri(), чтобы
 // сетевой код и @tauri-apps/* не попадали в веб-бандл (см. scripts/check-web-imports.mjs).
 const PartyPanel = lazy(() => import('./online/PartyPanel'));
+// Глобальный сайдбар-HUD партии (виден на всех экранах кроме окна партии).
+const PartySidebar = lazy(() => import('./online/PartySidebar'));
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -73,9 +75,12 @@ type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary' | 'party';
 // Онлайн-партия (LP2). Union дублируется локально: App не может СТАТИЧЕСКИ
 // импортировать из src/online (десктоп-онли, см. scripts/check-web-imports.mjs);
 // сам сетевой вызов идёт через динамический import под isTauri().
-type PartyVisibility = 'party' | 'gm' | 'hidden';
-interface PartyBinding { characterId: string; visibility: PartyVisibility }
-interface PartySnapshotCard { characterName?: string; characterId?: string; data: unknown }
+type PartySheetMode = 'full' | 'partial' | 'minimal';
+interface PartyBinding { characterId: string; mode: PartySheetMode }
+interface PartySnapshotCard { characterName?: string; characterId?: string; mode?: PartySheetMode; data: unknown }
+interface PartyMemberLite { id: string; displayName: string; role: 'gm' | 'player'; online: boolean }
+// Сводка активной сессии — живёт в App, чтобы сайдбар знал роль/состав на ЛЮБОМ экране.
+interface PartySessionInfo { active: boolean; isGm: boolean; selfId: string | null; partyName: string }
 interface PartyLogEntry { id: number; ts: number; from: string; actor: string; kind: string; payload: unknown }
 const PARTY_LOG_CAP = 300;
 
@@ -186,6 +191,8 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
   const [partyBinding, setPartyBinding] = useState<PartyBinding | null>(null);
   const [partySnapshots, setPartySnapshots] = useState<Record<string, PartySnapshotCard>>({});
   const [partyLog, setPartyLog] = useState<PartyLogEntry[]>([]);
+  const [partySession, setPartySession] = useState<PartySessionInfo>({ active: false, isGm: false, selfId: null, partyName: '' });
+  const [partyMembers, setPartyMembers] = useState<PartyMemberLite[]>([]);
   // Что сейчас расшарено — чтобы при снятии привязки СНЯТЬ снимок у других.
   const partySharedIdRef = useRef<string | null>(null);
 
@@ -295,11 +302,21 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
     import('./online/party')
       .then(({ subscribeParty }) =>
         subscribeParty({
+          // Роль/активность сессии — глобально, чтобы сайдбар-HUD работал на любом экране.
+          onStatus: (s) => {
+            if (s.state === 'hosting') setPartySession((p) => ({ ...p, active: true, isGm: true, selfId: 'gm' }));
+            else if (s.state === 'connected') setPartySession((p) => ({ ...p, active: true, isGm: false, selfId: s.selfId ?? null }));
+            else if (s.state === 'closed' || s.state === 'rejected') setPartySession((p) => ({ ...p, active: false }));
+          },
+          onState: (st) => {
+            setPartyMembers(st.members);
+            setPartySession((p) => ({ ...p, active: true, partyName: st.partyName }));
+          },
           onSnapshot: (s) =>
             setPartySnapshots((prev) => {
               const next = { ...prev };
               if (s.data == null) delete next[s.from];
-              else next[s.from] = { characterName: s.characterName, characterId: s.characterId, data: s.data };
+              else next[s.from] = { characterName: s.characterName, characterId: s.characterId, mode: s.mode, data: s.data };
               return next;
             }),
           onEvent: (e) =>
@@ -322,7 +339,7 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
       const prevId = partySharedIdRef.current;
       const char = partyBinding ? characters.find((c) => c.id === partyBinding.characterId) : undefined;
       if (partyBinding && char) {
-        void shareCharacter({ id: char.id, name: char.name, visibility: partyBinding.visibility, data: char }).catch(() => {});
+        void shareCharacter({ id: char.id, name: char.name, mode: partyBinding.mode, data: char }).catch(() => {});
         partySharedIdRef.current = char.id;
       } else {
         // Привязки нет (или персонаж пропал) — снимаем то, чем делились ранее.
@@ -426,11 +443,15 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
             <Suspense fallback={<LoadingScreen progress={null} />}>
               <PartyPanel
                 characters={characters}
+                visible={currentView === 'party'}
                 binding={partyBinding}
                 onChangeBinding={(b) => setPartyBinding(b)}
                 snapshots={partySnapshots}
                 gameLog={partyLog}
-                onLeave={() => { setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); partySharedIdRef.current = null; }}
+                onLeave={() => {
+                  setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); partySharedIdRef.current = null;
+                  setPartySession({ active: false, isGm: false, selfId: null, partyName: '' }); setPartyMembers([]);
+                }}
               />
             </Suspense>
           </div>
@@ -486,6 +507,20 @@ function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSe
           </div>
         ))}
       </main>
+      {/* Сайдбар-HUD партии — на всех экранах, кроме самого окна партии (LPD). */}
+      {isTauri() && partySession.active && currentView !== 'party' && (
+        <Suspense fallback={null}>
+          <PartySidebar
+            members={partyMembers}
+            snapshots={partySnapshots}
+            selfId={partySession.selfId}
+            isGm={partySession.isGm}
+            selfChar={partyBinding ? characters.find((c) => c.id === partyBinding.characterId) : undefined}
+            selfMode={partyBinding?.mode ?? 'full'}
+            partyName={partySession.partyName}
+          />
+        </Suspense>
+      )}
     </div>
     </FilterNavContext.Provider>
   );

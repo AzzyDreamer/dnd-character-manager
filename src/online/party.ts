@@ -44,27 +44,31 @@ export async function joinParty(opts: { code: string; displayName: string }): Pr
   await invoke('party_join', { host, port, code: secret, displayName: opts.displayName });
 }
 
-export type Visibility = 'party' | 'gm' | 'hidden';
+/** Режим отображения листа для ДРУГИХ игроков (ГМ всегда видит полный лист):
+ *  `full` — полный лист (можно открыть), `partial` — HP/класс/состояния/формы без листа,
+ *  `minimal` — только имя игрока + активная форма. По сети всегда идёт полный лист +
+ *  этот флаг; урезание делается на отображении (см. docs/PLAN_PARTY_LOCAL.md, LPD). */
+export type SheetMode = 'full' | 'partial' | 'minimal';
 
-/** Опубликовать снимок листа в партию. `data` — полный объект персонажа.
- *  Видимость: `party` (все), `gm` (только ГМ), `hidden` (никто — снимок снимается). */
+/** Опубликовать снимок листа в партию. `data` — полный объект персонажа (шлём всегда,
+ *  режут получатели по `mode`). Снятие шеринга — отдельная команда `unshareCharacter`. */
 export async function shareCharacter(opts: {
   id: string;
   name: string;
-  visibility: Visibility;
+  mode: SheetMode;
   data: unknown;
 }): Promise<void> {
   await invoke('party_share', {
     characterId: opts.id,
     characterName: opts.name,
-    visibility: opts.visibility,
-    data: opts.visibility === 'hidden' ? null : opts.data,
+    mode: opts.mode,
+    data: opts.data,
   });
 }
 
-/** Перестать делиться листом (снимает снимок у всех, кто его видел). */
+/** Перестать делиться листом (снимает снимок у всех — это `data: null`). */
 export async function unshareCharacter(id: string, name: string): Promise<void> {
-  await invoke('party_share', { characterId: id, characterName: name, visibility: 'hidden', data: null });
+  await invoke('party_share', { characterId: id, characterName: name, mode: 'minimal', data: null });
 }
 
 export async function sendPartyMessage(data: unknown): Promise<void> {
@@ -111,11 +115,13 @@ export interface PartyMessage {
   data: unknown;
 }
 
-/** Снимок чужого листа, пришедший по `party://snapshot`. `data: null` — снят. */
+/** Снимок чужого листа, пришедший по `party://snapshot`. `data: null` — снят.
+ *  `mode` — режим отображения, выбранный владельцем (ГМ игнорирует, видит полный лист). */
 export interface PartySnapshot {
   from: string;
   characterId?: string;
   characterName?: string;
+  mode?: SheetMode;
   data: unknown | null;
 }
 

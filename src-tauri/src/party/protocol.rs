@@ -8,7 +8,15 @@
 
 use serde::{Deserialize, Serialize};
 
-pub const PROTOCOL_VERSION: u32 = 1;
+// v2: видимость листа `party/gm/hidden` заменена режимами отображения
+// `full/partial/minimal` (см. docs/PLAN_PARTY_LOCAL.md, LPD) — несовместимо с v1.
+pub const PROTOCOL_VERSION: u32 = 2;
+
+// Heartbeat: хост шлёт `{"type":"heartbeat"}` каждые INTERVAL секунд; клиент считает
+// хост отвалившимся, если не получил НИЧЕГО за TIMEOUT секунд. Так обрыв хоста
+// (краш/сеть, без Close-кадра) детектится, а не висит «подключено» вечно.
+pub const HEARTBEAT_INTERVAL_SECS: u64 = 5;
+pub const HEARTBEAT_TIMEOUT_SECS: u64 = 15;
 
 /// Первый кадр клиента после подключения. `code` — общий секрет партии
 /// (деттерент, не настоящая авторизация — см. план).

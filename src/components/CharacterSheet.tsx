@@ -24,6 +24,7 @@ import { PortraitCropModal } from './PortraitCropModal';
 import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 import { resolveDisplayRace } from '../data/species';
+import { getConditionImageUrl, init as initConditionsData } from '../data/conditionsdiseases';
 import { asset } from '../utils/asset';
 import { useSettings } from './SettingsProvider';
 import { FullEditPanel } from './FullEditPanel';
@@ -2799,11 +2800,6 @@ function getFeatureImageUrl(name: string): string {
   return asset(`/images/misc/${filename}.webp`);
 }
 
-function getConditionImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return asset(`/images/conditionsdiseases/${filename}.webp`);
-}
-
 // ── Condition Picker Modal ──
 function ConditionPickerModal({
   onAdd,
@@ -3300,6 +3296,12 @@ function ConditionsSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(false);
   const [showConditionModal, setShowConditionModal] = useState(false);
+  // Справочник состояний нужен getConditionImageUrl, чтобы под RU вернуть
+  // английское имя из _origName для пути к картинке (иначе кириллица → 404).
+  const [, setCondReady] = useState(false);
+  useEffect(() => {
+    initConditionsData().then(() => setCondReady(true)).catch(() => {});
+  }, []);
 
   const activeConditions = character.conditions ?? [];
 
