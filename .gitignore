@@ -33,6 +33,7 @@ INTERFACE_EXAMPLE/
 tmp_*.mjs
 _batch*.py
 __pycache__/
+_untranslated*.py
 
 # Environment variables
 .env
