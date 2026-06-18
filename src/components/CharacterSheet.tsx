@@ -4,7 +4,7 @@ import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResist
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle, NotebookPen } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -46,8 +46,9 @@ import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
 const LazyDiceTab = lazy(() => import('./DiceTab').then(m => ({ default: m.DiceTab })));
 const LazyRoleplayTab = lazy(() => import('./RoleplayTab').then(m => ({ default: m.RoleplayTab })));
+const LazyNotesTab = lazy(() => import('./NotesTab').then(m => ({ default: m.NotesTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | 'roleplay';
+type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | 'roleplay' | 'notes';
 
 interface CharacterSheetProps {
   character: Character;
@@ -1447,6 +1448,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     { key: 'actions', label: t('sheet.tabs.actions'), icon: Swords },
     { key: 'proficiencies', label: t('sheet.tabs.proficiencies'), icon: ScrollText },
     { key: 'roleplay', label: t('sheet.tabs.roleplay'), icon: User },
+    { key: 'notes', label: t('sheet.tabs.notes'), icon: NotebookPen },
     { key: 'dice', label: t('sheet.tabs.dice'), icon: Dices },
   ];
 
@@ -1533,6 +1535,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {activeTab === 'roleplay' && (
             <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
               <LazyRoleplayTab character={character} onUpdate={onUpdate} />
+            </Suspense>
+          )}
+
+          {/* Tab: Notes & Quest Journal */}
+          {activeTab === 'notes' && (
+            <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
+              <LazyNotesTab character={character} onUpdate={onUpdate} readOnly={readOnly} />
             </Suspense>
           )}
 

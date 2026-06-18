@@ -286,6 +286,51 @@
   "pickOptions": {
     "confirm": "Подтвердить"
   },
+  "notes": {
+    "freeNotesTitle": "Заметки",
+    "freeNotesPlaceholder": "Напишите что-нибудь для себя и для отряда...",
+    "edit": "Изменить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "journalTitle": "Журнал заданий",
+    "questsHeader": "Задания",
+    "tasksTitle": "Задачи",
+    "addQuest": "Добавить задание",
+    "addSection": "Добавить раздел",
+    "addSubsection": "Добавить подзаголовок",
+    "sectionTitlePlaceholder": "Название раздела...",
+    "untitledSection": "Безымянный раздел",
+    "deleteSection": "Удалить раздел",
+    "confirmDeleteSection": "Удалить этот раздел? Его задания перейдут в первый раздел.",
+    "section": "Раздел",
+    "untitledQuest": "Безымянное задание",
+    "questTitlePlaceholder": "Название задания...",
+    "noQuests": "Заданий пока нет",
+    "noQuestsHint": "ГМ или вы можете добавлять сюда задания и записи в журнал.",
+    "noQuestsInCategory": "Пусто",
+    "selectQuest": "Выберите задание, чтобы увидеть детали",
+    "categories": {
+      "main": "Основное задание",
+      "personal": "Личное задание",
+      "side": "Побочное задание"
+    },
+    "status": {
+      "active": "Активно",
+      "completed": "Выполнено",
+      "failed": "Провалено"
+    },
+    "objective": "Цель",
+    "objectivePlaceholder": "Текущая цель...",
+    "entries": "Журнал",
+    "addEntry": "Добавить запись",
+    "entryPlaceholder": "Что произошло...",
+    "noEntries": "Записей в журнале пока нет",
+    "deleteEntry": "Удалить запись",
+    "deleteQuest": "Удалить задание",
+    "confirmDeleteQuest": "Удалить это задание?",
+    "markDone": "Отметить выполненной",
+    "markActive": "Снова активной"
+  },
   "sheet": {
     "tabs": {
       "stats": "Характеристики",
@@ -293,6 +338,7 @@
       "actions": "Действия и заклинания",
       "proficiencies": "Умения и Владения",
       "roleplay": "Персонаж",
+      "notes": "Заметки",
       "dice": "Кубики"
     },
     "header": {

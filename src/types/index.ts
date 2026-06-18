@@ -286,6 +286,45 @@ export interface DamageResistanceEntry {
   modifier: DamageResistanceModifier;
 }
 
+// ─── Журнал заданий (вкладка «Заметки») ───
+
+// Встроенные категории-разделы по умолчанию (id стабильны — служат и id раздела,
+// и legacy-значением Quest.category). @deprecated как тип поля — разделы теперь
+// произвольные (QuestSection), эти значения остаются стартовыми id.
+export type QuestCategory = 'main' | 'personal' | 'side';
+
+// Статус задания.
+export type QuestStatus = 'active' | 'completed' | 'failed';
+
+// Раздел журнала заданий с редактируемым заголовком (напр. «Основное задание»).
+// `parentId` задаёт подзаголовок (один уровень вложенности под верхним разделом).
+export interface QuestSection {
+  id: string;
+  title: string;
+  parentId?: string;
+}
+
+// Запись в ленте журнала задания (нарративная строка прогресса). `done` —
+// галочка ✓ (пункт выполнен) против активного пункта.
+export interface QuestLogEntry {
+  id: string;
+  text: string;
+  done?: boolean;
+}
+
+// Задание журнала. Заполняется ГМом или самим игроком; шарится сопартийцам
+// в составе полного листа (read-only).
+export interface Quest {
+  id: string;
+  title: string;
+  sectionId?: string;       // ссылка на QuestSection.id
+  category?: QuestCategory; // @deprecated legacy-раздел (фоллбэк, если нет sectionId)
+  status: QuestStatus;
+  objective?: string;       // текущая цель (подсвеченный блок справа)
+  entries: QuestLogEntry[]; // лента записей журнала
+  updatedAt: string;        // ISO — для сортировки/отображения
+}
+
 // Основная структура персонажа
 export interface Character {
   id: string;
@@ -507,8 +546,16 @@ export interface Character {
   // Кастомные атаки
   customAttacks?: CustomAttack[];
 
-  // Заметки
+  // Свободные заметки (вкладка «Заметки») — для себя и для отряда. В онлайне
+  // видны сопартийцам в составе полного листа.
   notes?: string;
+
+  // Журнал заданий (вкладка «Заметки», стиль BG3). Заполняется ГМом/игроком.
+  quests?: Quest[];
+
+  // Разделы журнала заданий (редактируемые заголовки + подзаголовки). Если не
+  // задано — берутся три встроенных раздела по умолчанию (main/personal/side).
+  questSections?: QuestSection[];
 
   // Скрытая отметка о ручном редактировании (режим полного редактирования).
   // Выставляется при ЛЮБОМ изменении через full-edit (инлайн или raw JSON) и
