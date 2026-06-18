@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, Component } from 'react';
+import { useState, useEffect, useCallback, useRef, Component, lazy, Suspense } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
@@ -10,10 +10,12 @@ import { HomePage } from './components/HomePage';
 import { Glossary } from './components/Glossary';
 import { TopNavBar } from './components/ui';
 import type { NavTab } from './components/ui';
-import { importCharacter } from './utils/storage';
+import { importCharacter, localCharacterStore } from './utils/storage';
+import type { CharacterStore } from './utils/storage';
+import { isTauri } from './utils/isTauri';
 import { initRegistry, reloadForLocale, isInitialized } from './data/registry';
 import type { LoadProgress } from './data/registry';
-import { PlusCircle, Users, Scroll, Library, Settings } from 'lucide-react';
+import { PlusCircle, Users, Scroll, Library, Settings, Wifi } from 'lucide-react';
 import { DiceRollProvider } from './components/DiceRollProvider';
 import { SettingsProvider } from './components/SettingsProvider';
 import { SettingsModal } from './components/SettingsModal';
@@ -21,6 +23,18 @@ import { FilterNavContext } from './components/FilterNavContext';
 import type { FilterNavRequest } from './components/FilterNavContext';
 import { setViewRestoreHandler, replaceView, pushView } from './utils/navStack';
 import { useBackDismiss } from './hooks/useBackDismiss';
+
+// Десктоп-онли хром окна (кастомный тайтлбар + ресайз-хендлы frameless-окна).
+// Грузится лениво только под Tauri, чтобы @tauri-apps/* (window API) не попадал
+// в веб-бандл.
+const TitleBar = lazy(() => import('./components/desktop/TitleBar'));
+const WindowResizers = lazy(() => import('./components/desktop/WindowResizers'));
+
+// Онлайн-партии — десктоп-онли (LP0). Ленивый импорт под isTauri(), чтобы
+// сетевой код и @tauri-apps/* не попадали в веб-бандл (см. scripts/check-web-imports.mjs).
+const PartyPanel = lazy(() => import('./online/PartyPanel'));
+// Глобальный сайдбар-HUD партии (виден на всех экранах кроме окна партии).
+const PartySidebar = lazy(() => import('./online/PartySidebar'));
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -56,7 +70,19 @@ class ErrorBoundary extends Component<
   }
 }
 
-type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary';
+type AppView = 'home' | 'main' | 'sheet' | 'creator' | 'glossary' | 'party';
+
+// Онлайн-партия (LP2). Union дублируется локально: App не может СТАТИЧЕСКИ
+// импортировать из src/online (десктоп-онли, см. scripts/check-web-imports.mjs);
+// сам сетевой вызов идёт через динамический import под isTauri().
+type PartySheetMode = 'full' | 'partial' | 'minimal';
+interface PartyBinding { characterId: string; mode: PartySheetMode }
+interface PartySnapshotCard { characterName?: string; characterId?: string; mode?: PartySheetMode; data: unknown }
+interface PartyMemberLite { id: string; displayName: string; role: 'gm' | 'player'; online: boolean }
+// Сводка активной сессии — живёт в App, чтобы сайдбар знал роль/состав на ЛЮБОМ экране.
+interface PartySessionInfo { active: boolean; isGm: boolean; selfId: string | null; partyName: string }
+interface PartyLogEntry { id: number; ts: number; from: string; actor: string; kind: string; payload: unknown }
+const PARTY_LOG_CAP = 300;
 
 const GLOSSARY_SUB_TAB_KEYS = [
   'spells', 'classes', 'subclasses', 'species', 'backgrounds',
@@ -78,6 +104,7 @@ function urlForLoc(loc: NavLoc): string {
     case 'creator': return '#/create';
     case 'sheet': return loc.characterId ? `#/sheet/${encodeURIComponent(loc.characterId)}` : '#/sheet';
     case 'glossary': return loc.glossaryCategory ? `#/glossary/${loc.glossaryCategory}` : '#/glossary';
+    case 'party': return '#/party';
     case 'home':
     default: return '#/';
   }
@@ -92,6 +119,9 @@ function parseLocFromHash(): NavLoc {
     case 'create': return { view: 'creator', characterId: null, glossaryCategory: null };
     case 'sheet': return { view: 'sheet', characterId: rest ? decodeURIComponent(rest) : null, glossaryCategory: null };
     case 'glossary': return { view: 'glossary', characterId: null, glossaryCategory: rest || 'spells' };
+    // Party — десктоп-онли: в вебе #/party схлопывается в home, чтобы браузер
+    // никогда не подгружал онлайн-чанк.
+    case 'party': return { view: isTauri() ? 'party' : 'home', characterId: null, glossaryCategory: null };
     default: return { view: 'home', characterId: null, glossaryCategory: null };
   }
 }
@@ -109,7 +139,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   const percent = progress ? Math.round((progress.loaded / progress.total) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center gap-6">
+    <div className="h-full bg-bg-primary flex flex-col items-center justify-center gap-6">
       <h1 className="text-text-primary text-3xl font-medieval">D&D Character Manager</h1>
       <div className="w-80 flex flex-col gap-3">
         <div className="w-full h-3 bg-bg-secondary rounded-full overflow-hidden border border-border-primary">
@@ -126,7 +156,7 @@ function LoadingScreen({ progress }: { progress: LoadProgress | null }) {
   );
 }
 
-function AppContent() {
+function AppContent({ store, onOpenSettings }: { store: CharacterStore; onOpenSettings: () => void }) {
   const { t } = useTranslation('common');
 
   const {
@@ -138,7 +168,7 @@ function AppContent() {
     updateCharacter,
     removeCharacter,
     setActiveCharacter,
-  } = useCharacters();
+  } = useCharacters(store);
 
   const [registryReady, setRegistryReady] = useState(false);
   const [registryProgress, setRegistryProgress] = useState<LoadProgress | null>(null);
@@ -153,12 +183,25 @@ function AppContent() {
     initialLocRef.current.view === 'glossary' ? initialLocRef.current.glossaryCategory : null,
   );
   const [glossaryPrefilter, setGlossaryPrefilter] = useState<FilterNavRequest | null>(null);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // Онлайн-партия: «каким персонажем делюсь» (привязка) + снимки чужих листов.
+  // Живут на уровне App, а не в PartyPanel: снимок должен уходить при правке листа
+  // на ЛЮБОМ экране (PartyPanel тогда размонтирован), а входящие снимки — переживать
+  // уход с экрана партии. Десктоп-онли; сетевой код грузится динамически.
+  const [partyBinding, setPartyBinding] = useState<PartyBinding | null>(null);
+  const [partySnapshots, setPartySnapshots] = useState<Record<string, PartySnapshotCard>>({});
+  const [partyLog, setPartyLog] = useState<PartyLogEntry[]>([]);
+  const [partySession, setPartySession] = useState<PartySessionInfo>({ active: false, isGm: false, selfId: null, partyName: '' });
+  const [partyMembers, setPartyMembers] = useState<PartyMemberLite[]>([]);
+  // Что сейчас расшарено — чтобы при снятии привязки СНЯТЬ снимок у других.
+  const partySharedIdRef = useRef<string | null>(null);
 
   const mainTabs: NavTab[] = [
     { key: 'main', label: t('nav.characters'), icon: Users },
     { key: 'creator', label: t('nav.creation'), icon: Scroll },
     { key: 'glossary', label: t('nav.glossary'), icon: Library },
+    // Онлайн-партии доступны только на десктопе (хост слушает порт — браузер так не умеет).
+    ...(isTauri() ? [{ key: 'party', label: t('nav.party'), icon: Wifi }] : []),
   ];
 
   const glossarySubTabs: NavTab[] = GLOSSARY_SUB_TAB_KEYS.map(key => ({
@@ -250,8 +293,62 @@ function AppContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Browser Back closes the settings modal instead of navigating views.
-  useBackDismiss(settingsOpen, () => setSettingsOpen(false));
+  // Подписка на снимки чужих листов (party://snapshot). На уровне App, чтобы не
+  // терять их при уходе с экрана партии. `data: null` → участник снял свой лист.
+  useEffect(() => {
+    if (!isTauri()) return;
+    let unlisten: (() => void) | undefined;
+    let cancelled = false;
+    import('./online/party')
+      .then(({ subscribeParty }) =>
+        subscribeParty({
+          // Роль/активность сессии — глобально, чтобы сайдбар-HUD работал на любом экране.
+          onStatus: (s) => {
+            if (s.state === 'hosting') setPartySession((p) => ({ ...p, active: true, isGm: true, selfId: 'gm' }));
+            else if (s.state === 'connected') setPartySession((p) => ({ ...p, active: true, isGm: false, selfId: s.selfId ?? null }));
+            else if (s.state === 'closed' || s.state === 'rejected') setPartySession((p) => ({ ...p, active: false }));
+          },
+          onState: (st) => {
+            setPartyMembers(st.members);
+            setPartySession((p) => ({ ...p, active: true, partyName: st.partyName }));
+          },
+          onSnapshot: (s) =>
+            setPartySnapshots((prev) => {
+              const next = { ...prev };
+              if (s.data == null) delete next[s.from];
+              else next[s.from] = { characterName: s.characterName, characterId: s.characterId, mode: s.mode, data: s.data };
+              return next;
+            }),
+          onEvent: (e) =>
+            setPartyLog((prev) =>
+              prev.some((x) => x.id === e.id) ? prev : [...prev.slice(-(PARTY_LOG_CAP - 1)), e],
+            ),
+        }),
+      )
+      .then((u) => { if (cancelled) u(); else unlisten = u; });
+    return () => { cancelled = true; unlisten?.(); };
+  }, []);
+
+  // Публикуем снимок привязанного персонажа при изменении листа/привязки — на
+  // любом экране. Вне партии party_share вернёт ошибку «no active party», глотаем.
+  useEffect(() => {
+    if (!isTauri()) return;
+    let cancelled = false;
+    import('./online/party').then(({ shareCharacter, unshareCharacter }) => {
+      if (cancelled) return;
+      const prevId = partySharedIdRef.current;
+      const char = partyBinding ? characters.find((c) => c.id === partyBinding.characterId) : undefined;
+      if (partyBinding && char) {
+        void shareCharacter({ id: char.id, name: char.name, mode: partyBinding.mode, data: char }).catch(() => {});
+        partySharedIdRef.current = char.id;
+      } else {
+        // Привязки нет (или персонаж пропал) — снимаем то, чем делились ранее.
+        if (prevId) void unshareCharacter(prevId, '').catch(() => {});
+        partySharedIdRef.current = null;
+      }
+    });
+    return () => { cancelled = true; };
+  }, [characters, partyBinding]);
 
   const handleImportCharacter = async (file: File) => {
     try {
@@ -301,7 +398,7 @@ function AppContent() {
 
   return (
     <FilterNavContext.Provider value={handleFilterNav}>
-    <div className="flex flex-col h-screen bg-bg-primary">
+    <div className="flex flex-col h-full bg-bg-primary">
       <TopNavBar
         tabs={mainTabs}
         activeTab={currentView === 'sheet' ? 'main' : currentView === 'home' ? '' : currentView}
@@ -321,23 +418,45 @@ function AppContent() {
                 <span className="hidden sm:inline">{t('buttons.create')}</span>
               </button>
             )}
-            <button
-              onClick={() => setSettingsOpen(true)}
-              aria-label={t('settings.title')}
-              title={t('settings.title')}
-              className="p-1.5 text-text-secondary hover:text-gold transition-colors cursor-pointer"
-            >
-              <Settings size={18} />
-            </button>
+            {!isTauri() && (
+              <button
+                onClick={onOpenSettings}
+                aria-label={t('settings.title')}
+                title={t('settings.title')}
+                className="p-1.5 text-text-secondary hover:text-gold transition-colors cursor-pointer"
+              >
+                <Settings size={18} />
+              </button>
+            )}
           </>
         }
       />
 
-      {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
-
       {/* Main content */}
       <main className="flex-1 min-h-0 px-4 sm:px-6">
-        {currentView === 'sheet' && activeCharacter ? (
+        {/* Party-экран остаётся СМОНТИРОВАННЫМ при смене вкладок (прячем через
+            display:none), иначе активная сессия — роль/состав/лог живут в стейте
+            PartyPanel — терялась бы при уходе с вкладки, что выглядело как «выбило
+            из онлайна» (Rust-соединение при этом не рвётся). Десктоп-онли. */}
+        {isTauri() && (
+          <div className={currentView === 'party' ? 'h-full overflow-y-auto py-4' : 'hidden'}>
+            <Suspense fallback={<LoadingScreen progress={null} />}>
+              <PartyPanel
+                characters={characters}
+                visible={currentView === 'party'}
+                binding={partyBinding}
+                onChangeBinding={(b) => setPartyBinding(b)}
+                snapshots={partySnapshots}
+                gameLog={partyLog}
+                onLeave={() => {
+                  setPartyBinding(null); setPartySnapshots({}); setPartyLog([]); partySharedIdRef.current = null;
+                  setPartySession({ active: false, isGm: false, selfId: null, partyName: '' }); setPartyMembers([]);
+                }}
+              />
+            </Suspense>
+          </div>
+        )}
+        {currentView !== 'party' && (currentView === 'sheet' && activeCharacter ? (
           <div className="h-full py-4">
             <CharacterSheet
               character={activeCharacter}
@@ -386,19 +505,74 @@ function AppContent() {
               </div>
             )}
           </div>
-        )}
+        ))}
       </main>
+      {/* Сайдбар-HUD партии — на всех экранах, кроме самого окна партии (LPD). */}
+      {isTauri() && partySession.active && currentView !== 'party' && (
+        <Suspense fallback={null}>
+          <PartySidebar
+            members={partyMembers}
+            snapshots={partySnapshots}
+            selfId={partySession.selfId}
+            isGm={partySession.isGm}
+            selfChar={partyBinding ? characters.find((c) => c.id === partyBinding.characterId) : undefined}
+            selfMode={partyBinding?.mode ?? 'full'}
+            partyName={partySession.partyName}
+          />
+        </Suspense>
+      )}
     </div>
     </FilterNavContext.Provider>
   );
 }
 
 function App() {
+  // Веб-режим берёт localStorage сразу (синхронно, без мигания загрузки).
+  // Под Tauri подменяем на файловый стор через динамический импорт — так
+  // @tauri-apps/* не попадает в веб-бандл (см. utils/fileCharacterStore).
+  const [store, setStore] = useState<CharacterStore | null>(
+    () => (isTauri() ? null : localCharacterStore),
+  );
+  useEffect(() => {
+    if (store) return;
+    let cancelled = false;
+    import('./utils/fileCharacterStore').then(({ fileCharacterStore }) => {
+      if (!cancelled) setStore(fileCharacterStore);
+    });
+    return () => { cancelled = true; };
+  }, [store]);
+
+  // Состояние модалки настроек поднято в App: на десктопе шестерёнка живёт в
+  // тайтлбаре (вне AppContent), на вебе — в навбаре. Браузерный Back закрывает её.
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const openSettings = () => setSettingsOpen(true);
+  useBackDismiss(settingsOpen, () => setSettingsOpen(false));
+
+  const tauri = isTauri();
+  const content = store
+    ? <AppContent store={store} onOpenSettings={openSettings} />
+    : <LoadingScreen progress={null} />;
+
   return (
     <ErrorBoundary>
       <SettingsProvider>
         <DiceRollProvider>
-          <AppContent />
+          <div className="flex flex-col h-screen overflow-hidden">
+            {tauri && (
+              <Suspense
+                fallback={<div className="h-9 shrink-0 bg-bg-secondary border-b border-border-default" />}
+              >
+                <TitleBar onOpenSettings={openSettings} />
+              </Suspense>
+            )}
+            <div className="flex-1 min-h-0">{content}</div>
+          </div>
+          {tauri && (
+            <Suspense fallback={null}>
+              <WindowResizers />
+            </Suspense>
+          )}
+          {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
         </DiceRollProvider>
       </SettingsProvider>
     </ErrorBoundary>

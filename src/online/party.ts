@@ -1,0 +1,193 @@
+// Тонкий клиент над командами/событиями Tauri party-модуля. Статические импорты
+// @tauri-apps/* здесь безопасны: src/online/* грузится ТОЛЬКО динамически под
+// isTauri() (см. App.tsx), поэтому в веб-бандл этот код не попадает —
+// инвариант проверяет scripts/check-web-imports.mjs.
+
+import { invoke } from '@tauri-apps/api/core';
+import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+import { decodePartyCode, encodePartyCode, generateSecret } from './protocol';
+
+export interface PartyCode {
+  ip: string;
+  code: string;
+}
+
+export interface HostResult {
+  port: number;
+  ips: string[];
+  secret: string;
+  /** Готовые коды партии по каждому локальному IP — пользователь шарит один из них. */
+  codes: PartyCode[];
+}
+
+/** Поднять хост: Rust биндит порт (с фоллбэком) и возвращает фактический порт + IP.
+ *  `displayName` — имя ГМ (хост), `partyName` — имя партии (пустое → дефолт по имени ГМ). */
+export async function hostParty(opts: {
+  port?: number;
+  displayName: string;
+  partyName?: string;
+  /** Анонсировать партию в локальной сети для автоскана (по умолчанию да). */
+  discoverable?: boolean;
+}): Promise<HostResult> {
+  const secret = generateSecret();
+  const info = await invoke<{ port: number; ips: string[] }>('party_host_start', {
+    port: opts.port ?? null,
+    code: secret,
+    displayName: opts.displayName,
+    partyName: opts.partyName ?? '',
+    discoverable: opts.discoverable ?? true,
+  });
+  const codes = info.ips.map((ip) => ({ ip, code: encodePartyCode(ip, info.port, secret) }));
+  return { port: info.port, ips: info.ips, secret, codes };
+}
+
+/** Найденная в локальной сети партия (UDP-автообнаружение). */
+export interface DiscoveredParty {
+  partyName: string;
+  host: string;
+  port: number;
+  secret: string;
+}
+
+/** Просканировать локальную сеть (~1.5с). Только реальная LAN — через VPN
+ *  броадкаст обычно не ходит (тогда подключаются по коду). */
+export async function scanParty(): Promise<DiscoveredParty[]> {
+  const raw = await invoke<Array<{ partyName?: string; host?: string; port?: number; secret?: string }>>('party_scan');
+  return raw
+    .filter((r) => r.host && r.port && r.secret)
+    .map((r) => ({ partyName: r.partyName ?? '', host: r.host as string, port: r.port as number, secret: r.secret as string }));
+}
+
+/** Подключиться по коду партии. Бросает при reject (неверный код/версия). */
+export async function joinParty(opts: { code: string; displayName: string }): Promise<void> {
+  const { host, port, secret } = decodePartyCode(opts.code);
+  await invoke('party_join', { host, port, code: secret, displayName: opts.displayName });
+}
+
+/** Режим отображения листа для ДРУГИХ игроков (ГМ всегда видит полный лист):
+ *  `full` — полный лист (можно открыть), `partial` — HP/класс/состояния/формы без листа,
+ *  `minimal` — только имя игрока + активная форма. По сети всегда идёт полный лист +
+ *  этот флаг; урезание делается на отображении (см. docs/PLAN_PARTY_LOCAL.md, LPD). */
+export type SheetMode = 'full' | 'partial' | 'minimal';
+
+/** Опубликовать снимок листа в партию. `data` — полный объект персонажа (шлём всегда,
+ *  режут получатели по `mode`). Снятие шеринга — отдельная команда `unshareCharacter`. */
+export async function shareCharacter(opts: {
+  id: string;
+  name: string;
+  mode: SheetMode;
+  data: unknown;
+}): Promise<void> {
+  await invoke('party_share', {
+    characterId: opts.id,
+    characterName: opts.name,
+    mode: opts.mode,
+    data: opts.data,
+  });
+}
+
+/** Перестать делиться листом (снимает снимок у всех — это `data: null`). */
+export async function unshareCharacter(id: string, name: string): Promise<void> {
+  await invoke('party_share', { characterId: id, characterName: name, mode: 'minimal', data: null });
+}
+
+export async function sendPartyMessage(data: unknown): Promise<void> {
+  await invoke('party_send', { msg: JSON.stringify(data) });
+}
+
+export async function leaveParty(): Promise<void> {
+  await invoke('party_leave');
+}
+
+export type PartyStatusState = 'hosting' | 'connected' | 'rejected' | 'closed' | 'error';
+
+export interface PartyStatus {
+  state: PartyStatusState;
+  reason?: string;
+  selfId?: string;
+  port?: number;
+}
+
+export interface PartyPeer {
+  event: 'join' | 'leave';
+  id: string;
+  displayName?: string;
+}
+
+export type PartyRole = 'gm' | 'player';
+
+export interface PartyMember {
+  id: string;
+  displayName: string;
+  role: PartyRole;
+  online: boolean;
+}
+
+/** Снимок состава партии (хост = источник истины), приходит как `party://state`. */
+export interface PartyStateSnapshot {
+  partyName: string;
+  gmId: string;
+  members: PartyMember[];
+}
+
+export interface PartyMessage {
+  from?: string;
+  data: unknown;
+}
+
+/** Снимок чужого листа, пришедший по `party://snapshot`. `data: null` — снят.
+ *  `mode` — режим отображения, выбранный владельцем (ГМ игнорирует, видит полный лист). */
+export interface PartySnapshot {
+  from: string;
+  characterId?: string;
+  characterName?: string;
+  mode?: SheetMode;
+  data: unknown | null;
+}
+
+/** Запись игрового лога (LP3), приходит по `party://event`. Хост штампует id/ts/актора. */
+export interface PartyLogEvent {
+  id: number;
+  ts: number;
+  from: string;
+  actor: string;
+  kind: string;
+  payload: unknown;
+}
+
+export interface PartyEventHandlers {
+  onStatus?: (status: PartyStatus) => void;
+  onState?: (state: PartyStateSnapshot) => void;
+  onSnapshot?: (snapshot: PartySnapshot) => void;
+  onEvent?: (event: PartyLogEvent) => void;
+  onPeer?: (peer: PartyPeer) => void;
+  onMessage?: (msg: PartyMessage) => void;
+  onError?: (err: { message: string }) => void;
+}
+
+/** Подписка на все party-события; возвращает функцию отписки. */
+export async function subscribeParty(handlers: PartyEventHandlers): Promise<UnlistenFn> {
+  const unlisteners: UnlistenFn[] = [];
+  if (handlers.onStatus) {
+    unlisteners.push(await listen('party://status', (e) => handlers.onStatus!(e.payload as PartyStatus)));
+  }
+  if (handlers.onState) {
+    unlisteners.push(await listen('party://state', (e) => handlers.onState!(e.payload as PartyStateSnapshot)));
+  }
+  if (handlers.onSnapshot) {
+    unlisteners.push(await listen('party://snapshot', (e) => handlers.onSnapshot!(e.payload as PartySnapshot)));
+  }
+  if (handlers.onEvent) {
+    unlisteners.push(await listen('party://event', (e) => handlers.onEvent!(e.payload as PartyLogEvent)));
+  }
+  if (handlers.onPeer) {
+    unlisteners.push(await listen('party://peer', (e) => handlers.onPeer!(e.payload as PartyPeer)));
+  }
+  if (handlers.onMessage) {
+    unlisteners.push(await listen('party://message', (e) => handlers.onMessage!(e.payload as PartyMessage)));
+  }
+  if (handlers.onError) {
+    unlisteners.push(await listen('party://error', (e) => handlers.onError!(e.payload as { message: string })));
+  }
+  return () => unlisteners.forEach((u) => u());
+}

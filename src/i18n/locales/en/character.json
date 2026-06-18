@@ -286,6 +286,51 @@
   "pickOptions": {
     "confirm": "Confirm"
   },
+  "notes": {
+    "freeNotesTitle": "Notes",
+    "freeNotesPlaceholder": "Write something for yourself and your party...",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "journalTitle": "Quest Journal",
+    "questsHeader": "Quests",
+    "tasksTitle": "Tasks",
+    "addQuest": "Add quest",
+    "addSection": "Add section",
+    "addSubsection": "Add subheader",
+    "sectionTitlePlaceholder": "Section name...",
+    "untitledSection": "Untitled section",
+    "deleteSection": "Delete section",
+    "confirmDeleteSection": "Delete this section? Its quests move to the first section.",
+    "section": "Section",
+    "untitledQuest": "Untitled quest",
+    "questTitlePlaceholder": "Quest name...",
+    "noQuests": "No quests yet",
+    "noQuestsHint": "The GM or you can add quests and journal entries here.",
+    "noQuestsInCategory": "Empty",
+    "selectQuest": "Select a quest to see details",
+    "categories": {
+      "main": "Main Quest",
+      "personal": "Personal Quest",
+      "side": "Side Quest"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "objective": "Objective",
+    "objectivePlaceholder": "Current goal...",
+    "entries": "Journal",
+    "addEntry": "Add entry",
+    "entryPlaceholder": "What happened...",
+    "noEntries": "No journal entries yet",
+    "deleteEntry": "Delete entry",
+    "deleteQuest": "Delete quest",
+    "confirmDeleteQuest": "Delete this quest?",
+    "markDone": "Mark done",
+    "markActive": "Mark active"
+  },
   "sheet": {
     "tabs": {
       "stats": "Stats",
@@ -293,6 +338,7 @@
       "actions": "Actions & Spells",
       "proficiencies": "Skills & Proficiencies",
       "roleplay": "Character",
+      "notes": "Notes",
       "dice": "Dice"
     },
     "header": {

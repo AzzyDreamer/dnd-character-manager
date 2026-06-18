@@ -3,8 +3,10 @@ import i18n from '../i18n';
 
 const STORAGE_KEY = 'dnd-characters';
 
-// Миграция: добавить недостающие поля к старым/импортированным персонажам
-function migrateCharacter(character: Character): Character {
+// Миграция: добавить недостающие поля к старым/импортированным персонажам.
+// Экспортируется, чтобы файловый стор десктопа (utils/fileCharacterStore)
+// применял ту же миграцию к данным из JSON-файла.
+export function migrateCharacter(character: Character): Character {
   if (!character.equipment) {
     character.equipment = {};
   }

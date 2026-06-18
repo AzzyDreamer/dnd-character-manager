@@ -4,7 +4,7 @@ import type { Character, AbilityScores, CharacterSpell, SpellSlots, DamageResist
 import { getAbilityModifier, formatModifier, getProficiencyBonus, getSkillBonus, getAbilityName, getAbilityShort, SKILL_ABILITIES, getSkillName, recalcDerivedStats, getConHpAdjustment } from '../utils/dnd';
 import { getDamageTypeFullName } from '../data/items/constants';
 import { CLASS_REGISTRY, getClassById, getClassName, getSubclassName, getSubclassDisplayName, findSubclass } from '../data/classes';
-import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle } from 'lucide-react';
+import { Heart, Shield, Backpack, ArrowUp, ScrollText, Scroll, ChevronLeft, ChevronRight, ChevronDown, Sparkles, BookOpen, Dices, Calculator, Target, Check, Star, Languages, Swords, X, Plus, ShieldAlert, Search, Loader2, User, Skull, Eye, Brain, Footprints, AlertTriangle, NotebookPen } from 'lucide-react';
 import { InventoryGrid } from './InventoryGrid';
 import { SpellLevelUpModal, type LevelTableRow } from './SpellLevelUpModal';
 import { FeatPickerModal, type FeatPickerResult } from './FeatPickerModal';
@@ -24,11 +24,13 @@ import { PortraitCropModal } from './PortraitCropModal';
 import { AutoSpellsNotificationModal } from './AutoSpellsNotificationModal';
 import { getNewAutoSpellsAtLevel, type AutoSpellResult } from '../utils/autoSpells';
 import { resolveDisplayRace } from '../data/species';
+import { getConditionImageUrl, init as initConditionsData } from '../data/conditionsdiseases';
 import { asset } from '../utils/asset';
 import { useSettings } from './SettingsProvider';
 import { FullEditPanel } from './FullEditPanel';
 import { CharacterJsonEditorModal } from './CharacterJsonEditorModal';
 import { stampManualEdit } from '../utils/manualEdit';
+import { logPartyEvent } from '../utils/partyLog';
 import { useBackDismiss } from '../hooks/useBackDismiss';
 import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
 import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
@@ -44,13 +46,20 @@ import { PickOptionsModal, type PickOption } from './PickOptionsModal';
 const LazyActionsSpellsTab = lazy(() => import('./SpellsTab').then(m => ({ default: m.ActionsSpellsTab })));
 const LazyDiceTab = lazy(() => import('./DiceTab').then(m => ({ default: m.DiceTab })));
 const LazyRoleplayTab = lazy(() => import('./RoleplayTab').then(m => ({ default: m.RoleplayTab })));
+const LazyNotesTab = lazy(() => import('./NotesTab').then(m => ({ default: m.NotesTab })));
 
-type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | 'roleplay';
+type SheetTab = 'stats' | 'inventory' | 'actions' | 'proficiencies' | 'dice' | 'roleplay' | 'notes';
 
 interface CharacterSheetProps {
   character: Character;
   onUpdate: (character: Character) => void;
+  /** Просмотр чужого листа в партии: глушит все мутации и блокирует контролы. */
+  readOnly?: boolean;
 }
+
+// Глушитель мутаций для read-only режима. Модульная константа — стабильная
+// идентичность (не плодит ре-рендеры дочерних компонентов).
+const NOOP_UPDATE: (c: Character) => void = () => {};
 
 /** Extract innate spell names from an optional feature's additionalSpells field */
 function extractInnateSpellNames(feat: any): string[] {
@@ -162,9 +171,55 @@ function removeOptionalFeatureEffects(char: Character, featName: string, featDat
   return updated;
 }
 
-export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate }) => {
+export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpdate: rawOnUpdate, readOnly = false }) => {
   const { t } = useTranslation('character');
   const { t: tc } = useTranslation('common');
+  // Единая точка глушения: ВСЕ правки листа идут через onUpdate (см. инвентаризацию
+  // LP2), поэтому no-op здесь делает чужой лист неизменяемым целиком — даже если
+  // какой-то контрол не спрятан. Плюс блокировка контролов ниже (fieldset).
+  const onUpdate = readOnly ? NOOP_UPDATE : rawOnUpdate;
+  // Эмит событий листа в игровой лог партии (LP3). No-op вне партии; и НЕ из
+  // read-only — чужой лист правит не зритель (там character меняется от снимков).
+  const emitSheetEvent = (kind: string, payload: unknown) => {
+    if (!readOnly) logPartyEvent(kind, payload);
+  };
+  // Левел-ап ловим целевым диффом по character.level: флоу левел-апа многошаговый
+  // (модалки заклинаний/черт/инвокаций), единой точки коммита нет. Сброс при смене
+  // персонажа (тот же инстанс листа переиспользуется) — иначе ложный левел-ап.
+  const prevLevelRef = React.useRef(character.level);
+  const prevIdRef = React.useRef(character.id);
+  useEffect(() => {
+    if (prevIdRef.current !== character.id) {
+      prevIdRef.current = character.id;
+    } else if (!readOnly && character.level > prevLevelRef.current) {
+      logPartyEvent('levelup', { level: character.level, name: character.name });
+    }
+    prevLevelRef.current = character.level;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [character.id, character.level]);
+
+  // Буфер HP-событий лога: частые клики −/+ по 1 хп коалесцируем в ОДНО
+  // сообщение «−N/+N» через дебаунс. На снимок/отображение не влияет —
+  // там HP обновляется мгновенно, буферизуется только запись в игровой лог.
+  const hpBufRef = React.useRef<{
+    startHp: number;
+    latestHp: number;
+    max: number;
+    name: string;
+    timer: ReturnType<typeof setTimeout> | null;
+  }>({ startHp: 0, latestHp: 0, max: 0, name: '', timer: null });
+  useEffect(() => {
+    const buf = hpBufRef.current;
+    return () => {
+      // Флаш незавершённого HP-события при размонтировании листа.
+      if (buf.timer) {
+        clearTimeout(buf.timer);
+        buf.timer = null;
+        const d = buf.latestHp - buf.startHp;
+        if (d !== 0) logPartyEvent('hp', { delta: d, current: buf.latestHp, max: buf.max, name: buf.name });
+      }
+    };
+  }, []);
   const { fullEditMode } = useSettings();
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   // Любая правка через режим полного редактирования проставляет скрытую пометку.
@@ -379,10 +434,24 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
   };
 
   const updateHP = (current: number) => {
+    const clamped = Math.max(0, Math.min(current, character.hitPoints.max));
     onUpdate({
       ...character,
-      hitPoints: { ...character.hitPoints, current: Math.max(0, Math.min(current, character.hitPoints.max)) }
+      hitPoints: { ...character.hitPoints, current: clamped }
     });
+    if (readOnly) return;
+    // Дебаунс: серию правок HP сворачиваем в одно событие лога с суммарной дельтой.
+    const buf = hpBufRef.current;
+    if (buf.timer === null) buf.startHp = character.hitPoints.current; // HP до начала серии
+    buf.latestHp = clamped;
+    buf.max = character.hitPoints.max;
+    buf.name = character.name;
+    if (buf.timer) clearTimeout(buf.timer);
+    buf.timer = setTimeout(() => {
+      buf.timer = null;
+      const d = buf.latestHp - buf.startHp;
+      if (d !== 0) logPartyEvent('hp', { delta: d, current: buf.latestHp, max: buf.max, name: buf.name });
+    }, 1200);
   };
 
   const updateTempHP = (temporary: number) => {
@@ -401,15 +470,22 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     const result = diceCtx.roll(expr, e);
     if (!result) return;
     const heal = Math.max(1, result.total);
+    const newCurrent = Math.min(character.hitPoints.max, character.hitPoints.current + heal);
     onUpdate({
       ...character,
       hitPoints: {
         ...character.hitPoints,
-        current: Math.min(character.hitPoints.max, character.hitPoints.current + heal),
+        current: newCurrent,
       },
       hitDice: { ...character.hitDice, used: character.hitDice.used + 1 },
       updatedAt: new Date().toISOString(),
     });
+    // Лечение костью хитов идёт мимо updateHP — логируем HP-событие отдельно
+    // (бросок кости уже залогирован через diceCtx.roll).
+    const delta = newCurrent - character.hitPoints.current;
+    if (delta !== 0) {
+      emitSheetEvent('hp', { delta, current: newCurrent, max: character.hitPoints.max, name: character.name });
+    }
   };
 
   // ── Rest ──
@@ -443,6 +519,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     // Warlock Pact Magic returns on a short rest
     if (updated.classId === 'warlock') updated = restoreAllSlots(updated);
     onUpdate(updated);
+    emitSheetEvent('rest', { kind: 'short', name: character.name });
   };
 
   /** Long rest: full HP, clear temp HP, regain half the hit dice, reset spell
@@ -469,6 +546,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
       updated.resourceTrackers = rt;
     }
     onUpdate(updated);
+    emitSheetEvent('rest', { kind: 'long', name: character.name });
   };
 
   const handleLevelUp = () => {
@@ -1370,11 +1448,18 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     { key: 'actions', label: t('sheet.tabs.actions'), icon: Swords },
     { key: 'proficiencies', label: t('sheet.tabs.proficiencies'), icon: ScrollText },
     { key: 'roleplay', label: t('sheet.tabs.roleplay'), icon: User },
+    { key: 'notes', label: t('sheet.tabs.notes'), icon: NotebookPen },
     { key: 'dice', label: t('sheet.tabs.dice'), icon: Dices },
   ];
 
   return (
     <div className="flex flex-col h-full">
+      {readOnly && (
+        <div className="shrink-0 px-3 py-1.5 bg-gold/10 border-b border-gold/20 text-gold text-xs flex items-center gap-2">
+          <Eye size={14} />
+          {tc('party.readOnlyBanner', { name: character.name })}
+        </div>
+      )}
       {/* Compact Header */}
       <div className="shrink-0 py-3 flex items-center justify-between border-b border-border-default">
         <div className="flex items-center gap-3">
@@ -1398,7 +1483,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             </p>
           </div>
         </div>
-        {canLevelUp && (
+        {canLevelUp && !readOnly && (
           <button
             onClick={handleLevelUp}
             className="flex items-center gap-2 px-4 py-2 bg-gold/20 text-gold border border-gold/30 rounded-lg hover:bg-gold/30 font-semibold transition-colors text-sm"
@@ -1419,7 +1504,10 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
         />
       </div>
 
-      {/* Content + Sidebar */}
+      {/* Content + Sidebar. Read-only НЕ блокирует контролы целиком (иначе нельзя
+          раскрыть способности, чувства, скорости и т.п.) — мутации глушит единая
+          точка onUpdate=no-op (правки не сохраняются и до владельца не доходят), а
+          просмотр/раскрытие работают как обычно. */}
       <div className="flex flex-1 min-h-0 gap-4 py-4">
         {/* Left content — changes per tab */}
         <div className="flex-1 min-h-0 overflow-y-auto space-y-4">
@@ -1450,6 +1538,13 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
             </Suspense>
           )}
 
+          {/* Tab: Notes & Quest Journal */}
+          {activeTab === 'notes' && (
+            <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
+              <LazyNotesTab character={character} onUpdate={onUpdate} readOnly={readOnly} />
+            </Suspense>
+          )}
+
           {/* Tab: Dice */}
           {activeTab === 'dice' && (
             <Suspense fallback={<div className="text-center text-text-muted py-8">{t('sheet.loading')}</div>}>
@@ -1460,8 +1555,8 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {/* Tab: Stats */}
           {activeTab === 'stats' && (
             <>
-              {/* Full edit panel — только в режиме полного редактирования */}
-              {fullEditMode && (
+              {/* Full edit panel — только в режиме полного редактирования (не в read-only) */}
+              {fullEditMode && !readOnly && (
                 <FullEditPanel
                   character={character}
                   onCommit={commitFullEdit}
@@ -1720,7 +1815,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           portraitContent="abilities"
           portraitUrl={character.portraitDataUrl}
           portraitPosition={character.portraitPosition}
-          onPortraitClick={() => {
+          onPortraitClick={readOnly ? undefined : () => {
             if (character.portraitDataUrl) {
               setPendingPortraitUrl(character.portraitDataUrl);
               setShowCropModal(true);
@@ -2714,11 +2809,6 @@ function getFeatureImageUrl(name: string): string {
   return asset(`/images/misc/${filename}.webp`);
 }
 
-function getConditionImageUrl(name: string): string {
-  const filename = name.replace(/[^a-zA-Z0-9]/g, '_');
-  return asset(`/images/conditionsdiseases/${filename}.webp`);
-}
-
 // ── Condition Picker Modal ──
 function ConditionPickerModal({
   onAdd,
@@ -3215,6 +3305,12 @@ function ConditionsSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(false);
   const [showConditionModal, setShowConditionModal] = useState(false);
+  // Справочник состояний нужен getConditionImageUrl, чтобы под RU вернуть
+  // английское имя из _origName для пути к картинке (иначе кириллица → 404).
+  const [, setCondReady] = useState(false);
+  useEffect(() => {
+    initConditionsData().then(() => setCondReady(true)).catch(() => {});
+  }, []);
 
   const activeConditions = character.conditions ?? [];
 

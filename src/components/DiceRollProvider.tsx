@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { Dices, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { rollDice, rollWithAdvantage, parseDiceExpression } from '../utils/diceRoller';
 import type { DiceRollResult, AdvantageRollResult } from '../utils/diceRoller';
+import { logPartyEvent } from '../utils/partyLog';
 
 // ─── Context ───
 
@@ -84,6 +85,23 @@ export const DiceRollProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setHiding(false);
     setRolling(true);
     setToast(data);
+
+    // Эмит броска в игровой лог партии (no-op вне партии / при «приватном броске»).
+    // Единая точка: и быстрый бросок, и конфиг-бросок проходят через showToast.
+    const payload = data.type === 'simple'
+      ? {
+          expression: data.result.expression,
+          total: data.result.total,
+          rolls: data.result.rolls,
+          modifier: data.result.modifier,
+        }
+      : {
+          expression: data.result.chosen.expression,
+          total: data.result.chosen.total,
+          mode: data.result.mode,
+          rolls: data.result.chosen.rolls,
+        };
+    logPartyEvent('roll', payload);
 
     // Rolling phase: 1600ms, then reveal result
     setTimeout(() => {
