@@ -26,6 +26,8 @@ export async function hostParty(opts: {
   port?: number;
   displayName: string;
   partyName?: string;
+  /** Анонсировать партию в локальной сети для автоскана (по умолчанию да). */
+  discoverable?: boolean;
 }): Promise<HostResult> {
   const secret = generateSecret();
   const info = await invoke<{ port: number; ips: string[] }>('party_host_start', {
@@ -33,9 +35,27 @@ export async function hostParty(opts: {
     code: secret,
     displayName: opts.displayName,
     partyName: opts.partyName ?? '',
+    discoverable: opts.discoverable ?? true,
   });
   const codes = info.ips.map((ip) => ({ ip, code: encodePartyCode(ip, info.port, secret) }));
   return { port: info.port, ips: info.ips, secret, codes };
+}
+
+/** Найденная в локальной сети партия (UDP-автообнаружение). */
+export interface DiscoveredParty {
+  partyName: string;
+  host: string;
+  port: number;
+  secret: string;
+}
+
+/** Просканировать локальную сеть (~1.5с). Только реальная LAN — через VPN
+ *  броадкаст обычно не ходит (тогда подключаются по коду). */
+export async function scanParty(): Promise<DiscoveredParty[]> {
+  const raw = await invoke<Array<{ partyName?: string; host?: string; port?: number; secret?: string }>>('party_scan');
+  return raw
+    .filter((r) => r.host && r.port && r.secret)
+    .map((r) => ({ partyName: r.partyName ?? '', host: r.host as string, port: r.port as number, secret: r.secret as string }));
 }
 
 /** Подключиться по коду партии. Бросает при reject (неверный код/версия). */

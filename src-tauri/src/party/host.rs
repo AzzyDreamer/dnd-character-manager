@@ -114,6 +114,7 @@ pub async fn start<E: PartyEvents>(
     secret: String,
     gm_name: String,
     party_name: String,
+    discoverable: bool,
 ) -> Result<HostHandle, String> {
     let listener = bind_with_fallback(port_pref.unwrap_or(super::DEFAULT_PORT)).await?;
     let port = listener.local_addr().map_err(|e| e.to_string())?.port();
@@ -121,6 +122,14 @@ pub async fn start<E: PartyEvents>(
     // Сообщаем своему вебвью, что хост поднят (ГМ, selfId="gm"). Нужно фронту, чтобы
     // глобально знать о роли/активности сессии (сайдбар-HUD на других экранах, LPD).
     events.emit("party://status", json!({ "state": "hosting", "selfId": "gm", "port": port }));
+
+    // LAN-анонс (если разрешено): отвечаем на пробы автоскана своим {имя, порт, код}.
+    let display_party = if party_name.trim().is_empty() { gm_name.clone() } else { party_name.clone() };
+    let discovery_task = if discoverable {
+        Some(super::discovery::start_responder(display_party, port, secret.clone()))
+    } else {
+        None
+    };
 
     let clients: Clients = Arc::new(AsyncMutex::new(HashMap::new()));
     let room = Arc::new(AsyncMutex::new(Room {
@@ -240,7 +249,13 @@ pub async fn start<E: PartyEvents>(
         broadcast_tx,
         snapshot_tx,
         event_tx,
-        tasks: vec![broadcast_task, snapshot_task, event_task, accept_task, heartbeat_task],
+        tasks: {
+            let mut tasks = vec![broadcast_task, snapshot_task, event_task, accept_task, heartbeat_task];
+            if let Some(d) = discovery_task {
+                tasks.push(d);
+            }
+            tasks
+        },
     })
 }
 

@@ -9,6 +9,7 @@ pub fn run() {
     .invoke_handler(tauri::generate_handler![
       party::party_host_start,
       party::party_join,
+      party::party_scan,
       party::party_share,
       party::party_event,
       party::party_send,

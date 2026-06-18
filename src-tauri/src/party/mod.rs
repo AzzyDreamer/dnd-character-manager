@@ -7,6 +7,7 @@
 //! `IP:порт`, оба проходят рукопожатие с кодом партии и проверкой версии.
 
 mod client;
+mod discovery;
 mod host;
 mod protocol;
 
@@ -77,12 +78,20 @@ pub async fn party_host_start(
     code: String,
     display_name: String,
     party_name: String,
+    discoverable: bool,
 ) -> Result<HostInfo, String> {
     stop_active(&state);
-    let handle = host::start(app, port, code, display_name, party_name).await?;
+    let handle = host::start(app, port, code, display_name, party_name, discoverable).await?;
     let info = HostInfo { port: handle.port, ips: local_ipv4s() };
     *state.inner.lock().unwrap() = Some(Active::Host(handle));
     Ok(info)
+}
+
+/// Просканировать локальную сеть и вернуть найденные партии (UDP-обнаружение, LP4).
+/// Работает только в реальной LAN — через VPN броадкаст обычно не ходит.
+#[tauri::command]
+pub async fn party_scan() -> Result<Vec<serde_json::Value>, String> {
+    Ok(discovery::scan(std::time::Duration::from_millis(1500)).await)
 }
 
 #[tauri::command]
@@ -258,7 +267,7 @@ mod tests {
 
     /// Хелпер: поднять хост на эфемерном порту (port 0) с заданным секретом.
     async fn start_host(events: TestEvents, secret: &str) -> host::HostHandle {
-        host::start(events, Some(0), secret.to_string(), "GM".to_string(), "Test Party".to_string())
+        host::start(events, Some(0), secret.to_string(), "GM".to_string(), "Test Party".to_string(), false)
             .await
             .expect("host should start")
     }
@@ -372,6 +381,7 @@ mod tests {
                 "code".to_string(),
                 "Gandalf".to_string(),
                 "Fellowship".to_string(),
+                false,
             )
             .await
             .expect("host should start");
@@ -432,6 +442,7 @@ mod tests {
                 "code".to_string(),
                 "GM".to_string(),
                 "Party".to_string(),
+                false,
             )
             .await
             .expect("host should start");

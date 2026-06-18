@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Check, ChevronDown, Copy, Crown, Dices, Heart, LogIn, Moon, Server, Shield, Sparkles, Star, User, Wifi, X } from 'lucide-react';
+import { ArrowLeft, Check, ChevronDown, Copy, Crown, Dices, Heart, Loader2, LogIn, Moon, Radar, Server, Shield, Sparkles, Star, Trash2, User, Users, Wifi, X } from 'lucide-react';
 import type { Character } from '../types';
 import { CharacterSheet } from '../components/CharacterSheet';
 import { PortraitImage } from '../components/ui/PortraitImage';
@@ -14,12 +14,14 @@ import { getConditionImageUrl, init as initConditions } from '../data/conditions
 import { asset } from '../utils/asset';
 import { useBackDismiss } from '../hooks/useBackDismiss';
 import { arePrivateRolls, setPrivateRolls } from '../utils/partyLog';
-import { DEFAULT_PORT } from './protocol';
+import { DEFAULT_PORT, encodePartyCode } from './protocol';
 import {
   hostParty,
   joinParty,
   leaveParty,
+  scanParty,
   subscribeParty,
+  type DiscoveredParty,
   type HostResult,
   type PartyLogEvent,
   type PartyMember,
@@ -27,6 +29,15 @@ import {
   type PartyStatus,
   type SheetMode,
 } from './party';
+import {
+  listCampaigns,
+  saveCampaign,
+  deleteCampaign,
+  newCampaignId,
+  mergeRosterForDisplay,
+  collectCampaignMembers,
+  type Campaign,
+} from './campaignStore';
 
 interface PartyBinding {
   characterId: string;
@@ -72,6 +83,8 @@ type Screen = 'menu' | 'host' | 'join';
 type Session = { role: 'host'; info: HostResult } | { role: 'client' } | null;
 
 const MAX_LOG = 50;
+// Имя игрока запоминаем между сессиями (локально, без серверов).
+const PLAYER_NAME_KEY = 'party.playerName';
 
 const INPUT =
   'w-full px-3 py-2 bg-bg-secondary border border-border-default rounded-md text-text-primary ' +
@@ -112,7 +125,12 @@ export default function PartyPanel({
   const [error, setError] = useState<string | null>(null);
 
   const [portInput, setPortInput] = useState(String(DEFAULT_PORT));
-  const [nameInput, setNameInput] = useState('');
+  const [discoverable, setDiscoverable] = useState(true);
+  // Автоскан LAN (экран подключения).
+  const [scanning, setScanning] = useState(false);
+  const [scanned, setScanned] = useState(false);
+  const [discovered, setDiscovered] = useState<DiscoveredParty[]>([]);
+  const [nameInput, setNameInput] = useState(() => localStorage.getItem(PLAYER_NAME_KEY) ?? '');
   const [partyNameInput, setPartyNameInput] = useState('');
   const [codeInput, setCodeInput] = useState('');
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
@@ -127,6 +145,22 @@ export default function PartyPanel({
   useEffect(() => {
     initConditions().then(() => setCondReady(true)).catch(() => {});
   }, []);
+
+  // Кампании (host-side): сохранённый именованный состав, который можно продолжить.
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null);
+  const [activeCampaign, setActiveCampaign] = useState<Campaign | null>(null);
+  const activeCampaignRef = useRef<Campaign | null>(null);
+  activeCampaignRef.current = activeCampaign;
+  // Список кампаний для экрана создания.
+  useEffect(() => {
+    if (screen === 'host') void listCampaigns().then(setCampaigns).catch(() => {});
+  }, [screen]);
+  // Запоминаем введённое имя игрока, чтобы не вписывать каждый раз.
+  useEffect(() => {
+    const name = nameInput.trim();
+    if (name) localStorage.setItem(PLAYER_NAME_KEY, name);
+  }, [nameInput]);
   // Открытый на просмотр чужой лист (read-only) — храним ID участника, а данные
   // берём из snapshots на КАЖДОМ рендере, чтобы лист обновлялся живо при правках
   // владельца (а не только при переоткрытии). Браузерный Back/Esc закрывает.
@@ -158,6 +192,24 @@ export default function PartyPanel({
   sessionRef.current = session;
   const membersRef = useRef<PartyMember[]>([]);
   membersRef.current = partyState?.members ?? [];
+
+  // Персист состава кампании (host): при изменении живого состава/снимков обновляем
+  // запомненных участников и сохраняем (дебаунс — снимки часто меняются).
+  useEffect(() => {
+    if (sessionRef.current?.role !== 'host' || !activeCampaignRef.current) return;
+    const liveMembers = partyState?.members ?? [];
+    const snaps = snapshots;
+    const id = window.setTimeout(() => {
+      const cur = activeCampaignRef.current;
+      if (!cur) return;
+      const members = collectCampaignMembers(liveMembers, snaps, cur.members);
+      const updated: Campaign = { ...cur, members, lastPlayedAt: new Date().toISOString() };
+      activeCampaignRef.current = updated;
+      setActiveCampaign(updated);
+      void saveCampaign(updated).catch(() => {});
+    }, 1500);
+    return () => window.clearTimeout(id);
+  }, [partyState, snapshots]);
 
   useEffect(() => {
     let unlisten: (() => void) | undefined;
@@ -199,18 +251,43 @@ export default function PartyPanel({
     setError(null);
   }, []);
 
+  // Выбор кампании на экране создания: подставляет имя/ГМа, либо «новая» (null).
+  const selectCampaign = (c: Campaign | null) => {
+    setSelectedCampaignId(c?.id ?? null);
+    setPartyNameInput(c?.name ?? '');
+    if (c?.gmName) setNameInput(c.gmName);
+  };
+
+  const removeCampaign = async (id: string) => {
+    await deleteCampaign(id).catch(() => {});
+    if (selectedCampaignId === id) selectCampaign(null);
+    setCampaigns(await listCampaigns().catch(() => []));
+  };
+
   const handleHost = async () => {
     setBusy(true);
     setError(null);
     try {
       const parsed = Number.parseInt(portInput, 10);
       const port = Number.isInteger(parsed) && parsed > 0 && parsed < 65536 ? parsed : undefined;
-      const info = await hostParty({
-        port,
-        displayName: nameInput.trim() || t('party.defaultName'),
-        partyName: partyNameInput.trim(),
-      });
+      const gmName = nameInput.trim() || t('party.defaultName');
+      const partyName = partyNameInput.trim();
+      const now = new Date().toISOString();
+      // Кампания: выбранная существующая / новая (если введено имя) / разовая (нет).
+      let campaign: Campaign | null = null;
+      if (selectedCampaignId) {
+        const found = campaigns.find((c) => c.id === selectedCampaignId);
+        if (found) campaign = { ...found, name: partyName || found.name, gmName, lastPlayedAt: now };
+      } else if (partyName) {
+        campaign = { id: newCampaignId(), name: partyName, gmName, createdAt: now, lastPlayedAt: now, members: [] };
+      }
+      const info = await hostParty({ port, displayName: gmName, partyName, discoverable });
       setSession({ role: 'host', info });
+      if (campaign) {
+        setActiveCampaign(campaign);
+        activeCampaignRef.current = campaign;
+        void saveCampaign(campaign).catch(() => {});
+      }
       appendLog(t('party.log.hostingOn', { port: info.port }));
     } catch (e) {
       setError(t('party.errors.hostFailed', { error: String(e instanceof Error ? e.message : e) }));
@@ -219,11 +296,11 @@ export default function PartyPanel({
     }
   };
 
-  const handleJoin = async () => {
+  const joinWithCode = async (code: string) => {
     setBusy(true);
     setError(null);
     try {
-      await joinParty({ code: codeInput.trim(), displayName: nameInput.trim() || t('party.defaultName') });
+      await joinParty({ code, displayName: nameInput.trim() || t('party.defaultName') });
       setSession({ role: 'client' });
     } catch (e) {
       const msg = String(e instanceof Error ? e.message : e);
@@ -240,6 +317,21 @@ export default function PartyPanel({
       setBusy(false);
     }
   };
+  const handleJoin = () => joinWithCode(codeInput.trim());
+  const handleJoinDiscovered = (d: DiscoveredParty) => joinWithCode(encodePartyCode(d.host, d.port, d.secret));
+
+  // Автоскан LAN: шлём пробу, собираем ответы (~1.5с). Только реальная локалка.
+  const handleScan = async () => {
+    setScanning(true);
+    setScanned(true);
+    try {
+      setDiscovered(await scanParty());
+    } catch {
+      setDiscovered([]);
+    } finally {
+      setScanning(false);
+    }
+  };
 
   const handleLeave = async () => {
     try {
@@ -248,7 +340,11 @@ export default function PartyPanel({
       /* и так очищаем UI */
     }
     onLeave(); // App чистит привязку и снимки
+    setActiveCampaign(null);
+    activeCampaignRef.current = null;
+    setSelectedCampaignId(null);
     resetToMenu();
+    void listCampaigns().then(setCampaigns).catch(() => {});
   };
 
   const copyCode = async (code: string, idx: number) => {
@@ -267,9 +363,14 @@ export default function PartyPanel({
     const connected = !isHost && status?.state === 'connected';
     const disconnected = !isHost && status?.state === 'closed';
     const selfId = isHost ? 'gm' : status?.selfId ?? null;
-    const members = partyState?.members ?? [];
+    // Для хоста с кампанией мерджим запомненный состав (оффлайн) с живым; иначе — живой.
+    const { members, snapshots: rosterSnapshots } =
+      isHost && activeCampaign
+        ? mergeRosterForDisplay(partyState?.members ?? [], snapshots, activeCampaign)
+        : { members: partyState?.members ?? [], snapshots };
     const title = partyState?.partyName || (isHost ? t('party.hostingTitle') : t('party.connectedTitle'));
     // Текущий снимок открытого листа — берём по id из актуальных snapshots (живое обновление).
+    // Кликабельны только ОНЛАЙН-участники, поэтому id всегда есть в живых snapshots.
     const viewingSnap = viewing !== null ? snapshots[viewing] ?? null : null;
 
     const boundChar = binding ? characters.find((c) => c.id === binding.characterId) : undefined;
@@ -329,7 +430,7 @@ export default function PartyPanel({
         <div className="flex-1 min-h-0">
           <PartyGrid
             members={members}
-            snapshots={snapshots}
+            snapshots={rosterSnapshots}
             selfId={selfId}
             isGm={isHost}
             selfChar={boundChar}
@@ -380,7 +481,7 @@ export default function PartyPanel({
             <p className="text-text-muted text-sm">{t('party.createDesc')}</p>
           </button>
 
-          <button onClick={() => { setError(null); setScreen('join'); }} className="glass-panel p-6 text-left hover:bg-white/5 transition-all group">
+          <button onClick={() => { setError(null); setDiscovered([]); setScanned(false); setScreen('join'); }} className="glass-panel p-6 text-left hover:bg-white/5 transition-all group">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 rounded-lg bg-gold/15 text-gold group-hover:bg-gold/25 transition-colors">
                 <LogIn size={22} />
@@ -400,6 +501,42 @@ export default function PartyPanel({
           >
             <ArrowLeft size={16} /> {t('party.back')}
           </button>
+
+          {campaigns.length > 0 && (
+            <div className="space-y-1.5">
+              <span className="text-text-secondary text-sm">{t('party.continueCampaign')}</span>
+              <div className="space-y-1.5">
+                {campaigns.map((c) => {
+                  const sel = selectedCampaignId === c.id;
+                  return (
+                    <div
+                      key={c.id}
+                      className={`flex items-center gap-2 rounded-md border px-3 py-2 transition-colors ${
+                        sel ? 'border-gold/50 bg-gold/10' : 'border-border-default hover:border-border-hover'
+                      }`}
+                    >
+                      <button onClick={() => selectCampaign(sel ? null : c)} className="flex-1 min-w-0 text-left flex items-center gap-2">
+                        {sel ? <Check size={15} className="text-gold shrink-0" /> : <Users size={15} className="text-text-muted shrink-0" />}
+                        <span className="min-w-0">
+                          <span className="block text-text-primary text-sm truncate">{c.name}</span>
+                          <span className="block text-text-muted text-xs">{t('party.campaignMeta', { count: c.members.length })}</span>
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => removeCampaign(c.id)}
+                        className="p-1 text-text-muted hover:text-red-bright transition-colors shrink-0"
+                        title={t('party.deleteCampaign')}
+                        aria-label={t('party.deleteCampaign')}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <label className="block">
             <span className="text-text-secondary text-sm">{t('party.yourName')}</span>
             <input
@@ -415,11 +552,15 @@ export default function PartyPanel({
             <span className="text-text-secondary text-sm">{t('party.partyName')}</span>
             <input
               value={partyNameInput}
-              onChange={(e) => setPartyNameInput(e.target.value)}
+              onChange={(e) => {
+                setPartyNameInput(e.target.value);
+                if (selectedCampaignId) setSelectedCampaignId(null); // правка имени → новая кампания
+              }}
               className={`${INPUT} mt-1`}
               placeholder={t('party.partyNamePlaceholder')}
               maxLength={60}
             />
+            <span className="text-text-muted text-xs">{t('party.campaignHint')}</span>
           </label>
           <label className="block">
             <span className="text-text-secondary text-sm">{t('party.port')}</span>
@@ -432,6 +573,18 @@ export default function PartyPanel({
             />
             <span className="text-text-muted text-xs">{t('party.portHint')}</span>
           </label>
+          <div>
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={discoverable}
+                onChange={(e) => setDiscoverable(e.target.checked)}
+                className="accent-gold"
+              />
+              <span className="text-text-secondary text-sm">{t('party.discoverable')}</span>
+            </label>
+            <span className="text-text-muted text-xs">{t('party.discoverableHint')}</span>
+          </div>
           {error && <p className="text-red-bright text-sm">{error}</p>}
           <button onClick={handleHost} disabled={busy} className={PRIMARY_BTN}>
             <Server size={16} /> {busy ? t('party.starting') : t('party.startHost')}
@@ -457,6 +610,40 @@ export default function PartyPanel({
               maxLength={40}
             />
           </label>
+
+          {/* Автоскан локальной сети — найденные партии в один клик. */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-text-secondary text-sm">{t('party.findOnLan')}</span>
+              <button onClick={handleScan} disabled={scanning} className={GHOST_BTN}>
+                {scanning ? <Loader2 size={15} className="animate-spin" /> : <Radar size={15} />}
+                <span className="hidden sm:inline">{scanning ? t('party.scanning') : t('party.scan')}</span>
+              </button>
+            </div>
+            {discovered.length > 0 && (
+              <div className="space-y-1">
+                {discovered.map((d) => (
+                  <button
+                    key={`${d.host}:${d.port}`}
+                    onClick={() => handleJoinDiscovered(d)}
+                    disabled={busy}
+                    className="w-full flex items-center gap-2 rounded-md border border-border-default hover:border-gold/50 hover:bg-gold/5 px-3 py-2 text-left transition-colors disabled:opacity-50"
+                  >
+                    <Wifi size={15} className="text-gold shrink-0" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-text-primary text-sm truncate">{d.partyName || `${d.host}:${d.port}`}</span>
+                      <span className="block text-text-muted text-xs truncate">{d.host}:{d.port}</span>
+                    </span>
+                    <LogIn size={14} className="text-text-muted shrink-0" />
+                  </button>
+                ))}
+              </div>
+            )}
+            {scanned && !scanning && discovered.length === 0 && (
+              <p className="text-text-muted text-xs">{t('party.scanNone')}</p>
+            )}
+          </div>
+
           <label className="block">
             <span className="text-text-secondary text-sm">{t('party.partyCode')}</span>
             <input
@@ -694,7 +881,9 @@ function PartyGrid({
           // ГМ и сам игрок видят полный лист; остальные — по режиму владельца.
           const mode: SheetMode = isGm || isSelf ? 'full' : snap?.mode ?? 'minimal';
           // Открыть полный лист read-only можно только в режиме full и не для своего листа.
-          const clickable = !!char && mode === 'full' && !isSelf;
+          // Кликабельны только онлайн-участники (у оффлайн/сохранённых — последний
+          // снимок прошлой сессии, его в живых snapshots App уже нет).
+          const clickable = !!char && mode === 'full' && !isSelf && m.online;
           return (
             <PartyMemberCard
               key={m.id}
@@ -735,7 +924,7 @@ function PartyMemberCard({
   const showDetails = !!char && mode !== 'minimal';
   const portraitUrl = char?.portraitDataUrl;
   return (
-    <div className="flex flex-col" style={{ width }}>
+    <div className={`flex flex-col transition-opacity ${member.online ? '' : 'opacity-55'}`} style={{ width }}>
       <div
         onClick={onOpen}
         className={`relative aspect-[9/21] rounded-lg overflow-hidden bg-bg-secondary ring-1 transition-all group ${
