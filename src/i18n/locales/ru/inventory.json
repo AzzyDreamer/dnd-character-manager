@@ -29,6 +29,7 @@
     "equipOffhand": "Во вторую руку",
     "unequip": "Снять",
     "details": "Подробнее",
+    "decreaseStack": "Убрать",
     "remove": "Удалить"
   },
   "addModal": {

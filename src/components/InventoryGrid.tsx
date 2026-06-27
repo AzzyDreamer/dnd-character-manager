@@ -452,11 +452,15 @@ const ItemContextMenu: React.FC<{
   onEquip: () => void;
   onEquipOffhand: () => void;
   onUnequip: () => void;
+  onDecreaseStack: (amount: number) => void;
   onRemove: () => void;
   onDetails: () => void;
   showOffhand: boolean;
-}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onRemove, onDetails, showOffhand }) => {
+}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onDecreaseStack, onRemove, onDetails, showOffhand }) => {
   const { t } = useTranslation('inventory');
+  const [decAmount, setDecAmount] = useState(1);
+  const maxDec = Math.max(1, item.quantity - 1);
+  const clampedDec = Math.min(Math.max(1, decAmount), maxDec);
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
@@ -503,6 +507,25 @@ const ItemContextMenu: React.FC<{
         >
           {t('contextMenu.details')}
         </button>
+        {item.quantity > 1 && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5">
+            <input
+              type="number"
+              min={1}
+              max={maxDec}
+              value={clampedDec}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => setDecAmount(Math.min(maxDec, Math.max(1, parseInt(e.target.value) || 1)))}
+              className="w-12 text-center text-sm rounded border border-border-default bg-bg-primary text-text-primary py-0.5"
+            />
+            <button
+              onClick={() => onDecreaseStack(clampedDec)}
+              className="flex-1 text-left px-2 py-0.5 text-sm text-text-primary hover:bg-white/10 rounded transition-colors"
+            >
+              {t('contextMenu.decreaseStack')}
+            </button>
+          </div>
+        )}
         <button
           onClick={onRemove}
           className="w-full text-left px-3 py-1.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
@@ -897,6 +920,21 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       updateInventory(newInventory, newEquipment, newCurrency);
     },
     [inventory, equipment, character.currency, updateInventory],
+  );
+
+  // Decrease a stacked item's quantity by `amount` (keeps at least one unit;
+  // use "Remove" from the menu to delete the stack entirely).
+  const handleDecreaseStack = useCallback(
+    (itemId: string, amount: number) => {
+      const item = inventory.find((i) => i.id === itemId);
+      if (!item || item.quantity <= 1) return;
+      const dec = Math.min(Math.max(1, Math.floor(amount)), item.quantity - 1);
+      updateInventory(
+        inventory.map((i) => (i.id === itemId ? { ...i, quantity: i.quantity - dec } : i)),
+      );
+      setContextMenu(null);
+    },
+    [inventory, updateInventory],
   );
 
   const handleRemoveItem = useCallback(
@@ -1446,6 +1484,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
             if (slot) handleUnequipItem(slot);
             setContextMenu(null);
           }}
+          onDecreaseStack={(amount) => handleDecreaseStack(contextMenu.item.id, amount)}
           onRemove={() => handleRemoveItem(contextMenu.item.id)}
           onDetails={() => { setDetailItem(contextMenu.item); setContextMenu(null); }}
           showOffhand={canItemFitOffhand(contextMenu.item) && !isMainhandBlocking(contextMenu.item, equipment, inventory)}

@@ -146,7 +146,8 @@
   "weaponCategories": {
     "simple": "Простое оружие",
     "martial": "Боевое оружие",
-    "rangedMartial": "Дальнобойное воинское оружие"
+    "rangedMartial": "Дальнобойное воинское оружие",
+    "firearms": "Огнестрельное оружие"
   },
   "itemDisplayTypes": {
     "weapon": "Оружие",

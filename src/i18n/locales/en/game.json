@@ -146,7 +146,8 @@
   "weaponCategories": {
     "simple": "Simple Weapons",
     "martial": "Martial Weapons",
-    "rangedMartial": "Ranged Martial Weapons"
+    "rangedMartial": "Ranged Martial Weapons",
+    "firearms": "Firearms"
   },
   "itemDisplayTypes": {
     "weapon": "Weapon",

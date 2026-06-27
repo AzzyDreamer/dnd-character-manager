@@ -908,11 +908,26 @@ export function hasItemProficiency(char: Character, item: InventoryItem): boolea
   if (item.category === 'weapon') {
     const weaponProfs = proficiencies.weapons;
 
-    // Check broad category first (if weaponCategory is known)
-    const simpleStr = i18n.t('weaponCategories.simple', { ns: 'game' });
-    const martialStr = i18n.t('weaponCategories.martial', { ns: 'game' });
-    if (item.weaponCategory === 'simple' && weaponProfs.some(p => p === simpleStr)) return true;
-    if (item.weaponCategory === 'martial' && weaponProfs.some(p => p === martialStr)) return true;
+    // Firearms are a category of their own: being proficient with Simple/Martial/
+    // Ranged Martial weapons does NOT grant firearm proficiency. They require an
+    // explicit Firearms proficiency (Gunslinger, the Gunner feat, etc.).
+    if (item.raw?.firearm === true) {
+      const firearmsStr = i18n.t('weaponCategories.firearms', { ns: 'game' });
+      // Match the localized category and the literal 'Firearms' pushed by feat effects.
+      if (weaponProfs.some(p => p === firearmsStr || p === 'Firearms')) return true;
+    } else {
+      // Check broad category first (if weaponCategory is known)
+      const simpleStr = i18n.t('weaponCategories.simple', { ns: 'game' });
+      const martialStr = i18n.t('weaponCategories.martial', { ns: 'game' });
+      const rangedMartialStr = i18n.t('weaponCategories.rangedMartial', { ns: 'game' });
+      const typeCode = typeof item.raw?.type === 'string' ? item.raw.type.split('|')[0] : '';
+      const isRangedWeapon = typeCode === 'R';
+      if (item.weaponCategory === 'simple' && weaponProfs.some(p => p === simpleStr)) return true;
+      if (item.weaponCategory === 'martial' && weaponProfs.some(p => p === martialStr)) return true;
+      // "Ranged Martial Weapons" proficiency (e.g. Gunslinger) covers non-firearm
+      // martial ranged weapons (longbow, heavy crossbow, …) — type 'R', category 'martial'.
+      if (item.weaponCategory === 'martial' && isRangedWeapon && weaponProfs.some(p => p === rangedMartialStr)) return true;
+    }
 
     // Check specific weapon name: translate English item name and compare
     const profName = getWeaponProficiencyName(item.name.toLowerCase());
