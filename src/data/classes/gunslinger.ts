@@ -19,7 +19,7 @@ export const gunslinger: ClassDefinition = {
   ],
   proficiencies: {
     armor: ['light'],
-    weapons: ['simple', 'rangedMartial'],
+    weapons: ['simple', 'rangedMartial', 'firearms'],
     tools: [],
     skillChoices: { count: 2, from: ['acrobatics', 'animalHandling', 'athletics', 'deception', 'insight', 'intimidation', 'perception', 'persuasion', 'sleightOfHand', 'stealth'] },
   },
