@@ -32,6 +32,7 @@
     "equipOffhand": "Off-hand",
     "unequip": "Unequip",
     "details": "Details",
+    "decreaseStack": "Remove",
     "remove": "Delete"
   },
 
