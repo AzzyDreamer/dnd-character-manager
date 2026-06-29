@@ -91,11 +91,46 @@ $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = '<пароль ключа>'
 установщик и манифест на сервер по SSH. Детали и переменные (`UPD_SSH_HOST`,
 `UPD_REMOTE_DIR`) — в шапке `scripts/release.ps1`.
 
-> **Альтернатива — CI (GitHub Actions).** Можно автоматизировать сборку/подпись по
-> тегу и заливку на сервер: приватный ключ и пароль кладутся в Secrets, артефакты
-> собираются на `windows-latest`, `latest.json` и `*-setup.exe` уходят на сервер по
-> SSH (`appleboy/scp-action` или `rsync`). Делаем, если решишь уйти от ручного
-> скрипта — нужен deploy-ключ на сервере и секреты в репозитории.
+### 4.1 Авто-релиз через CI (по тегу `v*`)
+
+Workflow `.github/workflows/release.yml` уже содержит job'ы `desktop-build`
+(сборка+подпись на Windows → артефакт `release/`) и `desktop-deploy` (заливка на
+сервер через `scp-action`). После настройки ниже релиз делается так:
+
+```powershell
+git tag v0.2.0
+git push origin v0.2.0
+```
+Тег запускает сборку, версия берётся из тега (`v0.2.0` → `0.2.0`).
+
+**Настройка (один раз):**
+
+1. Отдельный SSH-ключ для CI (без passphrase — раннер не введёт пароль):
+   ```powershell
+   ssh-keygen -t ed25519 -f $HOME\.ssh\ci_deploy -C "github-ci"
+   ```
+   (на оба запроса passphrase — просто Enter)
+
+2. Публичную часть **дописать** в authorized_keys на сервере (не перезаписать —
+   твой ключ должен остаться):
+   ```powershell
+   Get-Content $HOME\.ssh\ci_deploy.pub   # скопируй строку
+   ```
+   на сервере (под deploy):
+   ```bash
+   echo 'ВСТАВЬ_CI_ПУБЛИЧНЫЙ_КЛЮЧ' >> /home/deploy/.ssh/authorized_keys
+   ```
+
+3. Секреты репозитория (через gh CLI, из корня репо):
+   ```powershell
+   Get-Content $HOME\.tauri\dndmanager.key -Raw | gh secret set TAURI_SIGNING_PRIVATE_KEY
+   Get-Content $HOME\.ssh\ci_deploy -Raw      | gh secret set DEPLOY_SSH_KEY
+   gh secret set TAURI_SIGNING_PRIVATE_KEY_PASSWORD     # спросит значение — вставь пароль ключа
+   ```
+
+> ⚠️ Положив ключ подписи в Secrets, ты доверяешь GitHub корень доверия обновлений.
+> Для хобби-проекта это приемлемо; ручной `release.ps1` держит ключ только у тебя.
+> Оба режима сосуществуют — CI ничего не ломает в ручном.
 
 ---
 

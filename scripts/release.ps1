@@ -13,7 +13,10 @@ param(
   [string]$Notes = "",
   # Куда заливать. Подставь свои значения или задай переменными окружения.
   [string]$SshHost   = $(if ($env:UPD_SSH_HOST)   { $env:UPD_SSH_HOST }   else { "deploy@upd.azzydreamer.ru" }),
-  [string]$RemoteDir = $(if ($env:UPD_REMOTE_DIR) { $env:UPD_REMOTE_DIR } else { "/var/www/updates" })
+  [string]$RemoteDir = $(if ($env:UPD_REMOTE_DIR) { $env:UPD_REMOTE_DIR } else { "/var/www/updates" }),
+  # CI собирает с -SkipUpload: артефакты складываются в release/, а заливает их
+  # отдельный job (scp-action). Локально флаг не нужен — скрипт сам зальёт по scp.
+  [switch]$SkipUpload
 )
 
 $ErrorActionPreference = "Stop"
@@ -68,11 +71,16 @@ $sigFile = "$($setup.FullName).sig"
 if (-not (Test-Path $sigFile)) { throw "Не найдена подпись $sigFile (проверь createUpdaterArtifacts и ключ)" }
 $signature = (Get-Content $sigFile -Raw).Trim()
 
-# 4) Генерим latest.json (формат Tauri v2). url ведёт на установщик на сервере.
+# 4) Готовим папку release/ с консистентными именами и манифестом.
 #    Пробелы в имени («DnD Character Manager…») заменяем на точки: иначе scp на
-#    удалённой стороне разорвёт путь по пробелу. Подпись считается по БАЙТАМ файла,
-#    поэтому переименование безопасно.
+#    удалённой стороне разорвёт путь по пробелу, а URL в манифесте должен совпадать
+#    с залитым файлом. Подпись считается по БАЙТАМ файла, переименование безопасно.
 $assetName = ($setup.Name -replace '\s', '.')
+$outDir = Join-Path $repo "release"
+Remove-Item -Recurse -Force $outDir -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force $outDir | Out-Null
+Copy-Item $setup.FullName (Join-Path $outDir $assetName)
+
 $manifest = [ordered]@{
   version   = $Version
   notes     = $Notes
@@ -84,18 +92,22 @@ $manifest = [ordered]@{
     }
   }
 }
-$manifestPath = Join-Path $nsisDir "latest.json"
-Write-Utf8NoBom $manifestPath ($manifest | ConvertTo-Json -Depth 50)
-Write-Host "==> latest.json готов" -ForegroundColor Green
+Write-Utf8NoBom (Join-Path $outDir "latest.json") ($manifest | ConvertTo-Json -Depth 50)
+Write-Host "==> release/ готов ($assetName + latest.json)" -ForegroundColor Green
 
-# 5) Заливаем установщик (под безопасным именем) + манифест на сервер.
-#    Format-оператор вместо интерполяции — чтобы двоеточие после хоста не уехало
-#    в scope-синтаксис PowerShell ($host:...).
+# 5) Заливка. В CI пропускаем — артефакты из release/ зальёт отдельный job.
+if ($SkipUpload) {
+  Write-Host "==> -SkipUpload: scp пропущен (зальёт CI из release/)." -ForegroundColor Yellow
+  return
+}
+
+# Format-оператор вместо интерполяции — чтобы двоеточие после хоста не уехало
+# в scope-синтаксис PowerShell ($host:...).
 $destSetup    = "{0}:{1}/{2}" -f $SshHost, $RemoteDir, $assetName
 $destManifest = "{0}:{1}/latest.json" -f $SshHost, $RemoteDir
 Write-Host "==> scp на $SshHost`:$RemoteDir" -ForegroundColor Cyan
-scp $setup.FullName $destSetup
-scp $manifestPath  $destManifest
+scp (Join-Path $outDir $assetName)    $destSetup
+scp (Join-Path $outDir "latest.json") $destManifest
 
 Write-Host "Готово. Старые копии увидят $Version при следующей проверке." -ForegroundColor Green
 Write-Host "Не забудь: git commit бампа версии и git tag v$Version." -ForegroundColor Yellow
