@@ -82,7 +82,7 @@ const DesktopUpdatesSection: React.FC = () => {
           {t('settings.updates')}
         </div>
         <p className="text-xs text-text-muted mt-1">
-          {status === 'available'
+          {status === 'available' || status === 'installing'
             ? t('settings.updateAvailable', { version })
             : status === 'uptodate'
             ? t('settings.upToDate')
@@ -91,7 +91,7 @@ const DesktopUpdatesSection: React.FC = () => {
             : t('settings.updatesDesc')}
         </p>
       </div>
-      {status === 'available' ? (
+      {status === 'available' || status === 'installing' ? (
         <button
           onClick={onInstall}
           disabled={busy}
