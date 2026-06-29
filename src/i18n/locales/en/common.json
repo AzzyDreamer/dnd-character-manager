@@ -136,7 +136,16 @@
     "fullEditDesc": "Edit any character field without rule restrictions.",
     "dataFolder": "Data folder",
     "dataFolderDesc": "Where this app stores your characters on this device.",
-    "openDataFolder": "Open folder"
+    "openDataFolder": "Open folder",
+    "updates": "Updates",
+    "updatesDesc": "Check for a new version and install it.",
+    "checkUpdates": "Check for updates",
+    "checking": "Checking…",
+    "updateAvailable": "Version {{version}} is available.",
+    "upToDate": "You have the latest version.",
+    "installRestart": "Install and restart",
+    "installing": "Installing…",
+    "updateError": "Couldn't check for updates. Try again later."
   },
   "window": {
     "back": "Back",

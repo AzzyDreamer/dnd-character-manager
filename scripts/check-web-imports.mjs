@@ -18,7 +18,8 @@ function isAllowlisted(rel) {
     rel.startsWith('src/online/') ||
     rel.startsWith('src/components/desktop/') ||
     rel === 'src/utils/fileCharacterStore.ts' ||
-    rel === 'src/utils/openDataFolder.ts'
+    rel === 'src/utils/openDataFolder.ts' ||
+    rel === 'src/utils/updater.ts'
   );
 }
 
