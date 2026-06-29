@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Settings, X, Globe, Code2, Pencil, FolderOpen } from 'lucide-react';
+import { Settings, X, Globe, Code2, Pencil, FolderOpen, RefreshCw, DownloadCloud } from 'lucide-react';
 import i18n from '../i18n';
 import { useSettings } from './SettingsProvider';
 import { isTauri } from '../utils/isTauri';
@@ -33,6 +33,85 @@ const Toggle: React.FC<{ checked: boolean; onChange: () => void }> = ({ checked,
     />
   </button>
 );
+
+// Секция самообновления (только десктоп). Кнопка тихо проверяет манифест через
+// pointer-индирекцию (см. src-tauri/src/updater.rs); если есть новее — предлагает
+// скачать и перезапуститься. Утилита тянется динамически, чтобы @tauri-apps/* не
+// попал в веб-бандл.
+type UpdateStatus = 'idle' | 'checking' | 'available' | 'uptodate' | 'installing' | 'error';
+
+const DesktopUpdatesSection: React.FC = () => {
+  const { t } = useTranslation('common');
+  const [status, setStatus] = useState<UpdateStatus>('idle');
+  const [version, setVersion] = useState<string>('');
+
+  const onCheck = async () => {
+    setStatus('checking');
+    try {
+      const { checkUpdate } = await import('../utils/updater');
+      const info = await checkUpdate();
+      if (info.available) {
+        setVersion(info.version);
+        setStatus('available');
+      } else {
+        setStatus('uptodate');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  const onInstall = async () => {
+    setStatus('installing');
+    try {
+      const { installUpdate } = await import('../utils/updater');
+      // Успех завершается перезапуском приложения — управление сюда не вернётся.
+      await installUpdate();
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  const busy = status === 'checking' || status === 'installing';
+
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 text-sm font-semibold text-text-primary">
+          <DownloadCloud size={16} className="text-gold/70" />
+          {t('settings.updates')}
+        </div>
+        <p className="text-xs text-text-muted mt-1">
+          {status === 'available' || status === 'installing'
+            ? t('settings.updateAvailable', { version })
+            : status === 'uptodate'
+            ? t('settings.upToDate')
+            : status === 'error'
+            ? t('settings.updateError')
+            : t('settings.updatesDesc')}
+        </p>
+      </div>
+      {status === 'available' || status === 'installing' ? (
+        <button
+          onClick={onInstall}
+          disabled={busy}
+          className="shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium bg-gold/20 text-gold border border-gold/40 hover:bg-gold/30 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-default"
+        >
+          {status === 'installing' ? t('settings.installing') : t('settings.installRestart')}
+        </button>
+      ) : (
+        <button
+          onClick={onCheck}
+          disabled={busy}
+          className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-gold/20 text-gold border border-gold/40 hover:bg-gold/30 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-default"
+        >
+          <RefreshCw size={14} className={status === 'checking' ? 'animate-spin' : ''} />
+          {status === 'checking' ? t('settings.checking') : t('settings.checkUpdates')}
+        </button>
+      )}
+    </div>
+  );
+};
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
   const { t } = useTranslation('common');
@@ -142,6 +221,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               </button>
             </div>
           )}
+
+          {/* Самообновление (только десктоп) */}
+          {isTauri() && <DesktopUpdatesSection />}
         </div>
       </div>
     </div>,

@@ -41,3 +41,6 @@ _untranslated*.py
 
 # Сгенерированные бандлы данных (scripts/bundle-data.mjs, на predev/prebuild)
 src/data/_bundles/
+
+# Выходные артефакты релиза (scripts/release.ps1: *-setup.exe + latest.json)
+release/

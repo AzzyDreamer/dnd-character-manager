@@ -49,3 +49,61 @@ jobs:
           # коммитов/PR между этим и предыдущим тегом.
           generate_release_notes: true
           files: dnd-character-manager-${{ github.ref_name }}.zip
+
+  # Десктоп: собираем+подписываем NSIS-установщик на Windows и кладём готовые
+  # файлы (установщик + latest.json) в release/ как артефакт. Версия берётся из
+  # тега (v0.2.0 -> 0.2.0). См. scripts/release.ps1 и docs/UPDATE_SERVER.md.
+  desktop-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build, sign, manifest
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          ./scripts/release.ps1 -Version $version -Notes "${{ github.ref_name }}" -SkipUpload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-release
+          path: release/
+
+  # Заливаем артефакты на сервер обновлений по SSH (Linux-раннер + проверенный
+  # scp-action — надёжнее, чем OpenSSH из-под Windows). strip_components убирает
+  # префикс release/, файлы ложатся прямо в /var/www/updates.
+  desktop-deploy:
+    runs-on: ubuntu-latest
+    needs: desktop-build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: desktop-release
+          path: release
+
+      - name: Upload to update server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: upd.azzydreamer.ru
+          username: deploy
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "release/*"
+          target: /var/www/updates
+          strip_components: 1

@@ -1,11 +1,14 @@
 mod party;
+mod updater;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_opener::init())
+    .plugin(tauri_plugin_updater::Builder::new().build())
     .manage(party::PartyState::default())
+    .manage(updater::UpdaterState::default())
     .invoke_handler(tauri::generate_handler![
       party::party_host_start,
       party::party_join,
@@ -14,6 +17,8 @@ pub fn run() {
       party::party_event,
       party::party_send,
       party::party_leave,
+      updater::check_update,
+      updater::install_update,
     ])
     .setup(|app| {
       if cfg!(debug_assertions) {
