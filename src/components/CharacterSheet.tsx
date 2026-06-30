@@ -2317,14 +2317,28 @@ function FeaturesSection({ character }: { character: Character }) {
           ? speciesMod.getSpeciesByName(character.raceVariant, character.raceSource) ?? speciesMod.getSpeciesByName(character.race, character.raceSource)
           : speciesMod.getSpeciesByName(character.race, character.raceSource);
         if (speciesData?.entries) {
-          const traits = speciesData.entries
-            .filter((e: any) => e && typeof e === 'object' && e.name && Array.isArray(e.entries))
-            .map((e: any) => ({
-              name: e.name,
-              nameEn: e._origName ?? e.name,
-              description: '',
-              rawEntries: e.entries,
-            }));
+          // Разворачиваем top-level entries в отдельные черты. Named-узлы
+          // ({name, entries}) — это сама черта (или блок-inset), берём целиком и
+          // вглубь не лезем. Безымянные обёртки (list с items, section с entries —
+          // как у наследий GrimHollow с «Возраст»/«Выбор черт») рекурсивно
+          // раскрываем, чтобы их именованные дети тоже попали в список.
+          const traits: FeatureItem[] = [];
+          const walk = (nodes: any[]) => {
+            for (const e of nodes) {
+              if (!e || typeof e !== 'object') continue;
+              const rawEntries = Array.isArray(e.entries)
+                ? e.entries
+                : (typeof e.entry === 'string' ? [e.entry] : null);
+              if (typeof e.name === 'string' && rawEntries) {
+                traits.push({ name: e.name, nameEn: e._origName ?? e.name, description: '', rawEntries });
+              } else if (Array.isArray(e.items)) {
+                walk(e.items);
+              } else if (Array.isArray(e.entries)) {
+                walk(e.entries);
+              }
+            }
+          };
+          walk(speciesData.entries);
           setRaceTraits(traits);
         }
 
@@ -2352,8 +2366,14 @@ function FeaturesSection({ character }: { character: Character }) {
           return entries;
         };
 
-        // Class features — wrap description + details in rawEntries so EntryRenderer processes tags
-        const classData = classMod.getClassDataByName(character.class);
+        // Class features — wrap description + details in rawEntries so EntryRenderer processes tags.
+        // Look up by the stable classId first (getClassDataByName matches on id too) and only fall
+        // back to the display name: character.class is the *localized* name (e.g. "Чародей"), which
+        // matches the bundle only while the translation overlay is applied for the current locale.
+        // The subclass block below keys off classId, which is why subclass features kept rendering
+        // when class features didn't.
+        const classData = (character.classId && classMod.getClassDataByName(character.classId))
+          || classMod.getClassDataByName(character.class);
         if (classData?.classFeatures) {
           const cf = classData.classFeatures
             .filter((f: any) => f.level <= character.level)
