@@ -314,13 +314,19 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     const twoHanded = hasProp('2H');
     const heavy = hasProp('H');
     const thrown = hasProp('T');
+    // Firearm property: the ability modifier is NOT added to the weapon's damage
+    // (it's still added to the attack roll). Matches the VSS "Firearm" property
+    // code and the `firearm` boolean flag on the item.
+    const isFirearm = hasProp('GC:VSS-F') || item.raw?.firearm === true;
 
     // Attack roll: Archery adds +2 with ranged weapons. Exhaustion subtracts 2/level.
     let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus + exhaustionPenalty;
     if (hasArchery && ranged) attackBonus += 2;
 
-    // Damage: off-hand attacks add the ability modifier only with Two-Weapon Fighting.
-    let totalDamageMod = (isOffhand && !hasTwoWeaponFighting ? 0 : abilityMod) + weaponBonus;
+    // Damage: off-hand attacks add the ability modifier only with Two-Weapon
+    // Fighting; firearms never add it to damage.
+    const damageAbilityMod = isFirearm || (isOffhand && !hasTwoWeaponFighting) ? 0 : abilityMod;
+    let totalDamageMod = damageAbilityMod + weaponBonus;
     // Dueling: +2 damage with a one-handed melee weapon and no other weapon.
     if (hasDueling && !ranged && !isOffhand && !twoHanded && !hasOffhandWeapon) totalDamageMod += 2;
     // Thrown Weapon Fighting: +2 damage when throwing a thrown weapon (melee throw).
