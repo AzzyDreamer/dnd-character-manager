@@ -10,14 +10,9 @@ import i18n from '../i18n';
 import { getDamageTypeName, getMasteryName, getPropertyName } from '../data/items/constants';
 import { getItemPropertyByCode } from '../data/itemproperties';
 import { getVariantRuleByName } from '../data/variantrule';
+import { getItemTypeEntries } from '../data/itemTypeEntries';
 
 const tg = (key: string, opts?: any): string => i18n.t(key, { ns: 'game', ...opts });
-
-// Layer 2: общий текст для каждого типа предмета. Данных пока нет — вернётся
-// пустой массив, блок типа не отрисуется. Будет наполнено отдельным датасетом.
-function getItemTypeEntries(_raw: any): any[] {
-  return [];
-}
 
 function typeCodeOf(raw: any): string {
   return (typeof raw?.type === 'string' ? raw.type.split('|')[0] : '') || '';
@@ -92,7 +87,7 @@ export function buildItemDetailEntries(raw: any): any[] {
     : (raw._description ? [raw._description] : []);
   result.push(...own);
 
-  result.push(...getItemTypeEntries(raw));
+  result.push(...getItemTypeEntries(typeCodeOf(raw)));
 
   const seen = new Set<string>();
   for (const p of (raw.property || [])) {
