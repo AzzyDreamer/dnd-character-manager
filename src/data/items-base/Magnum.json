@@ -8,12 +8,12 @@
 	"value": 60000,
 	"weaponCategory": "martial",
 	"property": [
-		"A|XPHB",
+		"A|ValdaGunslinger",
 		"GC:VSS-F",
-		"H|XPHB",
+		"H|ValdaGunslinger",
 		"GC:VSS-I|ValdaGunslinger",
-		"Rng|XPHB",
-		"RLD|XDMG"
+		"GC:VSS-R",
+		"RLD|ValdaGunslinger"
 	],
 	"mastery": [
 		"Slow|XPHB"

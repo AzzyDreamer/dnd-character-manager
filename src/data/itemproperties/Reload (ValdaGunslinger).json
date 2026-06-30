@@ -1,0 +1,9 @@
+{
+	"name": "Reload",
+	"abbreviation": "RLD",
+	"source": "ValdaGunslinger",
+	"category": "weapon",
+	"entries": [
+		"You can make a limited number of shots with a Reload weapon. You must then reload the weapon as an action or a {@variantrule Bonus Action|XPHB}."
+	]
+}

@@ -8,11 +8,11 @@
 	"value": 12500,
 	"weaponCategory": "simple",
 	"property": [
-		"A|XPHB",
+		"A|ValdaGunslinger",
 		"GC:VSS-F",
 		"L|XPHB",
 		"GC:VSS-M|ValdaGunslinger",
-		"RLD|XDMG"
+		"RLD|ValdaGunslinger"
 	],
 	"mastery": [
 		"Vex|XPHB"

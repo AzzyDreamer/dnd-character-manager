@@ -4,6 +4,7 @@ import { Search, ArrowLeft, BookOpen, Sparkles, Swords, Shield, Eye, Brain, Scro
 import { useBackDismiss } from '../hooks/useBackDismiss';
 import { normalizeSkillKey } from '../utils/dnd';
 import { getClassById, translateProficiencies } from '../data/classes';
+import { ItemRenderBody } from '../utils/itemRender';
 
 // Приводит сырой ключ данных ("disguise kit", "aberrant dragonmark") к читаемому
 // виду с заглавных букв. Полная локализация инструментов/черт предыстории — за
@@ -1256,26 +1257,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             )}
 
             {/* ═══════════ ПРЕДМЕТЫ ═══════════ */}
-            {type === 'items' && (() => {
-              const typeCode = (d.type || '').split('|')[0];
-              const rarityLabel = d.rarity && d.rarity !== 'none' ? d.rarity : null;
-              const dmgTypes: Record<string, string> = { S: t('item.damageTypes.S'), P: t('item.damageTypes.P'), B: t('item.damageTypes.B'), F: t('item.damageTypes.F'), C: t('item.damageTypes.C'), L: t('item.damageTypes.L'), T: t('item.damageTypes.T'), N: t('item.damageTypes.N'), A: t('item.damageTypes.A'), Y: t('item.damageTypes.Y'), O: t('item.damageTypes.O') };
-              const propNames: Record<string, string> = { F: t('item.propertyNames.F'), L: t('item.propertyNames.L'), H: t('item.propertyNames.H'), '2H': t('item.propertyNames.2H'), V: t('item.propertyNames.V'), T: t('item.propertyNames.T'), AM: t('item.propertyNames.AM'), LD: t('item.propertyNames.LD'), R: t('item.propertyNames.R'), S: t('item.propertyNames.S') };
-              return (
-                <div className="bg-bg-panel rounded-lg p-4 space-y-2 text-sm">
-                  {typeCode && <div><span className="text-text-secondary">{t('item.type')} </span><span className="text-text-primary">{typeCode}</span></div>}
-                  {rarityLabel && <div><span className="text-text-secondary">{t('item.rarity')} </span><span className="text-text-primary">{rarityLabel}</span></div>}
-                  {d.weight != null && <div><span className="text-text-secondary">{t('item.weight')} </span><span className="text-text-primary">{d.weight} {t('item.weightUnit')}</span></div>}
-                  {d.value != null && <div><span className="text-text-secondary">{t('item.price')} </span><span className="text-text-primary">{d.value >= 100 ? `${d.value / 100} ${t('item.gold')}` : `${d.value} ${t('item.copper')}`}</span></div>}
-                  {d.dmg1 && <div><span className="text-text-secondary">{t('item.damage')} </span><span className="text-text-primary">{d.dmg1} {dmgTypes[d.dmgType] || d.dmgType || ''}{d.dmg2 ? ` ${t('item.versatile', { dmg: d.dmg2 })}` : ''}</span></div>}
-                  {d.range && <div><span className="text-text-secondary">{t('item.range')} </span><span className="text-text-primary">{d.range} {t('spell.range.feetUnit')}</span></div>}
-                  {d.ac != null && <div><span className="text-text-secondary">{t('item.ac')} </span><span className="text-text-primary">{d.ac}</span></div>}
-                  {d.property?.length > 0 && <div><span className="text-text-secondary">{t('item.properties')} </span><span className="text-text-primary">{d.property.map((p: string) => propNames[p.split('|')[0]] || p.split('|')[0]).join(', ')}</span></div>}
-                  {d.reqAttune && <div><span className="text-text-secondary">{t('item.attunement')} </span><span className="text-text-primary">{typeof d.reqAttune === 'string' ? d.reqAttune : t('item.attunementRequired')}</span></div>}
-                  {d._description && !entries.length && <div className="text-text-primary pt-1">{d._description}</div>}
-                </div>
-              );
-            })()}
+            {type === 'items' && (
+              <ItemRenderBody raw={d} EntryRenderer={EntryRenderer} onNavigate={handleNavigate} />
+            )}
 
             {/* ═══════════ СПОСОБНОСТИ (Optional Features) ═══════════ */}
             {type === 'optionalfeatures' && (
@@ -1380,7 +1364,9 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
             )}
 
             {/* ═══════════ ОСНОВНОЙ КОНТЕНТ ═══════════ */}
-            {entries.length > 0 && (
+            {/* Предметы рендерятся целиком в ItemRenderBody выше (описание +
+                свойства + мастерство), поэтому общий блок entries для них пропускаем. */}
+            {entries.length > 0 && type !== 'items' && (
               <div className="prose prose-invert prose-sm max-w-none">
                 {type === 'classes' && selectedSubclass ? (
                   entries.map((entry: any, i: number) => (

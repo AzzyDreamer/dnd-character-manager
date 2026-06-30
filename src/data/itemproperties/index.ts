@@ -33,7 +33,21 @@ export async function init(): Promise<void> {
       }
     }
     ALL_ITEM_PROPERTIES.sort((a, b) => a.name.localeCompare(b.name));
-    await applyOverlay('itemproperties', ALL_ITEM_PROPERTIES, p => p.name);
+    // Свойства с одинаковым именем из разных источников (напр. Ammunition из XPHB
+    // и из ValdaGunslinger) коллизируют в overlay, который ключуется по имени.
+    // Не-core источник получает ключ перевода с суффиксом источника
+    // («Ammunition (ValdaGunslinger)»), core-источник остаётся на голом имени —
+    // так существующие переводы XPHB/XDMG не ломаются.
+    const CORE_SOURCES = new Set(['XPHB', 'XDMG', 'PHB']);
+    const nameCounts = new Map<string, number>();
+    for (const p of ALL_ITEM_PROPERTIES) nameCounts.set(p.name, (nameCounts.get(p.name) ?? 0) + 1);
+    for (const p of ALL_ITEM_PROPERTIES) {
+      if ((nameCounts.get(p.name) ?? 0) > 1 && !CORE_SOURCES.has(p.source)) {
+        (p as ItemPropertyData & { _i18nStem?: string })._i18nStem = `${p.name} (${p.source})`;
+      }
+    }
+    await applyOverlay('itemproperties', ALL_ITEM_PROPERTIES,
+      p => (p as ItemPropertyData & { _i18nStem?: string })._i18nStem ?? p.name);
     _initialized = true;
   })();
 

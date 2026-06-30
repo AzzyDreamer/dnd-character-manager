@@ -416,6 +416,9 @@ export interface Character {
     gold: number;
     platinum: number;
   };
+  // Свободные заметки на вкладке инвентаря — для предметов, которых нет в
+  // приложении (самодельные вещи, добыча, напоминания). Отдельно от notes.
+  inventoryNotes?: string;
   
   // Особенности и черты
   features: {

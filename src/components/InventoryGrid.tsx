@@ -8,8 +8,6 @@ import {
   getEquipmentSlotName,
   EQUIPMENT_SLOT_ICONS,
   getCategoryName,
-  getDamageTypeName,
-  getPropertyName,
   getArmorType,
   getArmorAC,
   getWeaponCategory,
@@ -20,7 +18,8 @@ import {
 } from '../data/items';
 import { resolveAC, getClassSpeedBonus, hasItemProficiency, getEffectiveAbilityScores } from '../utils/classEffects';
 import { currencyToCopper, adjustCurrency } from '../utils/currency';
-import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins, AlertTriangle } from 'lucide-react';
+import { Backpack, Plus, X, Search, Package, Shield, FlaskConical, Coins, AlertTriangle, NotebookPen } from 'lucide-react';
+import { ItemRenderBody } from '../utils/itemRender';
 
 // ============================
 // Константы сетки (все предметы 1x1)
@@ -126,18 +125,6 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void; onSe
     });
   }, []);
 
-  const properties = (raw.property ?? [])
-    .filter((p: any) => typeof p === 'string')
-    .map((p: string) => getPropertyName(p.split('|')[0]))
-    .filter(Boolean);
-
-  const masteries = (raw.mastery ?? [])
-    .filter((m: any) => typeof m === 'string')
-    .map((m: string) => {
-      const key = m.split('|')[0];
-      return t(`mastery.${key}`, key);
-    });
-
   return (
     <>
       <div className="fixed inset-0 bg-black/60 z-50" onClick={onClose} />
@@ -165,82 +152,25 @@ const ItemDetailModal: React.FC<{ item: InventoryItem; onClose: () => void; onSe
           </button>
         </div>
 
-        {/* Характеристики оружия */}
-        {raw.dmg1 && (
-          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
-            <div className="flex gap-4">
-              <span className="text-text-secondary">{t('detail.damage')}</span>
-              <span className="text-text-primary">{raw.dmg1} {raw.dmgType ? (getDamageTypeName(raw.dmgType)) : ''}</span>
-            </div>
-            {raw.dmg2 && (
-              <div className="flex gap-4">
-                <span className="text-text-secondary">{t('detail.twoHanded')}</span>
-                <span className="text-text-primary">{raw.dmg2}</span>
-              </div>
-            )}
-            {raw.range && (
-              <div className="flex gap-4">
-                <span className="text-text-secondary">{t('detail.range')}</span>
-                <span className="text-text-primary">{raw.range}</span>
-              </div>
-            )}
-          </div>
+        {/* Полный рендер предмета: тип, характеристики, свойства, мастерство,
+            описание и тексты свойств/мастерства — единый ItemRenderBody. */}
+        {EntryRendererComp ? (
+          <ItemRenderBody raw={raw} EntryRenderer={EntryRendererComp} />
+        ) : (
+          <div className="text-sm text-text-secondary mb-3">{t('detail.loadingEntries')}</div>
+        )}
+        {item.quantity > 1 && (
+          <div className="text-xs text-text-muted mt-2">{t('detail.quantityLabel', { value: item.quantity })}</div>
         )}
 
-        {/* КД для доспехов */}
-        {raw.ac != null && (
-          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm">
-            <span className="text-text-secondary">{t('detail.ac')}</span>
-            <span className="text-text-primary">{raw.ac}{raw.stealth ? t('detail.acStealthDisadvantage') : ''}</span>
-            {raw.strength && <span className="text-text-secondary ml-2">{t('detail.acStrength', { value: raw.strength })}</span>}
-          </div>
-        )}
-
-        {/* Свойства и мастерство */}
-        {(properties.length > 0 || masteries.length > 0) && (
-          <div className="mb-3 flex flex-wrap gap-1.5">
-            {properties.map((p: string, i: number) => (
-              <span key={i} className="px-2 py-0.5 rounded-full bg-bg-secondary text-xs text-text-secondary border border-border-default">{p}</span>
-            ))}
-            {masteries.map((m: string, i: number) => (
-              <span key={`m${i}`} className="px-2 py-0.5 rounded-full bg-purple-500/15 text-xs text-purple-300 border border-purple-500/30">{m}</span>
-            ))}
-          </div>
-        )}
-
-        {/* Бонусы */}
+        {/* Бонусы (магические свойства предмета) */}
         {(raw.bonusAc || raw.bonusSavingThrow || raw.bonusWeapon || raw.bonusSpellAttack || raw.bonusSpellSaveDc) && (
-          <div className="mb-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
+          <div className="mt-3 p-2 rounded-lg bg-bg-secondary text-sm space-y-1">
             {raw.bonusAc && <div><span className="text-text-secondary">{t('detail.bonusAc')}</span><span className="text-green-400">{raw.bonusAc}</span></div>}
             {raw.bonusSavingThrow && <div><span className="text-text-secondary">{t('detail.bonusSavingThrow')}</span><span className="text-green-400">{raw.bonusSavingThrow}</span></div>}
             {raw.bonusWeapon && <div><span className="text-text-secondary">{t('detail.bonusAttackDamage')}</span><span className="text-green-400">{raw.bonusWeapon}</span></div>}
             {raw.bonusSpellAttack && <div><span className="text-text-secondary">{t('detail.bonusSpellAttack')}</span><span className="text-green-400">{raw.bonusSpellAttack}</span></div>}
             {raw.bonusSpellSaveDc && <div><span className="text-text-secondary">{t('detail.bonusSpellSaveDc')}</span><span className="text-green-400">{raw.bonusSpellSaveDc}</span></div>}
-          </div>
-        )}
-
-        {/* Настройка */}
-        {raw.reqAttune && (
-          <div className="mb-3 text-xs text-amber-400">
-            {typeof raw.reqAttune === 'string' ? t('detail.requiresAttunementBy', { by: raw.reqAttune }) : t('detail.requiresAttunement')}
-          </div>
-        )}
-
-        {/* Вес и стоимость */}
-        <div className="flex gap-4 text-xs text-text-muted mb-3">
-          {item.weight != null && <span>{t('detail.weightLabel', { value: item.weight })}</span>}
-          {raw.value != null && <span>{raw.value >= 100 ? t('detail.valueGp', { value: Math.floor(raw.value / 100) }) : raw.value >= 10 ? t('detail.valueSp', { value: Math.floor(raw.value / 10) }) : t('detail.valueCp', { value: raw.value })}</span>}
-          {item.quantity > 1 && <span>{t('detail.quantityLabel', { value: item.quantity })}</span>}
-        </div>
-
-        {/* Описание (entries) — через EntryRenderer с интерактивными тегами */}
-        {raw.entries && raw.entries.length > 0 && (
-          <div className="border-t border-border-default pt-3">
-            {EntryRendererComp ? (
-              <EntryRendererComp entries={raw.entries} context="item-detail" />
-            ) : (
-              <div className="text-sm text-text-secondary">{t('detail.loadingEntries')}</div>
-            )}
           </div>
         )}
 
@@ -799,6 +729,19 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   const [detailItem, setDetailItem] = useState<InventoryItem | null>(null);
   const [profWarning, setProfWarning] = useState<{ itemId: string; slot: EquipmentSlot; item: InventoryItem } | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  // Свободные заметки инвентаря (предметы вне приложения). Локальный черновик,
+  // коммит в персонажа по потере фокуса — чтобы не дёргать onUpdate на каждый
+  // символ. Пересинхронизируется при переключении персонажа (по id).
+  const [notesDraft, setNotesDraft] = useState(character.inventoryNotes ?? '');
+  useEffect(() => {
+    setNotesDraft(character.inventoryNotes ?? '');
+  }, [character.id]);
+  const commitNotes = useCallback(() => {
+    if ((character.inventoryNotes ?? '') !== notesDraft) {
+      onUpdate({ ...character, inventoryNotes: notesDraft, updatedAt: new Date().toISOString() });
+    }
+  }, [character, notesDraft, onUpdate]);
 
   const equipment: Equipment = character.equipment || {};
   const inventory = character.inventory || [];
@@ -1413,6 +1356,22 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Прочие предметы и заметки — для вещей, которых нет в приложении */}
+          <div className="mt-4 pt-3 border-t border-border-default">
+            <div className="flex items-center gap-2 mb-2">
+              <NotebookPen className="text-text-secondary" size={16} />
+              <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">{t('customNotes.title')}</h3>
+            </div>
+            <textarea
+              value={notesDraft}
+              onChange={(e) => setNotesDraft(e.target.value)}
+              onBlur={commitNotes}
+              placeholder={t('customNotes.placeholder')}
+              rows={5}
+              className="w-full resize-y rounded-lg border border-border-default bg-bg-secondary text-text-primary text-sm p-2.5 placeholder:text-text-muted/60 focus:outline-none focus:border-gold/40"
+            />
           </div>
         </div>
       </div>

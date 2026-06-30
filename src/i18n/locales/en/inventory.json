@@ -13,6 +13,10 @@
   "backpackEmpty": "Backpack is empty",
   "backpackHint": "Click \"Add Item\"",
   "noFreeSpace": "No free space in the backpack!",
+  "customNotes": {
+    "title": "Other Items & Notes",
+    "placeholder": "Items not in the app, loot, reminders…"
+  },
 
   "currency": {
     "title": "Currency",
