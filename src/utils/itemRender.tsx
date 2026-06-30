@@ -12,7 +12,8 @@ import { getItemPropertyByCode } from '../data/itemproperties';
 import { getVariantRuleByName } from '../data/variantrule';
 import { getItemTypeEntries } from '../data/itemTypeEntries';
 
-const tg = (key: string, opts?: any): string => i18n.t(key, { ns: 'game', ...opts });
+const tg = (key: string, opts?: Record<string, unknown>): string =>
+  i18n.t(key, { ns: 'game', ...opts }) as string;
 
 function typeCodeOf(raw: any): string {
   return (typeof raw?.type === 'string' ? raw.type.split('|')[0] : '') || '';
