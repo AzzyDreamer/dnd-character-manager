@@ -1,5 +1,5 @@
 {
-	"name": "Revolver",
+	"name": "Handgun",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
@@ -10,23 +10,22 @@
 	"property": [
 		"A|XPHB",
 		"GC:VSS-F",
-		"GC:VSS-I|ValdaGunslinger",
-		"Rng|XPHB",
+		"L|XPHB",
+		"GC:VSS-M|ValdaGunslinger",
 		"RLD|XDMG"
 	],
 	"mastery": [
-		"Slow|XPHB"
+		"Vex|XPHB"
 	],
 	"range": "30/120",
-	"reload": 6,
-	"dmg1": "2d6",
+	"reload": 10,
+	"dmg1": "2d4",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"An iconic handgun, the Revolver stores six bullets in a rotating cylinder. This weapon is favored by Gunslingers for its reliability and stopping-power."
+		"Portable, reliable, and with a generous magazine size, the Handgun is the go-to firearm for self-defense and law enforcement."
 	],
-	"ammoType": "bullet|ValdaGunslinger",
-	"hasFluffImages": true
+	"ammoType": "bullet|ValdaGunslinger"
 }

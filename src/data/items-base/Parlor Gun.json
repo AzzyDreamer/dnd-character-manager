@@ -1,32 +1,31 @@
 {
-	"name": "Revolver",
+	"name": "Parlor Gun",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
 	"rarity": "none",
-	"weight": 3,
-	"value": 12500,
+	"weight": 1,
+	"value": 7500,
 	"weaponCategory": "simple",
 	"property": [
 		"A|XPHB",
 		"GC:VSS-F",
 		"GC:VSS-I|ValdaGunslinger",
-		"Rng|XPHB",
+		"L|XPHB",
 		"RLD|XDMG"
 	],
 	"mastery": [
-		"Slow|XPHB"
+		"Vex|XPHB"
 	],
 	"range": "30/120",
-	"reload": 6,
-	"dmg1": "2d6",
+	"reload": 2,
+	"dmg1": "2d4",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"An iconic handgun, the Revolver stores six bullets in a rotating cylinder. This weapon is favored by Gunslingers for its reliability and stopping-power."
+		"The smallest usable firearm, a Parlor Gun can be tucked into a stocking or hidden down a sleeve for two barrels of point-blank fire."
 	],
-	"ammoType": "bullet|ValdaGunslinger",
-	"hasFluffImages": true
+	"ammoType": "bullet|ValdaGunslinger"
 }

@@ -1,15 +1,16 @@
 {
-	"name": "Revolver",
+	"name": "Magnum",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
 	"rarity": "none",
-	"weight": 3,
-	"value": 12500,
-	"weaponCategory": "simple",
+	"weight": 6,
+	"value": 60000,
+	"weaponCategory": "martial",
 	"property": [
 		"A|XPHB",
 		"GC:VSS-F",
+		"H|XPHB",
 		"GC:VSS-I|ValdaGunslinger",
 		"Rng|XPHB",
 		"RLD|XDMG"
@@ -19,14 +20,13 @@
 	],
 	"range": "30/120",
 	"reload": 6,
-	"dmg1": "2d6",
+	"dmg1": "2d8",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"An iconic handgun, the Revolver stores six bullets in a rotating cylinder. This weapon is favored by Gunslingers for its reliability and stopping-power."
+		"Chambered for large-caliber bullets, Magnum revolvers pack the most kick possible into a single shot."
 	],
-	"ammoType": "bullet|ValdaGunslinger",
-	"hasFluffImages": true
+	"ammoType": "bullet|ValdaGunslinger"
 }

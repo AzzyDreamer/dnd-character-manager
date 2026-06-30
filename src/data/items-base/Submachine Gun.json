@@ -1,28 +1,31 @@
 {
-	"name": "Pistol",
+	"name": "Submachine Gun",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
 	"rarity": "none",
-	"weight": 3,
+	"weight": 6,
 	"value": 25000,
 	"weaponCategory": "martial",
 	"property": [
 		"A|XPHB",
-		"LD|XPHB",
-		"GC:VSS-Ren|ValdaGunslinger"
+		"GC:VSS-F",
+		"L|XPHB",
+		"GC:VSS-M|ValdaGunslinger",
+		"RLD|XDMG"
 	],
 	"mastery": [
-		"Vex|XPHB"
+		"Automatic|ValdaGunslinger"
 	],
-	"range": "30/90",
-	"dmg1": "1d10",
+	"range": "20/60",
+	"reload": 16,
+	"dmg1": "2d4",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"The earliest type of one-handed firearm, a Pistol operates as a miniature Musket, loading and firing a single heavy projectile with deadly results."
+		"Firing lighter, easier to control rounds, the Submachine Gun is an effective alternative to larger automatic weapons."
 	],
 	"ammoType": "bullet|ValdaGunslinger"
 }

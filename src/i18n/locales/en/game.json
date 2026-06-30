@@ -141,7 +141,11 @@
     "Sap": "Sap",
     "Slow": "Slow",
     "Topple": "Topple",
-    "Vex": "Vex"
+    "Vex": "Vex",
+    "Automatic": "Automatic",
+    "Scatter": "Scatter",
+    "Explode": "Explode",
+    "Sighted": "Sighted"
   },
   "weaponCategories": {
     "simple": "Simple Weapons",

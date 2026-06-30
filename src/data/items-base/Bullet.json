@@ -1,0 +1,17 @@
+{
+	"name": "Bullet",
+	"source": "ValdaGunslinger",
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.15,
+	"value": 30,
+	"bulletFirearm": true,
+	"entries": [
+		"Ammunition is required by a weapon that has {@itemProperty AF|XDMG|Ammunition}. A weapon's description specifies the type of ammunition used by the weapon.",
+		"Firearm ammunition is destroyed upon use."
+	],
+	"miscTags": [
+		"CNS"
+	],
+	"foundryImg": "https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/ValdaGunslinger/00-014.firearm-ammunition.webp"
+}

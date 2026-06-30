@@ -1,0 +1,29 @@
+{
+	"name": "Flare Gun",
+	"source": "ValdaGunslinger",
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 1,
+	"value": 10000,
+	"weaponCategory": "simple",
+	"property": [
+		"A|XPHB",
+		"GC:VSS-F",
+		"LD|XPHB",
+		"GC:VSS-M|ValdaGunslinger"
+	],
+	"mastery": [
+		"Slow|XPHB"
+	],
+	"range": "30/120",
+	"dmg1": "2d6",
+	"dmgType": "F",
+	"bonusWeaponDamage": "-@abilities.dex.mod",
+	"firearm": true,
+	"weapon": true,
+	"entries": [
+		"Less a firearm and more a survival tool, a Flare Gun fires a single white-hot flare, useful for distress signals and last-ditch-effort self defense."
+	],
+	"ammoType": "flare|ValdaGunslinger"
+}

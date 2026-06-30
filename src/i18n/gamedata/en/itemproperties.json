@@ -8,6 +8,14 @@
   "Burst Fire.name": "Burst Fire",
   "Finesse.entries.0": "When making an attack roll with a Finesse weapon, you use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",
   "Finesse.name": "Finesse",
+  "Firearm.entries.0": "You don't add your ability modifier to the weapon's damage, unless otherwise stated. Firearm ammunition is destroyed upon use.",
+  "Firearm.name": "Firearm",
+  "Industrial Era.entries.0": "This weapon belongs to the Industrial era of firearm development. Era is a classification of a firearm's technological sophistication and has no inherent mechanical effect; a Game Master may use it to decide which firearms are available in a setting.",
+  "Industrial Era.name": "Industrial Era",
+  "Modern Era.entries.0": "This weapon belongs to the Modern era of firearm development. Era is a classification of a firearm's technological sophistication and has no inherent mechanical effect; a Game Master may use it to decide which firearms are available in a setting.",
+  "Modern Era.name": "Modern Era",
+  "Renaissance Era.entries.0": "This weapon belongs to the Renaissance era of firearm development. Era is a classification of a firearm's technological sophistication and has no inherent mechanical effect; a Game Master may use it to decide which firearms are available in a setting.",
+  "Renaissance Era.name": "Renaissance Era",
   "Heavy.entries.0": "Small creatures have {@variantrule Disadvantage|XPHB} on attack rolls with Heavy weapons. A Heavy weapon's size and bulk make it too large for a Small creature to use effectively.",
   "Heavy.name": "Heavy",
   "Light.entries.0": "When you take the {@action Attack|XPHB} action on your turn and attack with a Light weapon, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. See also the {@feat Two-Weapon Fighting|XPHB} feat and the {@itemProperty L|XPHB|Light} property entry on the Weapons table.",
@@ -27,5 +35,7 @@
   "Two-Handed.entries.0": "A Two-Handed weapon requires two hands when you attack with it. You must use the weapon two-handed during the attack to gain the benefit of the property.",
   "Two-Handed.name": "Two-Handed",
   "Versatile.entries.0": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property—the damage when the weapon is used with two hands to make a melee attack.",
-  "Versatile.name": "Versatile"
+  "Versatile.name": "Versatile",
+  "Vestige of Divergence.entries.0": "This item is a Vestige of Divergence, see Vestiges of Divergence for more information.",
+  "Vestige of Divergence.name": "Vestige of Divergence"
 }

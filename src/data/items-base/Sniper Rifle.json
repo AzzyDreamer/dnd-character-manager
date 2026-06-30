@@ -1,31 +1,31 @@
 {
-	"name": "Hunting Rifle",
+	"name": "Sniper Rifle",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
 	"rarity": "none",
 	"weight": 8,
-	"value": 15000,
-	"weaponCategory": "simple",
+	"value": 45000,
+	"weaponCategory": "martial",
 	"property": [
 		"A|XPHB",
 		"GC:VSS-F",
-		"GC:VSS-I|ValdaGunslinger",
-		"RLD|XDMG",
+		"H|XPHB",
+		"LD|XPHB",
+		"GC:VSS-M|ValdaGunslinger",
 		"2H|XPHB"
 	],
 	"mastery": [
 		"Sighted|ValdaGunslinger"
 	],
-	"range": "80/320",
-	"reload": 4,
-	"dmg1": "2d6",
+	"range": "100/400",
+	"dmg1": "2d8",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"Designed for big game, Hunting Rifles are slow but accurate, requiring bolt action operation between every shot."
+		"An instrument of ranged precision, the Sniper Rifle can take shots from distant, nearly invisible ranges."
 	],
 	"ammoType": "bullet|ValdaGunslinger"
 }

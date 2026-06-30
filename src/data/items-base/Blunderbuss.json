@@ -1,0 +1,30 @@
+{
+	"name": "Blunderbuss",
+	"source": "ValdaGunslinger",
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 15,
+	"value": 75000,
+	"weaponCategory": "martial",
+	"property": [
+		"A|XPHB",
+		"H|XPHB",
+		"LD|XPHB",
+		"GC:VSS-Ren|ValdaGunslinger",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Scatter|ValdaGunslinger"
+	],
+	"range": "20/60",
+	"dmg1": "1d12",
+	"dmgType": "P",
+	"bonusWeaponDamage": "-@abilities.dex.mod",
+	"firearm": true,
+	"weapon": true,
+	"entries": [
+		"This distinctive short-range firearm features a dramatically flared muzzle designed to launch shot in a wide spray. Most effective at close range, the Blunderbuss can be considered a precursor to the modern shotgun."
+	],
+	"ammoType": "shot|ValdaGunslinger"
+}

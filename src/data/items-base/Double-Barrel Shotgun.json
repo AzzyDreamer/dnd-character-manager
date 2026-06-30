@@ -1,32 +1,32 @@
 {
-	"name": "Revolver",
+	"name": "Double-Barrel Shotgun",
 	"source": "ValdaGunslinger",
 	"edition": "one",
 	"type": "R|XPHB",
 	"rarity": "none",
-	"weight": 3,
-	"value": 12500,
+	"weight": 8,
+	"value": 17500,
 	"weaponCategory": "simple",
 	"property": [
 		"A|XPHB",
 		"GC:VSS-F",
 		"GC:VSS-I|ValdaGunslinger",
 		"Rng|XPHB",
-		"RLD|XDMG"
+		"RLD|XDMG",
+		"2H|XPHB"
 	],
 	"mastery": [
-		"Slow|XPHB"
+		"Scatter|ValdaGunslinger"
 	],
-	"range": "30/120",
-	"reload": 6,
+	"range": "20/60",
+	"reload": 2,
 	"dmg1": "2d6",
 	"dmgType": "P",
 	"bonusWeaponDamage": "-@abilities.dex.mod",
 	"firearm": true,
 	"weapon": true,
 	"entries": [
-		"An iconic handgun, the Revolver stores six bullets in a rotating cylinder. This weapon is favored by Gunslingers for its reliability and stopping-power."
+		"A classic design with two loaded barrels, the Double-Barrel Shotgun trades ammo capacity and range for reliability and firepower."
 	],
-	"ammoType": "bullet|ValdaGunslinger",
-	"hasFluffImages": true
+	"ammoType": "shell|ValdaGunslinger"
 }

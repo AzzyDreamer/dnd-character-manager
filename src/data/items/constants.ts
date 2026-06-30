@@ -1,5 +1,6 @@
 import type { ItemCategory, ItemRarity, EquipmentSlot } from '../../types';
 import i18n from '../../i18n';
+import { getItemPropertyByCode } from '../itemproperties';
 
 // i18n-backed name getters
 export const getCategoryName = (key: ItemCategory): string => {
@@ -107,7 +108,15 @@ export const getDamageTypeFullName = (key: string): string => {
 };
 
 export const getPropertyName = (key: string): string => {
-  return i18n.t(`weaponProperties.${key}`, { ns: 'game' });
+  // Base PHB property codes live in the i18n weaponProperties map. Anything not
+  // there (Ammunition "A", Reload "RLD", Range "Rng", and homebrew firearm codes
+  // like "GC:VSS-F" whose ':' i18next treats as a namespace separator) is
+  // resolved from the item-property data instead, which also carries the RU
+  // overlay. Falls back to the raw code if nothing matches.
+  const fromI18n = i18n.t(`weaponProperties.${key}`, { ns: 'game', defaultValue: '' });
+  if (fromI18n) return fromI18n;
+  const prop = getItemPropertyByCode(key);
+  return prop?.name ?? key;
 };
 
 export const getMasteryName = (key: string): string => {

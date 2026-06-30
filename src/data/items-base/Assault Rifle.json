@@ -1,0 +1,32 @@
+{
+	"name": "Assault Rifle",
+	"source": "ValdaGunslinger",
+	"edition": "one",
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 7,
+	"value": 30000,
+	"weaponCategory": "martial",
+	"property": [
+		"A|XPHB",
+		"GC:VSS-F",
+		"GC:VSS-M|ValdaGunslinger",
+		"RLD|XDMG",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Automatic|ValdaGunslinger"
+	],
+	"range": "80/320",
+	"reload": 20,
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"bonusWeaponDamage": "-@abilities.dex.mod",
+	"firearm": true,
+	"weapon": true,
+	"entries": [
+		"Combining a high rate of fire with rifle-grade ballistics, the Assault Rifle is a staple weapon for all modern militaries. Dozens of variants exist on this general design, but all share the traits of a flexible and formidable weapon."
+	],
+	"ammoType": "bullet|ValdaGunslinger",
+	"hasFluffImages": true
+}
