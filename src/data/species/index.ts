@@ -23,6 +23,8 @@ export interface SpeciesData {
   _parentSpecies?: string;
   _isVariant?: boolean;
   _variantLabel?: string;
+  /** Стем файла-источника — ключ переводов для видов-тёзок из разных книг. */
+  _i18nStem?: string;
   [key: string]: any;
 }
 
@@ -91,6 +93,9 @@ function expandVersions(base: SpeciesData): SpeciesData[] {
         const variant: SpeciesData = {
           ...base,
           _versions: undefined,
+          // Варианты не имеют собственного файла перевода — матчим по name,
+          // а не по стему базового файла (иначе на все варианты ляжет один перевод).
+          _i18nStem: undefined,
           _parentSpecies: base.name,
           _isVariant: true,
           _variantLabel: variantLabel(variantName),
@@ -109,6 +114,8 @@ function expandVersions(base: SpeciesData): SpeciesData[] {
       const variant: SpeciesData = {
         ...base,
         _versions: undefined,
+        // см. выше: вариант матчится по name, базовый _i18nStem не наследуем
+        _i18nStem: undefined,
         _parentSpecies: base.name,
         _isVariant: true,
         _variantLabel: variantLabel(variantName),
@@ -153,7 +160,11 @@ export async function init(): Promise<void> {
     }
 
     ALL_SPECIES.sort((a, b) => a.name.localeCompare(b.name));
-    await applyOverlay('species', ALL_SPECIES, s => s.name);
+    // Ключ перевода — стем файла (_i18nStem), а не name: иначе виды-тёзки из
+    // разных источников (Dhampir XPHB/GrimHollowPG24, Elf XPHB/LFL/GHPG24 …)
+    // позиционно накладывают переводы друг друга. Рантайм-варианты (_versions)
+    // своего файла/ключа не имеют — у них _i18nStem снят, и они матчатся по name.
+    await applyOverlay('species', ALL_SPECIES, s => s._i18nStem ?? s.name);
     _initialized = true;
   })();
 

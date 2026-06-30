@@ -88,12 +88,14 @@ for (const [name, finder] of Object.entries(CATEGORIES)) {
   for (const file of files) {
     try {
       const obj = JSON.parse(readFileSync(file, 'utf8'));
-      // Для backgrounds ключ перевода = имя файла (см. i18n-extract.mjs), а не
-      // obj.name: несколько предысторий делят одно name (Courtier из SCAG и
-      // GHPG24; баг данных у "Baldurs Gate Criminal", где name="...Entertainer").
+      // Для backgrounds/species ключ перевода = имя файла (см. i18n-extract.mjs),
+      // а не obj.name: несколько записей делят одно name (предыстории Courtier из
+      // SCAG и GHPG24; виды Dhampir/Dragonborn/Elf/… из XPHB и GrimHollowPG24).
       // Прокидываем стем файла, чтобы оверлей переводов сопоставлял каждый файл
-      // с его собственным ключом, а не валил двойников в один перевод.
-      if (name === 'backgrounds') obj._i18nStem = parse(file).name;
+      // с его собственным ключом, а не валил двойников в один перевод
+      // (иначе переводы одного файла позиционно накладываются на тёзку: чужие
+      // заголовки протекают, а несовпавшие позиции остаются на английском).
+      if (name === 'backgrounds' || name === 'species') obj._i18nStem = parse(file).name;
       items.push(obj);
     } catch (e) {
       console.warn(`[bundle-data] не удалось разобрать ${file}: ${e.message}`);
