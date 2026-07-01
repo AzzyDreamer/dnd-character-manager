@@ -4,7 +4,9 @@
   "weightValue": "{{value}} lbs.",
   "attunement": {
     "label": "Attunement:",
-    "tooltip": "A character can be attuned to at most 3 magic items. Beyond the limit, items are worn without their magic benefits."
+    "tooltip": "A character can be attuned to at most 3 magic items. Beyond the limit, items are worn without their magic benefits.",
+    "disableLimit": "Disable attunement limit",
+    "enableLimit": "Enable attunement limit"
   },
   "addButton": "Add",
   "equipment": "Equipment",
@@ -87,7 +89,13 @@
   "capacity": {
     "overloaded": "Overloaded",
     "tooltip": "Carrying capacity: {{capacity}} lbs. (STR × 15)",
-    "overTooltip": "Carrying more than your capacity (STR × 15)"
+    "overTooltip": "Carrying more than your capacity (STR × 15)",
+    "disableTracking": "Disable carry weight tracking",
+    "enableTracking": "Enable carry weight tracking"
+  },
+  "grid": {
+    "expand": "Expand backpack (adds a column, or a row when full)",
+    "shrink": "Shrink backpack (removes an empty row or column)"
   },
   "buy": {
     "deductGold": "Buy",

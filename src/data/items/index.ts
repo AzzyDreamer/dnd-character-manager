@@ -344,7 +344,12 @@ function getItemImageUrl(name: string): string {
 
 function toItemTemplate(raw: RawItemData): ItemTemplate {
   const name = raw.name;
-  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  // ID строим из английского имени (_origName), а не из переведённого name:
+  // под RU локалью slug([^a-z0-9]) вырезал бы всю кириллицу, схлопывая десятки
+  // предметов в один пустой/одинаковый id → дубликаты React-ключей ломают
+  // выделение и поиск/фильтры в модалке добавления. _origName задаёт overlay.
+  const idBase = (raw as { _origName?: string })._origName ?? name;
+  const id = idBase.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   return {
     id,
