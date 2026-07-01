@@ -169,6 +169,28 @@ export function getSubclassResources(classId: string, subclassId: string | undef
     }));
 }
 
+// Class resources whose max depends on an ability modifier rather than the
+// level table (e.g. Bard's Bardic Inspiration = Charisma modifier, min 1).
+export function getAbilityScaledResources(
+  classId: string,
+  level: number,
+  mods: { charisma: number },
+): ClassResource[] {
+  const out: ClassResource[] = [];
+  if (classId === 'bard') {
+    out.push({
+      key: 'bardicInspiration',
+      label: i18n.t('classResources.bardicInspiration', { ns: 'game' }),
+      max: Math.max(1, mods.charisma),
+      // Font of Inspiration (level 5) refreshes it on a short or long rest;
+      // before that it only comes back on a long rest.
+      restoreOn: level >= 5 ? 'short' : 'long',
+      icon: asset('/images/resources/30px-Bardic_Inspiration_Resource_Icon.png.webp'),
+    });
+  }
+  return out;
+}
+
 // Subclass-specific passive stats
 interface SubclassPassiveStatDef {
   classId: string;
@@ -236,7 +258,10 @@ export function getLevelTableRow(levelTable: any[] | undefined, level: number): 
  * Does a tracked resource recharge on a SHORT rest? (Long rest recharges
  * everything.) Used by the rest buttons to restore the right resources.
  */
-export function isShortRestResource(key: string): boolean {
+export function isShortRestResource(key: string, level?: number): boolean {
+  // Bardic Inspiration recharges on a short rest only from level 5 (Font of
+  // Inspiration); before that it needs a long rest.
+  if (key === 'bardicInspiration') return (level ?? 0) >= 5;
   const base = TRACKABLE_RESOURCES[key];
   if (base) return base.restoreOn === 'short';
   const sub = SUBCLASS_RESOURCES.find(d => d.key === key);

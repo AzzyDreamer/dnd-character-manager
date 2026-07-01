@@ -509,7 +509,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
     if (updated.resourceTrackers) {
       const rt: Record<string, ResourceTracker> = { ...updated.resourceTrackers };
       for (const [key, val] of Object.entries(rt)) {
-        if (isShortRestResource(key)) rt[key] = { ...val, current: val.max };
+        if (isShortRestResource(key, character.level)) rt[key] = { ...val, current: val.max };
       }
       // Дикий облик 2024: короткий отдых возвращает одно использование
       const ws = rt.wildShape;

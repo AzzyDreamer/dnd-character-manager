@@ -4,7 +4,7 @@ import { getAbilityModifier, getAbilityName } from '../utils/dnd';
 import { getEffectiveAbilityScores } from '../utils/classEffects';
 import { getEquippedWeaponAttacks, getEquippedMasteryActions, getUnarmedStrike, getAttacksPerAction, type WeaponAttack } from '../utils/weaponAttacks';
 import { getEquippedItemBonuses } from '../utils/classEffects';
-import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
+import { getClassResources, getClassPassiveStats, getSubclassResources, getSubclassPassiveStats, getAbilityScaledResources, getLevelTableRow, type ClassResource, type ClassPassiveStat } from '../utils/classResources';
 import { getAutoSpellsForLevel } from '../utils/autoSpells';
 import { SpellIconBadge, SpellTooltip } from './ui';
 import { ChevronDown, ChevronRight, Swords, Plus, Trash2, Sparkles, Zap, Shield, BookOpen, Wand2, Star } from 'lucide-react';
@@ -955,6 +955,11 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
           const row = getLevelTableRow(classData.levelTable, character.level);
           const baseResources = getClassResources(row);
           const basePassive = getClassPassiveStats(row);
+          // Resources scaled by an ability modifier (e.g. Bardic Inspiration = CHA mod)
+          const effScores = getEffectiveAbilityScores(character);
+          baseResources.push(...getAbilityScaledResources(character.classId, character.level, {
+            charisma: getAbilityModifier(effScores.charisma),
+          }));
           // Add subclass resources & passive stats (e.g. Battle Master superiority dice)
           if (character.subclass && character.classId) {
             const { CLASS_REGISTRY: registry, findSubclass: findSub } = await import('../data/classes');
@@ -973,7 +978,7 @@ export const ActionsSpellsTab: React.FC<ActionsSpellsTabProps> = ({ character, o
       }
     })();
     return () => { cancelled = true; };
-  }, [character.classId, character.class, character.level, character.subclass]);
+  }, [character.classId, character.class, character.level, character.subclass, character.abilityScores, character.equipment]);
 
   // Load spells data (only if spellcaster)
   useEffect(() => {
