@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 const SCHOOL_COLORS: Record<string, string> = {
   A: 'border-blue-400/60',       // Abjuration
   C: 'border-yellow-400/60',     // Conjuration
@@ -46,6 +48,11 @@ export function SpellIconBadge({
   const borderColor = SCHOOL_COLORS[school] ?? 'border-border-default';
   const bgColor = SCHOOL_BG[school] ?? 'bg-bg-panel';
   const initial = (name || '?').charAt(0).toUpperCase();
+  // imageSrc — это угаданный по имени URL, .webp может отсутствовать. При ошибке
+  // загрузки откатываемся на букву-плейсхолдер, а не показываем битую картинку.
+  const [imgFailed, setImgFailed] = useState(false);
+  useEffect(() => { setImgFailed(false); }, [imageSrc]);
+  const showImage = Boolean(imageSrc) && !imgFailed;
   // Без обработчиков бейдж декоративный и часто лежит внутри чужой кнопки —
   // вложенный <button> в <button> невалиден, поэтому рендерим <div>.
   const interactive = Boolean(onClick || onContextMenu);
@@ -60,20 +67,21 @@ export function SpellIconBadge({
         relative w-10 h-10 rounded-md border-2 flex items-center justify-center
         overflow-hidden transition-all shrink-0 ${interactive ? 'cursor-pointer' : ''}
         ${borderColor}
-        ${!imageSrc ? bgColor : ''}
+        ${!showImage ? bgColor : ''}
         ${selected ? 'ring-2 ring-gold/60 scale-110' : ''}
         ${prepared === false ? 'opacity-40' : ''}
         hover:brightness-125 hover:scale-105
         ${className}
       `}
     >
-      {imageSrc ? (
+      {showImage ? (
         <img
           src={imageSrc}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
           draggable={false}
+          onError={() => setImgFailed(true)}
         />
       ) : (
         <span className="text-sm font-bold text-text-primary/80">{initial}</span>
