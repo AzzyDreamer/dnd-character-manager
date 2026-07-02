@@ -1329,7 +1329,11 @@ export const CharacterCreator: React.FC<CharacterCreatorProps> = ({ onSave, onCa
     let list = allSpecies.filter(sp => !sp._isVariant);
     if (speciesSourceFilter) list = list.filter(sp => sp.source === speciesSourceFilter);
     const q = speciesSearchQuery.toLowerCase().trim();
-    if (q) list = list.filter(sp => sp.name.toLowerCase().includes(q));
+    // Ищем и по алиасам: Khoravar (EFA) находится по «Half-Elf».
+    if (q) list = list.filter(sp =>
+      sp.name.toLowerCase().includes(q)
+      || (sp as { alias?: string[] }).alias?.some((a: string) => a.toLowerCase().includes(q)),
+    );
     return list;
   }, [allSpecies, speciesSearchQuery, speciesSourceFilter]);
 

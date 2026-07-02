@@ -94,6 +94,36 @@
 
 ---
 
+## Ассеты
+
+- [ ] **Иконки огнестрела.** Иконка предмета ищется по пути
+  `public/images/items-base/<Имя>.webp`, где `<Имя>` — английское имя предмета
+  с заменой не-буквоцифр на `_` (см. `getItemImageUrl`). Пока файла нет,
+  показывается эмодзи/буквенная заглушка.
+
+  Есть иконки (15): Валда — Assault Rifle, Blunderbuss, Double-Barrel Shotgun,
+  Flare Gun, Hunting Rifle, Magnum, Musket, Pistol, Pump Shotgun, Revolver,
+  Sniper Rifle, Submachine Gun; XDMG — Automatic Rifle, Semiautomatic Pistol,
+  Shotgun. Исходники этих же иконок лежат в `img/*.png` в корне — исходников
+  для недостающих стволов там нет.
+
+  Нет иконок (точные имена файлов):
+  - GrimHollowPG24: `Blackpowder_Pistol.webp`, `Blackpowder_Rifle.webp`,
+    `Blunderbuss__GHPG24_.webp`, `Blunderbuss__Hand.webp`, `Dragon_Pistol.webp`,
+    `Dragon_Rifle.webp`, а также огнемёт `Flame_Bellows.webp` и
+    гарпунная пушка `Grappling_Gun.webp`;
+  - ValdaGunslinger: `Cannon.webp`, `Gatling_Gun.webp`, `Handgun.webp`,
+    `Parlor_Gun.webp`;
+  - XDMG (футуристика): `Antimatter_Rifle.webp`, `Laser_Pistol.webp`,
+    `Laser_Rifle.webp`;
+  - магический огнестрел: `Lucent_Destroyer.webp` (BGG), `Thunderbuss.webp` (BGG),
+    `Topaz_Annihilator.webp` (FTD).
+
+  У остальных предметов GrimHollowPG24 (~100 шт.: клинки, арбалеты, боеприпасы,
+  снаряжение) иконок тоже нет — при желании добавлять по тому же правилу имён.
+
+---
+
 ## На будущее
 
 - [ ] **Wild Shape (Друид).** Превращение в зверя: подмена статблока (КД, HP,

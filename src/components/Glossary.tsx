@@ -664,9 +664,13 @@ export const Glossary: React.FC<GlossaryProps> = ({ onBack, activeCategory: exte
     const q = searchQuery.toLowerCase().trim();
     let items = categoryData.items;
 
-    // Текстовый поиск
+    // Текстовый поиск: по имени, алиасам (Half-Elf → Khoravar) и исходному
+    // английскому имени (_origName задаёт оверлей переводов под RU).
     if (q) {
-      items = items.filter((item: any) => item.name?.toLowerCase().includes(q));
+      items = items.filter((item: any) =>
+        item.name?.toLowerCase().includes(q)
+        || item._origName?.toLowerCase().includes(q)
+        || (Array.isArray(item.alias) && item.alias.some((a: any) => typeof a === 'string' && a.toLowerCase().includes(q))));
     }
 
     // Применение фильтров (AND по измерениям, OR внутри одного измерения)
