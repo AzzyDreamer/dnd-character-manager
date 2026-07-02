@@ -1,0 +1,24 @@
+{
+	"name": "Cavalry Hammer",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 3,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"AP|GrimHollowPG24",
+		"Mom|GrimHollowPG24"
+	],
+	"mastery": [
+		"Slow|XPHB"
+	],
+	"dmg1": "1d8",
+	"dmgType": "B",
+	"weapon": true,
+	"customProperties": {
+		"Momentum": "{@dice 1d12}"
+	},
+	"entries": []
+}

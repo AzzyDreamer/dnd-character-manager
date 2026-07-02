@@ -69,6 +69,7 @@ export const TYPE_TO_CATEGORY: Record<string, ItemCategory> = {
   'A': 'ammunition',
   'AT': 'tool',
   'W': 'misc', // Wondrous — определяется по equipSlot
+  'AdvEq': 'misc', // Grim Hollow Advanced Equipment (щитоподобные конвертированы в S при импорте)
 };
 
 // Тип предмета → слот экипировки по умолчанию
@@ -152,6 +153,7 @@ export function getIconPlaceholder(raw: RawItemData): string {
     case 'RG': return '💍';
     case 'A': return '🏹';
     case 'AT': return '🔧';
+    case 'AdvEq': return '⚙️';
     default: break;
   }
 

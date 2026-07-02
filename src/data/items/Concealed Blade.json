@@ -1,0 +1,12 @@
+{
+	"name": "Concealed Blade",
+	"source": "GrimHollowPG24",
+	"page": 126,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 2,
+	"value": 5000,
+	"entries": [
+		"A Concealed Blade is a {@item Dagger|XPHB} built into a mechanism hidden within a bracer or gauntlet. When you roll {@variantrule Initiative|XPHB}, you can make a Dexterity ({@skill Deception|XPHB}) check opposed by others' Wisdom ({@skill Perception|XPHB}) checks. You have {@variantrule Advantage|XPHB} on the first attack made in the first round of combat against any enemy who failed their check."
+	]
+}

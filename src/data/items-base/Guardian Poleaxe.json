@@ -1,0 +1,27 @@
+{
+	"name": "Guardian Poleaxe",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 9,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Dam|GrimHollowPG24",
+		"Haft|GrimHollowPG24",
+		"H|XPHB",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Set|GrimHollowPG24"
+	],
+	"dmg1": "1d10",
+	"dmgType": "S",
+	"weapon": true,
+	"customProperties": {
+		"Damage": "Piercing"
+	},
+	"entries": []
+}

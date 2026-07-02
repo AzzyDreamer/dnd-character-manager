@@ -314,18 +314,20 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
     const twoHanded = hasProp('2H');
     const heavy = hasProp('H');
     const thrown = hasProp('T');
-    // Firearm property: the ability modifier is NOT added to the weapon's damage
-    // (it's still added to the attack roll). Matches the VSS "Firearm" property
-    // code and the `firearm` boolean flag on the item.
-    const isFirearm = hasProp('GC:VSS-F') || item.raw?.firearm === true;
+    // Оружие с формулой "bonusWeaponDamage": "-@abilities.X.mod" (Valda-огнестрел)
+    // не добавляет модификатор характеристики к урону — к броску атаки он
+    // добавляется как обычно. Признак — именно это поле данных, а не тип/флаг
+    // firearm: у GrimHollow-огнестрела формулы нет, и мод урона там обычный.
+    const cancelsAbilityDamage = /^-@abilities\.(str|dex|con|int|wis|cha)\.mod$/
+      .test(String(item.raw?.bonusWeaponDamage ?? '').trim());
 
     // Attack roll: Archery adds +2 with ranged weapons. Exhaustion subtracts 2/level.
     let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus + exhaustionPenalty;
     if (hasArchery && ranged) attackBonus += 2;
 
     // Damage: off-hand attacks add the ability modifier only with Two-Weapon
-    // Fighting; firearms never add it to damage.
-    const damageAbilityMod = isFirearm || (isOffhand && !hasTwoWeaponFighting) ? 0 : abilityMod;
+    // Fighting; weapons whose data cancels the ability mod never add it.
+    const damageAbilityMod = cancelsAbilityDamage || (isOffhand && !hasTwoWeaponFighting) ? 0 : abilityMod;
     let totalDamageMod = damageAbilityMod + weaponBonus;
     // Dueling: +2 damage with a one-handed melee weapon and no other weapon.
     if (hasDueling && !ranged && !isOffhand && !twoHanded && !hasOffhandWeapon) totalDamageMod += 2;
@@ -419,6 +421,76 @@ const MASTERY_DATA: Record<string, MasteryInfo> = {
     description: 'If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.',
     image: asset('/images/mastery/Prepare.webp'),
   },
+  // ── Valda's Spire of Secrets (Gunslinger) ──
+  // Валдовский Scatter — своя механика, не путать с GrimHollow-версией ниже:
+  // теги предметов несут источник ("Scatter|ValdaGunslinger"), для них ключа
+  // с источником нет и срабатывает этот голый код.
+  Scatter: {
+    name: 'Scatter',
+    description: 'Being within 5 feet of an enemy doesn\'t impose Disadvantage on your ranged attack rolls with this weapon.',
+    image: asset('/images/mastery/Piercing_Strike.webp'),
+  },
+  Automatic: {
+    name: 'Automatic',
+    description: 'When you make an attack with this weapon, you can choose to make two attacks instead. These attacks are always made with Disadvantage, regardless of circumstance. You can\'t replace these attacks. If this weapon has Ammunition, these attacks use twice the normal amount of ammunition.',
+    image: asset('/images/mastery/Rush_Attack.webp'),
+  },
+  Explode: {
+    name: 'Explode',
+    description: 'When you take the Attack action, you can replace one of your attacks with an explosion from this weapon\'s projectile. This explosion is a 5-foot-radius Sphere centered on a point you choose within the weapon\'s normal range. Each creature within the Sphere makes a Dexterity saving throw (DC 8 plus your Strength or Dexterity modifier and your Proficiency Bonus). On a failed save, a creature takes the weapon\'s damage, but don\'t add your ability modifier to that damage unless that modifier is negative. On a successful save, a creature takes half as much damage. You can create an explosion only once per turn.',
+    image: asset('/images/mastery/Concussive_Smash.webp'),
+  },
+  Sighted: {
+    name: 'Sighted',
+    description: 'Attacking at long range with this weapon doesn\'t impose Disadvantage on your attack rolls. When you hit a creature with an attack using this weapon at long range, you can reroll any of the damage dice and must use the new roll.',
+    image: asset('/images/mastery/Brace_Ranged.webp'),
+  },
+  // ── Grim Hollow: Player's Guide (2024) ──
+  Brutal: {
+    name: 'Brutal',
+    description: 'A Brutal weapon is designed for maximum damage. Brutal weapons score Critical Hits on a natural roll of 19 or 20. If your Critical Range is already increased, instead increase it by 1 point (such as from 19-20 to 18-20).',
+    image: asset('/images/mastery/Heartstopper.webp'),
+  },
+  Defending: {
+    name: 'Defending',
+    description: 'A Defending weapon is either made for parrying, has advanced techniques for use in parrying, or both. When wielding a Defending weapon, you may use your Reaction when you are hit by a melee attack roll. Roll 1d4 and add the result to your AC, including against the triggering attack.',
+    image: asset('/images/mastery/Flourish.webp'),
+  },
+  Disarming: {
+    name: 'Disarming',
+    description: 'A Disarming weapon can catch a foe\'s weapon, allowing you to remove it from their grasp. When you take the Attack action on your turn and hit with a Disarming weapon, you can use your Bonus Action later on the same turn to disarm the target. Both you and the attacker must make opposed attack rolls, ignoring any sources of Advantage and Disadvantage. If your result is higher and the weapon is something the target can drop, the weapon falls from the target\'s grasp, landing in its space.',
+    image: asset('/images/mastery/Disarming_Attack_Melee.webp'),
+  },
+  Entangling: {
+    name: 'Entangling',
+    description: 'When you take the Attack action on your turn and hit with an Entangling weapon, you can use a Bonus Action later on the same turn to entangle the target. The target must succeed on a Dexterity saving throw (DC 10 plus your Proficiency Bonus) or have the Grappled condition until it escapes or until you release the weapon. The target succeeds automatically if it is Huge or larger.',
+    image: asset('/images/mastery/Backbreaker.webp'),
+  },
+  Returning: {
+    name: 'Returning',
+    description: 'A Returning weapon allows you to hurl the weapon in such a way that it returns to you. When you make a ranged attack with a Returning weapon, the weapon returns to you immediately after hitting or missing the target. You can catch the weapon if you have a hand free to do so.',
+    image: asset('/images/mastery/Rush_Attack.webp'),
+  },
+  'Scatter|GrimHollowPG24': {
+    name: 'Scatter',
+    description: 'Scatter weapons can devastate multiple enemies at once. When you take the Attack action and hit a creature with a Scatter weapon, measure the weapon\'s scatter range from the target\'s space (or one square the creature occupies if it is Large or larger). Creatures other than the original target that fall within the weapon\'s scatter range take damage equal to your 1 + your Dexterity modifier (minimum 2). This damage is of the same type you dealt to the original target.',
+    image: asset('/images/mastery/Concussive_Smash.webp'),
+  },
+  Set: {
+    name: 'Set',
+    description: 'Weapons with the Set property allow you to prepare for an oncoming attack. If a target enters your reach while you wield a weapon with this property, you can use your Reaction to make a melee attack with the weapon against that target.',
+    image: asset('/images/mastery/Brace_Melee.webp'),
+  },
+  'Strong-Draw': {
+    name: 'Strong-Draw',
+    description: 'A weapon with the Strong-Draw quality requires great strength to use. You have Disadvantage on attack rolls with a Strong-Draw weapon unless your Strength is 13 or higher. You add both your Strength and Dexterity modifiers to damage with a Strong-Draw weapon.',
+    image: asset('/images/mastery/Brace_Ranged.webp'),
+  },
+  Swift: {
+    name: 'Swift',
+    description: 'Swift weapons help you recover quickly from missed attacks. When you miss with a Swift weapon, you have Advantage on the first attack roll you make with the weapon against the same target before the end of your next turn. If that attack hits, it also deals an extra 1d4 damage of the weapon\'s normal damage type.',
+    image: asset('/images/mastery/Piercing_Strike.webp'),
+  },
 };
 
 export function getMasteryInfo(masteryCode: string): MasteryInfo | undefined {
@@ -467,8 +539,16 @@ const BASE_WEAPON_MASTERY: Record<string, string[]> = {
   pistol: ['Vex'],
 };
 
-/** Resolve mastery codes for an item, falling back to base weapon type */
+/** Resolve mastery tags for an item, falling back to base weapon type.
+ *  Возвращает полные теги "Код|Источник|Текст", когда они есть в raw.mastery:
+ *  источник нужен, чтобы различать одноимённые мастерства из разных книг
+ *  (Scatter у Валды и у GrimHollow). item.mastery хранит голые коды. */
 function resolveItemMastery(item: { name: string; mastery?: string[]; raw?: any }): string[] | undefined {
+  const rawMastery = item.raw?.mastery;
+  if (Array.isArray(rawMastery) && rawMastery.length > 0) {
+    const tags = rawMastery.filter((m: unknown): m is string => typeof m === 'string');
+    if (tags.length > 0) return tags;
+  }
   if (item.mastery && item.mastery.length > 0) return item.mastery;
 
   // Try baseItem field (e.g. "longsword|phb")
@@ -557,19 +637,21 @@ export function getEquippedMasteryActions(character: Character): MasteryAction[]
     const item = character.inventory.find(i => i.id === itemId);
     if (!item || item.category !== 'weapon') continue;
 
-    const masteryCodes = resolveItemMastery(item);
-    if (!masteryCodes) continue;
+    const masteryTags = resolveItemMastery(item);
+    if (!masteryTags) continue;
 
-    for (const masteryCode of masteryCodes) {
-      if (seen.has(masteryCode)) continue;
-      seen.add(masteryCode);
+    for (const masteryTag of masteryTags) {
+      // Тег может быть голым кодом ("Vex") или полным "Код|Источник|Текст".
+      const [code, src, disp] = masteryTag.split('|');
+      if (seen.has(code)) continue;
+      seen.add(code);
 
-      const info = MASTERY_DATA[masteryCode];
+      const info = (src ? MASTERY_DATA[`${code}|${src}`] : undefined) ?? MASTERY_DATA[code];
       if (!info) continue;
 
       actions.push({
-        id: masteryCode,
-        name: info.name,
+        id: code,
+        name: disp?.trim() || info.name,
         description: info.description,
         image: info.image,
         weaponName: item.name,

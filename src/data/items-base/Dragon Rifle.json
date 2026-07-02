@@ -1,0 +1,24 @@
+{
+	"name": "Dragon Rifle",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 4,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"BP|GrimHollowPG24",
+		"LD|XPHB"
+	],
+	"mastery": [
+		"Scatter|GrimHollowPG24|Scatter (10 ft.)"
+	],
+	"range": "30",
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Dragon Shot|GrimHollowPG24",
+	"entries": []
+}

@@ -1,0 +1,15 @@
+{
+	"name": "Arrow, Incendiary",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.05,
+	"value": 2000,
+	"entries": [
+		"When you hit with Incendiary ammunition, the target takes an additional {@damage 1d4} Fire damage."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

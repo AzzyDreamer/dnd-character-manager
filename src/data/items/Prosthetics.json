@@ -1,0 +1,14 @@
+{
+	"name": "Prosthetics",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 10,
+	"value": 50000,
+	"entries": [
+		"The brutal warfare and vicious monsters prevalent across Etharis leave many with {@variantrule Grievous Wound|GrimHollowPG24|Grievous Wounds}, including missing limbs and other potentially debilitating injuries. The engineers and crafters of the world have made great strides in helping those people deal with those injuries through Prosthetics.",
+		"When a creature with a {@variantrule Grievous Wound|GrimHollowPG24} uses a Prosthetic, they ignore the penalties imposed by the {@variantrule Grievous Wound|GrimHollowPG24} while wearing a Prosthetic that replaces the lost or wounded body part.",
+		"Some Prosthetics can be enchanted with magic, giving them even further powers. Rules for Magical Prosthetics can be found in the {@i Grim Hollow Campaign Guide}."
+	]
+}

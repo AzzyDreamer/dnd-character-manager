@@ -1,0 +1,23 @@
+{
+	"name": "Polearm",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 12,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Haft|GrimHollowPG24",
+		"H|XPHB",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Set|GrimHollowPG24"
+	],
+	"dmg1": "1d12",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

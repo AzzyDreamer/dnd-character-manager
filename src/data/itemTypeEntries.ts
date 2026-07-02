@@ -35,6 +35,10 @@ const ITEM_TYPE_ENTRIES_EN: Record<string, any[]> = {
   TB: [{ type: 'entries', name: 'Trade Bar', entries: ['Because large numbers of coins can be difficult to transport and account for, many merchants prefer to use trade bars—ingots of precious metals and alloys (usually silver). These bars are valued by weight.'] }],
   SHP: SHIP_ENTRIES_EN,
   AIR: SHIP_ENTRIES_EN,
+  AdvEq: [{ type: 'entries', name: 'Advanced Equipment', entries: [
+    'Some pieces of Advanced equipment need special training to fully employ. Other items are usable by anyone proficient with similar gear, and many are usable by anyone—though few can afford and maintain these mechanical, alchemical, or even magical marvels.',
+    'As they are expensive and difficult to make, access to Advanced equipment is limited—maybe even as limited as some magic items. The largest cities, or locations housing master crafters, may only have a few items of Advanced equipment.',
+  ] }],
 };
 
 const ITEM_TYPE_ENTRIES_RU: Record<string, any[]> = {
@@ -49,6 +53,10 @@ const ITEM_TYPE_ENTRIES_RU: Record<string, any[]> = {
   TB: [{ type: 'entries', name: 'Торговый слиток', entries: ['Поскольку большое количество монет бывает сложно перевозить и учитывать, многие торговцы предпочитают использовать торговые слитки — бруски из драгоценных металлов и сплавов (обычно серебра). Эти слитки оцениваются по весу.'] }],
   SHP: SHIP_ENTRIES_RU,
   AIR: SHIP_ENTRIES_RU,
+  AdvEq: [{ type: 'entries', name: 'Продвинутое снаряжение', entries: [
+    'Некоторые образцы продвинутого снаряжения требуют особой подготовки. Другими может пользоваться любой, кто владеет схожим снаряжением, а многими — вообще кто угодно, хотя мало кто способен позволить себе и содержать эти механические, алхимические и даже магические чудеса.',
+    'Продвинутое снаряжение дорого и сложно в изготовлении, поэтому доступ к нему ограничен — возможно, не меньше, чем к иным магическим предметам. Даже в крупнейших городах или поселениях с мастерами-умельцами найдётся лишь несколько его образцов.',
+  ] }],
 };
 
 /** Общий текст для типа предмета (по коду типа raw.type). Пусто, если нет. */

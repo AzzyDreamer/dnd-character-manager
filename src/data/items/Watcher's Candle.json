@@ -1,0 +1,12 @@
+{
+	"name": "Watcher's Candle",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 0.25,
+	"value": 25000,
+	"entries": [
+		"This black tapered candle cannot be lit. When a Celestial, Fey, Fiend, or Undead comes within 120 feet of the candle, its wick ignites and burns with a purple flame. Once the candle has ignited, it burns for one hour, and it cannot be used again. Watcher's Candles cannot function if they are wrapped in packaging or stowed in a container."
+	]
+}

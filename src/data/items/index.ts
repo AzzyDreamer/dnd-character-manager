@@ -206,8 +206,10 @@ function buildDescription(raw: RawItemData): string {
       const masteries = raw.mastery
         .filter((m: any) => typeof m === 'string')
         .map((m: string) => {
-          const code = m.split('|')[0];
-          return getMasteryName(code);
+          // Третий сегмент тега — уточнённый текст ("Scatter (10 ft.)"): дистанция
+          // важнее локализованного имени кода.
+          const segs = m.split('|');
+          return segs[2]?.trim() || getMasteryName(segs[0]);
         })
         .filter(Boolean);
       if (masteries.length > 0) parts.push(i18n.t('itemDesc.mastery', { ns: 'game', list: masteries.join(', ') }));
@@ -285,6 +287,7 @@ function buildDisplayType(raw: RawItemData): string {
     case 'AT': return i18n.t('itemDisplayTypes.AT', { ns: 'game' });
     case 'G': return i18n.t('itemDisplayTypes.G', { ns: 'game' });
     case 'W': return i18n.t('itemDisplayTypes.W', { ns: 'game' });
+    case 'AdvEq': return i18n.t('itemDisplayTypes.AdvEq', { ns: 'game' });
     default: return i18n.t('itemDisplayTypes.default', { ns: 'game' });
   }
 }
@@ -398,7 +401,9 @@ export function isTwoHanded(template: ItemTemplate): boolean {
 
 export function isLightWeapon(template: ItemTemplate): boolean {
   const raw = template.raw;
-  return raw.property?.some(p => p.startsWith('L')) ?? false;
+  // Точное сравнение кода: startsWith('L') ловил и LD (Loading) — все
+  // перезаряжаемые ружья ошибочно считались лёгкими.
+  return raw.property?.some(p => p.split('|')[0] === 'L') ?? false;
 }
 
 // === Тип брони из raw данных ===
@@ -415,10 +420,11 @@ export function getArmorType(template: ItemTemplate): 'light' | 'medium' | 'heav
   return ARMOR_TYPE_MAP[typeCode];
 }
 
-export function getWeaponCategory(template: ItemTemplate): 'simple' | 'martial' | undefined {
+export function getWeaponCategory(template: ItemTemplate): 'simple' | 'martial' | 'advanced' | undefined {
   const raw = template.raw;
   if (raw.weaponCategory === 'simple') return 'simple';
   if (raw.weaponCategory === 'martial') return 'martial';
+  if (raw.weaponCategory === 'advanced') return 'advanced';
   return undefined;
 }
 

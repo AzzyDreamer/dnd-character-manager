@@ -1,0 +1,13 @@
+{
+	"name": "Buckler",
+	"source": "GrimHollowPG24",
+	"page": 126,
+	"type": "S",
+	"rarity": "none",
+	"weight": 4,
+	"value": 2000,
+	"entries": [
+		"This small shield is worn on the forearm. While worn, it gives you +1 to AC, and it can be used as a Martial Melee weapon with {@itemProperty L|XPHB|Light} that deals {@damage 1d4} Bludgeoning damage."
+	],
+	"ac": 1
+}

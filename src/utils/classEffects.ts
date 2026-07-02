@@ -915,6 +915,12 @@ export function hasItemProficiency(char: Character, item: InventoryItem): boolea
       const firearmsStr = i18n.t('weaponCategories.firearms', { ns: 'game' });
       // Match the localized category and the literal 'Firearms' pushed by feat effects.
       if (weaponProfs.some(p => p === firearmsStr || p === 'Firearms')) return true;
+    } else if (item.weaponCategory === 'advanced') {
+      // Продвинутое оружие Grim Hollow — отдельная категория: владение Simple/
+      // Martial его НЕ покрывает, нужна явная строка (черта Advanced Weapon
+      // Proficiency или ручная запись во владениях).
+      const advancedStr = i18n.t('weaponCategories.advanced', { ns: 'game' });
+      if (weaponProfs.some(p => p === advancedStr || p === 'Advanced Weapons')) return true;
     } else {
       // Check broad category first (if weaponCategory is known)
       const simpleStr = i18n.t('weaponCategories.simple', { ns: 'game' });

@@ -1,0 +1,29 @@
+{
+	"name": "Repeater Crossbow, Heavy",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 20,
+	"value": 100000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"H|XPHB",
+		"Mag|GrimHollowPG24",
+		"Rep|GrimHollowPG24",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Push|XPHB"
+	],
+	"range": "100/400",
+	"dmg1": "1d10",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Bolt|XPHB",
+	"customProperties": {
+		"Magazine": "9"
+	},
+	"entries": []
+}

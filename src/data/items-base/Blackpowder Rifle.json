@@ -1,0 +1,25 @@
+{
+	"name": "Blackpowder Rifle",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 10,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"BP|GrimHollowPG24",
+		"LD|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Slow|XPHB"
+	],
+	"range": "80/300",
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Paper Cartridge Bullet|GrimHollowPG24",
+	"entries": []
+}

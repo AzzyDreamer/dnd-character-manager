@@ -1,0 +1,12 @@
+{
+	"name": "Mastercraft Instrument",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"value": 25000,
+	"entries": [
+		"These musical instruments are not just the work of the finest luthiers and artisans in Etharis, they have secret embellishments and innovations that can add to a musical performance.",
+		"If you are proficient in the instrument and have a {@variantrule Proficiency|XPHB|Proficiency Bonus} of at least +4, all Charisma ({@skill Performance|XPHB}) checks made using a Mastercraft Instrument have {@variantrule Advantage|XPHB}."
+	]
+}

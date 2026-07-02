@@ -1,0 +1,11 @@
+{
+	"name": "Magazine",
+	"abbreviation": "Mag",
+	"source": "GrimHollowPG24",
+	"page": 123,
+	"category": "weapon",
+	"entries": [
+		"A weapon with the Magazine property also has a number and an ammunition type. The weapon holds that amount and type of ammunition, which you can expend before needing to reload the weapon. As a {@variantrule Bonus Action|XPHB}, you may remove a {@item Magazine|GrimHollowPG24} and then reload it with a new {@item Magazine|GrimHollowPG24}. A {@item Magazine|GrimHollowPG24} weapon comes with two empty magazines included in the weapon's cost and weight. An additional empty magazine for a Magazine weapon costs 25 GP. Loading an empty Magazine with ammunition takes 1 minute."
+	],
+	"template": "Magazine ({{item.customProperties.Magazine}})"
+}

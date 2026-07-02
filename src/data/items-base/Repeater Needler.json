@@ -1,0 +1,28 @@
+{
+	"name": "Repeater Needler",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 3,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"L|XPHB",
+		"Mag|GrimHollowPG24",
+		"Rep|GrimHollowPG24"
+	],
+	"mastery": [
+		"Vex|XPHB"
+	],
+	"range": "30/120",
+	"dmg1": "1",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Needle|XPHB",
+	"customProperties": {
+		"Magazine": "6"
+	},
+	"entries": []
+}

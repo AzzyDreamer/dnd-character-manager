@@ -1,0 +1,21 @@
+{
+	"name": "Gladiator Net",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 5,
+	"value": 35000,
+	"weaponCategory": "advanced",
+	"property": [
+		"T|XPHB"
+	],
+	"mastery": [
+		"Entangling|GrimHollowPG24"
+	],
+	"range": "10/30",
+	"dmg1": "1d6",
+	"dmgType": "B",
+	"weapon": true,
+	"entries": []
+}

@@ -1,0 +1,15 @@
+{
+	"name": "Sling Bullet, Ranging",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.05,
+	"value": 5,
+	"entries": [
+		"Advanced Ammunition that has the Ranging property is lighter and better made than common counterparts. When you fire Ranging ammo, you can increase your weapon's normal range by 50 percent."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Military Fork",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 8,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Haft|GrimHollowPG24",
+		"H|XPHB",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Disarming|GrimHollowPG24"
+	],
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

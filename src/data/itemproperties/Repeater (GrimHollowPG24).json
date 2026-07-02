@@ -1,0 +1,10 @@
+{
+	"name": "Repeater",
+	"abbreviation": "Rep",
+	"source": "GrimHollowPG24",
+	"page": 123,
+	"category": "weapon",
+	"entries": [
+		"Repeater weapons can fire ammo in quick succession, using multiple barrels or quick-reloading mechanisms. When you take the {@action Attack|XPHB} action with a Repeater weapon, you can shoot multiple times if you have features that let you attack more than once as part of that action, such as Extra Attack. After taking the {@action Attack|XPHB} action you can use a {@variantrule Bonus Action|XPHB} to attack once with the same weapon. You don't add your ability modifier to the {@variantrule Bonus Action|XPHB}'s attack, unless that modifier is negative."
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"name": "Knightly Lance",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 6,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Mom|GrimHollowPG24",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Set|GrimHollowPG24"
+	],
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"weapon": true,
+	"customProperties": {
+		"Momentum": "{@dice 2d10}"
+	},
+	"entries": []
+}

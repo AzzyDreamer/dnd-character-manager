@@ -1,0 +1,21 @@
+{
+	"name": "Claymore",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 7,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"H|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Brutal|GrimHollowPG24"
+	],
+	"dmg1": "2d6",
+	"dmgType": "S",
+	"weapon": true,
+	"entries": []
+}

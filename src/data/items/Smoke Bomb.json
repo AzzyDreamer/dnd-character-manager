@@ -1,0 +1,12 @@
+{
+	"name": "Smoke Bomb",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 3,
+	"value": 5000,
+	"entries": [
+		"As a {@action Utilize|XPHB} action, you can throw this smoky glass vial to a space up to 30 feet away. When the vial breaks, the concoction creates a 10-foot-radius {@variantrule Sphere [Area of Effect]|XPHB|Sphere} of smoke. The area is {@variantrule Heavily Obscured|XPHB}. The smoke lasts for {@dice 1d4 + 2} rounds, or half as long in a windy area."
+	]
+}

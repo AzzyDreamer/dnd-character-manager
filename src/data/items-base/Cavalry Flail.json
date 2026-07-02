@@ -1,0 +1,23 @@
+{
+	"name": "Cavalry Flail",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 3,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Mom|GrimHollowPG24"
+	],
+	"mastery": [
+		"Swift|GrimHollowPG24"
+	],
+	"dmg1": "1d8",
+	"dmgType": "B",
+	"weapon": true,
+	"customProperties": {
+		"Momentum": "{@dice 1d12}"
+	},
+	"entries": []
+}

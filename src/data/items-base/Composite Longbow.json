@@ -1,0 +1,24 @@
+{
+	"name": "Composite Longbow",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 2,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"H|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Strong-Draw|GrimHollowPG24"
+	],
+	"range": "200/600",
+	"dmg1": "1d8",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Arrow|XPHB",
+	"entries": []
+}

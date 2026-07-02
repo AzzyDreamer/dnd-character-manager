@@ -1,0 +1,13 @@
+{
+	"name": "Bellows Cannister",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.2,
+	"value": 25,
+	"miscTags": [
+		"CNS"
+	],
+	"entries": []
+}

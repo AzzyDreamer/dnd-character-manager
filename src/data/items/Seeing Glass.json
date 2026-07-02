@@ -1,0 +1,13 @@
+{
+	"name": "Seeing Glass",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 3,
+	"value": 30000,
+	"entries": [
+		"This ornate silver hand mirror is decorated with a motif of withered roses. The mirror's reflection always shows the true form of any creature viewed in it as if the viewer had {@sense Truesight|XPHB}.",
+		"If the Seeing Glass is turned upon a vampire, the glass immediately shatters and is destroyed."
+	]
+}

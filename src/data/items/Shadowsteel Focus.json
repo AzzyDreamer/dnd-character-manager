@@ -1,0 +1,12 @@
+{
+	"name": "Shadowsteel Focus",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"value": 50000,
+	"entries": [
+		"Shadowsteel Focus is a {@variantrule Spellcasting Focus|XPHB} that contains some amount of Shadowsteel. Any {@variantrule Spellcasting Focus|XPHB} can be made as a Shadowsteel Focus.",
+		"There is no benefit to using a Shadowsteel Focus instead of a {@variantrule Spellcasting Focus|XPHB}; however, a spellcaster with the {@feat Shadowsteel Adept|GrimHollowPG24} and {@feat Shadowsteel Master|GrimHollowPG24} feats can gain the benefits associated with that feat when they use a Shadowsteel Focus."
+	]
+}

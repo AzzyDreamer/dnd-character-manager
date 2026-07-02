@@ -1,0 +1,23 @@
+{
+	"name": "Composite Shortbow",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 2,
+	"value": 40000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Strong-Draw|GrimHollowPG24"
+	],
+	"range": "100/400",
+	"dmg1": "1d6",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Arrow|XPHB",
+	"entries": []
+}

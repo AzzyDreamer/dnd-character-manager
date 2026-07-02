@@ -1,0 +1,23 @@
+{
+	"name": "Fighting Chain, Brutal",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 6,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"D|GrimHollowPG24",
+		"F|XPHB",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Brutal|GrimHollowPG24"
+	],
+	"dmg1": "1d6",
+	"dmgType": "S",
+	"weapon": true,
+	"entries": []
+}

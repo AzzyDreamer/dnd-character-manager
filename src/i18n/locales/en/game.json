@@ -145,13 +145,22 @@
     "Automatic": "Automatic",
     "Scatter": "Scatter",
     "Explode": "Explode",
-    "Sighted": "Sighted"
+    "Sighted": "Sighted",
+    "Brutal": "Brutal",
+    "Defending": "Defending",
+    "Disarming": "Disarming",
+    "Entangling": "Entangling",
+    "Returning": "Returning",
+    "Set": "Set",
+    "Strong-Draw": "Strong-Draw",
+    "Swift": "Swift"
   },
   "weaponCategories": {
     "simple": "Simple Weapons",
     "martial": "Martial Weapons",
     "rangedMartial": "Ranged Martial Weapons",
-    "firearms": "Firearms"
+    "firearms": "Firearms",
+    "advanced": "Advanced Weapons"
   },
   "itemRender": {
     "weapon": "Weapon",
@@ -162,6 +171,7 @@
     "ranged": "Ranged Weapon",
     "melee": "Melee Weapon",
     "firearm": "Firearm",
+    "advanced": "Advanced Weapon",
     "damageLabel": "Damage",
     "rangeLabel": "Range",
     "acLabel": "AC",
@@ -193,6 +203,7 @@
     "AT": "Tools",
     "G": "Gear",
     "W": "Wondrous Item",
+    "AdvEq": "Advanced Equipment",
     "default": "Item"
   },
   "itemDesc": {

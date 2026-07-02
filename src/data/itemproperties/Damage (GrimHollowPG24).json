@@ -1,0 +1,11 @@
+{
+	"name": "Damage",
+	"abbreviation": "Dam",
+	"source": "GrimHollowPG24",
+	"page": 123,
+	"category": "weapon",
+	"entries": [
+		"A Damage property weapon can deal different types of damage. When you hit with an attack from this weapon, choose one of the damage types allowed."
+	],
+	"template": "Damage ({{item.customProperties.Damage}})"
+}

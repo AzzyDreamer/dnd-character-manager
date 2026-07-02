@@ -1,0 +1,25 @@
+{
+	"name": "Arbalest",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 20,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"H|XPHB",
+		"LD|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Strong-Draw|GrimHollowPG24"
+	],
+	"range": "80/300",
+	"dmg1": "2d6",
+	"dmgType": "P",
+	"weapon": true,
+	"ammoType": "Bolt|XPHB",
+	"entries": []
+}

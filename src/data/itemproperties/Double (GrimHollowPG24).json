@@ -1,0 +1,10 @@
+{
+	"name": "Double",
+	"abbreviation": "D",
+	"source": "GrimHollowPG24",
+	"page": 123,
+	"category": "weapon",
+	"entries": [
+		"A Double weapon functions as two {@itemProperty L|XPHB|Light} weapons, one in each hand, for the purposes of two-weapon fighting. If a Double weapon has {@itemProperty R|XPHB|Reach}, you can use only one of these properties per turn."
+	]
+}

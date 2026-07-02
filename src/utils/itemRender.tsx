@@ -35,6 +35,7 @@ function buildTypeLine(raw: any): { primary: string; secondary: string[] } {
   if (isWeapon(raw)) {
     if (raw.weaponCategory === 'simple') secondary.push(tg('itemRender.simple'));
     else if (raw.weaponCategory === 'martial') secondary.push(tg('itemRender.martial'));
+    else if (raw.weaponCategory === 'advanced') secondary.push(tg('itemRender.advanced'));
     if (tc === 'R') secondary.push(tg('itemRender.ranged'));
     else if (tc === 'M') secondary.push(tg('itemRender.melee'));
     if (raw.firearm) secondary.push(tg('itemRender.firearm'));
@@ -44,6 +45,16 @@ function buildTypeLine(raw: any): { primary: string; secondary: string[] } {
 
 // Сводная строка свойств (текстом). Свойство Range (Rng) сворачивается в скобку
 // свойства Боеприпасы (как в 5etools); Reload получает «(N выстрелов)».
+
+// Параметр свойства из customProperties (GrimHollow: Magazine "20",
+// Momentum "{@dice 1d12}", Damage "Slashing or Piercing") — код → ключ.
+const CUSTOM_PROP_KEYS: Record<string, string> = { mag: 'Magazine', mom: 'Momentum', dam: 'Damage' };
+
+/** Убирает 5etools-теги из короткой строки: "{@dice 1d12}" → "1d12". */
+function stripTags(s: string): string {
+  return s.replace(/\{@\w+ ([^}|]+)(?:\|[^}]*)?\}/g, '$1');
+}
+
 function buildPropertySummary(raw: any): string {
   const out: string[] = [];
   for (const p of (raw.property || [])) {
@@ -62,21 +73,43 @@ function buildPropertySummary(raw: any): string {
       if (parts.length) text += ` (${parts.join('; ')})`;
     } else if (lc === 'rld' && raw.reload != null) {
       text += ` (${tg('itemRender.reloadShots', { n: raw.reload })})`;
+    } else if (CUSTOM_PROP_KEYS[lc] && raw.customProperties?.[CUSTOM_PROP_KEYS[lc]] != null) {
+      text += ` (${stripTags(String(raw.customProperties[CUSTOM_PROP_KEYS[lc]]))})`;
     }
     out.push(text);
   }
   return out.join(', ');
 }
 
-function getMasteryEntries(name: string): any[] | null {
+function getMasteryEntries(name: string, source?: string): any[] | null {
   const rule = getVariantRuleByName('Weapon Mastery Properties');
   if (!rule?.entries) return null;
-  for (const e of rule.entries as any[]) {
-    if (e && typeof e === 'object' && ((e as any)._origName === name || e.name === name)) {
-      return Array.isArray(e.entries) ? e.entries : null;
+  // Мастерства-тёзки из разных книг лежат под именем с источником
+  // («Scatter (GrimHollowPG24)» рядом с валдовским «Scatter») — сначала точное.
+  const candidates = source ? [`${name} (${source})`, name] : [name];
+  for (const wanted of candidates) {
+    for (const e of rule.entries as any[]) {
+      if (e && typeof e === 'object' && ((e as any)._origName === wanted || e.name === wanted)) {
+        return Array.isArray(e.entries) ? e.entries : null;
+      }
     }
   }
   return null;
+}
+
+/**
+ * Отображаемое имя мастерства из тега "Код|Источник|Текст". Числовой довесок
+ * из третьего сегмента ("Scatter (10 ft.)") переносится к локализованному
+ * имени, чтобы дистанция не терялась: «Разброс (10 фт.)».
+ */
+function masteryDisplayName(m: string): string {
+  const parts = m.split('|');
+  const base = getMasteryName(parts[0]);
+  const disp = parts[2]?.trim();
+  if (!disp) return base;
+  const par = disp.match(/\((\d+)\s*ft\.?\)/i);
+  if (par) return `${base} (${par[1]} ${tg('itemRender.ft')})`;
+  return disp;
 }
 
 // Полный набор entries для EntryRenderer: описание + тип + свойства + мастерство.
@@ -106,14 +139,14 @@ export function buildItemDetailEntries(raw: any): any[] {
   const seenM = new Set<string>();
   for (const m of (raw.mastery || [])) {
     if (typeof m !== 'string') continue;
-    const code = m.split('|')[0];
+    const [code, src] = m.split('|');
     if (seenM.has(code)) continue;
     seenM.add(code);
-    const entries = getMasteryEntries(code);
+    const entries = getMasteryEntries(code, src);
     if (entries?.length) {
       result.push({
         type: 'entries',
-        name: `${tg('itemRender.masteryLabel')}: ${getMasteryName(code)}`,
+        name: `${tg('itemRender.masteryLabel')}: ${masteryDisplayName(m)}`,
         entries,
       });
     }
@@ -145,7 +178,7 @@ export const ItemRenderBody: React.FC<ItemRenderBodyProps> = ({ raw, EntryRender
   const propSummary = buildPropertySummary(raw);
   const masteryNames = (raw.mastery || [])
     .filter((m: any) => typeof m === 'string')
-    .map((m: string) => getMasteryName(m.split('|')[0]));
+    .map((m: string) => masteryDisplayName(m));
   const entries = buildItemDetailEntries(raw);
   const vw = valueWeightText(raw);
   const dmg = raw.dmg1 ? `${raw.dmg1} ${raw.dmgType ? getDamageTypeName(raw.dmgType) : ''}`.trim() : '';

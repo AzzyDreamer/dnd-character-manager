@@ -1,0 +1,10 @@
+{
+	"name": "Armor-Piercing",
+	"abbreviation": "AP",
+	"source": "GrimHollowPG24",
+	"page": 122,
+	"category": "weapon",
+	"entries": [
+		"An Armor-Piercing weapon is a Melee weapon designed to punch through armor or thick hide. When you make an attack roll using an Armor-Piercing weapon, you gain a +1 bonus to the attack roll if your target is wearing armor or has an {@variantrule Armor Class|XPHB} of 18 or higher."
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Parrying Dagger",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 1,
+	"value": 35000,
+	"weaponCategory": "advanced",
+	"property": [
+		"F|XPHB",
+		"L|XPHB",
+		"T|XPHB"
+	],
+	"mastery": [
+		"Disarming|GrimHollowPG24"
+	],
+	"range": "20/60",
+	"dmg1": "1d4",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

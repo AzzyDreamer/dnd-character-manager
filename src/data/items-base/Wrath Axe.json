@@ -1,0 +1,26 @@
+{
+	"name": "Wrath Axe",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 12,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Haft|GrimHollowPG24",
+		"H|XPHB",
+		"Mom|GrimHollowPG24",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Brutal|GrimHollowPG24"
+	],
+	"dmg1": "2d6",
+	"dmgType": "S",
+	"weapon": true,
+	"customProperties": {
+		"Momentum": "{@dice 2d8}"
+	},
+	"entries": []
+}

@@ -1,0 +1,29 @@
+{
+	"name": "Flame Bellows",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 11,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"CS|GrimHollowPG24",
+		"LD|XPHB",
+		"Mag|GrimHollowPG24",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Scatter|GrimHollowPG24|Scatter (10 ft.)"
+	],
+	"range": "15",
+	"dmg1": "2d6",
+	"dmgType": "F",
+	"weapon": true,
+	"ammoType": "Bellows Cannister|GrimHollowPG24",
+	"customProperties": {
+		"Magazine": "20"
+	},
+	"entries": []
+}

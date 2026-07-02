@@ -206,8 +206,8 @@ export interface InventoryItem {
   armorType?: 'light' | 'medium' | 'heavy' | 'shield';
   // Значение КД брони (базовое)
   armorAC?: number;
-  // Категория оружия (simple/martial) для проверки владения
-  weaponCategory?: 'simple' | 'martial';
+  // Категория оружия (simple/martial/advanced) для проверки владения
+  weaponCategory?: 'simple' | 'martial' | 'advanced';
   // Мастерство оружия (Cleave, Sap, Vex, etc.)
   mastery?: string[];
   // Визуальные свойства

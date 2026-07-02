@@ -1,0 +1,20 @@
+{
+	"name": "Iron Net",
+	"source": "GrimHollowPG24",
+	"page": 126,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 20,
+	"value": 15000,
+	"entries": [
+		"This net is comprised of tiny interlocking iron rings. It acts as a normal Net, with the following changes:",
+		{
+			"type": "list",
+			"items": [
+				"The Iron Net's range is 10 feet.",
+				"The DC of the Strength ({@skill Athletics|XPHB}) check to escape is 15.",
+				"The Iron Net has AC 13 and 15 HP."
+			]
+		}
+	]
+}

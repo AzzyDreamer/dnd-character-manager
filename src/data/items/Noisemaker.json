@@ -1,0 +1,13 @@
+{
+	"name": "Noisemaker",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 5,
+	"value": 5000,
+	"entries": [
+		"This small mechanical device is a specialty of gnomish crafters. As a {@action Utilize|XPHB} action, you can throw the Noisemaker into a space within 60 feet. When it lands, it makes a loud noise of some kind, depending on the whims of the creator: a musical clash, a whistling, a whirring, a buzzing, etc. This noise can be heard up to half a mile away.",
+		"A creature with an Intelligence score of 3 or less that is within 60 feet of the device when it goes off must succeed in a DC 10 Wisdom saving throw. On a failed save, the creature has the {@condition Frightened|XPHB} condition for one minute. As an {@action Influence|XPHB} action, another creature who the {@condition Frightened|XPHB} creature can see or hear can attempt a DC 20 Wisdom ({@skill Animal Handling|XPHB}) or Charisma ({@skill Persuasion|XPHB}) check. On a success, the {@condition Frightened|XPHB} condition ends on that creature."
+	]
+}

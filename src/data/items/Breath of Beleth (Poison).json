@@ -1,0 +1,21 @@
+{
+	"name": "Breath of Beleth (Poison)",
+	"source": "GrimHollowPG24",
+	"page": 126,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 0.25,
+	"value": 15000,
+	"entries": [
+		"Named after the Arch Daemon of Fear, this poison creates an extremely powerful hallucinogenic effect that evokes a victim's worst fears. The poison is airborne, and victims need only breathe it in to suffer its effects. On the rare occasions it has been used, people in crammed rooms have jumped out of windows or even killed each other out of abject fear.",
+		"Rumors say that the poison has been forbidden even by the Ebon Syndicate, deeming it too dangerous, too extravagant, and too conspicuous. Chances are that such a powerful substance wasn't simply abandoned, however, and other rumors say the Ebon Syndicate still uses a milder version during interrogation.",
+		{
+			"type": "entries",
+			"name": "Breath of Beleth (Inhaled)",
+			"entries": [
+				"A creature who breathes and is in the same space as an open container of the substance must succeed at a DC 15 Constitution saving throw or have the {@condition Poisoned|XPHB} condition for 1 minute.",
+				"While {@condition Poisoned|XPHB} in this way, a creature has the {@condition Frightened|XPHB} condition, and it is {@variantrule Hostile [Attitude]|XPHB|Hostile} to all creatures it can see. If a creature moves within 5 feet of a creature {@condition Poisoned|XPHB} in this way, the {@condition Poisoned|XPHB} creature must use the {@action Dash|XPHB} action on its turn to move away. If it cannot move away, it must instead use the {@action Attack|XPHB} action against the adjacent creature."
+			]
+		}
+	]
+}

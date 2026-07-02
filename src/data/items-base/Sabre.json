@@ -1,0 +1,20 @@
+{
+	"name": "Sabre",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 2,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"F|XPHB"
+	],
+	"mastery": [
+		"Swift|GrimHollowPG24"
+	],
+	"dmg1": "1d8",
+	"dmgType": "S",
+	"weapon": true,
+	"entries": []
+}

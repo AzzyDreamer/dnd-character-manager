@@ -1,0 +1,22 @@
+{
+	"name": "Catchpole",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 5,
+	"value": 50000,
+	"weaponCategory": "advanced",
+	"property": [
+		"Haft|GrimHollowPG24",
+		"R|XPHB",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Entangling|GrimHollowPG24"
+	],
+	"dmg1": "1d6",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

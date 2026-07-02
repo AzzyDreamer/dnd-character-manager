@@ -1,0 +1,22 @@
+{
+	"name": "Punching Dagger",
+	"source": "GrimHollowPG24",
+	"page": 128,
+	"type": "M|XPHB",
+	"rarity": "none",
+	"weight": 1,
+	"value": 30000,
+	"weaponCategory": "advanced",
+	"property": [
+		"AP|GrimHollowPG24",
+		"F|XPHB",
+		"L|XPHB"
+	],
+	"mastery": [
+		"Defending|GrimHollowPG24"
+	],
+	"dmg1": "1d4",
+	"dmgType": "P",
+	"weapon": true,
+	"entries": []
+}

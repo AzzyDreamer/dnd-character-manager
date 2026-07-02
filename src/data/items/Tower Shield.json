@@ -1,0 +1,15 @@
+{
+	"name": "Tower Shield",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "S",
+	"rarity": "none",
+	"weight": 50,
+	"value": 20000,
+	"strength": "15",
+	"entries": [
+		"This large shield provides more protection than a typical shield. While wielding a Tower Shield, you gain +3 to {@variantrule Armor Class|XPHB}. If you use an action to set the Tower Shield, you have {@variantrule Cover|XPHB|Three-Quarters Cover} until the start of your next turn. Additionally, your {@variantrule Speed|XPHB} becomes 0 and cannot be increased during that time.",
+		"To wield a Tower Shield, you must have a Strength of at least 15 and your {@variantrule Speed|XPHB} is reduced by 10 feet while wielding the shield."
+	],
+	"ac": 3
+}

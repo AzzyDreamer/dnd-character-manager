@@ -1,0 +1,28 @@
+{
+	"name": "Repeater Slinger",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "R|XPHB",
+	"rarity": "none",
+	"weight": 9,
+	"value": 75000,
+	"weaponCategory": "advanced",
+	"property": [
+		"A|XPHB",
+		"Mag|GrimHollowPG24",
+		"Rep|GrimHollowPG24",
+		"2H|XPHB"
+	],
+	"mastery": [
+		"Slow|XPHB"
+	],
+	"range": "80/300",
+	"dmg1": "1d8",
+	"dmgType": "B",
+	"weapon": true,
+	"ammoType": "Sling Bullet|XPHB",
+	"customProperties": {
+		"Magazine": "9"
+	},
+	"entries": []
+}

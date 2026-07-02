@@ -1,0 +1,15 @@
+{
+	"name": "Arrow, Brutal",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.05,
+	"value": 2000,
+	"entries": [
+		"Designed to open wide wounds, such as with a broad-bladed arrowhead, Brutal ammunition works like a {@itemMastery Brutal|GrimHollowPG24} Melee weapon."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

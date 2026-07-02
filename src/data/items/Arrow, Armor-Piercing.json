@@ -1,0 +1,15 @@
+{
+	"name": "Arrow, Armor-Piercing",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.05,
+	"value": 2000,
+	"entries": [
+		"This ammunition works like an {@itemProperty AP|GrimHollowPG24|Armor-Piercing} Melee weapon, but you fire the ammunition as a projectile from a Ranged weapon."
+	],
+	"miscTags": [
+		"CNS"
+	]
+}

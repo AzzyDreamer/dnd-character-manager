@@ -1,0 +1,14 @@
+{
+	"name": "Paper Cartridge Bullet",
+	"source": "GrimHollowPG24",
+	"page": 129,
+	"type": "A|XPHB",
+	"rarity": "none",
+	"weight": 0.1,
+	"value": 15,
+	"bulletFirearm": true,
+	"miscTags": [
+		"CNS"
+	],
+	"entries": []
+}

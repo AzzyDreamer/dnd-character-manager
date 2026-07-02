@@ -1,0 +1,13 @@
+{
+	"name": "Stitching Needle",
+	"source": "GrimHollowPG24",
+	"page": 127,
+	"type": "AdvEq",
+	"rarity": "none",
+	"weight": 0.05,
+	"value": 25000,
+	"entries": [
+		"This black iron needle easily pierces the skin. If a creature's mouth is sewn shut with a Stitching Needle, it loses the ability to speak and cast spells with verbal components. The creature gains the ability to communicate with {@variantrule Telepathy|XPHB} out to a range of 60 feet.",
+		"Stitching the mouth of a willing, {@condition Unconscious|XPHB}, or {@condition Incapacitated|XPHB} creature takes 10 minutes. Removing the stitches takes 1 minute."
+	]
+}
