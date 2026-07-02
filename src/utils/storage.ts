@@ -1,11 +1,13 @@
 import type { Character, CharacterStorage } from '../types';
+import { applySchemaMigrations } from './characterSchema';
 import i18n from '../i18n';
 
 const STORAGE_KEY = 'dnd-characters';
 
-// Миграция: добавить недостающие поля к старым/импортированным персонажам.
-// Экспортируется, чтобы файловый стор десктопа (utils/fileCharacterStore)
-// применял ту же миграцию к данным из JSON-файла.
+// Миграция: добавить недостающие поля к старым/импортированным персонажам
+// (идемпотентная нормализация) + провести по версионной цепочке миграций схемы
+// (см. utils/characterSchema.ts). Экспортируется, чтобы файловый стор десктопа
+// (utils/fileCharacterStore) применял ту же миграцию к данным из JSON-файла.
 export function migrateCharacter(character: Character): Character {
   if (!character.equipment) {
     character.equipment = {};
@@ -15,7 +17,7 @@ export function migrateCharacter(character: Character): Character {
   if (!character.currency) {
     character.currency = { copper: 0, silver: 0, electrum: 0, gold: 0, platinum: 0 };
   }
-  return character;
+  return applySchemaMigrations(character);
 }
 
 /**
@@ -63,7 +65,9 @@ export class LocalCharacterStore implements CharacterStore {
     try {
       const storage = this.read();
       const characters = (storage.characters || []).map(migrateCharacter);
-      const updated: Character = { ...character, updatedAt: new Date().toISOString() };
+      // Мигрируем и входящего: новые персонажи и вставки из JSON-редактора
+      // получают штамп schemaVersion (копия — не мутируем объект вызывающего).
+      const updated: Character = migrateCharacter({ ...character, updatedAt: new Date().toISOString() });
 
       const index = characters.findIndex(c => c.id === character.id);
       if (index >= 0) {

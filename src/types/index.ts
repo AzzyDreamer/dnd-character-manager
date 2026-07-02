@@ -327,6 +327,9 @@ export interface Quest {
 
 // Основная структура персонажа
 export interface Character {
+  // Версия схемы персонажа (см. utils/characterSchema.ts). Отсутствует у
+  // персонажей, созданных до версионирования (= версия 0). Никогда не понижается.
+  schemaVersion?: number;
   id: string;
   name: string;
   race: string;

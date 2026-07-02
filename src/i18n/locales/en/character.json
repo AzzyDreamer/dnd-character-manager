@@ -332,6 +332,7 @@
     "markActive": "Mark active"
   },
   "sheet": {
+    "newerVersionBanner": "This character was saved by a newer app version (schema v{{version}}, supported v{{current}}). No data will be lost, but new features may not display — update the app.",
     "tabs": {
       "stats": "Stats",
       "inventory": "Inventory",

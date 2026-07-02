@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Braces, X } from 'lucide-react';
 import type { Character } from '../types';
 import { stripManualEdit } from '../utils/manualEdit';
+import { migrateCharacter } from '../utils/storage';
 
 interface CharacterJsonEditorModalProps {
   character: Character;
@@ -44,7 +45,8 @@ export const CharacterJsonEditorModal: React.FC<CharacterJsonEditorModalProps> =
       return;
     }
     // Сохраняем исходный id, чтобы обновление попало в того же персонажа.
-    onSave({ ...(parsed as Character), id: character.id });
+    // migrateCharacter нормализует вставленный JSON (дефолты + версия схемы).
+    onSave(migrateCharacter({ ...(parsed as Character), id: character.id }));
   };
 
   return createPortal(

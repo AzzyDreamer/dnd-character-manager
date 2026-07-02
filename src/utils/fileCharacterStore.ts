@@ -74,7 +74,9 @@ class FileCharacterStore implements CharacterStore {
     return this.enqueue(async () => {
       const storage = await this.read();
       const characters = (storage.characters || []).map(migrateCharacter);
-      const updated: Character = { ...character, updatedAt: new Date().toISOString() };
+      // Мигрируем и входящего: новые персонажи и вставки из JSON-редактора
+      // получают штамп schemaVersion (копия — не мутируем объект вызывающего).
+      const updated: Character = migrateCharacter({ ...character, updatedAt: new Date().toISOString() });
 
       const index = characters.findIndex(c => c.id === character.id);
       if (index >= 0) {
