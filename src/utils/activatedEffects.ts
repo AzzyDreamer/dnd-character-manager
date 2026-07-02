@@ -10,6 +10,7 @@ import type { Character, AbilityScores, DamageResistanceEntry } from '../types';
 import { getAbilityModifier } from './dnd';
 import { getClassById, findSubclass } from '../data/classes';
 import { isWearingArmor, isWearingHeavyArmor, isWearingMediumOrHeavyArmor, isWieldingShield } from './equipment';
+import { getItemResistances } from './itemEffects';
 
 // ── Types ──
 
@@ -585,9 +586,9 @@ export interface EffectiveResistanceEntry extends DamageResistanceEntry {
 }
 
 /**
- * Хранимые резисты + временные от активных эффектов. Временные не пишутся в
- * damageResistances; дубликаты с хранимыми не добавляются, иммунитет от эффекта
- * вытесняет временный резист того же типа.
+ * Хранимые резисты + временные от активных эффектов и надетых предметов.
+ * Временные не пишутся в damageResistances; дубликаты с хранимыми не
+ * добавляются, иммунитет от эффекта вытесняет временный резист того же типа.
  */
 export function getEffectiveResistances(char: Character): EffectiveResistanceEntry[] {
   const stored: EffectiveResistanceEntry[] = [...(char.damageResistances ?? [])];
@@ -597,7 +598,7 @@ export function getEffectiveResistances(char: Character): EffectiveResistanceEnt
     stored.some(r => r.type === type && r.modifier === modifier) ||
     temp.some(r => r.type === type && r.modifier === modifier);
 
-  const add = (type: string, modifier: 'resistance' | 'immunity', sourceKey: string) => {
+  const add = (type: string, modifier: 'resistance' | 'immunity' | 'vulnerability', sourceKey: string) => {
     if (has(type, modifier)) return;
     temp.push({ type, modifier, temporary: true, sourceKey });
   };
@@ -613,6 +614,12 @@ export function getEffectiveResistances(char: Character): EffectiveResistanceEnt
       }
     }
     for (const type of d.immunities ?? []) add(type, 'immunity', sourceKey);
+  }
+
+  // Надетые (и настроенные) предметы: raw.resist/immune/vulnerable.
+  // sourceKey = имя предмета — getEffectName вернёт его как есть (defaultValue).
+  for (const e of getItemResistances(char)) {
+    add(e.type, e.modifier, e.sourceName);
   }
 
   // Иммунитет вытесняет временный резист того же типа (Bow of Celestial Domination)

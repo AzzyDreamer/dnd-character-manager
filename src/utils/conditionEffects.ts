@@ -3,6 +3,7 @@ import { getTransformSpeedAdjust } from './transformationEffects';
 import { getActiveSpeedAdjust } from './activatedEffects';
 import { getWildShapeWalkSpeed } from './wildShape';
 import { getKindredWalkSpeed } from './kindredForm';
+import { getItemWalkSpeedEffect } from './itemEffects';
 
 // ── Condition mechanics ──
 //
@@ -60,11 +61,12 @@ export function getExhaustionD20Penalty(char: Character): number {
 }
 
 /**
- * Effective speed after conditions, exhaustion, transformation boons/flaws and
- * activated effects. `baseSpeed` already includes class/feat bonuses (the stored
- * `character.speed`); transformation deltas (Fzeg Bloodline +10, Sluggish
- * −5×стадия) and activated-state deltas (Rage forms, Bladesong +10, Chitinous
- * Shell −10) are applied live and never baked into the stored stat.
+ * Effective speed after conditions, exhaustion, transformation boons/flaws,
+ * activated effects and equipped items. `baseSpeed` already includes class/feat
+ * bonuses (the stored `character.speed`); transformation deltas (Fzeg Bloodline
+ * +10, Sluggish −5×стадия), activated-state deltas (Rage forms, Bladesong +10,
+ * Chitinous Shell −10) and item effects (Boots of Striding «минимум 30»,
+ * штраф Силы брони −10) are applied live and never baked into the stored stat.
  * Speed-zeroing conditions win outright; Exhaustion subtracts 5 ft per level
  * (floored at 0).
  */
@@ -76,9 +78,11 @@ export function getEffectiveSpeed(char: Character): number {
   if (beastWalk !== null) {
     return Math.max(0, beastWalk - 5 * getExhaustionLevel(char));
   }
-  const reduced = char.speed
+  const itemWalk = getItemWalkSpeedEffect(char);
+  const reduced = Math.max(char.speed, itemWalk.floor)
     + getTransformSpeedAdjust(char)
     + getActiveSpeedAdjust(char)
+    + itemWalk.adjust
     - 5 * getExhaustionLevel(char);
   return Math.max(0, reduced);
 }

@@ -2,6 +2,7 @@ import type { Character } from '../types';
 import { getAbilityModifier, formatModifier } from './dnd';
 import { getDamageTypeName, getPropertyName } from '../data/items/constants';
 import { getEffectiveAbilityScores } from './classEffects';
+import { getWeaponCritThreshold, getOffWeaponDamageBonus } from './itemEffects';
 import { getClassById, findSubclass } from '../data/classes';
 import { getExhaustionD20Penalty } from './conditionEffects';
 import i18n from '../i18n';
@@ -185,6 +186,7 @@ export interface WeaponAttack {
   heavy?: boolean;          // Heavy property — Great Weapon Master eligible
   thrown?: boolean;         // Thrown property
   greatWeaponFighting?: boolean; // GWF reroll-1s applies to this attack's damage dice
+  critRange?: number;       // Расширенный крит-диапазон (critThreshold 19/18)
 }
 
 export function getUnarmedStrike(inputCharacter: Character): WeaponAttack {
@@ -278,7 +280,8 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
       : (ranged ? asset('/images/Ranged_Attack.webp') : asset('/images/Main_Hand_Attack.webp'));
 
     if (!stats) {
-      const wb = parseItemBonus(item.raw?.bonusWeapon);
+      // bonusWeaponAttack — бонус только к броску атаки (Niko's Mace и т.п.)
+      const wb = parseItemBonus(item.raw?.bonusWeapon) + parseItemBonus(item.raw?.bonusWeaponAttack);
       const ab = character.proficiencyBonus + wb + exhaustionPenalty;
       attacks.push({
         name: item.name,
@@ -290,6 +293,7 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
         properties: [],
         isRanged: ranged,
         image: attackImage,
+        critRange: getWeaponCritThreshold(item),
       });
       continue;
     }
@@ -308,6 +312,14 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
 
     // Parse magic weapon bonus (+1, +2, +3)
     const weaponBonus = parseItemBonus(item.raw?.bonusWeapon);
+    // Отдельные бонусы только к атаке (bonusWeaponAttack) и только к урону
+    // (числовой bonusWeaponDamage; формулы вида "-@abilities…" обрабатывает
+    // cancelsAbilityDamage ниже и в бонус не входят).
+    const weaponAttackOnlyBonus = parseItemBonus(item.raw?.bonusWeaponAttack);
+    const rawDamageBonus = item.raw?.bonusWeaponDamage;
+    const weaponDamageOnlyBonus = typeof rawDamageBonus === 'string' && rawDamageBonus.includes('@')
+      ? 0
+      : parseItemBonus(rawDamageBonus);
 
     const hasProp = (code: string) => !!internal?.propertyCodes.includes(code)
       || (item.raw?.property ?? []).some((p: unknown) => typeof p === 'string' && p.split('|')[0] === code);
@@ -322,13 +334,15 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
       .test(String(item.raw?.bonusWeaponDamage ?? '').trim());
 
     // Attack roll: Archery adds +2 with ranged weapons. Exhaustion subtracts 2/level.
-    let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus + exhaustionPenalty;
+    let attackBonus = character.proficiencyBonus + abilityMod + weaponBonus + weaponAttackOnlyBonus + exhaustionPenalty;
     if (hasArchery && ranged) attackBonus += 2;
 
     // Damage: off-hand attacks add the ability modifier only with Two-Weapon
     // Fighting; weapons whose data cancels the ability mod never add it.
     const damageAbilityMod = cancelsAbilityDamage || (isOffhand && !hasTwoWeaponFighting) ? 0 : abilityMod;
-    let totalDamageMod = damageAbilityMod + weaponBonus;
+    let totalDamageMod = damageAbilityMod + weaponBonus + weaponDamageOnlyBonus
+      // Бонусы урона от других надетых предметов (Bracers of Archery: +2 с луками)
+      + getOffWeaponDamageBonus(inputCharacter, item, ranged);
     // Dueling: +2 damage with a one-handed melee weapon and no other weapon.
     if (hasDueling && !ranged && !isOffhand && !twoHanded && !hasOffhandWeapon) totalDamageMod += 2;
     // Thrown Weapon Fighting: +2 damage when throwing a thrown weapon (melee throw).
@@ -358,6 +372,7 @@ export function getEquippedWeaponAttacks(inputCharacter: Character): WeaponAttac
       heavy,
       thrown,
       greatWeaponFighting,
+      critRange: getWeaponCritThreshold(item),
     });
   }
 

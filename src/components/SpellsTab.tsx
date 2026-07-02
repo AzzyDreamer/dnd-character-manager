@@ -365,6 +365,14 @@ const WeaponAttacksSection: React.FC<{
                     {t('attacks.gwf')}
                   </span>
                 )}
+                {raw.critRange && (
+                  <span
+                    className="text-[9px] uppercase px-1 py-0.5 rounded bg-red-900/30 text-red-300 border border-red-400/30"
+                    title={t('attacks.critRangeTooltip', { range: `${raw.critRange}–20` })}
+                  >
+                    {t('attacks.critRange', { range: `${raw.critRange}–20` })}
+                  </span>
+                )}
                 {powered && (
                   <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-amber-400/15 text-amber-300 border border-amber-400/30">
                     {t('attacks.powerAttack')}

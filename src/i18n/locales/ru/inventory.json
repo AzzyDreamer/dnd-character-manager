@@ -36,7 +36,8 @@
     "unequip": "Снять",
     "details": "Подробнее",
     "decreaseStack": "Убрать",
-    "remove": "Удалить"
+    "remove": "Удалить",
+    "drink": "Выпить ({{dice}})"
   },
   "addModal": {
     "title": "Добавить предмет",

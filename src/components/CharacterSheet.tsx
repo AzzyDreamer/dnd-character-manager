@@ -34,6 +34,8 @@ import { logPartyEvent } from '../utils/partyLog';
 import { useBackDismiss } from '../hooks/useBackDismiss';
 import { getTransformationConfig, getTransformationStage, getTransformSpeedAdjust, applyTransformFeatureEffects, removeTransformFeatureEffects, getTransformFeatureChoices, applyTransformFeatureChoices, type TransformationConfig, type TransformationStage } from '../utils/transformationEffects';
 import { ACTIVATED_EFFECTS, clearAllActiveEffects, removeIncapacitatedEffects, getActiveSpeedAdjust, getEffectiveResistances, getActiveMoveSpeeds, getEffectName, type EffectiveResistanceEntry } from '../utils/activatedEffects';
+import { getItemWalkSpeedEffect, getItemMoveSpeeds } from '../utils/itemEffects';
+import { isFromNewerAppVersion, CHARACTER_SCHEMA_VERSION } from '../utils/characterSchema';
 import { ActiveFormsSection, ActiveEffectBadges } from './ActiveFormsSection';
 import { WildShapeSection } from './WildShapeSection';
 import { getWildShapeMoveSpeeds } from '../utils/wildShape';
@@ -1460,6 +1462,12 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
           {tc('party.readOnlyBanner', { name: character.name })}
         </div>
       )}
+      {isFromNewerAppVersion(character) && (
+        <div className="shrink-0 px-3 py-1.5 bg-amber-500/10 border-b border-amber-400/30 text-amber-300 text-xs flex items-center gap-2">
+          <AlertTriangle size={14} />
+          {t('sheet.newerVersionBanner', { version: character.schemaVersion, current: CHARACTER_SCHEMA_VERSION })}
+        </div>
+      )}
       {/* Compact Header */}
       <div className="shrink-0 py-3 flex items-center justify-between border-b border-border-default">
         <div className="flex items-center gap-3">
@@ -1730,7 +1738,9 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     const wis = effectiveScores.wisdom;
                     const percProf = character.skills?.perception?.proficient ?? false;
                     const percExp = character.skills?.perception?.expertise ?? false;
-                    const passive = 10 + getSkillBonus(wis, percProf, percExp, prof) + exhaustionPen;
+                    // Бонус предметов к проверкам характеристик (Stone of Good Luck) входит в пассивку
+                    const itemCheckBonus = getEquippedItemBonuses(character).bonusAbilityCheck;
+                    const passive = 10 + getSkillBonus(wis, percProf, percExp, prof) + exhaustionPen + itemCheckBonus;
 
                     // Hover breakdowns (reuse the same helpers as the sidebar).
                     const acTooltip = formatStatParts(getACBreakdown(character), tc);
@@ -1743,12 +1753,17 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                           const classBonus = getClassSpeedBonus(character);
                           const transformAdjust = getTransformSpeedAdjust(character);
                           const stateAdjust = getActiveSpeedAdjust(character);
+                          // Предметы: плоские бонусы/штраф Силы брони + подъём до минимума
+                          // (Boots of Striding) — та же формула, что в getEffectiveSpeed.
+                          const itemWalk = getItemWalkSpeedEffect(character);
+                          const itemDelta = itemWalk.adjust + Math.max(0, itemWalk.floor - character.speed);
                           const exhaustionCut = 5 * getExhaustionLevel(character);
-                          if (!classBonus && !exhaustionCut && !transformAdjust && !stateAdjust) return undefined;
+                          if (!classBonus && !exhaustionCut && !transformAdjust && !stateAdjust && !itemDelta) return undefined;
                           let s = `${character.speed - classBonus}`;
                           if (classBonus) s += ` + ${classBonus} (${tc('sidebar.breakdown.class')})`;
                           if (transformAdjust) s += ` ${transformAdjust > 0 ? '+' : '−'} ${Math.abs(transformAdjust)} (${tc('sidebar.breakdown.transformation')})`;
                           if (stateAdjust) s += ` ${stateAdjust > 0 ? '+' : '−'} ${Math.abs(stateAdjust)} (${tc('sidebar.breakdown.state')})`;
+                          if (itemDelta) s += ` ${itemDelta > 0 ? '+' : '−'} ${Math.abs(itemDelta)} (${tc('sidebar.breakdown.item')})`;
                           if (exhaustionCut) s += ` − ${exhaustionCut} (${tc('sidebar.breakdown.exhaustion')})`;
                           return `${s} = ${spd}`;
                         })();
@@ -1759,6 +1774,7 @@ export const CharacterSheet: React.FC<CharacterSheetProps> = ({ character, onUpd
                     ];
                     if (percProf) ppParts.push({ key: 'prof', value: prof });
                     if (percExp) ppParts.push({ key: 'prof', value: prof });
+                    if (itemCheckBonus) ppParts.push({ key: 'item', value: itemCheckBonus });
                     if (exhaustionPen) ppParts.push({ key: 'feat', value: exhaustionPen });
                     const ppTooltip = formatStatParts(ppParts, tc);
 
@@ -2140,7 +2156,8 @@ function SkillsSection({ character }: { character: Character }) {
                     const isProficient = skillData?.proficient ?? false;
                     const hasExpertise = skillData?.expertise ?? false;
                     const abilityScore = effectiveScores[ability];
-                    const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus) + exhaustionPenalty;
+                    // Навыки — проверки характеристик: бонус предметов (Stone of Good Luck) применяется
+                    const mod = getSkillBonus(abilityScore, isProficient, hasExpertise, profBonus) + exhaustionPenalty + itemBonuses.bonusAbilityCheck;
 
                     return (
                       <div
@@ -3451,9 +3468,12 @@ function ConcentrationSection({
 
   const scores = getEffectiveAbilityScores(character);
   const conProf = character.savingThrows.constitution?.proficient ?? false;
+  const itemBonuses = getEquippedItemBonuses(character);
   const conSave = getAbilityModifier(scores.constitution)
     + (conProf ? character.proficiencyBonus : 0)
-    + getEquippedItemBonuses(character).bonusSavingThrow
+    + itemBonuses.bonusSavingThrow
+    // Специфичный бонус к концентрации (Orb of Skoraeus) — поверх общего
+    + itemBonuses.bonusSavingThrowConcentration
     + getClassFeatureSaveBonus(character)
     + getExhaustionD20Penalty(character);
 
@@ -3960,9 +3980,17 @@ function MovementSection({
   const { t } = useTranslation('character');
   const [collapsed, setCollapsed] = useState(true);
   const speeds = character.speeds ?? {};
-  // Временные скорости от активных эффектов (Крылья ангела и т.п.), Дикого
-  // облика и Kindred Form — оверлей поверх хранимых, в character.speeds не пишутся.
+  // Временные скорости от активных эффектов (Крылья ангела и т.п.), надетых
+  // предметов (Winged Boots, Cloak of the Manta Ray), Дикого облика и Kindred
+  // Form — оверлей поверх хранимых, в character.speeds не пишутся.
   const activeMoveSpeeds = { ...getActiveMoveSpeeds(character) };
+  const itemMoveSpeeds = getItemMoveSpeeds(character);
+  for (const k of MOVE_KEYS) {
+    const item = itemMoveSpeeds[k];
+    if (item === undefined) continue;
+    const resolve = (v: number | undefined) => (v === -1 ? character.speed : (v ?? 0));
+    if (resolve(item) > resolve(activeMoveSpeeds[k])) activeMoveSpeeds[k] = item;
+  }
   const wildShapeMoveSpeeds = getWildShapeMoveSpeeds(character);
   const kindredMoveSpeeds = getKindredMoveSpeeds(character);
   for (const k of MOVE_KEYS) {

@@ -15,7 +15,9 @@ import {
   getAllItemTemplatesSync,
   type ItemTemplate,
 } from '../data/items';
-import { resolveAC, getClassSpeedBonus, hasItemProficiency, getEffectiveAbilityScores } from '../utils/classEffects';
+import { resolveAC, computeInitiative, getClassSpeedBonus, hasItemProficiency, getEffectiveAbilityScores } from '../utils/classEffects';
+import { getHealingPotionDice } from '../utils/itemEffects';
+import { useDiceRoll } from './DiceRollProvider';
 import { currencyToCopper, adjustCurrency } from '../utils/currency';
 import { Backpack, Plus, Minus, X, Search, Package, Shield, FlaskConical, Coins, AlertTriangle, NotebookPen, Scale, Sparkles } from 'lucide-react';
 import {
@@ -558,7 +560,10 @@ const ItemContextMenu: React.FC<{
   onRemove: () => void;
   onDetails: () => void;
   showOffhand: boolean;
-}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onDecreaseStack, onRemove, onDetails, showOffhand }) => {
+  /** Формула лечения зелья («2d4+2») — включает пункт «Выпить» */
+  drinkDice?: string;
+  onDrink?: (e: React.MouseEvent) => void;
+}> = ({ item, x, y, onClose, onEquip, onEquipOffhand, onUnequip, onDecreaseStack, onRemove, onDetails, showOffhand, drinkDice, onDrink }) => {
   const { t } = useTranslation('inventory');
   const [decAmount, setDecAmount] = useState(1);
   const maxDec = Math.max(1, item.quantity - 1);
@@ -579,6 +584,14 @@ const ItemContextMenu: React.FC<{
             {item.name}
           </div>
         </div>
+        {drinkDice && onDrink && (
+          <button
+            onClick={onDrink}
+            className="w-full text-left px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-500/10 transition-colors"
+          >
+            {t('contextMenu.drink', { dice: drinkDice })}
+          </button>
+        )}
         {item.equipSlot && !item.equipped && (
           <button
             onClick={onEquip}
@@ -904,6 +917,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
   const [contextMenu, setContextMenu] = useState<{ item: InventoryItem; x: number; y: number } | null>(null);
   const [detailItem, setDetailItem] = useState<InventoryItem | null>(null);
   const [profWarning, setProfWarning] = useState<{ itemId: string; slot: EquipmentSlot; item: InventoryItem } | null>(null);
+  const diceCtx = useDiceRoll();
   const gridRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null); // контейнер сетки (для замера доступной ширины)
 
@@ -962,11 +976,13 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
         ...(newCurrency ? { currency: newCurrency } : {}),
         updatedAt: new Date().toISOString(),
       };
-      // Recalculate AC and speed when equipment changes (armor affects Unarmored Defense, Fast Movement)
+      // Recalculate AC, speed and initiative when equipment changes (armor affects
+      // Unarmored Defense and Fast Movement; items can carry ability-check bonuses)
       if (newEquipment) {
         updated.armorClass = resolveAC(updated);
         const baseSpeed = character.speed - getClassSpeedBonus(character);
         updated.speed = baseSpeed + getClassSpeedBonus(updated);
+        updated.initiative = computeInitiative(updated);
       }
       onUpdate(updated);
     },
@@ -1088,6 +1104,29 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
       setContextMenu(null);
     },
     [inventory, updateInventory],
+  );
+
+  // Выпить зелье лечения: бросок кубов лечения (тост костей), +ХП (не выше
+  // максимума), −1 из стопки; последняя банка удаляется из инвентаря.
+  const handleDrinkPotion = useCallback(
+    (itemId: string, e?: React.MouseEvent) => {
+      const item = inventory.find((i) => i.id === itemId);
+      const dice = item ? getHealingPotionDice(item) : undefined;
+      if (!item || !dice) return;
+      const healed = diceCtx.roll(dice, e)?.total ?? 0;
+      const newInventory = item.quantity > 1
+        ? inventory.map((i) => (i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i))
+        : inventory.filter((i) => i.id !== itemId);
+      const hp = character.hitPoints;
+      onUpdate({
+        ...character,
+        inventory: newInventory,
+        hitPoints: { ...hp, current: Math.min(hp.max, hp.current + healed) },
+        updatedAt: new Date().toISOString(),
+      });
+      setContextMenu(null);
+    },
+    [inventory, character, onUpdate, diceCtx],
   );
 
   const handleRemoveItem = useCallback(
@@ -1789,6 +1828,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({ character, onUpdat
           onRemove={() => handleRemoveItem(contextMenu.item.id)}
           onDetails={() => { setDetailItem(contextMenu.item); setContextMenu(null); }}
           showOffhand={canItemFitOffhand(contextMenu.item) && !isMainhandBlocking(contextMenu.item, equipment, inventory)}
+          drinkDice={getHealingPotionDice(contextMenu.item)}
+          onDrink={(e) => handleDrinkPotion(contextMenu.item.id, e)}
         />
       )}
 

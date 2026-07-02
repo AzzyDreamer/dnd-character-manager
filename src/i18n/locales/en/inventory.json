@@ -39,7 +39,8 @@
     "unequip": "Unequip",
     "details": "Details",
     "decreaseStack": "Remove",
-    "remove": "Delete"
+    "remove": "Delete",
+    "drink": "Drink ({{dice}})"
   },
 
   "addModal": {

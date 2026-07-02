@@ -78,7 +78,9 @@
     "powerAttack": "−5/+10",
     "powerAttackTooltip": "Power attack: −5 to hit, +10 damage (Sharpshooter / Great Weapon Master)",
     "gwf": "GWF",
-    "gwfTooltip": "Great Weapon Fighting: reroll 1s and 2s on damage dice"
+    "gwfTooltip": "Great Weapon Fighting: reroll 1s and 2s on damage dice",
+    "critRange": "Crit {{range}}",
+    "critRangeTooltip": "Critical hit on a natural roll of {{range}}"
   },
   "actions": {
     "title": "Actions and Abilities"

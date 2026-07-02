@@ -8,6 +8,7 @@ import { getActiveAbilityFloors, getActiveACBonus, stripActiveOverlays } from '.
 import { applyWildShapeAbilityOverride, getWildShapeAC } from './wildShape';
 import { applyKindredAbilityOverride, getKindredAC } from './kindredForm';
 import { getEquippedArmor, isWearingArmor, isWearingHeavyArmor, isWieldingShield } from './equipment';
+import { getItemAbilityBonuses, itemAcBonusApplies, getArmorDexCapOverride, getEquippedActiveItems } from './itemEffects';
 import i18n from '../i18n';
 
 // ── Effect definitions ──
@@ -482,7 +483,10 @@ function getArmorBasedAC(char: Character): number | null {
       // Medium Armor Master raises the medium-armor Dex cap from +2 to +3.
       // (Below Dex 16 the modifier is ≤2 anyway, so the feat's "Dex 16+" clause is implicit.)
       const hasMediumArmorMaster = (char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Medium Armor Master');
-      return armor.armorAC + Math.min(dexMod, hasMediumArmorMaster ? 3 : 2);
+      // Некоторые доспехи задают свой предел Ловкости (Serpent Scale Armor — без предела)
+      const capOverride = getArmorDexCapOverride(char);
+      const cap = capOverride ?? (hasMediumArmorMaster ? 3 : 2);
+      return armor.armorAC + Math.min(dexMod, cap);
     }
     case 'heavy':
       return armor.armorAC;
@@ -650,6 +654,9 @@ export function getInitiativeBreakdown(char: Character): StatPart[] {
   if ((char.feats ?? []).some(f => (f.nameEn ?? f.name) === 'Alert')) {
     parts.push({ key: 'prof', value: char.proficiencyBonus });
   }
+  // Инициатива — проверка Ловкости: бонус предметов к проверкам (Stone of Good Luck)
+  const itemCheck = getEquippedItemBonuses(char).bonusAbilityCheck;
+  if (itemCheck) parts.push({ key: 'item', value: itemCheck });
   for (const e of getActiveEffects(char)) {
     if (e.initiativeBonusAbility) {
       parts.push({ key: 'ability', ability: e.initiativeBonusAbility, value: getAbilityModifier(scores[e.initiativeBonusAbility]) });
@@ -982,6 +989,10 @@ export interface EquippedItemBonuses {
   bonusSavingThrow: number;
   bonusSpellAttack: number;
   bonusSpellSaveDc: number;
+  /** Бонус к проверкам характеристик (Stone of Good/Ill Luck) */
+  bonusAbilityCheck: number;
+  /** Бонус к спасброскам концентрации (Orb of Skoraeus) — поверх bonusSavingThrow */
+  bonusSavingThrowConcentration: number;
 }
 
 /**
@@ -989,23 +1000,21 @@ export interface EquippedItemBonuses {
  * Items with reqAttune only contribute if item.attuned === true.
  */
 export function getEquippedItemBonuses(char: Character): EquippedItemBonuses {
-  const result: EquippedItemBonuses = { bonusAc: 0, bonusSavingThrow: 0, bonusSpellAttack: 0, bonusSpellSaveDc: 0 };
-  if (!char.equipment || !char.inventory) return result;
+  const result: EquippedItemBonuses = {
+    bonusAc: 0, bonusSavingThrow: 0, bonusSpellAttack: 0, bonusSpellSaveDc: 0,
+    bonusAbilityCheck: 0, bonusSavingThrowConcentration: 0,
+  };
 
-  const equippedIds = new Set(
-    Object.values(char.equipment).filter((id): id is string => !!id)
-  );
-
-  for (const item of char.inventory) {
-    if (!equippedIds.has(item.id)) continue;
-    if (!item.raw) continue;
-    // Items requiring attunement only give bonuses when attuned
-    if (item.raw.reqAttune && !item.attuned) continue;
-
-    result.bonusAc += parseBonusString(item.raw.bonusAc);
-    result.bonusSavingThrow += parseBonusString(item.raw.bonusSavingThrow);
-    result.bonusSpellAttack += parseBonusString(item.raw.bonusSpellAttack);
-    result.bonusSpellSaveDc += parseBonusString(item.raw.bonusSpellSaveDc);
+  for (const item of getEquippedActiveItems(char)) {
+    // Условные бонусы КД, известные только из текста (Bracers of Defense — без брони/щита)
+    if (itemAcBonusApplies(char, item)) {
+      result.bonusAc += parseBonusString(item.raw!.bonusAc);
+    }
+    result.bonusSavingThrow += parseBonusString(item.raw!.bonusSavingThrow);
+    result.bonusSpellAttack += parseBonusString(item.raw!.bonusSpellAttack);
+    result.bonusSpellSaveDc += parseBonusString(item.raw!.bonusSpellSaveDc);
+    result.bonusAbilityCheck += parseBonusString(item.raw!.bonusAbilityCheck);
+    result.bonusSavingThrowConcentration += parseBonusString(item.raw!.bonusSavingThrowConcentration);
   }
 
   return result;
@@ -1047,6 +1056,15 @@ export function getEffectiveAbilityScores(char: Character): AbilityScores {
           }
         }
       }
+    }
+  }
+
+  // Флэт-бонусы характеристик от предметов ({ con: 2 } у Камней Иоун и т.п.):
+  // добавляются к базе, но не поднимают её выше капа предмета (обычно 20).
+  for (const [key, eff] of Object.entries(getItemAbilityBonuses(char))) {
+    const k = key as keyof AbilityScores;
+    if (eff && eff.bonus) {
+      base[k] = Math.max(base[k], Math.min(eff.cap, base[k] + eff.bonus));
     }
   }
 
